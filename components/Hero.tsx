@@ -15,7 +15,7 @@ export default function Hero() {
       }}
     >
       {/* Dark overlay on left side for text readability */}
-      <div className="absolute inset-0 bg-gradient-to-r from-[#0a1628]/90 via-[#0a1628]/60 to-[#0a1628]/20" />
+      <div className="absolute inset-0 bg-gradient-to-r from-[#0a1628] from-20% via-[#0a1628]/80 via-50% to-transparent to-100%" />
 
       {/* Content - single instance only */}
       <div className="relative z-10 max-w-7xl mx-auto w-full px-6 md:px-8">
