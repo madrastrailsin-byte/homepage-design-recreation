@@ -7,36 +7,36 @@ export default function Footer() {
   return (
     <footer className="border-t border-[#C9A24A]/10">
       {/* Newsletter Section */}
-      <section className="glass-overlay py-16 md:py-20">
+      <section className="glass-overlay py-10 md:py-12">
         <div className="max-w-7xl mx-auto px-6 md:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
+              transition={{ duration: 0.6 }}
               viewport={{ once: true }}
             >
-              <h3 className="text-3xl text-white mb-3" style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700 }}>Let&apos;s craft your next journey</h3>
-              <p className="text-[#C9A24A]/60 font-light">Subscribe for travel inspiration and exclusive offers.</p>
+              <h3 className="text-2xl text-white mb-2" style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700 }}>Let&apos;s craft your next journey</h3>
+              <p className="text-[#C9A24A]/60 text-sm font-light">Subscribe for travel inspiration and exclusive offers.</p>
             </motion.div>
 
             <motion.form
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
+              transition={{ duration: 0.6 }}
               viewport={{ once: true }}
-              className="flex flex-col sm:flex-row gap-3"
+              className="flex flex-col sm:flex-row gap-2"
             >
               <input
                 type="email"
                 placeholder="Enter your email"
-                className="flex-1 bg-[#0B2A35]/40 border border-[#C9A24A]/20 rounded-lg px-6 py-3 text-[#E8E8E8] placeholder-[#666666] focus:outline-none focus:border-[#C9A24A] font-light"
+                className="flex-1 bg-[#0B2A35]/40 border border-[#C9A24A]/20 rounded-lg px-5 py-2 text-sm text-[#E8E8E8] placeholder-[#666666] focus:outline-none focus:border-[#C9A24A] font-light"
               />
               <button
                 type="submit"
-                className="flex items-center justify-center gap-2 bg-[#C9A24A] text-[#071B24] px-8 py-3 rounded-lg font-semibold hover:bg-[#D4B860] transition"
+                className="flex items-center justify-center gap-2 bg-[#C9A24A] text-[#071B24] px-6 py-2 rounded-lg font-semibold text-sm hover:bg-[#D4B860] transition"
               >
-                <Send size={18} />
+                <Send size={16} />
               </button>
             </motion.form>
           </div>
@@ -44,7 +44,7 @@ export default function Footer() {
       </section>
 
       {/* Main Footer */}
-      <div className="py-16 md:py-20">
+      <div className="py-10 md:py-12">
         <div className="max-w-7xl mx-auto px-6 md:px-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
             {/* Brand */}
