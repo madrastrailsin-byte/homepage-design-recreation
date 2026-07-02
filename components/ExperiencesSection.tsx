@@ -42,10 +42,10 @@ export default function ExperiencesSection() {
           viewport={{ once: true }}
           className="mb-24 md:mb-32 max-w-2xl"
         >
-          <h2 className="text-6xl md:text-7xl font-serif text-white mb-4 leading-tight">Handpicked</h2>
-          <h3 className="text-5xl md:text-6xl font-serif text-white mb-8 leading-tight">Experiences Just for You</h3>
-          <div className="w-px h-20 bg-gradient-to-b from-[#D4AF37] to-transparent mb-8" />
-          <p className="text-[#D4AF37]/70 text-base leading-relaxed font-light">
+          <h2 className="text-6xl md:text-7xl text-white mb-4 leading-tight" style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700 }}>Handpicked</h2>
+          <h3 className="text-5xl md:text-6xl text-white mb-8 leading-tight" style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700 }}>Experiences Just for You</h3>
+          <div className="w-px h-20 bg-gradient-to-b from-[#C9A24A] via-[#C9A24A]/50 to-transparent mb-8" />
+          <p className="text-[#C9A24A]/60 text-base leading-relaxed font-light">
             Unique places. Authentic moments. Unforgettable memories.
           </p>
         </motion.div>
@@ -73,14 +73,14 @@ export default function ExperiencesSection() {
               <div className="relative h-full flex flex-col justify-between p-8 md:p-10">
                 {/* Top Badge */}
                 <div className="flex justify-end">
-                  <div className="w-12 h-12 rounded-full border-2 border-[#D4AF37] group-hover:border-white transition-colors" />
+                  <div className="w-12 h-12 rounded-full border-2 border-[#C9A24A] group-hover:border-white transition-colors" />
                 </div>
 
                 {/* Bottom Content */}
                 <div>
-                  <h3 className="text-2xl md:text-3xl font-serif text-white mb-3 leading-tight">{exp.title}</h3>
-                  <p className="text-[#D4AF37]/80 text-sm md:text-base mb-6 font-light">{exp.description}</p>
-                  <button className="flex items-center gap-2 text-[#D4AF37] group-hover:text-white transition text-xs md:text-sm font-semibold">
+                  <h3 className="text-2xl md:text-3xl text-white mb-3 leading-tight" style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700 }}>{exp.title}</h3>
+                  <p className="text-[#C9A24A]/60 text-sm md:text-base mb-6 font-light">{exp.description}</p>
+                  <button className="flex items-center gap-2 text-[#C9A24A] group-hover:text-white transition text-xs md:text-sm font-light tracking-wide">
                     <span>Discover</span>
                     <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
                   </button>
@@ -89,7 +89,7 @@ export default function ExperiencesSection() {
 
               {/* Hover Button */}
               <div className="absolute top-8 right-8 opacity-0 group-hover:opacity-100 transition-opacity">
-                <button className="w-14 h-14 rounded-full bg-[#D4AF37] flex items-center justify-center text-black hover:bg-white transition shadow-lg">
+                <button className="w-14 h-14 rounded-full bg-[#C9A24A] flex items-center justify-center text-[#071B24] hover:bg-white transition shadow-lg hover:shadow-xl">
                   <ArrowRight size={24} />
                 </button>
               </div>
