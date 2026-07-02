@@ -14,15 +14,6 @@ export default function Hero() {
         backgroundAttachment: 'scroll',
       }}
     >
-      {/* Gradient overlay for text readability - only one */}
-      <div className="absolute inset-0 bg-gradient-to-r from-[#0a1628] from-0% via-[#0a1628]/70 via-40% to-transparent to-100%" />
-
-      {/* Content wrapper - single layer only */}
-      <div className="relative z-10 w-full h-full flex items-center">
-        <div className="max-w-7xl mx-auto w-full px-6 md:px-8">
-        </div>
-      </div>
-
       {/* Scroll Indicator */}
       <motion.div
         animate={{ y: [0, 8, 0] }}
