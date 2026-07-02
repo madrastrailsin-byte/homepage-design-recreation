@@ -1,0 +1,81 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-heading: var(--font-sans);
+  --font-sans: var(--font-geist-sans), 'Geist Fallback';
+  --font-mono: var(--font-geist-mono), 'Geist Mono Fallback';
+  --color-primary: #0D4C5C;
+  --color-gold: #D4AF37;
+  --color-cream: #F2E7CC;
+  --color-offwhite: #FAFAF9;
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
+}
+
+:root {
+  color-scheme: dark;
+  --background: #0D1117;
+  --foreground: #E8E8E8;
+  --card: #1a1f26;
+  --card-foreground: #E8E8E8;
+  --popover: #1a1f26;
+  --popover-foreground: #E8E8E8;
+  --primary: #0D4C5C;
+  --primary-foreground: #F2E7CC;
+  --secondary: #D4AF37;
+  --secondary-foreground: #0D1117;
+  --muted: #404040;
+  --muted-foreground: #999999;
+  --accent: #D4AF37;
+  --accent-foreground: #0D1117;
+  --destructive: #ff4444;
+  --border: #333333;
+  --input: #1a1f26;
+  --ring: #D4AF37;
+  --radius: 0.625rem;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-[#0D1117] text-[#E8E8E8];
+  }
+  html {
+    @apply font-sans bg-[#0D1117];
+  }
+}
+
+@layer components {
+  .gradient-overlay {
+    background: linear-gradient(180deg, rgba(13, 17, 23, 0.3) 0%, rgba(13, 17, 23, 0.7) 100%);
+  }
+  
+  .card-luxury {
+    @apply bg-[#1a1f26] rounded-2xl overflow-hidden border border-[#333333];
+  }
+  
+  .btn-gold {
+    @apply bg-[#D4AF37] text-[#0D1117] px-6 py-3 rounded-lg font-semibold hover:bg-[#c4a028] transition-colors;
+  }
+  
+  .section-spacing {
+    @apply py-20 md:py-32;
+  }
+  
+  .text-gold {
+    @apply text-[#D4AF37];
+  }
+  
+  .text-cream {
+    @apply text-[#F2E7CC];
+  }
+}
