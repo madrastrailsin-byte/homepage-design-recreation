@@ -5,76 +5,77 @@ import { motion } from 'framer-motion'
 
 export default function Hero() {
   return (
-    <section className="relative w-full h-[85vh] md:h-screen pt-16 md:pt-20 pb-0 overflow-hidden">
-      {/* Background - Approved hero image with gradient blend */}
-      <div className="absolute inset-0">
-        <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{
-            backgroundImage: 'url(https://hebbkx1anhila5yf.public.blob.vercel-storage.com/APPROVED_HERO_IMAGE-LpekGTjrwwWPiAS3llYb8Xvz2lWZRw.png)',
-            backgroundPosition: 'center',
-            backgroundSize: 'cover',
-          }}
-        >
-          {/* Left gradient blend - subtle navy fade */}
-          <div className="absolute inset-0 bg-gradient-to-r from-[#0a1628] via-transparent to-transparent opacity-40" />
-        </div>
-      </div>
+    <section 
+      className="relative w-full h-screen flex items-center pt-20 pb-0 overflow-hidden"
+      style={{
+        backgroundImage: 'url(https://hebbkx1anhila5yf.public.blob.vercel-storage.com/APPROVED_HERO_IMAGE-LpekGTjrwwWPiAS3llYb8Xvz2lWZRw.png)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundAttachment: 'fixed',
+      }}
+    >
+      {/* Dark overlay on left side for text readability */}
+      <div className="absolute inset-0 bg-gradient-to-r from-[#0a1628]/90 via-[#0a1628]/60 to-[#0a1628]/20" />
 
-      {/* Content Grid - Overlaid on background */}
-      <div className="relative h-full flex items-center z-10">
-        <div className="max-w-7xl mx-auto w-full px-6 md:px-8">
-          <div className="flex flex-col justify-center max-w-2xl">
-            {/* Label */}
-            <div className="text-[#C9A24A] text-xs font-light tracking-widest mb-3 md:mb-4 uppercase">Beyond Boundaries</div>
-
-            {/* Main Headline */}
-            <h1 className="text-5xl md:text-7xl lg:text-8xl text-white leading-none mb-2 md:mb-3" style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700 }}>
-              Travel Like
-            </h1>
-
-            {/* Secondary Headline - Italic */}
-            <h2 className="text-4xl md:text-6xl lg:text-7xl text-[#C9A24A] leading-none mb-5 md:mb-6" style={{ fontFamily: "'Playfair Display', serif", fontWeight: 400, fontStyle: 'italic' }}>
-              A Local
-            </h2>
-
-            {/* Decorative divider */}
-            <div className="flex items-center gap-2 mb-4 md:mb-5">
-              <div className="w-2 h-2 bg-[#C9A24A] rounded-full" />
-              <div className="w-8 h-px bg-[#C9A24A]/50" />
-            </div>
-
-            {/* Description */}
-            <p className="text-[#D4B860] text-sm md:text-base leading-relaxed mb-6 md:mb-7 max-w-sm font-light">
-              We curate personalised international journeys that connect cultures, create memories, and stay with you forever.
-            </p>
-
-            {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
-              <button className="bg-[#C9A24A] text-[#071B24] px-6 py-3 rounded font-semibold text-xs md:text-sm hover:bg-[#D4B860] transition-all duration-300 shadow-lg hover:shadow-xl">
-                BEGIN YOUR JOURNEY →
-              </button>
-              <button className="flex items-center gap-3 text-[#C9A24A] hover:text-white transition-colors">
-                <div className="w-10 h-10 rounded-full border border-[#C9A24A] flex items-center justify-center hover:border-white transition-colors">
-                  <Play size={14} className="fill-current ml-0.5" />
-                </div>
-                <span className="text-xs font-light tracking-wider">WATCH OUR STORY</span>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* Scroll Indicator */}
+      {/* Content - single instance only */}
+      <div className="relative z-10 max-w-7xl mx-auto w-full px-6 md:px-8">
         <motion.div
-          animate={{ y: [0, 8, 0] }}
-          transition={{ duration: 2, repeat: Infinity }}
-          className="absolute right-8 md:right-12 top-1/2 transform -translate-y-1/2 text-[#C9A24A] text-xs tracking-widest hidden md:flex flex-col items-center gap-2"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="flex flex-col justify-center max-w-2xl"
         >
-          <div className="w-px h-6 bg-[#C9A24A]" />
-          <span className="rotate-90 origin-center">SCROLL</span>
-          <div className="w-px h-6 bg-[#C9A24A]" />
+          {/* Label */}
+          <div className="text-[#C9A24A] text-xs font-light tracking-widest mb-3 md:mb-4 uppercase">
+            Beyond Boundaries
+          </div>
+
+          {/* Main Headline - single instance */}
+          <h1 className="text-5xl md:text-7xl lg:text-8xl text-white leading-none mb-2" style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700 }}>
+            Travel Like
+          </h1>
+
+          {/* Secondary Headline - single instance */}
+          <h2 className="text-4xl md:text-6xl lg:text-7xl text-[#C9A24A] leading-none mb-5 md:mb-6" style={{ fontFamily: "'Playfair Display', serif", fontWeight: 400, fontStyle: 'italic' }}>
+            A Local
+          </h2>
+
+          {/* Decorative divider */}
+          <div className="flex items-center gap-2 mb-4 md:mb-5">
+            <div className="w-2 h-2 bg-[#C9A24A] rounded-full" />
+            <div className="w-8 h-px bg-[#C9A24A]/50" />
+          </div>
+
+          {/* Description - single instance */}
+          <p className="text-[#D4B860] text-sm md:text-base leading-relaxed mb-6 md:mb-7 max-w-sm font-light">
+            We curate personalised international journeys that connect cultures, create memories, and stay with you forever.
+          </p>
+
+          {/* CTA Buttons - single instance */}
+          <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
+            <button className="bg-[#C9A24A] text-[#071B24] px-6 py-3 rounded font-semibold text-xs md:text-sm hover:bg-[#D4B860] transition-all duration-300 shadow-lg hover:shadow-xl">
+              BEGIN YOUR JOURNEY →
+            </button>
+            <button className="flex items-center gap-3 text-[#C9A24A] hover:text-white transition-colors">
+              <div className="w-10 h-10 rounded-full border border-[#C9A24A] flex items-center justify-center hover:border-white transition-colors">
+                <Play size={14} className="fill-current ml-0.5" />
+              </div>
+              <span className="text-xs font-light tracking-wider">WATCH OUR STORY</span>
+            </button>
+          </div>
         </motion.div>
       </div>
+
+      {/* Scroll Indicator */}
+      <motion.div
+        animate={{ y: [0, 8, 0] }}
+        transition={{ duration: 2, repeat: Infinity }}
+        className="absolute right-8 md:right-12 top-1/2 transform -translate-y-1/2 text-[#C9A24A] text-xs tracking-widest hidden md:flex flex-col items-center gap-2 z-20"
+      >
+        <div className="w-px h-6 bg-[#C9A24A]" />
+        <span className="rotate-90 origin-center whitespace-nowrap">SCROLL</span>
+        <div className="w-px h-6 bg-[#C9A24A]" />
+      </motion.div>
     </section>
   )
 }
