@@ -26,7 +26,7 @@ const destinations = [
 
 export default function DestinationsSection() {
   return (
-    <section className="bg-[#0D1117] pt-32 md:pt-40 pb-12 md:pb-16 overflow-hidden">
+    <section className="bg-[#0D1117] pt-0 pb-12 md:pb-16 overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 md:px-8">
         {/* Section Header */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 mb-12 md:mb-16 items-start">
