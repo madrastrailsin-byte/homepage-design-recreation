@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Mail, Send, MapPin, Phone, Globe, Instagram, Facebook, Youtube, MessageCircle } from 'lucide-react'
+import { Send } from 'lucide-react'
 
 export default function Footer() {
   return (
@@ -91,15 +91,15 @@ export default function Footer() {
               <h4 className="text-white font-semibold mb-4 text-sm">Contact</h4>
               <ul className="space-y-3">
                 <li className="flex items-start gap-2">
-                  <MapPin size={16} className="text-[#D4AF37] mt-0.5 flex-shrink-0" />
+                  <span className="text-[#D4AF37] mt-0.5 flex-shrink-0">📍</span>
                   <span className="text-[#D4AF37]/80 text-sm">Chennai, Tamil Nadu, India</span>
                 </li>
                 <li className="flex items-center gap-2">
-                  <Phone size={16} className="text-[#D4AF37]" />
+                  <span className="text-[#D4AF37]">📞</span>
                   <span className="text-[#D4AF37]/80 text-sm">+91 98400 12345</span>
                 </li>
                 <li className="flex items-center gap-2">
-                  <Mail size={16} className="text-[#D4AF37]" />
+                  <span className="text-[#D4AF37]">✉️</span>
                   <span className="text-[#D4AF37]/80 text-sm">hello@madrastrails.com</span>
                 </li>
               </ul>
@@ -114,17 +114,17 @@ export default function Footer() {
             >
               <h4 className="text-white font-semibold mb-4 text-sm">Follow Us</h4>
               <div className="flex gap-4">
-                <a href="#" className="w-10 h-10 rounded-full border border-[#D4AF37] flex items-center justify-center text-[#D4AF37] hover:bg-[#D4AF37] hover:text-black transition">
-                  <Instagram size={18} />
+                <a href="#" className="w-10 h-10 rounded-full border border-[#D4AF37] flex items-center justify-center text-[#D4AF37] hover:bg-[#D4AF37] hover:text-black transition font-bold">
+                  f
                 </a>
-                <a href="#" className="w-10 h-10 rounded-full border border-[#D4AF37] flex items-center justify-center text-[#D4AF37] hover:bg-[#D4AF37] hover:text-black transition">
-                  <Facebook size={18} />
+                <a href="#" className="w-10 h-10 rounded-full border border-[#D4AF37] flex items-center justify-center text-[#D4AF37] hover:bg-[#D4AF37] hover:text-black transition font-bold">
+                  in
                 </a>
-                <a href="#" className="w-10 h-10 rounded-full border border-[#D4AF37] flex items-center justify-center text-[#D4AF37] hover:bg-[#D4AF37] hover:text-black transition">
-                  <Youtube size={18} />
+                <a href="#" className="w-10 h-10 rounded-full border border-[#D4AF37] flex items-center justify-center text-[#D4AF37] hover:bg-[#D4AF37] hover:text-black transition font-bold">
+                  ▶
                 </a>
-                <a href="#" className="w-10 h-10 rounded-full border border-[#D4AF37] flex items-center justify-center text-[#D4AF37] hover:bg-[#D4AF37] hover:text-black transition">
-                  <MessageCircle size={18} />
+                <a href="#" className="w-10 h-10 rounded-full border border-[#D4AF37] flex items-center justify-center text-[#D4AF37] hover:bg-[#D4AF37] hover:text-black transition font-bold">
+                  @
                 </a>
               </div>
             </motion.div>
