@@ -7,26 +7,26 @@ const experiences = [
   {
     id: 1,
     title: 'Local Flavours',
-    description: 'Taste the world like a local',
-    image: 'https://images.unsplash.com/photo-1504674900967-96c0fcdc7b48?w=500&h=600&fit=crop',
+    subtitle: 'Taste the world like a local',
+    image: '/images/experience-local-flavours.png',
   },
   {
     id: 2,
     title: 'Luxury Escapes',
-    description: 'Indulge in unparalleled comfort',
-    image: 'https://images.unsplash.com/photo-1542314503-37143078c4f8?w=500&h=600&fit=crop',
+    subtitle: 'Indulge in unparalleled comfort',
+    image: '/images/experience-luxury-escapes.png',
   },
   {
     id: 3,
     title: 'Cultural Connections',
-    description: 'Immerse in traditions that inspire',
-    image: 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=500&h=600&fit=crop',
+    subtitle: 'Immerse in traditions that inspire',
+    image: '/images/experience-cultural-connections.png',
   },
   {
     id: 4,
     title: 'Adventure Awaits',
-    description: 'For the explorers at heart',
-    image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=500&h=600&fit=crop',
+    subtitle: 'For the explorers at heart',
+    image: '/images/experience-adventure-awaits.png',
   },
 ]
 
@@ -59,40 +59,33 @@ export default function ExperiencesSection() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: idx * 0.08 }}
               viewport={{ once: true }}
-              className="group relative h-72 md:h-80 rounded-2xl overflow-hidden card-luxury cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-500"
+              className="group relative h-80 md:h-96 rounded-t-3xl overflow-hidden cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-500"
             >
-              {/* Background Image */}
+              {/* Background Image - Full Coverage */}
               <div
                 className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
                 style={{ backgroundImage: `url(${exp.image})` }}
               >
-                <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/40 to-black/80" />
+                {/* Dark Gradient Overlay - Bottom Heavy */}
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/30 to-black/85" />
               </div>
 
-              {/* Content */}
-              <div className="relative h-full flex flex-col justify-between p-8 md:p-10">
-                {/* Top Badge */}
-                <div className="flex justify-end">
-                  <div className="w-12 h-12 rounded-full border-2 border-[#C9A24A] group-hover:border-white transition-colors" />
-                </div>
-
-                {/* Bottom Content */}
+              {/* Content - Overlaid on Image */}
+              <div className="relative h-full flex flex-col justify-end p-6 md:p-8">
+                {/* Title and Subtitle */}
                 <div>
-                  <h3 className="text-2xl md:text-3xl text-white mb-3 leading-tight" style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700 }}>{exp.title}</h3>
-                  <p className="text-[#C9A24A]/60 text-sm md:text-base mb-6 font-light">{exp.description}</p>
-                  <button className="flex items-center gap-2 text-[#C9A24A] group-hover:text-white transition text-xs md:text-sm font-light tracking-wide">
-                    <span>Discover</span>
-                    <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-                  </button>
+                  <h3 className="text-xl md:text-2xl text-white mb-2 leading-tight" style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700 }}>{exp.title}</h3>
+                  <div className="flex items-center gap-2 mb-0">
+                    <div className="w-1 h-px bg-[#C9A24A]" />
+                    <p className="text-[#C9A24A] text-xs font-light tracking-wider">{exp.subtitle}</p>
+                  </div>
                 </div>
               </div>
 
-              {/* Hover Button */}
-              <div className="absolute top-8 right-8 opacity-0 group-hover:opacity-100 transition-opacity">
-                <button className="w-14 h-14 rounded-full bg-[#C9A24A] flex items-center justify-center text-[#071B24] hover:bg-white transition shadow-lg hover:shadow-xl">
-                  <ArrowRight size={24} />
-                </button>
-              </div>
+              {/* Circular Arrow Button - Bottom Right */}
+              <button className="absolute bottom-6 md:bottom-8 right-6 md:right-8 w-12 h-12 rounded-full bg-[#C9A24A] flex items-center justify-center text-[#071B24] hover:bg-white transition-all shadow-lg hover:shadow-xl">
+                <ArrowRight size={20} />
+              </button>
             </motion.div>
           ))}
         </div>
