@@ -37,11 +37,25 @@ export default function DestinationsSection() {
             viewport={{ once: true }}
             className="md:col-span-1"
           >
-            <div className="text-[#C9A24A] text-xs font-light tracking-widest mb-2">CURATED</div>
-            <div className="text-[#C9A24A] text-xs font-light tracking-widest mb-8">GLOBALLY.</div>
-            <div className="text-[#C9A24A] text-xs font-light tracking-widest mb-8">CRAFTED</div>
-            <div className="text-[#C9A24A] text-xs font-light tracking-widest mb-12">PERSONALLY</div>
-            <div className="w-px h-24 bg-gradient-to-b from-[#C9A24A] via-[#C9A24A]/50 to-transparent" />
+            <div className="flex gap-6 items-start">
+              {/* Vertical EXPLORE label with pill and line */}
+              <div className="flex flex-col items-center gap-2">
+                <div className="text-[#C9A24A] text-xs font-light tracking-widest" style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}>
+                  EXPLORE
+                </div>
+                <div className="w-4 h-6 border border-[#C9A24A] rounded-full" />
+                <div className="w-px h-16 bg-gradient-to-b from-[#C9A24A] to-transparent" />
+              </div>
+
+              {/* Main text content */}
+              <div>
+                <div className="text-[#C9A24A] text-xs font-light tracking-widest mb-2">CURATED</div>
+                <div className="text-[#C9A24A] text-xs font-light tracking-widest mb-8">GLOBALLY.</div>
+                <div className="text-[#C9A24A] text-xs font-light tracking-widest mb-8">CRAFTED</div>
+                <div className="text-[#C9A24A] text-xs font-light tracking-widest mb-12">PERSONALLY</div>
+                <div className="w-px h-24 bg-gradient-to-b from-[#C9A24A] via-[#C9A24A]/50 to-transparent" />
+              </div>
+            </div>
           </motion.div>
 
           <motion.div
