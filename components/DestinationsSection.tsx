@@ -129,13 +129,24 @@ export default function DestinationsSection() {
             viewport={{ once: true }}
             className="absolute top-0 md:-top-6 left-1/4 md:left-1/3 w-2/3 md:w-1/2 h-48 md:h-96 group cursor-pointer z-20"
           >
-            {/* Decorative Emblem - Overlapping top edge */}
-            <div className="absolute -top-6 left-1/2 transform -translate-x-1/2 z-20">
-              <div className="w-12 h-12 rounded-full border-2 border-[#C9A24A]/40 flex items-center justify-center bg-[#0D1117]/80 backdrop-blur-sm">
-                <svg className="w-6 h-6 text-[#C9A24A]/60" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1">
-                  <circle cx="12" cy="12" r="10" />
-                  <path d="M12 7v10M7 12h10" />
-                  <circle cx="12" cy="12" r="3" />
+            {/* Decorative Emblem - Ornamental Seal Overlapping top edge */}
+            <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 z-30">
+              <div className="w-20 h-20 rounded-full border-2 border-[#C9A24A]/60 flex items-center justify-center bg-[#0D1117]/90 backdrop-blur-sm relative" style={{ boxShadow: '0 10px 30px rgba(201, 162, 74, 0.15)' }}>
+                {/* Outer decorative ring with tracked text */}
+                <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100">
+                  <defs>
+                    <path id="circlePath" d="M 50, 50 m -40, 0 a 40,40 0 1,1 80,0 a 40,40 0 1,1 -80,0" fill="none" />
+                  </defs>
+                  <text fontSize="7" fill="#C9A24A" fillOpacity="0.6" letterSpacing="3">
+                    <textPath href="#circlePath" startOffset="0%" textAnchor="start">
+                      EXPLORE • DISCOVER • TRAVEL •
+                    </textPath>
+                  </text>
+                </svg>
+                
+                {/* Center Icon - Compass/Wave */}
+                <svg className="w-8 h-8 text-[#C9A24A]" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm3.5-9c.83 0 1.5-.67 1.5-1.5S16.33 8 15.5 8 14 8.67 14 9.5s.67 1.5 1.5 1.5zm-7 0c.83 0 1.5-.67 1.5-1.5S9.33 8 8.5 8 7 8.67 7 9.5 7.67 11 8.5 11zm3.5 6.5c2.33 0 4.31-1.46 5.11-3.5H6.89c.8 2.04 2.78 3.5 5.11 3.5z"/>
                 </svg>
               </div>
             </div>
