@@ -8,19 +8,19 @@ const destinations = [
     id: 1,
     name: 'Iceland',
     label: 'Discover',
-    image: 'https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=600&h=700&fit=crop',
+    image: '/images/iceland-northern-lights.png',
   },
   {
     id: 2,
     name: 'Turkey',
     label: 'Explore',
-    image: 'https://images.unsplash.com/photo-1524578271613-1a0ca8cdc779?w=700&h=800&fit=crop',
+    image: '/images/turkey-cappadocia-balloons.png',
   },
   {
     id: 3,
     name: 'Japan',
     label: 'Experience',
-    image: 'https://images.unsplash.com/photo-1540959375944-7049f642e9a2?w=600&h=700&fit=crop',
+    image: '/images/japan-neon-city.png',
   },
 ]
 
@@ -95,7 +95,7 @@ export default function DestinationsSection() {
                 className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
                 style={{ backgroundImage: `url(${destinations[0].image})` }}
               >
-                <div className="absolute inset-0 bg-gradient-to-t from-[rgba(7,27,36,0.9)] via-[rgba(7,27,36,0.4)] to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[rgba(7,27,36,0.65)] via-[rgba(7,27,36,0.2)] to-transparent" />
               </div>
               <div className="relative h-full flex flex-col justify-between p-8 md:p-10">
                 <div />
@@ -124,7 +124,7 @@ export default function DestinationsSection() {
                 className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
                 style={{ backgroundImage: `url(${destinations[1].image})` }}
               >
-                <div className="absolute inset-0 bg-gradient-to-t from-[rgba(7,27,36,0.95)] via-[rgba(7,27,36,0.3)] to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[rgba(7,27,36,0.50)] via-[rgba(7,27,36,0.15)] to-transparent" />
               </div>
               <div className="relative h-full flex flex-col justify-between p-10 md:p-12">
                 <div />
@@ -153,7 +153,7 @@ export default function DestinationsSection() {
                 className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
                 style={{ backgroundImage: `url(${destinations[2].image})` }}
               >
-                <div className="absolute inset-0 bg-gradient-to-t from-[rgba(7,27,36,0.9)] via-[rgba(7,27,36,0.4)] to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[rgba(7,27,36,0.65)] via-[rgba(7,27,36,0.2)] to-transparent" />
               </div>
               <div className="relative h-full flex flex-col justify-between p-8 md:p-10">
                 <div />
