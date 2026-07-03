@@ -73,11 +73,17 @@ export default function Hero() {
       <motion.div
         animate={{ y: [0, 8, 0] }}
         transition={{ duration: 2, repeat: Infinity }}
-        className="absolute right-5 md:right-6 top-1/2 transform translate-y-12 text-[#C9A24A] text-xs tracking-widest hidden md:flex flex-col items-center gap-3 z-20"
+        className="absolute right-5 md:right-6 top-1/2 transform translate-y-12 text-[#C9A24A] text-xs tracking-widest hidden md:flex flex-col items-center gap-2 z-20"
       >
-        <div className="w-px h-8 bg-[#C9A24A]" />
+        <div className="flex flex-col items-center gap-1.5">
+          <div className="w-1.5 h-1.5 bg-white rounded-full" />
+          <div className="w-1.5 h-1.5 border border-[#C9A24A] rounded-full" />
+          <div className="w-1.5 h-1.5 border border-[#C9A24A] rounded-full" />
+          <div className="w-1.5 h-1.5 border border-[#C9A24A] rounded-full" />
+          <div className="w-1.5 h-1.5 border border-[#C9A24A] rounded-full" />
+        </div>
+        <div className="h-8 w-px bg-[#C9A24A]" />
         <span className="text-center whitespace-nowrap">SCROLL</span>
-        <div className="w-px h-8 bg-[#C9A24A]" />
       </motion.div>
     </section>
   )
