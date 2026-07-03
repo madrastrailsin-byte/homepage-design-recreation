@@ -91,16 +91,16 @@ export default function DestinationsSection() {
         </div>
 
         {/* Staggered Overlapping Cards */}
-        <div className="relative h-64 md:h-80 lg:h-96">
+        <div className="relative h-64 md:h-80 lg:h-96 px-4 md:px-0">
           {/* Card 1 - Iceland (Top Left, Smaller) */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0 }}
             viewport={{ once: true }}
-            className="absolute top-0 left-0 w-full md:w-1/3 h-40 md:h-64 group cursor-pointer"
+            className="absolute top-0 left-0 md:left-2 w-full md:w-1/3 h-40 md:h-64 group cursor-pointer"
           >
-            <div className="relative w-full h-full rounded-3xl overflow-hidden shadow-2xl border border-[#C9A24A]/20 hover:shadow-[0_30px_80px_rgba(201,162,74,0.2)] transition-all duration-500">
+            <div className="relative w-full h-full rounded-3xl overflow-hidden shadow-xl border border-[#C9A24A]/20 hover:shadow-[0_40px_100px_rgba(201,162,74,0.35)] transition-all duration-500" style={{ boxShadow: '0 20px 60px rgba(201, 162, 74, 0.2)' }}>
               <div
                 className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
                 style={{ backgroundImage: `url(${destinations[0].image})` }}
@@ -127,7 +127,7 @@ export default function DestinationsSection() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.1 }}
             viewport={{ once: true }}
-            className="absolute top-8 md:top-0 left-1/4 md:left-1/4 w-2/3 md:w-1/2 h-48 md:h-96 group cursor-pointer z-10"
+            className="absolute top-8 md:top-0 left-1/4 md:left-1/3 w-2/3 md:w-1/2 h-48 md:h-96 group cursor-pointer z-10"
           >
             {/* Decorative Emblem - Overlapping top edge */}
             <div className="absolute -top-6 left-1/2 transform -translate-x-1/2 z-20">
@@ -139,7 +139,7 @@ export default function DestinationsSection() {
                 </svg>
               </div>
             </div>
-            <div className="relative w-full h-full rounded-3xl overflow-hidden shadow-2xl border border-[#C9A24A]/30 hover:shadow-[0_50px_120px_rgba(201,162,74,0.25)] transition-all duration-500">
+            <div className="relative w-full h-full rounded-3xl overflow-hidden shadow-2xl border border-[#C9A24A]/30 hover:shadow-[0_60px_150px_rgba(201,162,74,0.4)] transition-all duration-500" style={{ boxShadow: '0 30px 80px rgba(201, 162, 74, 0.3)' }}>
               <div
                 className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
                 style={{ backgroundImage: `url(${destinations[1].image})` }}
@@ -166,9 +166,9 @@ export default function DestinationsSection() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
             viewport={{ once: true }}
-            className="absolute bottom-0 right-0 w-full md:w-1/3 h-40 md:h-64 group cursor-pointer"
+            className="absolute bottom-0 right-0 md:right-2 w-full md:w-1/3 h-40 md:h-64 group cursor-pointer"
           >
-            <div className="relative w-full h-full rounded-3xl overflow-hidden shadow-2xl border border-[#C9A24A]/20 hover:shadow-[0_30px_80px_rgba(201,162,74,0.2)] transition-all duration-500">
+            <div className="relative w-full h-full rounded-3xl overflow-hidden shadow-xl border border-[#C9A24A]/20 hover:shadow-[0_40px_100px_rgba(201,162,74,0.35)] transition-all duration-500" style={{ boxShadow: '0 20px 60px rgba(201, 162, 74, 0.2)' }}>
               <div
                 className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
                 style={{ backgroundImage: `url(${destinations[2].image})` }}
