@@ -6,17 +6,18 @@ import { motion } from 'framer-motion'
 export default function Hero() {
   return (
     <section 
-      className="relative w-full h-screen flex items-center overflow-hidden pt-20"
+      className="relative w-full flex items-center overflow-hidden pt-20"
       style={{
+        height: 'calc(100vh + 30px)',
         backgroundImage: 'url(https://hebbkx1anhila5yf.public.blob.vercel-storage.com/APPROVED_HERO_IMAGE%20background-HjDvpFuBbOHELP5GGXGROss89tXwtY.png)',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center center',
+        backgroundSize: '92%',
+        backgroundPosition: 'calc(50% + 3%) center',
         backgroundRepeat: 'no-repeat',
         backgroundAttachment: 'scroll',
       }}
     >
       {/* Dark gradient overlay for text readability */}
-      <div className="absolute inset-0 bg-gradient-to-r from-[#0a1628]/85 via-[#0a1628]/50 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-r from-[#0a1628]/78 via-[#0a1628]/40 to-transparent" />
 
       {/* Content */}
       <div className="relative z-10 max-w-7xl mx-auto w-full px-6 md:px-8">
@@ -27,34 +28,34 @@ export default function Hero() {
           className="flex flex-col max-w-2xl"
         >
           {/* Label */}
-          <div className="text-[#C9A24A] text-xs font-light tracking-widest mb-4 uppercase">
+          <div className="text-[#C9A24A] text-xs font-light tracking-widest mb-2 uppercase">
             Beyond Boundaries
           </div>
 
           {/* Main Headline */}
-          <h1 className="text-5xl md:text-6xl lg:text-7xl text-white leading-tight mb-1" style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700 }}>
+          <h1 className="text-5xl md:text-5xl lg:text-6xl text-white leading-tight mb-0" style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700 }}>
             Travel Like
           </h1>
 
           {/* Secondary Headline - Italic */}
-          <h2 className="text-4xl md:text-5xl lg:text-6xl text-[#C9A24A] leading-tight mb-4 md:mb-5" style={{ fontFamily: "'Playfair Display', serif", fontWeight: 400, fontStyle: 'italic' }}>
+          <h2 className="text-4xl md:text-5xl lg:text-6xl text-[#C9A24A] leading-tight mb-5 md:mb-6" style={{ fontFamily: "'Playfair Display', serif", fontWeight: 300, fontStyle: 'italic' }}>
             A Local
           </h2>
 
           {/* Decorative divider */}
-          <div className="flex items-center gap-2 mb-4 md:mb-5">
-            <div className="w-2 h-2 bg-[#C9A24A] rounded-full" />
-            <div className="w-8 h-px bg-[#C9A24A]/50" />
+          <div className="flex items-center gap-2 mb-5 md:mb-6">
+            <div className="w-1.5 h-1.5 bg-[#C9A24A] rounded-full" />
+            <div className="w-10 h-px bg-[#C9A24A]/50" />
           </div>
 
           {/* Description */}
-          <p className="text-[#D4B860] text-sm md:text-base leading-relaxed mb-6 md:mb-7 max-w-sm font-light">
+          <p className="text-[#D4B860] text-sm md:text-base leading-relaxed mb-7 md:mb-8 max-w-lg font-light">
             We curate personalised international journeys that connect cultures, create memories, and stay with you forever.
           </p>
 
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
-            <button className="bg-[#C9A24A] text-[#071B24] px-6 py-3 rounded font-semibold text-xs md:text-sm hover:bg-[#D4B860] transition-all duration-300 shadow-lg hover:shadow-xl">
+          <div className="flex flex-col sm:flex-row gap-5 items-start sm:items-center">
+            <button className="bg-[#C9A24A] text-[#071B24] px-6 py-2.5 rounded font-semibold text-xs md:text-sm hover:bg-[#D4B860] transition-all duration-300 shadow-lg hover:shadow-xl">
               BEGIN YOUR JOURNEY →
             </button>
             <button className="flex items-center gap-3 text-[#C9A24A] hover:text-white transition-colors">
@@ -71,7 +72,7 @@ export default function Hero() {
       <motion.div
         animate={{ y: [0, 8, 0] }}
         transition={{ duration: 2, repeat: Infinity }}
-        className="absolute right-8 md:right-12 top-1/2 transform -translate-y-1/2 text-[#C9A24A] text-xs tracking-widest hidden md:flex flex-col items-center gap-3 z-20"
+        className="absolute right-6 md:right-8 top-1/2 transform -translate-y-1/2 text-[#C9A24A] text-xs tracking-widest hidden md:flex flex-col items-center gap-3 z-20"
       >
         <div className="w-px h-8 bg-[#C9A24A]" />
         <span className="text-center whitespace-nowrap">SCROLL</span>
