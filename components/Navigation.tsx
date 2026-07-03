@@ -17,9 +17,6 @@ export default function Navigation() {
           width={160}
           height={48}
           className="h-10 md:h-11 w-auto"
-          style={{
-            filter: 'brightness(1.2) contrast(1.3) saturate(1.4) drop-shadow(0 0 12px rgba(201, 162, 74, 0.3))',
-          }}
           priority
         />
 
