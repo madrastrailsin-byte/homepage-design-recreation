@@ -11,18 +11,14 @@ export default function Navigation() {
     <nav className="fixed top-0 left-0 right-0 z-50 bg-[#071B24]/40 backdrop-blur-xl border-b border-[#C9A24A]/10">
       <div className="max-w-7xl mx-auto px-6 md:px-8 py-2 md:py-3 flex items-center justify-between">
         {/* Logo */}
-        <div className="flex items-center">
-          <div className="rounded-full backdrop-blur-md p-1.5" style={{ backgroundColor: 'rgba(250, 250, 249, 0.12)' }}>
-            <Image
-              src="/images/madras-trails-logo.png"
-              alt="MadrasTrails"
-              width={160}
-              height={48}
-              className="h-10 md:h-11 w-auto"
-              priority
-            />
-          </div>
-        </div>
+        <Image
+          src="/images/madras-trails-logo.png"
+          alt="MadrasTrails"
+          width={160}
+          height={48}
+          className="h-10 md:h-11 w-auto"
+          priority
+        />
 
         {/* Desktop Menu */}
         <div className="hidden md:flex items-center gap-9 xl:gap-11">
@@ -42,10 +38,14 @@ export default function Navigation() {
           <button className="btn-gold hidden md:block text-xs font-semibold tracking-wider py-1.5 px-5">PLAN YOUR JOURNEY →</button>
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="hidden md:flex text-[#E8E8E8] p-1.5 hover:text-[#C9A24A] transition rounded-full hover:bg-[#C9A24A]/10"
+            className="hidden md:flex items-center justify-center text-[#E8E8E8] w-9 h-9 border border-[#E8E8E8]/30 hover:border-[#C9A24A]/60 transition rounded-full hover:bg-[#C9A24A]/10"
             aria-label="Menu"
           >
-            <Circle size={20} />
+            <div className="flex flex-col gap-1.5">
+              <div className="w-4 h-px bg-[#E8E8E8]" />
+              <div className="w-4 h-px bg-[#E8E8E8]" />
+              <div className="w-4 h-px bg-[#E8E8E8]" />
+            </div>
           </button>
           <button
             onClick={() => setIsOpen(!isOpen)}

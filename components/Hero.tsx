@@ -43,9 +43,10 @@ export default function Hero() {
           </h2>
 
           {/* Decorative divider */}
-          <div className="flex items-center gap-2 mb-5 md:mb-6">
-            <div className="w-1.5 h-1.5 bg-[#C9A24A] rounded-full" />
-            <div className="w-12 h-px bg-[#C9A24A]/60" />
+          <div className="flex items-center gap-0 mb-5 md:mb-6" style={{ width: '260px' }}>
+            <div className="flex-1 h-px bg-[#C9A24A]/60" />
+            <div className="w-2 h-2 bg-[#C9A24A] rotate-45 mx-3" />
+            <div className="flex-1 h-px bg-[#C9A24A]/60" />
           </div>
 
           {/* Description */}
