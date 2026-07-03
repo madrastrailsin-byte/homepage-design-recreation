@@ -88,7 +88,7 @@ export default function Footer() {
         <div className="max-w-7xl mx-auto px-6 md:px-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 md:gap-8">
             {/* Copyright - Left Side */}
-            <p className="text-[#999999] text-xs md:text-sm font-light whitespace-nowrap">© MadrasTrails 2025. All Rights Reserved.</p>
+            <p className="text-[#999999] text-xs md:text-sm font-light whitespace-nowrap">© MadrasTrails 2026. All Rights Reserved.</p>
 
             {/* Contact Info - Right Side (Inline) */}
             <div className="flex flex-wrap gap-4 md:gap-6 text-[#999999] text-xs md:text-sm font-light justify-center md:justify-end">
