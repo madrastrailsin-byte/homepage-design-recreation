@@ -1,136 +1,91 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Send } from 'lucide-react'
+import { ArrowRight, MessageCircle } from 'lucide-react'
 
 export default function Footer() {
   return (
     <footer className="border-t border-[#C9A24A]/10">
-      {/* Newsletter Section */}
-      <section className="glass-overlay py-10 md:py-12">
+      {/* Top Band - Three Parts Side by Side */}
+      <section className="py-12 md:py-16 bg-[#0D1117]/60 backdrop-blur-sm">
         <div className="max-w-7xl mx-auto px-6 md:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 items-center">
+            {/* Part A: Logo + Brand Text */}
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
+              className="flex items-center gap-3"
             >
-              <h3 className="text-2xl text-white mb-2" style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700 }}>Let&apos;s craft your next journey</h3>
-              <p className="text-[#C9A24A]/60 text-sm font-light">Subscribe for travel inspiration and exclusive offers.</p>
+              <div className="w-12 h-12 rounded-full bg-[#123B47] flex items-center justify-center border border-[#C9A24A]/30">
+                <div className="w-8 h-8 bg-[#C9A24A] rounded-full" />
+              </div>
+              <div>
+                <div className="text-white font-light text-sm">MadrasTrails</div>
+                <div className="text-[#C9A24A] text-xs font-light tracking-widest">BEYOND BOUNDARIES</div>
+              </div>
             </motion.div>
 
-            <motion.form
+            {/* Part B: Newsletter Section */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              viewport={{ once: true }}
+            >
+              <h3 className="text-xl md:text-2xl text-white mb-3" style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700 }}>Let&apos;s craft your next journey</h3>
+              <p className="text-[#C9A24A]/60 text-xs md:text-sm font-light mb-4">Subscribe for travel inspiration and exclusive offers.</p>
+              <form className="flex gap-2">
+                <input
+                  type="email"
+                  placeholder="Enter your email"
+                  className="flex-1 bg-[#0B2A35]/40 border border-[#C9A24A]/20 rounded-lg px-4 py-2 text-xs md:text-sm text-[#E8E8E8] placeholder-[#666666] focus:outline-none focus:border-[#C9A24A] font-light"
+                />
+                <button
+                  type="submit"
+                  className="flex items-center justify-center w-10 h-10 bg-[#C9A24A] text-[#071B24] rounded-full hover:bg-[#D4B860] transition flex-shrink-0"
+                >
+                  <ArrowRight size={18} />
+                </button>
+              </form>
+            </motion.div>
+
+            {/* Part C: Follow Us Section */}
+            <motion.div
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
               viewport={{ once: true }}
-              className="flex flex-col sm:flex-row gap-2"
+              className="text-center md:text-right"
             >
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className="flex-1 bg-[#0B2A35]/40 border border-[#C9A24A]/20 rounded-lg px-5 py-2 text-sm text-[#E8E8E8] placeholder-[#666666] focus:outline-none focus:border-[#C9A24A] font-light"
-              />
-              <button
-                type="submit"
-                className="flex items-center justify-center gap-2 bg-[#C9A24A] text-[#071B24] px-6 py-2 rounded-lg font-semibold text-sm hover:bg-[#D4B860] transition"
-              >
-                <Send size={16} />
-              </button>
-            </motion.form>
+              <h4 className="text-white font-light mb-4 text-sm tracking-widest uppercase">Follow Us</h4>
+              <div className="flex gap-4 justify-center md:justify-end">
+                {/* Instagram */}
+                <a href="#" className="w-10 h-10 rounded-full border border-[#C9A24A]/50 flex items-center justify-center text-[#C9A24A] hover:bg-[#C9A24A] hover:text-[#071B24] transition">
+                  <svg className="w-4.5 h-4.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.266.069 1.646.069 4.85 0 3.204-.012 3.584-.07 4.85-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM5.838 12a6.162 6.162 0 1 1 12.324 0 6.162 6.162 0 0 1-12.324 0zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm4.965-10.322a1.44 1.44 0 1 1 2.881.001 1.44 1.44 0 0 1-2.881-.001z"/></svg>
+                </a>
+                {/* Facebook */}
+                <a href="#" className="w-10 h-10 rounded-full border border-[#C9A24A]/50 flex items-center justify-center text-[#C9A24A] hover:bg-[#C9A24A] hover:text-[#071B24] transition">
+                  <svg className="w-4.5 h-4.5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                </a>
+                {/* YouTube */}
+                <a href="#" className="w-10 h-10 rounded-full border border-[#C9A24A]/50 flex items-center justify-center text-[#C9A24A] hover:bg-[#C9A24A] hover:text-[#071B24] transition">
+                  <svg className="w-4.5 h-4.5" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                </a>
+                {/* WhatsApp */}
+                <a href="#" className="w-10 h-10 rounded-full border border-[#C9A24A]/50 flex items-center justify-center text-[#C9A24A] hover:bg-[#C9A24A] hover:text-[#071B24] transition">
+                  <svg className="w-4.5 h-4.5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.665 15.01c-.293-.15-1.73-.855-1.995-.952-.263-.098-.455-.15-.647.15-.192.3-.743.952-.91 1.144-.166.192-.332.216-.625.065-.294-.15-1.24-.458-2.36-1.457-.874-.778-1.464-1.74-1.631-2.034-.167-.293-.018-.452.125-.599.128-.128.293-.334.44-.501.146-.167.195-.293.293-.486.098-.192.05-.36-.025-.503-.075-.143-.647-1.56-.888-2.133-.234-.548-.471-.474-.647-.483-.167-.008-.36-.01-.552-.01-.191 0-.503.072-.766.36-.263.287-1.004.98-1.004 2.389 0 1.409 1.028 2.77 1.172 2.963.144.192 2.032 3.138 4.924 4.4.688.3 1.225.48 1.643.615.69.217 1.318.187 1.814.113.554-.083 1.71-.699 1.95-1.375.24-.676.24-1.255.168-1.375-.07-.12-.263-.192-.554-.334z"/></svg>
+                </a>
+              </div>
+            </motion.div>
           </div>
         </div>
       </section>
 
-      {/* Main Footer */}
-      <div className="py-10 md:py-12">
+      {/* Bottom Footer */}
+      <div className="py-8 md:py-10">
         <div className="max-w-7xl mx-auto px-6 md:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
-            {/* Brand */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
-            >
-              <div className="flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 rounded-full bg-[#123B47] flex items-center justify-center border border-[#C9A24A]/20">
-                  <div className="w-7 h-7 bg-[#C9A24A] rounded-full" />
-                </div>
-                <div>
-                  <div className="text-white font-light text-sm">MadrasTrails</div>
-                  <div className="text-[#C9A24A] text-xs font-light tracking-widest">BEYOND BOUNDARIES</div>
-                </div>
-              </div>
-            </motion.div>
-
-            {/* Quick Links */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.1 }}
-              viewport={{ once: true }}
-            >
-              <h4 className="text-white font-light mb-6 text-sm tracking-widest uppercase">Quick Links</h4>
-              <ul className="space-y-3">
-                <li><a href="#" className="text-[#C9A24A]/60 text-sm font-light hover:text-[#C9A24A] transition">Destinations</a></li>
-                <li><a href="#" className="text-[#C9A24A]/60 text-sm font-light hover:text-[#C9A24A] transition">Experiences</a></li>
-                <li><a href="#" className="text-[#C9A24A]/60 text-sm font-light hover:text-[#C9A24A] transition">Services</a></li>
-                <li><a href="#" className="text-[#C9A24A]/60 text-sm font-light hover:text-[#C9A24A] transition">Contact</a></li>
-              </ul>
-            </motion.div>
-
-            {/* Contact Info */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              viewport={{ once: true }}
-            >
-              <h4 className="text-white font-light mb-6 text-sm tracking-widest uppercase">Contact</h4>
-              <ul className="space-y-3">
-                <li className="flex items-start gap-2">
-                  <span className="text-[#C9A24A] mt-0.5 flex-shrink-0">📍</span>
-                  <span className="text-[#C9A24A]/60 text-sm font-light">Chennai, Tamil Nadu, India</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="text-[#C9A24A]">📞</span>
-                  <span className="text-[#C9A24A]/60 text-sm font-light">+91 98400 12345</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="text-[#C9A24A]">✉️</span>
-                  <span className="text-[#C9A24A]/60 text-sm font-light">hello@madrastrails.com</span>
-                </li>
-              </ul>
-            </motion.div>
-
-            {/* Social Links */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.3 }}
-              viewport={{ once: true }}
-            >
-              <h4 className="text-white font-light mb-6 text-sm tracking-widest uppercase">Follow Us</h4>
-              <div className="flex gap-4">
-                <a href="#" className="w-10 h-10 rounded-full border border-[#C9A24A] flex items-center justify-center text-[#C9A24A] hover:bg-[#C9A24A] hover:text-[#071B24] transition font-bold">
-                  f
-                </a>
-                <a href="#" className="w-10 h-10 rounded-full border border-[#C9A24A] flex items-center justify-center text-[#C9A24A] hover:bg-[#C9A24A] hover:text-[#071B24] transition font-bold">
-                  in
-                </a>
-                <a href="#" className="w-10 h-10 rounded-full border border-[#C9A24A] flex items-center justify-center text-[#C9A24A] hover:bg-[#C9A24A] hover:text-[#071B24] transition font-bold">
-                  ▶
-                </a>
-                <a href="#" className="w-10 h-10 rounded-full border border-[#C9A24A] flex items-center justify-center text-[#C9A24A] hover:bg-[#C9A24A] hover:text-[#071B24] transition font-bold">
-                  @
-                </a>
-              </div>
-            </motion.div>
-          </div>
-
-          {/* Bottom Footer */}
           <div className="border-t border-[#C9A24A]/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-[#999999] text-sm font-light">© MadrasTrails 2025. All Rights Reserved.</p>
             <div className="flex gap-6">
