@@ -119,6 +119,16 @@ export default function DestinationsSection() {
             viewport={{ once: true }}
             className="absolute top-8 md:top-0 left-1/4 md:left-1/4 w-2/3 md:w-1/2 h-48 md:h-96 group cursor-pointer z-10"
           >
+            {/* Decorative Emblem - Overlapping top edge */}
+            <div className="absolute -top-6 left-1/2 transform -translate-x-1/2 z-20">
+              <div className="w-12 h-12 rounded-full border-2 border-[#C9A24A]/40 flex items-center justify-center bg-[#0D1117]/80 backdrop-blur-sm">
+                <svg className="w-6 h-6 text-[#C9A24A]/60" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1">
+                  <circle cx="12" cy="12" r="10" />
+                  <path d="M12 7v10M7 12h10" />
+                  <circle cx="12" cy="12" r="3" />
+                </svg>
+              </div>
+            </div>
             <div className="relative w-full h-full rounded-3xl overflow-hidden shadow-2xl border border-[#C9A24A]/30 hover:shadow-[0_50px_120px_rgba(201,162,74,0.25)] transition-all duration-500">
               <div
                 className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
