@@ -24,12 +24,22 @@ const destinations = [
   },
 ]
 
+const arrowButtonBase =
+  'w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 group/btn'
+
+const outlineArrowButton =
+  `${arrowButtonBase} border border-[#C9A24A]/55 bg-[#061f28]/34 text-[#C9A24A] shadow-[0_10px_24px_rgba(0,0,0,0.24)] hover:border-[#C9A24A]/85 hover:bg-[#C9A24A]/12`
+
+const filledArrowButton =
+  `${arrowButtonBase} border border-[#C9A24A]/70 bg-[#C9A24A] text-[#071B24] shadow-[0_12px_28px_rgba(0,0,0,0.28)] hover:bg-[#D4B860]`
+
 export default function DestinationsSection() {
   return (
-    <section className="bg-[#0D1117] pt-0 pb-12 md:pb-16 overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6 md:px-8">
+    <section className="mt-destinations-bg relative overflow-hidden pt-2 pb-12 md:pt-4 md:pb-16">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(201,162,74,0.08),transparent_28%)] pointer-events-none" />
+      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-8">
         {/* Two-Column Layout: Text Left, Cards Right */}
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-8 md:gap-12 mb-8 md:mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-10 md:gap-12 mb-8 md:mb-12">
           {/* LEFT COLUMN: Text Block with Vertical Rail */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
@@ -50,29 +60,29 @@ export default function DestinationsSection() {
             {/* Main Text Block */}
             <div className="flex-1">
               {/* Curated/Crafted Label - Two Lines, Tight */}
-              <div className="mb-1">
+              <div className="mb-1.5">
                 <div className="text-[#C9A24A] text-xs font-light leading-tight" style={{ letterSpacing: '0.35em' }}>CURATED GLOBALLY.</div>
                 <div className="text-[#C9A24A] text-xs font-light leading-tight" style={{ letterSpacing: '0.35em' }}>CRAFTED PERSONALLY</div>
               </div>
 
               {/* Small Gap */}
-              <div className="h-3" />
+              <div className="h-4" />
 
               {/* Heading - Two Lines */}
-              <h2 className="text-4xl md:text-5xl text-white mb-3 leading-tight" style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700 }}>
+              <h2 className="text-4xl md:text-5xl text-white mb-3.5 leading-tight" style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700 }}>
                 Your Journey,
                 <br />
                 Our Expertise.
               </h2>
 
               {/* Divider with Diamond Accent */}
-              <div className="flex items-center gap-2 my-3">
+              <div className="flex items-center gap-2 my-3.5">
                 <div className="flex-1 h-px bg-gradient-to-r from-[#C9A24A] to-transparent" />
                 <div className="w-2 h-2 rotate-45 bg-[#C9A24A]" />
               </div>
 
               {/* Description */}
-              <p className="text-[#C9A24A]/75 text-sm leading-relaxed mb-4 font-light">
+              <p className="text-[#E8E8E8]/78 text-sm leading-relaxed mb-5 font-light">
                 From the world&apos;s most iconic cities to hidden gems only locals know, we design journeys that are as unique as you are.
               </p>
 
@@ -87,11 +97,11 @@ export default function DestinationsSection() {
           {/* RIGHT COLUMN: Cards Container */}
           <div className="md:col-span-3 flex flex-col">
             {/* Navigation Buttons - Top Right */}
-            <div className="flex justify-end mb-6 gap-2">
-              <button className="w-9 h-9 rounded-full border border-[#C9A24A]/40 flex items-center justify-center hover:border-[#C9A24A]/70 transition-all group">
+            <div className="flex justify-end mb-7 gap-3">
+              <button className="w-9 h-9 rounded-full border border-[#C9A24A]/40 bg-[#061f28]/24 flex items-center justify-center hover:border-[#C9A24A]/70 hover:bg-[#C9A24A]/10 transition-all group">
                 <ArrowLeft size={16} className="text-[#C9A24A]/60 group-hover:text-[#C9A24A] transition" />
               </button>
-              <button className="w-9 h-9 rounded-full bg-[#C9A24A] flex items-center justify-center hover:bg-[#D4B860] transition-all group">
+              <button className="w-9 h-9 rounded-full bg-[#C9A24A] border border-[#C9A24A]/70 flex items-center justify-center hover:bg-[#D4B860] transition-all group shadow-[0_10px_24px_rgba(0,0,0,0.24)]">
                 <ArrowRight size={16} className="text-[#071B24] group-hover:text-[#071B24] transition" />
               </button>
             </div>
@@ -129,16 +139,25 @@ export default function DestinationsSection() {
                   viewport={{ once: true }}
                   className="group cursor-pointer"
                 >
-                  <div className="relative w-full h-72 rounded-3xl overflow-hidden shadow-lg border border-[#C9A24A]/20 hover:shadow-2xl transition-all duration-500" style={{ boxShadow: '0 20px 60px rgba(201, 162, 74, 0.2)' }}>
+                  <div className="relative w-full h-72 rounded-3xl overflow-hidden border border-[#C9A24A]/24 transition-all duration-500 hover:border-[#C9A24A]/38" style={{ boxShadow: '0 26px 70px rgba(0, 0, 0, 0.46), 0 0 0 1px rgba(201, 162, 74, 0.08)' }}>
                     <div
                       className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
                       style={{ backgroundImage: `url(${destinations[0].image})` }}
                     >
-                      <div className="absolute inset-0 bg-gradient-to-t from-[rgba(7,27,36,0.8)] via-[rgba(7,27,36,0.3)] to-transparent" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[rgba(3,21,27,0.82)] via-[rgba(7,38,48,0.28)] to-transparent" />
+                      <div className="absolute inset-0 bg-gradient-to-b from-black/5 via-transparent to-transparent" />
                     </div>
-                    <div className="relative h-full flex flex-col justify-end p-6">
-                      <h3 className="text-3xl text-white mb-1 font-bold" style={{ fontFamily: "'Playfair Display', serif" }}>{destinations[0].name}</h3>
-                      <p className="text-[#C9A24A] text-xs font-light mb-0">{destinations[0].label}</p>
+                    <div className="relative h-full flex flex-col justify-between p-6">
+                      <div />
+                      <div className="flex items-end justify-between gap-4">
+                        <div>
+                          <h3 className="text-3xl text-white mb-1 font-bold" style={{ fontFamily: "'Playfair Display', serif" }}>{destinations[0].name}</h3>
+                          <p className="text-[#C9A24A] text-xs font-light mb-0">{destinations[0].label}</p>
+                        </div>
+                        <button className={outlineArrowButton}>
+                          <ArrowRight size={15} className="transition-transform group-hover/btn:translate-x-0.5" />
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </motion.div>
@@ -151,22 +170,23 @@ export default function DestinationsSection() {
                   viewport={{ once: true }}
                   className="group cursor-pointer md:-translate-y-6"
                 >
-                  <div className="relative w-full h-80 rounded-3xl overflow-hidden shadow-2xl border border-[#C9A24A]/30 hover:shadow-[0_60px_150px_rgba(201,162,74,0.4)] transition-all duration-500" style={{ boxShadow: '0 35px 100px rgba(201, 162, 74, 0.35)' }}>
+                  <div className="relative w-full h-80 rounded-3xl overflow-hidden border border-[#C9A24A]/34 transition-all duration-500 hover:border-[#C9A24A]/50" style={{ boxShadow: '0 34px 96px rgba(0, 0, 0, 0.56), 0 0 0 1px rgba(201, 162, 74, 0.12)' }}>
                     <div
                       className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
                       style={{ backgroundImage: `url(${destinations[1].image})` }}
                     >
-                      <div className="absolute inset-0 bg-gradient-to-t from-[rgba(7,27,36,0.7)] via-[rgba(7,27,36,0.2)] to-transparent" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[rgba(3,21,27,0.76)] via-[rgba(7,38,48,0.2)] to-transparent" />
+                      <div className="absolute inset-0 bg-gradient-to-b from-white/8 via-transparent to-transparent" />
                     </div>
                     <div className="relative h-full flex flex-col justify-between p-6">
                       <div />
-                      <div className="flex items-end justify-between">
+                      <div className="flex items-end justify-between gap-4">
                         <div>
                           <h3 className="text-4xl text-white mb-1 font-bold" style={{ fontFamily: "'Playfair Display', serif" }}>{destinations[1].name}</h3>
                           <p className="text-[#C9A24A] text-xs font-light">{destinations[1].label}</p>
                         </div>
-                        <button className="w-10 h-10 rounded-full bg-[#C9A24A] flex items-center justify-center hover:bg-[#D4B860] transition-all group/btn">
-                          <ArrowRight size={16} className="text-[#071B24] group-hover/btn:translate-x-0.5 transition-transform" />
+                        <button className={filledArrowButton}>
+                          <ArrowRight size={15} className="transition-transform group-hover/btn:translate-x-0.5" />
                         </button>
                       </div>
                     </div>
@@ -181,22 +201,23 @@ export default function DestinationsSection() {
                   viewport={{ once: true }}
                   className="group cursor-pointer"
                 >
-                  <div className="relative w-full h-72 rounded-3xl overflow-hidden shadow-lg border border-[#C9A24A]/20 hover:shadow-2xl transition-all duration-500" style={{ boxShadow: '0 20px 60px rgba(201, 162, 74, 0.2)' }}>
+                  <div className="relative w-full h-72 rounded-3xl overflow-hidden border border-[#C9A24A]/24 transition-all duration-500 hover:border-[#C9A24A]/38" style={{ boxShadow: '0 26px 70px rgba(0, 0, 0, 0.46), 0 0 0 1px rgba(201, 162, 74, 0.08)' }}>
                     <div
                       className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
                       style={{ backgroundImage: `url(${destinations[2].image})` }}
                     >
-                      <div className="absolute inset-0 bg-gradient-to-t from-[rgba(7,27,36,0.8)] via-[rgba(7,27,36,0.3)] to-transparent" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[rgba(3,21,27,0.82)] via-[rgba(7,38,48,0.28)] to-transparent" />
+                      <div className="absolute inset-0 bg-gradient-to-b from-black/5 via-transparent to-transparent" />
                     </div>
                     <div className="relative h-full flex flex-col justify-between p-6">
                       <div />
-                      <div className="flex items-end justify-between">
+                      <div className="flex items-end justify-between gap-4">
                         <div>
                           <h3 className="text-3xl text-white mb-1 font-bold" style={{ fontFamily: "'Playfair Display', serif" }}>{destinations[2].name}</h3>
                           <p className="text-[#C9A24A] text-xs font-light">{destinations[2].label}</p>
                         </div>
-                        <button className="w-9 h-9 rounded-full border border-[#C9A24A]/60 flex items-center justify-center hover:border-[#C9A24A] hover:bg-[#C9A24A]/10 transition-all group/btn">
-                          <ArrowRight size={14} className="text-[#C9A24A] group-hover/btn:translate-x-0.5 transition-transform" />
+                        <button className={outlineArrowButton}>
+                          <ArrowRight size={15} className="transition-transform group-hover/btn:translate-x-0.5" />
                         </button>
                       </div>
                     </div>

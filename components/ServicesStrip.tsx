@@ -13,12 +13,12 @@ const services = [
 
 export default function ServicesStrip() {
   return (
-    <div className="w-full bg-gradient-to-b from-[#0D1117]/50 to-[#0D1117] py-4 md:py-5 -mt-16 md:-mt-20 relative z-10">
+    <div className="relative z-10 -mt-16 w-full bg-gradient-to-b from-[rgba(3,21,27,0.18)] via-[#061f28] to-[#072630] pt-4 pb-9 md:-mt-20 md:pt-5 md:pb-12">
       <div className="max-w-7xl mx-auto px-6 md:px-8">
         <div className="flex justify-center">
           <div 
-            className="flex flex-wrap justify-center gap-4 md:gap-6 rounded-2xl px-8 md:px-12 py-3 md:py-4 backdrop-blur-sm border border-[#C9A24A]/30"
-            style={{ backgroundColor: 'rgba(11, 42, 53, 0.07)' }}
+            className="flex flex-wrap justify-center gap-4 md:gap-6 rounded-2xl px-8 md:px-12 py-3 md:py-4 backdrop-blur-sm border border-[#C9A24A]/30 shadow-[0_22px_70px_rgba(0,0,0,0.22)]"
+            style={{ backgroundColor: 'rgba(6, 31, 40, 0.34)' }}
           >
             {services.map((service, idx) => {
               const Icon = service.icon

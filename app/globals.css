@@ -34,20 +34,38 @@
 }
 
 @layer base {
+  :root {
+    --mt-deep-teal: #041D22;
+    --mt-bg-dark: #03191D;
+    --mt-bg-deeper: #020F12;
+    --mt-bg-soft: #061A1F;
+    --mt-gold: #D4AF37;
+    --mt-antique-gold: #C9A24A;
+    --mt-cream: #F2E7CC;
+    --mt-logo-white: #FAFAF9;
+  }
+
   * {
     @apply border-border;
   }
   
   html, body {
-    background: linear-gradient(135deg, #071B24 0%, #0B2A35 50%, #123B47 100%);
+    background:
+      radial-gradient(circle at 76% 10%, rgba(13, 56, 63, 0.28), transparent 32%),
+      radial-gradient(circle at 22% 82%, rgba(8, 45, 52, 0.22), transparent 38%),
+      linear-gradient(135deg, var(--mt-bg-deeper) 0%, var(--mt-bg-dark) 48%, var(--mt-bg-soft) 100%);
     background-attachment: fixed;
   }
   
   body {
     @apply text-foreground;
-    background-image: 
-      url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" result="noise"/><feColorMatrix type="saturate" values="0.3"/></filter><rect width="100" height="100" fill="%23071B24" filter="url(%23noise)"/></svg>');
-    background-blend-mode: overlay;
+    background-color: var(--mt-bg-dark);
+    background-image:
+      radial-gradient(circle at 76% 10%, rgba(13, 56, 63, 0.22), transparent 32%),
+      radial-gradient(circle at 24% 84%, rgba(8, 45, 52, 0.18), transparent 36%),
+      linear-gradient(135deg, var(--mt-bg-deeper) 0%, var(--mt-bg-dark) 48%, var(--mt-bg-soft) 100%),
+      url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.82" numOctaves="3" result="noise"/><feColorMatrix type="matrix" values="0 0 0 0 0.79 0 0 0 0 0.64 0 0 0 0 0.29 0 0 0 0.055 0"/></filter><rect width="120" height="120" fill="transparent" filter="url(%23noise)"/></svg>');
+    background-blend-mode: normal, normal, normal, overlay;
   }
 }
 
@@ -67,7 +85,7 @@
   }
   
   .btn-gold {
-    @apply bg-[#C9A24A] text-[#071B24] px-8 py-3 rounded-lg font-semibold hover:bg-[#D4B860] transition-all duration-300 shadow-lg hover:shadow-xl;
+    @apply bg-[#D4AF37] text-[#03191D] px-8 py-3 rounded-lg font-semibold hover:bg-[#C9A24A] transition-all duration-300 shadow-lg hover:shadow-xl;
   }
   
   .section-spacing {
@@ -81,4 +99,22 @@
   .text-cream {
     @apply text-[#F2E7CC];
   }
+
+  .mt-destinations-bg {
+    background-color: var(--mt-bg-dark);
+    background-image:
+      radial-gradient(circle at 70% 18%, rgba(212, 175, 55, 0.055), transparent 28%),
+      radial-gradient(circle at 36% 78%, rgba(8, 45, 52, 0.24), transparent 34%),
+      linear-gradient(180deg, rgba(2, 15, 18, 0.56) 0%, rgba(3, 25, 29, 0) 24%, rgba(2, 15, 18, 0.38) 100%),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260' viewBox='0 0 260 260'%3E%3Cg fill='none' stroke='%23C9A24A' stroke-opacity='0.055' stroke-width='0.8'%3E%3Cpath d='M33 147c26-34 58-50 95-46 31 4 52-3 75-24'/%3E%3Cpath d='M18 75c38 18 70 20 96 6 31-17 69-13 114 12'/%3E%3Cpath d='M59 217c18-28 39-41 63-38 34 4 59-7 75-33'/%3E%3Ccircle cx='75' cy='91' r='22'/%3E%3Ccircle cx='181' cy='165' r='30'/%3E%3C/g%3E%3C/svg%3E");
+    background-size: auto, auto, auto, 520px 520px;
+    background-position: center, center, center, 50% 14%;
+  }
+
+}
+
+main.bg-\[\#0D1117\],
+section.bg-\[\#0D1117\],
+div.bg-\[\#0D1117\] {
+  background-color: var(--mt-bg-dark);
 }
