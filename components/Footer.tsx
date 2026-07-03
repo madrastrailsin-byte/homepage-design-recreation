@@ -83,16 +83,39 @@ export default function Footer() {
         </div>
       </section>
 
-      {/* Bottom Footer */}
-      <div className="py-8 md:py-10">
+      {/* Bottom Footer Bar - Contact Info + Copyright */}
+      <div className="py-6 md:py-8 border-t border-[#C9A24A]/10">
         <div className="max-w-7xl mx-auto px-6 md:px-8">
-          <div className="border-t border-[#C9A24A]/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-[#999999] text-sm font-light">© MadrasTrails 2025. All Rights Reserved.</p>
-            <div className="flex gap-6">
-              <a href="#" className="text-[#999999] text-sm font-light hover:text-[#C9A24A] transition">Privacy Policy</a>
-              <a href="#" className="text-[#999999] text-sm font-light hover:text-[#C9A24A] transition">Terms & Conditions</a>
-              <a href="#" className="text-[#999999] text-sm font-light hover:text-[#C9A24A] transition">Sitemap</a>
+          <div className="flex flex-col md:flex-row justify-between items-center gap-6 md:gap-4">
+            {/* Contact Info - Left Side */}
+            <div className="flex flex-col md:flex-row gap-6 md:gap-8 text-[#999999] text-xs md:text-sm font-light">
+              {/* Location */}
+              <div className="flex items-center gap-2">
+                <svg className="w-4 h-4 text-[#C9A24A]" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm3.5-9c.83 0 1.5-.67 1.5-1.5S16.33 8 15.5 8 14 8.67 14 9.5s.67 1.5 1.5 1.5z"/></svg>
+                <span>Chennai, Tamil Nadu, India</span>
+              </div>
+
+              {/* Phone */}
+              <div className="flex items-center gap-2">
+                <svg className="w-4 h-4 text-[#C9A24A]" fill="currentColor" viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+                <span>+91 98400 12345</span>
+              </div>
+
+              {/* Email */}
+              <div className="flex items-center gap-2">
+                <svg className="w-4 h-4 text-[#C9A24A]" fill="currentColor" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                <span>hello@madrastrails.com</span>
+              </div>
+
+              {/* Website */}
+              <div className="flex items-center gap-2">
+                <svg className="w-4 h-4 text-[#C9A24A]" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                <span>www.madrastrails.com</span>
+              </div>
             </div>
+
+            {/* Copyright - Right Side */}
+            <p className="text-[#999999] text-xs md:text-sm font-light whitespace-nowrap">© MadrasTrails 2025. All Rights Reserved.</p>
           </div>
         </div>
       </div>
