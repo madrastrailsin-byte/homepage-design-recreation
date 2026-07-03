@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, ArrowLeft } from 'lucide-react'
 
 const destinations = [
   {
@@ -78,6 +78,16 @@ export default function DestinationsSection() {
               <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
             </a>
           </motion.div>
+        </div>
+
+        {/* Carousel Navigation Buttons */}
+        <div className="flex justify-end mb-6 gap-3">
+          <button className="w-10 h-10 rounded-full border border-[#C9A24A]/50 flex items-center justify-center hover:border-[#C9A24A] hover:bg-[#C9A24A]/10 transition-all group">
+            <ArrowLeft size={18} className="text-[#C9A24A] group-hover:text-white transition" />
+          </button>
+          <button className="w-10 h-10 rounded-full bg-[#C9A24A] flex items-center justify-center hover:bg-[#D4B860] transition-all group">
+            <ArrowRight size={18} className="text-[#071B24] group-hover:text-[#071B24] transition" />
+          </button>
         </div>
 
         {/* Staggered Overlapping Cards */}
