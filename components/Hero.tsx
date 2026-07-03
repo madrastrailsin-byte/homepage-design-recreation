@@ -14,10 +14,11 @@ export default function Hero() {
         backgroundPosition: 'calc(50% + 3%) center',
         backgroundRepeat: 'no-repeat',
         backgroundAttachment: 'scroll',
+        filter: 'saturate(1.15) brightness(1.08)',
       }}
     >
-      {/* Dark gradient overlay for text readability */}
-      <div className="absolute inset-0 bg-gradient-to-r from-[#0a1628]/70 via-[#0a1628]/32 to-transparent" />
+      {/* Dark gradient overlay for text readability - only on left third */}
+      <div className="absolute inset-0 bg-gradient-to-r from-[#0a1628]/55 via-[#0a1628]/20 via-30% to-transparent" />
 
       {/* Content */}
       <div className="relative z-10 max-w-7xl mx-auto w-full px-6 md:px-8">
