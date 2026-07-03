@@ -23,11 +23,9 @@ export default function ServicesStrip() {
             {services.map((service, idx) => {
               const Icon = service.icon
               return (
-                <div key={idx} className="flex flex-col items-center gap-2 text-center group">
-                  <div className="w-12 h-12 md:w-14 md:h-14 rounded-full border border-[#C9A24A]/25 flex items-center justify-center group-hover:border-[#C9A24A]/60 group-hover:bg-[#C9A24A]/10 transition-all duration-300">
-                    <Icon size={20} className="md:w-6 md:h-6 text-[#C9A24A] group-hover:text-white transition-colors" />
-                  </div>
-                  <span className="text-xs font-light text-[#C9A24A] tracking-widest group-hover:text-white transition-colors hidden md:inline">{service.label}</span>
+                <div key={idx} className="flex items-center gap-2 group">
+                  <Icon size={16} className="text-[#C9A24A] group-hover:text-white transition-colors flex-shrink-0" />
+                  <span className="text-xs font-light text-[#C9A24A] tracking-widest group-hover:text-white transition-colors">{service.label}</span>
                 </div>
               )
             })}
