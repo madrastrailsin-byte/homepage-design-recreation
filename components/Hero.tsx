@@ -29,7 +29,7 @@ export default function Hero() {
           className="flex flex-col max-w-2xl"
         >
           {/* Label */}
-          <div className="text-[#C9A24A] text-xs font-light tracking-widest mb-1.5 uppercase">
+          <div className="text-[#C9A24A] text-xs font-light mb-1.5 uppercase" style={{ letterSpacing: '0.35em' }}>
             Beyond Boundaries
           </div>
 

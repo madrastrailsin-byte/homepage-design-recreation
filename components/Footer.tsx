@@ -23,7 +23,7 @@ export default function Footer() {
               </div>
               <div>
                 <div className="text-white font-light text-sm">MadrasTrails</div>
-                <div className="text-[#C9A24A] text-xs font-light tracking-widest">BEYOND BOUNDARIES</div>
+                <div className="text-[#C9A24A] text-xs font-light" style={{ letterSpacing: '0.35em' }}>BEYOND BOUNDARIES</div>
               </div>
             </motion.div>
 
@@ -59,7 +59,7 @@ export default function Footer() {
               viewport={{ once: true }}
               className="text-center md:text-right"
             >
-              <h4 className="text-white font-light mb-4 text-sm tracking-widest uppercase">Follow Us</h4>
+              <h4 className="text-white font-light mb-4 text-sm uppercase" style={{ letterSpacing: '0.35em' }}>Follow Us</h4>
               <div className="flex gap-4 justify-center md:justify-end">
                 {/* Instagram */}
                 <a href="#" className="w-10 h-10 rounded-full border border-[#C9A24A]/50 flex items-center justify-center text-[#C9A24A] hover:bg-[#C9A24A] hover:text-[#071B24] transition">

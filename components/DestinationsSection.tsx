@@ -40,7 +40,7 @@ export default function DestinationsSection() {
             <div className="flex gap-6 items-start">
               {/* Vertical EXPLORE label with pill and line */}
               <div className="flex flex-col items-center gap-2">
-                <div className="text-[#C9A24A] text-xs font-light tracking-widest" style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}>
+                <div className="text-[#C9A24A] text-xs font-light" style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)', letterSpacing: '0.35em' }}>
                   EXPLORE
                 </div>
                 <div className="w-4 h-6 border border-[#C9A24A] rounded-full" />
@@ -49,10 +49,10 @@ export default function DestinationsSection() {
 
               {/* Main text content */}
               <div>
-                <div className="text-[#C9A24A] text-xs font-light tracking-widest mb-2">CURATED</div>
-                <div className="text-[#C9A24A] text-xs font-light tracking-widest mb-8">GLOBALLY.</div>
-                <div className="text-[#C9A24A] text-xs font-light tracking-widest mb-8">CRAFTED</div>
-                <div className="text-[#C9A24A] text-xs font-light tracking-widest mb-12">PERSONALLY</div>
+                <div className="text-[#C9A24A] text-xs font-light mb-2" style={{ letterSpacing: '0.35em' }}>CURATED</div>
+                <div className="text-[#C9A24A] text-xs font-light mb-8" style={{ letterSpacing: '0.35em' }}>GLOBALLY.</div>
+                <div className="text-[#C9A24A] text-xs font-light mb-8" style={{ letterSpacing: '0.35em' }}>CRAFTED</div>
+                <div className="text-[#C9A24A] text-xs font-light mb-12" style={{ letterSpacing: '0.35em' }}>PERSONALLY</div>
                 <div className="w-px h-24 bg-gradient-to-b from-[#C9A24A] via-[#C9A24A]/50 to-transparent" />
               </div>
             </div>
@@ -110,7 +110,7 @@ export default function DestinationsSection() {
               <div className="relative h-full flex flex-col justify-between p-8 md:p-10">
                 <div />
                 <div>
-                  <p className="text-[#C9A24A] text-xs font-light tracking-widest mb-3 uppercase">{destinations[0].label}</p>
+                  <p className="text-[#C9A24A] text-xs font-light mb-3 uppercase" style={{ letterSpacing: '0.35em' }}>{destinations[0].label}</p>
                   <h3 className="text-4xl text-white mb-4" style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700 }}>{destinations[0].name}</h3>
                   <button className="flex items-center gap-2 text-[#C9A24A] group-hover:text-white transition text-sm font-light tracking-wide">
                     <span>Discover</span>
@@ -149,7 +149,7 @@ export default function DestinationsSection() {
               <div className="relative h-full flex flex-col justify-between p-10 md:p-12">
                 <div />
                 <div>
-                  <p className="text-[#C9A24A] text-xs font-light tracking-widest mb-3 uppercase">{destinations[1].label}</p>
+                  <p className="text-[#C9A24A] text-xs font-light mb-3 uppercase" style={{ letterSpacing: '0.35em' }}>{destinations[1].label}</p>
                   <h3 className="text-5xl md:text-6xl text-white mb-6" style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700 }}>{destinations[1].name}</h3>
                   <button className="flex items-center gap-2 text-[#C9A24A] group-hover:text-white transition text-sm font-light tracking-wide">
                     <span>Explore</span>
@@ -178,7 +178,7 @@ export default function DestinationsSection() {
               <div className="relative h-full flex flex-col justify-between p-8 md:p-10">
                 <div />
                 <div>
-                  <p className="text-[#C9A24A] text-xs font-light tracking-widest mb-3 uppercase">{destinations[2].label}</p>
+                  <p className="text-[#C9A24A] text-xs font-light mb-3 uppercase" style={{ letterSpacing: '0.35em' }}>{destinations[2].label}</p>
                   <h3 className="text-4xl text-white mb-4" style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700 }}>{destinations[2].name}</h3>
                   <button className="flex items-center gap-2 text-[#C9A24A] group-hover:text-white transition text-sm font-light tracking-wide">
                     <span>Experience</span>

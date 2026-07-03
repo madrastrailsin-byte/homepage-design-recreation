@@ -47,7 +47,7 @@ export default function StatisticsSection() {
                 className="text-center space-y-2"
               >
                 <div className="text-[#C9A24A] text-4xl md:text-5xl leading-none" style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700 }}>{stat.number}</div>
-                <div className="text-[#123B47] text-xs font-light tracking-widest uppercase">{stat.label}</div>
+                <div className="text-[#123B47] text-xs font-light uppercase" style={{ letterSpacing: '0.35em' }}>{stat.label}</div>
               </motion.div>
             ))}
           </div>
