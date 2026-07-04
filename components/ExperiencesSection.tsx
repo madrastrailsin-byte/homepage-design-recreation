@@ -47,8 +47,10 @@ export default function ExperiencesSection() {
   const arrowHoverClass = prefersReducedMotion ? '' : 'group-hover:translate-x-0.5'
 
   return (
-    <section className="bg-[#0D1117] py-16 md:py-20">
-      <div className="max-w-7xl mx-auto px-6 md:px-8">
+    <section className="relative overflow-hidden bg-[#0D1117] py-16 md:py-20">
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-[rgba(242,231,204,0.1)] via-[rgba(4,29,34,0.18)] to-transparent" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-b from-transparent via-[#03191D]/18 to-[#03191D]" />
+      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-8">
         {/* Header */}
         <motion.div
           initial={headerInitial}

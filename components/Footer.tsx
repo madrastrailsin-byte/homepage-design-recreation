@@ -13,6 +13,7 @@ export default function Footer() {
 
   return (
     <footer className="mt-footer-ambient relative overflow-hidden border-t border-[#D4AF37]/10 bg-[#03191D]">
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-[#03191D] via-[#03191D]/52 to-transparent" />
       {/* Top Band - Three Parts Side by Side */}
       <section className="relative z-10 py-12 md:py-16 bg-[#020F12]/34 backdrop-blur-sm">
         <div className="max-w-7xl mx-auto px-6 md:px-8">

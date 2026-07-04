@@ -56,6 +56,7 @@ export default function DestinationsSection() {
 
   return (
     <section className="mt-destinations-bg relative overflow-hidden pt-2 pb-12 md:pt-4 md:pb-16">
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-[#03191D] via-[#03191D]/46 to-transparent" />
       <motion.div
         initial={backgroundRevealInitial}
         whileInView={backgroundRevealInView}
@@ -285,6 +286,7 @@ export default function DestinationsSection() {
           </div>
         </div>
       </div>
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-b from-transparent via-[rgba(8,45,52,0.12)] to-[rgba(242,231,204,0.1)]" />
     </section>
   )
 }
