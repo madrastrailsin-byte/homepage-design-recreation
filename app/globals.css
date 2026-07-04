@@ -111,10 +111,61 @@
     background-position: center, center, center, 50% 14%;
   }
 
+  .mt-hero-glow {
+    animation: mt-glow-breathe 8s ease-in-out infinite;
+    will-change: opacity, transform;
+  }
+
+  .mt-footer-ambient {
+    background-image:
+      radial-gradient(circle at 22% 28%, rgba(212, 175, 55, 0.075), transparent 24%),
+      radial-gradient(circle at 78% 14%, rgba(8, 45, 52, 0.22), transparent 30%),
+      radial-gradient(circle at 58% 92%, rgba(212, 175, 55, 0.04), transparent 26%);
+  }
+
+  .mt-footer-ambient::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.18;
+    background-image:
+      radial-gradient(circle, rgba(212, 175, 55, 0.5) 0 1px, transparent 1.4px),
+      radial-gradient(circle, rgba(250, 250, 249, 0.28) 0 0.8px, transparent 1.2px);
+    background-size: 180px 180px, 240px 240px;
+    background-position: 18px 24px, 86px 112px;
+  }
 }
 
 main.bg-\[\#0D1117\],
 section.bg-\[\#0D1117\],
 div.bg-\[\#0D1117\] {
   background-color: var(--mt-bg-dark);
+}
+
+@keyframes mt-glow-breathe {
+  0%, 100% {
+    opacity: 0.16;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.26;
+    transform: scale(1.035);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.001ms !important;
+  }
+
+  .mt-hero-glow {
+    animation: none !important;
+  }
 }

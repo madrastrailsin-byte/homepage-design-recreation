@@ -1,6 +1,6 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { motion, useReducedMotion } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
 
 const experiences = [
@@ -31,6 +31,8 @@ const experiences = [
 ]
 
 export default function ExperiencesSection() {
+  const prefersReducedMotion = useReducedMotion()
+
   return (
     <section className="bg-[#0D1117] py-16 md:py-20">
       <div className="max-w-7xl mx-auto px-6 md:px-8">
@@ -57,13 +59,14 @@ export default function ExperiencesSection() {
               key={exp.id}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
+              whileHover={prefersReducedMotion ? undefined : { y: -7 }}
               transition={{ duration: 0.6, delay: idx * 0.08 }}
               viewport={{ once: true }}
-              className="group relative h-80 md:h-96 rounded-t-3xl overflow-hidden cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-500"
+              className="group relative h-80 md:h-96 rounded-t-3xl overflow-hidden cursor-pointer shadow-[0_20px_60px_rgba(0,0,0,0.34)] hover:shadow-[0_30px_80px_rgba(0,0,0,0.48)] transition-shadow duration-500"
             >
               {/* Background Image - Full Coverage */}
               <div
-                className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
+                className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-[1.045]"
                 style={{ backgroundImage: `url(${exp.image})` }}
               >
                 {/* Dark Gradient Overlay - Bottom Heavy */}
@@ -83,7 +86,7 @@ export default function ExperiencesSection() {
               </div>
 
               {/* Circular Arrow Button - Bottom Right */}
-              <button className="absolute bottom-6 md:bottom-8 right-6 md:right-8 w-12 h-12 rounded-full bg-[#C9A24A] flex items-center justify-center text-[#071B24] hover:bg-white transition-all shadow-lg hover:shadow-xl">
+              <button className="absolute bottom-6 md:bottom-8 right-6 md:right-8 w-12 h-12 rounded-full bg-[#C9A24A] flex items-center justify-center text-[#071B24] hover:bg-white transition-all duration-300 shadow-lg hover:shadow-xl group-hover:translate-x-1">
                 <ArrowRight size={20} />
               </button>
             </motion.div>

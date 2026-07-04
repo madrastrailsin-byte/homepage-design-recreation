@@ -1,23 +1,68 @@
 'use client'
 
 import { Play } from 'lucide-react'
-import { motion } from 'framer-motion'
+import { motion, useMotionValue, useReducedMotion, useScroll, useSpring, useTransform } from 'framer-motion'
+import type { PointerEvent } from 'react'
 
 export default function Hero() {
+  const prefersReducedMotion = useReducedMotion()
+  const { scrollYProgress } = useScroll()
+  const mouseX = useMotionValue(0)
+  const mouseY = useMotionValue(0)
+  const scrollLift = useSpring(
+    useTransform(scrollYProgress, [0, 1], prefersReducedMotion ? [0, 0] : [0, 34]),
+    { stiffness: 70, damping: 28, mass: 0.6 },
+  )
+  const pointerLift = useSpring(
+    useTransform(mouseY, [-1, 1], prefersReducedMotion ? [0, 0] : [-5, 5]),
+    { stiffness: 80, damping: 24, mass: 0.5 },
+  )
+  const backgroundX = useSpring(
+    useTransform(mouseX, [-1, 1], prefersReducedMotion ? [0, 0] : [-9, 9]),
+    { stiffness: 80, damping: 24, mass: 0.5 },
+  )
+  const backgroundY = useTransform(() => scrollLift.get() + pointerLift.get())
+  const contentX = useSpring(
+    useTransform(mouseX, [-1, 1], prefersReducedMotion ? [0, 0] : [2.5, -2.5]),
+    { stiffness: 90, damping: 26, mass: 0.5 },
+  )
+  const contentY = useSpring(
+    useTransform(mouseY, [-1, 1], prefersReducedMotion ? [0, 0] : [1.5, -1.5]),
+    { stiffness: 90, damping: 26, mass: 0.5 },
+  )
+
+  const handlePointerMove = (event: PointerEvent<HTMLElement>) => {
+    if (prefersReducedMotion || !event.currentTarget.matches('(hover: hover)')) return
+
+    const rect = event.currentTarget.getBoundingClientRect()
+    mouseX.set(((event.clientX - rect.left) / rect.width - 0.5) * 2)
+    mouseY.set(((event.clientY - rect.top) / rect.height - 0.5) * 2)
+  }
+
+  const resetPointer = () => {
+    mouseX.set(0)
+    mouseY.set(0)
+  }
+
   return (
     <section 
       className="relative w-full flex items-center overflow-hidden pt-24 md:pt-28"
+      onPointerMove={handlePointerMove}
+      onPointerLeave={resetPointer}
       style={{
         height: 'calc(100vh + 60px)',
       }}
     >
-      <div
-        className="absolute inset-0 bg-cover bg-center md:bg-[position:center_center]"
+      <motion.div
+        className="absolute -inset-x-5 -inset-y-4 bg-cover bg-center md:bg-[position:center_center]"
         style={{
+          x: backgroundX,
+          y: backgroundY,
           backgroundImage: 'url(https://hebbkx1anhila5yf.public.blob.vercel-storage.com/APPROVED_HERO_IMAGE%20background-HjDvpFuBbOHELP5GGXGROss89tXwtY.png)',
           filter: 'saturate(1.02) brightness(0.98) contrast(1.04)',
         }}
       />
+      <div className="mt-hero-glow absolute right-[18%] top-[16%] h-56 w-56 rounded-full bg-[radial-gradient(circle,rgba(212,175,55,0.34),rgba(212,175,55,0.08)_38%,transparent_70%)] blur-2xl" />
 
       {/* Layered gradients keep the left copy readable while preserving the warm scene. */}
       <div className="absolute inset-0 bg-gradient-to-r from-[#020F12]/82 via-[#03191D]/36 via-42% to-transparent" />
@@ -26,7 +71,10 @@ export default function Hero() {
       <div className="absolute inset-y-0 left-0 w-[55%] bg-[radial-gradient(circle_at_18%_42%,rgba(4,29,34,0.30),rgba(2,15,18,0.66)_72%,transparent_100%)]" />
 
       {/* Content */}
-      <div className="relative z-10 max-w-7xl mx-auto w-full px-6 md:px-8 -translate-y-8 md:-translate-y-10 lg:-translate-y-12">
+      <motion.div
+        className="relative z-10 max-w-7xl mx-auto w-full px-6 md:px-8 -translate-y-8 md:-translate-y-10 lg:-translate-y-12"
+        style={{ x: contentX, y: contentY }}
+      >
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -86,7 +134,7 @@ export default function Hero() {
             </button>
           </div>
         </motion.div>
-      </div>
+      </motion.div>
 
       {/* Scroll Indicator */}
       <motion.div

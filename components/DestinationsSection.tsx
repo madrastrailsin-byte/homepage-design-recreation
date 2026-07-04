@@ -1,6 +1,6 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { motion, useReducedMotion } from 'framer-motion'
 import { ArrowRight, ArrowLeft } from 'lucide-react'
 
 const destinations = [
@@ -28,12 +28,14 @@ const arrowButtonBase =
   'w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 group/btn'
 
 const outlineArrowButton =
-  `${arrowButtonBase} border border-[#C9A24A]/55 bg-[#061f28]/34 text-[#C9A24A] shadow-[0_10px_24px_rgba(0,0,0,0.24)] hover:border-[#C9A24A]/85 hover:bg-[#C9A24A]/12`
+  `${arrowButtonBase} border border-[#C9A24A]/55 bg-[#061f28]/34 text-[#C9A24A] shadow-[0_10px_24px_rgba(0,0,0,0.24)] hover:border-[#C9A24A]/85 hover:bg-[#C9A24A]/12 group-hover:translate-x-1`
 
 const filledArrowButton =
-  `${arrowButtonBase} border border-[#C9A24A]/70 bg-[#C9A24A] text-[#071B24] shadow-[0_12px_28px_rgba(0,0,0,0.28)] hover:bg-[#D4B860]`
+  `${arrowButtonBase} border border-[#C9A24A]/70 bg-[#C9A24A] text-[#071B24] shadow-[0_12px_28px_rgba(0,0,0,0.28)] hover:bg-[#D4B860] group-hover:translate-x-1`
 
 export default function DestinationsSection() {
+  const prefersReducedMotion = useReducedMotion()
+
   return (
     <section className="mt-destinations-bg relative overflow-hidden pt-2 pb-12 md:pt-4 md:pb-16">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(201,162,74,0.08),transparent_28%)] pointer-events-none" />
@@ -135,11 +137,12 @@ export default function DestinationsSection() {
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
+                  whileHover={prefersReducedMotion ? undefined : { y: -7, rotateZ: -0.7 }}
                   transition={{ duration: 0.8, delay: 0 }}
                   viewport={{ once: true }}
                   className="group cursor-pointer"
                 >
-                  <div className="relative w-full h-72 rounded-3xl overflow-hidden border border-[#C9A24A]/24 transition-all duration-500 hover:border-[#C9A24A]/38" style={{ boxShadow: '0 26px 70px rgba(0, 0, 0, 0.46), 0 0 0 1px rgba(201, 162, 74, 0.08)' }}>
+                  <div className="relative w-full h-72 rounded-3xl overflow-hidden border border-[#C9A24A]/24 shadow-[0_26px_70px_rgba(0,0,0,0.46),0_0_0_1px_rgba(201,162,74,0.08)] transition-all duration-500 hover:border-[#C9A24A]/45 hover:shadow-[0_34px_88px_rgba(0,0,0,0.54),0_0_0_1px_rgba(201,162,74,0.13)]">
                     <div
                       className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
                       style={{ backgroundImage: `url(${destinations[0].image})` }}
@@ -166,11 +169,12 @@ export default function DestinationsSection() {
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
+                  whileHover={prefersReducedMotion ? undefined : { y: -8, rotateZ: 0.45 }}
                   transition={{ duration: 0.8, delay: 0.1 }}
                   viewport={{ once: true }}
                   className="group cursor-pointer md:-translate-y-6"
                 >
-                  <div className="relative w-full h-80 rounded-3xl overflow-hidden border border-[#C9A24A]/34 transition-all duration-500 hover:border-[#C9A24A]/50" style={{ boxShadow: '0 34px 96px rgba(0, 0, 0, 0.56), 0 0 0 1px rgba(201, 162, 74, 0.12)' }}>
+                  <div className="relative w-full h-80 rounded-3xl overflow-hidden border border-[#C9A24A]/34 shadow-[0_34px_96px_rgba(0,0,0,0.56),0_0_0_1px_rgba(201,162,74,0.12)] transition-all duration-500 hover:border-[#C9A24A]/55 hover:shadow-[0_42px_110px_rgba(0,0,0,0.62),0_0_0_1px_rgba(201,162,74,0.18)]">
                     <div
                       className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
                       style={{ backgroundImage: `url(${destinations[1].image})` }}
@@ -197,11 +201,12 @@ export default function DestinationsSection() {
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
+                  whileHover={prefersReducedMotion ? undefined : { y: -7, rotateZ: 0.7 }}
                   transition={{ duration: 0.8, delay: 0.2 }}
                   viewport={{ once: true }}
                   className="group cursor-pointer"
                 >
-                  <div className="relative w-full h-72 rounded-3xl overflow-hidden border border-[#C9A24A]/24 transition-all duration-500 hover:border-[#C9A24A]/38" style={{ boxShadow: '0 26px 70px rgba(0, 0, 0, 0.46), 0 0 0 1px rgba(201, 162, 74, 0.08)' }}>
+                  <div className="relative w-full h-72 rounded-3xl overflow-hidden border border-[#C9A24A]/24 shadow-[0_26px_70px_rgba(0,0,0,0.46),0_0_0_1px_rgba(201,162,74,0.08)] transition-all duration-500 hover:border-[#C9A24A]/45 hover:shadow-[0_34px_88px_rgba(0,0,0,0.54),0_0_0_1px_rgba(201,162,74,0.13)]">
                     <div
                       className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
                       style={{ backgroundImage: `url(${destinations[2].image})` }}
