@@ -27,14 +27,23 @@ const destinations = [
 const arrowButtonBase =
   'w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 group/btn'
 
-const outlineArrowButton =
-  `${arrowButtonBase} border border-[#C9A24A]/55 bg-[#061f28]/34 text-[#C9A24A] shadow-[0_10px_24px_rgba(0,0,0,0.24)] hover:border-[#C9A24A]/85 hover:bg-[#C9A24A]/12 group-hover:translate-x-1`
+const outlineArrowButtonBase =
+  `${arrowButtonBase} border border-[#C9A24A]/55 bg-[#061f28]/34 text-[#C9A24A] shadow-[0_10px_24px_rgba(0,0,0,0.24)] hover:border-[#C9A24A]/85 hover:bg-[#C9A24A]/12`
 
-const filledArrowButton =
-  `${arrowButtonBase} border border-[#C9A24A]/70 bg-[#C9A24A] text-[#071B24] shadow-[0_12px_28px_rgba(0,0,0,0.28)] hover:bg-[#D4B860] group-hover:translate-x-1`
+const filledArrowButtonBase =
+  `${arrowButtonBase} border border-[#C9A24A]/70 bg-[#C9A24A] text-[#071B24] shadow-[0_12px_28px_rgba(0,0,0,0.28)] hover:bg-[#D4B860]`
 
 export default function DestinationsSection() {
   const prefersReducedMotion = useReducedMotion()
+  const imageHoverClass = prefersReducedMotion ? '' : 'group-hover:scale-105'
+  const arrowHoverClass = prefersReducedMotion ? '' : 'group-hover:translate-x-1'
+  const iconHoverClass = prefersReducedMotion ? '' : 'group-hover/btn:translate-x-0.5'
+  const revealInitial = prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 20 }
+  const revealInView = prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }
+  const textRevealInitial = prefersReducedMotion ? { opacity: 0 } : { opacity: 0, x: -20 }
+  const textRevealInView = prefersReducedMotion ? { opacity: 1 } : { opacity: 1, x: 0 }
+  const outlineArrowButton = `${outlineArrowButtonBase} ${arrowHoverClass}`
+  const filledArrowButton = `${filledArrowButtonBase} ${arrowHoverClass}`
 
   return (
     <section className="mt-destinations-bg relative overflow-hidden pt-2 pb-12 md:pt-4 md:pb-16">
@@ -44,8 +53,8 @@ export default function DestinationsSection() {
         <div className="grid grid-cols-1 md:grid-cols-5 gap-10 md:gap-12 mb-8 md:mb-12">
           {/* LEFT COLUMN: Text Block with Vertical Rail */}
           <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={textRevealInitial}
+            whileInView={textRevealInView}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
             className="md:col-span-2 flex gap-4"
@@ -91,7 +100,7 @@ export default function DestinationsSection() {
               {/* CTA Link */}
               <a href="#" className="text-[#C9A24A] font-light text-xs hover:text-white transition inline-flex items-center gap-2 group tracking-widest">
                 DISCOVER OUR SERVICES 
-                <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                <ArrowRight size={14} className={prefersReducedMotion ? '' : 'group-hover:translate-x-1 transition-transform'} />
               </a>
             </div>
           </motion.div>
@@ -108,35 +117,14 @@ export default function DestinationsSection() {
               </button>
             </div>
 
-            {/* Card Grid with Subtle Emblem */}
+            {/* Card Grid */}
             <div className="relative">
-              {/* Subtle Emblem near Iceland-Turkey join */}
-              <div className="absolute left-1/3 top-2 z-10 pointer-events-none">
-                <div className="w-16 h-16 rounded-full flex items-center justify-center bg-[#1A3A45]/30 border border-[#C9A24A]/20 relative">
-                  <svg className="absolute inset-0 w-full h-full opacity-40" viewBox="0 0 100 100">
-                    <defs>
-                      <path id="emblemRing" d="M50,50 m-35,0 a35,35 0 1,1 70,0 a35,35 0 1,1 -70,0" fill="none" />
-                    </defs>
-                    <text className="fill-[#C9A24A]" opacity="0.5" fontSize="6" fontFamily="serif" letterSpacing="1.5">
-                      <textPath href="#emblemRing" startOffset="50%" textAnchor="middle">
-                        EXPLORE DISCOVER TRAVEL
-                      </textPath>
-                    </text>
-                  </svg>
-                  <svg className="w-6 h-6 text-[#C9A24A] relative z-10 opacity-40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1">
-                    <circle cx="12" cy="12" r="9" />
-                    <path d="M12 3v18M3 12h18" />
-                    <circle cx="12" cy="12" r="1.5" fill="currentColor" />
-                  </svg>
-                </div>
-              </div>
-
               {/* Cards Grid */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {/* Card 1 - Iceland */}
                 <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
+                  initial={revealInitial}
+                  whileInView={revealInView}
                   whileHover={prefersReducedMotion ? undefined : { y: -7, rotateZ: -0.7 }}
                   transition={{ duration: 0.8, delay: 0 }}
                   viewport={{ once: true }}
@@ -144,7 +132,7 @@ export default function DestinationsSection() {
                 >
                   <div className="relative w-full h-72 rounded-3xl overflow-hidden border border-[#C9A24A]/24 shadow-[0_26px_70px_rgba(0,0,0,0.46),0_0_0_1px_rgba(201,162,74,0.08)] transition-all duration-500 hover:border-[#C9A24A]/45 hover:shadow-[0_34px_88px_rgba(0,0,0,0.54),0_0_0_1px_rgba(201,162,74,0.13)]">
                     <div
-                      className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
+                      className={`absolute inset-0 bg-cover bg-center transition-transform duration-500 ${imageHoverClass}`}
                       style={{ backgroundImage: `url(${destinations[0].image})` }}
                     >
                       <div className="absolute inset-0 bg-gradient-to-t from-[rgba(3,21,27,0.82)] via-[rgba(7,38,48,0.28)] to-transparent" />
@@ -158,7 +146,7 @@ export default function DestinationsSection() {
                           <p className="text-[#C9A24A] text-xs font-light mb-0">{destinations[0].label}</p>
                         </div>
                         <button className={outlineArrowButton}>
-                          <ArrowRight size={15} className="transition-transform group-hover/btn:translate-x-0.5" />
+                          <ArrowRight size={15} className={`transition-transform ${iconHoverClass}`} />
                         </button>
                       </div>
                     </div>
@@ -166,41 +154,43 @@ export default function DestinationsSection() {
                 </motion.div>
 
                 {/* Card 2 - Turkey (Center - Featured) */}
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  whileHover={prefersReducedMotion ? undefined : { y: -8, rotateZ: 0.45 }}
-                  transition={{ duration: 0.8, delay: 0.1 }}
-                  viewport={{ once: true }}
-                  className="group cursor-pointer md:-translate-y-6"
-                >
-                  <div className="relative w-full h-80 rounded-3xl overflow-hidden border border-[#C9A24A]/34 shadow-[0_34px_96px_rgba(0,0,0,0.56),0_0_0_1px_rgba(201,162,74,0.12)] transition-all duration-500 hover:border-[#C9A24A]/55 hover:shadow-[0_42px_110px_rgba(0,0,0,0.62),0_0_0_1px_rgba(201,162,74,0.18)]">
-                    <div
-                      className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
-                      style={{ backgroundImage: `url(${destinations[1].image})` }}
-                    >
-                      <div className="absolute inset-0 bg-gradient-to-t from-[rgba(3,21,27,0.76)] via-[rgba(7,38,48,0.2)] to-transparent" />
-                      <div className="absolute inset-0 bg-gradient-to-b from-white/8 via-transparent to-transparent" />
-                    </div>
-                    <div className="relative h-full flex flex-col justify-between p-6">
-                      <div />
-                      <div className="flex items-end justify-between gap-4">
-                        <div>
-                          <h3 className="text-4xl text-white mb-1 font-bold" style={{ fontFamily: "'Playfair Display', serif" }}>{destinations[1].name}</h3>
-                          <p className="text-[#C9A24A] text-xs font-light">{destinations[1].label}</p>
+                <div className="md:-translate-y-6">
+                  <motion.div
+                    initial={revealInitial}
+                    whileInView={revealInView}
+                    whileHover={prefersReducedMotion ? undefined : { y: -8, rotateZ: 0.45 }}
+                    transition={{ duration: 0.8, delay: 0.1 }}
+                    viewport={{ once: true }}
+                    className="group cursor-pointer"
+                  >
+                    <div className="relative w-full h-80 rounded-3xl overflow-hidden border border-[#C9A24A]/34 shadow-[0_34px_96px_rgba(0,0,0,0.56),0_0_0_1px_rgba(201,162,74,0.12)] transition-all duration-500 hover:border-[#C9A24A]/55 hover:shadow-[0_42px_110px_rgba(0,0,0,0.62),0_0_0_1px_rgba(201,162,74,0.18)]">
+                      <div
+                        className={`absolute inset-0 bg-cover bg-center transition-transform duration-500 ${imageHoverClass}`}
+                        style={{ backgroundImage: `url(${destinations[1].image})` }}
+                      >
+                        <div className="absolute inset-0 bg-gradient-to-t from-[rgba(3,21,27,0.76)] via-[rgba(7,38,48,0.2)] to-transparent" />
+                        <div className="absolute inset-0 bg-gradient-to-b from-white/8 via-transparent to-transparent" />
+                      </div>
+                      <div className="relative h-full flex flex-col justify-between p-6">
+                        <div />
+                        <div className="flex items-end justify-between gap-4">
+                          <div>
+                            <h3 className="text-4xl text-white mb-1 font-bold" style={{ fontFamily: "'Playfair Display', serif" }}>{destinations[1].name}</h3>
+                            <p className="text-[#C9A24A] text-xs font-light">{destinations[1].label}</p>
+                          </div>
+                          <button className={filledArrowButton}>
+                            <ArrowRight size={15} className={`transition-transform ${iconHoverClass}`} />
+                          </button>
                         </div>
-                        <button className={filledArrowButton}>
-                          <ArrowRight size={15} className="transition-transform group-hover/btn:translate-x-0.5" />
-                        </button>
                       </div>
                     </div>
-                  </div>
-                </motion.div>
+                  </motion.div>
+                </div>
 
                 {/* Card 3 - Japan */}
                 <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
+                  initial={revealInitial}
+                  whileInView={revealInView}
                   whileHover={prefersReducedMotion ? undefined : { y: -7, rotateZ: 0.7 }}
                   transition={{ duration: 0.8, delay: 0.2 }}
                   viewport={{ once: true }}
@@ -208,7 +198,7 @@ export default function DestinationsSection() {
                 >
                   <div className="relative w-full h-72 rounded-3xl overflow-hidden border border-[#C9A24A]/24 shadow-[0_26px_70px_rgba(0,0,0,0.46),0_0_0_1px_rgba(201,162,74,0.08)] transition-all duration-500 hover:border-[#C9A24A]/45 hover:shadow-[0_34px_88px_rgba(0,0,0,0.54),0_0_0_1px_rgba(201,162,74,0.13)]">
                     <div
-                      className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
+                      className={`absolute inset-0 bg-cover bg-center transition-transform duration-500 ${imageHoverClass}`}
                       style={{ backgroundImage: `url(${destinations[2].image})` }}
                     >
                       <div className="absolute inset-0 bg-gradient-to-t from-[rgba(3,21,27,0.82)] via-[rgba(7,38,48,0.28)] to-transparent" />
@@ -222,7 +212,7 @@ export default function DestinationsSection() {
                           <p className="text-[#C9A24A] text-xs font-light">{destinations[2].label}</p>
                         </div>
                         <button className={outlineArrowButton}>
-                          <ArrowRight size={15} className="transition-transform group-hover/btn:translate-x-0.5" />
+                          <ArrowRight size={15} className={`transition-transform ${iconHoverClass}`} />
                         </button>
                       </div>
                     </div>

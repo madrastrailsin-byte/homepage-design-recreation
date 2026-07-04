@@ -3,10 +3,18 @@
 import { Play } from 'lucide-react'
 import { motion, useMotionValue, useReducedMotion, useScroll, useSpring, useTransform } from 'framer-motion'
 import type { PointerEvent } from 'react'
+import { useRef } from 'react'
 
 export default function Hero() {
+  const heroRef = useRef<HTMLElement>(null)
   const prefersReducedMotion = useReducedMotion()
-  const { scrollYProgress } = useScroll()
+  const ctaArrowClass = prefersReducedMotion
+    ? 'translate-y-px'
+    : 'translate-y-px transition-transform duration-300 group-hover:translate-x-0.5'
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ['start start', 'end start'],
+  })
   const mouseX = useMotionValue(0)
   const mouseY = useMotionValue(0)
   const scrollLift = useSpring(
@@ -32,7 +40,8 @@ export default function Hero() {
   )
 
   const handlePointerMove = (event: PointerEvent<HTMLElement>) => {
-    if (prefersReducedMotion || !event.currentTarget.matches('(hover: hover)')) return
+    if (prefersReducedMotion || typeof window === 'undefined') return
+    if (!window.matchMedia('(hover: hover)').matches) return
 
     const rect = event.currentTarget.getBoundingClientRect()
     mouseX.set(((event.clientX - rect.left) / rect.width - 0.5) * 2)
@@ -46,6 +55,7 @@ export default function Hero() {
 
   return (
     <section 
+      ref={heroRef}
       className="relative w-full flex items-center overflow-hidden pt-24 md:pt-28"
       onPointerMove={handlePointerMove}
       onPointerLeave={resetPointer}
@@ -76,8 +86,8 @@ export default function Hero() {
         style={{ x: contentX, y: contentY }}
       >
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 20 }}
+          animate={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           className="flex flex-col max-w-2xl"
         >
@@ -124,7 +134,7 @@ export default function Hero() {
           <div className="flex flex-col sm:flex-row gap-5 items-start sm:items-center">
             <button className="group inline-flex items-center justify-center gap-2 rounded-[4px] bg-[#C9A24A] px-7 py-3 text-xs font-semibold tracking-wide text-[#071B24] shadow-[0_14px_32px_rgba(201,162,74,0.2)] transition-all duration-300 hover:bg-[#D4B860] hover:shadow-[0_18px_42px_rgba(201,162,74,0.28)] md:px-8">
               <span>BEGIN YOUR JOURNEY</span>
-              <span className="translate-y-px transition-transform duration-300 group-hover:translate-x-0.5">→</span>
+              <span className={ctaArrowClass}>→</span>
             </button>
             <button className="group flex items-center gap-3.5 text-[#C9A24A] transition-colors hover:text-white">
               <div className="flex h-10 w-10 items-center justify-center rounded-full border border-[#C9A24A]/85 bg-[#071B24]/10 shadow-[0_0_0_1px_rgba(201,162,74,0.08)] transition-all duration-300 group-hover:border-white group-hover:bg-white/5">
@@ -138,8 +148,8 @@ export default function Hero() {
 
       {/* Scroll Indicator */}
       <motion.div
-        animate={{ y: [0, 8, 0] }}
-        transition={{ duration: 2, repeat: Infinity }}
+        animate={prefersReducedMotion ? undefined : { y: [0, 8, 0] }}
+        transition={prefersReducedMotion ? undefined : { duration: 2, repeat: Infinity }}
         className="absolute right-6 top-1/2 z-20 hidden translate-y-10 flex-col items-center gap-3 text-[10px] text-[#C9A24A] md:flex lg:right-8"
       >
         <div className="flex flex-col items-center gap-2">

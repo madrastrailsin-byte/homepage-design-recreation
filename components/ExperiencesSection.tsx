@@ -32,14 +32,20 @@ const experiences = [
 
 export default function ExperiencesSection() {
   const prefersReducedMotion = useReducedMotion()
+  const headerInitial = prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 10 }
+  const headerInView = prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }
+  const cardInitial = prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 20 }
+  const cardInView = prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }
+  const imageHoverClass = prefersReducedMotion ? '' : 'group-hover:scale-[1.045]'
+  const arrowHoverClass = prefersReducedMotion ? '' : 'group-hover:translate-x-1'
 
   return (
     <section className="bg-[#0D1117] py-16 md:py-20">
       <div className="max-w-7xl mx-auto px-6 md:px-8">
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={headerInitial}
+          whileInView={headerInView}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
           className="mb-12 md:mb-16 max-w-2xl"
@@ -57,8 +63,8 @@ export default function ExperiencesSection() {
           {experiences.map((exp, idx) => (
             <motion.div
               key={exp.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={cardInitial}
+              whileInView={cardInView}
               whileHover={prefersReducedMotion ? undefined : { y: -7 }}
               transition={{ duration: 0.6, delay: idx * 0.08 }}
               viewport={{ once: true }}
@@ -66,7 +72,7 @@ export default function ExperiencesSection() {
             >
               {/* Background Image - Full Coverage */}
               <div
-                className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-[1.045]"
+                className={`absolute inset-0 bg-cover bg-center transition-transform duration-700 ${imageHoverClass}`}
                 style={{ backgroundImage: `url(${exp.image})` }}
               >
                 {/* Dark Gradient Overlay - Bottom Heavy */}
@@ -86,7 +92,7 @@ export default function ExperiencesSection() {
               </div>
 
               {/* Circular Arrow Button - Bottom Right */}
-              <button className="absolute bottom-6 md:bottom-8 right-6 md:right-8 w-12 h-12 rounded-full bg-[#C9A24A] flex items-center justify-center text-[#071B24] hover:bg-white transition-all duration-300 shadow-lg hover:shadow-xl group-hover:translate-x-1">
+              <button className={`absolute bottom-6 md:bottom-8 right-6 md:right-8 w-12 h-12 rounded-full bg-[#C9A24A] flex items-center justify-center text-[#071B24] hover:bg-white transition-all duration-300 shadow-lg hover:shadow-xl ${arrowHoverClass}`}>
                 <ArrowRight size={20} />
               </button>
             </motion.div>
