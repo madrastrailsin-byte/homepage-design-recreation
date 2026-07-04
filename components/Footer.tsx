@@ -6,13 +6,10 @@ import Image from 'next/image'
 
 export default function Footer() {
   const prefersReducedMotion = useReducedMotion()
-  const leftRevealInitial = prefersReducedMotion ? { opacity: 0 } : { opacity: 0, x: -20 }
-  const leftRevealInView = prefersReducedMotion ? { opacity: 1 } : { opacity: 1, x: 0 }
-  const centerRevealInitial = prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 20 }
-  const centerRevealInView = prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }
-  const rightRevealInitial = prefersReducedMotion ? { opacity: 0 } : { opacity: 0, x: 20 }
-  const rightRevealInView = prefersReducedMotion ? { opacity: 1 } : { opacity: 1, x: 0 }
-  const socialLinkClass = `w-10 h-10 rounded-full border border-[#D4AF37]/50 flex items-center justify-center text-[#D4AF37] transition-all duration-300 hover:bg-[#D4AF37] hover:text-[#03191D] hover:shadow-[0_10px_24px_rgba(212,175,55,0.14)] ${prefersReducedMotion ? '' : 'hover:-translate-y-0.5'}`
+  const motionEase = [0.22, 1, 0.36, 1] as const
+  const revealInitial = prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 20 }
+  const revealInView = prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }
+  const socialLinkClass = 'mt-gold-sheen w-10 h-10 rounded-full border border-[#D4AF37]/50 flex items-center justify-center text-[#D4AF37] hover:bg-[#D4AF37] hover:text-[#03191D] hover:shadow-[0_10px_24px_rgba(212,175,55,0.14)]'
 
   return (
     <footer className="mt-footer-ambient relative overflow-hidden border-t border-[#D4AF37]/10 bg-[#03191D]">
@@ -22,9 +19,9 @@ export default function Footer() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12 items-center">
             {/* Part A: Logo + Brand Text */}
             <motion.div
-              initial={leftRevealInitial}
-              whileInView={leftRevealInView}
-              transition={{ duration: 0.6 }}
+              initial={revealInitial}
+              whileInView={revealInView}
+              transition={{ duration: 0.68, ease: motionEase }}
               viewport={{ once: true }}
               className="flex items-center gap-3"
             >
@@ -39,9 +36,9 @@ export default function Footer() {
 
             {/* Part B: Newsletter Section */}
             <motion.div
-              initial={centerRevealInitial}
-              whileInView={centerRevealInView}
-              transition={{ duration: 0.6, delay: 0.1 }}
+              initial={revealInitial}
+              whileInView={revealInView}
+              transition={{ duration: 0.68, delay: 0.08, ease: motionEase }}
               viewport={{ once: true }}
             >
               <h3 className="text-xl md:text-2xl text-[#FAFAF9] mb-3" style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700 }}>Let&apos;s craft your next journey</h3>
@@ -54,7 +51,7 @@ export default function Footer() {
                 />
                 <button
                   type="submit"
-                  className="flex items-center justify-center w-10 h-10 bg-[#D4AF37] text-[#03191D] rounded-full hover:bg-[#D4AF37] transition flex-shrink-0"
+                  className="mt-gold-sheen flex items-center justify-center w-10 h-10 bg-[#D4AF37] text-[#03191D] rounded-full hover:bg-[#D4AF37] flex-shrink-0"
                 >
                   <ArrowRight size={18} />
                 </button>
@@ -63,9 +60,9 @@ export default function Footer() {
 
             {/* Part C: Follow Us Section */}
             <motion.div
-              initial={rightRevealInitial}
-              whileInView={rightRevealInView}
-              transition={{ duration: 0.6, delay: 0.2 }}
+              initial={revealInitial}
+              whileInView={revealInView}
+              transition={{ duration: 0.68, delay: 0.16, ease: motionEase }}
               viewport={{ once: true }}
               className="text-center md:text-right"
             >

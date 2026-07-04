@@ -1,7 +1,7 @@
 'use client'
 
 import { Play } from 'lucide-react'
-import { motion, useMotionValue, useReducedMotion, useScroll, useSpring, useTransform } from 'framer-motion'
+import { motion, useMotionValue, useReducedMotion, useScroll, useTransform } from 'framer-motion'
 import type { PointerEvent } from 'react'
 import { useRef } from 'react'
 
@@ -17,27 +17,12 @@ export default function Hero() {
   })
   const mouseX = useMotionValue(0)
   const mouseY = useMotionValue(0)
-  const scrollLift = useSpring(
-    useTransform(scrollYProgress, [0, 1], prefersReducedMotion ? [0, 0] : [0, 34]),
-    { stiffness: 70, damping: 28, mass: 0.6 },
-  )
-  const pointerLift = useSpring(
-    useTransform(mouseY, [-1, 1], prefersReducedMotion ? [0, 0] : [-5, 5]),
-    { stiffness: 80, damping: 24, mass: 0.5 },
-  )
-  const backgroundX = useSpring(
-    useTransform(mouseX, [-1, 1], prefersReducedMotion ? [0, 0] : [-9, 9]),
-    { stiffness: 80, damping: 24, mass: 0.5 },
-  )
+  const scrollLift = useTransform(scrollYProgress, [0, 1], prefersReducedMotion ? [0, 0] : [0, 28])
+  const pointerLift = useTransform(mouseY, [-1, 1], prefersReducedMotion ? [0, 0] : [-4, 4])
+  const backgroundX = useTransform(mouseX, [-1, 1], prefersReducedMotion ? [0, 0] : [-8, 8])
   const backgroundY = useTransform(() => scrollLift.get() + pointerLift.get())
-  const contentX = useSpring(
-    useTransform(mouseX, [-1, 1], prefersReducedMotion ? [0, 0] : [2.5, -2.5]),
-    { stiffness: 90, damping: 26, mass: 0.5 },
-  )
-  const contentY = useSpring(
-    useTransform(mouseY, [-1, 1], prefersReducedMotion ? [0, 0] : [1.5, -1.5]),
-    { stiffness: 90, damping: 26, mass: 0.5 },
-  )
+  const contentX = useTransform(mouseX, [-1, 1], prefersReducedMotion ? [0, 0] : [3, -3])
+  const contentY = useTransform(mouseY, [-1, 1], prefersReducedMotion ? [0, 0] : [2, -2])
 
   const handlePointerMove = (event: PointerEvent<HTMLElement>) => {
     if (prefersReducedMotion || typeof window === 'undefined') return
@@ -88,7 +73,7 @@ export default function Hero() {
         <motion.div
           initial={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 20 }}
           animate={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
           className="flex flex-col max-w-2xl"
         >
           {/* Label */}
@@ -132,12 +117,12 @@ export default function Hero() {
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-5 items-start sm:items-center">
-            <button className="group inline-flex items-center justify-center gap-2 rounded-[4px] bg-[#C9A24A] px-7 py-3 text-xs font-semibold tracking-wide text-[#071B24] shadow-[0_14px_32px_rgba(201,162,74,0.2)] transition-all duration-300 hover:bg-[#D4B860] hover:shadow-[0_18px_42px_rgba(201,162,74,0.28)] md:px-8">
+            <button className="mt-gold-sheen group inline-flex items-center justify-center gap-2 rounded-[4px] bg-[#C9A24A] px-7 py-3 text-xs font-semibold tracking-wide text-[#071B24] shadow-[0_14px_32px_rgba(201,162,74,0.2)] hover:bg-[#D4B860] hover:shadow-[0_18px_42px_rgba(201,162,74,0.26)] md:px-8">
               <span>BEGIN YOUR JOURNEY</span>
               <span className={ctaArrowClass}>→</span>
             </button>
             <button className="group flex items-center gap-3.5 text-[#C9A24A] transition-colors hover:text-white">
-              <div className="flex h-10 w-10 items-center justify-center rounded-full border border-[#C9A24A]/85 bg-[#071B24]/10 shadow-[0_0_0_1px_rgba(201,162,74,0.08)] transition-all duration-300 group-hover:border-white group-hover:bg-white/5">
+              <div className="mt-gold-sheen flex h-10 w-10 items-center justify-center rounded-full border border-[#C9A24A]/85 bg-[#071B24]/10 shadow-[0_0_0_1px_rgba(201,162,74,0.08)] group-hover:border-white group-hover:bg-white/5">
                 <Play size={13} className="ml-0.5 fill-current" />
               </div>
               <span className="text-xs font-light tracking-[0.16em]">WATCH OUR STORY</span>

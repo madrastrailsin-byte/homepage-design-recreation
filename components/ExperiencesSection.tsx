@@ -32,12 +32,19 @@ const experiences = [
 
 export default function ExperiencesSection() {
   const prefersReducedMotion = useReducedMotion()
-  const headerInitial = prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 10 }
+  const motionEase = [0.22, 1, 0.36, 1] as const
+  const headerInitial = prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 22 }
   const headerInView = prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }
-  const cardInitial = prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 20 }
+  const cardInitial = prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 22 }
   const cardInView = prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }
-  const imageHoverClass = prefersReducedMotion ? '' : 'group-hover:scale-[1.045]'
-  const arrowHoverClass = prefersReducedMotion ? '' : 'group-hover:translate-x-1'
+  const imageInitial = prefersReducedMotion
+    ? { opacity: 0 }
+    : { opacity: 0, scale: 1.03, clipPath: 'inset(0% 0% 12% 0%)' }
+  const imageInView = prefersReducedMotion
+    ? { opacity: 1 }
+    : { opacity: 1, scale: 1, clipPath: 'inset(0% 0% 0% 0%)' }
+  const imageHoverClass = prefersReducedMotion ? '' : 'group-hover:scale-[1.025]'
+  const arrowHoverClass = prefersReducedMotion ? '' : 'group-hover:translate-x-0.5'
 
   return (
     <section className="bg-[#0D1117] py-16 md:py-20">
@@ -46,7 +53,7 @@ export default function ExperiencesSection() {
         <motion.div
           initial={headerInitial}
           whileInView={headerInView}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: 0.75, ease: motionEase }}
           viewport={{ once: true }}
           className="mb-12 md:mb-16 max-w-2xl"
         >
@@ -65,19 +72,23 @@ export default function ExperiencesSection() {
               key={exp.id}
               initial={cardInitial}
               whileInView={cardInView}
-              whileHover={prefersReducedMotion ? undefined : { y: -7 }}
-              transition={{ duration: 0.6, delay: idx * 0.08 }}
+              whileHover={prefersReducedMotion ? undefined : { y: -6 }}
+              transition={{ duration: 0.72, delay: idx * 0.08, ease: motionEase }}
               viewport={{ once: true }}
               className="group relative h-80 md:h-96 rounded-t-3xl overflow-hidden cursor-pointer shadow-[0_20px_60px_rgba(0,0,0,0.34)] hover:shadow-[0_30px_80px_rgba(0,0,0,0.48)] transition-shadow duration-500"
             >
               {/* Background Image - Full Coverage */}
-              <div
+              <motion.div
+                initial={imageInitial}
+                whileInView={imageInView}
+                transition={{ duration: 0.72, delay: 0.08 + idx * 0.08, ease: motionEase }}
+                viewport={{ once: true }}
                 className={`absolute inset-0 bg-cover bg-center transition-transform duration-700 ${imageHoverClass}`}
                 style={{ backgroundImage: `url(${exp.image})` }}
               >
                 {/* Dark Gradient Overlay - Bottom Heavy */}
                 <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/30 to-black/85" />
-              </div>
+              </motion.div>
 
               {/* Content - Overlaid on Image */}
               <div className="relative h-full flex flex-col justify-end p-6 md:p-8">
@@ -92,8 +103,8 @@ export default function ExperiencesSection() {
               </div>
 
               {/* Circular Arrow Button - Bottom Right */}
-              <button className={`absolute bottom-6 md:bottom-8 right-6 md:right-8 w-12 h-12 rounded-full bg-[#C9A24A] flex items-center justify-center text-[#071B24] hover:bg-white transition-all duration-300 shadow-lg hover:shadow-xl ${arrowHoverClass}`}>
-                <ArrowRight size={20} />
+              <button className="mt-gold-sheen absolute bottom-6 md:bottom-8 right-6 md:right-8 w-12 h-12 rounded-full bg-[#C9A24A] flex items-center justify-center text-[#071B24] hover:bg-white shadow-lg hover:shadow-xl">
+                <ArrowRight size={20} className={`transition-transform duration-300 ${arrowHoverClass}`} />
               </button>
             </motion.div>
           ))}

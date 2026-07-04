@@ -35,15 +35,21 @@ const filledArrowButtonBase =
 
 export default function DestinationsSection() {
   const prefersReducedMotion = useReducedMotion()
-  const imageHoverClass = prefersReducedMotion ? '' : 'group-hover:scale-105'
-  const arrowHoverClass = prefersReducedMotion ? '' : 'group-hover:translate-x-1'
+  const motionEase = [0.22, 1, 0.36, 1] as const
+  const imageHoverClass = prefersReducedMotion ? '' : 'group-hover:scale-[1.025]'
   const iconHoverClass = prefersReducedMotion ? '' : 'group-hover/btn:translate-x-0.5'
-  const revealInitial = prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 20 }
+  const revealInitial = prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 22 }
   const revealInView = prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }
-  const textRevealInitial = prefersReducedMotion ? { opacity: 0 } : { opacity: 0, x: -20 }
-  const textRevealInView = prefersReducedMotion ? { opacity: 1 } : { opacity: 1, x: 0 }
-  const outlineArrowButton = `${outlineArrowButtonBase} ${arrowHoverClass}`
-  const filledArrowButton = `${filledArrowButtonBase} ${arrowHoverClass}`
+  const imageRevealInitial = prefersReducedMotion
+    ? { opacity: 0 }
+    : { opacity: 0, scale: 1.03, clipPath: 'inset(0% 0% 12% 0%)' }
+  const imageRevealInView = prefersReducedMotion
+    ? { opacity: 1 }
+    : { opacity: 1, scale: 1, clipPath: 'inset(0% 0% 0% 0%)' }
+  const textRevealInitial = prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 18 }
+  const textRevealInView = prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }
+  const outlineArrowButton = `${outlineArrowButtonBase} mt-gold-sheen`
+  const filledArrowButton = `${filledArrowButtonBase} mt-gold-sheen`
 
   return (
     <section className="mt-destinations-bg relative overflow-hidden pt-2 pb-12 md:pt-4 md:pb-16">
@@ -55,7 +61,7 @@ export default function DestinationsSection() {
           <motion.div
             initial={textRevealInitial}
             whileInView={textRevealInView}
-            transition={{ duration: 0.8 }}
+            transition={{ duration: 0.75, ease: motionEase }}
             viewport={{ once: true }}
             className="md:col-span-2 flex gap-4"
           >
@@ -98,7 +104,7 @@ export default function DestinationsSection() {
               </p>
 
               {/* CTA Link */}
-              <a href="#" className="text-[#C9A24A] font-light text-xs hover:text-white transition inline-flex items-center gap-2 group tracking-widest">
+              <a href="#" className="mt-gold-sheen text-[#C9A24A] font-light text-xs hover:text-white inline-flex items-center gap-2 group tracking-widest">
                 DISCOVER OUR SERVICES 
                 <ArrowRight size={14} className={prefersReducedMotion ? '' : 'group-hover:translate-x-1 transition-transform'} />
               </a>
@@ -109,10 +115,10 @@ export default function DestinationsSection() {
           <div className="md:col-span-3 flex flex-col">
             {/* Navigation Buttons - Top Right */}
             <div className="flex justify-end mb-7 gap-3">
-              <button className="w-9 h-9 rounded-full border border-[#C9A24A]/40 bg-[#061f28]/24 flex items-center justify-center hover:border-[#C9A24A]/70 hover:bg-[#C9A24A]/10 transition-all group">
+              <button className="mt-gold-sheen w-9 h-9 rounded-full border border-[#C9A24A]/40 bg-[#061f28]/24 flex items-center justify-center hover:border-[#C9A24A]/70 hover:bg-[#C9A24A]/10 group">
                 <ArrowLeft size={16} className="text-[#C9A24A]/60 group-hover:text-[#C9A24A] transition" />
               </button>
-              <button className="w-9 h-9 rounded-full bg-[#C9A24A] border border-[#C9A24A]/70 flex items-center justify-center hover:bg-[#D4B860] transition-all group shadow-[0_10px_24px_rgba(0,0,0,0.24)]">
+              <button className="mt-gold-sheen w-9 h-9 rounded-full bg-[#C9A24A] border border-[#C9A24A]/70 flex items-center justify-center hover:bg-[#D4B860] group shadow-[0_10px_24px_rgba(0,0,0,0.24)] hover:shadow-[0_14px_30px_rgba(0,0,0,0.3)]">
                 <ArrowRight size={16} className="text-[#071B24] group-hover:text-[#071B24] transition" />
               </button>
             </div>
@@ -125,19 +131,23 @@ export default function DestinationsSection() {
                 <motion.div
                   initial={revealInitial}
                   whileInView={revealInView}
-                  whileHover={prefersReducedMotion ? undefined : { y: -7, rotateZ: -0.7 }}
-                  transition={{ duration: 0.8, delay: 0 }}
+                  whileHover={prefersReducedMotion ? undefined : { y: -6, rotateZ: -0.55, rotateX: 0.45, transformPerspective: 900 }}
+                  transition={{ duration: 0.72, delay: 0, ease: motionEase }}
                   viewport={{ once: true }}
                   className="group cursor-pointer"
                 >
                   <div className="relative w-full h-72 rounded-3xl overflow-hidden border border-[#C9A24A]/24 shadow-[0_26px_70px_rgba(0,0,0,0.46),0_0_0_1px_rgba(201,162,74,0.08)] transition-all duration-500 hover:border-[#C9A24A]/45 hover:shadow-[0_34px_88px_rgba(0,0,0,0.54),0_0_0_1px_rgba(201,162,74,0.13)]">
-                    <div
+                    <motion.div
+                      initial={imageRevealInitial}
+                      whileInView={imageRevealInView}
+                      transition={{ duration: 0.72, delay: 0.08, ease: motionEase }}
+                      viewport={{ once: true }}
                       className={`absolute inset-0 bg-cover bg-center transition-transform duration-500 ${imageHoverClass}`}
                       style={{ backgroundImage: `url(${destinations[0].image})` }}
                     >
                       <div className="absolute inset-0 bg-gradient-to-t from-[rgba(3,21,27,0.82)] via-[rgba(7,38,48,0.28)] to-transparent" />
                       <div className="absolute inset-0 bg-gradient-to-b from-black/5 via-transparent to-transparent" />
-                    </div>
+                    </motion.div>
                     <div className="relative h-full flex flex-col justify-between p-6">
                       <div />
                       <div className="flex items-end justify-between gap-4">
@@ -158,19 +168,23 @@ export default function DestinationsSection() {
                   <motion.div
                     initial={revealInitial}
                     whileInView={revealInView}
-                    whileHover={prefersReducedMotion ? undefined : { y: -8, rotateZ: 0.45 }}
-                    transition={{ duration: 0.8, delay: 0.1 }}
+                    whileHover={prefersReducedMotion ? undefined : { y: -7, rotateZ: 0.4, rotateX: 0.35, transformPerspective: 900 }}
+                    transition={{ duration: 0.72, delay: 0.1, ease: motionEase }}
                     viewport={{ once: true }}
                     className="group cursor-pointer"
                   >
                     <div className="relative w-full h-80 rounded-3xl overflow-hidden border border-[#C9A24A]/34 shadow-[0_34px_96px_rgba(0,0,0,0.56),0_0_0_1px_rgba(201,162,74,0.12)] transition-all duration-500 hover:border-[#C9A24A]/55 hover:shadow-[0_42px_110px_rgba(0,0,0,0.62),0_0_0_1px_rgba(201,162,74,0.18)]">
-                      <div
+                      <motion.div
+                        initial={imageRevealInitial}
+                        whileInView={imageRevealInView}
+                        transition={{ duration: 0.72, delay: 0.18, ease: motionEase }}
+                        viewport={{ once: true }}
                         className={`absolute inset-0 bg-cover bg-center transition-transform duration-500 ${imageHoverClass}`}
                         style={{ backgroundImage: `url(${destinations[1].image})` }}
                       >
                         <div className="absolute inset-0 bg-gradient-to-t from-[rgba(3,21,27,0.76)] via-[rgba(7,38,48,0.2)] to-transparent" />
                         <div className="absolute inset-0 bg-gradient-to-b from-white/8 via-transparent to-transparent" />
-                      </div>
+                      </motion.div>
                       <div className="relative h-full flex flex-col justify-between p-6">
                         <div />
                         <div className="flex items-end justify-between gap-4">
@@ -191,19 +205,23 @@ export default function DestinationsSection() {
                 <motion.div
                   initial={revealInitial}
                   whileInView={revealInView}
-                  whileHover={prefersReducedMotion ? undefined : { y: -7, rotateZ: 0.7 }}
-                  transition={{ duration: 0.8, delay: 0.2 }}
+                  whileHover={prefersReducedMotion ? undefined : { y: -6, rotateZ: 0.55, rotateX: 0.45, transformPerspective: 900 }}
+                  transition={{ duration: 0.72, delay: 0.2, ease: motionEase }}
                   viewport={{ once: true }}
                   className="group cursor-pointer"
                 >
                   <div className="relative w-full h-72 rounded-3xl overflow-hidden border border-[#C9A24A]/24 shadow-[0_26px_70px_rgba(0,0,0,0.46),0_0_0_1px_rgba(201,162,74,0.08)] transition-all duration-500 hover:border-[#C9A24A]/45 hover:shadow-[0_34px_88px_rgba(0,0,0,0.54),0_0_0_1px_rgba(201,162,74,0.13)]">
-                    <div
+                    <motion.div
+                      initial={imageRevealInitial}
+                      whileInView={imageRevealInView}
+                      transition={{ duration: 0.72, delay: 0.28, ease: motionEase }}
+                      viewport={{ once: true }}
                       className={`absolute inset-0 bg-cover bg-center transition-transform duration-500 ${imageHoverClass}`}
                       style={{ backgroundImage: `url(${destinations[2].image})` }}
                     >
                       <div className="absolute inset-0 bg-gradient-to-t from-[rgba(3,21,27,0.82)] via-[rgba(7,38,48,0.28)] to-transparent" />
                       <div className="absolute inset-0 bg-gradient-to-b from-black/5 via-transparent to-transparent" />
-                    </div>
+                    </motion.div>
                     <div className="relative h-full flex flex-col justify-between p-6">
                       <div />
                       <div className="flex items-end justify-between gap-4">
