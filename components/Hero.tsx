@@ -2,8 +2,24 @@
 
 import { Play } from 'lucide-react'
 import { motion } from 'framer-motion'
+import { useEffect, useState } from 'react'
 
 export default function Hero() {
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
+
+  useEffect(() => {
+    // Check for prefers-reduced-motion
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
+    setPrefersReducedMotion(mediaQuery.matches)
+    
+    const handleChange = (e: MediaQueryListEvent) => {
+      setPrefersReducedMotion(e.matches)
+    }
+    
+    mediaQuery.addEventListener('change', handleChange)
+    return () => mediaQuery.removeEventListener('change', handleChange)
+  }, [])
+
   return (
     <section 
       className="relative w-full flex items-center overflow-hidden pt-24 md:pt-28"
@@ -14,9 +30,31 @@ export default function Hero() {
         backgroundPosition: 'calc(50% + 3%) center',
         backgroundRepeat: 'no-repeat',
         backgroundAttachment: 'scroll',
-        filter: 'saturate(1.15) brightness(1.08)',
+        filter: prefersReducedMotion ? 'saturate(1.15) brightness(1.08)' : 'saturate(1.15) brightness(1.08)',
+        animation: prefersReducedMotion ? 'none' : 'breathe 8s ease-in-out infinite',
       }}
     >
+      <style>{`
+        @keyframes breathe {
+          0% {
+            filter: saturate(1.15) brightness(1.08);
+          }
+          50% {
+            filter: saturate(1.15) brightness(1.12);
+          }
+          100% {
+            filter: saturate(1.15) brightness(1.08);
+          }
+        }
+        
+        @media (prefers-reduced-motion: reduce) {
+          @keyframes breathe {
+            0%, 100% {
+              filter: saturate(1.15) brightness(1.08);
+            }
+          }
+        }
+      `}</style>
       {/* Dark gradient overlay for text readability - only on left third */}
       <div className="absolute inset-0 bg-gradient-to-r from-[#0a1628]/55 via-[#0a1628]/20 via-30% to-transparent" />
 
