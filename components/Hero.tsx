@@ -59,11 +59,14 @@ export default function Hero() {
       <div className="absolute inset-0 bg-gradient-to-r from-[#0a1628]/55 via-[#0a1628]/20 via-30% to-transparent" />
 
       {/* Content */}
-      <div className="relative z-10 max-w-7xl mx-auto w-full px-6 md:px-8">
+      <motion.div
+        className="relative z-10 max-w-7xl mx-auto w-full px-6 md:px-8 -translate-y-8 md:-translate-y-10 lg:-translate-y-12"
+        style={{ x: contentX, y: contentY }}
+      >
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          initial={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 16 }}
+          animate={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
+          transition={{ duration: 0.82, ease: [0.22, 1, 0.36, 1] }}
           className="flex flex-col max-w-2xl"
         >
           {/* Label */}
@@ -72,20 +75,32 @@ export default function Hero() {
           </div>
 
           {/* Main Headline */}
-          <h1 className="text-5xl md:text-5xl lg:text-6xl text-white leading-tight mb-0" style={{ fontFamily: "'Playfair Display', serif", fontWeight: 600 }}>
+          <h1 className="text-5xl md:text-6xl lg:text-7xl text-white leading-[0.95] mb-0" style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700 }}>
             Travel Like
           </h1>
 
-          {/* Secondary Headline - Italic */}
-          <h2 className="text-4xl md:text-5xl lg:text-6xl text-[#C9A24A] leading-tight mb-5 md:mb-6" style={{ fontFamily: "'Playfair Display', serif", fontWeight: 250, fontStyle: 'italic' }}>
+          {/* Secondary Headline */}
+          <h2
+            className="text-5xl md:text-6xl lg:text-7xl text-[#C9A24A] leading-[0.9] -mt-0.5 mb-6 md:mb-7"
+            style={{
+              fontFamily: "'Playfair Display', serif",
+              fontWeight: 400,
+              fontStyle: 'italic',
+              letterSpacing: '0',
+              textShadow: '0 8px 22px rgba(0, 0, 0, 0.18)',
+            }}
+          >
             A Local
           </h2>
 
           {/* Decorative divider */}
-          <div className="flex items-center gap-0 mb-5 md:mb-6" style={{ width: '260px' }}>
-            <div className="flex-1 h-px bg-[#C9A24A]/60" />
-            <div className="w-2 h-2 bg-[#C9A24A] rotate-45 mx-3" />
-            <div className="flex-1 h-px bg-[#C9A24A]/60" />
+          <div className="flex items-center gap-0 mb-5 md:mb-6" style={{ width: '286px' }}>
+            <div className="flex-1 h-px bg-gradient-to-r from-[#C9A24A]/75 to-[#C9A24A]/35" />
+            <div className="relative mx-3 flex h-2.5 w-2.5 items-center justify-center">
+              <div className="h-1.5 w-1.5 rotate-45 border border-[#C9A24A]/80" />
+              <div className="absolute h-1 w-1 rotate-45 bg-[#C9A24A]" />
+            </div>
+            <div className="flex-1 h-px bg-gradient-to-l from-[#C9A24A]/75 to-[#C9A24A]/35" />
           </div>
 
           {/* Description */}
@@ -95,34 +110,35 @@ export default function Hero() {
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-5 items-start sm:items-center">
-            <button className="bg-[#C9A24A] text-[#071B24] px-6 py-2 rounded font-semibold text-xs md:text-sm hover:bg-[#D4B860] transition-all duration-300 shadow-lg hover:shadow-xl">
-              BEGIN YOUR JOURNEY →
+            <button className="mt-gold-sheen group inline-flex items-center justify-center gap-2 rounded-[4px] bg-[#C9A24A] px-7 py-3 text-xs font-semibold tracking-wide text-[#071B24] shadow-[0_14px_32px_rgba(201,162,74,0.2)] hover:bg-[#D4B860] hover:shadow-[0_18px_42px_rgba(201,162,74,0.26)] md:px-8">
+              <span>BEGIN YOUR JOURNEY</span>
+              <span className={ctaArrowClass}>→</span>
             </button>
-            <button className="flex items-center gap-3 text-[#C9A24A] hover:text-white transition-colors">
-              <div className="w-10 h-10 rounded-full border border-[#C9A24A] flex items-center justify-center hover:border-white transition-colors">
-                <Play size={14} className="fill-current ml-0.5" />
+            <button className="group flex items-center gap-3.5 text-[#C9A24A] transition-colors hover:text-white">
+              <div className="mt-gold-sheen flex h-10 w-10 items-center justify-center rounded-full border border-[#C9A24A]/85 bg-[#071B24]/10 shadow-[0_0_0_1px_rgba(201,162,74,0.08)] group-hover:border-white group-hover:bg-white/5">
+                <Play size={13} className="ml-0.5 fill-current" />
               </div>
-              <span className="text-xs font-light tracking-wider">WATCH OUR STORY</span>
+              <span className="text-xs font-light tracking-[0.16em]">WATCH OUR STORY</span>
             </button>
           </div>
         </motion.div>
-      </div>
+      </motion.div>
 
       {/* Scroll Indicator */}
       <motion.div
-        animate={{ y: [0, 8, 0] }}
-        transition={{ duration: 2, repeat: Infinity }}
-        className="absolute right-5 md:right-6 top-1/2 transform translate-y-12 text-[#C9A24A] text-xs tracking-widest hidden md:flex flex-col items-center gap-2 z-20"
+        animate={prefersReducedMotion ? undefined : { y: [0, 5, 0] }}
+        transition={prefersReducedMotion ? undefined : { duration: 2.8, repeat: Infinity, ease: [0.22, 1, 0.36, 1] }}
+        className="absolute right-6 top-1/2 z-20 hidden translate-y-10 flex-col items-center gap-3 text-[10px] text-[#C9A24A] md:flex lg:right-8"
       >
-        <div className="flex flex-col items-center gap-1.5">
-          <div className="w-1.5 h-1.5 bg-white rounded-full" />
-          <div className="w-1.5 h-1.5 border border-[#C9A24A] rounded-full" />
-          <div className="w-1.5 h-1.5 border border-[#C9A24A] rounded-full" />
-          <div className="w-1.5 h-1.5 border border-[#C9A24A] rounded-full" />
-          <div className="w-1.5 h-1.5 border border-[#C9A24A] rounded-full" />
+        <div className="flex flex-col items-center gap-2">
+          <div className="h-2 w-2 rounded-full bg-white" />
+          <div className="h-1.5 w-1.5 rounded-full border border-[#C9A24A]/80" />
+          <div className="h-1.5 w-1.5 rounded-full border border-[#C9A24A]/70" />
+          <div className="h-1.5 w-1.5 rounded-full border border-[#C9A24A]/60" />
+          <div className="h-1.5 w-1.5 rounded-full border border-[#C9A24A]/50" />
         </div>
-        <div className="h-8 w-px bg-[#C9A24A]" />
-        <span className="text-center whitespace-nowrap">SCROLL</span>
+        <div className="h-16 w-px bg-gradient-to-b from-[#C9A24A]/80 to-[#C9A24A]/25" />
+        <span className="origin-center rotate-[-90deg] whitespace-nowrap font-light tracking-[0.28em]">SCROLL</span>
       </motion.div>
     </section>
   )
