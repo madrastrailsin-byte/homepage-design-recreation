@@ -17,12 +17,12 @@ export default function Hero() {
   })
   const mouseX = useMotionValue(0)
   const mouseY = useMotionValue(0)
-  const scrollLift = useTransform(scrollYProgress, [0, 1], prefersReducedMotion ? [0, 0] : [0, 28])
-  const pointerLift = useTransform(mouseY, [-1, 1], prefersReducedMotion ? [0, 0] : [-4, 4])
-  const backgroundX = useTransform(mouseX, [-1, 1], prefersReducedMotion ? [0, 0] : [-8, 8])
+  const scrollLift = useTransform(scrollYProgress, [0, 1], prefersReducedMotion ? [0, 0] : [0, 22])
+  const pointerLift = useTransform(mouseY, [-1, 1], prefersReducedMotion ? [0, 0] : [-3, 3])
+  const backgroundX = useTransform(mouseX, [-1, 1], prefersReducedMotion ? [0, 0] : [-6, 6])
   const backgroundY = useTransform(() => scrollLift.get() + pointerLift.get())
-  const contentX = useTransform(mouseX, [-1, 1], prefersReducedMotion ? [0, 0] : [3, -3])
-  const contentY = useTransform(mouseY, [-1, 1], prefersReducedMotion ? [0, 0] : [2, -2])
+  const contentX = useTransform(mouseX, [-1, 1], prefersReducedMotion ? [0, 0] : [2, -2])
+  const contentY = useTransform(mouseY, [-1, 1], prefersReducedMotion ? [0, 0] : [1.5, -1.5])
 
   const handlePointerMove = (event: PointerEvent<HTMLElement>) => {
     if (prefersReducedMotion || typeof window === 'undefined') return
@@ -71,9 +71,9 @@ export default function Hero() {
         style={{ x: contentX, y: contentY }}
       >
         <motion.div
-          initial={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 20 }}
+          initial={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 16 }}
           animate={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
-          transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.82, ease: [0.22, 1, 0.36, 1] }}
           className="flex flex-col max-w-2xl"
         >
           {/* Label */}
@@ -133,8 +133,8 @@ export default function Hero() {
 
       {/* Scroll Indicator */}
       <motion.div
-        animate={prefersReducedMotion ? undefined : { y: [0, 8, 0] }}
-        transition={prefersReducedMotion ? undefined : { duration: 2, repeat: Infinity }}
+        animate={prefersReducedMotion ? undefined : { y: [0, 5, 0] }}
+        transition={prefersReducedMotion ? undefined : { duration: 2.8, repeat: Infinity, ease: [0.22, 1, 0.36, 1] }}
         className="absolute right-6 top-1/2 z-20 hidden translate-y-10 flex-col items-center gap-3 text-[10px] text-[#C9A24A] md:flex lg:right-8"
       >
         <div className="flex flex-col items-center gap-2">

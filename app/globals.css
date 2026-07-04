@@ -103,17 +103,54 @@
   .mt-destinations-bg {
     background-color: var(--mt-bg-dark);
     background-image:
-      radial-gradient(circle at 70% 18%, rgba(212, 175, 55, 0.055), transparent 28%),
-      radial-gradient(circle at 36% 78%, rgba(8, 45, 52, 0.24), transparent 34%),
+      radial-gradient(circle at 70% 18%, rgba(212, 175, 55, 0.045), transparent 28%),
+      radial-gradient(circle at 36% 78%, rgba(8, 45, 52, 0.2), transparent 34%),
       linear-gradient(180deg, rgba(2, 15, 18, 0.56) 0%, rgba(3, 25, 29, 0) 24%, rgba(2, 15, 18, 0.38) 100%),
-      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260' viewBox='0 0 260 260'%3E%3Cg fill='none' stroke='%23C9A24A' stroke-opacity='0.055' stroke-width='0.8'%3E%3Cpath d='M33 147c26-34 58-50 95-46 31 4 52-3 75-24'/%3E%3Cpath d='M18 75c38 18 70 20 96 6 31-17 69-13 114 12'/%3E%3Cpath d='M59 217c18-28 39-41 63-38 34 4 59-7 75-33'/%3E%3Ccircle cx='75' cy='91' r='22'/%3E%3Ccircle cx='181' cy='165' r='30'/%3E%3C/g%3E%3C/svg%3E");
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='320' viewBox='0 0 320 320'%3E%3Cg fill='none' stroke='%23C9A24A' stroke-opacity='0.038' stroke-width='0.7'%3E%3Cpath d='M35 182c34-41 72-60 116-55 38 5 68-5 99-35'/%3E%3Cpath d='M22 94c46 21 86 23 119 6 39-20 85-15 139 17'/%3E%3Cpath d='M73 266c23-35 49-51 79-47 42 5 72-8 92-40'/%3E%3Ccircle cx='92' cy='112' r='24'/%3E%3Ccircle cx='222' cy='206' r='34'/%3E%3Cpath d='M248 58c-18 17-37 27-58 29M121 38c21 12 46 16 76 12'/%3E%3C/g%3E%3C/svg%3E");
     background-size: auto, auto, auto, 520px 520px;
     background-position: center, center, center, 50% 14%;
-    animation: mt-ambient-drift 24s ease-in-out infinite alternate;
+    animation: mt-ambient-drift 24s cubic-bezier(0.22, 1, 0.36, 1) infinite alternate;
+  }
+
+  .mt-destinations-texture-reveal {
+    background:
+      radial-gradient(circle at 18% 30%, rgba(201, 162, 74, 0.07), transparent 28%),
+      radial-gradient(circle at 78% 18%, rgba(4, 29, 34, 0.72), transparent 34%),
+      linear-gradient(115deg, rgba(2, 15, 18, 0.18), rgba(3, 25, 29, 0.02) 48%, rgba(201, 162, 74, 0.035));
+  }
+
+  .mt-destination-atmosphere {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.46;
+    mix-blend-mode: screen;
+    transform: translateZ(0);
+  }
+
+  .mt-destination-atmosphere--iceland {
+    background:
+      linear-gradient(115deg, transparent 16%, rgba(72, 218, 188, 0.11) 42%, transparent 68%),
+      radial-gradient(circle at 48% 18%, rgba(111, 226, 206, 0.13), transparent 30%);
+    animation: mt-aurora-drift 20s cubic-bezier(0.22, 1, 0.36, 1) infinite alternate;
+  }
+
+  .mt-destination-atmosphere--turkey {
+    background:
+      radial-gradient(circle at 68% 22%, rgba(245, 185, 87, 0.2), transparent 28%),
+      linear-gradient(180deg, rgba(255, 222, 157, 0.08), transparent 42%);
+    animation: mt-sun-breathe 18s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  }
+
+  .mt-destination-atmosphere--japan {
+    background:
+      linear-gradient(105deg, transparent 22%, rgba(91, 209, 255, 0.09) 43%, transparent 60%),
+      linear-gradient(180deg, transparent 52%, rgba(211, 74, 133, 0.14) 78%, transparent 100%);
+    animation: mt-neon-shimmer 18s cubic-bezier(0.22, 1, 0.36, 1) infinite alternate;
   }
 
   .mt-hero-glow {
-    animation: mt-glow-breathe 8s ease-in-out infinite;
+    animation: mt-glow-breathe 14s cubic-bezier(0.22, 1, 0.36, 1) infinite;
     will-change: opacity, transform;
   }
 
@@ -122,10 +159,10 @@
     overflow: hidden;
     transform: translateZ(0);
     transition:
-      transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
-      box-shadow 0.45s cubic-bezier(0.22, 1, 0.36, 1),
-      border-color 0.45s cubic-bezier(0.22, 1, 0.36, 1),
-      background-color 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+      transform 0.36s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.36s cubic-bezier(0.22, 1, 0.36, 1),
+      border-color 0.36s cubic-bezier(0.22, 1, 0.36, 1),
+      background-color 0.36s cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   .mt-gold-sheen::before {
@@ -137,12 +174,12 @@
     background: linear-gradient(110deg, transparent 36%, rgba(255, 247, 220, 0.24) 50%, transparent 64%);
     transform: translateX(-42%);
     transition:
-      opacity 0.35s ease,
-      transform 0.72s cubic-bezier(0.22, 1, 0.36, 1);
+      opacity 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.68s cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   .mt-gold-sheen:hover {
-    transform: translateY(-2px) translateZ(0);
+    transform: translateY(-1.5px) translateZ(0);
   }
 
   .mt-gold-sheen:hover::before {
@@ -156,7 +193,7 @@
       radial-gradient(circle at 78% 14%, rgba(8, 45, 52, 0.22), transparent 30%),
       radial-gradient(circle at 58% 92%, rgba(212, 175, 55, 0.04), transparent 26%);
     background-size: 140% 140%, 150% 150%, 130% 130%;
-    animation: mt-ambient-drift 26s ease-in-out infinite alternate;
+    animation: mt-ambient-drift 24s cubic-bezier(0.22, 1, 0.36, 1) infinite alternate;
   }
 
   .mt-footer-ambient::after {
@@ -168,7 +205,7 @@
     background-image:
       radial-gradient(circle at 18% 68%, rgba(212, 175, 55, 0.13), transparent 24%),
       radial-gradient(circle at 82% 46%, rgba(8, 45, 52, 0.22), transparent 30%);
-    animation: mt-ambient-breathe 18s ease-in-out infinite;
+    animation: mt-ambient-breathe 20s cubic-bezier(0.22, 1, 0.36, 1) infinite;
   }
 }
 
@@ -212,6 +249,42 @@ div.bg-\[\#0D1117\] {
   }
 }
 
+@keyframes mt-aurora-drift {
+  0% {
+    opacity: 0.24;
+    transform: translate3d(-1.5%, 0, 0) scale(1);
+  }
+
+  100% {
+    opacity: 0.36;
+    transform: translate3d(1%, -0.6%, 0) scale(1.01);
+  }
+}
+
+@keyframes mt-sun-breathe {
+  0%, 100% {
+    opacity: 0.26;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.36;
+    transform: scale(1.012);
+  }
+}
+
+@keyframes mt-neon-shimmer {
+  0% {
+    opacity: 0.22;
+    transform: translate3d(-1%, 1%, 0);
+  }
+
+  100% {
+    opacity: 0.34;
+    transform: translate3d(0.7%, -0.35%, 0);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -227,9 +300,14 @@ div.bg-\[\#0D1117\] {
   }
 
   .mt-destinations-bg,
+  .mt-destination-atmosphere,
   .mt-footer-ambient,
   .mt-footer-ambient::after {
     animation: none !important;
+  }
+
+  .mt-destination-atmosphere {
+    display: none;
   }
 
   .mt-gold-sheen:hover {

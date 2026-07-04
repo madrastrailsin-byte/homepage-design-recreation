@@ -33,17 +33,17 @@ const experiences = [
 export default function ExperiencesSection() {
   const prefersReducedMotion = useReducedMotion()
   const motionEase = [0.22, 1, 0.36, 1] as const
-  const headerInitial = prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 22 }
+  const headerInitial = prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 16 }
   const headerInView = prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }
-  const cardInitial = prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 22 }
+  const cardInitial = prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 16 }
   const cardInView = prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }
   const imageInitial = prefersReducedMotion
     ? { opacity: 0 }
-    : { opacity: 0, scale: 1.03, clipPath: 'inset(0% 0% 12% 0%)' }
+    : { opacity: 0, scale: 1.02, clipPath: 'inset(0% 0% 8% 0%)' }
   const imageInView = prefersReducedMotion
     ? { opacity: 1 }
     : { opacity: 1, scale: 1, clipPath: 'inset(0% 0% 0% 0%)' }
-  const imageHoverClass = prefersReducedMotion ? '' : 'group-hover:scale-[1.025]'
+  const imageHoverClass = prefersReducedMotion ? '' : 'group-hover:scale-[1.018]'
   const arrowHoverClass = prefersReducedMotion ? '' : 'group-hover:translate-x-0.5'
 
   return (
@@ -53,8 +53,8 @@ export default function ExperiencesSection() {
         <motion.div
           initial={headerInitial}
           whileInView={headerInView}
-          transition={{ duration: 0.75, ease: motionEase }}
-          viewport={{ once: true }}
+          transition={{ duration: 0.82, ease: motionEase }}
+          viewport={{ once: true, amount: 0.24 }}
           className="mb-12 md:mb-16 max-w-2xl"
         >
           <h2 className="text-4xl md:text-5xl text-white mb-2 leading-tight" style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700 }}>Handpicked</h2>
@@ -72,17 +72,17 @@ export default function ExperiencesSection() {
               key={exp.id}
               initial={cardInitial}
               whileInView={cardInView}
-              whileHover={prefersReducedMotion ? undefined : { y: -6 }}
-              transition={{ duration: 0.72, delay: idx * 0.08, ease: motionEase }}
-              viewport={{ once: true }}
+              whileHover={prefersReducedMotion ? undefined : { y: -4 }}
+              transition={{ duration: 0.82, delay: idx * 0.08, ease: motionEase }}
+              viewport={{ once: true, amount: 0.24 }}
               className="group relative h-80 md:h-96 rounded-t-3xl overflow-hidden cursor-pointer shadow-[0_20px_60px_rgba(0,0,0,0.34)] hover:shadow-[0_30px_80px_rgba(0,0,0,0.48)] transition-shadow duration-500"
             >
               {/* Background Image - Full Coverage */}
               <motion.div
                 initial={imageInitial}
                 whileInView={imageInView}
-                transition={{ duration: 0.72, delay: 0.08 + idx * 0.08, ease: motionEase }}
-                viewport={{ once: true }}
+                transition={{ duration: 0.85, delay: 0.08 + idx * 0.08, ease: motionEase }}
+                viewport={{ once: true, amount: 0.24 }}
                 className={`absolute inset-0 bg-cover bg-center transition-transform duration-700 ${imageHoverClass}`}
                 style={{ backgroundImage: `url(${exp.image})` }}
               >

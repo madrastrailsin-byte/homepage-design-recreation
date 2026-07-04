@@ -7,7 +7,7 @@ import Image from 'next/image'
 export default function Footer() {
   const prefersReducedMotion = useReducedMotion()
   const motionEase = [0.22, 1, 0.36, 1] as const
-  const revealInitial = prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 20 }
+  const revealInitial = prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 14 }
   const revealInView = prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }
   const socialLinkClass = 'mt-gold-sheen w-10 h-10 rounded-full border border-[#D4AF37]/50 flex items-center justify-center text-[#D4AF37] hover:bg-[#D4AF37] hover:text-[#03191D] hover:shadow-[0_10px_24px_rgba(212,175,55,0.14)]'
 
@@ -21,8 +21,8 @@ export default function Footer() {
             <motion.div
               initial={revealInitial}
               whileInView={revealInView}
-              transition={{ duration: 0.68, ease: motionEase }}
-              viewport={{ once: true }}
+              transition={{ duration: 0.8, ease: motionEase }}
+              viewport={{ once: true, amount: 0.24 }}
               className="flex items-center gap-3"
             >
               <Image
@@ -38,8 +38,8 @@ export default function Footer() {
             <motion.div
               initial={revealInitial}
               whileInView={revealInView}
-              transition={{ duration: 0.68, delay: 0.08, ease: motionEase }}
-              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.08, ease: motionEase }}
+              viewport={{ once: true, amount: 0.24 }}
             >
               <h3 className="text-xl md:text-2xl text-[#FAFAF9] mb-3" style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700 }}>Let&apos;s craft your next journey</h3>
               <p className="text-[#D4AF37]/62 text-xs md:text-sm font-light mb-4">Subscribe for travel inspiration and exclusive offers.</p>
@@ -62,8 +62,8 @@ export default function Footer() {
             <motion.div
               initial={revealInitial}
               whileInView={revealInView}
-              transition={{ duration: 0.68, delay: 0.16, ease: motionEase }}
-              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.16, ease: motionEase }}
+              viewport={{ once: true, amount: 0.24 }}
               className="text-center md:text-right"
             >
               <h4 className="text-[#FAFAF9] font-light mb-4 text-sm uppercase" style={{ letterSpacing: '0.35em' }}>Follow Us</h4>
