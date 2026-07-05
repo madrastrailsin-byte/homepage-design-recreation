@@ -261,34 +261,34 @@
 
   .mt-hero-clouds {
     pointer-events: none;
-    opacity: 0.2;
+    opacity: 0.28;
     mix-blend-mode: screen;
     background:
-      radial-gradient(ellipse at 18% 22%, rgba(242, 231, 204, 0.18), transparent 22%),
-      radial-gradient(ellipse at 44% 18%, rgba(242, 231, 204, 0.12), transparent 20%),
-      radial-gradient(ellipse at 66% 24%, rgba(212, 175, 55, 0.12), transparent 18%);
+      radial-gradient(ellipse at 18% 22%, rgba(242, 231, 204, 0.26), transparent 22%),
+      radial-gradient(ellipse at 44% 18%, rgba(242, 231, 204, 0.18), transparent 20%),
+      radial-gradient(ellipse at 66% 24%, rgba(212, 175, 55, 0.18), transparent 18%);
     background-size: 120% 100%;
-    animation: mt-hero-cloud-drift 36s linear infinite;
+    animation: mt-hero-cloud-drift 28s linear infinite;
   }
 
   .mt-hero-clouds--far {
-    opacity: 0.12;
+    opacity: 0.18;
     background:
-      radial-gradient(ellipse at 28% 14%, rgba(242, 231, 204, 0.12), transparent 18%),
-      radial-gradient(ellipse at 74% 18%, rgba(242, 231, 204, 0.1), transparent 22%);
+      radial-gradient(ellipse at 28% 14%, rgba(242, 231, 204, 0.18), transparent 18%),
+      radial-gradient(ellipse at 74% 18%, rgba(242, 231, 204, 0.15), transparent 22%);
     background-size: 150% 100%;
-    animation-duration: 54s;
+    animation-duration: 38s;
     animation-direction: reverse;
   }
 
   .mt-hero-haze {
     pointer-events: none;
-    opacity: 0.18;
+    opacity: 0.24;
     mix-blend-mode: soft-light;
     background:
-      radial-gradient(ellipse at 52% 28%, rgba(242, 231, 204, 0.16), transparent 34%),
-      linear-gradient(110deg, transparent 12%, rgba(6, 31, 40, 0.24) 48%, transparent 78%);
-    animation: mt-hero-haze-breathe 29s cubic-bezier(0.22, 1, 0.36, 1) infinite alternate;
+      radial-gradient(ellipse at 52% 28%, rgba(242, 231, 204, 0.22), transparent 34%),
+      linear-gradient(110deg, transparent 12%, rgba(6, 31, 40, 0.3) 48%, transparent 78%);
+    animation: mt-hero-haze-breathe 24s cubic-bezier(0.22, 1, 0.36, 1) infinite alternate;
   }
 
   .mt-hero-glow {
@@ -298,50 +298,50 @@
 
   .mt-hero-sea-shimmer {
     pointer-events: none;
-    opacity: 0.16;
+    opacity: 0.26;
     mix-blend-mode: screen;
     background:
-      linear-gradient(105deg, transparent 18%, rgba(242, 231, 204, 0.11) 42%, transparent 62%),
-      repeating-linear-gradient(172deg, rgba(212, 175, 55, 0.08) 0 1px, transparent 1px 14px);
+      linear-gradient(105deg, transparent 18%, rgba(242, 231, 204, 0.18) 42%, transparent 62%),
+      repeating-linear-gradient(172deg, rgba(212, 175, 55, 0.13) 0 1px, transparent 1px 14px);
     -webkit-mask-image: linear-gradient(90deg, transparent, black 22%, black 74%, transparent);
     mask-image: linear-gradient(90deg, transparent, black 22%, black 74%, transparent);
-    animation: mt-hero-sea-shimmer 18s cubic-bezier(0.22, 1, 0.36, 1) infinite alternate;
+    animation: mt-hero-sea-shimmer 11s cubic-bezier(0.22, 1, 0.36, 1) infinite alternate;
   }
 
   .mt-hero-village-lights {
     pointer-events: none;
-    opacity: 0.42;
+    opacity: 0.58;
     mix-blend-mode: screen;
     background:
-      radial-gradient(circle at 42% 46%, rgba(255, 210, 126, 0.28), transparent 2.2%),
-      radial-gradient(circle at 56% 38%, rgba(255, 210, 126, 0.24), transparent 2%),
-      radial-gradient(circle at 63% 54%, rgba(255, 210, 126, 0.22), transparent 2.1%),
-      radial-gradient(circle at 72% 33%, rgba(255, 210, 126, 0.2), transparent 1.8%),
-      radial-gradient(circle at 78% 61%, rgba(255, 210, 126, 0.24), transparent 2%),
-      radial-gradient(circle at 86% 45%, rgba(255, 210, 126, 0.18), transparent 1.8%);
-    animation: mt-hero-light-flicker 7.6s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+      radial-gradient(circle at 42% 46%, rgba(255, 210, 126, 0.42), transparent 2.2%),
+      radial-gradient(circle at 56% 38%, rgba(255, 210, 126, 0.36), transparent 2%),
+      radial-gradient(circle at 63% 54%, rgba(255, 210, 126, 0.34), transparent 2.1%),
+      radial-gradient(circle at 72% 33%, rgba(255, 210, 126, 0.31), transparent 1.8%),
+      radial-gradient(circle at 78% 61%, rgba(255, 210, 126, 0.38), transparent 2%),
+      radial-gradient(circle at 86% 45%, rgba(255, 210, 126, 0.3), transparent 1.8%);
+    animation: mt-hero-light-flicker 6.8s cubic-bezier(0.22, 1, 0.36, 1) infinite;
   }
 
   .mt-hero-auto-glow {
     pointer-events: none;
-    opacity: 0.38;
+    opacity: 0.54;
     mix-blend-mode: screen;
     background:
-      radial-gradient(circle at 70% 70%, rgba(208, 40, 24, 0.55), transparent 10%),
-      radial-gradient(circle at 58% 72%, rgba(208, 40, 24, 0.38), transparent 9%),
-      radial-gradient(circle at 45% 45%, rgba(255, 190, 86, 0.2), transparent 22%);
-    animation: mt-hero-auto-pulse 5.8s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+      radial-gradient(circle at 70% 70%, rgba(218, 46, 28, 0.76), transparent 10%),
+      radial-gradient(circle at 58% 72%, rgba(218, 46, 28, 0.54), transparent 9%),
+      radial-gradient(circle at 45% 45%, rgba(255, 190, 86, 0.28), transparent 22%);
+    animation: mt-hero-auto-pulse 4.8s cubic-bezier(0.22, 1, 0.36, 1) infinite;
   }
 
   .mt-hero-road-glow {
     pointer-events: none;
-    opacity: 0.16;
+    opacity: 0.26;
     mix-blend-mode: screen;
     background:
-      radial-gradient(ellipse at 68% 52%, rgba(212, 175, 55, 0.28), transparent 40%),
-      linear-gradient(105deg, transparent, rgba(242, 231, 204, 0.12), transparent);
+      radial-gradient(ellipse at 68% 52%, rgba(212, 175, 55, 0.38), transparent 40%),
+      linear-gradient(105deg, transparent, rgba(242, 231, 204, 0.2), transparent);
     filter: blur(8px);
-    animation: mt-hero-road-pulse 8s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+    animation: mt-hero-road-pulse 6.2s cubic-bezier(0.22, 1, 0.36, 1) infinite;
   }
 
   .mt-hero-birds {
@@ -351,22 +351,23 @@
   .mt-hero-birds span {
     position: absolute;
     top: 20%;
-    left: -4%;
-    width: 14px;
-    height: 8px;
+    left: -2%;
+    width: 18px;
+    height: 10px;
     opacity: 0;
     transform: translate3d(-6vw, 0, 0) scale(0.7);
-    animation: mt-hero-bird-cross 34s linear infinite;
+    animation: mt-hero-bird-cross 32s linear infinite;
+    animation-delay: -7s;
   }
 
   .mt-hero-birds span::before,
   .mt-hero-birds span::after {
     content: '';
     position: absolute;
-    top: 3px;
-    width: 8px;
+    top: 4px;
+    width: 10px;
     height: 1px;
-    background: rgba(242, 231, 204, 0.64);
+    background: rgba(242, 231, 204, 0.88);
     transform-origin: center;
   }
 
@@ -382,28 +383,28 @@
 
   .mt-hero-birds span:nth-child(2) {
     top: 25%;
-    animation-delay: 5s;
+    animation-delay: -18s;
     animation-duration: 38s;
     transform: translate3d(-8vw, 0, 0) scale(0.55);
   }
 
   .mt-hero-birds span:nth-child(3) {
     top: 16%;
-    animation-delay: 12s;
+    animation-delay: -28s;
     animation-duration: 42s;
     transform: translate3d(-10vw, 0, 0) scale(0.45);
   }
 
   .mt-hero-birds span:nth-child(4) {
     top: 31%;
-    animation-delay: 18s;
+    animation-delay: -11s;
     animation-duration: 40s;
     transform: translate3d(-7vw, 0, 0) scale(0.6);
   }
 
   .mt-hero-birds span:nth-child(5) {
     top: 22%;
-    animation-delay: 24s;
+    animation-delay: -33s;
     animation-duration: 44s;
     transform: translate3d(-9vw, 0, 0) scale(0.5);
   }
@@ -613,12 +614,12 @@ div.bg-\[\#0D1117\] {
 @keyframes mt-hero-cloud-drift {
   0% {
     background-position: 0% 0%;
-    transform: translate3d(-1.5%, 0, 0);
+    transform: translate3d(-2.4%, 0, 0);
   }
 
   100% {
     background-position: 100% 0%;
-    transform: translate3d(1.5%, 0, 0);
+    transform: translate3d(2.4%, 0, 0);
   }
 }
 
@@ -636,87 +637,87 @@ div.bg-\[\#0D1117\] {
 
 @keyframes mt-glow-breathe {
   0%, 100% {
-    opacity: 0.16;
+    opacity: 0.22;
     transform: scale(1);
   }
 
   50% {
-    opacity: 0.26;
-    transform: scale(1.035);
+    opacity: 0.4;
+    transform: scale(1.045);
   }
 }
 
 @keyframes mt-hero-sea-shimmer {
   0%, 100% {
-    opacity: 0.12;
-    transform: translate3d(-1%, 0, 0);
+    opacity: 0.18;
+    transform: translate3d(-1.4%, 0, 0);
   }
 
   50% {
-    opacity: 0.2;
-    transform: translate3d(1%, -0.4%, 0);
+    opacity: 0.34;
+    transform: translate3d(1.4%, -0.5%, 0);
   }
 }
 
 @keyframes mt-hero-light-flicker {
   0%, 100% {
-    opacity: 0.36;
+    opacity: 0.44;
   }
 
   28% {
-    opacity: 0.5;
+    opacity: 0.7;
   }
 
   42% {
-    opacity: 0.39;
+    opacity: 0.48;
   }
 
   68% {
-    opacity: 0.48;
+    opacity: 0.66;
   }
 }
 
 @keyframes mt-hero-auto-pulse {
   0%, 100% {
-    opacity: 0.32;
+    opacity: 0.42;
     transform: scale(1);
   }
 
   50% {
-    opacity: 0.48;
-    transform: scale(1.018);
+    opacity: 0.72;
+    transform: scale(1.022);
   }
 }
 
 @keyframes mt-hero-road-pulse {
   0%, 100% {
-    opacity: 0.12;
+    opacity: 0.18;
     transform: translate3d(0, 0, 0);
   }
 
   50% {
-    opacity: 0.2;
-    transform: translate3d(0.8%, -0.4%, 0);
+    opacity: 0.34;
+    transform: translate3d(1%, -0.5%, 0);
   }
 }
 
 @keyframes mt-hero-bird-cross {
   0% {
     opacity: 0;
-    transform: translate3d(-8vw, 0, 0) scale(0.58);
+    transform: translate3d(-4vw, 0, 0) scale(0.62);
   }
 
-  8% {
-    opacity: 0.42;
+  5% {
+    opacity: 0.72;
   }
 
   62% {
-    opacity: 0.38;
+    opacity: 0.56;
   }
 
   78%, 100% {
     opacity: 0;
-    transform: translate3d(72vw, -4vh, 0) scale(0.58);
+    transform: translate3d(76vw, -4vh, 0) scale(0.62);
   }
 }
 
