@@ -19,9 +19,9 @@ export default function ServicesStrip() {
   const motionEase = [0.22, 1, 0.36, 1] as const
 
   return (
-    <div className="mt-services-flow relative z-10 -mt-16 w-full bg-gradient-to-b from-[rgba(3,25,29,0.04)] via-[#041D22] to-[#03191D] pt-4 pb-9 md:-mt-20 md:pt-5 md:pb-12">
-      <div className="pointer-events-none absolute inset-x-0 -top-14 h-28 bg-gradient-to-b from-transparent via-[#03191D]/24 to-[#041D22]/96" />
-      <div className="max-w-7xl mx-auto px-6 md:px-8">
+    <div className="mt-services-flow relative isolate z-10 -mt-16 w-full bg-gradient-to-b from-[rgba(3,25,29,0.04)] via-[#041D22] to-[#03191D] pt-4 pb-9 md:-mt-20 md:pt-5 md:pb-12">
+      <div className="pointer-events-none absolute inset-x-0 -top-14 z-0 h-28 bg-gradient-to-b from-transparent via-[#03191D]/24 to-[#041D22]/96" />
+      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-8">
         <motion.div
           initial={revealInitial}
           whileInView={revealInView}
@@ -45,7 +45,7 @@ export default function ServicesStrip() {
           </div>
         </motion.div>
       </div>
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-b from-transparent via-[#03191D]/42 to-[#03191D]" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-0 h-20 bg-gradient-to-b from-transparent via-[#03191D]/42 to-[#03191D]" />
     </div>
   )
 }
