@@ -1,22 +1,13 @@
 'use client'
 
 import { Play } from 'lucide-react'
-import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion'
-import { useRef } from 'react'
+import { motion, useReducedMotion } from 'framer-motion'
 
 export default function Hero() {
-  const heroRef = useRef<HTMLElement>(null)
   const prefersReducedMotion = useReducedMotion()
   const ctaArrowClass = prefersReducedMotion
     ? 'translate-y-px'
     : 'translate-y-px transition-transform duration-300 group-hover:translate-x-0.5'
-  const { scrollYProgress } = useScroll({
-    target: heroRef,
-    offset: ['start start', 'end start'],
-  })
-  const cloudDepth = useTransform(scrollYProgress, [0, 1], prefersReducedMotion ? [0, 0] : [0, -8])
-  const hazeDepth = useTransform(scrollYProgress, [0, 1], prefersReducedMotion ? [0, 0] : [0, -5])
-  const foregroundDepth = useTransform(scrollYProgress, [0, 1], prefersReducedMotion ? [0, 0] : [0, 6])
   const sceneEase = [0.22, 1, 0.36, 1] as const
   const reveal = (delay = 0, y = 14) => ({
     initial: prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y },
@@ -30,7 +21,6 @@ export default function Hero() {
 
   return (
     <section 
-      ref={heroRef}
       className="relative w-full flex items-center overflow-hidden pt-24 md:pt-28"
       style={{
         height: 'calc(100vh + 60px)',
@@ -43,29 +33,12 @@ export default function Hero() {
         className="mt-hero-bg absolute -inset-x-5 -inset-y-4 bg-cover bg-center md:bg-[position:center_center]"
         style={{
           backgroundImage: 'url(https://hebbkx1anhila5yf.public.blob.vercel-storage.com/APPROVED_HERO_IMAGE%20background-HjDvpFuBbOHELP5GGXGROss89tXwtY.png)',
-          filter: 'saturate(1.02) brightness(0.98) contrast(1.04)',
         }}
       />
-      <motion.div className="mt-hero-clouds absolute inset-0" style={{ y: cloudDepth }} />
-      <motion.div className="mt-hero-clouds mt-hero-clouds--far absolute inset-0" style={{ y: cloudDepth }} />
-      <motion.div className="mt-hero-haze absolute inset-0" style={{ y: hazeDepth }} />
-      <div className="mt-hero-glow absolute right-[18%] top-[16%] h-56 w-56 rounded-full bg-[radial-gradient(circle,rgba(212,175,55,0.34),rgba(212,175,55,0.08)_38%,transparent_70%)] blur-2xl" />
-      <div className="mt-hero-sea-shimmer absolute left-0 bottom-[15%] h-[34%] w-[56%]" />
-      <div className="mt-hero-village-lights absolute right-[4%] top-[15%] h-[48%] w-[48%]" />
-      <motion.div className="mt-hero-auto-glow absolute right-[8%] bottom-[16%] h-36 w-44" style={{ y: foregroundDepth }} />
-      <motion.div className="mt-hero-road-glow absolute right-[6%] bottom-[10%] h-24 w-64" style={{ y: foregroundDepth }} />
-      <motion.div className="mt-hero-birds absolute inset-0" aria-hidden="true" style={{ y: cloudDepth }}>
-        <span />
-        <span />
-        <span />
-        <span />
-        <span />
-      </motion.div>
 
       {/* Layered gradients keep the left copy readable while preserving the warm scene. */}
       <div className="absolute inset-0 bg-gradient-to-r from-[#020F12]/82 via-[#03191D]/36 via-42% to-transparent" />
       <div className="absolute inset-0 bg-gradient-to-b from-[#020F12]/16 via-transparent via-44% to-[#020F12]/24" />
-      <div className="absolute inset-0 bg-[#03191D]/5" />
       <div className="absolute inset-y-0 left-0 w-[55%] bg-[radial-gradient(circle_at_18%_42%,rgba(4,29,34,0.30),rgba(2,15,18,0.66)_72%,transparent_100%)]" />
 
       {/* Content */}
@@ -102,7 +75,7 @@ export default function Hero() {
             <div className="flex-1 h-px bg-gradient-to-r from-[#C9A24A]/75 to-[#C9A24A]/35" />
             <div className="relative mx-3 flex h-2.5 w-2.5 items-center justify-center">
               <div className="h-1.5 w-1.5 rotate-45 border border-[#C9A24A]/80" />
-              <div className="mt-gold-pulse absolute h-1 w-1 rotate-45 bg-[#C9A24A]" />
+              <div className="absolute h-1 w-1 rotate-45 bg-[#C9A24A]" />
             </div>
             <div className="flex-1 h-px bg-gradient-to-l from-[#C9A24A]/75 to-[#C9A24A]/35" />
           </motion.div>

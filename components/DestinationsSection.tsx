@@ -186,17 +186,9 @@ export default function DestinationsSection() {
                       className={`absolute inset-0 bg-cover bg-center transition-transform duration-500 ${imageHoverClass}`}
                       style={{ backgroundImage: `url(${destinations[0].image})` }}
                     >
-                      <div className="mt-destination-atmosphere mt-destination-atmosphere--iceland" />
-                      <div className="mt-destination-snow" aria-hidden="true">
-                        <span />
-                        <span />
-                        <span />
-                        <span />
-                      </div>
                       <div className="absolute inset-0 bg-gradient-to-t from-[rgba(3,21,27,0.82)] via-[rgba(7,38,48,0.28)] to-transparent" />
                       <div className="absolute inset-0 bg-gradient-to-b from-black/5 via-transparent to-transparent" />
                     </motion.div>
-                    <div className="mt-card-reflection absolute inset-0 pointer-events-none" />
                     <div className="relative h-full flex flex-col justify-between p-6">
                       <div />
                       <div className="flex items-end justify-between gap-4">
@@ -231,17 +223,9 @@ export default function DestinationsSection() {
                         className={`absolute inset-0 bg-cover bg-center transition-transform duration-500 ${imageHoverClass}`}
                         style={{ backgroundImage: `url(${destinations[1].image})` }}
                       >
-                        <div className="mt-destination-atmosphere mt-destination-atmosphere--turkey" />
-                        <div className="mt-destination-balloons" aria-hidden="true">
-                          <span />
-                          <span />
-                          <span />
-                        </div>
-                        <div className="mt-destination-dust" aria-hidden="true" />
                         <div className="absolute inset-0 bg-gradient-to-t from-[rgba(3,21,27,0.76)] via-[rgba(7,38,48,0.2)] to-transparent" />
                         <div className="absolute inset-0 bg-gradient-to-b from-white/8 via-transparent to-transparent" />
                       </motion.div>
-                      <div className="mt-card-reflection absolute inset-0 pointer-events-none" />
                       <div className="relative h-full flex flex-col justify-between p-6">
                         <div />
                         <div className="flex items-end justify-between gap-4">
@@ -276,12 +260,9 @@ export default function DestinationsSection() {
                       className={`absolute inset-0 bg-cover bg-center transition-transform duration-500 ${imageHoverClass}`}
                       style={{ backgroundImage: `url(${destinations[2].image})` }}
                     >
-                      <div className="mt-destination-atmosphere mt-destination-atmosphere--japan" />
-                      <div className="mt-destination-rain" aria-hidden="true" />
                       <div className="absolute inset-0 bg-gradient-to-t from-[rgba(3,21,27,0.82)] via-[rgba(7,38,48,0.28)] to-transparent" />
                       <div className="absolute inset-0 bg-gradient-to-b from-black/5 via-transparent to-transparent" />
                     </motion.div>
-                    <div className="mt-card-reflection absolute inset-0 pointer-events-none" />
                     <div className="relative h-full flex flex-col justify-between p-6">
                       <div />
                       <div className="flex items-end justify-between gap-4">

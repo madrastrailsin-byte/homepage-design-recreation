@@ -30,7 +30,7 @@ export default function ServicesStrip() {
           className="flex justify-center"
         >
           <div
-            className="flex flex-wrap justify-center gap-4 md:gap-6 rounded-2xl px-8 md:px-12 py-3 md:py-4 backdrop-blur-sm border border-[#C9A24A]/30 shadow-[0_22px_70px_rgba(0,0,0,0.22)]"
+            className="flex flex-wrap justify-center gap-4 md:gap-6 rounded-2xl px-8 md:px-12 py-3 md:py-4 border border-[#C9A24A]/30 shadow-[0_22px_70px_rgba(0,0,0,0.22)]"
             style={{ backgroundColor: 'rgba(6, 31, 40, 0.34)' }}
           >
             {services.map((service, idx) => {
