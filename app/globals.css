@@ -151,6 +151,20 @@
     animation: mt-ambient-drift 24s cubic-bezier(0.22, 1, 0.36, 1) infinite alternate;
   }
 
+  .mt-services-flow::before,
+  .mt-destinations-bg::before,
+  section.bg-\[\#0D1117\]::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.12;
+    background:
+      radial-gradient(circle at 50% 0%, rgba(212, 175, 55, 0.08), transparent 34%),
+      radial-gradient(circle at 20% 85%, rgba(8, 45, 52, 0.16), transparent 38%);
+    animation: mt-section-breathe 22s cubic-bezier(0.22, 1, 0.36, 1) infinite alternate;
+  }
+
   .mt-destinations-texture-reveal {
     background:
       radial-gradient(circle at 18% 30%, rgba(201, 162, 74, 0.07), transparent 28%),
@@ -181,6 +195,58 @@
     animation: mt-sun-breathe 18s cubic-bezier(0.22, 1, 0.36, 1) infinite;
   }
 
+  .mt-destination-balloons {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.16;
+    mix-blend-mode: soft-light;
+  }
+
+  .mt-destination-balloons span {
+    position: absolute;
+    width: 10px;
+    height: 13px;
+    border-radius: 50% 50% 46% 46%;
+    background:
+      radial-gradient(circle at 50% 24%, rgba(242, 231, 204, 0.72), transparent 18%),
+      linear-gradient(135deg, rgba(201, 162, 74, 0.52), rgba(68, 31, 18, 0.54));
+    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.18);
+    animation: mt-balloon-drift 31s cubic-bezier(0.22, 1, 0.36, 1) infinite alternate;
+  }
+
+  .mt-destination-balloons span::after {
+    content: '';
+    position: absolute;
+    left: 4px;
+    bottom: -3px;
+    width: 2px;
+    height: 3px;
+    background: rgba(242, 231, 204, 0.42);
+  }
+
+  .mt-destination-balloons span:nth-child(1) {
+    left: 48%;
+    top: 20%;
+    transform: scale(0.72);
+  }
+
+  .mt-destination-balloons span:nth-child(2) {
+    left: 63%;
+    top: 15%;
+    transform: scale(0.56);
+    animation-duration: 37s;
+    animation-delay: -8s;
+  }
+
+  .mt-destination-balloons span:nth-child(3) {
+    left: 34%;
+    top: 29%;
+    transform: scale(0.48);
+    animation-duration: 42s;
+    animation-delay: -14s;
+  }
+
   .mt-destination-atmosphere--japan {
     background:
       linear-gradient(105deg, transparent 22%, rgba(91, 209, 255, 0.09) 43%, transparent 60%),
@@ -191,8 +257,6 @@
   .mt-hero-bg {
     transform: scale(1.02) translateZ(0);
     transform-origin: 72% 46%;
-    animation: mt-hero-kenburns 28s cubic-bezier(0.22, 1, 0.36, 1) infinite alternate;
-    will-change: transform;
   }
 
   .mt-hero-clouds {
@@ -215,6 +279,16 @@
     background-size: 150% 100%;
     animation-duration: 54s;
     animation-direction: reverse;
+  }
+
+  .mt-hero-haze {
+    pointer-events: none;
+    opacity: 0.18;
+    mix-blend-mode: soft-light;
+    background:
+      radial-gradient(ellipse at 52% 28%, rgba(242, 231, 204, 0.16), transparent 34%),
+      linear-gradient(110deg, transparent 12%, rgba(6, 31, 40, 0.24) 48%, transparent 78%);
+    animation: mt-hero-haze-breathe 29s cubic-bezier(0.22, 1, 0.36, 1) infinite alternate;
   }
 
   .mt-hero-glow {
@@ -373,6 +447,17 @@
       transform 0.68s cubic-bezier(0.22, 1, 0.36, 1);
   }
 
+  .mt-gold-sheen::after {
+    content: '';
+    position: absolute;
+    inset: -55% -120%;
+    pointer-events: none;
+    opacity: 0;
+    background: linear-gradient(110deg, transparent 40%, rgba(255, 245, 204, 0.18) 50%, transparent 60%);
+    transform: translateX(-46%);
+    animation: mt-gold-quiet-pass 14s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  }
+
   .mt-gold-sheen:hover {
     transform: translateY(-1.5px) translateZ(0);
   }
@@ -380,6 +465,10 @@
   .mt-gold-sheen:hover::before {
     opacity: 1;
     transform: translateX(42%);
+  }
+
+  .mt-gold-pulse {
+    animation: mt-gold-pin-catch 13s cubic-bezier(0.22, 1, 0.36, 1) infinite;
   }
 
   .mt-footer-ambient {
@@ -429,6 +518,18 @@ div.bg-\[\#0D1117\] {
   100% {
     background-position: 100% 0%;
     transform: translate3d(1.5%, 0, 0);
+  }
+}
+
+@keyframes mt-hero-haze-breathe {
+  0%, 100% {
+    opacity: 0.12;
+    transform: translate3d(-0.6%, 0, 0);
+  }
+
+  50% {
+    opacity: 0.22;
+    transform: translate3d(0.7%, -0.4%, 0);
   }
 }
 
@@ -538,6 +639,62 @@ div.bg-\[\#0D1117\] {
   }
 }
 
+@keyframes mt-balloon-drift {
+  0% {
+    opacity: 0.08;
+    translate: 0 0;
+  }
+
+  45% {
+    opacity: 0.18;
+  }
+
+  100% {
+    opacity: 0.12;
+    translate: 6px -8px;
+  }
+}
+
+@keyframes mt-section-breathe {
+  0%, 100% {
+    opacity: 0.08;
+    transform: translate3d(0, 0, 0);
+  }
+
+  50% {
+    opacity: 0.14;
+    transform: translate3d(0, -4px, 0);
+  }
+}
+
+@keyframes mt-gold-quiet-pass {
+  0%, 72%, 100% {
+    opacity: 0;
+    transform: translateX(-46%);
+  }
+
+  78% {
+    opacity: 1;
+  }
+
+  88% {
+    opacity: 0;
+    transform: translateX(46%);
+  }
+}
+
+@keyframes mt-gold-pin-catch {
+  0%, 70%, 100% {
+    opacity: 1;
+    box-shadow: none;
+  }
+
+  80% {
+    opacity: 0.82;
+    box-shadow: 0 0 12px rgba(212, 175, 55, 0.28);
+  }
+}
+
 @keyframes mt-ambient-drift {
   0% {
     background-position: 50% 50%, 50% 50%, 50% 50%, 50% 14%;
@@ -608,6 +765,7 @@ div.bg-\[\#0D1117\] {
 
   .mt-hero-bg,
   .mt-hero-clouds,
+  .mt-hero-haze,
   .mt-hero-glow,
   .mt-hero-sea-shimmer,
   .mt-hero-village-lights,
@@ -637,13 +795,20 @@ div.bg-\[\#0D1117\] {
   }
 
   .mt-destinations-bg,
+  .mt-services-flow::before,
+  .mt-destinations-bg::before,
+  section.bg-\[\#0D1117\]::before,
   .mt-destination-atmosphere,
+  .mt-destination-balloons span,
   .mt-footer-ambient,
-  .mt-footer-ambient::after {
+  .mt-footer-ambient::after,
+  .mt-gold-sheen::after,
+  .mt-gold-pulse {
     animation: none !important;
   }
 
-  .mt-destination-atmosphere {
+  .mt-destination-atmosphere,
+  .mt-destination-balloons {
     display: none;
   }
 

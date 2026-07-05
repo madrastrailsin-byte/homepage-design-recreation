@@ -225,6 +225,11 @@ export default function DestinationsSection() {
                         style={{ backgroundImage: `url(${destinations[1].image})` }}
                       >
                         <div className="mt-destination-atmosphere mt-destination-atmosphere--turkey" />
+                        <div className="mt-destination-balloons" aria-hidden="true">
+                          <span />
+                          <span />
+                          <span />
+                        </div>
                         <div className="absolute inset-0 bg-gradient-to-t from-[rgba(3,21,27,0.76)] via-[rgba(7,38,48,0.2)] to-transparent" />
                         <div className="absolute inset-0 bg-gradient-to-b from-white/8 via-transparent to-transparent" />
                       </motion.div>

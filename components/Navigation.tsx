@@ -3,10 +3,15 @@
 import { Menu, ChevronDown } from 'lucide-react'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
+import { motion, useReducedMotion } from 'framer-motion'
 
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
+  const prefersReducedMotion = useReducedMotion()
+  const introInitial = prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: -6 }
+  const introAnimate = prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }
+  const introTransition = (delay = 0) => ({ duration: 0.72, delay, ease: [0.22, 1, 0.36, 1] as const })
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 18)
@@ -29,17 +34,19 @@ export default function Navigation() {
     >
       <div className="max-w-7xl mx-auto px-6 md:px-8 py-2 md:py-3 flex items-center justify-between">
         {/* Logo */}
-        <Image
-          src="/images/madras-trails-logo.png"
-          alt="MadrasTrails"
-          width={188}
-          height={37}
-          className="h-10 md:h-11 w-auto object-contain"
-          priority
-        />
+        <motion.div initial={introInitial} animate={introAnimate} transition={introTransition(0.12)}>
+          <Image
+            src="/images/madras-trails-logo.png"
+            alt="MadrasTrails"
+            width={188}
+            height={37}
+            className="h-10 md:h-11 w-auto object-contain"
+            priority
+          />
+        </motion.div>
 
         {/* Desktop Menu */}
-        <div className="hidden md:flex items-center gap-9 xl:gap-11">
+        <motion.div initial={introInitial} animate={introAnimate} transition={introTransition(0.26)} className="hidden md:flex items-center gap-9 xl:gap-11">
           <div className={`${navLinkClass} flex items-center gap-1.5 cursor-pointer`}>
             <span>Destinations</span>
             <ChevronDown size={14} className="mt-0.5" />
@@ -49,10 +56,10 @@ export default function Navigation() {
           <a href="#" className={navLinkClass}>About Us</a>
           <a href="#" className={navLinkClass}>Inspiration</a>
           <a href="#" className={navLinkClass}>Contact</a>
-        </div>
+        </motion.div>
 
         {/* CTA Button and Menu */}
-        <div className="flex items-center gap-3">
+        <motion.div initial={introInitial} animate={introAnimate} transition={introTransition(0.38)} className="flex items-center gap-3">
           <button className="btn-gold mt-ui hidden md:block text-xs py-1.5 px-5 transition-transform duration-300 hover:-translate-y-0.5 hover:shadow-[0_14px_30px_rgba(212,175,55,0.24)]">PLAN YOUR JOURNEY →</button>
           <button
             onClick={() => setIsOpen(!isOpen)}
@@ -72,7 +79,7 @@ export default function Navigation() {
           >
             <Menu size={24} />
           </button>
-        </div>
+        </motion.div>
       </div>
 
       {/* Mobile Menu */}

@@ -1,13 +1,28 @@
 'use client'
 
 import { Play } from 'lucide-react'
-import { motion, useReducedMotion } from 'framer-motion'
+import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion'
+import { useRef } from 'react'
 
 export default function Hero() {
+  const heroRef = useRef<HTMLElement>(null)
   const prefersReducedMotion = useReducedMotion()
   const ctaArrowClass = prefersReducedMotion
     ? 'translate-y-px'
     : 'translate-y-px transition-transform duration-300 group-hover:translate-x-0.5'
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ['start start', 'end start'],
+  })
+  const cloudDepth = useTransform(scrollYProgress, [0, 1], prefersReducedMotion ? [0, 0] : [0, -8])
+  const hazeDepth = useTransform(scrollYProgress, [0, 1], prefersReducedMotion ? [0, 0] : [0, -5])
+  const foregroundDepth = useTransform(scrollYProgress, [0, 1], prefersReducedMotion ? [0, 0] : [0, 6])
+  const sceneEase = [0.22, 1, 0.36, 1] as const
+  const reveal = (delay = 0, y = 14) => ({
+    initial: prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y },
+    animate: prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 },
+    transition: { duration: 0.9, delay, ease: sceneEase },
+  })
   const handleJourneyClick = () => {
     const footer = document.querySelector('footer')
     footer?.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth', block: 'start' })
@@ -15,32 +30,37 @@ export default function Hero() {
 
   return (
     <section 
+      ref={heroRef}
       className="relative w-full flex items-center overflow-hidden pt-24 md:pt-28"
       style={{
         height: 'calc(100vh + 60px)',
       }}
     >
-      <div
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1.25, delay: 0.12, ease: sceneEase }}
         className="mt-hero-bg absolute -inset-x-5 -inset-y-4 bg-cover bg-center md:bg-[position:center_center]"
         style={{
           backgroundImage: 'url(https://hebbkx1anhila5yf.public.blob.vercel-storage.com/APPROVED_HERO_IMAGE%20background-HjDvpFuBbOHELP5GGXGROss89tXwtY.png)',
           filter: 'saturate(1.02) brightness(0.98) contrast(1.04)',
         }}
       />
-      <div className="mt-hero-clouds absolute inset-0" />
-      <div className="mt-hero-clouds mt-hero-clouds--far absolute inset-0" />
+      <motion.div className="mt-hero-clouds absolute inset-0" style={{ y: cloudDepth }} />
+      <motion.div className="mt-hero-clouds mt-hero-clouds--far absolute inset-0" style={{ y: cloudDepth }} />
+      <motion.div className="mt-hero-haze absolute inset-0" style={{ y: hazeDepth }} />
       <div className="mt-hero-glow absolute right-[18%] top-[16%] h-56 w-56 rounded-full bg-[radial-gradient(circle,rgba(212,175,55,0.34),rgba(212,175,55,0.08)_38%,transparent_70%)] blur-2xl" />
       <div className="mt-hero-sea-shimmer absolute left-0 bottom-[15%] h-[34%] w-[56%]" />
       <div className="mt-hero-village-lights absolute right-[4%] top-[15%] h-[48%] w-[48%]" />
-      <div className="mt-hero-auto-glow absolute right-[8%] bottom-[16%] h-36 w-44" />
-      <div className="mt-hero-road-glow absolute right-[6%] bottom-[10%] h-24 w-64" />
-      <div className="mt-hero-birds absolute inset-0" aria-hidden="true">
+      <motion.div className="mt-hero-auto-glow absolute right-[8%] bottom-[16%] h-36 w-44" style={{ y: foregroundDepth }} />
+      <motion.div className="mt-hero-road-glow absolute right-[6%] bottom-[10%] h-24 w-64" style={{ y: foregroundDepth }} />
+      <motion.div className="mt-hero-birds absolute inset-0" aria-hidden="true" style={{ y: cloudDepth }}>
         <span />
         <span />
         <span />
         <span />
         <span />
-      </div>
+      </motion.div>
 
       {/* Layered gradients keep the left copy readable while preserving the warm scene. */}
       <div className="absolute inset-0 bg-gradient-to-r from-[#020F12]/82 via-[#03191D]/36 via-42% to-transparent" />
@@ -53,48 +73,47 @@ export default function Hero() {
         className="relative z-10 max-w-7xl mx-auto w-full px-6 md:px-8 -translate-y-8 md:-translate-y-10 lg:-translate-y-12"
       >
         <motion.div
-          initial={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 16 }}
-          animate={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
-          transition={{ duration: 0.82, ease: [0.22, 1, 0.36, 1] }}
+          initial={false}
           className="relative flex flex-col max-w-2xl"
         >
           {/* Label */}
-          <div className="mt-eyebrow text-[#C9A24A] text-xs mb-1.5">
+          <motion.div {...reveal(0.58, 10)} className="mt-eyebrow text-[#C9A24A] text-xs mb-1.5">
             Beyond Boundaries
-          </div>
+          </motion.div>
 
           {/* Main Headline */}
-          <h1 className="mt-display text-5xl md:text-6xl lg:text-7xl text-white leading-[0.95] mb-0">
+          <motion.h1 {...reveal(0.78, 14)} className="mt-display text-5xl md:text-6xl lg:text-7xl text-white leading-[0.95] mb-0">
             Travel Like
-          </h1>
+          </motion.h1>
 
           {/* Secondary Headline */}
-          <h2
+          <motion.h2
+            {...reveal(0.96, 12)}
             className="mt-signature text-5xl md:text-6xl lg:text-7xl text-[#C9A24A] leading-[0.9] -mt-0.5 mb-6 md:mb-7"
             style={{
               textShadow: '0 8px 22px rgba(0, 0, 0, 0.18)',
             }}
           >
             A Local
-          </h2>
+          </motion.h2>
 
           {/* Decorative divider */}
-          <div className="flex items-center gap-0 mb-5 md:mb-6" style={{ width: '286px' }}>
+          <motion.div {...reveal(1.1, 8)} className="flex items-center gap-0 mb-5 md:mb-6" style={{ width: '286px' }}>
             <div className="flex-1 h-px bg-gradient-to-r from-[#C9A24A]/75 to-[#C9A24A]/35" />
             <div className="relative mx-3 flex h-2.5 w-2.5 items-center justify-center">
               <div className="h-1.5 w-1.5 rotate-45 border border-[#C9A24A]/80" />
-              <div className="absolute h-1 w-1 rotate-45 bg-[#C9A24A]" />
+              <div className="mt-gold-pulse absolute h-1 w-1 rotate-45 bg-[#C9A24A]" />
             </div>
             <div className="flex-1 h-px bg-gradient-to-l from-[#C9A24A]/75 to-[#C9A24A]/35" />
-          </div>
+          </motion.div>
 
           {/* Description */}
-          <p className="mt-body-copy text-[#E8E8E8] text-sm md:text-base leading-relaxed mb-7 md:mb-8 max-w-sm">
+          <motion.p {...reveal(1.22, 10)} className="mt-body-copy text-[#E8E8E8] text-sm md:text-base leading-relaxed mb-7 md:mb-8 max-w-sm">
             We curate personalised international journeys that connect cultures, create memories, and stay with you forever.
-          </p>
+          </motion.p>
 
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-5 items-start sm:items-center">
+          <motion.div {...reveal(1.36, 10)} className="flex flex-col sm:flex-row gap-5 items-start sm:items-center">
             <button onClick={handleJourneyClick} className="mt-gold-sheen mt-ui group inline-flex items-center justify-center gap-2 rounded-[4px] bg-[#C9A24A] px-7 py-3 text-xs text-[#071B24] shadow-[0_14px_32px_rgba(201,162,74,0.2)] hover:bg-[#D4B860] hover:shadow-[0_18px_42px_rgba(201,162,74,0.26)] md:px-8">
               <span>BEGIN YOUR JOURNEY</span>
               <span className={ctaArrowClass}>→</span>
@@ -105,15 +124,25 @@ export default function Hero() {
               </div>
               <span className="mt-ui text-xs tracking-[0.16em]">WATCH OUR STORY</span>
             </button>
-          </div>
+          </motion.div>
 
           <motion.button
             type="button"
             aria-label="Begin your trail"
             onClick={handleJourneyClick}
+            initial={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 14 }}
+            animate={prefersReducedMotion ? { opacity: 1, y: 0 } : { opacity: 1, y: [0, -2, 0] }}
             whileHover={prefersReducedMotion ? undefined : { rotateX: 2, rotateY: -4, y: -3 }}
             whileTap={prefersReducedMotion ? undefined : { scale: 0.99 }}
-            transition={{ duration: 0.34, ease: [0.22, 1, 0.36, 1] }}
+            transition={{
+              opacity: { duration: 0.9, delay: 1.62, ease: sceneEase },
+              y: prefersReducedMotion
+                ? { duration: 0.9, delay: 1.62, ease: sceneEase }
+                : { duration: 6.8, delay: 2.3, repeat: Infinity, ease: 'easeInOut' },
+              rotateX: { duration: 0.34, ease: sceneEase },
+              rotateY: { duration: 0.34, ease: sceneEase },
+              scale: { duration: 0.34, ease: sceneEase },
+            }}
             className="mt-hero-passport group absolute left-6 top-[calc(100%+1.25rem)] hidden w-36 origin-center rounded-[6px] border border-[#C9A24A]/34 bg-[#061A1F]/72 px-4 py-3 text-left shadow-[0_18px_42px_rgba(0,0,0,0.26)] backdrop-blur-md md:block lg:left-[25rem]"
           >
             <span className="mt-eyebrow block text-[9px] text-[#C9A24A]/78">Journey</span>
