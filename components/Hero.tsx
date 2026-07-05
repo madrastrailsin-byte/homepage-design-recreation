@@ -20,6 +20,24 @@ export default function Hero() {
     return () => mediaQuery.removeEventListener('change', handleChange)
   }, [])
 
+  // Animation reveal helper
+  const sceneEase = [0.22, 1, 0.36, 1] as const
+  const reveal = (delay = 0, y = 14) => ({
+    initial: prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y },
+    animate: prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 },
+    transition: { duration: 0.9, delay, ease: sceneEase },
+  })
+
+  // CTA helpers
+  const ctaArrowClass = prefersReducedMotion
+    ? 'translate-y-px'
+    : 'translate-y-px transition-transform duration-300 group-hover:translate-x-0.5'
+
+  const handleJourneyClick = () => {
+    const footer = document.querySelector('footer')
+    footer?.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth', block: 'start' })
+  }
+
   return (
     <section 
       className="relative w-full flex items-center overflow-hidden pt-24 md:pt-28"
