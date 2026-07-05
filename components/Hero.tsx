@@ -8,6 +8,10 @@ export default function Hero() {
   const ctaArrowClass = prefersReducedMotion
     ? 'translate-y-px'
     : 'translate-y-px transition-transform duration-300 group-hover:translate-x-0.5'
+  const handleJourneyClick = () => {
+    const footer = document.querySelector('footer')
+    footer?.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth', block: 'start' })
+  }
 
   return (
     <section 
@@ -91,7 +95,7 @@ export default function Hero() {
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-5 items-start sm:items-center">
-            <button className="mt-gold-sheen mt-ui group inline-flex items-center justify-center gap-2 rounded-[4px] bg-[#C9A24A] px-7 py-3 text-xs text-[#071B24] shadow-[0_14px_32px_rgba(201,162,74,0.2)] hover:bg-[#D4B860] hover:shadow-[0_18px_42px_rgba(201,162,74,0.26)] md:px-8">
+            <button onClick={handleJourneyClick} className="mt-gold-sheen mt-ui group inline-flex items-center justify-center gap-2 rounded-[4px] bg-[#C9A24A] px-7 py-3 text-xs text-[#071B24] shadow-[0_14px_32px_rgba(201,162,74,0.2)] hover:bg-[#D4B860] hover:shadow-[0_18px_42px_rgba(201,162,74,0.26)] md:px-8">
               <span>BEGIN YOUR JOURNEY</span>
               <span className={ctaArrowClass}>→</span>
             </button>
@@ -106,6 +110,7 @@ export default function Hero() {
           <motion.button
             type="button"
             aria-label="Begin your trail"
+            onClick={handleJourneyClick}
             whileHover={prefersReducedMotion ? undefined : { rotateX: 2, rotateY: -4, y: -3 }}
             whileTap={prefersReducedMotion ? undefined : { scale: 0.99 }}
             transition={{ duration: 0.34, ease: [0.22, 1, 0.36, 1] }}
@@ -115,7 +120,7 @@ export default function Hero() {
             <span className="mt-display-soft mt-1 block text-sm text-[#F2E7CC]">Passport</span>
             <span className="mt-3 block h-px w-full bg-gradient-to-r from-[#C9A24A]/50 via-[#C9A24A]/20 to-transparent" />
             <span className="mt-ui mt-2 block text-[9px] uppercase tracking-[0.22em] text-[#F2E7CC]/52">Begin Your Trail</span>
-            <span className="mt-ui pointer-events-none absolute right-3 top-3 rotate-[-10deg] rounded-full border border-[#C9A24A]/55 px-2 py-1 text-[9px] text-[#C9A24A] opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-active:opacity-100">
+            <span className="mt-hero-passport-stamp mt-ui pointer-events-none absolute right-3 top-3 rotate-[-10deg] rounded-full border border-[#C9A24A]/55 px-2 py-1 text-[9px] text-[#C9A24A] opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100 group-active:opacity-100">
               BEGIN
             </span>
           </motion.button>

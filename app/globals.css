@@ -339,6 +339,16 @@
     perspective: 700px;
   }
 
+  .mt-hero-passport-stamp {
+    transform-origin: center;
+    transform: rotate(-10deg) scale(1.18);
+  }
+
+  .mt-hero-passport:hover .mt-hero-passport-stamp,
+  .mt-hero-passport:focus-visible .mt-hero-passport-stamp {
+    animation: mt-hero-stamp-in 0.42s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
   .mt-gold-sheen {
     position: relative;
     overflow: hidden;
@@ -508,6 +518,26 @@ div.bg-\[\#0D1117\] {
   }
 }
 
+@keyframes mt-hero-stamp-in {
+  0% {
+    opacity: 0;
+    transform: rotate(-10deg) scale(1.22);
+    filter: blur(1px);
+  }
+
+  62% {
+    opacity: 1;
+    transform: rotate(-10deg) scale(0.94);
+    filter: blur(0);
+  }
+
+  100% {
+    opacity: 1;
+    transform: rotate(-10deg) scale(1);
+    filter: blur(0);
+  }
+}
+
 @keyframes mt-ambient-drift {
   0% {
     background-position: 50% 50%, 50% 50%, 50% 50%, 50% 14%;
@@ -599,6 +629,11 @@ div.bg-\[\#0D1117\] {
 
   .mt-hero-birds {
     display: none;
+  }
+
+  .mt-hero-passport:hover .mt-hero-passport-stamp,
+  .mt-hero-passport:focus-visible .mt-hero-passport-stamp {
+    animation: none !important;
   }
 
   .mt-destinations-bg,
