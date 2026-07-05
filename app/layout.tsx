@@ -1,17 +1,27 @@
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
-import { Geist, Geist_Mono } from 'next/font/google'
-import '@fontsource/playfair-display/700.css'
-import '@fontsource/playfair-display/400.css'
-import '@fontsource/inter/400.css'
-import '@fontsource/inter/500.css'
-import '@fontsource/manrope/600.css'
+import { Catamaran, Fraunces, Oooh_Baby } from 'next/font/google'
 import './globals.css'
 
-const geistSans = Geist({ variable: '--font-geist-sans', subsets: ['latin'] })
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
+const catamaran = Catamaran({
+  variable: '--font-catamaran',
   subsets: ['latin'],
+  weight: ['300', '400', '500', '600', '700'],
+  display: 'swap',
+})
+
+const fraunces = Fraunces({
+  variable: '--font-fraunces',
+  subsets: ['latin'],
+  weight: ['600', '700'],
+  display: 'swap',
+})
+
+const ooohBaby = Oooh_Baby({
+  variable: '--font-signature',
+  subsets: ['latin'],
+  weight: '400',
+  display: 'swap',
 })
 
 export const metadata: Metadata = {
@@ -31,7 +41,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`${geistSans.variable} ${geistMono.variable} bg-[#0D1117]`}>
+    <html lang="en" className={`${catamaran.variable} ${fraunces.variable} ${ooohBaby.variable} bg-[#0D1117]`}>
       <body className="font-sans antialiased bg-[#0D1117]">
         {children}
         {process.env.NODE_ENV === 'production' && <Analytics />}

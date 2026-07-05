@@ -59,10 +59,10 @@ export default function ExperiencesSection() {
           viewport={{ once: true, amount: 0.24 }}
           className="mb-12 md:mb-16 max-w-2xl"
         >
-          <h2 className="text-4xl md:text-5xl text-white mb-2 leading-tight" style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700 }}>Handpicked</h2>
-          <h3 className="text-4xl md:text-5xl text-white mb-4 md:mb-6 leading-tight" style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700 }}>Experiences Just for You</h3>
+          <h2 className="mt-display text-4xl md:text-5xl text-white mb-2 leading-tight">Handpicked</h2>
+          <h3 className="mt-display text-4xl md:text-5xl text-white mb-4 md:mb-6 leading-tight">Experiences Just for You</h3>
           <div className="w-px h-12 bg-gradient-to-b from-[#C9A24A] via-[#C9A24A]/50 to-transparent mb-4 md:mb-6" />
-          <p className="text-[#C9A24A]/60 text-sm md:text-base leading-relaxed font-light">
+          <p className="mt-body-copy text-[#C9A24A]/60 text-sm md:text-base leading-relaxed">
             Unique places. Authentic moments. Unforgettable memories.
           </p>
         </motion.div>
@@ -74,7 +74,7 @@ export default function ExperiencesSection() {
               key={exp.id}
               initial={cardInitial}
               whileInView={cardInView}
-              whileHover={prefersReducedMotion ? undefined : { y: -4 }}
+              whileHover={prefersReducedMotion ? undefined : { y: -4, rotateX: 0.5, rotateZ: idx % 2 === 0 ? -0.3 : 0.3, transformPerspective: 900 }}
               transition={{ duration: 0.82, delay: idx * 0.08, ease: motionEase }}
               viewport={{ once: true, amount: 0.24 }}
               className="group relative h-80 md:h-96 rounded-t-3xl overflow-hidden cursor-pointer shadow-[0_20px_60px_rgba(0,0,0,0.34)] hover:shadow-[0_30px_80px_rgba(0,0,0,0.48)] transition-shadow duration-500"
@@ -89,17 +89,19 @@ export default function ExperiencesSection() {
                 style={{ backgroundImage: `url(${exp.image})` }}
               >
                 {/* Dark Gradient Overlay - Bottom Heavy */}
+                <div className="mt-experience-depth absolute inset-0" />
                 <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/30 to-black/85" />
               </motion.div>
+              <div className="mt-card-reflection absolute inset-0 pointer-events-none" />
 
               {/* Content - Overlaid on Image */}
               <div className="relative h-full flex flex-col justify-end p-6 md:p-8">
                 {/* Title and Subtitle */}
                 <div>
-                  <h3 className="text-xl md:text-2xl text-white mb-2 leading-tight" style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700 }}>{exp.title}</h3>
+                  <h3 className="mt-display text-xl md:text-2xl text-white mb-2 leading-tight">{exp.title}</h3>
                   <div className="flex items-center gap-2 mb-0">
                     <div className="w-1 h-px bg-[#C9A24A]" />
-                    <p className="text-[#C9A24A] text-xs font-light tracking-wider">{exp.subtitle}</p>
+                    <p className="mt-body-copy text-[#C9A24A] text-xs tracking-wider">{exp.subtitle}</p>
                   </div>
                 </div>
               </div>
