@@ -74,7 +74,7 @@ export default function ExperiencesSection() {
               key={exp.id}
               initial={cardInitial}
               whileInView={cardInView}
-              whileHover={prefersReducedMotion ? undefined : { y: -4 }}
+              whileHover={prefersReducedMotion ? undefined : { y: -4, rotateX: 0.5, rotateZ: idx % 2 === 0 ? -0.3 : 0.3, transformPerspective: 900 }}
               transition={{ duration: 0.82, delay: idx * 0.08, ease: motionEase }}
               viewport={{ once: true, amount: 0.24 }}
               className="group relative h-80 md:h-96 rounded-t-3xl overflow-hidden cursor-pointer shadow-[0_20px_60px_rgba(0,0,0,0.34)] hover:shadow-[0_30px_80px_rgba(0,0,0,0.48)] transition-shadow duration-500"
@@ -89,8 +89,10 @@ export default function ExperiencesSection() {
                 style={{ backgroundImage: `url(${exp.image})` }}
               >
                 {/* Dark Gradient Overlay - Bottom Heavy */}
+                <div className="mt-experience-depth absolute inset-0" />
                 <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/30 to-black/85" />
               </motion.div>
+              <div className="mt-card-reflection absolute inset-0 pointer-events-none" />
 
               {/* Content - Overlaid on Image */}
               <div className="relative h-full flex flex-col justify-end p-6 md:p-8">

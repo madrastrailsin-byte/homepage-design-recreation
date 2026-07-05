@@ -408,21 +408,6 @@
     transform: translate3d(-9vw, 0, 0) scale(0.5);
   }
 
-  .mt-hero-passport {
-    transform-style: preserve-3d;
-    perspective: 700px;
-  }
-
-  .mt-hero-passport-stamp {
-    transform-origin: center;
-    transform: rotate(-10deg) scale(1.18);
-  }
-
-  .mt-hero-passport:hover .mt-hero-passport-stamp,
-  .mt-hero-passport:focus-visible .mt-hero-passport-stamp {
-    animation: mt-hero-stamp-in 0.42s cubic-bezier(0.22, 1, 0.36, 1) both;
-  }
-
   .mt-gold-sheen {
     position: relative;
     overflow: hidden;
@@ -462,9 +447,17 @@
     transform: translateY(-1.5px) translateZ(0);
   }
 
+  .mt-gold-sheen:active {
+    transform: translateY(0.5px) translateZ(0);
+  }
+
   .mt-gold-sheen:hover::before {
     opacity: 1;
     transform: translateX(42%);
+  }
+
+  .mt-gold-sheen:hover svg {
+    transform: rotate(2deg);
   }
 
   .mt-gold-pulse {
@@ -491,22 +484,130 @@
       radial-gradient(circle at 82% 46%, rgba(8, 45, 52, 0.22), transparent 30%);
     animation: mt-ambient-breathe 20s cubic-bezier(0.22, 1, 0.36, 1) infinite;
   }
+
+  .mt-card-reflection {
+    opacity: 0;
+    background: linear-gradient(115deg, transparent 18%, rgba(255, 247, 220, 0.1) 44%, transparent 62%);
+    transform: translate3d(-42%, 0, 0);
+    transition:
+      opacity 0.42s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .group:hover .mt-card-reflection {
+    opacity: 1;
+    transform: translate3d(38%, 0, 0);
+  }
+
+  .mt-destination-snow {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.2;
+  }
+
+  .mt-destination-snow span {
+    position: absolute;
+    top: -8%;
+    width: 2px;
+    height: 2px;
+    border-radius: 999px;
+    background: rgba(242, 231, 204, 0.74);
+    animation: mt-snow-fall 34s linear infinite;
+  }
+
+  .mt-destination-snow span:nth-child(1) {
+    left: 22%;
+    animation-delay: -4s;
+  }
+
+  .mt-destination-snow span:nth-child(2) {
+    left: 48%;
+    animation-delay: -17s;
+    animation-duration: 41s;
+  }
+
+  .mt-destination-snow span:nth-child(3) {
+    left: 66%;
+    animation-delay: -10s;
+    animation-duration: 38s;
+  }
+
+  .mt-destination-snow span:nth-child(4) {
+    left: 82%;
+    animation-delay: -24s;
+    animation-duration: 46s;
+  }
+
+  .mt-destination-dust {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.14;
+    mix-blend-mode: screen;
+    background:
+      radial-gradient(ellipse at 38% 62%, rgba(242, 201, 138, 0.16), transparent 24%),
+      linear-gradient(105deg, transparent 18%, rgba(242, 201, 138, 0.08), transparent 64%);
+    animation: mt-dust-drift 39s cubic-bezier(0.22, 1, 0.36, 1) infinite alternate;
+  }
+
+  .mt-destination-rain {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.13;
+    mix-blend-mode: screen;
+    background:
+      repeating-linear-gradient(108deg, transparent 0 18px, rgba(160, 220, 255, 0.24) 18px 19px, transparent 19px 38px),
+      linear-gradient(180deg, transparent 48%, rgba(91, 209, 255, 0.14), transparent 90%);
+    animation: mt-rain-shimmer 28s cubic-bezier(0.22, 1, 0.36, 1) infinite alternate;
+  }
+
+  .mt-experience-depth {
+    pointer-events: none;
+    opacity: 0.2;
+    mix-blend-mode: soft-light;
+    background:
+      radial-gradient(circle at 28% 20%, rgba(242, 231, 204, 0.16), transparent 26%),
+      linear-gradient(115deg, rgba(3, 25, 29, 0.22), transparent 52%);
+    transition:
+      opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .group:hover .mt-experience-depth {
+    opacity: 0.28;
+    transform: translate3d(2px, -3px, 0);
+  }
+
+  .mt-footer-arrival-light {
+    opacity: 0.2;
+    background:
+      radial-gradient(circle at 48% 42%, rgba(212, 175, 55, 0.12), transparent 24%),
+      radial-gradient(circle at 50% 70%, rgba(8, 45, 52, 0.18), transparent 34%);
+    animation: mt-footer-arrival 26s cubic-bezier(0.22, 1, 0.36, 1) infinite alternate;
+  }
+
+  .mt-newsletter-focus {
+    position: relative;
+  }
+
+  .mt-newsletter-focus::before {
+    content: '';
+    position: absolute;
+    inset: -18px -22px;
+    pointer-events: none;
+    opacity: 0.18;
+    border-radius: 18px;
+    background: radial-gradient(circle at 54% 50%, rgba(212, 175, 55, 0.16), transparent 62%);
+    animation: mt-newsletter-breathe 24s cubic-bezier(0.22, 1, 0.36, 1) infinite alternate;
+  }
 }
 
 main.bg-\[\#0D1117\],
 section.bg-\[\#0D1117\],
 div.bg-\[\#0D1117\] {
   background-color: var(--mt-bg-dark);
-}
-
-@keyframes mt-hero-kenburns {
-  0% {
-    transform: scale(1.02) translateZ(0);
-  }
-
-  100% {
-    transform: scale(1.06) translate3d(-0.4%, -0.2%, 0);
-  }
 }
 
 @keyframes mt-hero-cloud-drift {
@@ -619,26 +720,6 @@ div.bg-\[\#0D1117\] {
   }
 }
 
-@keyframes mt-hero-stamp-in {
-  0% {
-    opacity: 0;
-    transform: rotate(-10deg) scale(1.22);
-    filter: blur(1px);
-  }
-
-  62% {
-    opacity: 1;
-    transform: rotate(-10deg) scale(0.94);
-    filter: blur(0);
-  }
-
-  100% {
-    opacity: 1;
-    transform: rotate(-10deg) scale(1);
-    filter: blur(0);
-  }
-}
-
 @keyframes mt-balloon-drift {
   0% {
     opacity: 0.08;
@@ -652,6 +733,72 @@ div.bg-\[\#0D1117\] {
   100% {
     opacity: 0.12;
     translate: 6px -8px;
+  }
+}
+
+@keyframes mt-snow-fall {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 0, 0);
+  }
+
+  12% {
+    opacity: 0.8;
+  }
+
+  78% {
+    opacity: 0.46;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate3d(10px, 118px, 0);
+  }
+}
+
+@keyframes mt-dust-drift {
+  0%, 100% {
+    opacity: 0.1;
+    transform: translate3d(-1%, 0, 0);
+  }
+
+  50% {
+    opacity: 0.18;
+    transform: translate3d(1%, -1%, 0);
+  }
+}
+
+@keyframes mt-rain-shimmer {
+  0%, 100% {
+    opacity: 0.08;
+    transform: translate3d(-1%, -1%, 0);
+  }
+
+  50% {
+    opacity: 0.16;
+    transform: translate3d(1%, 1%, 0);
+  }
+}
+
+@keyframes mt-footer-arrival {
+  0%, 100% {
+    opacity: 0.14;
+    transform: translate3d(0, 0, 0);
+  }
+
+  50% {
+    opacity: 0.24;
+    transform: translate3d(0, -3px, 0);
+  }
+}
+
+@keyframes mt-newsletter-breathe {
+  0%, 100% {
+    opacity: 0.12;
+  }
+
+  50% {
+    opacity: 0.2;
   }
 }
 
@@ -789,17 +936,17 @@ div.bg-\[\#0D1117\] {
     display: none;
   }
 
-  .mt-hero-passport:hover .mt-hero-passport-stamp,
-  .mt-hero-passport:focus-visible .mt-hero-passport-stamp {
-    animation: none !important;
-  }
-
   .mt-destinations-bg,
   .mt-services-flow::before,
   .mt-destinations-bg::before,
   section.bg-\[\#0D1117\]::before,
   .mt-destination-atmosphere,
   .mt-destination-balloons span,
+  .mt-destination-snow span,
+  .mt-destination-dust,
+  .mt-destination-rain,
+  .mt-footer-arrival-light,
+  .mt-newsletter-focus::before,
   .mt-footer-ambient,
   .mt-footer-ambient::after,
   .mt-gold-sheen::after,
@@ -808,7 +955,10 @@ div.bg-\[\#0D1117\] {
   }
 
   .mt-destination-atmosphere,
-  .mt-destination-balloons {
+  .mt-destination-balloons,
+  .mt-destination-snow,
+  .mt-destination-dust,
+  .mt-destination-rain {
     display: none;
   }
 

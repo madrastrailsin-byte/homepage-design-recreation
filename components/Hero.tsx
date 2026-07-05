@@ -125,34 +125,6 @@ export default function Hero() {
               <span className="mt-ui text-xs tracking-[0.16em]">WATCH OUR STORY</span>
             </button>
           </motion.div>
-
-          <motion.button
-            type="button"
-            aria-label="Begin your trail"
-            onClick={handleJourneyClick}
-            initial={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 14 }}
-            animate={prefersReducedMotion ? { opacity: 1, y: 0 } : { opacity: 1, y: [0, -2, 0] }}
-            whileHover={prefersReducedMotion ? undefined : { rotateX: 2, rotateY: -4, y: -3 }}
-            whileTap={prefersReducedMotion ? undefined : { scale: 0.99 }}
-            transition={{
-              opacity: { duration: 0.9, delay: 1.62, ease: sceneEase },
-              y: prefersReducedMotion
-                ? { duration: 0.9, delay: 1.62, ease: sceneEase }
-                : { duration: 6.8, delay: 2.3, repeat: Infinity, ease: 'easeInOut' },
-              rotateX: { duration: 0.34, ease: sceneEase },
-              rotateY: { duration: 0.34, ease: sceneEase },
-              scale: { duration: 0.34, ease: sceneEase },
-            }}
-            className="mt-hero-passport group absolute left-6 top-[calc(100%+1.25rem)] hidden w-36 origin-center rounded-[6px] border border-[#C9A24A]/34 bg-[#061A1F]/72 px-4 py-3 text-left shadow-[0_18px_42px_rgba(0,0,0,0.26)] backdrop-blur-md md:block lg:left-[25rem]"
-          >
-            <span className="mt-eyebrow block text-[9px] text-[#C9A24A]/78">Journey</span>
-            <span className="mt-display-soft mt-1 block text-sm text-[#F2E7CC]">Passport</span>
-            <span className="mt-3 block h-px w-full bg-gradient-to-r from-[#C9A24A]/50 via-[#C9A24A]/20 to-transparent" />
-            <span className="mt-ui mt-2 block text-[9px] uppercase tracking-[0.22em] text-[#F2E7CC]/52">Begin Your Trail</span>
-            <span className="mt-hero-passport-stamp mt-ui pointer-events-none absolute right-3 top-3 rotate-[-10deg] rounded-full border border-[#C9A24A]/55 px-2 py-1 text-[9px] text-[#C9A24A] opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100 group-active:opacity-100">
-              BEGIN
-            </span>
-          </motion.button>
         </motion.div>
       </motion.div>
 
