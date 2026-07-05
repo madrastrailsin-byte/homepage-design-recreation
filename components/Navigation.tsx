@@ -17,7 +17,7 @@ export default function Navigation() {
   }, [])
 
   const navLinkClass =
-    'relative text-[#FAFAF9] text-xs font-light transition duration-300 hover:text-[#D4AF37] after:absolute after:left-0 after:-bottom-1 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-[#D4AF37]/80 after:transition-transform after:duration-300 hover:after:scale-x-100'
+    'mt-ui relative text-[#FAFAF9] text-xs transition duration-300 hover:text-[#D4AF37] after:absolute after:left-0 after:-bottom-1 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-[#D4AF37]/80 after:transition-transform after:duration-300 hover:after:scale-x-100'
 
   return (
     <nav
@@ -53,7 +53,7 @@ export default function Navigation() {
 
         {/* CTA Button and Menu */}
         <div className="flex items-center gap-3">
-          <button className="btn-gold hidden md:block text-xs font-semibold tracking-wider py-1.5 px-5 transition-transform duration-300 hover:-translate-y-0.5 hover:shadow-[0_14px_30px_rgba(212,175,55,0.24)]">PLAN YOUR JOURNEY →</button>
+          <button className="btn-gold mt-ui hidden md:block text-xs py-1.5 px-5 transition-transform duration-300 hover:-translate-y-0.5 hover:shadow-[0_14px_30px_rgba(212,175,55,0.24)]">PLAN YOUR JOURNEY →</button>
           <button
             onClick={() => setIsOpen(!isOpen)}
             className="hidden md:flex items-center justify-center text-[#FAFAF9] w-9 h-9 border border-[#FAFAF9]/24 hover:border-[#D4AF37]/60 transition-all duration-300 rounded-full hover:bg-[#D4AF37]/10 hover:shadow-[0_0_0_5px_rgba(212,175,55,0.055)]"
@@ -79,13 +79,13 @@ export default function Navigation() {
       {isOpen && (
         <div className="md:hidden bg-[#03191D]/86 backdrop-blur-xl border-t border-[#D4AF37]/10">
           <div className="px-6 py-6 flex flex-col gap-4">
-            <a href="#" className="text-[#FAFAF9] text-sm font-light hover:text-[#D4AF37] transition">Destinations</a>
-            <a href="#" className="text-[#FAFAF9] text-sm font-light hover:text-[#D4AF37] transition">Experiences</a>
-            <a href="#" className="text-[#FAFAF9] text-sm font-light hover:text-[#D4AF37] transition">Services</a>
-            <a href="#" className="text-[#FAFAF9] text-sm font-light hover:text-[#D4AF37] transition">About Us</a>
-            <a href="#" className="text-[#FAFAF9] text-sm font-light hover:text-[#D4AF37] transition">Inspiration</a>
-            <a href="#" className="text-[#FAFAF9] text-sm font-light hover:text-[#D4AF37] transition">Contact</a>
-            <button className="btn-gold w-full text-xs font-light tracking-wide">PLAN YOUR JOURNEY →</button>
+            <a href="#" className="mt-ui text-[#FAFAF9] text-sm hover:text-[#D4AF37] transition">Destinations</a>
+            <a href="#" className="mt-ui text-[#FAFAF9] text-sm hover:text-[#D4AF37] transition">Experiences</a>
+            <a href="#" className="mt-ui text-[#FAFAF9] text-sm hover:text-[#D4AF37] transition">Services</a>
+            <a href="#" className="mt-ui text-[#FAFAF9] text-sm hover:text-[#D4AF37] transition">About Us</a>
+            <a href="#" className="mt-ui text-[#FAFAF9] text-sm hover:text-[#D4AF37] transition">Inspiration</a>
+            <a href="#" className="mt-ui text-[#FAFAF9] text-sm hover:text-[#D4AF37] transition">Contact</a>
+            <button className="btn-gold mt-ui w-full text-xs tracking-wide">PLAN YOUR JOURNEY →</button>
           </div>
         </div>
       )}

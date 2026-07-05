@@ -3,9 +3,9 @@
 @import 'shadcn/tailwind.css';
 
 @theme inline {
-  --font-serif: 'Playfair Display', serif;
-  --font-sans: 'Inter', sans-serif;
-  --font-mono: var(--font-geist-mono), 'Geist Mono Fallback';
+  --font-serif: var(--font-fraunces), Georgia, serif;
+  --font-sans: var(--font-catamaran), system-ui, sans-serif;
+  --font-mono: ui-monospace, 'SFMono-Regular', Menlo, Monaco, Consolas, monospace;
   
   --color-background: #071B24;
   --color-foreground: #E8E8E8;
@@ -86,6 +86,8 @@
   
   .btn-gold {
     @apply bg-[#D4AF37] text-[#03191D] px-8 py-3 rounded-lg font-semibold hover:bg-[#C9A24A] transition-all duration-300 shadow-lg hover:shadow-xl;
+    font-family: var(--font-catamaran), system-ui, sans-serif;
+    letter-spacing: 0.08em;
   }
   
   .section-spacing {
@@ -98,6 +100,43 @@
   
   .text-cream {
     @apply text-[#F2E7CC];
+  }
+
+  .mt-display {
+    font-family: var(--font-fraunces), Georgia, serif;
+    font-weight: 700;
+    letter-spacing: 0;
+  }
+
+  .mt-display-soft {
+    font-family: var(--font-fraunces), Georgia, serif;
+    font-weight: 600;
+    letter-spacing: 0;
+  }
+
+  .mt-body-copy {
+    font-family: var(--font-catamaran), system-ui, sans-serif;
+    font-weight: 300;
+    letter-spacing: 0.01em;
+  }
+
+  .mt-ui {
+    font-family: var(--font-catamaran), system-ui, sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+  }
+
+  .mt-eyebrow {
+    font-family: var(--font-catamaran), system-ui, sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+  }
+
+  .mt-signature {
+    font-family: var(--font-signature), 'Segoe Script', cursive;
+    font-weight: 400;
+    letter-spacing: 0.015em;
   }
 
   .mt-destinations-bg {
@@ -149,9 +188,155 @@
     animation: mt-neon-shimmer 18s cubic-bezier(0.22, 1, 0.36, 1) infinite alternate;
   }
 
+  .mt-hero-bg {
+    transform: scale(1.02) translateZ(0);
+    transform-origin: 72% 46%;
+    animation: mt-hero-kenburns 28s cubic-bezier(0.22, 1, 0.36, 1) infinite alternate;
+    will-change: transform;
+  }
+
+  .mt-hero-clouds {
+    pointer-events: none;
+    opacity: 0.2;
+    mix-blend-mode: screen;
+    background:
+      radial-gradient(ellipse at 18% 22%, rgba(242, 231, 204, 0.18), transparent 22%),
+      radial-gradient(ellipse at 44% 18%, rgba(242, 231, 204, 0.12), transparent 20%),
+      radial-gradient(ellipse at 66% 24%, rgba(212, 175, 55, 0.12), transparent 18%);
+    background-size: 120% 100%;
+    animation: mt-hero-cloud-drift 36s linear infinite;
+  }
+
+  .mt-hero-clouds--far {
+    opacity: 0.12;
+    background:
+      radial-gradient(ellipse at 28% 14%, rgba(242, 231, 204, 0.12), transparent 18%),
+      radial-gradient(ellipse at 74% 18%, rgba(242, 231, 204, 0.1), transparent 22%);
+    background-size: 150% 100%;
+    animation-duration: 54s;
+    animation-direction: reverse;
+  }
+
   .mt-hero-glow {
     animation: mt-glow-breathe 14s cubic-bezier(0.22, 1, 0.36, 1) infinite;
     will-change: opacity, transform;
+  }
+
+  .mt-hero-sea-shimmer {
+    pointer-events: none;
+    opacity: 0.16;
+    mix-blend-mode: screen;
+    background:
+      linear-gradient(105deg, transparent 18%, rgba(242, 231, 204, 0.11) 42%, transparent 62%),
+      repeating-linear-gradient(172deg, rgba(212, 175, 55, 0.08) 0 1px, transparent 1px 14px);
+    -webkit-mask-image: linear-gradient(90deg, transparent, black 22%, black 74%, transparent);
+    mask-image: linear-gradient(90deg, transparent, black 22%, black 74%, transparent);
+    animation: mt-hero-sea-shimmer 18s cubic-bezier(0.22, 1, 0.36, 1) infinite alternate;
+  }
+
+  .mt-hero-village-lights {
+    pointer-events: none;
+    opacity: 0.42;
+    mix-blend-mode: screen;
+    background:
+      radial-gradient(circle at 42% 46%, rgba(255, 210, 126, 0.28), transparent 2.2%),
+      radial-gradient(circle at 56% 38%, rgba(255, 210, 126, 0.24), transparent 2%),
+      radial-gradient(circle at 63% 54%, rgba(255, 210, 126, 0.22), transparent 2.1%),
+      radial-gradient(circle at 72% 33%, rgba(255, 210, 126, 0.2), transparent 1.8%),
+      radial-gradient(circle at 78% 61%, rgba(255, 210, 126, 0.24), transparent 2%),
+      radial-gradient(circle at 86% 45%, rgba(255, 210, 126, 0.18), transparent 1.8%);
+    animation: mt-hero-light-flicker 7.6s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  }
+
+  .mt-hero-auto-glow {
+    pointer-events: none;
+    opacity: 0.38;
+    mix-blend-mode: screen;
+    background:
+      radial-gradient(circle at 70% 70%, rgba(208, 40, 24, 0.55), transparent 10%),
+      radial-gradient(circle at 58% 72%, rgba(208, 40, 24, 0.38), transparent 9%),
+      radial-gradient(circle at 45% 45%, rgba(255, 190, 86, 0.2), transparent 22%);
+    animation: mt-hero-auto-pulse 5.8s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  }
+
+  .mt-hero-road-glow {
+    pointer-events: none;
+    opacity: 0.16;
+    mix-blend-mode: screen;
+    background:
+      radial-gradient(ellipse at 68% 52%, rgba(212, 175, 55, 0.28), transparent 40%),
+      linear-gradient(105deg, transparent, rgba(242, 231, 204, 0.12), transparent);
+    filter: blur(8px);
+    animation: mt-hero-road-pulse 8s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  }
+
+  .mt-hero-birds {
+    pointer-events: none;
+  }
+
+  .mt-hero-birds span {
+    position: absolute;
+    top: 20%;
+    left: -4%;
+    width: 14px;
+    height: 8px;
+    opacity: 0;
+    transform: translate3d(-6vw, 0, 0) scale(0.7);
+    animation: mt-hero-bird-cross 34s linear infinite;
+  }
+
+  .mt-hero-birds span::before,
+  .mt-hero-birds span::after {
+    content: '';
+    position: absolute;
+    top: 3px;
+    width: 8px;
+    height: 1px;
+    background: rgba(242, 231, 204, 0.64);
+    transform-origin: center;
+  }
+
+  .mt-hero-birds span::before {
+    left: 0;
+    transform: rotate(24deg);
+  }
+
+  .mt-hero-birds span::after {
+    right: 0;
+    transform: rotate(-24deg);
+  }
+
+  .mt-hero-birds span:nth-child(2) {
+    top: 25%;
+    animation-delay: 5s;
+    animation-duration: 38s;
+    transform: translate3d(-8vw, 0, 0) scale(0.55);
+  }
+
+  .mt-hero-birds span:nth-child(3) {
+    top: 16%;
+    animation-delay: 12s;
+    animation-duration: 42s;
+    transform: translate3d(-10vw, 0, 0) scale(0.45);
+  }
+
+  .mt-hero-birds span:nth-child(4) {
+    top: 31%;
+    animation-delay: 18s;
+    animation-duration: 40s;
+    transform: translate3d(-7vw, 0, 0) scale(0.6);
+  }
+
+  .mt-hero-birds span:nth-child(5) {
+    top: 22%;
+    animation-delay: 24s;
+    animation-duration: 44s;
+    transform: translate3d(-9vw, 0, 0) scale(0.5);
+  }
+
+  .mt-hero-passport {
+    transform-style: preserve-3d;
+    perspective: 700px;
   }
 
   .mt-gold-sheen {
@@ -215,6 +400,28 @@ div.bg-\[\#0D1117\] {
   background-color: var(--mt-bg-dark);
 }
 
+@keyframes mt-hero-kenburns {
+  0% {
+    transform: scale(1.02) translateZ(0);
+  }
+
+  100% {
+    transform: scale(1.06) translate3d(-0.4%, -0.2%, 0);
+  }
+}
+
+@keyframes mt-hero-cloud-drift {
+  0% {
+    background-position: 0% 0%;
+    transform: translate3d(-1.5%, 0, 0);
+  }
+
+  100% {
+    background-position: 100% 0%;
+    transform: translate3d(1.5%, 0, 0);
+  }
+}
+
 @keyframes mt-glow-breathe {
   0%, 100% {
     opacity: 0.16;
@@ -224,6 +431,80 @@ div.bg-\[\#0D1117\] {
   50% {
     opacity: 0.26;
     transform: scale(1.035);
+  }
+}
+
+@keyframes mt-hero-sea-shimmer {
+  0%, 100% {
+    opacity: 0.12;
+    transform: translate3d(-1%, 0, 0);
+  }
+
+  50% {
+    opacity: 0.2;
+    transform: translate3d(1%, -0.4%, 0);
+  }
+}
+
+@keyframes mt-hero-light-flicker {
+  0%, 100% {
+    opacity: 0.36;
+  }
+
+  28% {
+    opacity: 0.5;
+  }
+
+  42% {
+    opacity: 0.39;
+  }
+
+  68% {
+    opacity: 0.48;
+  }
+}
+
+@keyframes mt-hero-auto-pulse {
+  0%, 100% {
+    opacity: 0.32;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.48;
+    transform: scale(1.018);
+  }
+}
+
+@keyframes mt-hero-road-pulse {
+  0%, 100% {
+    opacity: 0.12;
+    transform: translate3d(0, 0, 0);
+  }
+
+  50% {
+    opacity: 0.2;
+    transform: translate3d(0.8%, -0.4%, 0);
+  }
+}
+
+@keyframes mt-hero-bird-cross {
+  0% {
+    opacity: 0;
+    transform: translate3d(-8vw, 0, 0) scale(0.58);
+  }
+
+  8% {
+    opacity: 0.42;
+  }
+
+  62% {
+    opacity: 0.38;
+  }
+
+  78%, 100% {
+    opacity: 0;
+    transform: translate3d(72vw, -4vh, 0) scale(0.58);
   }
 }
 
@@ -295,8 +576,29 @@ div.bg-\[\#0D1117\] {
     transition-duration: 0.001ms !important;
   }
 
-  .mt-hero-glow {
+  .mt-hero-bg,
+  .mt-hero-clouds,
+  .mt-hero-glow,
+  .mt-hero-sea-shimmer,
+  .mt-hero-village-lights,
+  .mt-hero-auto-glow,
+  .mt-hero-road-glow,
+  .mt-hero-birds span {
     animation: none !important;
+  }
+
+  .mt-hero-bg,
+  .mt-hero-clouds,
+  .mt-hero-sea-shimmer,
+  .mt-hero-village-lights,
+  .mt-hero-auto-glow,
+  .mt-hero-road-glow,
+  .mt-hero-birds span {
+    transform: translateZ(0) !important;
+  }
+
+  .mt-hero-birds {
+    display: none;
   }
 
   .mt-destinations-bg,

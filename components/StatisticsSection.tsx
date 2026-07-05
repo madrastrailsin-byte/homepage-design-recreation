@@ -75,10 +75,10 @@ export default function StatisticsSection() {
                 <div className="mb-3 flex h-8 w-8 items-center justify-center rounded-full border border-[#D4AF37]/55 text-[#D4AF37]">
                   <Icon size={16} strokeWidth={1.5} />
                 </div>
-                <h3 className="text-[#03191D] text-sm md:text-base leading-tight mb-1.5" style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700 }}>
+                <h3 className="mt-display text-[#03191D] text-sm md:text-base leading-tight mb-1.5">
                   {promise.title}
                 </h3>
-                <p className="text-[#123B47] text-xs md:text-[13px] leading-relaxed font-light max-w-[15rem]">
+                <p className="mt-body-copy text-[#123B47] text-xs md:text-[13px] leading-relaxed max-w-[15rem]">
                   {promise.description}
                 </p>
               </motion.div>

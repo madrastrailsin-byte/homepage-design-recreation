@@ -77,7 +77,7 @@ export default function DestinationsSection() {
               viewport={{ once: true, amount: 0.24 }}
               className="flex flex-col items-center gap-2 flex-shrink-0"
             >
-              <div className="text-[#C9A24A] text-[10px] font-light" style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)', letterSpacing: '0.35em' }}>
+              <div className="mt-eyebrow text-[#C9A24A] text-[10px]" style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}>
                 EXPLORE
               </div>
               <div className="w-2.5 h-4 border border-[#C9A24A] rounded-full" />
@@ -94,8 +94,8 @@ export default function DestinationsSection() {
                 viewport={{ once: true, amount: 0.24 }}
                 className="mb-1.5"
               >
-                <div className="text-[#C9A24A] text-xs font-light leading-tight" style={{ letterSpacing: '0.35em' }}>CURATED GLOBALLY.</div>
-                <div className="text-[#C9A24A] text-xs font-light leading-tight" style={{ letterSpacing: '0.35em' }}>CRAFTED PERSONALLY</div>
+                <div className="mt-eyebrow text-[#C9A24A] text-xs leading-tight">CURATED GLOBALLY.</div>
+                <div className="mt-eyebrow text-[#C9A24A] text-xs leading-tight">CRAFTED PERSONALLY</div>
               </motion.div>
 
               {/* Small Gap */}
@@ -107,8 +107,7 @@ export default function DestinationsSection() {
                 whileInView={textRevealInView}
                 transition={editorialTransition(0.14)}
                 viewport={{ once: true, amount: 0.24 }}
-                className="text-4xl md:text-5xl text-white mb-3.5 leading-tight"
-                style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700 }}
+                className="mt-display text-4xl md:text-5xl text-white mb-3.5 leading-tight"
               >
                 Your Journey,
                 <br />
@@ -133,7 +132,7 @@ export default function DestinationsSection() {
                 whileInView={textRevealInView}
                 transition={editorialTransition(0.26)}
                 viewport={{ once: true, amount: 0.24 }}
-                className="text-[#E8E8E8]/78 text-sm leading-relaxed mb-5 font-light"
+                className="mt-body-copy text-[#E8E8E8]/78 text-sm leading-relaxed mb-5"
               >
                 From the world&apos;s most iconic cities to hidden gems only locals know, we design journeys that are as unique as you are.
               </motion.p>
@@ -145,7 +144,7 @@ export default function DestinationsSection() {
                 transition={editorialTransition(0.34)}
                 viewport={{ once: true, amount: 0.24 }}
               >
-                <a href="#" className="mt-gold-sheen text-[#C9A24A] font-light text-xs hover:text-white inline-flex items-center gap-2 group tracking-widest">
+                <a href="#" className="mt-gold-sheen mt-ui text-[#C9A24A] text-xs hover:text-white inline-flex items-center gap-2 group tracking-widest">
                   DISCOVER OUR SERVICES 
                   <ArrowRight size={14} className={prefersReducedMotion ? '' : 'group-hover:translate-x-1 transition-transform'} />
                 </a>
@@ -195,8 +194,8 @@ export default function DestinationsSection() {
                       <div />
                       <div className="flex items-end justify-between gap-4">
                         <div>
-                          <h3 className="text-3xl text-white mb-1 font-bold" style={{ fontFamily: "'Playfair Display', serif" }}>{destinations[0].name}</h3>
-                          <p className="text-[#C9A24A] text-xs font-light mb-0">{destinations[0].label}</p>
+                          <h3 className="mt-display text-3xl text-white mb-1">{destinations[0].name}</h3>
+                          <p className="mt-body-copy text-[#C9A24A] text-xs mb-0">{destinations[0].label}</p>
                         </div>
                         <button className={outlineArrowButton}>
                           <ArrowRight size={15} className={`transition-transform ${iconHoverClass}`} />
@@ -233,8 +232,8 @@ export default function DestinationsSection() {
                         <div />
                         <div className="flex items-end justify-between gap-4">
                           <div>
-                            <h3 className="text-4xl text-white mb-1 font-bold" style={{ fontFamily: "'Playfair Display', serif" }}>{destinations[1].name}</h3>
-                            <p className="text-[#C9A24A] text-xs font-light">{destinations[1].label}</p>
+                            <h3 className="mt-display text-4xl text-white mb-1">{destinations[1].name}</h3>
+                            <p className="mt-body-copy text-[#C9A24A] text-xs">{destinations[1].label}</p>
                           </div>
                           <button className={filledArrowButton}>
                             <ArrowRight size={15} className={`transition-transform ${iconHoverClass}`} />
@@ -271,8 +270,8 @@ export default function DestinationsSection() {
                       <div />
                       <div className="flex items-end justify-between gap-4">
                         <div>
-                          <h3 className="text-3xl text-white mb-1 font-bold" style={{ fontFamily: "'Playfair Display', serif" }}>{destinations[2].name}</h3>
-                          <p className="text-[#C9A24A] text-xs font-light">{destinations[2].label}</p>
+                          <h3 className="mt-display text-3xl text-white mb-1">{destinations[2].name}</h3>
+                          <p className="mt-body-copy text-[#C9A24A] text-xs">{destinations[2].label}</p>
                         </div>
                         <button className={outlineArrowButton}>
                           <ArrowRight size={15} className={`transition-transform ${iconHoverClass}`} />
