@@ -94,9 +94,44 @@ export default function Hero() {
     gsap.ticker.lagSmoothing(0)
 
     const ctx = gsap.context(() => {
-      gsap.to('.mt-hero-content', {
-        opacity: 0.72,
-        y: 14,
+      gsap.to('.mt-hero-video', {
+        scale: 1.08,
+        y: -34,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: '.mt-scroll-hero',
+          start: 'top top',
+          end: 'bottom top',
+          scrub: true,
+        },
+      })
+
+      gsap.to('.mt-hero-grade, .mt-hero-content-vignette, .mt-hero-feather, .mt-hero-gold-highlight, .mt-hero-top-vignette, .mt-hero-bottom-vignette', {
+        y: -10,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: '.mt-scroll-hero',
+          start: 'top top',
+          end: 'bottom top',
+          scrub: true,
+        },
+      })
+
+      gsap.to('.mt-hero-typography', {
+        opacity: 0.62,
+        y: -26,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: '.mt-scroll-hero',
+          start: 'top top',
+          end: 'bottom top',
+          scrub: true,
+        },
+      })
+
+      gsap.to('.mt-hero-actions', {
+        opacity: 0.52,
+        y: -10,
         ease: 'none',
         scrollTrigger: {
           trigger: '.mt-scroll-hero',
@@ -119,10 +154,11 @@ export default function Hero() {
 
       gsap.fromTo(
         '.mt-services-scene',
-        { autoAlpha: 0, y: 22 },
+        { autoAlpha: 0, y: 80, filter: 'blur(8px)' },
         {
           autoAlpha: 1,
           y: 0,
+          filter: 'blur(0px)',
           duration: 1,
           ease: 'power3.out',
           scrollTrigger: {
@@ -246,7 +282,7 @@ export default function Hero() {
       <div
         className="mt-hero-content relative z-10 max-w-7xl mx-auto w-full px-6 md:px-8 -translate-y-8 md:-translate-y-10 lg:-translate-y-12"
       >
-        <div className="relative flex flex-col max-w-2xl">
+        <div className="mt-hero-typography relative flex flex-col max-w-2xl">
           {/* Label */}
           <div data-hero-reveal="eyebrow" className="mt-eyebrow text-[#C9A24A] text-xs mb-1.5" style={{ opacity: 0, textShadow: '0 6px 18px rgba(0, 0, 0, 0.32)' }}>
             Beyond Boundaries
@@ -285,7 +321,7 @@ export default function Hero() {
           </p>
 
           {/* CTA Buttons */}
-          <div data-hero-reveal="ctas" className="flex flex-col sm:flex-row gap-5 items-start sm:items-center" style={{ opacity: 0 }}>
+          <div data-hero-reveal="ctas" className="mt-hero-actions flex flex-col sm:flex-row gap-5 items-start sm:items-center" style={{ opacity: 0 }}>
             <button onClick={handleJourneyClick} className="mt-gold-sheen mt-ui group inline-flex items-center justify-center gap-2 rounded-[4px] bg-[#C9A24A] px-7 py-3 text-xs text-[#071B24] shadow-[0_14px_32px_rgba(201,162,74,0.2)] hover:bg-[#D4B860] hover:shadow-[0_18px_42px_rgba(201,162,74,0.26)] md:px-8">
               <span>BEGIN YOUR JOURNEY</span>
               <span className={ctaArrowClass}>→</span>
