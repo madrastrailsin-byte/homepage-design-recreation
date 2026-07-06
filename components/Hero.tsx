@@ -23,7 +23,6 @@ export default function Hero() {
     const ctx = gsap.context(() => {
       const q = gsap.utils.selector(section)
       const video = videoEl
-      const eyebrow = q('[data-hero-reveal="eyebrow"]')
       const title = q('[data-hero-reveal="title"]')
       const signature = q('[data-hero-reveal="signature"]')
       const description = q('[data-hero-reveal="description"]')
@@ -33,7 +32,7 @@ export default function Hero() {
       const dividerDiamond = q('[data-hero-divider-diamond]')
 
       if (prefersReducedMotion) {
-        gsap.set([video, eyebrow, title, signature, description, ctas, divider], {
+        gsap.set([video, title, signature, description, ctas, divider], {
           opacity: 1,
           y: 0,
           scale: 1,
@@ -45,7 +44,6 @@ export default function Hero() {
       }
 
       gsap.set(video, { opacity: 0 })
-      gsap.set(eyebrow, { opacity: 0, y: 8 })
       gsap.set(title, { opacity: 0, y: 18, scale: 0.99 })
       gsap.set(signature, { opacity: 0, y: 12, x: -4, scale: 0.985, clipPath: 'inset(0 100% 0 0)' })
       gsap.set(description, { opacity: 0, y: 12 })
@@ -60,7 +58,6 @@ export default function Hero() {
 
       timeline
         .to(video, { opacity: 1, duration: 1.35 }, 0.05)
-        .to(eyebrow, { opacity: 1, y: 0, duration: 0.72 }, 0.54)
         .to(title, { opacity: 1, y: 0, scale: 1, duration: 0.95 }, 0.88)
         .to(signature, { opacity: 1, y: 0, x: 0, scale: 1, clipPath: 'inset(0 0% 0 0)', duration: 1.1, ease: 'power3.out' }, 1.2)
         .to(dividerLines, { scaleX: 1, duration: 0.82, stagger: 0.04 }, 1.78)
@@ -368,11 +365,6 @@ export default function Hero() {
       >
         <div className="mt-hero-exit-group relative max-w-2xl">
           <div className="mt-hero-camera-copy mt-hero-typography relative flex flex-col">
-          {/* Label */}
-          <div data-hero-reveal="eyebrow" className="mt-eyebrow text-[#C9A24A] text-xs mb-1.5" style={{ opacity: 0, textShadow: '0 6px 18px rgba(0, 0, 0, 0.32)' }}>
-            Beyond Boundaries
-          </div>
-
           {/* Main Headline */}
           <h1 data-hero-reveal="title" className="mt-display text-5xl md:text-6xl lg:text-7xl text-[#FAF4E8] leading-[0.95] mb-0" style={{ opacity: 0, textShadow: '0 14px 34px rgba(0, 0, 0, 0.34)' }}>
             Travel Like
@@ -381,13 +373,13 @@ export default function Hero() {
           {/* Secondary Headline */}
           <h2
             data-hero-reveal="signature"
-            className="mt-signature text-[4.45rem] md:text-[5.45rem] lg:text-[6.55rem] text-[#D4AF37] leading-[0.78] -mt-1 mb-6 md:mb-7"
+            className="mt-signature text-[4.45rem] md:text-[5.45rem] lg:text-[6.55rem] text-[#D4AF37] leading-[0.78] -mt-4 md:-mt-5 mb-6 md:mb-7"
             style={{
               opacity: 0,
               textShadow: '0 10px 24px rgba(0, 0, 0, 0.22)',
             }}
           >
-            A Local
+            a Local
           </h2>
 
           {/* Decorative divider */}
