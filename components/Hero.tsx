@@ -373,7 +373,7 @@ export default function Hero() {
           {/* Secondary Headline */}
           <h2
             data-hero-reveal="signature"
-            className="mt-signature pl-4 text-[4.45rem] md:text-[5.45rem] lg:text-[6.55rem] text-[#D4AF37] leading-[0.78] -mt-4 md:-mt-5 mb-6 md:mb-7"
+            className="mt-signature pl-[18px] text-[4.45rem] md:text-[5.45rem] lg:text-[6.55rem] text-[#D4AF37] leading-[0.78] -mt-5 md:-mt-6 mb-5 md:mb-6"
             style={{
               opacity: 0,
               textShadow: '0 10px 24px rgba(0, 0, 0, 0.22)',
@@ -383,7 +383,7 @@ export default function Hero() {
           </h2>
 
           {/* Decorative divider */}
-          <div data-hero-reveal="divider" className="flex items-center gap-0 mb-5 md:mb-6" style={{ width: '286px' }}>
+          <div data-hero-reveal="divider" className="flex items-center gap-0 mb-5 md:mb-6" style={{ width: '248px' }}>
             <div data-hero-divider-line="left" className="flex-1 h-px origin-right bg-gradient-to-r from-[#C9A24A]/75 to-[#C9A24A]/35" style={{ transform: 'scaleX(0)' }} />
             <div className="relative mx-3 flex h-2.5 w-2.5 items-center justify-center">
               <div data-hero-divider-diamond className="h-1.5 w-1.5 rotate-45 border border-[#C9A24A]/80" style={{ opacity: 0, transform: 'rotate(45deg) scale(0.82)' }} />
@@ -393,12 +393,12 @@ export default function Hero() {
           </div>
 
           {/* Description */}
-          <p data-hero-reveal="description" className="mt-body-copy text-[#E8E8E8] text-sm md:text-base leading-relaxed mb-7 md:mb-8 max-w-sm" style={{ opacity: 0, textShadow: '0 10px 26px rgba(0, 0, 0, 0.34)' }}>
+          <p data-hero-reveal="description" className="mt-body-copy text-[#E8E8E8] text-sm md:text-base leading-relaxed mb-7 md:mb-8 max-w-[22rem]" style={{ opacity: 0, textShadow: '0 10px 26px rgba(0, 0, 0, 0.34)' }}>
             We curate personalised international journeys that connect cultures, create memories, and stay with you forever.
           </p>
 
           {/* CTA Buttons */}
-          <div data-hero-reveal="ctas" className="mt-hero-actions flex flex-col sm:flex-row gap-5 items-start sm:items-center" style={{ opacity: 0 }}>
+          <div data-hero-reveal="ctas" className="mt-hero-actions flex flex-col sm:flex-row gap-4 items-start sm:items-center" style={{ opacity: 0 }}>
             <button onClick={handleJourneyClick} className="mt-gold-sheen mt-ui group inline-flex items-center justify-center gap-2 rounded-[4px] bg-[#C9A24A] px-7 py-3 text-xs text-[#071B24] shadow-[0_14px_32px_rgba(201,162,74,0.2)] hover:bg-[#D4B860] hover:shadow-[0_18px_42px_rgba(201,162,74,0.26)] md:px-8">
               <span>BEGIN YOUR JOURNEY</span>
               <span className={ctaArrowClass}>→</span>

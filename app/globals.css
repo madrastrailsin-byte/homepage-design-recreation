@@ -345,18 +345,23 @@
   }
 
   .mt-header-logo-backing::before {
-    width: 390px;
-    height: 132px;
-    opacity: 0.28;
+    width: 410px;
+    height: 124px;
+    opacity: 0.34;
     background:
-      radial-gradient(ellipse at 38% 50%, rgba(2, 8, 13, 0.82), rgba(3, 18, 24, 0.58) 34%, rgba(4, 29, 34, 0.22) 58%, transparent 82%),
-      linear-gradient(90deg, rgba(2, 8, 13, 0.24), rgba(3, 25, 29, 0.13) 46%, transparent 78%);
-    filter: blur(62px);
+      radial-gradient(ellipse at 38% 50%, rgba(2, 8, 13, 0.92), rgba(3, 18, 24, 0.66) 34%, rgba(4, 29, 34, 0.24) 58%, transparent 82%),
+      linear-gradient(90deg, rgba(2, 8, 13, 0.3), rgba(3, 25, 29, 0.16) 46%, transparent 80%);
+    filter: blur(54px);
     animation-duration: 12s;
   }
 
   .mt-header-logo-backing:hover::before {
-    opacity: 0.3;
+    opacity: 0.37;
+    background:
+      radial-gradient(ellipse at 38% 50%, rgba(2, 8, 13, 0.92), rgba(3, 18, 24, 0.66) 34%, rgba(4, 29, 34, 0.24) 58%, transparent 82%),
+      radial-gradient(ellipse at 35% 46%, rgba(200, 169, 106, 0.1), transparent 38%),
+      linear-gradient(90deg, rgba(2, 8, 13, 0.3), rgba(3, 25, 29, 0.16) 46%, transparent 80%);
+    transform: translate3d(-50%, -50%, 0) scale(1);
   }
 
   @keyframes mt-logo-ambient-breathe {
