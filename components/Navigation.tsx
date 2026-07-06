@@ -26,7 +26,7 @@ export default function Navigation() {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 backdrop-blur-xl transition-[background-color,border-color,box-shadow] duration-500 ${
+      className={`mt-premium-nav fixed top-0 left-0 right-0 z-50 backdrop-blur-xl transition-[background-color,border-color,box-shadow] duration-500 ${
         isScrolled
           ? 'bg-[#020F12]/74 border-b border-[#D4AF37]/18 shadow-[0_14px_45px_rgba(0,0,0,0.18)]'
           : 'bg-[#020F12]/48 border-b border-[#D4AF37]/10'
@@ -60,7 +60,7 @@ export default function Navigation() {
 
         {/* CTA Button and Menu */}
         <motion.div initial={introInitial} animate={introAnimate} transition={introTransition(0.38)} className="flex items-center gap-3">
-          <button className="btn-gold mt-ui hidden md:block text-xs py-1.5 px-5 transition-transform duration-300 hover:-translate-y-0.5 hover:shadow-[0_14px_30px_rgba(212,175,55,0.24)]">PLAN YOUR JOURNEY →</button>
+          <button className="btn-gold mt-gold-sheen mt-ui hidden md:block text-xs py-1.5 px-5 transition-transform duration-300 hover:-translate-y-0.5 hover:shadow-[0_14px_30px_rgba(212,175,55,0.24)]">PLAN YOUR JOURNEY →</button>
           <button
             onClick={() => setIsOpen(!isOpen)}
             className="hidden md:flex items-center justify-center text-[#FAFAF9] w-9 h-9 border border-[#FAFAF9]/24 hover:border-[#D4AF37]/60 transition-all duration-300 rounded-full hover:bg-[#D4AF37]/10 hover:shadow-[0_0_0_5px_rgba(212,175,55,0.055)]"

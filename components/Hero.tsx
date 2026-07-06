@@ -37,6 +37,7 @@ export default function Hero() {
           opacity: 1,
           y: 0,
           scale: 1,
+          clipPath: 'none',
         })
         gsap.set(dividerLines, { scaleX: 1 })
         gsap.set(dividerDiamond, { opacity: 1, scale: 1 })
@@ -46,7 +47,7 @@ export default function Hero() {
       gsap.set(video, { opacity: 0 })
       gsap.set(eyebrow, { opacity: 0, y: 8 })
       gsap.set(title, { opacity: 0, y: 18, scale: 0.99 })
-      gsap.set(signature, { opacity: 0, y: 12, x: -4, scale: 0.985 })
+      gsap.set(signature, { opacity: 0, y: 12, x: -4, scale: 0.985, clipPath: 'inset(0 100% 0 0)' })
       gsap.set(description, { opacity: 0, y: 12 })
       gsap.set(ctas, { opacity: 0, y: 12, scale: 0.995 })
       gsap.set(divider, { opacity: 1 })
@@ -61,7 +62,7 @@ export default function Hero() {
         .to(video, { opacity: 1, duration: 1.35 }, 0.05)
         .to(eyebrow, { opacity: 1, y: 0, duration: 0.72 }, 0.54)
         .to(title, { opacity: 1, y: 0, scale: 1, duration: 0.95 }, 0.88)
-        .to(signature, { opacity: 1, y: 0, x: 0, scale: 1, duration: 1.0 }, 1.22)
+        .to(signature, { opacity: 1, y: 0, x: 0, scale: 1, clipPath: 'inset(0 0% 0 0)', duration: 1.1, ease: 'power3.out' }, 1.2)
         .to(dividerLines, { scaleX: 1, duration: 0.82, stagger: 0.04 }, 1.78)
         .to(dividerDiamond, { opacity: 1, scale: 1, duration: 0.52 }, 1.98)
         .to(description, { opacity: 1, y: 0, duration: 0.78 }, 2.26)
@@ -69,6 +70,66 @@ export default function Hero() {
     }, section)
 
     return () => ctx.revert()
+  }, [prefersReducedMotion])
+
+  useEffect(() => {
+    const section = sectionRef.current
+    if (!section || prefersReducedMotion) return
+
+    const supportsPointerDepth =
+      typeof window !== 'undefined' &&
+      window.matchMedia('(hover: hover) and (pointer: fine)').matches
+
+    if (!supportsPointerDepth) return
+
+    const q = gsap.utils.selector(section)
+    const videoShell = q('.mt-hero-video-shell')
+    const overlayLayer = q('.mt-hero-depth-overlay')
+    const contentGroup = q('.mt-hero-exit-group')
+    const actions = q('.mt-hero-actions')
+
+    const videoX = gsap.quickTo(videoShell, 'x', { duration: 0.7, ease: 'power3.out' })
+    const videoY = gsap.quickTo(videoShell, 'y', { duration: 0.7, ease: 'power3.out' })
+    const overlayX = gsap.quickTo(overlayLayer, 'x', { duration: 0.8, ease: 'power3.out' })
+    const overlayY = gsap.quickTo(overlayLayer, 'y', { duration: 0.8, ease: 'power3.out' })
+    const contentX = gsap.quickTo(contentGroup, 'x', { duration: 0.9, ease: 'power3.out' })
+    const contentY = gsap.quickTo(contentGroup, 'y', { duration: 0.9, ease: 'power3.out' })
+    const actionsX = gsap.quickTo(actions, 'x', { duration: 1.0, ease: 'power3.out' })
+    const actionsY = gsap.quickTo(actions, 'y', { duration: 1.0, ease: 'power3.out' })
+
+    const handlePointerMove = (event: PointerEvent) => {
+      const rect = section.getBoundingClientRect()
+      const x = (event.clientX - rect.left) / rect.width - 0.5
+      const y = (event.clientY - rect.top) / rect.height - 0.5
+
+      videoX(x * 15)
+      videoY(y * 10)
+      overlayX(x * 8)
+      overlayY(y * 6)
+      contentX(x * 3)
+      contentY(y * 2)
+      actionsX(x * -2)
+      actionsY(y * -1.2)
+    }
+
+    const handlePointerLeave = () => {
+      videoX(0)
+      videoY(0)
+      overlayX(0)
+      overlayY(0)
+      contentX(0)
+      contentY(0)
+      actionsX(0)
+      actionsY(0)
+    }
+
+    section.addEventListener('pointermove', handlePointerMove, { passive: true })
+    section.addEventListener('pointerleave', handlePointerLeave)
+
+    return () => {
+      section.removeEventListener('pointermove', handlePointerMove)
+      section.removeEventListener('pointerleave', handlePointerLeave)
+    }
   }, [prefersReducedMotion])
 
   useEffect(() => {
@@ -117,25 +178,13 @@ export default function Hero() {
         },
       })
 
-      gsap.to('.mt-hero-typography', {
-        opacity: 0.62,
+      gsap.to('.mt-hero-exit-group', {
+        opacity: 0.56,
         y: -26,
         ease: 'none',
         scrollTrigger: {
           trigger: '.mt-scroll-hero',
-          start: 'top top',
-          end: 'bottom top',
-          scrub: true,
-        },
-      })
-
-      gsap.to('.mt-hero-actions', {
-        opacity: 0.52,
-        y: -10,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: '.mt-scroll-hero',
-          start: 'top top',
+          start: '75% top',
           end: 'bottom top',
           scrub: true,
         },
@@ -257,32 +306,36 @@ export default function Hero() {
         height: 'calc(100vh + 60px)',
       }}
     >
-      <video
-        ref={videoRef}
-        className="mt-hero-video absolute -inset-x-5 -inset-y-4 h-[calc(100%+2rem)] w-[calc(100%+2.5rem)] object-cover"
-        src="/videos/hero.mp4"
-        autoPlay
-        muted
-        loop
-        playsInline
-        preload="metadata"
-        aria-hidden="true"
-      />
+      <div className="mt-hero-video-shell absolute -inset-x-5 -inset-y-4">
+        <video
+          ref={videoRef}
+          className="mt-hero-video h-[calc(100%+2rem)] w-[calc(100%+2.5rem)] object-cover"
+          src="/videos/hero.mp4"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          aria-hidden="true"
+        />
+      </div>
 
       {/* Layered vignettes keep the copy readable without creating a visible panel edge. */}
-      <div className="mt-hero-grade absolute inset-0" />
-      <div className="mt-hero-content-vignette absolute inset-0" />
-      <div className="mt-hero-feather absolute inset-0" />
-      <div className="mt-hero-gold-highlight absolute inset-0" />
-      <div className="mt-hero-top-vignette absolute inset-0" />
-      <div className="mt-hero-bottom-vignette absolute inset-0" />
-      <div className="mt-hero-scroll-settle absolute inset-0" />
+      <div className="mt-hero-depth-overlay absolute inset-0">
+        <div className="mt-hero-grade absolute inset-0" />
+        <div className="mt-hero-content-vignette absolute inset-0" />
+        <div className="mt-hero-feather absolute inset-0" />
+        <div className="mt-hero-gold-highlight absolute inset-0" />
+        <div className="mt-hero-top-vignette absolute inset-0" />
+        <div className="mt-hero-bottom-vignette absolute inset-0" />
+        <div className="mt-hero-scroll-settle absolute inset-0" />
+      </div>
 
       {/* Content */}
       <div
         className="mt-hero-content relative z-10 max-w-7xl mx-auto w-full px-6 md:px-8 -translate-y-8 md:-translate-y-10 lg:-translate-y-12"
       >
-        <div className="mt-hero-typography relative flex flex-col max-w-2xl">
+        <div className="mt-hero-exit-group mt-hero-typography relative flex flex-col max-w-2xl">
           {/* Label */}
           <div data-hero-reveal="eyebrow" className="mt-eyebrow text-[#C9A24A] text-xs mb-1.5" style={{ opacity: 0, textShadow: '0 6px 18px rgba(0, 0, 0, 0.32)' }}>
             Beyond Boundaries
@@ -296,10 +349,10 @@ export default function Hero() {
           {/* Secondary Headline */}
           <h2
             data-hero-reveal="signature"
-            className="mt-signature text-[4.15rem] md:text-[5.05rem] lg:text-[6.05rem] text-[#C9A24A] leading-[0.78] -mt-1 mb-6 md:mb-7"
+            className="mt-signature text-[4.45rem] md:text-[5.45rem] lg:text-[6.55rem] text-[#D4AF37] leading-[0.78] -mt-1 mb-6 md:mb-7"
             style={{
               opacity: 0,
-              textShadow: '0 9px 22px rgba(0, 0, 0, 0.24)',
+              textShadow: '0 10px 24px rgba(0, 0, 0, 0.22)',
             }}
           >
             A Local

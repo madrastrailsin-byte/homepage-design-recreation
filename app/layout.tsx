@@ -1,6 +1,6 @@
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
-import { Catamaran, Fraunces, Oooh_Baby } from 'next/font/google'
+import { Catamaran, Dancing_Script, Fraunces } from 'next/font/google'
 import './globals.css'
 
 const catamaran = Catamaran({
@@ -17,10 +17,10 @@ const fraunces = Fraunces({
   display: 'swap',
 })
 
-const ooohBaby = Oooh_Baby({
+const dancingScript = Dancing_Script({
   variable: '--font-signature',
   subsets: ['latin'],
-  weight: '400',
+  weight: ['400', '500'],
   display: 'swap',
 })
 
@@ -41,7 +41,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`${catamaran.variable} ${fraunces.variable} ${ooohBaby.variable} bg-[#0D1117]`}>
+    <html lang="en" className={`${catamaran.variable} ${fraunces.variable} ${dancingScript.variable} bg-[#0D1117]`}>
       <body className="font-sans antialiased bg-[#0D1117]">
         {children}
         {process.env.NODE_ENV === 'production' && <Analytics />}
