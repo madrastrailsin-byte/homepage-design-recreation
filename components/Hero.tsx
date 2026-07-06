@@ -1,37 +1,19 @@
 'use client'
 
 import { Play } from 'lucide-react'
-import { motion } from 'framer-motion'
-import { useEffect, useState } from 'react'
+import { motion, useReducedMotion } from 'framer-motion'
 
 export default function Hero() {
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
-
-  useEffect(() => {
-    // Check for prefers-reduced-motion
-    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
-    setPrefersReducedMotion(mediaQuery.matches)
-    
-    const handleChange = (e: MediaQueryListEvent) => {
-      setPrefersReducedMotion(e.matches)
-    }
-    
-    mediaQuery.addEventListener('change', handleChange)
-    return () => mediaQuery.removeEventListener('change', handleChange)
-  }, [])
-
-  // Animation reveal helper
+  const prefersReducedMotion = useReducedMotion()
+  const ctaArrowClass = prefersReducedMotion
+    ? 'translate-y-px'
+    : 'translate-y-px transition-transform duration-300 group-hover:translate-x-0.5'
   const sceneEase = [0.22, 1, 0.36, 1] as const
   const reveal = (delay = 0, y = 14) => ({
     initial: prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y },
     animate: prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 },
     transition: { duration: 0.9, delay, ease: sceneEase },
   })
-
-  // CTA helpers
-  const ctaArrowClass = prefersReducedMotion
-    ? 'translate-y-px'
-    : 'translate-y-px transition-transform duration-300 group-hover:translate-x-0.5'
 
   const handleJourneyClick = () => {
     const footer = document.querySelector('footer')
@@ -43,38 +25,26 @@ export default function Hero() {
       className="relative w-full flex items-center overflow-hidden pt-24 md:pt-28"
       style={{
         height: 'calc(100vh + 60px)',
-        backgroundImage: 'url(https://hebbkx1anhila5yf.public.blob.vercel-storage.com/APPROVED_HERO_IMAGE%20background-HjDvpFuBbOHELP5GGXGROss89tXwtY.png)',
-        backgroundSize: '89.5%',
-        backgroundPosition: 'calc(50% + 3%) center',
-        backgroundRepeat: 'no-repeat',
-        backgroundAttachment: 'scroll',
-        filter: prefersReducedMotion ? 'saturate(1.15) brightness(1.08)' : 'saturate(1.15) brightness(1.08)',
-        animation: prefersReducedMotion ? 'none' : 'breathe 8s ease-in-out infinite',
       }}
     >
-      <style>{`
-        @keyframes breathe {
-          0% {
-            filter: saturate(1.15) brightness(1.08);
-          }
-          50% {
-            filter: saturate(1.15) brightness(1.12);
-          }
-          100% {
-            filter: saturate(1.15) brightness(1.08);
-          }
-        }
-        
-        @media (prefers-reduced-motion: reduce) {
-          @keyframes breathe {
-            0%, 100% {
-              filter: saturate(1.15) brightness(1.08);
-            }
-          }
-        }
-      `}</style>
-      {/* Dark gradient overlay for text readability - only on left third */}
-      <div className="absolute inset-0 bg-gradient-to-r from-[#0a1628]/55 via-[#0a1628]/20 via-30% to-transparent" />
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1.25, delay: 0.12, ease: sceneEase }}
+        className="mt-hero-bg absolute -inset-x-5 -inset-y-4 bg-cover bg-center md:bg-[position:center_center]"
+        style={{
+          backgroundImage: 'url(https://hebbkx1anhila5yf.public.blob.vercel-storage.com/APPROVED_HERO_IMAGE%20background-HjDvpFuBbOHELP5GGXGROss89tXwtY.png)',
+          backgroundSize: '89.5%',
+          backgroundPosition: 'calc(50% + 3%) center',
+          backgroundRepeat: 'no-repeat',
+          backgroundAttachment: 'scroll',
+        }}
+      />
+
+      {/* Layered gradients keep the left copy readable while preserving the warm scene. */}
+      <div className="absolute inset-0 bg-gradient-to-r from-[#020F12]/82 via-[#03191D]/36 via-42% to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-b from-[#020F12]/16 via-transparent via-44% to-[#020F12]/24" />
+      <div className="absolute inset-y-0 left-0 w-[55%] bg-[radial-gradient(circle_at_18%_42%,rgba(4,29,34,0.30),rgba(2,15,18,0.66)_72%,transparent_100%)]" />
 
       {/* Content */}
       <motion.div
@@ -110,7 +80,7 @@ export default function Hero() {
             <div className="flex-1 h-px bg-gradient-to-r from-[#C9A24A]/75 to-[#C9A24A]/35" />
             <div className="relative mx-3 flex h-2.5 w-2.5 items-center justify-center">
               <div className="h-1.5 w-1.5 rotate-45 border border-[#C9A24A]/80" />
-              <div className="mt-gold-pulse absolute h-1 w-1 rotate-45 bg-[#C9A24A]" />
+              <div className="absolute h-1 w-1 rotate-45 bg-[#C9A24A]" />
             </div>
             <div className="flex-1 h-px bg-gradient-to-l from-[#C9A24A]/75 to-[#C9A24A]/35" />
           </motion.div>

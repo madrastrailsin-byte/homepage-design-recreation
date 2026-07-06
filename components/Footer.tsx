@@ -12,11 +12,10 @@ export default function Footer() {
   const socialLinkClass = 'mt-gold-sheen w-10 h-10 rounded-full border border-[#D4AF37]/50 flex items-center justify-center text-[#D4AF37] hover:bg-[#D4AF37] hover:text-[#03191D] hover:shadow-[0_10px_24px_rgba(212,175,55,0.14)]'
 
   return (
-    <footer className="mt-footer-ambient relative overflow-hidden border-t border-[#D4AF37]/10 bg-[#03191D]">
+    <footer className="relative overflow-hidden border-t border-[#D4AF37]/10 bg-[#03191D]">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-[#03191D] via-[#03191D]/52 to-transparent" />
       {/* Top Band - Three Parts Side by Side */}
-      <section className="relative z-10 py-12 md:py-16 bg-[#020F12]/34 backdrop-blur-sm">
-        <div className="mt-footer-arrival-light pointer-events-none absolute inset-0" />
+      <section className="relative z-10 py-12 md:py-16 bg-[#020F12]/34">
         <div className="max-w-7xl mx-auto px-6 md:px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12 items-center">
             {/* Part A: Logo + Brand Text */}
@@ -42,7 +41,6 @@ export default function Footer() {
               whileInView={revealInView}
               transition={{ duration: 0.8, delay: 0.08, ease: motionEase }}
               viewport={{ once: true, amount: 0.24 }}
-              className="mt-newsletter-focus"
             >
               <h3 className="mt-display text-xl md:text-2xl text-[#FAFAF9] mb-3">Let&apos;s craft your next journey</h3>
               <p className="mt-body-copy text-[#D4AF37]/62 text-xs md:text-sm mb-4">Subscribe for travel inspiration and exclusive offers.</p>

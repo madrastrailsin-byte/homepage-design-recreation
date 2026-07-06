@@ -89,10 +89,8 @@ export default function ExperiencesSection() {
                 style={{ backgroundImage: `url(${exp.image})` }}
               >
                 {/* Dark Gradient Overlay - Bottom Heavy */}
-                <div className="mt-experience-depth absolute inset-0" />
                 <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/30 to-black/85" />
               </motion.div>
-              <div className="mt-card-reflection absolute inset-0 pointer-events-none" />
 
               {/* Content - Overlaid on Image */}
               <div className="relative h-full flex flex-col justify-end p-6 md:p-8">

@@ -19,9 +19,9 @@ export default function ServicesStrip() {
   const motionEase = [0.22, 1, 0.36, 1] as const
 
   return (
-    <div className="mt-services-flow relative z-10 -mt-16 w-full bg-gradient-to-b from-[rgba(3,25,29,0.04)] via-[#041D22] to-[#03191D] pt-4 pb-9 md:-mt-20 md:pt-5 md:pb-12">
-      <div className="pointer-events-none absolute inset-x-0 -top-14 h-28 bg-gradient-to-b from-transparent via-[#03191D]/24 to-[#041D22]/96" />
-      <div className="max-w-7xl mx-auto px-6 md:px-8">
+    <div className="mt-services-flow relative isolate z-10 -mt-16 w-full bg-gradient-to-b from-[rgba(3,25,29,0.04)] via-[#041D22] to-[#03191D] pt-4 pb-9 md:-mt-20 md:pt-5 md:pb-12">
+      <div className="pointer-events-none absolute inset-x-0 -top-14 z-0 h-28 bg-gradient-to-b from-transparent via-[#03191D]/24 to-[#041D22]/96" />
+      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-8">
         <motion.div
           initial={revealInitial}
           whileInView={revealInView}
@@ -30,7 +30,7 @@ export default function ServicesStrip() {
           className="flex justify-center"
         >
           <div
-            className="flex flex-wrap justify-center gap-4 md:gap-6 rounded-2xl px-8 md:px-12 py-3 md:py-4 backdrop-blur-sm border border-[#C9A24A]/30 shadow-[0_22px_70px_rgba(0,0,0,0.22)]"
+            className="flex flex-wrap justify-center gap-4 md:gap-6 rounded-2xl px-8 md:px-12 py-3 md:py-4 border border-[#C9A24A]/30 shadow-[0_22px_70px_rgba(0,0,0,0.22)]"
             style={{ backgroundColor: 'rgba(6, 31, 40, 0.34)' }}
           >
             {services.map((service, idx) => {
@@ -45,7 +45,7 @@ export default function ServicesStrip() {
           </div>
         </motion.div>
       </div>
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-b from-transparent via-[#03191D]/42 to-[#03191D]" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-0 h-20 bg-gradient-to-b from-transparent via-[#03191D]/42 to-[#03191D]" />
     </div>
   )
 }
