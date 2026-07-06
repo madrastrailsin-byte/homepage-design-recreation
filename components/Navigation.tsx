@@ -34,7 +34,12 @@ export default function Navigation() {
     >
       <div className="max-w-7xl mx-auto px-6 md:px-8 py-2 md:py-3 flex items-center justify-between">
         {/* Logo */}
-        <motion.div initial={introInitial} animate={introAnimate} transition={introTransition(0.12)}>
+        <motion.div
+          initial={introInitial}
+          animate={introAnimate}
+          transition={introTransition(0.12)}
+          className="mt-logo-ambient relative"
+        >
           <Image
             src="/images/madras-trails-logo.png"
             alt="MadrasTrails"

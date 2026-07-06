@@ -164,33 +164,33 @@
 
   .mt-hero-grade {
     background:
-      radial-gradient(ellipse at 51% 48%, rgba(255, 255, 255, 0.03) 0%, transparent 36%, rgba(3, 9, 14, 0.14) 78%, rgba(2, 6, 10, 0.34) 100%),
-      radial-gradient(ellipse at 50% 50%, transparent 44%, rgba(3, 9, 14, 0.1) 74%, rgba(2, 6, 10, 0.3) 100%);
+      radial-gradient(ellipse at 51% 48%, rgba(255, 255, 255, 0.025) 0%, transparent 40%, rgba(3, 9, 14, 0.11) 80%, rgba(2, 6, 10, 0.3) 100%),
+      radial-gradient(ellipse at 50% 50%, transparent 48%, rgba(3, 9, 14, 0.08) 76%, rgba(2, 6, 10, 0.26) 100%);
   }
 
   .mt-hero-content-vignette {
     background:
-      radial-gradient(ellipse at 25% 46%, rgba(2, 8, 12, 0.68) 0%, rgba(4, 17, 22, 0.44) 30%, rgba(4, 17, 22, 0.18) 58%, transparent 82%);
+      radial-gradient(ellipse at 25% 48%, rgba(2, 8, 12, 0.66) 0%, rgba(4, 17, 22, 0.42) 32%, rgba(4, 17, 22, 0.16) 62%, transparent 88%);
   }
 
   .mt-hero-feather {
     background:
-      linear-gradient(103deg, rgba(2, 7, 10, 0.44) 0%, rgba(3, 12, 17, 0.23) 31%, rgba(4, 20, 24, 0.08) 59%, transparent 88%);
+      linear-gradient(103deg, rgba(2, 7, 10, 0.4) 0%, rgba(3, 12, 17, 0.21) 34%, rgba(4, 20, 24, 0.07) 64%, transparent 92%);
   }
 
   .mt-hero-gold-highlight {
     background:
-      radial-gradient(circle at 66% 30%, rgba(212, 175, 55, 0.2), rgba(212, 175, 55, 0.08) 17%, rgba(212, 175, 55, 0.025) 36%, transparent 55%);
+      radial-gradient(circle at 66% 30%, rgba(212, 175, 55, 0.22), rgba(212, 175, 55, 0.085) 18%, rgba(212, 175, 55, 0.025) 39%, transparent 60%);
   }
 
   .mt-hero-top-vignette {
     background:
-      linear-gradient(180deg, rgba(2, 6, 10, 0.44), rgba(3, 8, 12, 0.16) 26%, transparent 54%);
+      linear-gradient(180deg, rgba(2, 6, 10, 0.4), rgba(3, 8, 12, 0.14) 30%, transparent 60%);
   }
 
   .mt-hero-bottom-vignette {
     background:
-      linear-gradient(0deg, rgba(2, 6, 10, 0.5), rgba(3, 8, 12, 0.2) 31%, transparent 66%);
+      linear-gradient(0deg, rgba(2, 6, 10, 0.46), rgba(3, 8, 12, 0.18) 34%, transparent 70%);
   }
 
   .mt-hero-scroll-settle {
@@ -203,6 +203,7 @@
   .mt-hero-video-shell,
   .mt-hero-depth-overlay,
   .mt-hero-exit-group,
+  .mt-hero-camera-copy,
   .mt-hero-actions {
     will-change: transform;
   }
@@ -261,6 +262,39 @@
       0 16px 48px rgba(0, 0, 0, 0.16);
   }
 
+  .mt-logo-ambient {
+    isolation: isolate;
+  }
+
+  .mt-logo-ambient::before {
+    content: '';
+    position: absolute;
+    inset: -22px -34px -18px -30px;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.18;
+    border-radius: 999px;
+    background:
+      radial-gradient(ellipse at 38% 48%, rgba(212, 175, 55, 0.32), transparent 38%),
+      radial-gradient(ellipse at 50% 50%, rgba(9, 67, 72, 0.58), rgba(4, 29, 34, 0.24) 46%, transparent 74%);
+    filter: blur(22px);
+    transform: translateZ(0) scale(1);
+    animation: mt-logo-ambient-breathe 10s ease-in-out infinite;
+  }
+
+  @keyframes mt-logo-ambient-breathe {
+    0%,
+    100% {
+      opacity: 0.14;
+      transform: translateZ(0) scale(0.98);
+    }
+
+    50% {
+      opacity: 0.2;
+      transform: translateZ(0) scale(1.04);
+    }
+  }
+
   .mt-premium-glass {
     background:
       linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.012)),
@@ -297,8 +331,13 @@ div.bg-\[\#0D1117\] {
   .mt-hero-video-shell,
   .mt-hero-depth-overlay,
   .mt-hero-exit-group,
+  .mt-hero-camera-copy,
   .mt-hero-actions {
     transform: translateZ(0) !important;
+  }
+
+  .mt-logo-ambient::before {
+    animation: none !important;
   }
 
   .mt-gold-sheen:hover {

@@ -85,7 +85,7 @@ export default function Hero() {
     const q = gsap.utils.selector(section)
     const videoShell = q('.mt-hero-video-shell')
     const overlayLayer = q('.mt-hero-depth-overlay')
-    const contentGroup = q('.mt-hero-exit-group')
+    const contentGroup = q('.mt-hero-camera-copy')
     const actions = q('.mt-hero-actions')
 
     const videoX = gsap.quickTo(videoShell, 'x', { duration: 0.7, ease: 'power3.out' })
@@ -184,7 +184,7 @@ export default function Hero() {
         ease: 'none',
         scrollTrigger: {
           trigger: '.mt-scroll-hero',
-          start: '75% top',
+          start: '86% top',
           end: 'bottom top',
           scrub: true,
         },
@@ -333,9 +333,10 @@ export default function Hero() {
 
       {/* Content */}
       <div
-        className="mt-hero-content relative z-10 max-w-7xl mx-auto w-full px-6 md:px-8 -translate-y-8 md:-translate-y-10 lg:-translate-y-12"
+        className="mt-hero-content relative z-10 max-w-7xl mx-auto w-full px-6 md:px-8 -translate-y-1 md:-translate-y-3 lg:-translate-y-5"
       >
-        <div className="mt-hero-exit-group mt-hero-typography relative flex flex-col max-w-2xl">
+        <div className="mt-hero-exit-group relative max-w-2xl">
+          <div className="mt-hero-camera-copy mt-hero-typography relative flex flex-col">
           {/* Label */}
           <div data-hero-reveal="eyebrow" className="mt-eyebrow text-[#C9A24A] text-xs mb-1.5" style={{ opacity: 0, textShadow: '0 6px 18px rgba(0, 0, 0, 0.32)' }}>
             Beyond Boundaries
@@ -385,6 +386,7 @@ export default function Hero() {
               </div>
               <span className="mt-ui text-xs tracking-[0.16em]">WATCH OUR STORY</span>
             </button>
+          </div>
           </div>
         </div>
       </div>
