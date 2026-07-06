@@ -24,7 +24,7 @@ export default function Footer() {
               whileInView={revealInView}
               transition={{ duration: 0.8, ease: motionEase }}
               viewport={{ once: true, amount: 0.24 }}
-              className="flex items-center gap-3"
+              className="mt-logo-ambient mt-footer-logo-ambient flex items-center gap-3"
             >
               <Image
                 src="/images/madras-trails-logo.png"
@@ -41,6 +41,7 @@ export default function Footer() {
               whileInView={revealInView}
               transition={{ duration: 0.8, delay: 0.08, ease: motionEase }}
               viewport={{ once: true, amount: 0.24 }}
+              className="mt-story-footer-newsletter"
             >
               <h3 className="mt-display text-xl md:text-2xl text-[#FAFAF9] mb-3">Let&apos;s craft your next journey</h3>
               <p className="mt-body-copy text-[#D4AF37]/62 text-xs md:text-sm mb-4">Subscribe for travel inspiration and exclusive offers.</p>
@@ -65,7 +66,7 @@ export default function Footer() {
               whileInView={revealInView}
               transition={{ duration: 0.8, delay: 0.16, ease: motionEase }}
               viewport={{ once: true, amount: 0.24 }}
-              className="text-center md:text-right"
+              className="mt-story-footer-social text-center md:text-right"
             >
               <h4 className="mt-eyebrow text-[#FAFAF9] mb-4 text-sm">Follow Us</h4>
               <div className="flex gap-4 justify-center md:justify-end">

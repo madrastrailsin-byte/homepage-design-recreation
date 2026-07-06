@@ -263,36 +263,64 @@
   }
 
   .mt-logo-ambient {
+    position: relative;
     isolation: isolate;
   }
 
   .mt-logo-ambient::before {
     content: '';
     position: absolute;
-    inset: -22px -34px -18px -30px;
+    inset: -52px -92px -48px -82px;
     z-index: -1;
     pointer-events: none;
-    opacity: 0.18;
+    opacity: 0.15;
     border-radius: 999px;
     background:
-      radial-gradient(ellipse at 38% 48%, rgba(212, 175, 55, 0.32), transparent 38%),
-      radial-gradient(ellipse at 50% 50%, rgba(9, 67, 72, 0.58), rgba(4, 29, 34, 0.24) 46%, transparent 74%);
-    filter: blur(22px);
+      radial-gradient(ellipse at 38% 48%, rgba(200, 169, 106, 0.48), transparent 36%),
+      radial-gradient(ellipse at 52% 52%, rgba(250, 244, 232, 0.18), transparent 34%),
+      radial-gradient(ellipse at 50% 50%, rgba(14, 58, 67, 0.72), rgba(4, 29, 34, 0.26) 48%, transparent 76%);
+    filter: blur(96px);
     transform: translateZ(0) scale(1);
-    animation: mt-logo-ambient-breathe 10s ease-in-out infinite;
+    transition:
+      opacity 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+    animation: mt-logo-ambient-breathe 12s ease-in-out infinite;
+  }
+
+  .mt-logo-ambient:hover::before {
+    opacity: 0.18;
+    transform: translateZ(0) scale(1.03);
   }
 
   @keyframes mt-logo-ambient-breathe {
     0%,
     100% {
-      opacity: 0.14;
-      transform: translateZ(0) scale(0.98);
+      opacity: 0.13;
+      transform: translateZ(0) scale(1);
     }
 
     50% {
-      opacity: 0.2;
-      transform: translateZ(0) scale(1.04);
+      opacity: 0.17;
+      transform: translateZ(0) scale(1.03);
     }
+  }
+
+  .mt-footer-logo-ambient::before {
+    inset: -62px -112px -56px -92px;
+  }
+
+  .mt-story-service-panel,
+  .mt-story-destination-bg,
+  .mt-story-destination-copy,
+  .mt-story-destination-stage,
+  .mt-story-stat-illustration,
+  .mt-story-experience-copy,
+  .mt-story-experience-card,
+  .mt-story-footer-newsletter,
+  .mt-story-footer-social,
+  .mt-scroll-statistics,
+  .mt-scroll-footer {
+    will-change: transform, opacity;
   }
 
   .mt-premium-glass {

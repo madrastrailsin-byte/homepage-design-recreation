@@ -201,87 +201,107 @@ export default function Hero() {
         },
       })
 
-      gsap.fromTo(
-        '.mt-services-scene',
-        { autoAlpha: 0, y: 80, filter: 'blur(8px)' },
-        {
-          autoAlpha: 1,
-          y: 0,
-          filter: 'blur(0px)',
-          duration: 1,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: '.mt-scroll-services',
-            start: 'top 88%',
-            once: true,
-          },
+      gsap.timeline({
+        scrollTrigger: {
+          trigger: '.mt-scroll-services',
+          start: 'top 96%',
+          end: 'center 48%',
+          scrub: 0.65,
         },
-      )
+      })
+        .fromTo('.mt-story-service-panel', { autoAlpha: 0, y: 80, scale: 0.985, filter: 'blur(8px)' }, { autoAlpha: 1, y: 0, scale: 1, filter: 'blur(0px)', ease: 'power3.out' })
 
-      gsap.fromTo(
-        '.mt-scroll-destinations',
-        { autoAlpha: 0.88, y: 20 },
-        {
-          autoAlpha: 1,
-          y: 0,
-          duration: 1.05,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: '.mt-scroll-destinations',
-            start: 'top 82%',
-            once: true,
-          },
+      gsap.to('.mt-story-service-panel', {
+        y: -18,
+        autoAlpha: 0.86,
+        scale: 0.992,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: '.mt-scroll-services',
+          start: 'center 34%',
+          end: 'bottom top',
+          scrub: 0.7,
         },
-      )
+      })
 
-      gsap.fromTo(
-        '.mt-scroll-statistics',
-        { autoAlpha: 0, y: 16 },
-        {
-          autoAlpha: 1,
-          y: 0,
-          duration: 0.95,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: '.mt-scroll-statistics',
-            start: 'top 84%',
-            once: true,
-          },
+      gsap.timeline({
+        scrollTrigger: {
+          trigger: '.mt-scroll-destinations',
+          start: 'top 92%',
+          end: 'center 45%',
+          scrub: 0.75,
         },
-      )
+      })
+        .fromTo('.mt-story-destination-bg', { autoAlpha: 0, scale: 1.012 }, { autoAlpha: 1, scale: 1, ease: 'power3.out' }, 0)
+        .fromTo('.mt-story-destination-copy', { autoAlpha: 0.25, y: 30 }, { autoAlpha: 1, y: 0, ease: 'power3.out' }, 0.08)
+        .fromTo('.mt-story-destination-stage', { autoAlpha: 0.35, x: 42, y: 18 }, { autoAlpha: 1, x: 0, y: 0, ease: 'power3.out' }, 0.16)
 
-      gsap.fromTo(
-        '.mt-scroll-experience-card',
-        { autoAlpha: 0, y: 16 },
-        {
-          autoAlpha: 1,
-          y: 0,
-          duration: 0.85,
-          stagger: 0.08,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: '.mt-scroll-experiences',
-            start: 'top 78%',
-            once: true,
-          },
+      gsap.to('.mt-story-destination-stage', {
+        x: -22,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: '.mt-scroll-destinations',
+          start: 'center 30%',
+          end: 'bottom top',
+          scrub: 0.8,
         },
-      )
+      })
 
-      gsap.fromTo(
-        '.mt-scroll-footer',
-        { autoAlpha: 0.86, y: 14 },
-        {
-          autoAlpha: 1,
-          y: 0,
-          duration: 0.95,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: '.mt-scroll-footer',
-            start: 'top 86%',
-            once: true,
-          },
+      gsap.timeline({
+        scrollTrigger: {
+          trigger: '.mt-scroll-statistics',
+          start: 'top 92%',
+          end: 'center 54%',
+          scrub: 0.75,
         },
-      )
+      })
+        .fromTo('.mt-scroll-statistics', { autoAlpha: 0.78, y: 34, scale: 0.992, filter: 'blur(2px)' }, { autoAlpha: 1, y: 0, scale: 1, filter: 'blur(0px)', ease: 'power3.out' }, 0)
+        .fromTo('.mt-story-stat-illustration', { x: -18, autoAlpha: 0.55 }, { x: 0, autoAlpha: 0.7, ease: 'power2.out' }, 0.12)
+
+      gsap.to('.mt-scroll-statistics', {
+        y: -14,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: '.mt-scroll-statistics',
+          start: 'center 26%',
+          end: 'bottom top',
+          scrub: 0.75,
+        },
+      })
+
+      gsap.timeline({
+        scrollTrigger: {
+          trigger: '.mt-scroll-experiences',
+          start: 'top 90%',
+          end: 'center 48%',
+          scrub: 0.72,
+        },
+      })
+        .fromTo('.mt-story-experience-copy', { autoAlpha: 0.2, y: 28 }, { autoAlpha: 1, y: 0, ease: 'power3.out' }, 0)
+        .fromTo('.mt-story-experience-card', { autoAlpha: 0.18, y: 44, scale: 0.988 }, { autoAlpha: 1, y: 0, scale: 1, stagger: 0.08, ease: 'power3.out' }, 0.12)
+
+      gsap.to('.mt-story-experience-card', {
+        y: -10,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: '.mt-scroll-experiences',
+          start: 'center 24%',
+          end: 'bottom top',
+          scrub: 0.8,
+        },
+      })
+
+      gsap.timeline({
+        scrollTrigger: {
+          trigger: '.mt-scroll-footer',
+          start: 'top 94%',
+          end: 'center 64%',
+          scrub: 0.8,
+        },
+      })
+        .fromTo('.mt-scroll-footer', { autoAlpha: 0.82, y: 34 }, { autoAlpha: 1, y: 0, ease: 'power3.out' }, 0)
+        .fromTo('.mt-story-footer-newsletter', { autoAlpha: 0.25, y: 18 }, { autoAlpha: 1, y: 0, ease: 'power2.out' }, 0.18)
+        .fromTo('.mt-story-footer-social', { autoAlpha: 0.25, y: 14 }, { autoAlpha: 1, y: 0, ease: 'power2.out' }, 0.26)
     })
 
     ScrollTrigger.refresh()

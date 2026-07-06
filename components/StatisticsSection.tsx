@@ -48,7 +48,7 @@ export default function StatisticsSection() {
             whileInView={revealInView}
             transition={{ duration: 0.82, ease: motionEase }}
             viewport={{ once: true, amount: 0.24 }}
-            className="hidden lg:flex flex-shrink-0 opacity-70 mix-blend-multiply"
+            className="mt-story-stat-illustration hidden lg:flex flex-shrink-0 opacity-70 mix-blend-multiply"
           >
             <Image
               src="/images/stats-heritage-building.png"
@@ -70,7 +70,7 @@ export default function StatisticsSection() {
                 whileInView={revealInView}
                 transition={{ duration: 0.78, delay: idx * 0.07, ease: motionEase }}
                 viewport={{ once: true, amount: 0.24 }}
-                className="relative px-0 sm:px-5 lg:px-7 lg:border-l lg:border-[#03191D]/12 first:border-l-0"
+                className="mt-story-stat-promise relative px-0 sm:px-5 lg:px-7 lg:border-l lg:border-[#03191D]/12 first:border-l-0"
               >
                 <div className="mb-3 flex h-8 w-8 items-center justify-center rounded-full border border-[#D4AF37]/55 text-[#D4AF37]">
                   <Icon size={16} strokeWidth={1.5} />

@@ -57,7 +57,7 @@ export default function ExperiencesSection() {
           whileInView={headerInView}
           transition={{ duration: 0.82, ease: motionEase }}
           viewport={{ once: true, amount: 0.24 }}
-          className="mb-12 md:mb-16 max-w-2xl"
+          className="mt-story-experience-copy mb-12 md:mb-16 max-w-2xl"
         >
           <h2 className="mt-display text-4xl md:text-5xl text-white mb-2 leading-tight">Handpicked</h2>
           <h3 className="mt-display text-4xl md:text-5xl text-white mb-4 md:mb-6 leading-tight">Experiences Just for You</h3>
@@ -70,7 +70,7 @@ export default function ExperiencesSection() {
         {/* Experience Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {experiences.map((exp, idx) => (
-            <div key={exp.id} className="mt-scroll-experience-card">
+            <div key={exp.id} className="mt-scroll-experience-card mt-story-experience-card">
               <motion.div
                 initial={cardInitial}
                 whileInView={cardInView}
@@ -85,7 +85,7 @@ export default function ExperiencesSection() {
                 whileInView={imageInView}
                 transition={{ duration: 0.85, delay: 0.08 + idx * 0.08, ease: motionEase }}
                 viewport={{ once: true, amount: 0.24 }}
-                className={`absolute inset-0 bg-cover bg-center transition-transform duration-700 ${imageHoverClass}`}
+                className={`mt-story-image absolute inset-0 bg-cover bg-center transition-transform duration-700 ${imageHoverClass}`}
                 style={{ backgroundImage: `url(${exp.image})` }}
               >
                 {/* Dark Gradient Overlay - Bottom Heavy */}
