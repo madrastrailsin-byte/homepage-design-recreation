@@ -43,6 +43,9 @@
     --mt-antique-gold: #C9A24A;
     --mt-cream: #F2E7CC;
     --mt-logo-white: #FAFAF9;
+    --mt-light-x: 76%;
+    --mt-light-y: 10%;
+    --mt-light-warmth: 0.08;
   }
 
   * {
@@ -51,7 +54,7 @@
   
   html, body {
     background:
-      radial-gradient(circle at 76% 10%, rgba(13, 56, 63, 0.28), transparent 32%),
+      radial-gradient(circle at var(--mt-light-x) var(--mt-light-y), rgba(13, 56, 63, 0.28), transparent 32%),
       radial-gradient(circle at 22% 82%, rgba(8, 45, 52, 0.22), transparent 38%),
       linear-gradient(135deg, var(--mt-bg-deeper) 0%, var(--mt-bg-dark) 48%, var(--mt-bg-soft) 100%);
     background-attachment: fixed;
@@ -61,11 +64,12 @@
     @apply text-foreground;
     background-color: var(--mt-bg-dark);
     background-image:
-      radial-gradient(circle at 76% 10%, rgba(13, 56, 63, 0.22), transparent 32%),
+      radial-gradient(circle at var(--mt-light-x) var(--mt-light-y), rgba(13, 56, 63, 0.22), transparent 32%),
+      radial-gradient(circle at calc(var(--mt-light-x) - 14%) calc(var(--mt-light-y) + 18%), rgba(201, 162, 74, var(--mt-light-warmth)), transparent 34%),
       radial-gradient(circle at 24% 84%, rgba(8, 45, 52, 0.18), transparent 36%),
       linear-gradient(135deg, var(--mt-bg-deeper) 0%, var(--mt-bg-dark) 48%, var(--mt-bg-soft) 100%),
       url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.82" numOctaves="3" result="noise"/><feColorMatrix type="matrix" values="0 0 0 0 0.79 0 0 0 0 0.64 0 0 0 0 0.29 0 0 0 0.055 0"/></filter><rect width="120" height="120" fill="transparent" filter="url(%23noise)"/></svg>');
-    background-blend-mode: normal, normal, normal, overlay;
+    background-blend-mode: normal, normal, normal, normal, overlay;
   }
 }
 
@@ -213,10 +217,10 @@
     overflow: hidden;
     transform: translateZ(0);
     transition:
-      transform 0.36s cubic-bezier(0.22, 1, 0.36, 1),
-      box-shadow 0.36s cubic-bezier(0.22, 1, 0.36, 1),
-      border-color 0.36s cubic-bezier(0.22, 1, 0.36, 1),
-      background-color 0.36s cubic-bezier(0.22, 1, 0.36, 1);
+      transform 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+      border-color 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+      background-color 0.28s cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   .mt-gold-sheen::before {
@@ -233,14 +237,15 @@
   }
 
   .mt-gold-sheen:hover {
-    transform: translateY(-1.5px) translateZ(0);
+    transform: translateY(-2px) translateZ(0);
   }
 
   .mt-gold-sheen:is(button, .btn-gold):hover,
   button .mt-gold-sheen:hover {
     box-shadow:
-      inset 0 1px 0 rgba(255, 249, 228, 0.2),
-      0 18px 42px rgba(201, 162, 74, 0.22);
+      inset 0 1px 0 rgba(255, 249, 228, 0.26),
+      0 18px 38px rgba(201, 162, 74, 0.24),
+      0 10px 22px rgba(0, 0, 0, 0.2);
   }
 
   .mt-gold-sheen:active {
@@ -257,9 +262,48 @@
   }
 
   .mt-premium-nav {
+    overflow: hidden;
+    background-image:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.058), rgba(255, 255, 255, 0.012) 42%, rgba(3, 25, 29, 0.1)),
+      radial-gradient(ellipse at 18% 0%, rgba(200, 169, 106, 0.08), transparent 42%);
+    -webkit-backdrop-filter: blur(18px) saturate(128%);
+    backdrop-filter: blur(18px) saturate(128%);
     box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.045),
+      inset 0 1px 0 rgba(255, 255, 255, 0.07),
+      inset 0 -1px 0 rgba(200, 169, 106, 0.055),
       0 16px 48px rgba(0, 0, 0, 0.16);
+  }
+
+  .mt-premium-nav::before,
+  .mt-premium-nav::after {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    pointer-events: none;
+  }
+
+  .mt-premium-nav::before {
+    top: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255, 249, 228, 0.16), transparent);
+  }
+
+  .mt-premium-nav::after {
+    bottom: 0;
+    height: 18px;
+    background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.1));
+  }
+
+  .mt-premium-nav.mt-nav-scrolled {
+    background-image:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01) 38%, rgba(2, 15, 18, 0.18)),
+      radial-gradient(ellipse at 18% 0%, rgba(200, 169, 106, 0.075), transparent 40%);
+    -webkit-backdrop-filter: blur(22px) saturate(132%);
+    backdrop-filter: blur(22px) saturate(132%);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.08),
+      inset 0 -1px 0 rgba(200, 169, 106, 0.08),
+      0 20px 58px rgba(0, 0, 0, 0.22);
   }
 
   .mt-logo-ambient {
@@ -321,6 +365,30 @@
   .mt-scroll-statistics,
   .mt-scroll-footer {
     will-change: transform, opacity;
+  }
+
+  .mt-story-image {
+    transform-origin: 50% 58%;
+  }
+
+  .mt-story-image::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0;
+    background:
+      linear-gradient(115deg, transparent 12%, rgba(255, 249, 228, 0.09) 48%, transparent 72%),
+      radial-gradient(circle at 68% 24%, rgba(201, 162, 74, 0.08), transparent 38%);
+    transition:
+      opacity 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+    transform: translateY(8px) translateZ(0);
+  }
+
+  .group:hover .mt-story-image::after {
+    opacity: 0.75;
+    transform: translateY(0) translateZ(0);
   }
 
   .mt-premium-glass {

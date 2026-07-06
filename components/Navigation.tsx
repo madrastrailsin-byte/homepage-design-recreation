@@ -28,8 +28,8 @@ export default function Navigation() {
     <nav
       className={`mt-premium-nav fixed top-0 left-0 right-0 z-50 backdrop-blur-xl transition-[background-color,border-color,box-shadow] duration-500 ${
         isScrolled
-          ? 'bg-[#020F12]/74 border-b border-[#D4AF37]/18 shadow-[0_14px_45px_rgba(0,0,0,0.18)]'
-          : 'bg-[#020F12]/48 border-b border-[#D4AF37]/10'
+          ? 'mt-nav-scrolled bg-[#020F12]/78 border-b border-[#D4AF37]/20 shadow-[0_16px_48px_rgba(0,0,0,0.2)]'
+          : 'bg-[#020F12]/42 border-b border-[#D4AF37]/10'
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 md:px-8 py-2 md:py-3 flex items-center justify-between">

@@ -87,48 +87,83 @@ export default function Hero() {
     const overlayLayer = q('.mt-hero-depth-overlay')
     const contentGroup = q('.mt-hero-camera-copy')
     const actions = q('.mt-hero-actions')
+    const target = { x: 0, y: 0 }
+    const current = { x: 0, y: 0 }
+    const maxX = 10
+    const maxY = 8
+    let frameId = 0
+    let isActive = true
 
-    const videoX = gsap.quickTo(videoShell, 'x', { duration: 0.7, ease: 'power3.out' })
-    const videoY = gsap.quickTo(videoShell, 'y', { duration: 0.7, ease: 'power3.out' })
-    const overlayX = gsap.quickTo(overlayLayer, 'x', { duration: 0.8, ease: 'power3.out' })
-    const overlayY = gsap.quickTo(overlayLayer, 'y', { duration: 0.8, ease: 'power3.out' })
-    const contentX = gsap.quickTo(contentGroup, 'x', { duration: 0.9, ease: 'power3.out' })
-    const contentY = gsap.quickTo(contentGroup, 'y', { duration: 0.9, ease: 'power3.out' })
-    const actionsX = gsap.quickTo(actions, 'x', { duration: 1.0, ease: 'power3.out' })
-    const actionsY = gsap.quickTo(actions, 'y', { duration: 1.0, ease: 'power3.out' })
+    const renderCamera = () => {
+      current.x += (target.x - current.x) * 0.075
+      current.y += (target.y - current.y) * 0.075
+
+      gsap.set(videoShell, { x: current.x, y: current.y })
+      gsap.set(overlayLayer, { x: current.x * 0.62, y: current.y * 0.58 })
+      gsap.set(contentGroup, { x: current.x * 0.22, y: current.y * 0.18 })
+      gsap.set(actions, { x: current.x * -0.12, y: current.y * -0.08 })
+
+      if (
+        isActive ||
+        Math.abs(current.x) > 0.02 ||
+        Math.abs(current.y) > 0.02 ||
+        Math.abs(target.x) > 0.02 ||
+        Math.abs(target.y) > 0.02
+      ) {
+        frameId = requestAnimationFrame(renderCamera)
+      } else {
+        frameId = 0
+      }
+    }
+
+    frameId = requestAnimationFrame(renderCamera)
 
     const handlePointerMove = (event: PointerEvent) => {
       const rect = section.getBoundingClientRect()
       const x = (event.clientX - rect.left) / rect.width - 0.5
       const y = (event.clientY - rect.top) / rect.height - 0.5
 
-      videoX(x * 15)
-      videoY(y * 10)
-      overlayX(x * 8)
-      overlayY(y * 6)
-      contentX(x * 3)
-      contentY(y * 2)
-      actionsX(x * -2)
-      actionsY(y * -1.2)
+      isActive = true
+      target.x = gsap.utils.clamp(-maxX, maxX, x * 20)
+      target.y = gsap.utils.clamp(-maxY, maxY, y * 16)
+      if (!frameId) frameId = requestAnimationFrame(renderCamera)
     }
 
     const handlePointerLeave = () => {
-      videoX(0)
-      videoY(0)
-      overlayX(0)
-      overlayY(0)
-      contentX(0)
-      contentY(0)
-      actionsX(0)
-      actionsY(0)
+      isActive = false
+      target.x = 0
+      target.y = 0
+      if (!frameId) frameId = requestAnimationFrame(renderCamera)
+    }
+
+    const resetCameraImmediately = () => {
+      isActive = false
+      target.x = 0
+      target.y = 0
+      current.x = 0
+      current.y = 0
+      if (frameId) {
+        cancelAnimationFrame(frameId)
+        frameId = 0
+      }
+      gsap.set([videoShell, overlayLayer, contentGroup, actions], { x: 0, y: 0 })
+    }
+
+    const handleWindowLeave = (event: PointerEvent) => {
+      if (event.clientY <= 0 || event.clientX <= 0 || event.clientX >= window.innerWidth || event.clientY >= window.innerHeight) {
+        resetCameraImmediately()
+      }
     }
 
     section.addEventListener('pointermove', handlePointerMove, { passive: true })
     section.addEventListener('pointerleave', handlePointerLeave)
+    window.addEventListener('pointerout', handleWindowLeave, { passive: true })
 
     return () => {
+      resetCameraImmediately()
       section.removeEventListener('pointermove', handlePointerMove)
       section.removeEventListener('pointerleave', handlePointerLeave)
+      window.removeEventListener('pointerout', handleWindowLeave)
     }
   }, [prefersReducedMotion])
 
@@ -138,11 +173,11 @@ export default function Hero() {
     gsap.registerPlugin(ScrollTrigger)
 
     const lenis = new Lenis({
-      duration: 1.08,
-      easing: (t) => 1 - Math.pow(1 - t, 4),
+      duration: 0.96,
+      easing: (t) => 1 - Math.pow(1 - t, 3.6),
       smoothWheel: true,
-      wheelMultiplier: 0.82,
-      touchMultiplier: 1,
+      wheelMultiplier: 0.88,
+      touchMultiplier: 1.08,
       anchors: true,
     })
 
@@ -155,6 +190,19 @@ export default function Hero() {
     gsap.ticker.lagSmoothing(0)
 
     const ctx = gsap.context(() => {
+      gsap.to(document.documentElement, {
+        '--mt-light-x': '68%',
+        '--mt-light-y': '18%',
+        '--mt-light-warmth': '0.18',
+        ease: 'none',
+        scrollTrigger: {
+          trigger: document.body,
+          start: 'top top',
+          end: 'bottom bottom',
+          scrub: 1.2,
+        },
+      })
+
       gsap.to('.mt-hero-video', {
         scale: 1.08,
         y: -34,
