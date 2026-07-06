@@ -2,12 +2,14 @@
 
 import { Menu, ChevronDown } from 'lucide-react'
 import Image from 'next/image'
+import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
 
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
+  const pathname = usePathname()
   const prefersReducedMotion = useReducedMotion()
   const introInitial = prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: -6 }
   const introAnimate = prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }
@@ -23,6 +25,10 @@ export default function Navigation() {
 
   const navLinkClass =
     'mt-ui relative text-[#FAFAF9] text-xs transition duration-300 hover:text-[#D4AF37] after:absolute after:left-0 after:-bottom-1 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-[#D4AF37]/80 after:transition-transform after:duration-300 hover:after:scale-x-100'
+  const activeNavLinkClass = `${navLinkClass} !text-[#D4AF37] after:!scale-x-100`
+  const mobileNavLinkClass = 'mt-ui text-[#FAFAF9] text-sm hover:text-[#D4AF37] transition'
+  const activeMobileNavLinkClass = `${mobileNavLinkClass} !text-[#D4AF37]`
+  const isOurStoryActive = pathname === '/our-story'
 
   return (
     <nav
@@ -58,7 +64,7 @@ export default function Navigation() {
           </div>
           <a href="#" className={navLinkClass}>Experiences</a>
           <a href="#" className={navLinkClass}>Services</a>
-          <a href="#" className={navLinkClass}>About Us</a>
+          <a href="/our-story" className={isOurStoryActive ? activeNavLinkClass : navLinkClass}>Our Story</a>
           <a href="#" className={navLinkClass}>Inspiration</a>
           <a href="#" className={navLinkClass}>Contact</a>
         </motion.div>
@@ -91,12 +97,12 @@ export default function Navigation() {
       {isOpen && (
         <div className="md:hidden bg-[#03191D]/86 backdrop-blur-xl border-t border-[#D4AF37]/10">
           <div className="px-6 py-6 flex flex-col gap-4">
-            <a href="#" className="mt-ui text-[#FAFAF9] text-sm hover:text-[#D4AF37] transition">Destinations</a>
-            <a href="#" className="mt-ui text-[#FAFAF9] text-sm hover:text-[#D4AF37] transition">Experiences</a>
-            <a href="#" className="mt-ui text-[#FAFAF9] text-sm hover:text-[#D4AF37] transition">Services</a>
-            <a href="#" className="mt-ui text-[#FAFAF9] text-sm hover:text-[#D4AF37] transition">About Us</a>
-            <a href="#" className="mt-ui text-[#FAFAF9] text-sm hover:text-[#D4AF37] transition">Inspiration</a>
-            <a href="#" className="mt-ui text-[#FAFAF9] text-sm hover:text-[#D4AF37] transition">Contact</a>
+            <a href="#" className={mobileNavLinkClass}>Destinations</a>
+            <a href="#" className={mobileNavLinkClass}>Experiences</a>
+            <a href="#" className={mobileNavLinkClass}>Services</a>
+            <a href="/our-story" className={isOurStoryActive ? activeMobileNavLinkClass : mobileNavLinkClass}>Our Story</a>
+            <a href="#" className={mobileNavLinkClass}>Inspiration</a>
+            <a href="#" className={mobileNavLinkClass}>Contact</a>
             <button className="btn-gold mt-ui w-full text-xs tracking-wide">PLAN YOUR JOURNEY →</button>
           </div>
         </div>

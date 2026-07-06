@@ -373,7 +373,7 @@ export default function Hero() {
           {/* Secondary Headline */}
           <h2
             data-hero-reveal="signature"
-            className="mt-signature text-[4.45rem] md:text-[5.45rem] lg:text-[6.55rem] text-[#D4AF37] leading-[0.78] -mt-4 md:-mt-5 mb-6 md:mb-7"
+            className="mt-signature pl-4 text-[4.45rem] md:text-[5.45rem] lg:text-[6.55rem] text-[#D4AF37] leading-[0.78] -mt-4 md:-mt-5 mb-6 md:mb-7"
             style={{
               opacity: 0,
               textShadow: '0 10px 24px rgba(0, 0, 0, 0.22)',
