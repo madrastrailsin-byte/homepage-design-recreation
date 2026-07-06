@@ -262,16 +262,16 @@
   }
 
   .mt-premium-nav {
-    overflow: hidden;
+    overflow: visible;
     background-image:
-      linear-gradient(180deg, rgba(255, 255, 255, 0.058), rgba(255, 255, 255, 0.012) 42%, rgba(3, 25, 29, 0.1)),
-      radial-gradient(ellipse at 18% 0%, rgba(200, 169, 106, 0.08), transparent 42%);
-    -webkit-backdrop-filter: blur(18px) saturate(128%);
-    backdrop-filter: blur(18px) saturate(128%);
+      linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.018) 42%, rgba(3, 25, 29, 0.14)),
+      radial-gradient(ellipse at 18% 0%, rgba(200, 169, 106, 0.09), transparent 44%);
+    -webkit-backdrop-filter: blur(20px) saturate(128%);
+    backdrop-filter: blur(20px) saturate(128%);
     box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.07),
-      inset 0 -1px 0 rgba(200, 169, 106, 0.055),
-      0 16px 48px rgba(0, 0, 0, 0.16);
+      inset 0 1px 0 rgba(255, 255, 255, 0.085),
+      inset 0 -1px 0 rgba(200, 169, 106, 0.07),
+      0 18px 52px rgba(0, 0, 0, 0.18);
   }
 
   .mt-premium-nav::before,
@@ -296,14 +296,14 @@
 
   .mt-premium-nav.mt-nav-scrolled {
     background-image:
-      linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01) 38%, rgba(2, 15, 18, 0.18)),
-      radial-gradient(ellipse at 18% 0%, rgba(200, 169, 106, 0.075), transparent 40%);
-    -webkit-backdrop-filter: blur(22px) saturate(132%);
-    backdrop-filter: blur(22px) saturate(132%);
+      linear-gradient(180deg, rgba(255, 255, 255, 0.058), rgba(255, 255, 255, 0.012) 38%, rgba(2, 15, 18, 0.24)),
+      radial-gradient(ellipse at 18% 0%, rgba(200, 169, 106, 0.085), transparent 42%);
+    -webkit-backdrop-filter: blur(24px) saturate(134%);
+    backdrop-filter: blur(24px) saturate(134%);
     box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.08),
-      inset 0 -1px 0 rgba(200, 169, 106, 0.08),
-      0 20px 58px rgba(0, 0, 0, 0.22);
+      inset 0 1px 0 rgba(255, 255, 255, 0.09),
+      inset 0 -1px 0 rgba(200, 169, 106, 0.095),
+      0 22px 62px rgba(0, 0, 0, 0.24);
   }
 
   .mt-logo-ambient {
@@ -311,20 +311,28 @@
     isolation: isolate;
   }
 
+  .mt-logo-ambient img {
+    position: relative;
+    z-index: 1;
+  }
+
   .mt-logo-ambient::before {
     content: '';
     position: absolute;
-    inset: -52px -92px -48px -82px;
-    z-index: -1;
+    left: 50%;
+    top: 50%;
+    width: 360px;
+    height: 160px;
+    z-index: 0;
     pointer-events: none;
-    opacity: 0.15;
+    opacity: 0.18;
     border-radius: 999px;
     background:
-      radial-gradient(ellipse at 38% 48%, rgba(200, 169, 106, 0.48), transparent 36%),
-      radial-gradient(ellipse at 52% 52%, rgba(250, 244, 232, 0.18), transparent 34%),
-      radial-gradient(ellipse at 50% 50%, rgba(14, 58, 67, 0.72), rgba(4, 29, 34, 0.26) 48%, transparent 76%);
-    filter: blur(96px);
-    transform: translateZ(0) scale(1);
+      radial-gradient(ellipse at 42% 48%, rgba(200, 169, 106, 0.5), transparent 36%),
+      radial-gradient(ellipse at 52% 52%, rgba(250, 244, 232, 0.16), transparent 34%),
+      radial-gradient(ellipse at 50% 50%, rgba(14, 58, 67, 0.82), rgba(4, 29, 34, 0.28) 48%, transparent 78%);
+    filter: blur(120px);
+    transform: translate3d(-50%, -50%, 0) scale(1);
     transition:
       opacity 0.28s cubic-bezier(0.22, 1, 0.36, 1),
       transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
@@ -332,25 +340,26 @@
   }
 
   .mt-logo-ambient:hover::before {
-    opacity: 0.18;
-    transform: translateZ(0) scale(1.03);
+    opacity: 0.2;
+    transform: translate3d(-50%, -50%, 0) scale(1.02);
   }
 
   @keyframes mt-logo-ambient-breathe {
     0%,
     100% {
-      opacity: 0.13;
-      transform: translateZ(0) scale(1);
+      opacity: 0.16;
+      transform: translate3d(-50%, -50%, 0) scale(1);
     }
 
     50% {
-      opacity: 0.17;
-      transform: translateZ(0) scale(1.03);
+      opacity: 0.19;
+      transform: translate3d(-50%, -50%, 0) scale(1.02);
     }
   }
 
   .mt-footer-logo-ambient::before {
-    inset: -62px -112px -56px -92px;
+    width: 420px;
+    height: 180px;
   }
 
   .mt-story-service-panel,
@@ -358,11 +367,9 @@
   .mt-story-destination-copy,
   .mt-story-destination-stage,
   .mt-story-stat-illustration,
+  .mt-story-stat-promise,
   .mt-story-experience-copy,
   .mt-story-experience-card,
-  .mt-story-footer-newsletter,
-  .mt-story-footer-social,
-  .mt-scroll-statistics,
   .mt-scroll-footer {
     will-change: transform, opacity;
   }
@@ -434,6 +441,7 @@ div.bg-\[\#0D1117\] {
 
   .mt-logo-ambient::before {
     animation: none !important;
+    opacity: 0.16;
   }
 
   .mt-gold-sheen:hover {

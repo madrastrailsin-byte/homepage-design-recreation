@@ -39,10 +39,10 @@ export default function ExperiencesSection() {
   const cardInView = prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }
   const imageInitial = prefersReducedMotion
     ? { opacity: 0 }
-    : { opacity: 0, scale: 1.02, clipPath: 'inset(0% 0% 8% 0%)' }
+    : { opacity: 0, clipPath: 'inset(0% 0% 8% 0%)' }
   const imageInView = prefersReducedMotion
     ? { opacity: 1 }
-    : { opacity: 1, scale: 1, clipPath: 'inset(0% 0% 0% 0%)' }
+    : { opacity: 1, clipPath: 'inset(0% 0% 0% 0%)' }
   const imageHoverClass = prefersReducedMotion ? '' : 'group-hover:scale-[1.018]'
   const arrowHoverClass = prefersReducedMotion ? '' : 'group-hover:translate-x-0.5'
 
