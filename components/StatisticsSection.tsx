@@ -34,7 +34,7 @@ export default function StatisticsSection() {
   const revealInView = prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }
 
   return (
-    <section className="bg-[#F2E7CC] py-8 md:py-10 relative overflow-hidden border-y border-[#D4AF37]/20" style={{
+    <section className="mt-scroll-statistics bg-[#F2E7CC] py-8 md:py-10 relative overflow-hidden border-y border-[#D4AF37]/20" style={{
       backgroundImage: 'linear-gradient(90deg, rgba(212,175,55,0.08), transparent 22%, transparent 78%, rgba(212,175,55,0.06)), url("data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22120%22 height=%22120%22><filter id=%22paper%22><feTurbulence type=%22fractalNoise%22 baseFrequency=%220.045%22 numOctaves=%222%22 result=%22noise%22/><feColorMatrix type=%22matrix%22 values=%220 0 0 0 0.82 0 0 0 0 0.70 0 0 0 0 0.48 0 0 0 0.12 0%22/></filter><rect width=%22120%22 height=%22120%22 fill=%22transparent%22 filter=%22url(%23paper)%22/></svg>")',
       backgroundRepeat: 'repeat'
     }}>
