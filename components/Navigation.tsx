@@ -38,7 +38,7 @@ export default function Navigation() {
           initial={introInitial}
           animate={introAnimate}
           transition={introTransition(0.12)}
-          className="mt-logo-ambient relative"
+          className="mt-logo-ambient mt-header-logo-backing relative"
         >
           <Image
             src="/images/madras-trails-logo.png"

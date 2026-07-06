@@ -344,6 +344,21 @@
     transform: translate3d(-50%, -50%, 0) scale(1.02);
   }
 
+  .mt-header-logo-backing::before {
+    width: 300px;
+    height: 118px;
+    opacity: 0.24;
+    background:
+      radial-gradient(ellipse at 50% 50%, rgba(2, 8, 13, 0.72), rgba(3, 18, 24, 0.48) 38%, rgba(4, 29, 34, 0.18) 60%, transparent 82%),
+      radial-gradient(ellipse at 42% 48%, rgba(200, 169, 106, 0.16), transparent 44%);
+    filter: blur(56px);
+    animation-duration: 12s;
+  }
+
+  .mt-header-logo-backing:hover::before {
+    opacity: 0.27;
+  }
+
   @keyframes mt-logo-ambient-breathe {
     0%,
     100% {
