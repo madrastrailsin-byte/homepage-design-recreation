@@ -43,11 +43,11 @@ export default function ExperiencesSection() {
   const imageInView = prefersReducedMotion
     ? { opacity: 1 }
     : { opacity: 1, clipPath: 'inset(0% 0% 0% 0%)' }
-  const imageHoverClass = prefersReducedMotion ? '' : 'group-hover:scale-[1.018]'
+  const imageHoverClass = prefersReducedMotion ? '' : 'group-hover:scale-[1.035]'
   const arrowHoverClass = prefersReducedMotion ? '' : 'group-hover:translate-x-0.5'
 
   return (
-    <section className="mt-scroll-experiences relative overflow-hidden bg-[#0D1117] py-16 md:py-20">
+    <section className="mt-scroll-experiences mt-journey-motif relative overflow-hidden bg-[#0D1117] py-16 md:py-20">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-[rgba(242,231,204,0.1)] via-[rgba(4,29,34,0.18)] to-transparent" />
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-b from-transparent via-[#03191D]/18 to-[#03191D]" />
       <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-8">
@@ -85,11 +85,12 @@ export default function ExperiencesSection() {
                 whileInView={imageInView}
                 transition={{ duration: 0.85, delay: 0.08 + idx * 0.08, ease: motionEase }}
                 viewport={{ once: true, amount: 0.24 }}
-                className={`mt-story-image absolute inset-0 bg-cover bg-center transition-transform duration-700 ${imageHoverClass}`}
+                className={`mt-story-image mt-experience-grade absolute inset-0 bg-cover bg-center transition-transform duration-700 ${imageHoverClass}`}
                 style={{ backgroundImage: `url(${exp.image})` }}
               >
                 {/* Dark Gradient Overlay - Bottom Heavy */}
-                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/30 to-black/85" />
+                <div className="absolute inset-0 bg-gradient-to-b from-[rgba(2,15,18,0.06)] via-[rgba(3,25,29,0.28)] to-[rgba(2,12,15,0.86)]" />
+                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_22%,transparent_38%,rgba(2,15,18,0.18)_74%,rgba(2,15,18,0.34)_100%)]" />
               </motion.div>
 
               {/* Content - Overlaid on Image */}

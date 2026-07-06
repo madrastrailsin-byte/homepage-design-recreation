@@ -36,7 +36,7 @@ const filledArrowButtonBase =
 export default function DestinationsSection() {
   const prefersReducedMotion = useReducedMotion()
   const motionEase = [0.22, 1, 0.36, 1] as const
-  const imageHoverClass = prefersReducedMotion ? '' : 'group-hover:scale-[1.012]'
+  const imageHoverClass = prefersReducedMotion ? '' : 'group-hover:scale-[1.05]'
   const iconHoverClass = prefersReducedMotion ? '' : 'group-hover/btn:translate-x-0.5'
   const revealInitial = prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 12 }
   const revealInView = prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }
@@ -53,7 +53,7 @@ export default function DestinationsSection() {
   const editorialTransition = (delay = 0) => ({ duration: 0.82, delay, ease: motionEase })
 
   return (
-    <section className="mt-scroll-destinations mt-destinations-bg relative overflow-hidden pt-2 pb-12 md:pt-4 md:pb-16">
+    <section className="mt-scroll-destinations mt-destinations-bg mt-journey-motif relative overflow-hidden pt-2 pb-12 md:pt-4 md:pb-16">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-[#03191D] via-[#03191D]/46 to-transparent" />
       <div className="mt-destinations-texture-reveal mt-story-destination-bg absolute inset-0 pointer-events-none" />
       <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-8">
@@ -112,7 +112,7 @@ export default function DestinationsSection() {
                 whileInView={textRevealInView}
                 transition={editorialTransition(0.2)}
                 viewport={{ once: true, amount: 0.24 }}
-                className="flex items-center gap-2 my-3.5"
+                className="flex items-center gap-2 my-5"
               >
                 <div className="flex-1 h-px bg-gradient-to-r from-[#C9A24A] to-transparent" />
                 <div className="w-2 h-2 rotate-45 bg-[#C9A24A]" />
@@ -164,12 +164,12 @@ export default function DestinationsSection() {
                 <motion.div
                   initial={revealInitial}
                   whileInView={revealInView}
-                  whileHover={prefersReducedMotion ? undefined : { y: -3, rotateZ: -0.18, rotateX: 0.16, transformPerspective: 900 }}
+                  whileHover={prefersReducedMotion ? undefined : { y: -5, rotateZ: -0.12, rotateX: 0.12, transformPerspective: 900 }}
                   transition={{ duration: 0.82, delay: 0.12, ease: motionEase }}
                   viewport={{ once: true, amount: 0.24 }}
                   className="mt-story-destination-card group cursor-pointer"
                 >
-                    <div className="relative w-full h-72 rounded-3xl overflow-hidden border border-[#C9A24A]/24 shadow-[0_26px_70px_rgba(0,0,0,0.46),0_0_0_1px_rgba(201,162,74,0.08)] transition-all duration-500 hover:border-[#C9A24A]/42 hover:shadow-[0_32px_82px_rgba(0,0,0,0.52),0_0_0_1px_rgba(201,162,74,0.12)]">
+                    <div className="relative w-full h-72 rounded-3xl overflow-hidden border border-[#C9A24A]/24 shadow-[0_26px_70px_rgba(0,0,0,0.46),0_0_0_1px_rgba(201,162,74,0.08)] transition-all duration-300 hover:border-[#C9A24A]/46 hover:shadow-[0_36px_88px_rgba(0,0,0,0.56),0_0_34px_rgba(201,162,74,0.08)]">
                     <motion.div
                       initial={imageRevealInitial}
                       whileInView={imageRevealInView}
@@ -201,12 +201,12 @@ export default function DestinationsSection() {
                   <motion.div
                     initial={revealInitial}
                     whileInView={revealInView}
-                    whileHover={prefersReducedMotion ? undefined : { y: -3, rotateZ: 0.14, rotateX: 0.14, transformPerspective: 900 }}
+                  whileHover={prefersReducedMotion ? undefined : { y: -5, rotateZ: 0.1, rotateX: 0.12, transformPerspective: 900 }}
                     transition={{ duration: 0.82, delay: 0, ease: motionEase }}
                     viewport={{ once: true, amount: 0.24 }}
                     className="mt-story-destination-card group cursor-pointer"
                   >
-                    <div className="relative w-full h-80 rounded-3xl overflow-hidden border border-[#C9A24A]/34 shadow-[0_34px_96px_rgba(0,0,0,0.56),0_0_0_1px_rgba(201,162,74,0.12)] transition-all duration-500 hover:border-[#C9A24A]/50 hover:shadow-[0_40px_104px_rgba(0,0,0,0.6),0_0_0_1px_rgba(201,162,74,0.16)]">
+                    <div className="relative w-full h-80 rounded-3xl overflow-hidden border border-[#C9A24A]/34 shadow-[0_34px_96px_rgba(0,0,0,0.56),0_0_0_1px_rgba(201,162,74,0.12)] transition-all duration-300 hover:border-[#C9A24A]/52 hover:shadow-[0_44px_112px_rgba(0,0,0,0.64),0_0_38px_rgba(201,162,74,0.09)]">
                       <motion.div
                         initial={imageRevealInitial}
                         whileInView={imageRevealInView}
@@ -238,12 +238,12 @@ export default function DestinationsSection() {
                 <motion.div
                   initial={revealInitial}
                   whileInView={revealInView}
-                  whileHover={prefersReducedMotion ? undefined : { y: -3, rotateZ: 0.18, rotateX: 0.16, transformPerspective: 900 }}
+                  whileHover={prefersReducedMotion ? undefined : { y: -5, rotateZ: 0.12, rotateX: 0.12, transformPerspective: 900 }}
                   transition={{ duration: 0.82, delay: 0.18, ease: motionEase }}
                   viewport={{ once: true, amount: 0.24 }}
                   className="mt-story-destination-card group cursor-pointer"
                 >
-                    <div className="relative w-full h-72 rounded-3xl overflow-hidden border border-[#C9A24A]/24 shadow-[0_26px_70px_rgba(0,0,0,0.46),0_0_0_1px_rgba(201,162,74,0.08)] transition-all duration-500 hover:border-[#C9A24A]/42 hover:shadow-[0_32px_82px_rgba(0,0,0,0.52),0_0_0_1px_rgba(201,162,74,0.12)]">
+                    <div className="relative w-full h-72 rounded-3xl overflow-hidden border border-[#C9A24A]/24 shadow-[0_26px_70px_rgba(0,0,0,0.46),0_0_0_1px_rgba(201,162,74,0.08)] transition-all duration-300 hover:border-[#C9A24A]/46 hover:shadow-[0_36px_88px_rgba(0,0,0,0.56),0_0_34px_rgba(201,162,74,0.08)]">
                     <motion.div
                       initial={imageRevealInitial}
                       whileInView={imageRevealInView}

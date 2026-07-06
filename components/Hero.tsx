@@ -335,17 +335,19 @@ export default function Hero() {
       }}
     >
       <div className="mt-hero-video-shell absolute -inset-x-5 -inset-y-4">
-        <video
-          ref={videoRef}
-          className="mt-hero-video h-[calc(100%+2rem)] w-[calc(100%+2.5rem)] object-cover"
-          src="/videos/hero.mp4"
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="metadata"
-          aria-hidden="true"
-        />
+        <div className="mt-hero-kenburns h-full w-full">
+          <video
+            ref={videoRef}
+            className="mt-hero-video h-[calc(100%+2rem)] w-[calc(100%+2.5rem)] object-cover"
+            src="/videos/hero.mp4"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            aria-hidden="true"
+          />
+        </div>
       </div>
 
       {/* Layered vignettes keep the copy readable without creating a visible panel edge. */}
@@ -363,7 +365,7 @@ export default function Hero() {
       <div
         className="mt-hero-content relative z-10 max-w-7xl mx-auto w-full px-6 md:px-8 -translate-y-1 md:-translate-y-3 lg:-translate-y-5"
       >
-        <div className="mt-hero-exit-group relative max-w-2xl">
+        <div className="mt-hero-exit-group relative max-w-[43rem]">
           <div className="mt-hero-camera-copy mt-hero-typography relative flex flex-col">
           {/* Main Headline */}
           <h1 data-hero-reveal="title" className="mt-display text-5xl md:text-6xl lg:text-7xl text-[#FAF4E8] leading-[0.95] mb-0" style={{ opacity: 0, textShadow: '0 14px 34px rgba(0, 0, 0, 0.34)' }}>

@@ -1,8 +1,7 @@
 'use client'
 
-import Image from 'next/image'
 import { motion, useReducedMotion } from 'framer-motion'
-import { Ear, PenLine, Handshake, Home } from 'lucide-react'
+import { Compass, Ear, PenLine, Handshake, Home } from 'lucide-react'
 
 const promises = [
   {
@@ -42,25 +41,32 @@ export default function StatisticsSection() {
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-12 bg-gradient-to-b from-transparent to-[rgba(144,105,42,0.08)]" />
       <div className="max-w-7xl mx-auto px-6 md:px-8 relative z-10">
         <div className="flex items-center gap-6 md:gap-10">
-          {/* Heritage Building Illustration - Left Side */}
+          {/* Global Exploration Illustration - Left Side */}
           <motion.div
             initial={revealInitial}
             whileInView={revealInView}
             transition={{ duration: 0.82, ease: motionEase }}
             viewport={{ once: true, amount: 0.24 }}
-            className="mt-story-stat-illustration hidden lg:flex flex-shrink-0 opacity-70 mix-blend-multiply"
+            className="mt-story-stat-illustration hidden lg:flex flex-shrink-0"
           >
-            <Image
-              src="/images/stats-heritage-building.png"
-              alt="Heritage clock tower building with palm trees and auto-rickshaw"
-              width={280}
-              height={320}
-              className="w-44 h-auto"
-            />
+            <div className="relative h-36 w-52 overflow-hidden rounded-2xl border border-[#03191D]/12 bg-[#E8D7B6]/52 shadow-[inset_0_1px_0_rgba(255,255,255,0.28)]">
+              <div className="absolute inset-4 rounded-xl border border-[#8A6B24]/18" />
+              <div className="absolute left-5 right-5 top-10 h-px bg-[#8A6B24]/18" />
+              <div className="absolute left-7 right-10 top-20 h-px bg-[#8A6B24]/14" />
+              <div className="absolute left-12 top-4 h-28 w-px bg-[#8A6B24]/14" />
+              <div className="absolute right-12 top-4 h-28 w-px bg-[#8A6B24]/12" />
+              <div className="absolute left-8 top-8 h-20 w-32 rounded-[50%] border border-[#8A6B24]/20" />
+              <div className="absolute left-14 top-11 h-14 w-24 rounded-[50%] border border-[#8A6B24]/16" />
+              <div className="absolute bottom-5 right-5 flex h-14 w-14 items-center justify-center rounded-full border border-[#8A6B24]/28 bg-[#F2E7CC]/56 text-[#8A6B24]">
+                <Compass size={28} strokeWidth={1.3} />
+              </div>
+              <div className="absolute left-7 bottom-6 h-2 w-16 rounded-full bg-[#8A6B24]/12" />
+              <div className="absolute left-7 bottom-10 h-1.5 w-24 rounded-full bg-[#8A6B24]/10" />
+            </div>
           </motion.div>
 
           {/* Brand Promise Grid - Right Side */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-y-6 sm:gap-y-7 lg:gap-y-0 flex-1">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-y-8 sm:gap-y-9 lg:gap-y-0 flex-1">
             {promises.map((promise, idx) => {
               const Icon = promise.icon
               return (
@@ -70,7 +76,7 @@ export default function StatisticsSection() {
                 whileInView={revealInView}
                 transition={{ duration: 0.78, delay: idx * 0.07, ease: motionEase }}
                 viewport={{ once: true, amount: 0.24 }}
-                className="mt-story-stat-promise relative px-0 sm:px-5 lg:px-7 lg:border-l lg:border-[#03191D]/12 first:border-l-0"
+                className="mt-story-stat-promise relative px-0 sm:px-6 lg:px-9 lg:border-l lg:border-[#03191D]/12 first:border-l-0"
               >
                 <div className="mb-3 flex h-8 w-8 items-center justify-center rounded-full border border-[#D4AF37]/55 text-[#D4AF37]">
                   <Icon size={16} strokeWidth={1.5} />
