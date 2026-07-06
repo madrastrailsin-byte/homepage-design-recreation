@@ -12,7 +12,7 @@ export default function Footer() {
   const socialLinkClass = 'mt-gold-sheen w-10 h-10 rounded-full border border-[#D4AF37]/50 flex items-center justify-center text-[#D4AF37] hover:bg-[#D4AF37] hover:text-[#03191D] hover:shadow-[0_10px_24px_rgba(212,175,55,0.14)]'
 
   return (
-    <footer className="relative overflow-hidden border-t border-[#D4AF37]/10 bg-[#03191D]">
+    <footer className="mt-scroll-footer relative overflow-hidden border-t border-[#D4AF37]/10 bg-[#03191D]">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-[#03191D] via-[#03191D]/52 to-transparent" />
       {/* Top Band - Three Parts Side by Side */}
       <section className="relative z-10 py-12 md:py-16 bg-[#020F12]/34">

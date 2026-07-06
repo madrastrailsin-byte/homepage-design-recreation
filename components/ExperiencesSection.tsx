@@ -47,7 +47,7 @@ export default function ExperiencesSection() {
   const arrowHoverClass = prefersReducedMotion ? '' : 'group-hover:translate-x-0.5'
 
   return (
-    <section className="relative overflow-hidden bg-[#0D1117] py-16 md:py-20">
+    <section className="mt-scroll-experiences relative overflow-hidden bg-[#0D1117] py-16 md:py-20">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-[rgba(242,231,204,0.1)] via-[rgba(4,29,34,0.18)] to-transparent" />
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-b from-transparent via-[#03191D]/18 to-[#03191D]" />
       <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-8">
@@ -70,15 +70,15 @@ export default function ExperiencesSection() {
         {/* Experience Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {experiences.map((exp, idx) => (
-            <motion.div
-              key={exp.id}
-              initial={cardInitial}
-              whileInView={cardInView}
-              whileHover={prefersReducedMotion ? undefined : { y: -4, rotateX: 0.5, rotateZ: idx % 2 === 0 ? -0.3 : 0.3, transformPerspective: 900 }}
-              transition={{ duration: 0.82, delay: idx * 0.08, ease: motionEase }}
-              viewport={{ once: true, amount: 0.24 }}
-              className="group relative h-80 md:h-96 rounded-t-3xl overflow-hidden cursor-pointer shadow-[0_20px_60px_rgba(0,0,0,0.34)] hover:shadow-[0_30px_80px_rgba(0,0,0,0.48)] transition-shadow duration-500"
-            >
+            <div key={exp.id} className="mt-scroll-experience-card">
+              <motion.div
+                initial={cardInitial}
+                whileInView={cardInView}
+                whileHover={prefersReducedMotion ? undefined : { y: -4, rotateX: 0.5, rotateZ: idx % 2 === 0 ? -0.3 : 0.3, transformPerspective: 900 }}
+                transition={{ duration: 0.82, delay: idx * 0.08, ease: motionEase }}
+                viewport={{ once: true, amount: 0.24 }}
+                className="group relative h-80 md:h-96 rounded-t-3xl overflow-hidden cursor-pointer shadow-[0_20px_60px_rgba(0,0,0,0.34)] hover:shadow-[0_30px_80px_rgba(0,0,0,0.48)] transition-shadow duration-500"
+              >
               {/* Background Image - Full Coverage */}
               <motion.div
                 initial={imageInitial}
@@ -108,7 +108,8 @@ export default function ExperiencesSection() {
               <button className="mt-gold-sheen absolute bottom-6 md:bottom-8 right-6 md:right-8 w-12 h-12 rounded-full bg-[#C9A24A] flex items-center justify-center text-[#071B24] hover:bg-white shadow-lg hover:shadow-xl">
                 <ArrowRight size={20} className={`transition-transform duration-300 ${arrowHoverClass}`} />
               </button>
-            </motion.div>
+              </motion.div>
+            </div>
           ))}
         </div>
       </div>
