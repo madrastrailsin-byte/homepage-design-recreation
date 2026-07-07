@@ -122,14 +122,14 @@ export default function OurStoryPage() {
           y: 0,
           x: 0,
           scale: 1,
-          clipPath: 'inset(0% 0% 0% 0%)',
+          clipPath: 'inset(0% -2% -18% -2%)',
           clearProps: 'transform',
         })
         gsap.set(pathItems, { strokeDashoffset: 0 })
         return
       }
 
-      gsap.set(revealItems, { autoAlpha: 0, y: 18, clipPath: 'inset(6% 0% 0% 0%)' })
+      gsap.set(revealItems, { autoAlpha: 0, y: 18, clipPath: 'inset(6% -2% -18% -2%)' })
       gsap.set(mediaItems, { autoAlpha: 0, y: 22, scale: 1.024, clipPath: 'inset(8% 0% 8% 0%)' })
 
       gsap.utils.toArray<HTMLElement>('[data-story-chapter]').forEach((chapter) => {
@@ -148,7 +148,7 @@ export default function OurStoryPage() {
           .to(reveals, {
             autoAlpha: 1,
             y: 0,
-            clipPath: 'inset(0% 0% 0% 0%)',
+            clipPath: 'inset(0% -2% -18% -2%)',
             stagger: 0.095,
             ease,
           }, 0)
@@ -235,10 +235,10 @@ export default function OurStoryPage() {
         <div className="relative mx-auto grid w-full max-w-7xl -translate-y-12 items-end gap-10 md:-translate-y-14 lg:grid-cols-[0.9fr_1.1fr]">
           <div>
             <ChapterLabel number="01" label="THE FILM OPENS" />
-            <h1 data-reveal className="mt-display max-w-4xl text-6xl leading-[0.92] text-[#FAFAF9] md:text-8xl">
+            <h1 data-reveal className="mt-display max-w-4xl overflow-visible pb-[0.16em] text-6xl leading-[0.92] text-[#FAFAF9] md:text-8xl">
               Not an about page.
             </h1>
-            <p data-reveal className="mt-display-soft mt-5 max-w-2xl text-3xl leading-tight text-[#D4AF37] md:text-5xl">
+            <p data-reveal className="mt-display-soft mt-5 max-w-2xl overflow-visible pb-[0.16em] text-3xl leading-tight text-[#D4AF37] md:text-5xl">
               A story in motion.
             </p>
           </div>
