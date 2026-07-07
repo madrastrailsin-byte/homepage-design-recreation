@@ -1,3 +1,5 @@
+'use client'
+
 import { Plane, Hotel, MapPin, Compass, Shield, Clock } from 'lucide-react'
 
 const services = [
@@ -11,26 +13,22 @@ const services = [
 
 export default function ServicesStrip() {
   return (
-    <div className="mt-scroll-services mt-services-flow mt-journey-motif relative isolate z-10 -mt-16 w-full bg-gradient-to-b from-[rgba(3,25,29,0.04)] via-[#041D22] to-[#03191D] pt-4 pb-9 md:-mt-20 md:pt-5 md:pb-12">
-      <div className="pointer-events-none absolute inset-x-0 -top-14 z-0 h-28 bg-gradient-to-b from-transparent via-[#03191D]/24 to-[#041D22]/96" />
-      <div className="mt-services-scene mt-story-service-panel relative z-10 max-w-7xl mx-auto px-6 md:px-8">
-        <div className="flex justify-center">
-          <div
-            className="mt-premium-glass flex flex-wrap justify-center gap-4 md:gap-6 rounded-2xl px-8 md:px-12 py-3 md:py-4 border border-[#C9A24A]/30 shadow-[0_22px_70px_rgba(0,0,0,0.22)]"
-          >
-            {services.map((service, idx) => {
-              const Icon = service.icon
-              return (
-                <div key={idx} className="flex items-center gap-2 group whitespace-nowrap">
-                  <Icon size={16} className="text-[#C9A24A] group-hover:text-white transition-colors flex-shrink-0" />
-                  <span className="text-[11px] font-light text-[#C9A24A] tracking-widest group-hover:text-white transition-colors">{service.label}</span>
+    <section className="glass-overlay border-y border-[#C9A24A]/10">
+      <div className="max-w-7xl mx-auto px-6 md:px-8">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 py-14 md:py-18">
+          {services.map((service, idx) => {
+            const Icon = service.icon
+            return (
+              <div key={idx} className="flex flex-col items-center gap-4 text-center group">
+                <div className="w-16 h-16 rounded-full border border-[#C9A24A]/20 flex items-center justify-center group-hover:border-[#C9A24A]/50 group-hover:bg-[#C9A24A]/5 transition-all duration-300">
+                  <Icon size={28} className="text-[#C9A24A] group-hover:text-white transition-colors" />
                 </div>
-              )
-            })}
-          </div>
+                <span className="text-xs font-light text-[#C9A24A] tracking-widest group-hover:text-white transition-colors">{service.label}</span>
+              </div>
+            )
+          })}
         </div>
       </div>
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-0 h-20 bg-gradient-to-b from-transparent via-[#03191D]/42 to-[#03191D]" />
-    </div>
+    </section>
   )
 }

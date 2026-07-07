@@ -1,45 +1,43 @@
 'use client'
 
+<<<<<<< HEAD
+import { motion } from 'framer-motion'
+=======
 import { motion, useReducedMotion } from 'framer-motion'
 import { Compass, Ear, PenLine, Handshake, Home } from 'lucide-react'
+>>>>>>> parent of 29de74e (Update StatisticsSection.tsx)
 
-const promises = [
-  {
-    icon: Ear,
-    title: 'We Listen',
-    description: 'Your journey begins with a real conversation.',
-  },
-  {
-    icon: PenLine,
-    title: 'We Design',
-    description: 'Every detail is shaped around your pace, style, and story.',
-  },
-  {
-    icon: Handshake,
-    title: 'We Support',
-    description: 'From the first idea to your safe return home.',
-  },
-  {
-    icon: Home,
-    title: 'You Belong',
-    description: 'Travel that feels less like visiting, more like being welcomed.',
-  },
+const stats = [
+  { number: '10+', label: 'YEARS OF EXPERTISE' },
+  { number: '50+', label: 'DESTINATIONS WORLDWIDE' },
+  { number: '1000+', label: 'CURATED JOURNEYS' },
+  { number: '99%', label: 'HAPPY TRAVELLERS' },
 ]
 
 export default function StatisticsSection() {
-  const prefersReducedMotion = useReducedMotion()
-  const motionEase = [0.22, 1, 0.36, 1] as const
-  const revealInitial = prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 12 }
-  const revealInView = prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }
-
   return (
-    <section className="mt-scroll-statistics bg-[#F2E7CC] py-8 md:py-10 relative overflow-hidden border-y border-[#D4AF37]/20" style={{
-      backgroundImage: 'linear-gradient(90deg, rgba(212,175,55,0.08), transparent 22%, transparent 78%, rgba(212,175,55,0.06)), url("data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22120%22 height=%22120%22><filter id=%22paper%22><feTurbulence type=%22fractalNoise%22 baseFrequency=%220.045%22 numOctaves=%222%22 result=%22noise%22/><feColorMatrix type=%22matrix%22 values=%220 0 0 0 0.82 0 0 0 0 0.70 0 0 0 0 0.48 0 0 0 0.12 0%22/></filter><rect width=%22120%22 height=%22120%22 fill=%22transparent%22 filter=%22url(%23paper)%22/></svg>")',
+    <section className="bg-[#F2E7CC] py-28 md:py-40 relative overflow-hidden" style={{
+      backgroundImage: 'url("data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%22100%22><filter id=%22paper%22><feTurbulence type=%22fractalNoise%22 baseFrequency=%220.05%22 numOctaves=%222%22 result=%22noise%22/><feDisplacementMap in=%22SourceGraphic%22 in2=%22noise%22 scale=%2220%22/></filter><rect width=%22100%22 height=%22100%22 fill=%22%23F2E7CC%22 filter=%22url(%23paper)%22/></svg>")',
       backgroundRepeat: 'repeat'
     }}>
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-10 bg-gradient-to-b from-[rgba(144,105,42,0.1)] to-transparent" />
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-12 bg-gradient-to-b from-transparent to-[rgba(144,105,42,0.08)]" />
       <div className="max-w-7xl mx-auto px-6 md:px-8 relative z-10">
+<<<<<<< HEAD
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-12 md:gap-16 xl:gap-24">
+          {stats.map((stat, idx) => (
+            <motion.div
+              key={idx}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: idx * 0.1 }}
+              viewport={{ once: true }}
+              className="text-center space-y-4 py-4"
+            >
+              {idx < stats.length - 1 && <div className="absolute right-0 top-1/2 transform -translate-y-1/2 w-px h-16 bg-[#C9A24A]/20 hidden md:block" />}
+              <div className="text-[#C9A24A] text-6xl md:text-7xl leading-none" style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700 }}>{stat.number}</div>
+              <div className="text-[#123B47] text-xs font-light tracking-widest leading-relaxed uppercase">{stat.label}</div>
+            </motion.div>
+          ))}
+=======
         <div className="flex items-center gap-6 md:gap-10">
           {/* Global Exploration Illustration - Left Side */}
           <motion.div
@@ -91,6 +89,7 @@ export default function StatisticsSection() {
               )
             })}
           </div>
+>>>>>>> parent of 29de74e (Update StatisticsSection.tsx)
         </div>
       </div>
     </section>
