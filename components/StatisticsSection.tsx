@@ -1,7 +1,7 @@
 'use client'
 
 import { motion, useReducedMotion } from 'framer-motion'
-import { Compass, Ear, PenLine, Handshake, Home } from 'lucide-react'
+import { Ear, PenLine, Handshake, Home } from 'lucide-react'
 
 const promises = [
   {
@@ -49,19 +49,22 @@ export default function StatisticsSection() {
             viewport={{ once: true, amount: 0.24 }}
             className="mt-story-stat-illustration hidden lg:flex flex-shrink-0"
           >
-            <div className="relative h-36 w-52 overflow-hidden rounded-2xl border border-[#03191D]/12 bg-[#E8D7B6]/52 shadow-[inset_0_1px_0_rgba(255,255,255,0.28)]">
-              <div className="absolute inset-4 rounded-xl border border-[#8A6B24]/18" />
-              <div className="absolute left-5 right-5 top-10 h-px bg-[#8A6B24]/18" />
-              <div className="absolute left-7 right-10 top-20 h-px bg-[#8A6B24]/14" />
-              <div className="absolute left-12 top-4 h-28 w-px bg-[#8A6B24]/14" />
-              <div className="absolute right-12 top-4 h-28 w-px bg-[#8A6B24]/12" />
-              <div className="absolute left-8 top-8 h-20 w-32 rounded-[50%] border border-[#8A6B24]/20" />
-              <div className="absolute left-14 top-11 h-14 w-24 rounded-[50%] border border-[#8A6B24]/16" />
-              <div className="absolute bottom-5 right-5 flex h-14 w-14 items-center justify-center rounded-full border border-[#8A6B24]/28 bg-[#F2E7CC]/56 text-[#8A6B24]">
-                <Compass size={28} strokeWidth={1.3} />
+            <div className="relative h-36 w-52 overflow-hidden rounded-2xl border border-[#03191D]/8 bg-[#E7D5AF]/42 shadow-[inset_0_1px_0_rgba(255,255,255,0.22)]">
+              <div className="absolute inset-0 opacity-[0.18] sepia mix-blend-multiply">
+                <div className="absolute -left-2 top-5 h-24 w-36 rotate-[-7deg] rounded-[10px] bg-[#5E4A2A]/42 shadow-[0_10px_24px_rgba(58,42,18,0.18)]" />
+                <div className="absolute left-8 top-2 h-28 w-32 rotate-[4deg] rounded-[9px] border border-[#3F3320]/55 bg-[#F4E4BF]/80 shadow-[0_12px_28px_rgba(58,42,18,0.14)]" />
+                <div className="absolute right-2 top-8 h-24 w-20 rotate-[10deg] rounded-[7px] bg-[#3F3320]/46 shadow-[0_10px_22px_rgba(58,42,18,0.18)]" />
+                <div className="absolute left-14 top-9 h-16 w-24 rounded-[50%] border border-[#3F3320]/44" />
+                <div className="absolute left-20 top-12 h-10 w-14 rounded-[50%] border border-[#3F3320]/34" />
+                <div className="absolute left-12 right-7 top-20 h-px bg-[#3F3320]/34" />
+                <div className="absolute left-12 right-12 top-26 h-px bg-[#3F3320]/26" />
+                <div className="absolute bottom-5 left-7 h-2 w-24 rounded-full bg-[#3F3320]/24" />
+                <div className="absolute bottom-9 left-8 h-1.5 w-16 rounded-full bg-[#3F3320]/22" />
+                <div className="absolute bottom-5 right-7 h-10 w-10 rounded-full border border-[#3F3320]/44" />
+                <div className="absolute bottom-8 right-10 h-4 w-4 rounded-full border border-[#3F3320]/36" />
               </div>
-              <div className="absolute left-7 bottom-6 h-2 w-16 rounded-full bg-[#8A6B24]/12" />
-              <div className="absolute left-7 bottom-10 h-1.5 w-24 rounded-full bg-[#8A6B24]/10" />
+              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_42%,transparent_34%,rgba(242,231,204,0.44)_100%),linear-gradient(90deg,rgba(242,231,204,0.28),transparent_36%,rgba(242,231,204,0.22))]" />
+              <div className="absolute inset-0 opacity-[0.16] bg-[url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22120%22 height=%22120%22%3E%3Cfilter id=%22grain%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.7%22 numOctaves=%223%22/%3E%3C/filter%3E%3Crect width=%22120%22 height=%22120%22 filter=%22url(%23grain)%22 opacity=%220.34%22/%3E%3C/svg%3E')]" />
             </div>
           </motion.div>
 
