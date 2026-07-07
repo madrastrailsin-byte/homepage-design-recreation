@@ -29,6 +29,7 @@ export default function Navigation() {
   const mobileNavLinkClass = 'mt-ui text-[#FAFAF9] text-sm hover:text-[#D4AF37] transition'
   const activeMobileNavLinkClass = `${mobileNavLinkClass} !text-[#D4AF37]`
   const isOurStoryActive = pathname === '/our-story'
+  const isExperiencesActive = pathname === '/experiences'
 
   return (
     <nav
@@ -68,7 +69,7 @@ export default function Navigation() {
             <span>Destinations</span>
             <ChevronDown size={14} className="mt-0.5" />
           </div>
-          <a href="#" className={navLinkClass}>Experiences</a>
+          <a href="/experiences" className={isExperiencesActive ? activeNavLinkClass : navLinkClass}>Experiences</a>
           <a href="#" className={navLinkClass}>Services</a>
           <a href="/our-story" className={isOurStoryActive ? activeNavLinkClass : navLinkClass}>Our Story</a>
           <a href="#" className={navLinkClass}>Inspiration</a>
@@ -104,7 +105,7 @@ export default function Navigation() {
         <div className="md:hidden bg-[#03191D]/86 backdrop-blur-xl border-t border-[#D4AF37]/10">
           <div className="px-6 py-6 flex flex-col gap-4">
             <a href="#" className={mobileNavLinkClass}>Destinations</a>
-            <a href="#" className={mobileNavLinkClass}>Experiences</a>
+            <a href="/experiences" className={isExperiencesActive ? activeMobileNavLinkClass : mobileNavLinkClass}>Experiences</a>
             <a href="#" className={mobileNavLinkClass}>Services</a>
             <a href="/our-story" className={isOurStoryActive ? activeMobileNavLinkClass : mobileNavLinkClass}>Our Story</a>
             <a href="#" className={mobileNavLinkClass}>Inspiration</a>
