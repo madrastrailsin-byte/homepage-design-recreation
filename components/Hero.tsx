@@ -409,7 +409,7 @@ export default function Hero() {
               <div className="mt-gold-sheen flex h-10 w-10 items-center justify-center rounded-full border border-[#C9A24A]/85 bg-[#071B24]/10 shadow-[0_0_0_1px_rgba(201,162,74,0.08)] group-hover:border-white group-hover:bg-white/5">
                 <Play size={13} className="ml-0.5 fill-current" />
               </div>
-              <span className="mt-ui text-xs tracking-[0.16em]">WATCH OUR STORY</span>
+              <span className="mt-ui text-xs tracking-[0.16em]">Watch Our Story</span>
             </button>
           </div>
           </div>

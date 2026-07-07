@@ -24,7 +24,7 @@ export default function Footer() {
               whileInView={revealInView}
               transition={{ duration: 0.8, ease: motionEase }}
               viewport={{ once: true, amount: 0.24 }}
-              className="mt-logo-ambient mt-footer-logo-ambient flex items-center gap-3"
+              className="mt-logo-ambient mt-footer-logo-ambient relative flex items-center gap-3"
             >
               <Image
                 src="/images/madras-trails-logo.png"
@@ -33,6 +33,12 @@ export default function Footer() {
                 height={37}
                 className="h-11 w-auto object-contain"
               />
+              <span
+                aria-hidden="true"
+                className="pointer-events-none absolute left-[9.85rem] top-[0.46rem] z-[2] text-[8px] font-semibold leading-none text-[#FAFAF9]/80"
+              >
+                ™
+              </span>
             </motion.div>
 
             {/* Part B: Newsletter Section */}
@@ -44,7 +50,7 @@ export default function Footer() {
               className="mt-story-footer-newsletter"
             >
               <h3 className="mt-display text-xl md:text-2xl text-[#FAFAF9] mb-3">Let&apos;s craft your next journey</h3>
-              <p className="mt-body-copy text-[#D4AF37]/62 text-xs md:text-sm mb-4">Subscribe for travel inspiration and exclusive offers.</p>
+              <p className="mt-body-copy text-[#D4AF37]/62 text-xs md:text-sm mb-4">Your story deserves more than a holiday.</p>
               <form className="flex gap-2">
                 <input
                   type="email"

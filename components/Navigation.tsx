@@ -56,7 +56,7 @@ export default function Navigation() {
           />
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute left-[8.95rem] top-[0.42rem] z-[2] text-[8px] font-semibold leading-none text-[#FAFAF9]/85 md:left-[9.85rem] md:top-[0.46rem]"
+            className="pointer-events-none absolute left-[9.55rem] top-[0.2rem] z-[2] text-[7px] font-semibold leading-none text-[#D4AF37] md:left-[10.55rem] md:top-[0.22rem] md:text-[8px]"
           >
             ™
           </span>
@@ -77,7 +77,7 @@ export default function Navigation() {
 
         {/* CTA Button and Menu */}
         <motion.div initial={introInitial} animate={introAnimate} transition={introTransition(0.38)} className="flex items-center gap-3">
-          <button className="btn-gold mt-gold-sheen mt-ui hidden md:block text-xs py-1.5 px-5 transition-transform duration-300 hover:-translate-y-0.5 hover:shadow-[0_14px_30px_rgba(212,175,55,0.24)]">PLAN YOUR JOURNEY →</button>
+          <button className="btn-gold mt-gold-sheen mt-ui hidden md:block text-xs py-1.5 px-5 transition-transform duration-300 hover:-translate-y-0.5 hover:shadow-[0_14px_30px_rgba(212,175,55,0.24)]">Plan Your Journey →</button>
           <button
             onClick={() => setIsOpen(!isOpen)}
             className="hidden md:flex items-center justify-center text-[#FAFAF9] w-9 h-9 border border-[#FAFAF9]/24 hover:border-[#D4AF37]/60 transition-all duration-300 rounded-full hover:bg-[#D4AF37]/10 hover:shadow-[0_0_0_5px_rgba(212,175,55,0.055)]"
@@ -109,7 +109,7 @@ export default function Navigation() {
             <a href="/our-story" className={isOurStoryActive ? activeMobileNavLinkClass : mobileNavLinkClass}>Our Story</a>
             <a href="#" className={mobileNavLinkClass}>Inspiration</a>
             <a href="#" className={mobileNavLinkClass}>Contact</a>
-            <button className="btn-gold mt-ui w-full text-xs tracking-wide">PLAN YOUR JOURNEY →</button>
+            <button className="btn-gold mt-ui w-full text-xs tracking-wide">Plan Your Journey →</button>
           </div>
         </div>
       )}
