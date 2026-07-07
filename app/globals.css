@@ -52,14 +52,18 @@
     @apply border-border;
   }
   
-  html, body {
+  html,
+  body {
     width: 100%;
     min-height: 100%;
     margin: 0;
+    padding: 0;
     overflow-x: hidden;
-    border: none;
-    border-radius: 0;
-    box-shadow: none;
+    border: 0 !important;
+    border-radius: 0 !important;
+    outline: 0 !important;
+    box-shadow: none !important;
+    clip-path: none !important;
     background:
       radial-gradient(circle at var(--mt-light-x) var(--mt-light-y), rgba(13, 56, 63, 0.28), transparent 32%),
       radial-gradient(circle at 22% 82%, rgba(8, 45, 52, 0.22), transparent 38%),
@@ -69,11 +73,14 @@
   
   body {
     @apply text-foreground;
+    width: 100%;
     min-height: 100%;
     overflow-x: hidden;
-    border: none;
-    border-radius: 0;
-    box-shadow: none;
+    border: 0 !important;
+    border-radius: 0 !important;
+    outline: 0 !important;
+    box-shadow: none !important;
+    clip-path: none !important;
     background-color: var(--mt-bg-dark);
     background-image:
       radial-gradient(circle at var(--mt-light-x) var(--mt-light-y), rgba(13, 56, 63, 0.22), transparent 32%),
@@ -85,14 +92,26 @@
   }
 
   #__next,
+  #__next > *,
+  body > div,
   [data-nextjs-scroll-focus-boundary],
   main {
     width: 100%;
     min-height: 100%;
     overflow-x: hidden;
-    border: none;
-    border-radius: 0;
-    box-shadow: none;
+    border: 0 !important;
+    border-radius: 0 !important;
+    outline: 0 !important;
+    box-shadow: none !important;
+    clip-path: none !important;
+  }
+
+  html::before,
+  html::after,
+  body::before,
+  body::after {
+    display: none !important;
+    content: none !important;
   }
 }
 
@@ -424,6 +443,19 @@ main.bg-\[\#0D1117\],
 section.bg-\[\#0D1117\],
 div.bg-\[\#0D1117\] {
   background-color: var(--mt-bg-dark);
+}
+
+html,
+body,
+main.bg-\[\#0D1117\] {
+  width: 100%;
+  min-height: 100%;
+  overflow-x: hidden;
+  border: 0 !important;
+  border-radius: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+  clip-path: none !important;
 }
 
 @media (prefers-reduced-motion: reduce) {

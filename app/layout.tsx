@@ -41,8 +41,8 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`${catamaran.variable} ${fraunces.variable} ${dancingScript.variable} bg-[#0D1117]`}>
-      <body className="font-sans antialiased bg-[#0D1117]">
+    <html lang="en" className={`${catamaran.variable} ${fraunces.variable} ${dancingScript.variable} min-h-full w-full overflow-x-hidden rounded-none border-0 bg-[#0D1117] shadow-none`}>
+      <body className="min-h-full w-full overflow-x-hidden rounded-none border-0 bg-[#0D1117] font-sans antialiased shadow-none">
         {children}
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
