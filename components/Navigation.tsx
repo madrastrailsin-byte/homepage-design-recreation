@@ -41,11 +41,13 @@ export default function Navigation() {
     >
       <div className="max-w-7xl mx-auto px-6 md:px-8 py-2 md:py-3 flex items-center justify-between">
         {/* Logo */}
-        <motion.div
+        <motion.a
+          href="/"
+          aria-label="MadrasTrails homepage"
           initial={introInitial}
           animate={introAnimate}
           transition={introTransition(0.12)}
-          className="relative"
+          className="relative inline-flex items-center rounded-[14px] border border-[#D4AF37]/12 bg-[#021216]/72 px-3 py-2 backdrop-blur-[10px] transition-[background-color,border-color] duration-300 hover:border-[#D4AF37]/20 hover:bg-[#021216]/78"
         >
           <Image
             src="/images/madras-trails-logo.png"
@@ -61,7 +63,7 @@ export default function Navigation() {
           >
             ™
           </span>
-        </motion.div>
+        </motion.a>
 
         {/* Desktop Menu */}
         <motion.div initial={introInitial} animate={introAnimate} transition={introTransition(0.26)} className="hidden md:flex items-center gap-9 xl:gap-11">
