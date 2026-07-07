@@ -220,7 +220,7 @@ export default function OurStoryPage() {
       <div className="pointer-events-none fixed inset-0 z-0 bg-[radial-gradient(circle_at_74%_12%,rgba(212,175,55,0.08),transparent_28%),radial-gradient(circle_at_12%_42%,rgba(14,58,67,0.42),transparent_34%),linear-gradient(180deg,#020F12_0%,#03191D_46%,#020F12_100%)]" />
       <div className="pointer-events-none fixed inset-0 z-0 opacity-20 bg-[url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22 viewBox=%220 0 200 200%22%3E%3Cg fill=%22none%22 stroke=%22%23C9A24A%22 stroke-opacity=%220.06%22 stroke-width=%220.7%22%3E%3Cpath d=%22M13 128c30-42 64-58 102-49 35 8 57-6 74-40%22/%3E%3Cpath d=%22M4 64c40 19 75 20 105 3 32-18 62-12 91 18%22/%3E%3Ccircle cx=%2262%22 cy=%2275%22 r=%2217%22/%3E%3Ccircle cx=%22142%22 cy=%22133%22 r=%2224%22/%3E%3C/g%3E%3C/svg%3E')]" />
 
-      <section data-story-chapter className="relative z-10 flex min-h-screen items-end overflow-hidden px-6 pb-14 pt-32 md:px-8 md:pb-20">
+      <section data-story-chapter className="relative z-10 flex min-h-[calc(100vh+56px)] items-end overflow-hidden px-6 pb-14 pt-32 md:px-8 md:pb-20">
         <video
           className="absolute inset-0 h-full w-full object-cover opacity-[0.58]"
           src="/videos/our-story-hero.mp4"
@@ -232,7 +232,7 @@ export default function OurStoryPage() {
           aria-hidden="true"
         />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_26%_54%,rgba(2,15,18,0.72),transparent_46%),linear-gradient(180deg,rgba(2,15,18,0.38),rgba(2,15,18,0.82))]" />
-        <div className="relative mx-auto grid w-full max-w-7xl items-end gap-10 lg:grid-cols-[0.9fr_1.1fr]">
+        <div className="relative mx-auto grid w-full max-w-7xl -translate-y-12 items-end gap-10 md:-translate-y-14 lg:grid-cols-[0.9fr_1.1fr]">
           <div>
             <ChapterLabel number="01" label="THE FILM OPENS" />
             <h1 data-reveal className="mt-display max-w-4xl text-6xl leading-[0.92] text-[#FAFAF9] md:text-8xl">
