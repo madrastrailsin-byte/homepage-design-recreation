@@ -44,7 +44,7 @@ export default function Navigation() {
           initial={introInitial}
           animate={introAnimate}
           transition={introTransition(0.12)}
-          className="mt-logo-ambient mt-header-logo-backing relative"
+          className="relative"
         >
           <Image
             src="/images/madras-trails-logo.png"
@@ -54,12 +54,6 @@ export default function Navigation() {
             className="h-10 md:h-11 w-auto object-contain"
             priority
           />
-          <span
-            aria-hidden="true"
-            className="pointer-events-none absolute left-[9.55rem] top-[0.2rem] z-[2] text-[7px] font-semibold leading-none text-[#D4AF37] md:left-[10.55rem] md:top-[0.22rem] md:text-[8px]"
-          >
-            ™
-          </span>
         </motion.div>
 
         {/* Desktop Menu */}
