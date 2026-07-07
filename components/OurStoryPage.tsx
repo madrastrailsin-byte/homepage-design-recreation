@@ -222,7 +222,7 @@ export default function OurStoryPage() {
 
       <section data-story-chapter className="relative z-10 flex min-h-[calc(100vh+56px)] items-end overflow-hidden px-6 pb-14 pt-32 md:px-8 md:pb-20">
         <video
-          className="absolute inset-0 h-full w-full object-cover opacity-[0.62] brightness-[1.08] contrast-[1.04] saturate-[1.06]"
+          className="absolute inset-0 h-full w-full object-cover opacity-[0.74] brightness-[1.14] contrast-[1.06] saturate-[1.1]"
           src="/videos/our-story-hero.mp4"
           autoPlay
           muted
@@ -231,7 +231,7 @@ export default function OurStoryPage() {
           preload="metadata"
           aria-hidden="true"
         />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_64%_24%,rgba(212,175,55,0.08),transparent_30%),radial-gradient(ellipse_at_26%_54%,rgba(2,15,18,0.52),transparent_46%),linear-gradient(180deg,rgba(2,15,18,0.28),rgba(2,15,18,0.62))]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_64%_24%,rgba(212,175,55,0.12),transparent_32%),radial-gradient(ellipse_at_26%_54%,rgba(2,15,18,0.32),transparent_46%),linear-gradient(180deg,rgba(2,15,18,0.16),rgba(2,15,18,0.38))]" />
         <div className="relative mx-auto grid w-full max-w-7xl -translate-y-12 items-end gap-10 md:-translate-y-14 lg:grid-cols-[0.9fr_1.1fr]">
           <div>
             <ChapterLabel number="01" label="THE FILM OPENS" />

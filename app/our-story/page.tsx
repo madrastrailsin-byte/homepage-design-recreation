@@ -4,7 +4,7 @@ import OurStoryPage from '@/components/OurStoryPage'
 
 export default function OurStory() {
   return (
-    <main className="bg-[#03191D]">
+    <main className="min-h-screen w-full max-w-none overflow-x-hidden rounded-none border-0 bg-[#03191D] p-0 m-0 shadow-none">
       <Navigation />
       <OurStoryPage />
       <Footer />
