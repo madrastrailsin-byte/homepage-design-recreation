@@ -11,16 +11,16 @@ import { ArrowRight, Compass, MapPin, Plane, Sparkles } from 'lucide-react'
 const ease = 'power3.out'
 
 const timeline = [
-  { label: 'Listen', place: 'Chennai', note: 'A conversation sets the route.' },
-  { label: 'Shape', place: 'Beyond borders', note: 'Ideas become a living trail.' },
-  { label: 'Refine', place: 'Closer in', note: 'Every pause earns its place.' },
-  { label: 'Begin', place: 'Out there', note: 'The story leaves the page.' },
+  { label: 'Listen', place: 'First call', note: 'A conversation sets the route.' },
+  { label: 'Shape', place: 'Field notes', note: 'Ideas become a living trail.' },
+  { label: 'Refine', place: 'Quiet details', note: 'Every pause earns its place.' },
+  { label: 'Begin', place: 'Departure', note: 'The story leaves the page.' },
 ]
 
 const philosophyCards = [
-  { title: 'Stay Curious', image: '/images/iceland-northern-lights.png' },
-  { title: 'Move Slowly', image: '/images/turkey-cappadocia-balloons.png' },
-  { title: 'Feel Welcomed', image: '/images/japan-neon-city.png' },
+  { title: 'Stay Curious', image: '/images/our-story/artisan-workshop.png' },
+  { title: 'Move Slowly', image: '/images/our-story/slow-train-mountains.png' },
+  { title: 'Feel Welcomed', image: '/images/our-story/village-welcome.png' },
 ]
 
 const process = [
@@ -32,9 +32,9 @@ const process = [
 ]
 
 const moments = [
-  { title: 'The quiet table', image: '/images/experience-local-flavours.png' },
-  { title: 'The room with a horizon', image: '/images/experience-luxury-escapes.png' },
-  { title: 'The story under the surface', image: '/images/experience-adventure-awaits.png' },
+  { title: 'The quiet table', image: '/images/our-story/local-food-hands.png' },
+  { title: 'The morning crossing', image: '/images/our-story/river-boat-sunrise.png' },
+  { title: 'The craft of place', image: '/images/our-story/artisan-workshop.png' },
 ]
 
 function ChapterLabel({ number, label }: { number: string; label: string }) {
@@ -70,7 +70,7 @@ function MediaPanel({
         fill
         priority={priority}
         sizes="(min-width: 1024px) 48vw, 100vw"
-        className="object-cover opacity-88 saturate-[0.92] transition-transform duration-700 ease-out group-hover:scale-[1.035]"
+        className="object-cover opacity-[0.9] saturate-[0.9] contrast-[1.03] transition-transform duration-[900ms] ease-out group-hover:scale-[1.025]"
       />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_68%_20%,rgba(212,175,55,0.16),transparent_28%),linear-gradient(180deg,rgba(2,15,18,0.04),rgba(2,15,18,0.72))]" />
       <div className="absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100 bg-[linear-gradient(115deg,transparent_0%,rgba(250,244,232,0.08)_44%,transparent_62%)]" />
@@ -129,8 +129,8 @@ export default function OurStoryPage() {
         return
       }
 
-      gsap.set(revealItems, { autoAlpha: 0, y: 22, clipPath: 'inset(8% 0% 0% 0%)' })
-      gsap.set(mediaItems, { autoAlpha: 0, y: 28, scale: 1.035, clipPath: 'inset(10% 0% 10% 0%)' })
+      gsap.set(revealItems, { autoAlpha: 0, y: 18, clipPath: 'inset(6% 0% 0% 0%)' })
+      gsap.set(mediaItems, { autoAlpha: 0, y: 22, scale: 1.024, clipPath: 'inset(8% 0% 8% 0%)' })
 
       gsap.utils.toArray<HTMLElement>('[data-story-chapter]').forEach((chapter) => {
         const reveals = gsap.utils.toArray<HTMLElement>(chapter.querySelectorAll('[data-reveal]'))
@@ -140,8 +140,8 @@ export default function OurStoryPage() {
           scrollTrigger: {
             trigger: chapter,
             start: 'top 78%',
-            end: 'center 44%',
-            scrub: 0.65,
+            end: 'center 46%',
+            scrub: 0.8,
             once: false,
           },
         })
@@ -149,7 +149,7 @@ export default function OurStoryPage() {
             autoAlpha: 1,
             y: 0,
             clipPath: 'inset(0% 0% 0% 0%)',
-            stagger: 0.08,
+            stagger: 0.095,
             ease,
           }, 0)
           .to(media, {
@@ -157,7 +157,7 @@ export default function OurStoryPage() {
             y: 0,
             scale: 1,
             clipPath: 'inset(0% 0% 0% 0%)',
-            stagger: 0.08,
+            stagger: 0.1,
             ease: 'expo.out',
           }, 0.08)
       })
@@ -172,7 +172,7 @@ export default function OurStoryPage() {
             trigger: path.closest('[data-story-chapter]'),
             start: 'top 70%',
             end: 'bottom 45%',
-            scrub: 0.8,
+            scrub: 0.95,
           },
         })
       })
@@ -186,14 +186,14 @@ export default function OurStoryPage() {
             trigger: layer.closest('[data-story-chapter]') || layer,
             start: 'top bottom',
             end: 'bottom top',
-            scrub: 1,
+            scrub: 1.15,
           },
         })
       })
 
       gsap.to('[data-float]', {
-        y: -8,
-        duration: 4.6,
+        y: -6,
+        duration: 5.8,
         ease: 'sine.inOut',
         repeat: -1,
         yoyo: true,
@@ -222,7 +222,7 @@ export default function OurStoryPage() {
 
       <section data-story-chapter className="relative z-10 flex min-h-screen items-end overflow-hidden px-6 pb-14 pt-32 md:px-8 md:pb-20">
         <video
-          className="absolute inset-0 h-full w-full object-cover opacity-58"
+          className="absolute inset-0 h-full w-full object-cover opacity-[0.58]"
           src="/videos/our-story-hero.mp4"
           autoPlay
           muted
@@ -243,7 +243,7 @@ export default function OurStoryPage() {
             </p>
           </div>
           <p data-reveal className="mt-body-copy max-w-md text-base leading-relaxed text-[#FAFAF9]/76 md:justify-self-end">
-            A cinematic framework for the MadrasTrails origin, designed for future film, portrait and field-note content.
+            A quiet passage through people, places and the reasons journeys stay with us.
           </p>
         </div>
       </section>
@@ -255,12 +255,12 @@ export default function OurStoryPage() {
             <h2 data-reveal className="mt-display text-5xl leading-tight md:text-7xl">Travel became fast.</h2>
             <p data-reveal className="mt-display-soft mt-4 text-3xl leading-tight text-[#D4AF37] md:text-4xl">We make it meaningful again.</p>
             <p data-reveal className="mt-body-copy mt-6 max-w-lg text-base leading-relaxed text-[#FAFAF9]/72">
-              Placeholder: the founding tension, told in a few deliberate lines.
+              Built for travellers who want fewer checklists and deeper connection.
             </p>
           </div>
           <div className="grid gap-5 md:grid-cols-2">
-            <MediaPanel image="/images/experience-luxury-escapes.png" label="Large imagery" className="min-h-[24rem] md:translate-y-10" />
-            <MediaPanel image="/images/experience-cultural-connections.png" label="Split perspective" className="min-h-[24rem]" />
+            <MediaPanel image="/images/our-story/local-market-conversation.png" label="Meaningful conversations" className="min-h-[24rem] md:translate-y-10" />
+            <MediaPanel image="/images/our-story/artisan-workshop.png" label="Crafted encounters" className="min-h-[24rem]" />
           </div>
         </div>
       </section>
@@ -272,7 +272,7 @@ export default function OurStoryPage() {
             <div>
               <h2 data-reveal className="mt-display text-5xl leading-tight md:text-7xl">A route is drawn.</h2>
               <p data-reveal className="mt-body-copy mt-5 max-w-md text-base leading-relaxed text-[#FAFAF9]/72">
-                Placeholder: a conversation turns into a living trail.
+                A conversation becomes a trail of places, pauses and people.
               </p>
             </div>
             <div className="relative min-h-[34rem] overflow-hidden rounded-[2rem] border border-[#D4AF37]/14 bg-[#020F12]/48 p-6 shadow-[0_34px_110px_rgba(0,0,0,0.36)]">
@@ -300,7 +300,7 @@ export default function OurStoryPage() {
           <div className="mb-10 grid items-end gap-8 lg:grid-cols-[1fr_0.7fr]">
             <h2 data-reveal className="mt-display text-5xl leading-tight md:text-7xl">Three instincts guide every journey.</h2>
             <p data-reveal className="mt-body-copy max-w-md text-base leading-relaxed text-[#FAFAF9]/72 lg:justify-self-end">
-              Placeholder: curiosity, pace and welcome become design principles.
+              Curiosity, pace and welcome become the quiet rules of the journey.
             </p>
           </div>
           <div className="grid gap-6 md:grid-cols-3">
@@ -318,18 +318,24 @@ export default function OurStoryPage() {
 
       <section data-story-chapter className="relative z-10 px-6 py-20 md:px-8 md:py-28">
         <div className="mx-auto grid max-w-7xl items-center gap-10 lg:grid-cols-[1.06fr_0.94fr]">
-          <div data-media className="relative min-h-[36rem] overflow-hidden rounded-[2rem] border border-[#D4AF37]/16 bg-[#F2E7CC]/8 shadow-[0_34px_110px_rgba(0,0,0,0.36)]">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_48%_22%,rgba(250,244,232,0.18),transparent_28%),linear-gradient(135deg,rgba(3,25,29,0.88),rgba(201,162,74,0.16),rgba(2,15,18,0.96))]" />
-            <div className="absolute bottom-0 left-1/2 h-[78%] w-[54%] -translate-x-1/2 rounded-t-full border border-[#D4AF37]/18 bg-[#020F12]/24" />
+          <div data-media className="relative min-h-[36rem] overflow-hidden rounded-[2rem] border border-[#D4AF37]/16 bg-[#020F12] shadow-[0_34px_110px_rgba(0,0,0,0.36)]">
+            <Image
+              src="/images/our-story/founder-route-table.png"
+              alt=""
+              fill
+              sizes="(min-width: 1024px) 52vw, 100vw"
+              className="object-cover opacity-[0.88] saturate-[0.9] contrast-[1.03]"
+            />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_42%_22%,rgba(212,175,55,0.16),transparent_28%),linear-gradient(180deg,rgba(2,15,18,0.06),rgba(2,15,18,0.62))]" />
             <div className="absolute bottom-8 left-8 right-8">
-              <p className="mt-eyebrow text-[10px] text-[#D4AF37]">FOUNDER PORTRAIT PLACEHOLDER</p>
+              <p className="mt-eyebrow text-[10px] text-[#D4AF37]">ROUTES BEGIN AT THE TABLE</p>
             </div>
           </div>
           <div>
             <ChapterLabel number="05" label="MEET THE FOUNDERS" />
             <h2 data-reveal className="mt-display text-5xl leading-tight md:text-7xl">The people behind the trail.</h2>
             <p data-reveal className="mt-body-copy mt-6 max-w-md text-base leading-relaxed text-[#FAFAF9]/72">
-              Placeholder: founder story, portrait-led and magazine quiet.
+              The brand begins with people shaping routes by hand, one conversation at a time.
             </p>
           </div>
         </div>
@@ -361,7 +367,7 @@ export default function OurStoryPage() {
             <ChapterLabel number="07" label="AROUND THE WORLD" />
             <h2 data-reveal className="mt-display text-5xl leading-tight md:text-7xl">A quiet globe of possibilities.</h2>
             <p data-reveal className="mt-body-copy mt-6 max-w-md text-base leading-relaxed text-[#FAFAF9]/72">
-              Placeholder: destinations light up as chapters, not checklists.
+              Destinations become chapters, never checklists.
             </p>
           </div>
           <div data-media className="relative min-h-[38rem] overflow-hidden rounded-[2rem] border border-[#D4AF37]/14 bg-[#020F12]/44 shadow-[0_34px_110px_rgba(0,0,0,0.36)]">
@@ -412,13 +418,13 @@ export default function OurStoryPage() {
 
       <section data-story-chapter className="relative z-10 px-6 pb-24 md:px-8 md:pb-28">
         <div className="relative mx-auto min-h-[34rem] max-w-7xl overflow-hidden rounded-[2rem] border border-[#D4AF37]/16 bg-[#020F12] p-8 shadow-[0_34px_120px_rgba(0,0,0,0.42)] md:p-12">
-          <Image src="/images/turkey-cappadocia-balloons.png" alt="" fill sizes="100vw" className="object-cover opacity-42 saturate-[0.88]" />
+          <Image src="/images/our-story/coastal-road-golden-hour.png" alt="" fill sizes="100vw" className="object-cover opacity-[0.48] saturate-[0.88] contrast-[1.02]" />
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_34%_50%,rgba(2,15,18,0.78),transparent_48%),linear-gradient(90deg,rgba(2,15,18,0.86),rgba(2,15,18,0.22))]" />
           <div className="relative z-10 flex min-h-[28rem] max-w-2xl flex-col justify-end">
             <ChapterLabel number="10" label="BEGIN AGAIN" />
             <h2 data-reveal className="mt-display text-5xl leading-tight md:text-7xl">The next chapter is yours.</h2>
             <p data-reveal className="mt-body-copy mt-5 max-w-md text-base leading-relaxed text-[#FAFAF9]/74">
-              Placeholder: the final invitation, calm and cinematic.
+              A calm invitation to begin with purpose, not urgency.
             </p>
             <a data-reveal href="#" className="btn-gold mt-gold-sheen mt-ui mt-8 inline-flex w-fit items-center gap-2 text-xs">
               Start Your Journey

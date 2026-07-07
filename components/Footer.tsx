@@ -24,7 +24,7 @@ export default function Footer() {
               whileInView={revealInView}
               transition={{ duration: 0.8, ease: motionEase }}
               viewport={{ once: true, amount: 0.24 }}
-              className="flex items-center gap-3"
+              className="relative flex items-center gap-3"
             >
               <Image
                 src="/images/madras-trails-logo.png"
@@ -33,6 +33,12 @@ export default function Footer() {
                 height={37}
                 className="h-11 w-auto object-contain"
               />
+              <span
+                aria-hidden="true"
+                className="pointer-events-none absolute left-[13.55rem] top-[0.22rem] z-[2] text-[8px] font-semibold leading-none text-[#D4AF37]"
+              >
+                ™
+              </span>
             </motion.div>
 
             {/* Part B: Newsletter Section */}
