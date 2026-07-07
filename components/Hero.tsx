@@ -396,13 +396,13 @@ export default function Hero() {
 
           {/* Description */}
           <p data-hero-reveal="description" className="mt-body-copy text-[#E8E8E8] text-sm md:text-base leading-relaxed mb-7 md:mb-8 max-w-[22rem]" style={{ opacity: 0, textShadow: '0 10px 26px rgba(0, 0, 0, 0.34)' }}>
-            We curate personalised international journeys that connect cultures, create memories, and stay with you forever.
+            Travel has become faster. We believe it should become more meaningful.
           </p>
 
           {/* CTA Buttons */}
           <div data-hero-reveal="ctas" className="mt-hero-actions flex flex-col sm:flex-row gap-4 items-start sm:items-center" style={{ opacity: 0 }}>
             <button onClick={handleJourneyClick} className="mt-gold-sheen mt-ui group inline-flex items-center justify-center gap-2 rounded-[4px] bg-[#C9A24A] px-7 py-3 text-xs text-[#071B24] shadow-[0_14px_32px_rgba(201,162,74,0.2)] hover:bg-[#D4B860] hover:shadow-[0_18px_42px_rgba(201,162,74,0.26)] md:px-8">
-              <span>BEGIN YOUR JOURNEY</span>
+              <span>Start Your Journey</span>
               <span className={ctaArrowClass}>→</span>
             </button>
             <button className="group flex items-center gap-3.5 text-[#C9A24A] transition-colors hover:text-white">

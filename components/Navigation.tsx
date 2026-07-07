@@ -54,6 +54,12 @@ export default function Navigation() {
             className="h-10 md:h-11 w-auto object-contain"
             priority
           />
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute left-[8.95rem] top-[0.42rem] z-[2] text-[8px] font-semibold leading-none text-[#FAFAF9]/85 md:left-[9.85rem] md:top-[0.46rem]"
+          >
+            ™
+          </span>
         </motion.div>
 
         {/* Desktop Menu */}
