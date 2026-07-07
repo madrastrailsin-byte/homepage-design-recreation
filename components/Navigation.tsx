@@ -47,14 +47,14 @@ export default function Navigation() {
           initial={introInitial}
           animate={introAnimate}
           transition={introTransition(0.12)}
-          className="relative inline-flex items-center rounded-[14px] border border-[#D4AF37]/12 bg-[#021216]/48 px-2.5 py-1.5 backdrop-blur-[7px] transition-[background-color,border-color] duration-300 hover:border-[#D4AF37]/20 hover:bg-[#021216]/54"
+          className="relative inline-flex items-center rounded-[14px] border border-[#D4AF37]/8 bg-[#021216]/36 px-[0.56rem] py-[0.34rem] backdrop-blur-[7px] transition-[background-color,border-color] duration-300 hover:border-[#D4AF37]/14 hover:bg-[#021216]/42"
         >
           <Image
             src="/images/madras-trails-logo.png"
             alt="MadrasTrails"
             width={188}
             height={37}
-            className="h-10 md:h-11 w-auto object-contain drop-shadow-[0_0_22px_rgba(232,244,255,0.08)]"
+            className="h-10 md:h-11 w-auto object-contain drop-shadow-[0_0_22px_rgba(232,244,255,0.068)]"
             priority
           />
           <span
