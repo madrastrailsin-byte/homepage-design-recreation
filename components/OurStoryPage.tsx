@@ -223,7 +223,7 @@ export default function OurStoryPage() {
       <section data-story-chapter className="relative z-10 flex min-h-screen items-end overflow-hidden px-6 pb-14 pt-32 md:px-8 md:pb-20">
         <video
           className="absolute inset-0 h-full w-full object-cover opacity-58"
-          src="/videos/hero.mp4"
+          src="/videos/our-story-hero.mp4"
           autoPlay
           muted
           loop
