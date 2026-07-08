@@ -10,46 +10,46 @@ import Footer from '@/components/Footer'
 const ease = [0.22, 1, 0.36, 1] as const
 
 const personalities = [
-  { title: 'Culture', image: '/images/experience-cultural-connections.png' },
-  { title: 'Food', image: '/images/experience-local-flavours.png' },
-  { title: 'Adventure', image: '/images/experience-adventure-awaits.png' },
-  { title: 'Wildlife', image: '/images/iceland-northern-lights.png' },
-  { title: 'Ocean', image: '/images/experience-luxury-escapes.png' },
-  { title: 'Luxury', image: '/images/turkey-cappadocia-balloons.png' },
+  { title: 'Culture', image: '/images/real-photos/library/cultural-celebration.jpg' },
+  { title: 'Food', image: '/images/real-photos/library/authentic-local-cuisine.jpg' },
+  { title: 'Adventure', image: '/images/real-photos/library/adventure-activities.png' },
+  { title: 'Wildlife', image: '/images/real-photos/library/epic-landscape.jpg' },
+  { title: 'Ocean', image: '/images/real-photos/library/couple-ocean-mountains.jpg' },
+  { title: 'Luxury', image: '/images/real-photos/library/luxury-boutique-hotel.jpg' },
 ]
 
 const chapters = [
-  { title: 'Mountains', image: '/images/iceland-northern-lights.png' },
-  { title: 'Markets', image: '/images/experience-local-flavours.png' },
-  { title: 'Coastlines', image: '/images/experience-luxury-escapes.png' },
-  { title: 'Wildlife', image: '/images/experience-adventure-awaits.png' },
-  { title: 'Hidden Streets', image: '/images/japan-neon-city.png' },
+  { title: 'Mountains', image: '/images/real-photos/library/epic-landscape.jpg' },
+  { title: 'Markets', image: '/images/real-photos/library/authentic-local-market.jpg' },
+  { title: 'Coastlines', image: '/images/real-photos/library/couple-ocean-mountains.jpg' },
+  { title: 'Wildlife', image: '/images/real-photos/library/beautiful-location.jpg' },
+  { title: 'Hidden Streets', image: '/images/real-photos/library/village-streets.jpg' },
 ]
 
 const signatures = [
   {
     title: 'A Table You Remember',
-    image: '/images/experience-local-flavours.png',
+    image: '/images/real-photos/library/authentic-local-cuisine.jpg',
     copy: 'Flavours, stories, and the people who make a place unforgettable.',
   },
   {
     title: 'A Door Opens',
-    image: '/images/experience-cultural-connections.png',
+    image: '/images/real-photos/library/traveller-talking-locals.jpg',
     copy: 'Cultural encounters shaped with care, context, and welcome.',
   },
   {
     title: 'The Edge of Wonder',
-    image: '/images/experience-adventure-awaits.png',
+    image: '/images/real-photos/library/adventure-activities.png',
     copy: 'Adventure with rhythm, restraint, and a sense of discovery.',
   },
 ]
 
 const gallery = [
-  '/images/japan-neon-city.png',
-  '/images/turkey-cappadocia-balloons.png',
-  '/images/iceland-northern-lights.png',
-  '/images/experience-cultural-connections.png',
-  '/images/experience-local-flavours.png',
+  '/images/real-photos/library/street-photography.webp',
+  '/images/real-photos/library/luxury-travel-beginning.jpg',
+  '/images/real-photos/library/epic-landscape.jpg',
+  '/images/real-photos/library/cultural-celebration.jpg',
+  '/images/real-photos/library/authentic-local-cuisine.jpg',
 ]
 
 function Reveal({
@@ -265,7 +265,7 @@ export default function ExperiencesPage() {
       </section>
 
       <section className="relative flex min-h-[72vh] items-center overflow-hidden px-6 py-20 md:px-8 md:py-28">
-        <Image src="/images/turkey-cappadocia-balloons.png" alt="" fill sizes="100vw" className="object-cover opacity-[0.48] saturate-[0.9]" />
+        <Image src="/images/real-photos/library/couple-ocean-mountains.jpg" alt="" fill sizes="100vw" className="object-cover opacity-[0.48] saturate-[0.9]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_34%_54%,rgba(2,15,18,0.82),transparent_48%),linear-gradient(90deg,rgba(2,15,18,0.9),rgba(2,15,18,0.32))]" />
         <div className="relative z-10 mx-auto w-full max-w-7xl">
           <Reveal className="max-w-4xl">

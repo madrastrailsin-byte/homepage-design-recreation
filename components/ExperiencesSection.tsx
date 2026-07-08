@@ -8,25 +8,25 @@ const experiences = [
     id: 1,
     title: 'Local Flavours',
     subtitle: 'Taste the world like a local',
-    image: '/images/experience-local-flavours.png',
+    image: '/images/real-photos/library/authentic-local-cuisine.jpg',
   },
   {
     id: 2,
     title: 'Luxury Escapes',
     subtitle: 'Indulge in unparalleled comfort',
-    image: '/images/experience-luxury-escapes.png',
+    image: '/images/real-photos/library/luxury-boutique-hotel.jpg',
   },
   {
     id: 3,
     title: 'Cultural Connections',
     subtitle: 'Immerse in traditions that inspire',
-    image: '/images/experience-cultural-connections.png',
+    image: '/images/real-photos/library/guide-explaining-culture.jpg',
   },
   {
     id: 4,
     title: 'Adventure Awaits',
     subtitle: 'For the explorers at heart',
-    image: '/images/experience-adventure-awaits.png',
+    image: '/images/real-photos/library/adventure-activities.png',
   },
 ]
 

@@ -248,7 +248,7 @@ export default function Hero() {
         <div className="mt-hero-exit-group relative max-w-[43rem]">
           <div className="mt-hero-camera-copy mt-hero-typography relative flex flex-col">
           {/* Main Headline Artwork */}
-          <div data-hero-reveal="heading" className="mb-5 md:mb-6 w-[320px] md:w-[480px] lg:w-[600px]" style={{ opacity: 0 }}>
+          <div data-hero-reveal="heading" className="mb-5 md:mb-6 w-[215px] md:w-[320px] lg:w-[400px]" style={{ opacity: 0 }}>
             <Image
               src="/images/homepage/hero-travel-like-local.svg"
               alt="Travel Like A Local"

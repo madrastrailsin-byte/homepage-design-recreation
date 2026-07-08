@@ -18,9 +18,9 @@ const timeline = [
 ]
 
 const philosophyCards = [
-  { title: 'Stay Curious', image: '/images/our-story/artisan-workshop.png' },
-  { title: 'Move Slowly', image: '/images/our-story/slow-train-mountains.png' },
-  { title: 'Feel Welcomed', image: '/images/our-story/village-welcome.png' },
+  { title: 'Stay Curious', image: '/images/real-photos/library/traveller-talking-locals.jpg' },
+  { title: 'Move Slowly', image: '/images/real-photos/library/solo-sunrise.jpg' },
+  { title: 'Feel Welcomed', image: '/images/real-photos/library/traveller-local-family-1.jpg' },
 ]
 
 const process = [
@@ -32,9 +32,9 @@ const process = [
 ]
 
 const moments = [
-  { title: 'The quiet table', image: '/images/our-story/local-food-hands.png' },
-  { title: 'The morning crossing', image: '/images/our-story/river-boat-sunrise.png' },
-  { title: 'The craft of place', image: '/images/our-story/artisan-workshop.png' },
+  { title: 'The quiet table', image: '/images/real-photos/library/authentic-local-cuisine.jpg' },
+  { title: 'The morning crossing', image: '/images/real-photos/library/traveller-sunset.jpg' },
+  { title: 'The craft of place', image: '/images/real-photos/library/craftsperson-at-work.jpg' },
 ]
 
 function ChapterLabel({ number, label }: { number: string; label: string }) {
@@ -259,8 +259,8 @@ export default function OurStoryPage() {
             </p>
           </div>
           <div className="grid gap-5 md:grid-cols-2">
-            <MediaPanel image="/images/our-story/local-market-conversation.png" label="Meaningful conversations" className="min-h-[24rem] md:translate-y-10" />
-            <MediaPanel image="/images/our-story/artisan-workshop.png" label="Crafted encounters" className="min-h-[24rem]" />
+            <MediaPanel image="/images/real-photos/library/traveller-talking-locals.jpg" label="Meaningful conversations" className="min-h-[24rem] md:translate-y-10" />
+            <MediaPanel image="/images/real-photos/library/artisan-at-work.jpg" label="Crafted encounters" className="min-h-[24rem]" />
           </div>
         </div>
       </section>
@@ -320,7 +320,7 @@ export default function OurStoryPage() {
         <div className="mx-auto grid max-w-7xl items-center gap-10 lg:grid-cols-[1.06fr_0.94fr]">
           <div data-media className="relative min-h-[36rem] overflow-hidden rounded-[2rem] border border-[#D4AF37]/16 bg-[#020F12] shadow-[0_34px_110px_rgba(0,0,0,0.36)]">
             <Image
-              src="/images/our-story/founder-route-table.png"
+              src="/images/real-photos/library/travel-flatlay.jpg"
               alt=""
               fill
               sizes="(min-width: 1024px) 52vw, 100vw"
@@ -418,7 +418,7 @@ export default function OurStoryPage() {
 
       <section data-story-chapter className="relative z-10 px-6 pb-24 md:px-8 md:pb-28">
         <div className="relative mx-auto min-h-[34rem] max-w-7xl overflow-hidden rounded-[2rem] border border-[#D4AF37]/16 bg-[#020F12] p-8 shadow-[0_34px_120px_rgba(0,0,0,0.42)] md:p-12">
-          <Image src="/images/our-story/coastal-road-golden-hour.png" alt="" fill sizes="100vw" className="object-cover opacity-[0.48] saturate-[0.88] contrast-[1.02]" />
+          <Image src="/images/real-photos/library/couple-ocean-mountains.jpg" alt="" fill sizes="100vw" className="object-cover opacity-[0.48] saturate-[0.88] contrast-[1.02]" />
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_34%_50%,rgba(2,15,18,0.78),transparent_48%),linear-gradient(90deg,rgba(2,15,18,0.86),rgba(2,15,18,0.22))]" />
           <div className="relative z-10 flex min-h-[28rem] max-w-2xl flex-col justify-end">
             <ChapterLabel number="10" label="BEGIN AGAIN" />
