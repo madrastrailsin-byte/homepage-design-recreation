@@ -52,7 +52,7 @@ export default function DottedTrail({ progress, viewport }: DottedTrailProps) {
           r={dot.radius}
           fill={color}
           opacity={dot.opacity * trailOpacity}
-          filter={index > dots.length - 4 ? 'url(#mt-airplane-dot-glow)' : undefined}
+          filter={index < 3 ? 'url(#mt-airplane-dot-glow)' : undefined}
         />
       ))}
     </svg>

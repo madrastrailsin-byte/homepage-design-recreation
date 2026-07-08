@@ -133,8 +133,8 @@ export function getTrailDots(
     dots.push({
       x: sample.x,
       y: sample.y,
-      opacity: tailOpacity + fade * (headOpacity - tailOpacity),
-      radius: dotRadiusTail + fade * (dotRadius - dotRadiusTail),
+      opacity: headOpacity - fade * (headOpacity - tailOpacity),
+      radius: dotRadius - fade * (dotRadius - dotRadiusTail),
     })
   }
 
