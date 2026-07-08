@@ -7,7 +7,7 @@ type BrandLogoProps = {
 
 export default function BrandLogo({ priority = false, imageClassName = 'h-11 w-auto object-contain' }: BrandLogoProps) {
   return (
-    <span className="relative inline-flex items-start">
+    <span className="inline-flex items-start">
       <Image
         src="/images/madras-trails-logo.png"
         alt="MadrasTrails"
@@ -18,7 +18,7 @@ export default function BrandLogo({ priority = false, imageClassName = 'h-11 w-a
       />
       <span
         aria-hidden="true"
-        className="pointer-events-none absolute left-[87.6%] top-[19%] z-[2] text-[0.42em] font-semibold leading-none text-[#D4AF37]"
+        className="pointer-events-none ml-0.5 -translate-y-[3px] text-[8px] font-semibold leading-none text-[#D4AF37] md:text-[9px]"
       >
         ™
       </span>
