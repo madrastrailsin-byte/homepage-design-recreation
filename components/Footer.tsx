@@ -35,7 +35,7 @@ export default function Footer() {
               />
               <span
                 aria-hidden="true"
-                className="pointer-events-none absolute left-[13.55rem] top-[0.22rem] z-[2] text-[8px] font-semibold leading-none text-[#D4AF37]"
+                className="pointer-events-none absolute left-[12.95rem] top-[0.68rem] z-[2] text-[8px] font-semibold leading-none text-[#D4AF37]"
               >
                 ™
               </span>

@@ -70,101 +70,6 @@ export default function Hero() {
   }, [prefersReducedMotion])
 
   useEffect(() => {
-    const section = sectionRef.current
-    if (!section || prefersReducedMotion) return
-
-    const supportsPointerDepth =
-      typeof window !== 'undefined' &&
-      window.matchMedia('(hover: hover) and (pointer: fine)').matches
-
-    if (!supportsPointerDepth) return
-
-    const q = gsap.utils.selector(section)
-    const videoShell = q('.mt-hero-video-shell')
-    const overlayLayer = q('.mt-hero-depth-overlay')
-    const contentGroup = q('.mt-hero-camera-copy')
-    const actions = q('.mt-hero-actions')
-    const target = { x: 0, y: 0 }
-    const current = { x: 0, y: 0 }
-    const maxX = 5
-    const maxY = 4
-    let frameId = 0
-    let isActive = true
-
-    const renderCamera = () => {
-      current.x += (target.x - current.x) * 0.075
-      current.y += (target.y - current.y) * 0.075
-
-      gsap.set(videoShell, { x: current.x, y: current.y })
-      gsap.set(overlayLayer, { x: current.x * 0.62, y: current.y * 0.58 })
-      gsap.set(contentGroup, { x: current.x * 0.22, y: current.y * 0.18 })
-      gsap.set(actions, { x: current.x * -0.12, y: current.y * -0.08 })
-
-      if (
-        isActive ||
-        Math.abs(current.x) > 0.02 ||
-        Math.abs(current.y) > 0.02 ||
-        Math.abs(target.x) > 0.02 ||
-        Math.abs(target.y) > 0.02
-      ) {
-        frameId = requestAnimationFrame(renderCamera)
-      } else {
-        frameId = 0
-      }
-    }
-
-    frameId = requestAnimationFrame(renderCamera)
-
-    const handlePointerMove = (event: PointerEvent) => {
-      const rect = section.getBoundingClientRect()
-      const x = (event.clientX - rect.left) / rect.width - 0.5
-      const y = (event.clientY - rect.top) / rect.height - 0.5
-
-      isActive = true
-      target.x = gsap.utils.clamp(-maxX, maxX, x * 20)
-      target.y = gsap.utils.clamp(-maxY, maxY, y * 16)
-      if (!frameId) frameId = requestAnimationFrame(renderCamera)
-    }
-
-    const handlePointerLeave = () => {
-      isActive = false
-      target.x = 0
-      target.y = 0
-      if (!frameId) frameId = requestAnimationFrame(renderCamera)
-    }
-
-    const resetCameraImmediately = () => {
-      isActive = false
-      target.x = 0
-      target.y = 0
-      current.x = 0
-      current.y = 0
-      if (frameId) {
-        cancelAnimationFrame(frameId)
-        frameId = 0
-      }
-      gsap.set([videoShell, overlayLayer, contentGroup, actions], { x: 0, y: 0 })
-    }
-
-    const handleWindowLeave = (event: PointerEvent) => {
-      if (event.clientY <= 0 || event.clientX <= 0 || event.clientX >= window.innerWidth || event.clientY >= window.innerHeight) {
-        resetCameraImmediately()
-      }
-    }
-
-    section.addEventListener('pointermove', handlePointerMove, { passive: true })
-    section.addEventListener('pointerleave', handlePointerLeave)
-    window.addEventListener('pointerout', handleWindowLeave, { passive: true })
-
-    return () => {
-      resetCameraImmediately()
-      section.removeEventListener('pointermove', handlePointerMove)
-      section.removeEventListener('pointerleave', handlePointerLeave)
-      window.removeEventListener('pointerout', handleWindowLeave)
-    }
-  }, [prefersReducedMotion])
-
-  useEffect(() => {
     if (prefersReducedMotion) return
 
     gsap.registerPlugin(ScrollTrigger)
@@ -197,29 +102,6 @@ export default function Hero() {
           start: 'top top',
           end: 'bottom bottom',
           scrub: 1.2,
-        },
-      })
-
-      gsap.to('.mt-hero-video', {
-        scale: 1.08,
-        y: -34,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: '.mt-scroll-hero',
-          start: 'top top',
-          end: 'bottom top',
-          scrub: true,
-        },
-      })
-
-      gsap.to('.mt-hero-grade, .mt-hero-content-vignette, .mt-hero-feather, .mt-hero-gold-highlight, .mt-hero-top-vignette, .mt-hero-bottom-vignette', {
-        y: -10,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: '.mt-scroll-hero',
-          start: 'top top',
-          end: 'bottom top',
-          scrub: true,
         },
       })
 
@@ -375,7 +257,7 @@ export default function Hero() {
           {/* Secondary Headline */}
           <h2
             data-hero-reveal="signature"
-            className="mt-signature pl-[20px] text-[4.25rem] md:text-[5.2rem] lg:text-[6.25rem] text-[#D4AF37] leading-[0.82] -mt-4 md:-mt-5 mb-5 md:mb-6"
+            className="mt-signature pl-[16px] text-[4rem] md:text-[4.9rem] lg:text-[5.9rem] text-[#D4AF37] leading-[0.84] -mt-4 md:-mt-5 mb-5 md:mb-6"
             style={{
               opacity: 0,
               textShadow: '0 9px 22px rgba(0, 0, 0, 0.2)',

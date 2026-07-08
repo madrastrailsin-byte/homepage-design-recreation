@@ -194,9 +194,10 @@
   }
 
   .mt-signature {
-    font-family: var(--font-signature), 'Parisienne', 'Segoe Script', cursive;
+    font-family: var(--font-signature), 'Cormorant Garamond', Georgia, serif;
     font-weight: 400;
-    letter-spacing: 0.004em;
+    font-style: italic;
+    letter-spacing: 0.012em;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: geometricPrecision;
@@ -273,9 +274,7 @@
 
   .mt-hero-video-shell,
   .mt-hero-depth-overlay,
-  .mt-hero-exit-group,
-  .mt-hero-camera-copy,
-  .mt-hero-actions {
+  .mt-hero-exit-group {
     will-change: transform;
   }
 
@@ -501,9 +500,7 @@ main.bg-\[\#0D1117\] {
 
   .mt-hero-video-shell,
   .mt-hero-depth-overlay,
-  .mt-hero-exit-group,
-  .mt-hero-camera-copy,
-  .mt-hero-actions {
+  .mt-hero-exit-group {
     transform: translateZ(0) !important;
   }
 

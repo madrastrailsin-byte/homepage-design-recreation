@@ -1,6 +1,6 @@
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
-import { Catamaran, Fraunces, Parisienne } from 'next/font/google'
+import { Catamaran, Cormorant_Garamond, Fraunces } from 'next/font/google'
 import './globals.css'
 
 const catamaran = Catamaran({
@@ -17,10 +17,11 @@ const fraunces = Fraunces({
   display: 'swap',
 })
 
-const signature = Parisienne({
+const signature = Cormorant_Garamond({
   variable: '--font-signature',
   subsets: ['latin'],
   weight: ['400'],
+  style: ['italic'],
   display: 'swap',
 })
 

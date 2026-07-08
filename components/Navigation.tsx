@@ -59,7 +59,7 @@ export default function Navigation() {
           />
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute left-[12.35rem] top-[0.18rem] z-[2] text-[7px] font-semibold leading-none text-[#D4AF37] md:left-[13.55rem] md:top-[0.22rem] md:text-[8px]"
+            className="pointer-events-none absolute left-[11.95rem] top-[0.58rem] z-[2] text-[7px] font-semibold leading-none text-[#D4AF37] md:left-[12.95rem] md:top-[0.68rem] md:text-[8px]"
           >
             ™
           </span>
