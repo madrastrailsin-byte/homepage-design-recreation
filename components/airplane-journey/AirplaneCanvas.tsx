@@ -2,28 +2,33 @@
 
 import { useEffect, useRef } from 'react'
 import { AIRPLANE_JOURNEY_CONFIG } from '@/lib/airplane-journey/config'
-import { createAirplaneScene, type AirplaneSceneHandle } from './airplane-scene'
+import { createAirplaneScene, type AirplaneSceneHandle, type ModelLoadState } from './airplane-scene'
 
 type AirplaneCanvasProps = {
   progress: number
   active: boolean
+  onLoadStateChange: (state: ModelLoadState) => void
 }
 
-export default function AirplaneCanvas({ progress, active }: AirplaneCanvasProps) {
+export default function AirplaneCanvas({ progress, active, onLoadStateChange }: AirplaneCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const sceneRef = useRef<AirplaneSceneHandle | null>(null)
   const progressRef = useRef(progress)
   const activeRef = useRef(active)
   const displayedRef = useRef(progress)
+  const onLoadStateChangeRef = useRef(onLoadStateChange)
 
   progressRef.current = progress
   activeRef.current = active
+  onLoadStateChangeRef.current = onLoadStateChange
 
   useEffect(() => {
     const canvas = canvasRef.current
     if (!canvas) return
 
-    const scene = createAirplaneScene(canvas)
+    const scene = createAirplaneScene(canvas, {
+      onLoadStateChange: (state) => onLoadStateChangeRef.current(state),
+    })
     sceneRef.current = scene
 
     const resize = () => {
@@ -57,7 +62,14 @@ export default function AirplaneCanvas({ progress, active }: AirplaneCanvasProps
 
     raf = requestAnimationFrame(tick)
 
+    const timeout = window.setTimeout(() => {
+      if (scene.getLoadState() === 'loading') {
+        onLoadStateChangeRef.current('failed')
+      }
+    }, AIRPLANE_JOURNEY_CONFIG.aircraft.modelLoadTimeoutMs)
+
     return () => {
+      window.clearTimeout(timeout)
       window.removeEventListener('resize', resize)
       document.removeEventListener('visibilitychange', onVisibility)
       cancelAnimationFrame(raf)
@@ -69,7 +81,7 @@ export default function AirplaneCanvas({ progress, active }: AirplaneCanvasProps
   return (
     <canvas
       ref={canvasRef}
-      className="absolute inset-0 h-full w-full"
+      className="absolute inset-0 z-[2] h-full w-full"
       aria-hidden="true"
     />
   )

@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useReducedMotion } from 'framer-motion'
@@ -35,7 +35,7 @@ export function useAirplaneScrollProgress(enabled: boolean) {
       onLeaveBack: () => setActive(false),
     })
 
-    const refreshTimer = window.setTimeout(() => ScrollTrigger.refresh(), 120)
+    const refreshTimer = window.setTimeout(() => ScrollTrigger.refresh(), 180)
 
     return () => {
       window.clearTimeout(refreshTimer)
@@ -54,40 +54,12 @@ export function useAirplaneScrollProgress(enabled: boolean) {
   return { progress, active, prefersReducedMotion: Boolean(prefersReducedMotion) }
 }
 
-export function useSmoothedProgress(target: number, enabled: boolean) {
-  const [smoothed, setSmoothed] = useState(target)
-  const targetRef = useRef(target)
-  targetRef.current = target
-
-  useEffect(() => {
-    if (!enabled) {
-      setSmoothed(target)
-      return
-    }
-
-    let raf = 0
-    let value = targetRef.current
-
-    const tick = () => {
-      value += (targetRef.current - value) * AIRPLANE_JOURNEY_CONFIG.motion.smoothing
-      if (Math.abs(targetRef.current - value) < 0.00035) value = targetRef.current
-      setSmoothed(value)
-      raf = requestAnimationFrame(tick)
-    }
-
-    raf = requestAnimationFrame(tick)
-    return () => cancelAnimationFrame(raf)
-  }, [enabled, target])
-
+export function useOverlayOpacity(progress: number) {
   const { overlay } = AIRPLANE_JOURNEY_CONFIG
-  const opacity =
-    target <= overlay.fadeIn
-      ? target / overlay.fadeIn
-      : target >= overlay.fadeOut
-        ? Math.max(0, (1 - target) / (1 - overlay.fadeOut))
-        : 1
 
-  return { smoothed: enabled ? smoothed : target, opacity: Math.min(1, Math.max(0, opacity)) }
+  if (progress <= overlay.fadeIn) return progress / overlay.fadeIn
+  if (progress >= overlay.fadeOut) return Math.max(0, (1 - progress) / (1 - overlay.fadeOut))
+  return 1
 }
 
 export function useViewportSize() {
@@ -124,15 +96,19 @@ export function useTransitionVisibility(active: boolean, progress: number) {
 
   useEffect(() => {
     const observer = new IntersectionObserver(
-      ([entry]) => {
-        setVisible(entry.isIntersecting || active || progress > 0)
+      (entries) => {
+        const intersecting = entries.some((entry) => entry.isIntersecting)
+        setVisible(intersecting || active || progress > 0)
       },
       { root: null, threshold: 0.01 },
     )
 
-    const scene = document.querySelector(AIRPLANE_JOURNEY_CONFIG.scroll.trigger)
+    const services = document.querySelector(AIRPLANE_JOURNEY_CONFIG.scroll.trigger)
+    const scene3 = document.querySelector('.mt-scroll-statistics')
     const experiences = document.querySelector(AIRPLANE_JOURNEY_CONFIG.scroll.endTrigger)
-    if (scene) observer.observe(scene)
+
+    if (services) observer.observe(services)
+    if (scene3) observer.observe(scene3)
     if (experiences) observer.observe(experiences)
 
     return () => observer.disconnect()

@@ -7,16 +7,24 @@ import { getPathHeadingDegrees, getScreenPosition } from '@/lib/airplane-journey
 type SimplifiedAircraftIconProps = {
   progress: number
   viewport: { width: number; height: number }
+  variant?: 'mobile' | 'desktop'
 }
 
-export default function SimplifiedAircraftIcon({ progress, viewport }: SimplifiedAircraftIconProps) {
+export default function SimplifiedAircraftIcon({
+  progress,
+  viewport,
+  variant = 'mobile',
+}: SimplifiedAircraftIconProps) {
   const { x, y } = getScreenPosition(progress, viewport)
   const heading = getPathHeadingDegrees(progress)
-  const size = AIRPLANE_JOURNEY_CONFIG.aircraft.mobileIconSize
+  const size =
+    variant === 'desktop'
+      ? AIRPLANE_JOURNEY_CONFIG.aircraft.desktopIconSize
+      : AIRPLANE_JOURNEY_CONFIG.aircraft.mobileIconSize
 
   return (
     <div
-      className="absolute will-change-transform"
+      className="absolute z-[3] will-change-transform"
       style={{
         left: x,
         top: y,
@@ -24,8 +32,8 @@ export default function SimplifiedAircraftIcon({ progress, viewport }: Simplifie
       }}
       aria-hidden="true"
     >
-      <div className="rounded-full border border-[#C9A24A]/35 bg-[#020F12]/55 p-1.5 shadow-[0_8px_28px_rgba(0,0,0,0.28)] backdrop-blur-sm transition-opacity duration-300">
-        <Plane size={size} className="text-[#D4AF37]" strokeWidth={1.6} />
+      <div className="rounded-full border border-[#C9A24A]/45 bg-[#020F12]/72 p-2 shadow-[0_10px_32px_rgba(0,0,0,0.34),0_0_18px_rgba(201,162,74,0.12)] backdrop-blur-sm">
+        <Plane size={size} className="text-[#D4AF37]" strokeWidth={1.75} />
       </div>
     </div>
   )

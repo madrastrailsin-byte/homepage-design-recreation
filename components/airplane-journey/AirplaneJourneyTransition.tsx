@@ -1,56 +1,66 @@
 'use client'
 
+import { useCallback, useState } from 'react'
 import { AIRPLANE_JOURNEY_CONFIG } from '@/lib/airplane-journey/config'
 import AirplaneCanvas from './AirplaneCanvas'
-import RouteTrail from './RouteTrail'
+import DottedTrail from './DottedTrail'
 import SimplifiedAircraftIcon from './SimplifiedAircraftIcon'
+import { useFlightsDeparture } from './useFlightsDeparture'
+import type { ModelLoadState } from './airplane-scene'
 import {
   useAirplaneScrollProgress,
   useIsMobileFlight,
-  useSmoothedProgress,
+  useOverlayOpacity,
   useTransitionVisibility,
   useViewportSize,
 } from './useAirplaneScrollProgress'
 
 /**
- * Signature scroll transition between Scene 3 and Experiences.
+ * Scroll-driven journey from FLIGHTS → across Scene 3 whitespace → exit before Experiences.
  *
- * Tuning guide — edit `lib/airplane-journey/config.ts`:
- * - speed / timing  → scroll.scrub, scroll.start, scroll.end
- * - height          → path.start.y, path.control1.y, path.control2.y, path.end.y
- * - curve           → path.control1, path.control2, path.extension
- * - scale           → aircraft.scale
- * - easing          → motion.smoothing
+ * Tuning: `lib/airplane-journey/config.ts`
  */
 export default function AirplaneJourneyTransition() {
   const isMobile = useIsMobileFlight()
   const viewport = useViewportSize()
   const { progress, active, prefersReducedMotion } = useAirplaneScrollProgress(true)
+  const { ready: departureReady } = useFlightsDeparture(!prefersReducedMotion)
   const visible = useTransitionVisibility(active, progress)
-  const smoothingEnabled = active && !prefersReducedMotion
-  const { opacity } = useSmoothedProgress(progress, smoothingEnabled)
+  const overlayOpacity = useOverlayOpacity(progress)
+  const [modelState, setModelState] = useState<ModelLoadState>('loading')
+
+  const handleLoadStateChange = useCallback((state: ModelLoadState) => {
+    setModelState(state)
+  }, [])
 
   if (prefersReducedMotion) return null
 
-  const renderProgress = progress
-  const isInFlight = progress > 0.002 && progress < 0.998
-  const shouldRender = visible && isInFlight
+  const isInFlight = progress > 0.004 && progress < 0.996
+  const shouldRender = visible && isInFlight && departureReady
 
   if (!shouldRender) return null
+
+  const useIcon = isMobile || modelState !== 'ready'
+  const iconVariant = isMobile ? 'mobile' : 'desktop'
 
   return (
     <div
       className="mt-airplane-journey pointer-events-none fixed inset-0"
-      style={{ zIndex: AIRPLANE_JOURNEY_CONFIG.overlay.zIndex, opacity }}
+      style={{ zIndex: AIRPLANE_JOURNEY_CONFIG.overlay.zIndex, opacity: overlayOpacity }}
       aria-hidden="true"
       data-airplane-journey
+      data-airplane-model={modelState}
+      data-airplane-scale={AIRPLANE_JOURNEY_CONFIG.aircraft.scale}
+      data-airplane-trail-length={AIRPLANE_JOURNEY_CONFIG.trail.lengthPx}
     >
-      <RouteTrail progress={renderProgress} />
+      {viewport.width > 0 ? <DottedTrail progress={progress} viewport={viewport} /> : null}
 
-      {!isMobile ? (
-        <AirplaneCanvas progress={renderProgress} active={visible && active} />
-      ) : viewport.width > 0 ? (
-        <SimplifiedAircraftIcon progress={renderProgress} viewport={viewport} />
+      {!useIcon ? (
+        <AirplaneCanvas progress={progress} active={visible && active} onLoadStateChange={handleLoadStateChange} />
+      ) : null}
+
+      {useIcon && viewport.width > 0 ? (
+        <SimplifiedAircraftIcon progress={progress} viewport={viewport} variant={iconVariant} />
       ) : null}
     </div>
   )

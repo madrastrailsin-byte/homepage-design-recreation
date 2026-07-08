@@ -1,13 +1,14 @@
 /**
  * Airplane Journey Transition — tuning reference
  *
- * Adjust these values to change flight behaviour without touching renderer logic.
- *
- * SPEED / TIMING  → scroll.scrub (higher = more lag/smoothness), scroll.start / scroll.end
- * HEIGHT          → path control points (y: lower = higher on screen)
- * CURVE           → path.control1, path.control2, path.extension
- * SCALE           → aircraft.scale, aircraft.mobileIconSize
- * EASING          → motion.smoothing (0–1, higher = snappier catch-up)
+ * PLANE SIZE      → aircraft.scale, aircraft.desktopIconSize, aircraft.mobileIconSize
+ * TRAIL LENGTH    → trail.lengthPx, trail.dotCount
+ * TRAIL DASH/DOTS → trail.dashGap, trail.dotRadius, trail.tailOpacity, trail.headOpacity
+ * ROUTE HEIGHT    → path.control1.y, path.control2.y, path.end.y
+ * ROUTE CURVATURE → path.control1.x/y, path.control2.x/y
+ * FLIGHT SPEED    → scroll.scrub (higher = more lag), motion.smoothing
+ * BANK ANGLE      → aircraft.bankMultiplier, aircraft.maxBankDegrees
+ * SCROLL TIMING   → scroll.start, scroll.end (on scroll.trigger / scroll.endTrigger)
  */
 
 export type PathPoint = {
@@ -19,81 +20,87 @@ export const AIRPLANE_JOURNEY_CONFIG = {
   modelUrl: '/models/airplane/airplane-passenger.glb',
 
   scroll: {
-    /** ScrollTrigger trigger element (Scene 3 section class) */
-    trigger: '.mt-scroll-statistics',
-    /** Where the flight begins — bottom of Scene 3 entering viewport */
-    start: 'bottom 78%',
-    /** ScrollTrigger end element (Experiences section) */
+    /** Journey begins at the Services Strip */
+    trigger: '.mt-scroll-services',
+    /** Aircraft departs as the strip scrolls into active view */
+    start: 'top 68%',
+    /** Journey completes before Experiences dominates the viewport */
     endTrigger: '.mt-scroll-experiences',
-    /** Where the flight completes — top of Experiences section */
-    end: 'top 52%',
-    /** Scrub smoothness (seconds of lag). Increase for slower, silkier response. */
-    scrub: 0.72,
+    end: 'top 88%',
+    /** Scrub lag in seconds — increase for slower, more cinematic response */
+    scrub: 0.88,
+    /** First service chip in the glass panel (FLIGHTS) — measured at runtime */
+    flightsSelector: '.mt-scroll-services .mt-premium-glass > div:first-child',
+    /** Pixel offset below the FLIGHTS chip for departure */
+    departureOffsetY: 10,
   },
 
-  /** Normalised viewport path (0–1). Aircraft emerges from Scene 3 hotel side. */
+  /**
+   * Bezier curve in normalised viewport space (0–1).
+   * Start point is measured from the FLIGHTS service at runtime.
+   */
   path: {
-    start: { x: 0.74, y: 0.56 } satisfies PathPoint,
-    control1: { x: 0.56, y: 0.5 } satisfies PathPoint,
-    control2: { x: 0.38, y: 0.38 } satisfies PathPoint,
-    end: { x: 0.24, y: 0.24 } satisfies PathPoint,
-    /** Soft continuation toward journey motif (top-right contour graphics) */
-    extension: { x: 0.8, y: 0.14 } satisfies PathPoint,
+    control1: { x: 0.5, y: 0.36 } satisfies PathPoint,
+    control2: { x: 0.74, y: 0.5 } satisfies PathPoint,
+    end: { x: 0.86, y: 0.7 } satisfies PathPoint,
+    /** Used before FLIGHTS anchor is measured */
+    fallbackStart: { x: 0.36, y: 0.3 } satisfies PathPoint,
   },
 
   aircraft: {
-    /** Uniform scale applied after GLB normalisation */
-    scale: 0.019,
-    /** Y rotation offset so model faces flight direction (radians) */
-    initialRotationY: Math.PI * 0.55,
-    /** Pitch offset (radians) — keep subtle */
-    initialRotationX: -0.06,
-    /** Roll derived from path tangent × this multiplier (radians) */
-    bankMultiplier: 0.2,
-    /** Maximum bank angle in degrees */
-    maxBankDegrees: 9,
-    /** Mobile simplified icon size in px */
-    mobileIconSize: 18,
+    /** ~45% larger than original 0.019 */
+    scale: 0.028,
+    initialRotationY: Math.PI * 0.52,
+    initialRotationX: -0.05,
+    bankMultiplier: 0.22,
+    maxBankDegrees: 8,
+    desktopIconSize: 26,
+    mobileIconSize: 20,
+    /** Fall back to icon if GLB has not loaded within this ms */
+    modelLoadTimeoutMs: 9000,
   },
 
   trail: {
-    coreStroke: 0.14,
-    glowStroke: 0.42,
-    coreColor: '#C9A24A',
+    /** Visible trail length behind aircraft (px) */
+    lengthPx: 180,
+    /** Number of dots sampled along the tail */
+    dotCount: 14,
+    dotRadius: 2.1,
+    dotRadiusTail: 1.1,
+    headOpacity: 0.72,
+    tailOpacity: 0.08,
+    color: '#C9A24A',
     glowColor: '#D4AF37',
-    coreOpacity: 0.82,
-    glowOpacity: 0.28,
-    /** Fade trail after this scroll progress */
-    fadeStart: 0.78,
+    glowOpacity: 0.22,
+    /** Fade entire trail near journey end */
+    fadeStart: 0.86,
     fadeEnd: 0.98,
   },
 
   motion: {
-    /** Progress interpolation per frame (0–1). Lower = slower, more cinematic catch-up. */
-    smoothing: 0.14,
+    smoothing: 0.12,
   },
 
   camera: {
-    fov: 42,
-    position: { x: 0, y: 0.05, z: 6.2 },
-    lookAt: { x: 0, y: 0.05, z: 0 },
+    fov: 40,
+    position: { x: 0, y: 0.04, z: 5.8 },
+    lookAt: { x: 0, y: 0.04, z: 0 },
   },
 
   lighting: {
-    ambientIntensity: 0.62,
-    keyIntensity: 0.88,
+    ambientIntensity: 0.72,
+    keyIntensity: 1.05,
     keyPosition: { x: 4, y: 6, z: 8 },
-    fillIntensity: 0.32,
+    fillIntensity: 0.38,
     fillPosition: { x: -5, y: 2, z: 4 },
   },
 
-  /** Below this width the 3D model is replaced by a simplified icon */
   mobileBreakpoint: 768,
 
   overlay: {
     zIndex: 24,
-    fadeIn: 0.04,
-    fadeOut: 0.96,
+    fadeIn: 0.03,
+    fadeOut: 0.94,
   },
 } as const
 

@@ -3,15 +3,31 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { AIRPLANE_JOURNEY_CONFIG } from '@/lib/airplane-journey/config'
 import { getWorldTransform } from '@/lib/airplane-journey/path'
 
+export type ModelLoadState = 'loading' | 'ready' | 'failed'
+
 export type AirplaneSceneHandle = {
   setProgress: (progress: number) => void
   resize: (width: number, height: number) => void
   dispose: () => void
-  isReady: () => boolean
+  getLoadState: () => ModelLoadState
 }
 
-export function createAirplaneScene(canvas: HTMLCanvasElement): AirplaneSceneHandle {
+type CreateAirplaneSceneOptions = {
+  onLoadStateChange?: (state: ModelLoadState) => void
+}
+
+export function createAirplaneScene(
+  canvas: HTMLCanvasElement,
+  options: CreateAirplaneSceneOptions = {},
+): AirplaneSceneHandle {
   const { camera: cameraConfig, lighting, aircraft, modelUrl } = AIRPLANE_JOURNEY_CONFIG
+  const { onLoadStateChange } = options
+
+  let loadState: ModelLoadState = 'loading'
+  const setLoadState = (state: ModelLoadState) => {
+    loadState = state
+    onLoadStateChange?.(state)
+  }
 
   const renderer = new THREE.WebGLRenderer({
     canvas,
@@ -23,7 +39,7 @@ export function createAirplaneScene(canvas: HTMLCanvasElement): AirplaneSceneHan
   renderer.setClearColor(0x000000, 0)
   renderer.outputColorSpace = THREE.SRGBColorSpace
   renderer.toneMapping = THREE.ACESFilmicToneMapping
-  renderer.toneMappingExposure = 1.05
+  renderer.toneMappingExposure = 1.12
 
   const scene = new THREE.Scene()
 
@@ -36,8 +52,7 @@ export function createAirplaneScene(canvas: HTMLCanvasElement): AirplaneSceneHan
   camera.position.set(cameraConfig.position.x, cameraConfig.position.y, cameraConfig.position.z)
   camera.lookAt(cameraConfig.lookAt.x, cameraConfig.lookAt.y, cameraConfig.lookAt.z)
 
-  const ambient = new THREE.AmbientLight(0xfff4e8, lighting.ambientIntensity)
-  scene.add(ambient)
+  scene.add(new THREE.AmbientLight(0xfff4e8, lighting.ambientIntensity))
 
   const keyLight = new THREE.DirectionalLight(0xfff8ef, lighting.keyIntensity)
   keyLight.position.set(lighting.keyPosition.x, lighting.keyPosition.y, lighting.keyPosition.z)
@@ -84,11 +99,13 @@ export function createAirplaneScene(canvas: HTMLCanvasElement): AirplaneSceneHan
 
       airplaneRoot.add(model)
       modelLoaded = true
+      setLoadState('ready')
       applyTransform(currentProgress)
+      renderer.render(scene, camera)
     },
     undefined,
-    (error) => {
-      console.warn('[AirplaneJourney] Failed to load aircraft model', error)
+    () => {
+      setLoadState('failed')
     },
   )
 
@@ -101,14 +118,16 @@ export function createAirplaneScene(canvas: HTMLCanvasElement): AirplaneSceneHan
   return {
     setProgress(progress: number) {
       currentProgress = progress
-      if (modelLoaded) applyTransform(progress)
-      renderer.render(scene, camera)
+      if (modelLoaded) {
+        applyTransform(progress)
+        renderer.render(scene, camera)
+      }
     },
     resize(width: number, height: number) {
       camera.aspect = width / Math.max(height, 1)
       camera.updateProjectionMatrix()
       renderer.setSize(width, height, false)
-      renderer.render(scene, camera)
+      if (modelLoaded) renderer.render(scene, camera)
     },
     dispose() {
       renderer.dispose()
@@ -121,6 +140,6 @@ export function createAirplaneScene(canvas: HTMLCanvasElement): AirplaneSceneHan
         }
       })
     },
-    isReady: () => modelLoaded,
+    getLoadState: () => loadState,
   }
 }
