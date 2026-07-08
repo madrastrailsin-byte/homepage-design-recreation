@@ -15,24 +15,24 @@ export default function StatisticsSection() {
   return (
     <section className="mt-scroll-statistics relative isolate min-h-[34rem] overflow-hidden bg-[#03191D] py-20 md:min-h-[38rem] md:py-24">
       <motion.div
-        initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, scale: 1.02, y: 10 }}
-        whileInView={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, scale: 1, y: -8 }}
+        initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 8 }}
+        whileInView={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: -6 }}
         transition={{ duration: 1.35, ease: motionEase }}
         viewport={{ once: true, amount: 0.32 }}
-        className="absolute inset-0"
+        className="absolute inset-y-8 right-0 w-full md:inset-y-10 md:w-[62%] lg:w-[58%]"
       >
         <Image
           src="/images/homepage/philosophy/homepage-hotel-lobby-luxury.jpg"
           alt=""
           fill
-          sizes="100vw"
-          className="object-cover opacity-[0.68] saturate-[0.9] sepia-[0.06]"
+          sizes="(min-width: 768px) 62vw, 100vw"
+          className="object-contain object-right opacity-95"
           priority={false}
         />
       </motion.div>
 
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_26%_48%,rgba(2,15,18,0.76),rgba(2,15,18,0.44)_42%,transparent_72%),linear-gradient(90deg,rgba(2,15,18,0.9),rgba(2,15,18,0.48)_48%,rgba(2,15,18,0.7)),linear-gradient(180deg,rgba(3,25,29,0.36),rgba(2,15,18,0.18)_42%,rgba(2,15,18,0.72))]" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_72%_30%,rgba(212,175,55,0.18),rgba(212,175,55,0.07)_18%,transparent_46%)]" />
+      <div className="absolute inset-0 bg-[linear-gradient(90deg,#03191D_0%,rgba(3,25,29,0.94)_32%,rgba(3,25,29,0.42)_58%,rgba(3,25,29,0.12)_100%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_74%_32%,rgba(212,175,55,0.1),transparent_34%)]" />
       <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-[#03191D] to-transparent" />
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#03191D] to-transparent" />
 
