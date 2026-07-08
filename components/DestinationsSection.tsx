@@ -25,7 +25,7 @@ const destinations = [
 ]
 
 const arrowButtonBase =
-  'w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 group/btn'
+  'w-10 h-10 rounded-full flex items-center justify-center transition-all duration-[360ms] ease-[cubic-bezier(0.22,1,0.36,1)] group/btn'
 
 const outlineArrowButtonBase =
   `${arrowButtonBase} border border-[#C9A24A]/55 bg-[#061f28]/34 text-[#C9A24A] shadow-[0_10px_24px_rgba(0,0,0,0.24)] hover:border-[#C9A24A]/85 hover:bg-[#C9A24A]/12`
@@ -37,7 +37,7 @@ export default function DestinationsSection() {
   const prefersReducedMotion = useReducedMotion()
   const motionEase = [0.22, 1, 0.36, 1] as const
   const imageHoverClass = prefersReducedMotion ? '' : 'group-hover:scale-[1.05]'
-  const iconHoverClass = prefersReducedMotion ? '' : 'group-hover/btn:translate-x-0.5'
+  const iconHoverClass = prefersReducedMotion ? '' : 'group-hover/btn:translate-x-1'
   const revealInitial = prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 12 }
   const revealInView = prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }
   const imageRevealInitial = prefersReducedMotion
@@ -53,7 +53,7 @@ export default function DestinationsSection() {
   const editorialTransition = (delay = 0) => ({ duration: 0.82, delay, ease: motionEase })
 
   return (
-    <section className="mt-scroll-destinations mt-destinations-bg mt-journey-motif relative overflow-hidden pt-2 pb-12 md:pt-4 md:pb-16">
+    <section className="mt-scroll-destinations mt-destinations-bg mt-destinations-contour mt-journey-motif relative overflow-hidden pt-2 pb-12 md:pt-4 md:pb-16">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-[#03191D] via-[#03191D]/46 to-transparent" />
       <div className="mt-destinations-texture-reveal mt-story-destination-bg absolute inset-0 pointer-events-none" />
       <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-8">
@@ -99,7 +99,7 @@ export default function DestinationsSection() {
                 whileInView={textRevealInView}
                 transition={editorialTransition(0.14)}
                 viewport={{ once: true, amount: 0.24 }}
-                className="mt-display text-4xl md:text-5xl text-white mb-3.5 leading-tight"
+                className="mt-display text-4xl md:text-5xl text-white mb-[18px] leading-tight"
               >
                 Your Journey,
                 <br />
@@ -112,7 +112,7 @@ export default function DestinationsSection() {
                 whileInView={textRevealInView}
                 transition={editorialTransition(0.2)}
                 viewport={{ once: true, amount: 0.24 }}
-                className="flex items-center gap-2 my-5"
+                className="flex items-center gap-2 my-[22px]"
               >
                 <div className="flex-1 h-px bg-gradient-to-r from-[#C9A24A] to-transparent" />
                 <div className="w-2 h-2 rotate-45 bg-[#C9A24A]" />
@@ -124,7 +124,7 @@ export default function DestinationsSection() {
                 whileInView={textRevealInView}
                 transition={editorialTransition(0.26)}
                 viewport={{ once: true, amount: 0.24 }}
-                className="mt-body-copy text-[#E8E8E8]/78 text-sm leading-relaxed mb-5"
+                className="mt-body-copy text-[#E8E8E8]/78 text-sm leading-relaxed mb-6"
               >
                 From the world&apos;s most iconic cities to hidden gems only locals know, we design journeys that are as unique as you are.
               </motion.p>
@@ -165,17 +165,17 @@ export default function DestinationsSection() {
                   initial={revealInitial}
                   whileInView={revealInView}
                   whileHover={prefersReducedMotion ? undefined : { y: -5, rotateZ: -0.12, rotateX: 0.12, transformPerspective: 900 }}
-                  transition={{ duration: 0.82, delay: 0.12, ease: motionEase }}
+                transition={{ duration: 0.86, delay: 0.14, ease: motionEase }}
                   viewport={{ once: true, amount: 0.24 }}
                   className="mt-story-destination-card group cursor-pointer"
                 >
-                    <div className="relative w-full h-72 rounded-3xl overflow-hidden border border-[#C9A24A]/24 shadow-[0_26px_70px_rgba(0,0,0,0.46),0_0_0_1px_rgba(201,162,74,0.08)] transition-all duration-300 hover:border-[#C9A24A]/46 hover:shadow-[0_36px_88px_rgba(0,0,0,0.56),0_0_34px_rgba(201,162,74,0.08)]">
+                    <div className="relative w-full h-72 rounded-3xl overflow-hidden border border-[#C9A24A]/24 shadow-[0_26px_70px_rgba(0,0,0,0.46),0_0_0_1px_rgba(201,162,74,0.08)] transition-[border-color,box-shadow] duration-[420ms] ease-[cubic-bezier(0.22,1,0.36,1)] hover:border-[#C9A24A]/48 hover:shadow-[0_38px_92px_rgba(0,0,0,0.58),0_0_38px_rgba(201,162,74,0.105),inset_0_1px_0_rgba(255,249,228,0.08)]">
                     <motion.div
                       initial={imageRevealInitial}
                       whileInView={imageRevealInView}
-                      transition={{ duration: 0.85, delay: 0.12, ease: motionEase }}
+                      transition={{ duration: 0.9, delay: 0.14, ease: motionEase }}
                       viewport={{ once: true, amount: 0.24 }}
-                      className={`mt-story-image absolute inset-0 bg-cover bg-center transition-transform duration-500 ${imageHoverClass}`}
+                      className={`mt-story-image absolute inset-0 bg-cover bg-center transition-transform duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)] ${imageHoverClass}`}
                       style={{ backgroundImage: `url(${destinations[0].image})` }}
                     >
                       <div className="absolute inset-0 bg-gradient-to-t from-[rgba(3,21,27,0.82)] via-[rgba(7,38,48,0.28)] to-transparent" />
@@ -202,17 +202,17 @@ export default function DestinationsSection() {
                     initial={revealInitial}
                     whileInView={revealInView}
                   whileHover={prefersReducedMotion ? undefined : { y: -5, rotateZ: 0.1, rotateX: 0.12, transformPerspective: 900 }}
-                    transition={{ duration: 0.82, delay: 0, ease: motionEase }}
+                    transition={{ duration: 0.86, delay: 0, ease: motionEase }}
                     viewport={{ once: true, amount: 0.24 }}
                     className="mt-story-destination-card group cursor-pointer"
                   >
-                    <div className="relative w-full h-80 rounded-3xl overflow-hidden border border-[#C9A24A]/34 shadow-[0_34px_96px_rgba(0,0,0,0.56),0_0_0_1px_rgba(201,162,74,0.12)] transition-all duration-300 hover:border-[#C9A24A]/52 hover:shadow-[0_44px_112px_rgba(0,0,0,0.64),0_0_38px_rgba(201,162,74,0.09)]">
+                    <div className="relative w-full h-80 rounded-3xl overflow-hidden border border-[#C9A24A]/34 shadow-[0_34px_96px_rgba(0,0,0,0.56),0_0_0_1px_rgba(201,162,74,0.12)] transition-[border-color,box-shadow] duration-[420ms] ease-[cubic-bezier(0.22,1,0.36,1)] hover:border-[#C9A24A]/54 hover:shadow-[0_46px_116px_rgba(0,0,0,0.66),0_0_42px_rgba(201,162,74,0.105),inset_0_1px_0_rgba(255,249,228,0.08)]">
                       <motion.div
                         initial={imageRevealInitial}
                         whileInView={imageRevealInView}
                         transition={{ duration: 0.85, delay: 0.08, ease: motionEase }}
                         viewport={{ once: true, amount: 0.24 }}
-                        className={`mt-story-image absolute inset-0 bg-cover bg-center transition-transform duration-500 ${imageHoverClass}`}
+                        className={`mt-story-image absolute inset-0 bg-cover bg-center transition-transform duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)] ${imageHoverClass}`}
                         style={{ backgroundImage: `url(${destinations[1].image})` }}
                       >
                         <div className="absolute inset-0 bg-gradient-to-t from-[rgba(3,21,27,0.76)] via-[rgba(7,38,48,0.2)] to-transparent" />
@@ -239,17 +239,17 @@ export default function DestinationsSection() {
                   initial={revealInitial}
                   whileInView={revealInView}
                   whileHover={prefersReducedMotion ? undefined : { y: -5, rotateZ: 0.12, rotateX: 0.12, transformPerspective: 900 }}
-                  transition={{ duration: 0.82, delay: 0.18, ease: motionEase }}
+                  transition={{ duration: 0.86, delay: 0.28, ease: motionEase }}
                   viewport={{ once: true, amount: 0.24 }}
                   className="mt-story-destination-card group cursor-pointer"
                 >
-                    <div className="relative w-full h-72 rounded-3xl overflow-hidden border border-[#C9A24A]/24 shadow-[0_26px_70px_rgba(0,0,0,0.46),0_0_0_1px_rgba(201,162,74,0.08)] transition-all duration-300 hover:border-[#C9A24A]/46 hover:shadow-[0_36px_88px_rgba(0,0,0,0.56),0_0_34px_rgba(201,162,74,0.08)]">
+                    <div className="relative w-full h-72 rounded-3xl overflow-hidden border border-[#C9A24A]/24 shadow-[0_26px_70px_rgba(0,0,0,0.46),0_0_0_1px_rgba(201,162,74,0.08)] transition-[border-color,box-shadow] duration-[420ms] ease-[cubic-bezier(0.22,1,0.36,1)] hover:border-[#C9A24A]/48 hover:shadow-[0_38px_92px_rgba(0,0,0,0.58),0_0_38px_rgba(201,162,74,0.105),inset_0_1px_0_rgba(255,249,228,0.08)]">
                     <motion.div
                       initial={imageRevealInitial}
                       whileInView={imageRevealInView}
-                      transition={{ duration: 0.85, delay: 0.2, ease: motionEase }}
+                      transition={{ duration: 0.9, delay: 0.28, ease: motionEase }}
                       viewport={{ once: true, amount: 0.24 }}
-                      className={`mt-story-image absolute inset-0 bg-cover bg-center transition-transform duration-500 ${imageHoverClass}`}
+                      className={`mt-story-image absolute inset-0 bg-cover bg-center transition-transform duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)] ${imageHoverClass}`}
                       style={{ backgroundImage: `url(${destinations[2].image})` }}
                     >
                       <div className="absolute inset-0 bg-gradient-to-t from-[rgba(3,21,27,0.82)] via-[rgba(7,38,48,0.28)] to-transparent" />

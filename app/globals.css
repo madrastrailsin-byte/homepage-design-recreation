@@ -455,6 +455,21 @@
     mix-blend-mode: screen;
   }
 
+  .mt-destinations-contour::after {
+    content: '';
+    position: absolute;
+    inset: -8% -6%;
+    pointer-events: none;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='860' height='520' viewBox='0 0 860 520'%3E%3Cg fill='none' stroke='%23D4AF37' stroke-width='0.75' stroke-linecap='round'%3E%3Cpath d='M26 398C118 288 202 250 278 284c96 44 164 22 242-68 76-88 154-118 302-84'/%3E%3Cpath d='M72 166c98 42 178 40 240-6 82-60 178-54 288 18 58 38 118 48 190 30'/%3E%3Cpath d='M168 472c58-78 128-103 210-76 72 24 128 10 188-42 44-38 92-56 144-54'/%3E%3Cpath d='M604 76c-38 48-82 72-132 72-44 0-88 18-132 54'/%3E%3C/g%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: 50% 42%;
+    background-size: min(980px, 112vw) auto;
+    mix-blend-mode: screen;
+    transform: translate3d(0, 0, 0);
+    animation: mt-destination-contour-drift 28s cubic-bezier(0.45, 0, 0.2, 1) infinite alternate;
+  }
+
   .mt-experience-grade {
     filter: saturate(0.94) contrast(1.04) sepia(0.035);
   }
@@ -466,6 +481,16 @@
 
     to {
       transform: scale(1.026) translate3d(-0.25%, -0.18%, 0);
+    }
+  }
+
+  @keyframes mt-destination-contour-drift {
+    from {
+      transform: translate3d(-0.6%, -0.4%, 0);
+    }
+
+    to {
+      transform: translate3d(0.6%, 0.4%, 0);
     }
   }
 }
@@ -524,5 +549,10 @@ main.bg-\[\#0D1117\] {
 
   .mt-gold-sheen::before {
     display: none;
+  }
+
+  .mt-destinations-contour::after {
+    animation: none !important;
+    transform: translateZ(0) !important;
   }
 }

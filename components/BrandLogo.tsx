@@ -18,7 +18,7 @@ export default function BrandLogo({ priority = false, imageClassName = 'h-11 w-a
       />
       <span
         aria-hidden="true"
-        className="pointer-events-none ml-0.5 -translate-y-[3px] text-[8px] font-semibold leading-none text-[#D4AF37] md:text-[9px]"
+        className="pointer-events-none ml-px -translate-y-[1px] text-[8px] font-semibold leading-none text-[#D4AF37] md:text-[9px]"
       >
         ™
       </span>
