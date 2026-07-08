@@ -36,9 +36,15 @@ export default function AirplaneCanvas({ progress, active }: AirplaneCanvasProps
     window.addEventListener('resize', resize)
 
     let raf = 0
+    let paused = document.hidden
+
+    const onVisibility = () => {
+      paused = document.hidden
+    }
+    document.addEventListener('visibilitychange', onVisibility)
 
     const tick = () => {
-      if (activeRef.current && sceneRef.current) {
+      if (!paused && activeRef.current && sceneRef.current) {
         displayedRef.current +=
           (progressRef.current - displayedRef.current) * AIRPLANE_JOURNEY_CONFIG.motion.smoothing
         if (Math.abs(progressRef.current - displayedRef.current) < 0.0003) {
@@ -53,6 +59,7 @@ export default function AirplaneCanvas({ progress, active }: AirplaneCanvasProps
 
     return () => {
       window.removeEventListener('resize', resize)
+      document.removeEventListener('visibilitychange', onVisibility)
       cancelAnimationFrame(raf)
       scene.dispose()
       sceneRef.current = null

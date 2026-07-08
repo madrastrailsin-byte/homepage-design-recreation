@@ -75,10 +75,13 @@ export function buildTrailPath(): string {
   const extX = extension.x * 100
   const extY = extension.y * 100
 
+  const midX = ((end.x + extension.x) / 2) * 100
+  const midY = (end.y - 0.04) * 100
+
   return [
     `M ${sx.toFixed(2)} ${sy.toFixed(2)}`,
     `C ${c1x.toFixed(2)} ${c1y.toFixed(2)}, ${c2x.toFixed(2)} ${c2y.toFixed(2)}, ${ex.toFixed(2)} ${ey.toFixed(2)}`,
-    `S ${((ex + extension.x) * 50).toFixed(2)} ${((ey + extension.y) * 50).toFixed(2)}, ${extX.toFixed(2)} ${extY.toFixed(2)}`,
+    `C ${midX.toFixed(2)} ${midY.toFixed(2)}, ${((extension.x + 0.04) * 100).toFixed(2)} ${((extension.y + 0.02) * 100).toFixed(2)}, ${extX.toFixed(2)} ${extY.toFixed(2)}`,
   ].join(' ')
 }
 
