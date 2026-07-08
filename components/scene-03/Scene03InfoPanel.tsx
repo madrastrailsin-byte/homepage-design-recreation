@@ -1,24 +1,23 @@
 'use client'
 
 import { Star } from 'lucide-react'
-import type { Scene03Hotel, Scene03RoomOption } from '@/lib/scene03-data'
+import { motion, useReducedMotion } from 'framer-motion'
+import type { Scene03Hotel } from '@/lib/scene03-data'
 import Scene03RoomChips from './Scene03RoomChips'
 
 type Scene03InfoPanelProps = {
   hotel: Scene03Hotel
-  roomOptions: Scene03RoomOption[]
   selectedRoomId: string
   onRoomSelect: (id: string) => void
 }
 
 export default function Scene03InfoPanel({
   hotel,
-  roomOptions,
   selectedRoomId,
   onRoomSelect,
 }: Scene03InfoPanelProps) {
-  const activeRoom =
-    roomOptions.find((option) => option.id === selectedRoomId)?.label ?? hotel.roomType
+  const reduceMotion = useReducedMotion()
+  const activeRoom = hotel.roomOptions.find((option) => option.id === selectedRoomId) ?? hotel.roomOptions[0]
 
   return (
     <div className="mt-scene03-panel mt-premium-glass mt-story-stat-illustration w-full max-w-[19.5rem] rounded-2xl border border-[#C9A24A]/22 p-4 shadow-[0_28px_80px_rgba(0,0,0,0.34)] backdrop-blur-xl transition-[box-shadow,border-color,opacity] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:border-[#C9A24A]/32 hover:opacity-[0.98] hover:shadow-[0_34px_96px_rgba(0,0,0,0.4)] sm:max-w-[21rem] sm:p-5 md:max-w-[22.5rem]">
@@ -49,17 +48,33 @@ export default function Scene03InfoPanel({
 
       <div className="mt-4 border-t border-[#C9A24A]/14 pt-4">
         <p className="mt-ui text-[9px] tracking-[0.16em] text-[#C9A24A]/78">ROOM TYPE</p>
-        <p className="mt-body-copy mt-1 text-sm text-[#FAFAF9]">{activeRoom}</p>
+        <motion.p
+          key={`${hotel.id}-${activeRoom?.id}-room`}
+          initial={reduceMotion ? { opacity: 1 } : { opacity: 0, y: 4 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: reduceMotion ? 0 : 0.28, ease: [0.22, 1, 0.36, 1] }}
+          className="mt-body-copy mt-1 text-sm text-[#FAFAF9]"
+        >
+          {activeRoom?.label}
+        </motion.p>
       </div>
 
       <div className="mt-4">
-        <Scene03RoomChips options={roomOptions} selectedId={selectedRoomId} onSelect={onRoomSelect} />
+        <Scene03RoomChips options={hotel.roomOptions} selectedId={selectedRoomId} onSelect={onRoomSelect} />
       </div>
 
       <div className="mt-5 flex items-end justify-between gap-4">
         <div>
           <p className="mt-ui text-[9px] tracking-[0.16em] text-[#C9A24A]/78">FROM</p>
-          <p className="mt-display-soft mt-1 text-2xl leading-none text-[#FAFAF9]">{hotel.price}</p>
+          <motion.p
+            key={`${hotel.id}-${activeRoom?.id}-price`}
+            initial={reduceMotion ? { opacity: 1 } : { opacity: 0, y: 5 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: reduceMotion ? 0 : 0.3, ease: [0.22, 1, 0.36, 1] }}
+            className="mt-display-soft mt-1 text-2xl leading-none text-[#FAFAF9]"
+          >
+            {activeRoom?.price}
+          </motion.p>
           <p className="mt-body-copy mt-1 text-[11px] text-[#E8E8E8]/62">{hotel.priceUnit}</p>
         </div>
 

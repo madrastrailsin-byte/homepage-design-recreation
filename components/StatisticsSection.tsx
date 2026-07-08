@@ -5,8 +5,7 @@ import Scene03CopyColumn from './scene-03/Scene03CopyColumn'
 import Scene03HotelStage from './scene-03/Scene03HotelStage'
 
 export default function StatisticsSection() {
-  const { eyebrow, headline, headlineAccent, body, pillars, storyLinkLabel, hotelImage, hotel, roomOptions, supportCards } =
-    scene03Content
+  const { eyebrow, headline, headlineAccent, body, pillars, storyLinkLabel, hotels } = scene03Content
 
   return (
     <section className="mt-scroll-statistics mt-scene03-section w-full overflow-hidden bg-[#03191D]">
@@ -25,10 +24,7 @@ export default function StatisticsSection() {
 
           <Scene03HotelStage
             content={{
-              hotelImage,
-              hotel,
-              roomOptions,
-              supportCards,
+              hotels,
             }}
           />
         </div>

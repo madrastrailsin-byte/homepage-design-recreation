@@ -5,7 +5,6 @@ import DestinationsSection from '@/components/DestinationsSection'
 import StatisticsSection from '@/components/StatisticsSection'
 import ExperiencesSection from '@/components/ExperiencesSection'
 import Footer from '@/components/Footer'
-import AirplaneJourneyTransition from '@/components/airplane-journey/AirplaneJourneyTransition'
 
 export default function Home() {
   return (
@@ -15,7 +14,6 @@ export default function Home() {
       <ServicesStrip />
       <DestinationsSection />
       <StatisticsSection />
-      <AirplaneJourneyTransition />
       <ExperiencesSection />
       <Footer />
     </main>

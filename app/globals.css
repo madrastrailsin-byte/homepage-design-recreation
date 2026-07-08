@@ -574,11 +574,6 @@
       min-width: 6.5rem;
     }
   }
-
-  .mt-airplane-journey {
-    mix-blend-mode: normal;
-    transition: opacity 0.32s cubic-bezier(0.22, 1, 0.36, 1);
-  }
 }
 
 main.bg-\[\#0D1117\],
