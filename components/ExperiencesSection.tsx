@@ -9,24 +9,28 @@ const experiences = [
     title: 'Local Flavours',
     subtitle: 'Taste the world like a local',
     image: '/images/real-photos/library/authentic-local-cuisine.jpg',
+    objectPosition: 'center 55%',
   },
   {
     id: 2,
     title: 'Luxury Escapes',
     subtitle: 'Indulge in unparalleled comfort',
     image: '/images/real-photos/library/luxury-boutique-hotel.jpg',
+    objectPosition: 'center 45%',
   },
   {
     id: 3,
     title: 'Cultural Connections',
     subtitle: 'Immerse in traditions that inspire',
-    image: '/images/real-photos/library/guide-explaining-culture.jpg',
+    image: '/images/real-photos/library/local-guide-history.jpg',
+    objectPosition: 'center 40%',
   },
   {
     id: 4,
     title: 'Adventure Awaits',
     subtitle: 'For the explorers at heart',
     image: '/images/real-photos/library/adventure-activities.png',
+    objectPosition: 'center 35%',
   },
 ]
 
@@ -85,8 +89,8 @@ export default function ExperiencesSection() {
                 whileInView={imageInView}
                 transition={{ duration: 0.85, delay: 0.08 + idx * 0.08, ease: motionEase }}
                 viewport={{ once: true, amount: 0.24 }}
-                className={`mt-story-image mt-experience-grade absolute inset-0 bg-cover bg-center transition-transform duration-700 ${imageHoverClass}`}
-                style={{ backgroundImage: `url(${exp.image})` }}
+                className={`mt-story-image mt-experience-grade absolute inset-0 bg-cover transition-transform duration-700 ${imageHoverClass}`}
+                style={{ backgroundImage: `url(${exp.image})`, backgroundPosition: exp.objectPosition }}
               >
                 {/* Dark Gradient Overlay - Bottom Heavy */}
                 <div className="absolute inset-0 bg-gradient-to-b from-[rgba(2,15,18,0.06)] via-[rgba(3,25,29,0.28)] to-[rgba(2,12,15,0.86)]" />

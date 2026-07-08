@@ -8,19 +8,22 @@ const destinations = [
     id: 1,
     name: 'Iceland',
     label: 'Discover',
-    image: '/images/iceland-northern-lights.png',
+    image: '/images/real-photos/library/hidden-destination.jpg',
+    objectPosition: 'center 35%',
   },
   {
     id: 2,
     name: 'Turkey',
     label: 'Explore',
-    image: '/images/turkey-cappadocia-balloons.png',
+    image: '/images/real-photos/library/temple-ceremony.jpg',
+    objectPosition: 'center 45%',
   },
   {
     id: 3,
     name: 'Japan',
     label: 'Experience',
-    image: '/images/japan-neon-city.png',
+    image: '/images/real-photos/library/street-photography.webp',
+    objectPosition: 'center 55%',
   },
 ]
 
@@ -175,8 +178,8 @@ export default function DestinationsSection() {
                       whileInView={imageRevealInView}
                       transition={{ duration: 0.9, delay: 0.14, ease: motionEase }}
                       viewport={{ once: true, amount: 0.24 }}
-                      className={`mt-story-image absolute inset-0 bg-cover bg-center transition-transform duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)] ${imageHoverClass}`}
-                      style={{ backgroundImage: `url(${destinations[0].image})` }}
+                      className={`mt-story-image absolute inset-0 bg-cover transition-transform duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)] ${imageHoverClass}`}
+                      style={{ backgroundImage: `url(${destinations[0].image})`, backgroundPosition: destinations[0].objectPosition }}
                     >
                       <div className="absolute inset-0 bg-gradient-to-t from-[rgba(3,21,27,0.82)] via-[rgba(7,38,48,0.28)] to-transparent" />
                       <div className="absolute inset-0 bg-gradient-to-b from-black/5 via-transparent to-transparent" />
@@ -212,8 +215,8 @@ export default function DestinationsSection() {
                         whileInView={imageRevealInView}
                         transition={{ duration: 0.85, delay: 0.08, ease: motionEase }}
                         viewport={{ once: true, amount: 0.24 }}
-                        className={`mt-story-image absolute inset-0 bg-cover bg-center transition-transform duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)] ${imageHoverClass}`}
-                        style={{ backgroundImage: `url(${destinations[1].image})` }}
+                        className={`mt-story-image absolute inset-0 bg-cover transition-transform duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)] ${imageHoverClass}`}
+                        style={{ backgroundImage: `url(${destinations[1].image})`, backgroundPosition: destinations[1].objectPosition }}
                       >
                         <div className="absolute inset-0 bg-gradient-to-t from-[rgba(3,21,27,0.76)] via-[rgba(7,38,48,0.2)] to-transparent" />
                         <div className="absolute inset-0 bg-gradient-to-b from-white/8 via-transparent to-transparent" />
@@ -249,8 +252,8 @@ export default function DestinationsSection() {
                       whileInView={imageRevealInView}
                       transition={{ duration: 0.9, delay: 0.28, ease: motionEase }}
                       viewport={{ once: true, amount: 0.24 }}
-                      className={`mt-story-image absolute inset-0 bg-cover bg-center transition-transform duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)] ${imageHoverClass}`}
-                      style={{ backgroundImage: `url(${destinations[2].image})` }}
+                      className={`mt-story-image absolute inset-0 bg-cover transition-transform duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)] ${imageHoverClass}`}
+                      style={{ backgroundImage: `url(${destinations[2].image})`, backgroundPosition: destinations[2].objectPosition }}
                     >
                       <div className="absolute inset-0 bg-gradient-to-t from-[rgba(3,21,27,0.82)] via-[rgba(7,38,48,0.28)] to-transparent" />
                       <div className="absolute inset-0 bg-gradient-to-b from-black/5 via-transparent to-transparent" />

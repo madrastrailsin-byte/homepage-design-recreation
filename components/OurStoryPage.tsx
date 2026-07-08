@@ -18,9 +18,9 @@ const timeline = [
 ]
 
 const philosophyCards = [
-  { title: 'Stay Curious', image: '/images/real-photos/library/traveller-talking-locals.jpg' },
-  { title: 'Move Slowly', image: '/images/real-photos/library/solo-sunrise.jpg' },
-  { title: 'Feel Welcomed', image: '/images/real-photos/library/traveller-local-family-1.jpg' },
+  { title: 'Stay Curious', image: '/images/real-photos/library/traveller-talking-locals.jpg', objectPosition: 'center 45%' },
+  { title: 'Move Slowly', image: '/images/real-photos/library/solo-sunrise.jpg', objectPosition: 'center 45%' },
+  { title: 'Feel Welcomed', image: '/images/real-photos/library/locals-waving-goodbye.jpg', objectPosition: 'center 55%' },
 ]
 
 const process = [
@@ -32,9 +32,9 @@ const process = [
 ]
 
 const moments = [
-  { title: 'The quiet table', image: '/images/real-photos/library/authentic-local-cuisine.jpg' },
-  { title: 'The morning crossing', image: '/images/real-photos/library/traveller-sunset.jpg' },
-  { title: 'The craft of place', image: '/images/real-photos/library/craftsperson-at-work.jpg' },
+  { title: 'The quiet table', image: '/images/real-photos/library/cooking-together.jpg', objectPosition: 'center 55%' },
+  { title: 'The morning crossing', image: '/images/real-photos/library/traveller-sunset.jpg', objectPosition: 'center 60%' },
+  { title: 'The craft of place', image: '/images/real-photos/library/craftsperson-at-work.jpg', objectPosition: 'center 45%' },
 ]
 
 function ChapterLabel({ number, label }: { number: string; label: string }) {
@@ -52,11 +52,13 @@ function MediaPanel({
   label,
   className = '',
   priority = false,
+  objectPosition = 'center center',
 }: {
   image: string
   label: string
   className?: string
   priority?: boolean
+  objectPosition?: string
 }) {
   return (
     <div
@@ -71,6 +73,7 @@ function MediaPanel({
         priority={priority}
         sizes="(min-width: 1024px) 48vw, 100vw"
         className="object-cover opacity-[0.9] saturate-[0.9] contrast-[1.03] transition-transform duration-[900ms] ease-out group-hover:scale-[1.025]"
+        style={{ objectPosition }}
       />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_68%_20%,rgba(212,175,55,0.16),transparent_28%),linear-gradient(180deg,rgba(2,15,18,0.04),rgba(2,15,18,0.72))]" />
       <div className="absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100 bg-[linear-gradient(115deg,transparent_0%,rgba(250,244,232,0.08)_44%,transparent_62%)]" />
@@ -259,8 +262,8 @@ export default function OurStoryPage() {
             </p>
           </div>
           <div className="grid gap-5 md:grid-cols-2">
-            <MediaPanel image="/images/real-photos/library/traveller-talking-locals.jpg" label="Meaningful conversations" className="min-h-[24rem] md:translate-y-10" />
-            <MediaPanel image="/images/real-photos/library/artisan-at-work.jpg" label="Crafted encounters" className="min-h-[24rem]" />
+            <MediaPanel image="/images/real-photos/library/warm-storytelling.jpg" label="Meaningful conversations" objectPosition="center 45%" className="min-h-[24rem] md:translate-y-10" />
+            <MediaPanel image="/images/real-photos/library/artisan-at-work.jpg" label="Crafted encounters" objectPosition="center 50%" className="min-h-[24rem]" />
           </div>
         </div>
       </section>
@@ -309,6 +312,7 @@ export default function OurStoryPage() {
                 key={card.title}
                 image={card.image}
                 label={card.title}
+                objectPosition={card.objectPosition}
                 className={`min-h-[28rem] ${index === 1 ? 'md:translate-y-12' : ''}`}
               />
             ))}
@@ -325,6 +329,7 @@ export default function OurStoryPage() {
               fill
               sizes="(min-width: 1024px) 52vw, 100vw"
               className="object-cover opacity-[0.88] saturate-[0.9] contrast-[1.03]"
+              style={{ objectPosition: 'center 50%' }}
             />
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_42%_22%,rgba(212,175,55,0.16),transparent_28%),linear-gradient(180deg,rgba(2,15,18,0.06),rgba(2,15,18,0.62))]" />
             <div className="absolute bottom-8 left-8 right-8">
@@ -394,10 +399,10 @@ export default function OurStoryPage() {
           <ChapterLabel number="08" label="MOMENTS THAT MATTER" />
           <h2 data-reveal className="mt-display max-w-4xl text-5xl leading-tight md:text-7xl">The scene changes. The feeling stays.</h2>
           <div className="mt-10 grid gap-5 lg:grid-cols-[1.25fr_0.75fr]">
-            <MediaPanel image={moments[0].image} label={moments[0].title} className="min-h-[34rem]" />
+            <MediaPanel image={moments[0].image} label={moments[0].title} objectPosition={moments[0].objectPosition} className="min-h-[34rem]" />
             <div className="grid gap-5">
               {moments.slice(1).map((moment) => (
-                <MediaPanel key={moment.title} image={moment.image} label={moment.title} className="min-h-[16rem]" />
+                <MediaPanel key={moment.title} image={moment.image} label={moment.title} objectPosition={moment.objectPosition} className="min-h-[16rem]" />
               ))}
             </div>
           </div>
@@ -418,7 +423,7 @@ export default function OurStoryPage() {
 
       <section data-story-chapter className="relative z-10 px-6 pb-24 md:px-8 md:pb-28">
         <div className="relative mx-auto min-h-[34rem] max-w-7xl overflow-hidden rounded-[2rem] border border-[#D4AF37]/16 bg-[#020F12] p-8 shadow-[0_34px_120px_rgba(0,0,0,0.42)] md:p-12">
-          <Image src="/images/real-photos/library/couple-ocean-mountains.jpg" alt="" fill sizes="100vw" className="object-cover opacity-[0.48] saturate-[0.88] contrast-[1.02]" />
+          <Image src="/images/real-photos/library/natural-laughter.jpg" alt="" fill sizes="100vw" className="object-cover opacity-[0.48] saturate-[0.88] contrast-[1.02]" style={{ objectPosition: 'center 50%' }} />
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_34%_50%,rgba(2,15,18,0.78),transparent_48%),linear-gradient(90deg,rgba(2,15,18,0.86),rgba(2,15,18,0.22))]" />
           <div className="relative z-10 flex min-h-[28rem] max-w-2xl flex-col justify-end">
             <ChapterLabel number="10" label="BEGIN AGAIN" />

@@ -10,46 +10,49 @@ import Footer from '@/components/Footer'
 const ease = [0.22, 1, 0.36, 1] as const
 
 const personalities = [
-  { title: 'Culture', image: '/images/real-photos/library/cultural-celebration.jpg' },
-  { title: 'Food', image: '/images/real-photos/library/authentic-local-cuisine.jpg' },
-  { title: 'Adventure', image: '/images/real-photos/library/adventure-activities.png' },
-  { title: 'Wildlife', image: '/images/real-photos/library/epic-landscape.jpg' },
-  { title: 'Ocean', image: '/images/real-photos/library/couple-ocean-mountains.jpg' },
-  { title: 'Luxury', image: '/images/real-photos/library/luxury-boutique-hotel.jpg' },
+  { title: 'Culture', image: '/images/real-photos/library/cultural-celebration.jpg', objectPosition: 'center 45%' },
+  { title: 'Food', image: '/images/real-photos/library/authentic-local-market.jpg', objectPosition: 'center 55%' },
+  { title: 'Adventure', image: '/images/real-photos/library/small-group-travellers.jpg', objectPosition: 'center 40%' },
+  { title: 'Wildlife', image: '/images/real-photos/library/guide-explaining-culture.jpg', objectPosition: 'center 40%' },
+  { title: 'Ocean', image: '/images/real-photos/library/hidden-destination.jpg', objectPosition: 'center 60%' },
+  { title: 'Luxury', image: '/images/real-photos/library/luxury-travel-beginning.jpg', objectPosition: 'center 50%' },
 ]
 
 const chapters = [
-  { title: 'Mountains', image: '/images/real-photos/library/epic-landscape.jpg' },
-  { title: 'Markets', image: '/images/real-photos/library/authentic-local-market.jpg' },
-  { title: 'Coastlines', image: '/images/real-photos/library/couple-ocean-mountains.jpg' },
-  { title: 'Wildlife', image: '/images/real-photos/library/beautiful-location.jpg' },
-  { title: 'Hidden Streets', image: '/images/real-photos/library/village-streets.jpg' },
+  { title: 'Mountains', image: '/images/real-photos/library/epic-landscape.jpg', objectPosition: 'center 40%' },
+  { title: 'Markets', image: '/images/real-photos/library/village-streets.jpg', objectPosition: 'center 50%' },
+  { title: 'Coastlines', image: '/images/real-photos/library/traveller-sunset.jpg', objectPosition: 'center 60%' },
+  { title: 'Wildlife', image: '/images/real-photos/library/beautiful-location.jpg', objectPosition: 'center 45%' },
+  { title: 'Hidden Streets', image: '/images/real-photos/library/traveller-local-family.jpg', objectPosition: 'center 55%' },
 ]
 
 const signatures = [
   {
     title: 'A Table You Remember',
     image: '/images/real-photos/library/authentic-local-cuisine.jpg',
+    objectPosition: 'center 55%',
     copy: 'Flavours, stories, and the people who make a place unforgettable.',
   },
   {
     title: 'A Door Opens',
-    image: '/images/real-photos/library/traveller-talking-locals.jpg',
+    image: '/images/real-photos/library/traveller-local-family-1.jpg',
+    objectPosition: 'center 55%',
     copy: 'Cultural encounters shaped with care, context, and welcome.',
   },
   {
     title: 'The Edge of Wonder',
     image: '/images/real-photos/library/adventure-activities.png',
+    objectPosition: 'center 35%',
     copy: 'Adventure with rhythm, restraint, and a sense of discovery.',
   },
 ]
 
 const gallery = [
-  '/images/real-photos/library/street-photography.webp',
-  '/images/real-photos/library/luxury-travel-beginning.jpg',
-  '/images/real-photos/library/epic-landscape.jpg',
-  '/images/real-photos/library/cultural-celebration.jpg',
-  '/images/real-photos/library/authentic-local-cuisine.jpg',
+  { image: '/images/real-photos/library/street-photography.webp', objectPosition: 'center 55%' },
+  { image: '/images/real-photos/library/solo-sunrise.jpg', objectPosition: 'center 45%' },
+  { image: '/images/real-photos/library/artisan-at-work.jpg', objectPosition: 'center 50%' },
+  { image: '/images/real-photos/library/warm-storytelling.jpg', objectPosition: 'center 45%' },
+  { image: '/images/real-photos/library/cooking-together.jpg', objectPosition: 'center 55%' },
 ]
 
 function Reveal({
@@ -80,10 +83,12 @@ function ImageCard({
   image,
   title,
   className = '',
+  objectPosition = 'center center',
 }: {
   image: string
   title: string
   className?: string
+  objectPosition?: string
 }) {
   return (
     <motion.article
@@ -97,6 +102,7 @@ function ImageCard({
         fill
         sizes="(min-width: 1024px) 33vw, 100vw"
         className="object-cover opacity-[0.86] saturate-[0.92] transition-transform duration-[900ms] ease-out group-hover:scale-[1.035]"
+        style={{ objectPosition }}
       />
       <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(2,15,18,0.06),rgba(2,15,18,0.78)),radial-gradient(ellipse_at_60%_22%,rgba(212,175,55,0.13),transparent_34%)]" />
       <div className="absolute bottom-5 left-5 right-5 flex items-center justify-between">
@@ -156,7 +162,7 @@ export default function ExperiencesPage() {
           <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
             {personalities.map((item, index) => (
               <Reveal key={item.title} delay={index * 0.04}>
-                <ImageCard image={item.image} title={item.title} className="min-h-[22rem]" />
+                <ImageCard image={item.image} title={item.title} objectPosition={item.objectPosition} className="min-h-[22rem]" />
               </Reveal>
             ))}
           </div>
@@ -172,7 +178,7 @@ export default function ExperiencesPage() {
               fill
               sizes="100vw"
               className="object-cover opacity-[0.64] saturate-[0.9]"
-              style={{ objectPosition: index === 1 ? 'center center' : 'center' }}
+              style={{ objectPosition: chapter.objectPosition }}
             />
             <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_28%_50%,rgba(2,15,18,0.78),transparent_48%),linear-gradient(90deg,rgba(2,15,18,0.9),rgba(2,15,18,0.28))]" />
             <div className="relative z-10 mx-auto w-full max-w-7xl">
@@ -204,6 +210,7 @@ export default function ExperiencesPage() {
                     fill
                     sizes="100vw"
                     className="object-cover opacity-[0.72] saturate-[0.92] transition-transform duration-[900ms] group-hover:scale-[1.025]"
+                    style={{ objectPosition: item.objectPosition }}
                   />
                   <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_28%_54%,rgba(2,15,18,0.82),transparent_48%),linear-gradient(90deg,rgba(2,15,18,0.92),rgba(2,15,18,0.18))]" />
                   <div className="relative z-10 flex min-h-[28rem] max-w-2xl flex-col justify-end p-7 md:p-10">
@@ -255,9 +262,9 @@ export default function ExperiencesPage() {
             <h2 className="mt-display text-5xl leading-tight md:text-7xl">Fragments of a larger story.</h2>
           </Reveal>
           <div className="grid gap-5 md:grid-cols-6">
-            {gallery.map((image, index) => (
-              <Reveal key={image} delay={index * 0.05} className={index === 0 || index === 2 ? 'md:col-span-3' : 'md:col-span-2'}>
-                <ImageCard image={image} title={['Neon rain', 'Golden ascent', 'Northern quiet', 'Shared rituals', 'Local table'][index]} className={index === 0 || index === 2 ? 'min-h-[30rem]' : 'min-h-[22rem]'} />
+            {gallery.map((item, index) => (
+              <Reveal key={item.image} delay={index * 0.05} className={index === 0 || index === 2 ? 'md:col-span-3' : 'md:col-span-2'}>
+                <ImageCard image={item.image} objectPosition={item.objectPosition} title={['Neon rain', 'Golden ascent', 'Northern quiet', 'Shared rituals', 'Local table'][index]} className={index === 0 || index === 2 ? 'min-h-[30rem]' : 'min-h-[22rem]'} />
               </Reveal>
             ))}
           </div>
@@ -265,7 +272,7 @@ export default function ExperiencesPage() {
       </section>
 
       <section className="relative flex min-h-[72vh] items-center overflow-hidden px-6 py-20 md:px-8 md:py-28">
-        <Image src="/images/real-photos/library/couple-ocean-mountains.jpg" alt="" fill sizes="100vw" className="object-cover opacity-[0.48] saturate-[0.9]" />
+        <Image src="/images/real-photos/library/couple-ocean-mountains.jpg" alt="" fill sizes="100vw" className="object-cover opacity-[0.48] saturate-[0.9]" style={{ objectPosition: 'center 60%' }} />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_34%_54%,rgba(2,15,18,0.82),transparent_48%),linear-gradient(90deg,rgba(2,15,18,0.9),rgba(2,15,18,0.32))]" />
         <div className="relative z-10 mx-auto w-full max-w-7xl">
           <Reveal className="max-w-4xl">
