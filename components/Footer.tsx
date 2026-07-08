@@ -2,7 +2,7 @@
 
 import { motion, useReducedMotion } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
-import Image from 'next/image'
+import BrandLogo from './BrandLogo'
 
 export default function Footer() {
   const prefersReducedMotion = useReducedMotion()
@@ -26,19 +26,7 @@ export default function Footer() {
               viewport={{ once: true, amount: 0.24 }}
               className="relative flex items-center gap-3"
             >
-              <Image
-                src="/images/madras-trails-logo.png"
-                alt="MadrasTrails"
-                width={188}
-                height={37}
-                className="h-11 w-auto object-contain"
-              />
-              <span
-                aria-hidden="true"
-                className="pointer-events-none absolute left-[12.95rem] top-[0.68rem] z-[2] text-[8px] font-semibold leading-none text-[#D4AF37]"
-              >
-                ™
-              </span>
+              <BrandLogo />
             </motion.div>
 
             {/* Part B: Newsletter Section */}

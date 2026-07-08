@@ -194,13 +194,27 @@
   }
 
   .mt-signature {
-    font-family: var(--font-signature), 'Cormorant Garamond', Georgia, serif;
-    font-weight: 400;
-    font-style: italic;
-    letter-spacing: 0.012em;
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.12em;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: geometricPrecision;
+  }
+
+  .mt-signature-a {
+    font-family: var(--font-fraunces), Georgia, serif;
+    font-style: italic;
+    font-weight: 600;
+    font-size: 0.36em;
+    letter-spacing: 0;
+    transform: translateY(-0.08em);
+  }
+
+  .mt-signature-local {
+    font-family: var(--font-signature), 'Satisfy', 'Segoe Script', cursive;
+    font-weight: 400;
+    letter-spacing: 0.004em;
   }
 
   .mt-destinations-bg {

@@ -257,13 +257,14 @@ export default function Hero() {
           {/* Secondary Headline */}
           <h2
             data-hero-reveal="signature"
-            className="mt-signature pl-[16px] text-[4rem] md:text-[4.9rem] lg:text-[5.9rem] text-[#D4AF37] leading-[0.84] -mt-4 md:-mt-5 mb-5 md:mb-6"
+            className="mt-signature pl-[14px] text-[4.15rem] md:text-[5.05rem] lg:text-[6.05rem] text-[#D4AF37] leading-[0.86] -mt-4 md:-mt-5 mb-5 md:mb-6"
             style={{
               opacity: 0,
               textShadow: '0 9px 22px rgba(0, 0, 0, 0.2)',
             }}
           >
-            a Local
+            <span className="mt-signature-a">a</span>
+            <span className="mt-signature-local">Local</span>
           </h2>
 
           {/* Decorative divider */}
