@@ -5,6 +5,7 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Lenis from 'lenis'
 import { motion, useReducedMotion } from 'framer-motion'
+import Image from 'next/image'
 import { useEffect, useRef } from 'react'
 
 export default function Hero() {
@@ -23,8 +24,7 @@ export default function Hero() {
     const ctx = gsap.context(() => {
       const q = gsap.utils.selector(section)
       const video = videoEl
-      const title = q('[data-hero-reveal="title"]')
-      const signature = q('[data-hero-reveal="signature"]')
+      const title = q('[data-hero-reveal="heading"]')
       const description = q('[data-hero-reveal="description"]')
       const ctas = q('[data-hero-reveal="ctas"]')
       const divider = q('[data-hero-reveal="divider"]')
@@ -32,7 +32,7 @@ export default function Hero() {
       const dividerDiamond = q('[data-hero-divider-diamond]')
 
       if (prefersReducedMotion) {
-        gsap.set([video, title, signature, description, ctas, divider], {
+        gsap.set([video, title, description, ctas, divider], {
           opacity: 1,
           y: 0,
           scale: 1,
@@ -45,7 +45,6 @@ export default function Hero() {
 
       gsap.set(video, { opacity: 0 })
       gsap.set(title, { opacity: 0, y: 22, scale: 0.992 })
-      gsap.set(signature, { opacity: 0, y: 9, x: -2, scale: 0.992, clipPath: 'inset(0 100% 0 0)' })
       gsap.set(description, { opacity: 0, y: 12 })
       gsap.set(ctas, { opacity: 0, y: 12, scale: 0.995 })
       gsap.set(divider, { opacity: 1 })
@@ -59,7 +58,6 @@ export default function Hero() {
       timeline
         .to(video, { opacity: 1, duration: 1.45 }, 0.05)
         .to(title, { opacity: 1, y: 0, scale: 1, duration: 1.05 }, 0.84)
-        .to(signature, { opacity: 1, y: 0, x: 0, scale: 1, clipPath: 'inset(0 0% 0 0)', duration: 1.35, ease: 'power3.out' }, 1.18)
         .to(dividerLines, { scaleX: 1, duration: 0.9, stagger: 0.04 }, 1.92)
         .to(dividerDiamond, { opacity: 1, scale: 1, duration: 0.58 }, 2.14)
         .to(description, { opacity: 1, y: 0, duration: 0.84 }, 2.36)
@@ -249,22 +247,17 @@ export default function Hero() {
       >
         <div className="mt-hero-exit-group relative max-w-[43rem]">
           <div className="mt-hero-camera-copy mt-hero-typography relative flex flex-col">
-          {/* Main Headline */}
-          <h1 data-hero-reveal="title" className="mt-display text-5xl md:text-6xl lg:text-7xl text-[#FAF4E8] leading-[0.95] mb-0" style={{ opacity: 0, textShadow: '0 14px 34px rgba(0, 0, 0, 0.34)' }}>
-            Travel Like
-          </h1>
-
-          {/* Secondary Headline */}
-          <h2
-            data-hero-reveal="signature"
-            className="mt-signature pl-[38px] md:pl-[48px] lg:pl-[60px] text-[2.65rem] md:text-[3.05rem] lg:text-[3.55rem] text-[#D4AF37] leading-[1.05] mt-3 md:mt-4 mb-5 md:mb-6"
-            style={{
-              opacity: 0,
-              textShadow: '0 9px 22px rgba(0, 0, 0, 0.2)',
-            }}
-          >
-            A Local
-          </h2>
+          {/* Main Headline Artwork */}
+          <div data-hero-reveal="heading" className="mb-5 md:mb-6 w-[320px] md:w-[480px] lg:w-[600px]" style={{ opacity: 0 }}>
+            <Image
+              src="/images/homepage/hero-travel-like-local.svg"
+              alt="Travel Like A Local"
+              width={1024}
+              height={576}
+              priority
+              className="h-auto w-full object-contain"
+            />
+          </div>
 
           {/* Decorative divider */}
           <div data-hero-reveal="divider" className="flex items-center gap-0 mb-5 md:mb-6" style={{ width: '248px' }}>
