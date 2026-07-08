@@ -44,8 +44,8 @@ export default function Hero() {
       }
 
       gsap.set(video, { opacity: 0 })
-      gsap.set(title, { opacity: 0, y: 18, scale: 0.99 })
-      gsap.set(signature, { opacity: 0, y: 12, x: -4, scale: 0.985, clipPath: 'inset(0 100% 0 0)' })
+      gsap.set(title, { opacity: 0, y: 22, scale: 0.992 })
+      gsap.set(signature, { opacity: 0, y: 9, x: -2, scale: 0.992, clipPath: 'inset(0 100% 0 0)' })
       gsap.set(description, { opacity: 0, y: 12 })
       gsap.set(ctas, { opacity: 0, y: 12, scale: 0.995 })
       gsap.set(divider, { opacity: 1 })
@@ -57,13 +57,13 @@ export default function Hero() {
       })
 
       timeline
-        .to(video, { opacity: 1, duration: 1.35 }, 0.05)
-        .to(title, { opacity: 1, y: 0, scale: 1, duration: 0.95 }, 0.88)
-        .to(signature, { opacity: 1, y: 0, x: 0, scale: 1, clipPath: 'inset(0 0% 0 0)', duration: 1.1, ease: 'power3.out' }, 1.2)
-        .to(dividerLines, { scaleX: 1, duration: 0.82, stagger: 0.04 }, 1.78)
-        .to(dividerDiamond, { opacity: 1, scale: 1, duration: 0.52 }, 1.98)
-        .to(description, { opacity: 1, y: 0, duration: 0.78 }, 2.26)
-        .to(ctas, { opacity: 1, y: 0, scale: 1, duration: 0.82 }, 2.58)
+        .to(video, { opacity: 1, duration: 1.45 }, 0.05)
+        .to(title, { opacity: 1, y: 0, scale: 1, duration: 1.05 }, 0.84)
+        .to(signature, { opacity: 1, y: 0, x: 0, scale: 1, clipPath: 'inset(0 0% 0 0)', duration: 1.35, ease: 'power3.out' }, 1.18)
+        .to(dividerLines, { scaleX: 1, duration: 0.9, stagger: 0.04 }, 1.92)
+        .to(dividerDiamond, { opacity: 1, scale: 1, duration: 0.58 }, 2.14)
+        .to(description, { opacity: 1, y: 0, duration: 0.84 }, 2.36)
+        .to(ctas, { opacity: 1, y: 0, scale: 1, duration: 0.9 }, 2.7)
     }, section)
 
     return () => ctx.revert()
@@ -375,10 +375,10 @@ export default function Hero() {
           {/* Secondary Headline */}
           <h2
             data-hero-reveal="signature"
-            className="mt-signature pl-[18px] text-[4.45rem] md:text-[5.45rem] lg:text-[6.55rem] text-[#D4AF37] leading-[0.78] -mt-5 md:-mt-6 mb-5 md:mb-6"
+            className="mt-signature pl-[20px] text-[4.25rem] md:text-[5.2rem] lg:text-[6.25rem] text-[#D4AF37] leading-[0.82] -mt-4 md:-mt-5 mb-5 md:mb-6"
             style={{
               opacity: 0,
-              textShadow: '0 10px 24px rgba(0, 0, 0, 0.22)',
+              textShadow: '0 9px 22px rgba(0, 0, 0, 0.2)',
             }}
           >
             a Local
@@ -401,7 +401,7 @@ export default function Hero() {
 
           {/* CTA Buttons */}
           <div data-hero-reveal="ctas" className="mt-hero-actions flex flex-col sm:flex-row gap-4 items-start sm:items-center" style={{ opacity: 0 }}>
-            <button onClick={handleJourneyClick} className="mt-gold-sheen mt-ui group inline-flex items-center justify-center gap-2 rounded-[4px] bg-[#C9A24A] px-7 py-3 text-xs text-[#071B24] shadow-[0_14px_32px_rgba(201,162,74,0.2)] hover:bg-[#D4B860] hover:shadow-[0_18px_42px_rgba(201,162,74,0.26)] md:px-8">
+            <button onClick={handleJourneyClick} className="mt-gold-sheen mt-ui group inline-flex items-center justify-center gap-2 rounded-[4px] bg-[#C9A24A] px-7 py-3 text-xs text-[#071B24] shadow-[0_12px_28px_rgba(201,162,74,0.18)] hover:bg-[#D4B860] hover:shadow-[0_17px_38px_rgba(201,162,74,0.24),0_0_22px_rgba(212,175,55,0.1)] md:px-8">
               <span>Start Your Journey</span>
               <span className={ctaArrowClass}>→</span>
             </button>
@@ -417,21 +417,16 @@ export default function Hero() {
       </div>
 
       {/* Scroll Indicator */}
-      <motion.div
-        animate={prefersReducedMotion ? undefined : { y: [0, 5, 0] }}
-        transition={prefersReducedMotion ? undefined : { duration: 2.8, repeat: Infinity, ease: [0.22, 1, 0.36, 1] }}
-        className="absolute right-6 top-1/2 z-20 hidden translate-y-10 flex-col items-center gap-3 text-[10px] text-[#C9A24A] md:flex lg:right-8"
-      >
-        <div className="flex flex-col items-center gap-2">
-          <div className="h-2 w-2 rounded-full bg-white" />
-          <div className="h-1.5 w-1.5 rounded-full border border-[#C9A24A]/80" />
-          <div className="h-1.5 w-1.5 rounded-full border border-[#C9A24A]/70" />
-          <div className="h-1.5 w-1.5 rounded-full border border-[#C9A24A]/60" />
-          <div className="h-1.5 w-1.5 rounded-full border border-[#C9A24A]/50" />
+      <div className="absolute right-6 top-1/2 z-20 hidden translate-y-10 flex-col items-center gap-4 text-[10px] text-[#C9A24A] md:flex lg:right-8">
+        <div className="relative h-24 w-px overflow-hidden bg-[#C9A24A]/18">
+          <motion.div
+            animate={prefersReducedMotion ? undefined : { y: ['-100%', '125%'] }}
+            transition={prefersReducedMotion ? undefined : { duration: 3.8, repeat: Infinity, ease: [0.45, 0, 0.2, 1], repeatDelay: 0.6 }}
+            className="absolute left-0 top-0 h-10 w-px bg-gradient-to-b from-transparent via-[#D4AF37]/75 to-transparent"
+          />
         </div>
-        <div className="h-16 w-px bg-gradient-to-b from-[#C9A24A]/80 to-[#C9A24A]/25" />
-        <span className="mt-ui origin-center rotate-[-90deg] whitespace-nowrap tracking-[0.28em]">SCROLL</span>
-      </motion.div>
+        <span className="mt-ui origin-center rotate-[-90deg] whitespace-nowrap tracking-[0.3em] text-[#C9A24A]/78">SCROLL</span>
+      </div>
     </section>
   )
 }

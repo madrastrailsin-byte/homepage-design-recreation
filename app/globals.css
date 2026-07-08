@@ -194,10 +194,11 @@
   }
 
   .mt-signature {
-    font-family: var(--font-signature), 'Dancing Script', 'Segoe Script', cursive;
+    font-family: var(--font-signature), 'Parisienne', 'Segoe Script', cursive;
     font-weight: 400;
-    letter-spacing: 0.006em;
+    letter-spacing: 0.004em;
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
     text-rendering: geometricPrecision;
   }
 
@@ -226,7 +227,7 @@
   }
 
   .mt-hero-kenburns {
-    animation: mt-hero-kenburns 18s cubic-bezier(0.45, 0, 0.2, 1) infinite alternate;
+    animation: mt-hero-kenburns 20s cubic-bezier(0.45, 0, 0.2, 1) infinite alternate;
     transform-origin: 70% 45%;
     will-change: transform;
   }
@@ -451,7 +452,7 @@
     }
 
     to {
-      transform: scale(1.035) translate3d(-0.35%, -0.25%, 0);
+      transform: scale(1.026) translate3d(-0.25%, -0.18%, 0);
     }
   }
 }
