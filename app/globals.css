@@ -479,6 +479,101 @@
       transform: translate3d(0.6%, 0.4%, 0);
     }
   }
+
+  .mt-scene03-stage {
+    aspect-ratio: 1717 / 916;
+    min-height: clamp(32rem, 53.2vw, 57.25rem);
+  }
+
+  .mt-scene03-grid {
+    min-height: inherit;
+  }
+
+  .mt-scene03-copy-column {
+    min-height: inherit;
+  }
+
+  .mt-scene03-visual {
+    min-height: inherit;
+  }
+
+  .mt-scene03-image-shell {
+    transform: translateZ(0);
+  }
+
+  .mt-scene03-hotel-image {
+    transform: scale(1) translateZ(0);
+    transition: transform 1.35s cubic-bezier(0.22, 1, 0.36, 1);
+    filter: saturate(0.96) contrast(1.03);
+  }
+
+  .mt-scene03-image-shell:hover .mt-scene03-hotel-image {
+    transform: scale(1.018) translateZ(0);
+  }
+
+  .mt-scene03-image-feather {
+    background:
+      linear-gradient(
+        to right,
+        #03191D 0%,
+        rgba(3, 25, 29, 0.94) 7%,
+        rgba(3, 25, 29, 0.62) 16%,
+        rgba(3, 25, 29, 0.28) 28%,
+        rgba(3, 25, 29, 0.08) 40%,
+        transparent 52%
+      );
+  }
+
+  .mt-scene03-image-vignette {
+    background:
+      radial-gradient(ellipse at 72% 42%, transparent 34%, rgba(2, 15, 18, 0.12) 72%, rgba(2, 15, 18, 0.28) 100%),
+      linear-gradient(180deg, rgba(2, 15, 18, 0.08), transparent 28%, rgba(2, 15, 18, 0.18));
+  }
+
+  .mt-scene03-panel {
+    animation: mt-scene03-panel-float 7.2s cubic-bezier(0.45, 0, 0.2, 1) infinite;
+  }
+
+  .mt-scene03-support-card {
+    opacity: 0.92;
+    transition:
+      opacity 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+      border-color 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .mt-scene03-support-card:hover {
+    opacity: 1;
+  }
+
+  @keyframes mt-scene03-panel-float {
+    0%,
+    100% {
+      transform: translate3d(0, 0, 0);
+    }
+
+    50% {
+      transform: translate3d(0, -5px, 0);
+    }
+  }
+
+  @media (max-width: 1023px) {
+    .mt-scene03-stage {
+      aspect-ratio: auto;
+      min-height: auto;
+    }
+
+    .mt-scene03-support {
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .mt-scene03-support-card {
+      flex: 1 1 calc(33.333% - 0.35rem);
+      min-width: 6.5rem;
+    }
+  }
 }
 
 main.bg-\[\#0D1117\],
@@ -539,6 +634,15 @@ main.bg-\[\#0D1117\] {
 
   .mt-destinations-contour::after {
     animation: none !important;
+    transform: translateZ(0) !important;
+  }
+
+  .mt-scene03-panel {
+    animation: none !important;
+    transform: translateZ(0) !important;
+  }
+
+  .mt-scene03-image-shell:hover .mt-scene03-hotel-image {
     transform: translateZ(0) !important;
   }
 }
