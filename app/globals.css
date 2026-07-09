@@ -460,6 +460,11 @@
     filter: saturate(0.94) contrast(1.04) sepia(0.035);
   }
 
+  @keyframes twinkle {
+    0%, 100% { opacity: 0.12; }
+    50% { opacity: 0.80; }
+  }
+
   @keyframes mt-hero-kenburns {
     from {
       transform: scale(1) translateZ(0);
