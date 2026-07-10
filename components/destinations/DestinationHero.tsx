@@ -167,8 +167,8 @@ export default function DestinationHero({ children }: DestinationHeroProps) {
         </motion.p>
 
         <motion.h1
-          className="mt-display text-[#F2E7CC] leading-[0.96] tracking-[-0.025em] mb-5"
-          style={{ fontSize: 'clamp(2.9rem, 6.8vw, 5.8rem)' }}
+          className="mt-display text-[#F2E7CC] leading-[1.1] tracking-[-0.015em] mb-5"
+          style={{ fontSize: 'clamp(0.75rem, 1.36vw, 1.16rem)' }}
           custom={1}
           variants={LINE}
           initial="hidden"
