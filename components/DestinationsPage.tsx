@@ -36,6 +36,7 @@ export default function DestinationsPage() {
           <Globe3D
             selectedDestination={selectedDestination.id}
             previousDestination={previousDestinationId}
+            onSelectDestination={selectDestination}
           />
         </div>
 
