@@ -6,66 +6,11 @@ import DestinationHero from './destinations/DestinationHero'
 import Globe3D from './destinations/Globe3D'
 import DestinationPanel from './destinations/DestinationPanel'
 import DestinationRail from './destinations/DestinationRail'
+import { destinations } from '@/lib/destinations'
 
-const destinationsData = [
-  {
-    id: 'japan',
-    name: 'Japan',
-    label: 'Land of Tradition',
-    description: 'Experience ancient temples, modern cities, and culinary excellence.',
-    highlights: ['Tokyo', 'Kyoto', 'Osaka'],
-    image: '/images/japan-neon-city.png',
-    color: '#C9A24A',
-  },
-  {
-    id: 'singapore',
-    name: 'Singapore',
-    label: 'City of Wonders',
-    description: 'Gardens, fusion cuisine, and ultra-modern architecture.',
-    highlights: ['Marina Bay', 'Gardens by the Bay', 'Orchard Road'],
-    image: '/images/japan-neon-city.png',
-    color: '#D4AF37',
-  },
-  {
-    id: 'bali',
-    name: 'Bali',
-    label: 'Island Paradise',
-    description: 'Temples, beaches, and spiritual retreats in tropical bliss.',
-    highlights: ['Ubud', 'Beach Clubs', 'Rice Terraces'],
-    image: '/images/japan-neon-city.png',
-    color: '#C9A24A',
-  },
-  {
-    id: 'maldives',
-    name: 'Maldives',
-    label: 'Crystal Waters',
-    description: 'Overwater bungalows and pristine coral reefs.',
-    highlights: ['Male', 'Atolls', 'Water Sports'],
-    image: '/images/japan-neon-city.png',
-    color: '#D4AF37',
-  },
-  {
-    id: 'dubai',
-    name: 'Dubai',
-    label: 'Desert Luxury',
-    description: 'Towering skyscrapers, desert safaris, and world-class shopping.',
-    highlights: ['Burj Khalifa', 'Palm Jumeirah', 'Gold Souk'],
-    image: '/images/japan-neon-city.png',
-    color: '#C9A24A',
-  },
-  {
-    id: 'switzerland',
-    name: 'Switzerland',
-    label: 'Alpine Elegance',
-    description: 'Mountains, charming villages, and Swiss precision.',
-    highlights: ['Zermatt', 'Interlaken', 'Lucerne'],
-    image: '/images/japan-neon-city.png',
-    color: '#D4AF37',
-  },
-]
 
 export default function DestinationsPage() {
-  const [selectedDestination, setSelectedDestination] = useState(destinationsData[0])
+  const [selectedDestination, setSelectedDestination] = useState(destinations[0])
   const [mounted, setMounted] = useState(false)
   const prefersReducedMotion = useReducedMotion()
 
@@ -106,10 +51,10 @@ export default function DestinationsPage() {
 
       {/* Bottom Destination Rail */}
       <DestinationRail
-        destinations={destinationsData}
+        destinations={destinations}
         selectedId={selectedDestination.id}
         onSelect={(id) => {
-          const dest = destinationsData.find((d) => d.id === id)
+          const dest = destinations.find((d) => d.id === id)
           if (dest) setSelectedDestination(dest)
         }}
       />
