@@ -9,43 +9,41 @@ import { useReducedMotion } from 'framer-motion'
 interface GlobeProps {
   selectedDestination?: string
 }
+const ATMO_VERT = `
+varying vec3 vNormal;
+varying vec3 vViewDirection;
 
-const ATMO_VERT = /* glsl */ `
-  varying vec3 vNormalView;
-  varying vec3 vViewDir;
+void main() {
+    vec4 worldPosition = modelMatrix * vec4(position,1.0);
 
-  void main() {
-    vNormalView = normalize(normalMatrix * normal);
-    vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
-    vViewDir = normalize(-mvPosition.xyz);
-    gl_Position = projectionMatrix * mvPosition;
-  }
-`
+    vNormal = normalize(mat3(modelMatrix) * normal);
+    vViewDirection = normalize(cameraPosition - worldPosition.xyz);
 
-const ATMO_FRAG = /* glsl */ `
-  varying vec3 vNormalView;
-  varying vec3 vViewDir;
+    gl_Position = projectionMatrix * viewMatrix * worldPosition;
+}
+`;
 
-  void main() {
-    float fresnel = pow(
-      clamp(1.0 - dot(normalize(vNormalView), normalize(vViewDir)), 0.0, 1.0),
-      7.5
-    );
+const ATMO_FRAG = `
+varying vec3 vNormal;
+varying vec3 vViewDirection;
 
-    vec3 colour = vec3(0.18, 0.48, 0.95);
-    float alpha = fresnel * 0.04;
+void main() {
 
-    gl_FragColor = vec4(colour, alpha);
-  }
-`
+    float rim = 1.0 - max(dot(normalize(vNormal), normalize(vViewDirection)),0.0);
+    rim = pow(rim,4.6);
 
+    vec3 colour = vec3(0.33,0.63,1.0);
+
+    gl_FragColor = vec4(colour, rim * 0.11);
+}
+`;
 function SceneSetup() {
   const { gl, scene } = useThree()
 
   useEffect(() => {
     gl.toneMapping = THREE.ACESFilmicToneMapping
-    gl.toneMappingExposure = 1.05
-    ;(scene as any).environmentIntensity = 0.22
+    gl.toneMappingExposure = 0.9
+    ;(scene as any).environmentIntensity = 0.42
   }, [gl, scene])
 
   return null
@@ -69,16 +67,16 @@ function StarBackground() {
 }
 
 function NasaEarth() {
+  const tiltRef = useRef<THREE.Group>(null)
   const globeRef = useRef<THREE.Group>(null)
   const clouds1Ref = useRef<THREE.Mesh>(null)
   const clouds2Ref = useRef<THREE.Mesh>(null)
   const prefersReducedMotion = useReducedMotion()
 
-  const [dayTex, nightTex, cloudTex, normalTex, specularTex] = useLoader(
+  const [dayTex, cloudTex, normalTex, specularTex] = useLoader(
     THREE.TextureLoader,
     [
       '/textures/earth_day_8k.png',
-      '/textures/earth_night_8k.png',
       '/textures/earth_clouds_8k.jpg',
       '/textures/earth_normal_8k.png',
       '/textures/earth_specular_8k.png',
@@ -86,7 +84,7 @@ function NasaEarth() {
   )
 
   useMemo(() => {
-    for (const texture of [dayTex, nightTex, cloudTex]) {
+    for (const texture of [dayTex, cloudTex]) {
       texture.colorSpace = THREE.SRGBColorSpace
       texture.wrapS = THREE.RepeatWrapping
       texture.wrapT = THREE.ClampToEdgeWrapping
@@ -101,128 +99,170 @@ function NasaEarth() {
       texture.anisotropy = 16
       texture.needsUpdate = true
     }
-  }, [dayTex, nightTex, cloudTex, normalTex, specularTex])
+  }, [dayTex, cloudTex, normalTex, specularTex])
 
   const earthMaterial = useMemo(
     () =>
       new THREE.MeshStandardMaterial({
         map: dayTex,
         normalMap: normalTex,
-        normalScale: new THREE.Vector2(0.025, 0.025),
+        normalScale: new THREE.Vector2(0.075, 0.075),
         roughnessMap: specularTex,
-        roughness: 0.72,
+        roughness: 0.60,
         metalness: 0,
-        envMapIntensity: 0.12,
+        envMapIntensity: 0.48,
+        color: new THREE.Color('#e8eef2'),
       }),
     [dayTex, normalTex, specularTex],
   )
 
-  const atmosphereMaterial = useMemo(
-    () =>
-      new THREE.ShaderMaterial({
-        vertexShader: ATMO_VERT,
-        fragmentShader: ATMO_FRAG,
-        transparent: true,
-        side: THREE.FrontSide,
-        depthWrite: false,
-        blending: THREE.AdditiveBlending,
-      }),
-    [],
-  )
+const atmosphereMaterial = useMemo(
+  () =>
+    new THREE.ShaderMaterial({
+      vertexShader: ATMO_VERT,
+      fragmentShader: ATMO_FRAG,
+      transparent: true,
+      side: THREE.BackSide,
+      depthWrite: false,
+      blending: THREE.AdditiveBlending,
+    }),
+  [],
+)
 
   useEffect(() => {
-    return () => {
-      earthMaterial.dispose()
-      atmosphereMaterial.dispose()
-    }
-  }, [earthMaterial, atmosphereMaterial])
+  return () => {
+    earthMaterial.dispose()
+    atmosphereMaterial.dispose()
+  }
+}, [earthMaterial])
 
   useFrame((_, delta) => {
-    if (prefersReducedMotion) return
-    // Globe auto-rotation disabled; clouds drift slowly for visual depth
-    if (clouds1Ref.current) clouds1Ref.current.rotation.y += delta * 0.018
-    if (clouds2Ref.current) clouds2Ref.current.rotation.y += delta * 0.024
-  })
+  if (prefersReducedMotion) return
 
-  const R = 5.525
-  const GROUP_Y = 0.55
+  if (globeRef.current) {
+    globeRef.current.rotation.y += delta * 0.0065
+  }
+
+  if (clouds1Ref.current) {
+  clouds1Ref.current.rotation.y += delta * 0.006
+}
+
+if (clouds2Ref.current) {
+  clouds2Ref.current.rotation.y += delta * 0.009
+}
+})
+
+  const R = 7.69
+  const GROUP_Y = -0.7
 
   return (
-    <group ref={globeRef} position={[0, GROUP_Y, 0]} rotation={[0, -1.48, 0]}>
+  <group
+    ref={tiltRef}
+    position={[-0.2, GROUP_Y, 0]}
+    rotation={[0, 0, THREE.MathUtils.degToRad(-23.4)]}
+  >
+    <group ref={globeRef} rotation={[0, -1.48, 0]}>
       <mesh material={earthMaterial}>
         <sphereGeometry args={[R, 128, 128]} />
       </mesh>
+{/* Glossy ocean-only shell */}
+<mesh renderOrder={1}>
+  <sphereGeometry args={[R * 1.0008, 128, 128]} />
 
-      <mesh>
-        <sphereGeometry args={[R * 1.0015, 128, 128]} />
-        <meshBasicMaterial
-          map={nightTex}
-          transparent
-          opacity={0.32}
-          blending={THREE.AdditiveBlending}
-          depthWrite={false}
-          toneMapped={false}
-          polygonOffset
-          polygonOffsetFactor={-1}
-          polygonOffsetUnits={-1}
-        />
-      </mesh>
+  <meshPhysicalMaterial
+  alphaMap={specularTex}
+  transparent
+  opacity={0.18}
+  color="#0a5b84"
+  roughness={0.03}
+  metalness={0.0}
+  clearcoat={1}
+  clearcoatRoughness={0.008}
+  reflectivity={1}
+  envMapIntensity={3.4}
+  ior={1.333}
+  depthWrite={false}
+  blending={THREE.NormalBlending}
+/>
+</mesh>
 
       <mesh ref={clouds1Ref}>
-        <sphereGeometry args={[R * 1.008, 96, 96]} />
-        <meshStandardMaterial
-          map={cloudTex}
-          alphaMap={cloudTex}
-          color="#f3f3ef"
-          transparent
-          opacity={0.54}
-          depthWrite={false}
-          roughness={1}
-          metalness={0}
-        />
-      </mesh>
+  <sphereGeometry args={[R * 1.01, 128, 128]} />
+  <meshPhongMaterial
+    map={cloudTex}
+    alphaMap={cloudTex}
+    color="#eef3f6"
+    transparent
+    opacity={0.48}
+    depthWrite={false}
+    blending={THREE.NormalBlending}
+    shininess={6}
+    emissive="#263442"
+    emissiveIntensity={0.04}
+  />
+</mesh>
 
-      <mesh ref={clouds2Ref}>
-        <sphereGeometry args={[R * 1.015, 64, 64]} />
-        <meshStandardMaterial
-          map={cloudTex}
-          alphaMap={cloudTex}
-          color="#ffffff"
-          transparent
-          opacity={0.16}
-          depthWrite={false}
-          roughness={1}
-          metalness={0}
-        />
-      </mesh>
+<mesh ref={clouds2Ref}>
+  <sphereGeometry args={[R * 1.016, 96, 96]} />
+  <meshPhongMaterial
+    map={cloudTex}
+    alphaMap={cloudTex}
+    color="#dfe8ef"
+    transparent
+    opacity={0.1}
+    depthWrite={false}
+    blending={THREE.NormalBlending}
+    shininess={2}
+    emissive="#1d2a36"
+    emissiveIntensity={0.025}
+  />
+</mesh>
 
-      <mesh material={atmosphereMaterial}>
-        <sphereGeometry args={[R * 1.0035, 64, 64]} />
-      </mesh>
+<mesh material={atmosphereMaterial}>
+  <sphereGeometry args={[R * 1.028, 96, 96]} />
+</mesh>
     </group>
+  </group>
   )
 }
-
 function GlobeScene() {
   return (
     <>
       <SceneSetup />
       <StarBackground />
       <Environment
-        files="/hdr/space_hdri.exr"
-        background={false}
-        environmentIntensity={0.16}
-      />
+      files="/hdri/sunrise-clouds-01.exr"
+      background={false}
+      environmentIntensity={0.42}
+/>
 
-      <ambientLight intensity={0.82} color="#45658f" />
-      <hemisphereLight args={['#dbeaff', '#263b59', 1.35]} />
-      <directionalLight position={[7, 5, 8]} intensity={1.45} color="#fff4df" />
-      <directionalLight position={[-6, 2, -3]} intensity={0.82} color="#709bd5" />
-      <directionalLight position={[0, -3, 4]} intensity={0.32} color="#36577e" />
+      <ambientLight intensity={0.7} color="#7890aa" />
+
+<hemisphereLight
+  args={['#fff0d5', '#1c3048', 1.25]}
+/>
+
+<directionalLight
+  position={[7, 5, 8]}
+  intensity={1.75}
+  color="#ffe3b3"
+/>
+
+<directionalLight
+  position={[-6, 2, 2]}
+  intensity={0.8}
+  color="#739bc5"
+/>
+
+<directionalLight
+  position={[0, -2, 6]}
+  intensity={0.38}
+  color="#547493"
+/>
 
       <OrbitControls
         makeDefault
-        target={[0, 1.5, 0]}
+        target={[-0.2, 0.15, 0]}
         enableZoom={false}
         enablePan={false}
         autoRotate={false}
@@ -232,7 +272,6 @@ function GlobeScene() {
         minPolarAngle={Math.PI * 0.16}
         maxPolarAngle={Math.PI * 0.84}
       />
-
       <NasaEarth />
     </>
   )
@@ -250,7 +289,7 @@ export default function GlobeViewer({ selectedDestination }: GlobeProps) {
   return (
     <div className="h-full w-full overflow-hidden">
       <Canvas
-        camera={{ position: [0.15, 0.1, 12.5], fov: 50 }}
+        camera={{ position: [0.15, 0.55, 15.4], fov: 47 }}
         gl={{
           antialias: true,
           alpha: true,

@@ -88,7 +88,7 @@ export default function DestinationsPage() {
         <AnimatePresence mode="wait">
           <motion.div
             key={selectedDestination.id}
-            className="absolute top-1/2 right-4 md:right-10 lg:right-16 -translate-y-1/2 w-[288px] md:w-[316px] lg:w-[340px]"
+            className="absolute top-1/2 right-2 md:right-4 lg:right-6 -translate-y-1/2 w-[288px] md:w-[316px] lg:w-[340px]"
             style={{ zIndex: 30 }}
             initial={prefersReducedMotion ? {} : { opacity: 0, x: 24, filter: 'blur(8px)' }}
             animate={prefersReducedMotion ? {} : { opacity: 1, x: 0, filter: 'blur(0px)' }}
