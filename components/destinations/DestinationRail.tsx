@@ -89,7 +89,7 @@ export default function DestinationRail({ destinations, selectedId, onSelect }: 
                     <div className="flex items-start justify-between">
                       <div>
                         <p className="mt-eyebrow text-[#C9A24A] text-xs tracking-widest opacity-75 mb-2">
-                          {destination.label.split(' ')[0]}
+                          {destination.tagline.split(' ')[0]}
                         </p>
                         <h3 className="mt-display text-2xl text-[#F2E7CC] leading-tight">{destination.name}</h3>
                       </div>
