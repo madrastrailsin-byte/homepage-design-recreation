@@ -9,6 +9,7 @@ import { destinations } from '@/lib/destinations'
 
 interface GlobeProps {
   selectedDestination?: string
+  previousDestination?: string
 }
 
 interface DestinationMarkerProps {
@@ -19,6 +20,7 @@ interface DestinationMarkerProps {
   selected: boolean
   glowTexture: THREE.Texture
   reducedMotion: boolean
+  onSelect?: (id: string) => void
 }
 
 const ATMO_VERT = `
@@ -135,6 +137,7 @@ function DestinationMarker({
   selected,
   glowTexture,
   reducedMotion,
+  onSelect,
 }: DestinationMarkerProps) {
   const markerRef = useRef<THREE.Group>(null)
   const coreRef = useRef<THREE.Group>(null)
@@ -237,6 +240,10 @@ function DestinationMarker({
         event.stopPropagation()
         setHovered(false)
       }}
+      onClick={(event) => {
+        event.stopPropagation()
+        onSelect?.(id)
+      }}
     >
       <sprite
         ref={glowRef}
@@ -313,13 +320,23 @@ function DestinationMarker({
 
 function NasaEarth({
   selectedDestination,
+  previousDestination,
+  onSelect,
 }: {
   selectedDestination?: string
+  previousDestination?: string
+  onSelect?: (id: string) => void
 }) {
   const tiltRef = useRef<THREE.Group>(null)
   const globeRef = useRef<THREE.Group>(null)
   const clouds1Ref = useRef<THREE.Mesh>(null)
   const clouds2Ref = useRef<THREE.Mesh>(null)
+  const surfaceGlowRef = useRef<THREE.Sprite>(null)
+  const routeLineRef = useRef<THREE.Line>(null)
+  const routePointRef = useRef<THREE.Mesh>(null)
+  const transitionStartedAt = useRef(0)
+  const targetQuaternion = useRef(new THREE.Quaternion())
+  const isAnimatingToDestination = useRef(false)
   const prefersReducedMotion = useReducedMotion()
 
   const [dayTex, cloudTex, normalTex, specularTex] = useLoader(
@@ -388,19 +405,59 @@ function NasaEarth({
     }
   }, [earthMaterial, atmosphereMaterial, glowTexture])
 
-  useFrame((_, delta) => {
-    if (prefersReducedMotion) return
+  useFrame((state, delta) => {
+    const elapsed = state.clock.getElapsedTime()
+    const now = performance.now()
+    const transitionProgress = Math.min(
+      1,
+      Math.max(0, (now - transitionStartedAt.current) / 1900),
+    )
+    const easedProgress = 1 - Math.pow(1 - transitionProgress, 4)
 
     if (globeRef.current) {
-      globeRef.current.rotation.y += delta * 0.0065
+      if (selectedMarker && isAnimatingToDestination.current) {
+        const damping = 1 - Math.exp(-delta * 2.7)
+        globeRef.current.quaternion.slerp(targetQuaternion.current, damping)
+
+        if (
+          transitionProgress >= 1 ||
+          globeRef.current.quaternion.angleTo(targetQuaternion.current) < 0.004
+        ) {
+          globeRef.current.quaternion.copy(targetQuaternion.current)
+          isAnimatingToDestination.current = false
+        }
+      } else if (!selectedMarker && !prefersReducedMotion) {
+        globeRef.current.rotation.y += delta * 0.0065
+      }
     }
 
-    if (clouds1Ref.current) {
-      clouds1Ref.current.rotation.y += delta * 0.006
+    if (!prefersReducedMotion) {
+      if (clouds1Ref.current) clouds1Ref.current.rotation.y += delta * 0.006
+      if (clouds2Ref.current) clouds2Ref.current.rotation.y += delta * 0.009
     }
 
-    if (clouds2Ref.current) {
-      clouds2Ref.current.rotation.y += delta * 0.009
+    if (surfaceGlowRef.current) {
+      const pulse = prefersReducedMotion
+        ? 1
+        : 1 + Math.sin(elapsed * 2.15) * 0.085
+
+      surfaceGlowRef.current.scale.set(1.18 * pulse, 1.18 * pulse, 1)
+      const material = surfaceGlowRef.current.material as THREE.SpriteMaterial
+      material.opacity = selectedMarker ? 0.5 : 0
+    }
+
+    if (routeGeometry && routeLineRef.current) {
+      routeGeometry.geometry.setDrawRange(
+        0,
+        Math.max(2, Math.floor(routeGeometry.points.length * easedProgress)),
+      )
+    }
+
+    if (routeGeometry && routePointRef.current) {
+      routePointRef.current.position.copy(
+        routeGeometry.curve.getPoint(easedProgress),
+      )
+      routePointRef.current.visible = transitionProgress < 1
     }
   })
 
@@ -421,10 +478,70 @@ function NasaEarth({
     [R],
   )
 
+  const selectedMarker = useMemo(
+    () => markerPositions.find((item) => item.id === selectedDestination),
+    [markerPositions, selectedDestination],
+  )
+
+  const previousMarker = useMemo(
+    () => markerPositions.find((item) => item.id === previousDestination),
+    [markerPositions, previousDestination],
+  )
+
+  const routeGeometry = useMemo(() => {
+    if (!selectedMarker || !previousMarker || selectedMarker.id === previousMarker.id) {
+      return null
+    }
+
+    const start = previousMarker.position.clone().normalize().multiplyScalar(R * 1.03)
+    const end = selectedMarker.position.clone().normalize().multiplyScalar(R * 1.03)
+    const middle = start
+      .clone()
+      .add(end)
+      .normalize()
+      .multiplyScalar(R * 1.34)
+
+    const curve = new THREE.QuadraticBezierCurve3(start, middle, end)
+    const points = curve.getPoints(160)
+    const geometry = new THREE.BufferGeometry().setFromPoints(points)
+    geometry.setDrawRange(0, 0)
+
+    return { geometry, curve, points }
+  }, [previousMarker, selectedMarker, R])
+
+  useEffect(() => {
+    if (!selectedMarker || !globeRef.current) return
+
+    const destinationNormal = selectedMarker.position.clone().normalize()
+    const presentationDirection = new THREE.Vector3(-0.16, 0.04, 0.986).normalize()
+
+    targetQuaternion.current.setFromUnitVectors(
+      destinationNormal,
+      presentationDirection,
+    )
+
+    transitionStartedAt.current = performance.now()
+    isAnimatingToDestination.current = true
+  }, [selectedMarker])
+
+  useEffect(() => {
+    const stopAnimation = () => {
+      isAnimatingToDestination.current = false
+    }
+
+    window.addEventListener('madrastrails-globe-interaction', stopAnimation)
+
+    return () => {
+      window.removeEventListener('madrastrails-globe-interaction', stopAnimation)
+      routeGeometry?.geometry.dispose()
+    }
+  }, [routeGeometry])
+
+  
   return (
     <group
       ref={tiltRef}
-      position={[-0.2, GROUP_Y, 0]}
+      position={[1.15, -0.85, 0]}
       rotation={[0, 0, THREE.MathUtils.degToRad(-23.4)]}
     >
       <group ref={globeRef} rotation={[0, -1.48, 0]}>
@@ -485,6 +602,53 @@ function NasaEarth({
           />
         </mesh>
 
+        {routeGeometry && (
+          <>
+            <line ref={routeLineRef} geometry={routeGeometry.geometry} renderOrder={6}>
+              <lineBasicMaterial
+                color="#E7C66D"
+                transparent
+                opacity={0.78}
+                blending={THREE.AdditiveBlending}
+                depthWrite={false}
+                toneMapped={false}
+              />
+            </line>
+
+            <mesh ref={routePointRef} renderOrder={9}>
+              <sphereGeometry args={[0.075, 18, 18]} />
+              <meshBasicMaterial
+                color="#FFF1B8"
+                transparent
+                opacity={0.98}
+                blending={THREE.AdditiveBlending}
+                depthWrite={false}
+                toneMapped={false}
+              />
+            </mesh>
+          </>
+        )}
+
+        {selectedMarker && (
+          <sprite
+            ref={surfaceGlowRef}
+            position={selectedMarker.position.clone().normalize().multiplyScalar(R * 1.024)}
+            scale={[1.18, 1.18, 1]}
+            renderOrder={3}
+          >
+            <spriteMaterial
+              map={glowTexture}
+              color="#D4AF37"
+              transparent
+              opacity={0.5}
+              depthTest
+              depthWrite={false}
+              blending={THREE.AdditiveBlending}
+              toneMapped={false}
+            />
+          </sprite>
+        )}
+
         {markerPositions.map((destination) => (
           <DestinationMarker
             key={destination.id}
@@ -495,6 +659,7 @@ function NasaEarth({
             selected={selectedDestination === destination.id}
             glowTexture={glowTexture}
             reducedMotion={Boolean(prefersReducedMotion)}
+            onSelect={onSelect}
           />
         ))}
 
@@ -506,14 +671,40 @@ function NasaEarth({
   )
 }
 
+
+function CameraRig({ selectedDestination }: { selectedDestination?: string }) {
+  const { camera } = useThree()
+  const transitionStartedAt = useRef(0)
+
+  useEffect(() => {
+    transitionStartedAt.current = performance.now()
+  }, [selectedDestination])
+
+  useFrame((_, delta) => {
+    const elapsed = performance.now() - transitionStartedAt.current
+    const cinematicZoom = elapsed < 1250 ? 14.35 : 14.85
+    const target = new THREE.Vector3(0.35, 0.45, cinematicZoom)
+    const damping = 1 - Math.exp(-delta * 2.8)
+    camera.position.lerp(target, damping)
+    camera.lookAt(1.05, 0.05, 0)
+  })
+
+  return null
+}
+
 function GlobeScene({
   selectedDestination,
+  previousDestination,
+  onSelect,
 }: {
   selectedDestination?: string
+  previousDestination?: string
+  onSelect?: (id: string) => void
 }) {
   return (
     <>
       <SceneSetup />
+      <CameraRig selectedDestination={selectedDestination} />
       <StarBackground />
       <Environment
         files="/hdri/sunrise-clouds-01.exr"
@@ -545,7 +736,7 @@ function GlobeScene({
 
       <OrbitControls
         makeDefault
-        target={[-0.2, 0.15, 0]}
+        target={[1.05, 0.05, 0]}
         enableZoom={false}
         enablePan={false}
         autoRotate={false}
@@ -554,15 +745,25 @@ function GlobeScene({
         rotateSpeed={0.38}
         minPolarAngle={Math.PI * 0.16}
         maxPolarAngle={Math.PI * 0.84}
+        onStart={() => {
+          window.dispatchEvent(
+            new Event('madrastrails-globe-interaction'),
+          )
+        }}
       />
 
-      <NasaEarth selectedDestination={selectedDestination} />
+      <NasaEarth
+        selectedDestination={selectedDestination}
+        previousDestination={previousDestination}
+        onSelect={onSelect}
+      />
     </>
   )
 }
 
 export default function GlobeViewer({
   selectedDestination,
+  previousDestination,
 }: GlobeProps) {
   const [isClient, setIsClient] = useState(false)
 
@@ -575,7 +776,7 @@ export default function GlobeViewer({
   return (
     <div className="h-full w-full overflow-hidden">
       <Canvas
-        camera={{ position: [0.15, 0.55, 15.4], fov: 47 }}
+        camera={{ position: [0.35, 0.45, 15.2], fov: 46 }}
         gl={{
           antialias: true,
           alpha: true,
@@ -583,7 +784,10 @@ export default function GlobeViewer({
         }}
       >
         <Suspense fallback={null}>
-          <GlobeScene selectedDestination={selectedDestination} />
+          <GlobeScene
+            selectedDestination={selectedDestination}
+            previousDestination={previousDestination}
+          />
         </Suspense>
       </Canvas>
     </div>

@@ -1,12 +1,15 @@
 'use client'
 
+import { useEffect, useMemo, useRef } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
 
 interface Destination {
   id: string
   name: string
-  label: string
-  color: string
+  tagline: string
+  markerColor: string
+  flag: string
+  image: string
 }
 
 interface DestinationRailProps {
@@ -15,140 +18,241 @@ interface DestinationRailProps {
   onSelect: (id: string) => void
 }
 
-export default function DestinationRail({ destinations, selectedId, onSelect }: DestinationRailProps) {
+const REGION_BY_ID: Record<string, string> = {
+  japan: 'Asia',
+  switzerland: 'Europe',
+  france: 'Europe',
+  italy: 'Europe',
+  germany: 'Europe',
+  'united-arab-emirates': 'Middle East',
+  maldives: 'Indian Ocean',
+  singapore: 'Asia',
+  greece: 'Europe',
+  australia: 'Oceania',
+  'new-zealand': 'Oceania',
+  norway: 'Europe',
+  iceland: 'Europe',
+  canada: 'North America',
+  'united-kingdom': 'Europe',
+  spain: 'Europe',
+  turkiye: 'Europe & Asia',
+  austria: 'Europe',
+  portugal: 'Europe',
+  netherlands: 'Europe',
+  ireland: 'Europe',
+  belgium: 'Europe',
+  denmark: 'Europe',
+  sweden: 'Europe',
+  'czech-republic': 'Europe',
+  hungary: 'Europe',
+  china: 'Asia',
+  thailand: 'Asia',
+  malaysia: 'Asia',
+  'south-korea': 'Asia',
+  vietnam: 'Asia',
+  indonesia: 'Asia',
+  philippines: 'Asia',
+  'hong-kong': 'Asia',
+  'united-states': 'North America',
+  mexico: 'North America',
+  egypt: 'Africa',
+  'south-africa': 'Africa',
+  brazil: 'South America',
+  argentina: 'South America',
+  india: 'Asia',
+  'sri-lanka': 'Asia',
+  nepal: 'Asia',
+  bhutan: 'Asia',
+  cambodia: 'Asia',
+  taiwan: 'Asia',
+  uzbekistan: 'Central Asia',
+  georgia: 'Europe & Asia',
+  finland: 'Europe',
+  croatia: 'Europe',
+  poland: 'Europe',
+  morocco: 'Africa',
+  kenya: 'Africa',
+  tanzania: 'Africa',
+  namibia: 'Africa',
+  seychelles: 'Indian Ocean',
+  mauritius: 'Indian Ocean',
+  oman: 'Middle East',
+  qatar: 'Middle East',
+  peru: 'South America',
+  chile: 'South America',
+  ecuador: 'South America',
+  'costa-rica': 'Central America',
+  fiji: 'Oceania',
+  'french-polynesia': 'Oceania',
+  'saudi-arabia': 'Middle East',
+}
+
+function ArrowLeft() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.5">
+      <path d="M15 18l-6-6 6-6" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  )
+}
+
+function ArrowRight() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.5">
+      <path d="M9 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  )
+}
+
+export default function DestinationRail({
+  destinations,
+  selectedId,
+  onSelect,
+}: DestinationRailProps) {
   const prefersReducedMotion = useReducedMotion()
+  const railRef = useRef<HTMLDivElement>(null)
+  const itemRefs = useRef<Record<string, HTMLButtonElement | null>>({})
+
+  const selectedIndex = useMemo(
+    () => Math.max(0, destinations.findIndex((item) => item.id === selectedId)),
+    [destinations, selectedId],
+  )
+
+  useEffect(() => {
+    const rail = railRef.current
+    const target = itemRefs.current[selectedId]
+
+    if (!rail || !target) return
+
+    const targetLeft =
+      target.offsetLeft - rail.clientWidth / 2 + target.clientWidth / 2
+
+    rail.scrollTo({
+      left: Math.max(0, targetLeft),
+      behavior: prefersReducedMotion ? 'auto' : 'smooth',
+    })
+  }, [selectedId, prefersReducedMotion])
+
+  const selectByOffset = (offset: number) => {
+    if (!destinations.length) return
+
+    const nextIndex =
+      (selectedIndex + offset + destinations.length) % destinations.length
+
+    onSelect(destinations[nextIndex].id)
+  }
 
   return (
-    <section className="relative w-full bg-gradient-to-t from-[#020F12] via-[#071B24] to-transparent overflow-hidden">
-      {/* Backdrop gradient */}
-      <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-[#041d22]/40 to-transparent" />
+    <div
+      className="relative w-full overflow-hidden rounded-[22px] border border-[#D4AF37]/24 backdrop-blur-2xl"
+      style={{
+        background:
+          'linear-gradient(180deg, rgba(3,16,23,0.84), rgba(2,11,16,0.72))',
+        boxShadow:
+          'inset 0 1px 0 rgba(255,245,218,0.10), inset 0 -1px 0 rgba(212,175,55,0.06), 0 18px 55px rgba(0,0,0,0.35), 0 0 30px rgba(212,175,55,0.07)',
+      }}
+    >
+      <div className="pointer-events-none absolute inset-x-10 top-0 z-20 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+      <div className="pointer-events-none absolute inset-y-0 left-0 z-20 w-16 bg-gradient-to-r from-[#03131A] via-[#03131A]/88 to-transparent" />
+      <div className="pointer-events-none absolute inset-y-0 right-0 z-20 w-16 bg-gradient-to-l from-[#03131A] via-[#03131A]/88 to-transparent" />
 
-      {/* Content */}
-      <div className="relative z-10 px-6 md:px-12 py-16 md:py-24">
-        {/* Header */}
-        <div className="mb-12">
-          <h2 className="mt-display text-3xl md:text-4xl text-[#F2E7CC] mb-2">Featured Destinations</h2>
-          <p className="mt-body-copy text-[#C9A24A] text-base">
-            Swipe to explore our curated collection
-          </p>
-        </div>
+      <button
+        type="button"
+        onClick={() => selectByOffset(-1)}
+        aria-label="Previous destination"
+        className="absolute left-3 top-1/2 z-30 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-[#D4AF37]/35 bg-[#06171F]/88 text-[#D4AF37] shadow-[0_0_20px_rgba(212,175,55,0.08)] transition hover:border-[#D4AF37]/70 hover:bg-[#0A202A]"
+      >
+        <ArrowLeft />
+      </button>
 
-        {/* Horizontal Scroll Rail */}
-        <div className="relative">
-          {/* Left Fade */}
-          <div className="absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-[#020F12] to-transparent z-20 pointer-events-none" />
+      <button
+        type="button"
+        onClick={() => selectByOffset(1)}
+        aria-label="Next destination"
+        className="absolute right-3 top-1/2 z-30 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-[#D4AF37]/35 bg-[#06171F]/88 text-[#D4AF37] shadow-[0_0_20px_rgba(212,175,55,0.08)] transition hover:border-[#D4AF37]/70 hover:bg-[#0A202A]"
+      >
+        <ArrowRight />
+      </button>
 
-          {/* Right Fade */}
-          <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-[#020F12] to-transparent z-20 pointer-events-none" />
+      <motion.div
+        ref={railRef}
+        className="flex gap-3 overflow-x-auto px-14 py-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        initial={prefersReducedMotion ? false : { opacity: 0, y: 14 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+      >
+        {destinations.map((destination, index) => {
+          const isSelected = destination.id === selectedId
+          const region = REGION_BY_ID[destination.id] ?? 'Worldwide'
 
-          {/* Rail Container */}
-          <motion.div
-            className="flex gap-6 overflow-x-auto scrollbar-hide pb-6"
-            initial={prefersReducedMotion ? {} : { opacity: 0 }}
-            animate={prefersReducedMotion ? {} : { opacity: 1 }}
-            transition={{ duration: 1, delay: 0.5 }}
-          >
-            {destinations.map((destination, idx) => {
-              const isSelected = destination.id === selectedId
+          return (
+            <motion.button
+              key={destination.id}
+              ref={(node) => {
+                itemRefs.current[destination.id] = node
+              }}
+              type="button"
+              onClick={() => onSelect(destination.id)}
+              className="group relative h-[92px] w-[156px] shrink-0 overflow-hidden rounded-[16px] text-left md:h-[100px] md:w-[172px]"
+              animate={{
+                scale: isSelected ? 1.045 : 0.985,
+                y: isSelected ? -2 : 0,
+              }}
+              transition={{
+                duration: prefersReducedMotion ? 0 : 0.5,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              whileHover={prefersReducedMotion ? undefined : { y: -4 }}
+              whileTap={prefersReducedMotion ? undefined : { scale: 0.985 }}
+            >
+              <img
+                src={destination.image}
+                alt={destination.name}
+                className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-[1.05]"
+              />
 
-              return (
-                <motion.button
-                  key={destination.id}
-                  onClick={() => onSelect(destination.id)}
-                  className={`relative flex-shrink-0 w-48 h-64 rounded-xl overflow-hidden group transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
-                    isSelected ? 'ring-2 ring-[#C9A24A]' : 'hover:ring-1 hover:ring-[#C9A24A]/50'
-                  }`}
-                  initial={prefersReducedMotion ? {} : { opacity: 0, y: 20 }}
-                  animate={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
-                  transition={{
-                    duration: 0.8,
-                    delay: 0.6 + idx * 0.1,
-                  }}
-                  whileHover={!prefersReducedMotion ? { y: -6 } : {}}
-                  whileTap={!prefersReducedMotion ? { scale: 0.98 } : {}}
-                >
-                  {/* Background Gradient Base */}
-                  <div
-                    className="absolute inset-0"
-                    style={{
-                      background: `linear-gradient(135deg, rgba(13, 60, 71, 0.8), rgba(20, 80, 95, 0.6))`,
-                    }}
-                  />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#020B10]/95 via-[#020B10]/35 to-[#020B10]/10" />
 
-                  {/* Gold Accent Gradient */}
-                  <div
-                    className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                    style={{
-                      background: `linear-gradient(135deg, ${destination.color}20, ${destination.color}10)`,
-                    }}
-                  />
+              <div
+                className={`absolute inset-0 rounded-[16px] border transition duration-500 ${
+                  isSelected
+                    ? 'border-[#E4C474]/90'
+                    : 'border-white/10 group-hover:border-[#D4AF37]/40'
+                }`}
+                style={{
+                  boxShadow: isSelected
+                    ? 'inset 0 0 20px rgba(212,175,55,0.18), 0 0 24px rgba(212,175,55,0.28)'
+                    : 'none',
+                }}
+              />
 
-                  {/* Content */}
-                  <div className="relative z-10 h-full flex flex-col justify-between p-6">
-                    {/* Top Badge */}
-                    <div className="flex items-start justify-between">
-                      <div>
-                        <p className="mt-eyebrow text-[#C9A24A] text-xs tracking-widest opacity-75 mb-2">
-                          {destination.tagline.split(' ')[0]}
-                        </p>
-                        <h3 className="mt-display text-2xl text-[#F2E7CC] leading-tight">{destination.name}</h3>
-                      </div>
+              <div className="absolute inset-x-0 bottom-0 z-10 p-3">
+                <div className="mb-1 flex items-center gap-1.5">
+                  <span className="text-sm leading-none">{destination.flag}</span>
+                  <span className="truncate text-[7px] uppercase tracking-[0.18em] text-[#D4AF37]/80">
+                    {region}
+                  </span>
+                </div>
 
-                      {/* Selection Indicator */}
-                      {isSelected && (
-                        <motion.div
-                          className="w-4 h-4 rounded-full bg-[#C9A24A]"
-                          initial={{ scale: 0 }}
-                          animate={{ scale: 1 }}
-                          transition={{ type: 'spring', stiffness: 200 }}
-                          style={{
-                            boxShadow: '0 0 12px rgba(201, 162, 74, 0.6)',
-                          }}
-                        />
-                      )}
-                    </div>
+                <h3 className="mt-display truncate text-[16px] leading-none text-[#F5E9D0]">
+                  {destination.name}
+                </h3>
+              </div>
 
-                    {/* Bottom CTA */}
-                    <div className="flex items-center gap-2 mt-gold-sheen">
-                      <span className="mt-body-copy text-[#C9A24A] text-sm font-medium">
-                        {isSelected ? 'Selected' : 'Discover'}
-                      </span>
-                      <svg
-                        className={`w-4 h-4 text-[#C9A24A] transition-transform duration-300 ${isSelected ? 'translate-x-1' : 'group-hover:translate-x-1'}`}
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                      </svg>
-                    </div>
-                  </div>
+              {isSelected && (
+                <motion.div
+                  layoutId="hero-destination-selected"
+                  className="absolute left-3 right-3 top-2 z-10 h-px bg-gradient-to-r from-transparent via-[#F5D889] to-transparent"
+                  transition={{ duration: 0.4 }}
+                />
+              )}
 
-                  {/* Border Accent */}
-                  <div
-                    className={`absolute inset-0 rounded-xl pointer-events-none transition-colors duration-500 ${
-                      isSelected
-                        ? 'border border-[#C9A24A]/60'
-                        : 'border border-[#C9A24A]/20 group-hover:border-[#C9A24A]/40'
-                    }`}
-                  />
-
-                  {/* Inner Glow */}
-                  <div
-                    className="absolute top-0 left-0 right-0 h-px pointer-events-none"
-                    style={{
-                      background:
-                        isSelected
-                          ? 'linear-gradient(90deg, transparent, rgba(201, 162, 74, 0.3), transparent)'
-                          : 'linear-gradient(90deg, transparent, rgba(201, 162, 74, 0.1), transparent)',
-                    }}
-                  />
-                </motion.button>
-              )
-            })}
-          </motion.div>
-        </div>
-      </div>
-    </section>
+              <span className="absolute right-2.5 top-2.5 z-10 text-[7px] tracking-[0.18em] text-white/35">
+                {String(index + 1).padStart(2, '0')}
+              </span>
+            </motion.button>
+          )
+        })}
+      </motion.div>
+    </div>
   )
 }

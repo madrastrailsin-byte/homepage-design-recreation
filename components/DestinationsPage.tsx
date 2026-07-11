@@ -10,6 +10,7 @@ import { destinations } from '@/lib/destinations'
 
 export default function DestinationsPage() {
   const [selectedDestination, setSelectedDestination] = useState(destinations[0])
+  const [previousDestinationId, setPreviousDestinationId] = useState<string>()
   const [mounted, setMounted] = useState(false)
   const prefersReducedMotion = useReducedMotion()
 
@@ -19,71 +20,66 @@ export default function DestinationsPage() {
 
   if (!mounted || !selectedDestination) return null
 
+  const selectDestination = (id: string) => {
+    const destination = destinations.find((item) => item.id === id)
+
+    if (!destination || destination.id === selectedDestination.id) return
+
+    setPreviousDestinationId(selectedDestination.id)
+    setSelectedDestination(destination)
+  }
+
   return (
-    <section className="relative w-full overflow-x-hidden bg-[#071B24]">
+    <section className="relative w-full overflow-hidden bg-[#071B24]">
       <DestinationHero>
-        <div
-          className="absolute inset-0"
-          style={{ zIndex: 10 }}
-        >
-          <Globe3D selectedDestination={selectedDestination.id} />
+        <div className="absolute inset-0" style={{ zIndex: 10 }}>
+          <Globe3D
+            selectedDestination={selectedDestination.id}
+            previousDestination={previousDestinationId}
+          />
         </div>
 
         <AnimatePresence mode="wait">
           <motion.div
             key={selectedDestination.id}
-            className="absolute right-3 top-1/2 w-[288px] -translate-y-1/2 md:right-6 md:w-[316px] lg:right-10 lg:w-[340px]"
+            className="absolute bottom-5 right-2 top-[112px] w-[300px] md:right-4 md:w-[310px] lg:right-6 lg:w-[320px]"
             style={{ zIndex: 30 }}
             initial={
               prefersReducedMotion
                 ? {}
-                : {
-                    opacity: 0,
-                    x: 24,
-                    filter: 'blur(8px)',
-                  }
+                : { opacity: 0, x: 24, filter: 'blur(8px)' }
             }
             animate={
               prefersReducedMotion
                 ? {}
-                : {
-                    opacity: 1,
-                    x: 0,
-                    filter: 'blur(0px)',
-                  }
+                : { opacity: 1, x: 0, filter: 'blur(0px)' }
             }
             exit={
               prefersReducedMotion
                 ? {}
-                : {
-                    opacity: 0,
-                    x: -12,
-                    filter: 'blur(4px)',
-                  }
+                : { opacity: 0, x: -12, filter: 'blur(4px)' }
             }
             transition={{
-              duration: 0.85,
+              duration: 0.78,
+              delay: prefersReducedMotion ? 0 : 0.48,
               ease: [0.22, 1, 0.36, 1],
             }}
           >
             <DestinationPanel destination={selectedDestination} />
           </motion.div>
         </AnimatePresence>
+
+        <div
+          className="absolute bottom-4 left-4 right-[338px] md:bottom-5 md:left-7 md:right-[350px] lg:left-10 lg:right-[370px]"
+          style={{ zIndex: 38 }}
+        >
+          <DestinationRail
+            destinations={destinations}
+            selectedId={selectedDestination.id}
+            onSelect={selectDestination}
+          />
+        </div>
       </DestinationHero>
-
-      <DestinationRail
-        destinations={destinations}
-        selectedId={selectedDestination.id}
-        onSelect={(id) => {
-          const destination = destinations.find(
-            (item) => item.id === id,
-          )
-
-          if (destination) {
-            setSelectedDestination(destination)
-          }
-        }}
-      />
     </section>
   )
 }
