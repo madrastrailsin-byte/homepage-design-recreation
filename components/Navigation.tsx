@@ -1,6 +1,6 @@
 'use client'
 
-import { Menu } from 'lucide-react'
+import { Menu, ChevronDown } from 'lucide-react'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
@@ -28,7 +28,6 @@ export default function Navigation() {
   const activeNavLinkClass = `${navLinkClass} !text-[#D4AF37] after:!scale-x-100`
   const mobileNavLinkClass = 'mt-ui text-[#FAFAF9] text-sm hover:text-[#D4AF37] transition'
   const activeMobileNavLinkClass = `${mobileNavLinkClass} !text-[#D4AF37]`
-  const isDestinationsActive = pathname === '/destinations'
   const isOurStoryActive = pathname === '/our-story'
   const isExperiencesActive = pathname === '/experiences'
 
@@ -55,8 +54,9 @@ export default function Navigation() {
 
         {/* Desktop Menu */}
         <motion.div initial={introInitial} animate={introAnimate} transition={introTransition(0.26)} className="hidden md:flex items-center gap-9 xl:gap-11">
-          <a href="/destinations" className={isDestinationsActive ? activeNavLinkClass : navLinkClass}>
-            Destinations
+          <a href="/destinations" className={`${navLinkClass} flex items-center gap-1.5 cursor-pointer`}>
+            <span>Destinations</span>
+            <ChevronDown size={14} className="mt-0.5" />
           </a>
           <a href="/experiences" className={isExperiencesActive ? activeNavLinkClass : navLinkClass}>Experiences</a>
           <a href="#" className={navLinkClass}>Services</a>
@@ -93,7 +93,7 @@ export default function Navigation() {
       {isOpen && (
         <div className="md:hidden bg-[#03191D]/86 backdrop-blur-xl border-t border-[#D4AF37]/10">
           <div className="px-6 py-6 flex flex-col gap-4">
-            <a href="/destinations" className={isDestinationsActive ? activeMobileNavLinkClass : mobileNavLinkClass}>Destinations</a>
+            <a href="/destinations" className={mobileNavLinkClass}>Destinations</a>
             <a href="/experiences" className={isExperiencesActive ? activeMobileNavLinkClass : mobileNavLinkClass}>Experiences</a>
             <a href="#" className={mobileNavLinkClass}>Services</a>
             <a href="/our-story" className={isOurStoryActive ? activeMobileNavLinkClass : mobileNavLinkClass}>Our Story</a>
