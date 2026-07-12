@@ -481,8 +481,7 @@
   }
 
   .mt-scene03-stage {
-    aspect-ratio: 1717 / 916;
-    min-height: clamp(32rem, 53.2vw, 57.25rem);
+    min-height: clamp(30rem, 40vw, 42rem);
   }
 
   .mt-scene03-grid {

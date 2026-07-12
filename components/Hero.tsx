@@ -147,18 +147,6 @@ export default function Hero() {
         .fromTo('.mt-story-destination-copy', { autoAlpha: 0.25, y: 24 }, { autoAlpha: 1, y: 0, ease: 'power3.out' }, 0.08)
         .fromTo('.mt-story-destination-stage', { autoAlpha: 0.35, y: 20, scale: 0.992 }, { autoAlpha: 1, y: 0, scale: 1, ease: 'power3.out' }, 0.16)
 
-      gsap.to('.mt-story-destination-stage', {
-        y: -8,
-        scale: 0.996,
-        ease: 'power2.out',
-        scrollTrigger: {
-          trigger: '.mt-scroll-destinations',
-          start: 'center 26%',
-          end: 'bottom top',
-          scrub: 0.8,
-        },
-      })
-
       gsap.timeline({
         scrollTrigger: {
           trigger: '.mt-scroll-experiences',
@@ -169,17 +157,6 @@ export default function Hero() {
       })
         .fromTo('.mt-story-experience-copy', { autoAlpha: 0.2, y: 28 }, { autoAlpha: 1, y: 0, ease: 'power3.out' }, 0)
         .fromTo('.mt-story-experience-card', { autoAlpha: 0.18, y: 44, scale: 0.988 }, { autoAlpha: 1, y: 0, scale: 1, stagger: 0.08, ease: 'power3.out' }, 0.12)
-
-      gsap.to('.mt-story-experience-card', {
-        y: -10,
-        ease: 'power2.out',
-        scrollTrigger: {
-          trigger: '.mt-scroll-experiences',
-          start: 'center 24%',
-          end: 'bottom top',
-          scrub: 0.8,
-        },
-      })
 
       gsap.timeline({
         scrollTrigger: {
