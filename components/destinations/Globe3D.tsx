@@ -467,7 +467,7 @@ function NasaEarth({
             inertia.current.yaw *= inertiaDecay
             inertia.current.pitch *= inertiaDecay
           } else if (!prefersReducedMotion) {
-            yawQuaternion.current.setFromAxisAngle(yawAxis, delta * 0.003)
+            yawQuaternion.current.setFromAxisAngle(yawAxis, delta * 0.01)
             targetQuaternion.current
               .premultiply(yawQuaternion.current)
               .normalize()
@@ -659,9 +659,9 @@ function NasaEarth({
   return (
     <group
       ref={tiltRef}
-      position={[1.15, -0.52, 0]}
+      position={[0.55, -0.52, 0]}
       rotation={[0, 0, THREE.MathUtils.degToRad(-23.4)]}
-      scale={[0.88, 0.88, 0.88]}
+      scale={[0.95, 0.95, 0.95]}
     >
       <group ref={globeRef} rotation={[0, -1.48, 0]}>
         <mesh
