@@ -2,7 +2,7 @@
 
 import { Suspense, useEffect, useMemo, useRef, useState } from 'react'
 import { Canvas, useFrame, useLoader, useThree } from '@react-three/fiber'
-import { Environment, OrbitControls } from '@react-three/drei'
+import { Environment } from '@react-three/drei'
 import * as THREE from 'three'
 import { useReducedMotion } from 'framer-motion'
 import { destinations } from '@/lib/destinations'
@@ -338,6 +338,18 @@ function NasaEarth({
   const transitionStartedAt = useRef(0)
   const targetQuaternion = useRef(new THREE.Quaternion())
   const isAnimatingToDestination = useRef(false)
+
+  const isDragging = useRef(false)
+  const pointerStart = useRef({ x: 0, y: 0 })
+  const pointerLast = useRef({ x: 0, y: 0 })
+  const pointerMoved = useRef(false)
+  const inertia = useRef({ yaw: 0, pitch: 0 })
+
+  const yawQuaternion = useRef(new THREE.Quaternion())
+  const pitchQuaternion = useRef(new THREE.Quaternion())
+  const yawAxis = useMemo(() => new THREE.Vector3(0, 1, 0), [])
+  const pitchAxis = useMemo(() => new THREE.Vector3(1, 0, 0), [])
+
   const prefersReducedMotion = useReducedMotion()
 
   const [dayTex, cloudTex, normalTex, specularTex] = useLoader(
@@ -399,6 +411,11 @@ function NasaEarth({
   const glowTexture = useMemo(() => createGlowTexture(), [])
 
   useEffect(() => {
+    if (!globeRef.current) return
+    targetQuaternion.current.copy(globeRef.current.quaternion)
+  }, [])
+
+  useEffect(() => {
     return () => {
       earthMaterial.dispose()
       atmosphereMaterial.dispose()
@@ -417,20 +434,50 @@ function NasaEarth({
       transitionProgress * transitionProgress * (3 - 2 * transitionProgress)
 
     if (globeRef.current) {
-      if (selectedMarker && isAnimatingToDestination.current) {
-        const damping = 1 - Math.exp(-delta * 1.85)
-        globeRef.current.quaternion.slerp(targetQuaternion.current, damping)
+      if (!isDragging.current) {
+        if (isAnimatingToDestination.current) {
+          if (
+            transitionProgress >= 1 ||
+            globeRef.current.quaternion.angleTo(targetQuaternion.current) < 0.0025
+          ) {
+            globeRef.current.quaternion.copy(targetQuaternion.current)
+            isAnimatingToDestination.current = false
+          }
+        } else {
+          const inertiaDecay = Math.exp(-delta * 4.6)
 
-        if (
-          transitionProgress >= 1 ||
-          globeRef.current.quaternion.angleTo(targetQuaternion.current) < 0.0025
-        ) {
-          globeRef.current.quaternion.copy(targetQuaternion.current)
-          isAnimatingToDestination.current = false
+          if (
+            Math.abs(inertia.current.yaw) > 0.00001 ||
+            Math.abs(inertia.current.pitch) > 0.00001
+          ) {
+            yawQuaternion.current.setFromAxisAngle(
+              yawAxis,
+              inertia.current.yaw,
+            )
+            pitchQuaternion.current.setFromAxisAngle(
+              pitchAxis,
+              inertia.current.pitch,
+            )
+
+            targetQuaternion.current
+              .premultiply(yawQuaternion.current)
+              .multiply(pitchQuaternion.current)
+              .normalize()
+
+            inertia.current.yaw *= inertiaDecay
+            inertia.current.pitch *= inertiaDecay
+          } else if (!prefersReducedMotion) {
+            yawQuaternion.current.setFromAxisAngle(yawAxis, delta * 0.003)
+            targetQuaternion.current
+              .premultiply(yawQuaternion.current)
+              .normalize()
+          }
         }
-      } else if (!selectedMarker && !prefersReducedMotion) {
-        globeRef.current.rotation.y += delta * 0.0065
       }
+
+      const followStrength = isDragging.current ? 12 : isAnimatingToDestination.current ? 2.2 : 7.5
+      const follow = 1 - Math.exp(-delta * followStrength)
+      globeRef.current.quaternion.slerp(targetQuaternion.current, follow)
     }
 
     if (!prefersReducedMotion) {
@@ -516,30 +563,99 @@ function NasaEarth({
 
     const destinationNormal = selectedMarker.position.clone().normalize()
     const presentationDirection = new THREE.Vector3(-0.16, 0.04, 0.986).normalize()
-
-    targetQuaternion.current.setFromUnitVectors(
+    const nextTarget = new THREE.Quaternion().setFromUnitVectors(
       destinationNormal,
       presentationDirection,
     )
 
+    if (globeRef.current.quaternion.dot(nextTarget) < 0) {
+      nextTarget.set(
+        -nextTarget.x,
+        -nextTarget.y,
+        -nextTarget.z,
+        -nextTarget.w,
+      )
+    }
+
+    targetQuaternion.current.copy(nextTarget)
+    inertia.current = { yaw: 0, pitch: 0 }
     transitionStartedAt.current = performance.now()
     isAnimatingToDestination.current = true
   }, [selectedMarker])
 
   useEffect(() => {
-    const stopAnimation = () => {
-      isAnimatingToDestination.current = false
-    }
-
-    window.addEventListener('madrastrails-globe-interaction', stopAnimation)
-
     return () => {
-      window.removeEventListener('madrastrails-globe-interaction', stopAnimation)
       routeGeometry?.geometry.dispose()
+      document.body.style.cursor = ''
     }
   }, [routeGeometry])
 
-  
+  const handlePointerDown = (event: any) => {
+    event.stopPropagation()
+
+    isDragging.current = true
+    pointerMoved.current = false
+    isAnimatingToDestination.current = false
+    inertia.current = { yaw: 0, pitch: 0 }
+
+    const x = event.nativeEvent.clientX
+    const y = event.nativeEvent.clientY
+
+    pointerStart.current = { x, y }
+    pointerLast.current = { x, y }
+
+    if (globeRef.current) {
+      targetQuaternion.current.copy(globeRef.current.quaternion)
+    }
+
+    event.target?.setPointerCapture?.(event.pointerId)
+    document.body.style.cursor = 'grabbing'
+  }
+
+  const handlePointerMove = (event: any) => {
+    if (!isDragging.current) return
+
+    const x = event.nativeEvent.clientX
+    const y = event.nativeEvent.clientY
+    const dx = x - pointerLast.current.x
+    const dy = y - pointerLast.current.y
+
+    if (
+      Math.abs(x - pointerStart.current.x) +
+        Math.abs(y - pointerStart.current.y) >
+      4
+    ) {
+      pointerMoved.current = true
+    }
+
+    const sensitivity = 0.0026
+    const yaw = dx * sensitivity
+    const pitch = dy * sensitivity
+
+    yawQuaternion.current.setFromAxisAngle(yawAxis, yaw)
+    pitchQuaternion.current.setFromAxisAngle(pitchAxis, pitch)
+
+    targetQuaternion.current
+      .premultiply(yawQuaternion.current)
+      .multiply(pitchQuaternion.current)
+      .normalize()
+
+    inertia.current = {
+      yaw: yaw * 0.28,
+      pitch: pitch * 0.28,
+    }
+
+    pointerLast.current = { x, y }
+  }
+
+  const handlePointerEnd = (event: any) => {
+    if (!isDragging.current) return
+
+    isDragging.current = false
+    event.target?.releasePointerCapture?.(event.pointerId)
+    document.body.style.cursor = 'grab'
+  }
+
   return (
     <group
       ref={tiltRef}
@@ -548,7 +664,23 @@ function NasaEarth({
       scale={[0.88, 0.88, 0.88]}
     >
       <group ref={globeRef} rotation={[0, -1.48, 0]}>
-        <mesh material={earthMaterial}>
+        <mesh
+          material={earthMaterial}
+          onPointerDown={handlePointerDown}
+          onPointerMove={handlePointerMove}
+          onPointerUp={handlePointerEnd}
+          onPointerCancel={handlePointerEnd}
+          onPointerOver={() => {
+            if (!isDragging.current) document.body.style.cursor = 'grab'
+          }}
+          onPointerOut={(event) => {
+            if (isDragging.current) {
+              handlePointerEnd(event)
+            } else {
+              document.body.style.cursor = ''
+            }
+          }}
+        >
           <sphereGeometry args={[R, 128, 128]} />
         </mesh>
 
@@ -675,46 +807,6 @@ function NasaEarth({
 }
 
 
-function CameraRig({ selectedDestination }: { selectedDestination?: string }) {
-  const { camera } = useThree()
-  const isSettling = useRef(true)
-  const transitionStartedAt = useRef(0)
-
-  useEffect(() => {
-    transitionStartedAt.current = performance.now()
-    isSettling.current = true
-  }, [selectedDestination])
-
-  useEffect(() => {
-    const stopSettling = () => {
-      isSettling.current = false
-    }
-
-    window.addEventListener('madrastrails-globe-interaction', stopSettling)
-
-    return () => {
-      window.removeEventListener('madrastrails-globe-interaction', stopSettling)
-    }
-  }, [])
-
-  useFrame((_, delta) => {
-    if (!isSettling.current) return
-
-    const elapsed = performance.now() - transitionStartedAt.current
-    const target = new THREE.Vector3(0.35, 0.58, 15.75)
-    const damping = 1 - Math.exp(-delta * 1.75)
-
-    camera.position.lerp(target, damping)
-
-    if (elapsed >= 1350 || camera.position.distanceTo(target) < 0.015) {
-      camera.position.copy(target)
-      isSettling.current = false
-    }
-  })
-
-  return null
-}
-
 function GlobeScene({
   selectedDestination,
   previousDestination,
@@ -727,7 +819,6 @@ function GlobeScene({
   return (
     <>
       <SceneSetup />
-      <CameraRig selectedDestination={selectedDestination} />
       <StarBackground />
       <Environment
         files="/hdri/sunrise-clouds-01.exr"
@@ -755,34 +846,6 @@ function GlobeScene({
         position={[0, -2, 6]}
         intensity={0.38}
         color="#547493"
-      />
-
-      <OrbitControls
-        makeDefault
-        target={[1.15, -0.52, 0]}
-        enableRotate
-        enableZoom={false}
-        enablePan={false}
-        autoRotate={false}
-        enableDamping
-        dampingFactor={0.08}
-        rotateSpeed={0.62}
-        mouseButtons={{
-          LEFT: THREE.MOUSE.ROTATE,
-          MIDDLE: THREE.MOUSE.DOLLY,
-          RIGHT: THREE.MOUSE.ROTATE,
-        }}
-        touches={{
-          ONE: THREE.TOUCH.ROTATE,
-          TWO: THREE.TOUCH.DOLLY_ROTATE,
-        }}
-        minPolarAngle={Math.PI * 0.16}
-        maxPolarAngle={Math.PI * 0.84}
-        onStart={() => {
-          window.dispatchEvent(
-            new Event('madrastrails-globe-interaction'),
-          )
-        }}
       />
 
       <NasaEarth
