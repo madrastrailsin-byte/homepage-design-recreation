@@ -18,9 +18,9 @@ const timeline = [
 ]
 
 const philosophyCards = [
-  { title: 'Stay Curious', image: '/images/real-photos/library/traveller-talking-locals.jpg', objectPosition: 'center 45%' },
-  { title: 'Move Slowly', image: '/images/real-photos/library/solo-sunrise.jpg', objectPosition: 'center 45%' },
-  { title: 'Feel Welcomed', image: '/images/real-photos/library/locals-waving-goodbye.jpg', objectPosition: 'center 55%' },
+  { title: 'Stay Curious', image: '/images/services/concierge/local-guide-tour.jpg', objectPosition: 'center 45%' },
+  { title: 'Move Slowly', image: '/images/services/concierge/family-picnic.jpg', objectPosition: 'center 52%' },
+  { title: 'Feel Welcomed', image: '/images/services/guides/shared-local-meal.jpg', objectPosition: 'center 52%' },
 ]
 
 const process = [
@@ -32,9 +32,9 @@ const process = [
 ]
 
 const moments = [
-  { title: 'The quiet table', image: '/images/real-photos/library/cooking-together.jpg', objectPosition: 'center 55%' },
-  { title: 'The morning crossing', image: '/images/real-photos/library/traveller-sunset.jpg', objectPosition: 'center 60%' },
-  { title: 'The craft of place', image: '/images/real-photos/library/craftsperson-at-work.jpg', objectPosition: 'center 45%' },
+  { title: 'The quiet table', image: '/images/services/concierge/italian-outdoor-dinner.jpg', objectPosition: 'center 50%' },
+  { title: 'The morning crossing', image: '/images/destinations/vietnam/vietnam-ha-long-bay.jpg', objectPosition: 'center 48%' },
+  { title: 'The craft of place', image: '/images/services/guides/family-cooking.jpg', objectPosition: 'center 48%' },
 ]
 
 function ChapterLabel({ number, label }: { number: string; label: string }) {
@@ -262,8 +262,8 @@ export default function OurStoryPage() {
             </p>
           </div>
           <div className="grid gap-5 md:grid-cols-2">
-            <MediaPanel image="/images/real-photos/library/warm-storytelling.jpg" label="Meaningful conversations" objectPosition="center 45%" className="min-h-[24rem] md:translate-y-10" />
-            <MediaPanel image="/images/real-photos/library/artisan-at-work.jpg" label="Crafted encounters" objectPosition="center 50%" className="min-h-[24rem]" />
+            <MediaPanel image="/images/services/guides/community-tourism.jpg" label="Meaningful conversations" objectPosition="center 48%" className="min-h-[24rem] md:translate-y-10" />
+            <MediaPanel image="/images/services/guides/pottery-workshop.jpg" label="Crafted encounters" objectPosition="center 48%" className="min-h-[24rem]" />
           </div>
         </div>
       </section>
@@ -324,8 +324,8 @@ export default function OurStoryPage() {
         <div className="mx-auto grid max-w-7xl items-center gap-10 lg:grid-cols-[1.06fr_0.94fr]">
           <div data-media className="relative min-h-[36rem] overflow-hidden rounded-[2rem] border border-[#D4AF37]/16 bg-[#020F12] shadow-[0_34px_110px_rgba(0,0,0,0.36)]">
             <Image
-              src="/images/real-photos/library/travel-flatlay.jpg"
-              alt=""
+              src="/images/archive/not-used/founder-route-table.png"
+              alt="MadrasTrails founders planning a journey"
               fill
               sizes="(min-width: 1024px) 52vw, 100vw"
               className="object-cover opacity-[0.88] saturate-[0.9] contrast-[1.03]"
@@ -423,8 +423,8 @@ export default function OurStoryPage() {
 
       <section data-story-chapter className="relative z-10 px-6 pb-24 md:px-8 md:pb-28">
         <div className="relative mx-auto min-h-[34rem] max-w-7xl overflow-hidden rounded-[2rem] border border-[#D4AF37]/16 bg-[#020F12] p-8 shadow-[0_34px_120px_rgba(0,0,0,0.42)] md:p-12">
-          <Image src="/images/real-photos/library/natural-laughter.jpg" alt="" fill sizes="100vw" className="object-cover opacity-[0.48] saturate-[0.88] contrast-[1.02]" style={{ objectPosition: 'center 50%' }} />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_34%_50%,rgba(2,15,18,0.78),transparent_48%),linear-gradient(90deg,rgba(2,15,18,0.86),rgba(2,15,18,0.22))]" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_70%_30%,rgba(212,175,55,0.16),transparent_34%),linear-gradient(135deg,#071F28_0%,#020F12_58%,#061A22_100%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_34%_50%,rgba(2,15,18,0.48),transparent_48%),linear-gradient(90deg,rgba(2,15,18,0.66),rgba(2,15,18,0.14))]" />
           <div className="relative z-10 flex min-h-[28rem] max-w-2xl flex-col justify-end">
             <ChapterLabel number="10" label="BEGIN AGAIN" />
             <h2 data-reveal className="mt-display text-5xl leading-tight md:text-7xl">The next chapter is yours.</h2>

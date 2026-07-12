@@ -35,7 +35,7 @@ export const destinations: Destination[] = [
     timeDifference: "3h 30m ahead of India",
     currency: "JPY",
     flag: "🇯🇵",
-    image: "/images/destinations/japan.jpg",
+    image: "/images/destinations/japan/japan-mount-fuji-sunrise.jpg",
   },
   {
     id: "switzerland",
@@ -53,7 +53,7 @@ export const destinations: Destination[] = [
     timeDifference: "4h behind India",
     currency: "CHF",
     flag: "🇨🇭",
-    image: "/images/destinations/switzerland.jpg",
+    image: "/images/destinations/canada/canada-moraine-lake.jpg",
   },
   {
     id: "france",
@@ -71,7 +71,7 @@ export const destinations: Destination[] = [
     timeDifference: "5h behind India",
     currency: "EUR",
     flag: "🇫🇷",
-    image: "/images/destinations/france.jpg",
+    image: "/images/destinations/europe/europe-cobblestone-street.jpg",
   },
   {
     id: "italy",
@@ -89,7 +89,7 @@ export const destinations: Destination[] = [
     timeDifference: "4h behind India",
     currency: "EUR",
     flag: "🇮🇹",
-    image: "/images/destinations/italy.jpg",
+    image: "/images/destinations/greece/greece-mykonos-street.jpg",
   },
   {
     id: "germany",
@@ -107,7 +107,7 @@ export const destinations: Destination[] = [
     timeDifference: "4h behind India",
     currency: "EUR",
     flag: "🇩🇪",
-    image: "/images/destinations/germany.jpg",
+    image: "/images/destinations/europe/europe-flower-village.jpg",
   },
   {
     id: "united-arab-emirates",
@@ -125,7 +125,7 @@ export const destinations: Destination[] = [
     timeDifference: "1h 30m behind India",
     currency: "AED",
     flag: "🇦🇪",
-    image: "/images/destinations/united-arab-emirates.jpg",
+    image: "/images/services/accommodation/abu-dhabi-luxury-hotel.jpg",
   },
   {
     id: "maldives",
@@ -142,7 +142,7 @@ export const destinations: Destination[] = [
     timeDifference: "30h behind India",
     currency: "MVR",
     flag: "🇲🇻",
-    image: "/images/destinations/maldives.jpg",
+    image: "/images/services/accommodation/maldives-overwater-villa.jpg",
   },
   {
     id: "singapore",
@@ -160,7 +160,7 @@ export const destinations: Destination[] = [
     timeDifference: "2h 30m ahead of India",
     currency: "SGD",
     flag: "🇸🇬",
-    image: "/images/destinations/singapore.jpg",
+    image: "/images/services/accommodation/modern-luxury-bedroom.jpg",
   },
   {
     id: "greece",
@@ -178,7 +178,7 @@ export const destinations: Destination[] = [
     timeDifference: "3h behind India",
     currency: "EUR",
     flag: "🇬🇷",
-    image: "/images/destinations/greece.jpg",
+    image: "/images/destinations/greece/greece-mykonos-street.jpg",
   },
   {
     id: "australia",
@@ -214,7 +214,7 @@ export const destinations: Destination[] = [
     timeDifference: "7h ahead of India",
     currency: "NZD",
     flag: "🇳🇿",
-    image: "/images/destinations/new-zealand.jpg",
+    image: "/images/destinations/canada/canada-glacier-hike.jpg",
   },
   {
     id: "norway",
@@ -267,7 +267,7 @@ export const destinations: Destination[] = [
     timeDifference: "11h 30m behind India",
     currency: "CAD",
     flag: "🇨🇦",
-    image: "/images/destinations/canada.jpg",
+    image: "/images/destinations/canada/canada-moraine-lake.jpg",
   },
   {
     id: "united-kingdom",
@@ -321,7 +321,7 @@ export const destinations: Destination[] = [
     timeDifference: "2h 30m behind India",
     currency: "TRY",
     flag: "🇹🇷",
-    image: "/images/destinations/turkiye.jpg",
+    image: "/images/destinations/turkiye/turkiye-cappadocia-balloons.jpg",
   },
   {
     id: "austria",
@@ -572,7 +572,7 @@ export const destinations: Destination[] = [
     timeDifference: "1h 30m ahead of India",
     currency: "VND",
     flag: "🇻🇳",
-    image: "/images/destinations/vietnam.jpg",
+    image: "/images/destinations/vietnam/vietnam-ha-long-bay.jpg",
   },
   {
     id: "indonesia",
@@ -802,7 +802,7 @@ export const destinations: Destination[] = [
     timeDifference: "30h ahead of India",
     currency: "BTN",
     flag: "🇧🇹",
-    image: "/images/destinations/bhutan.jpg",
+    image: "/images/destinations/bhutan/bhutan-tigers-nest.jpg",
   },
   {
     id: "cambodia",
@@ -972,7 +972,7 @@ export const destinations: Destination[] = [
     timeDifference: "2h 30m behind India",
     currency: "TZS",
     flag: "🇹🇿",
-    image: "/images/destinations/tanzania.jpg",
+    image: "/images/destinations/tanzania/tanzania-safari.jpg",
   },
   {
     id: "namibia",

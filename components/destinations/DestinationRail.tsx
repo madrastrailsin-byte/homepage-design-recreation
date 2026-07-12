@@ -87,6 +87,25 @@ const REGION_BY_ID: Record<string, string> = {
   'saudi-arabia': 'Middle East',
 }
 
+
+const IMAGE_POSITION_BY_ID: Record<string, string> = {
+  japan: 'center 46%',
+  canada: 'center 50%',
+  turkiye: 'center 48%',
+  vietnam: 'center 52%',
+  laos: 'center 48%',
+  bhutan: 'center 42%',
+  tanzania: 'center 48%',
+  greece: 'center 52%',
+  maldives: 'center 50%',
+  'united-arab-emirates': 'center 48%',
+  'new-zealand': 'center 48%',
+  iceland: 'center 48%',
+}
+
+const getImagePosition = (id: string) =>
+  IMAGE_POSITION_BY_ID[id] ?? 'center 50%'
+
 function ArrowLeft() {
   return (
     <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.5">
@@ -192,7 +211,7 @@ export default function DestinationRail({
               }}
               type="button"
               onClick={() => onSelect(destination.id)}
-              className="group relative h-[92px] w-[156px] shrink-0 overflow-hidden rounded-[16px] text-left md:h-[100px] md:w-[172px]"
+              className="group relative h-[96px] w-[172px] shrink-0 overflow-hidden rounded-[16px] bg-[#021017] text-left md:h-[104px] md:w-[188px]"
               animate={{
                 scale: isSelected ? 1.045 : 0.985,
                 y: isSelected ? -2 : 0,
@@ -207,8 +226,15 @@ export default function DestinationRail({
               <img
                 src={destination.image}
                 alt={destination.name}
-                className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-[1.05]"
+                loading="lazy"
+                className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.025]"
+                style={{ objectPosition: getImagePosition(destination.id) }}
+                onError={(event) => {
+                  event.currentTarget.style.display = 'none'
+                }}
               />
+
+              <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_70%_24%,rgba(212,175,55,0.18),transparent_30%),linear-gradient(145deg,#0A2A33,#021017)]" />
 
               <div className="absolute inset-0 bg-gradient-to-t from-[#020B10]/95 via-[#020B10]/35 to-[#020B10]/10" />
 

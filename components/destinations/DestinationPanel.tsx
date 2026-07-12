@@ -22,6 +22,25 @@ interface DestinationPanelProps {
   destination: Destination
 }
 
+
+const IMAGE_POSITION_BY_ID: Record<string, string> = {
+  japan: 'center 46%',
+  canada: 'center 50%',
+  turkiye: 'center 48%',
+  vietnam: 'center 52%',
+  laos: 'center 48%',
+  bhutan: 'center 42%',
+  tanzania: 'center 48%',
+  greece: 'center 52%',
+  maldives: 'center 50%',
+  'united-arab-emirates': 'center 48%',
+  'new-zealand': 'center 48%',
+  iceland: 'center 48%',
+}
+
+const getImagePosition = (id: string) =>
+  IMAGE_POSITION_BY_ID[id] ?? 'center 50%'
+
 function SunIcon() {
   return (
     <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.5">
@@ -134,13 +153,15 @@ export default function DestinationPanel({ destination }: DestinationPanelProps)
       </header>
 
       <div className="relative z-10 mt-4 overflow-hidden rounded-[18px] border border-[#D4AF37]/20">
-        <div className="relative h-[178px] w-full">
+        <div className="relative h-[190px] w-full overflow-hidden bg-[#021017]">
           {!imageFailed && (
             <img
               src={destination.image}
               alt={destination.name}
+              loading="eager"
               onError={() => setImageFailed(true)}
               className="h-full w-full object-cover"
+              style={{ objectPosition: getImagePosition(destination.id) }}
             />
           )}
 
@@ -154,7 +175,7 @@ export default function DestinationPanel({ destination }: DestinationPanelProps)
             />
           )}
 
-          <div className="absolute inset-0 bg-gradient-to-t from-[#020B10]/90 via-transparent to-[#020B10]/10" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#020B10]/82 via-transparent to-[#020B10]/8" />
         </div>
 
         <div className="border-t border-[#D4AF37]/15 bg-[#03141B]/88 px-3 py-3 text-center">

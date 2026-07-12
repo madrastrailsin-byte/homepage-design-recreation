@@ -1,28 +1,28 @@
 'use client'
 
 import { motion, useReducedMotion } from 'framer-motion'
-import { ArrowRight, ArrowLeft } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 
 const destinations = [
   {
     id: 1,
-    name: 'Iceland',
+    name: 'Canada',
     label: 'Discover',
-    image: '/images/real-photos/library/hidden-destination.jpg',
+    image: '/images/destinations/canada/canada-moraine-lake.jpg',
     objectPosition: 'center 35%',
   },
   {
     id: 2,
-    name: 'Turkey',
+    name: 'Türkiye',
     label: 'Explore',
-    image: '/images/real-photos/library/temple-ceremony.jpg',
+    image: '/images/destinations/turkiye/turkiye-hot-air-balloon.jpg',
     objectPosition: 'center 45%',
   },
   {
     id: 3,
     name: 'Japan',
     label: 'Experience',
-    image: '/images/real-photos/library/street-photography.webp',
+    image: '/images/destinations/japan/japan-mount-fuji-sunrise.jpg',
     objectPosition: 'center 55%',
   },
 ]
@@ -149,21 +149,12 @@ export default function DestinationsSection() {
 
           {/* RIGHT COLUMN: Cards Container */}
           <div className="mt-story-destination-stage md:col-span-3 flex flex-col">
-            {/* Navigation Buttons - Top Right */}
-            <div className="flex justify-end mb-7 gap-3">
-              <button className="mt-gold-sheen group/btn w-9 h-9 rounded-full border border-[#C9A24A]/40 bg-[#061f28]/24 flex items-center justify-center hover:border-[#C9A24A]/70 hover:bg-[#C9A24A]/10">
-                <ArrowLeft size={16} className={`text-[#C9A24A]/60 group-hover/btn:text-[#C9A24A] transition ${prefersReducedMotion ? '' : 'group-hover/btn:-translate-x-0.5'}`} />
-              </button>
-              <button className="mt-gold-sheen group/btn w-9 h-9 rounded-full bg-[#C9A24A] border border-[#C9A24A]/70 flex items-center justify-center hover:bg-[#D4B860] shadow-[0_10px_24px_rgba(0,0,0,0.24)] hover:shadow-[0_14px_30px_rgba(0,0,0,0.3)]">
-                <ArrowRight size={16} className={`text-[#071B24] group-hover/btn:text-[#071B24] transition ${prefersReducedMotion ? '' : 'group-hover/btn:translate-x-0.5'}`} />
-              </button>
-            </div>
 
             {/* Card Grid */}
             <div className="relative">
               {/* Cards Grid */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {/* Card 1 - Iceland */}
+                {/* Card 1 - Canada */}
                 <motion.div
                   initial={revealInitial}
                   whileInView={revealInView}
@@ -199,7 +190,7 @@ export default function DestinationsSection() {
                   </div>
                 </motion.div>
 
-                {/* Card 2 - Turkey (Center - Featured) */}
+                {/* Card 2 - Türkiye (Center - Featured) */}
                 <div className="md:-translate-y-6">
                   <motion.div
                     initial={revealInitial}
