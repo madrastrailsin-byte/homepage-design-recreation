@@ -1,6 +1,6 @@
 'use client'
 
-import { Menu, ChevronDown } from 'lucide-react'
+import { Menu } from 'lucide-react'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
@@ -54,9 +54,8 @@ export default function Navigation() {
 
         {/* Desktop Menu */}
         <motion.div initial={introInitial} animate={introAnimate} transition={introTransition(0.26)} className="hidden md:flex items-center gap-9 xl:gap-11">
-          <a href="/destinations" className={`${navLinkClass} flex items-center gap-1.5 cursor-pointer`}>
-            <span>Destinations</span>
-            <ChevronDown size={14} className="mt-0.5" />
+          <a href="/destinations" className={navLinkClass}>
+            Destinations
           </a>
           <a href="/experiences" className={isExperiencesActive ? activeNavLinkClass : navLinkClass}>Experiences</a>
           <a href="#" className={navLinkClass}>Services</a>
