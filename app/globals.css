@@ -498,6 +498,22 @@
 
   .mt-scene03-image-shell {
     transform: translateZ(0);
+    -webkit-mask-image: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(0, 0, 0, 0.08) 2%,
+      rgba(0, 0, 0, 0.55) 8%,
+      #000 18%,
+      #000 100%
+    );
+    mask-image: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(0, 0, 0, 0.08) 2%,
+      rgba(0, 0, 0, 0.55) 8%,
+      #000 18%,
+      #000 100%
+    );
   }
 
   .mt-scene03-hotel-image {
@@ -512,21 +528,27 @@
 
   .mt-scene03-image-feather {
     background:
-      linear-gradient(
-        to right,
-        #03191D 0%,
-        rgba(3, 25, 29, 0.94) 7%,
-        rgba(3, 25, 29, 0.62) 16%,
-        rgba(3, 25, 29, 0.28) 28%,
-        rgba(3, 25, 29, 0.08) 40%,
-        transparent 52%
+      radial-gradient(
+        circle at 28% 50%,
+        rgba(201, 162, 74, 0.05),
+        transparent 32%
       );
   }
 
   .mt-scene03-image-vignette {
     background:
-      radial-gradient(ellipse at 72% 42%, transparent 34%, rgba(2, 15, 18, 0.12) 72%, rgba(2, 15, 18, 0.28) 100%),
-      linear-gradient(180deg, rgba(2, 15, 18, 0.08), transparent 28%, rgba(2, 15, 18, 0.18));
+      radial-gradient(
+        ellipse at 72% 42%,
+        transparent 48%,
+        rgba(2, 15, 18, 0.08) 82%,
+        rgba(2, 15, 18, 0.08) 100%
+      ),
+      linear-gradient(
+        180deg,
+        rgba(2, 15, 18, 0.05),
+        transparent 30%,
+        rgba(2, 15, 18, 0.06)
+      );
   }
 
   .mt-scene03-panel {
