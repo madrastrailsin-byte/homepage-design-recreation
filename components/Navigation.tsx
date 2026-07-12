@@ -47,7 +47,7 @@ export default function Navigation() {
           initial={introInitial}
           animate={introAnimate}
           transition={introTransition(0.12)}
-          className="relative inline-flex items-center rounded-[14px] border border-[#D4AF37]/8 bg-[#021216]/36 px-[0.56rem] py-[0.34rem] backdrop-blur-[7px] transition-[background-color,border-color] duration-300 hover:border-[#D4AF37]/14 hover:bg-[#021216]/42"
+          className="relative inline-flex items-center rounded-[16px] border border-[#D8D8D5] bg-[#FAFAF9] px-[0.7rem] py-[0.45rem] shadow-[0_12px_36px_rgba(0,0,0,0.22)] transition-shadow duration-300 hover:shadow-[0_16px_44px_rgba(0,0,0,0.28)]"
         >
           <BrandLogo priority imageClassName="h-10 md:h-11 w-auto object-contain drop-shadow-[0_0_22px_rgba(232,244,255,0.068)]" />
         </motion.a>
