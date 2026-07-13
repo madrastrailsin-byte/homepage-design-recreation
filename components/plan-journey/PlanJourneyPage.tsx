@@ -1,17 +1,63 @@
 'use client'
 
 import Image from 'next/image'
-import { Allura, Pirata_One } from 'next/font/google'
+import { ChangeEvent, useState } from 'react'
+import {
+  Pirata_One,
+  Quintessential,
+} from 'next/font/google'
 
 const royalFont = Pirata_One({
   subsets: ['latin'],
   weight: '400',
 })
 
-const handwritingFont = Allura({
+const answerFont = Quintessential({
   subsets: ['latin'],
   weight: '400',
 })
+
+function formatDateInput(value: string) {
+  const digits = value.replace(/\D/g, '').slice(0, 8)
+  return [digits.slice(0, 2), digits.slice(2, 4), digits.slice(4, 8)]
+    .filter(Boolean)
+    .join('-')
+}
+
+function formatIndianCurrency(value: string) {
+  const digits = value.replace(/\D/g, '').slice(0, 9)
+  if (!digits) return ''
+
+  const lastThree = digits.slice(-3)
+  const remaining = digits.slice(0, -3)
+  const groupedRemaining = remaining.replace(/\B(?=(\d{2})+(?!\d))/g, ',')
+
+  return `₹ ${groupedRemaining ? `${groupedRemaining},` : ''}${lastThree}`
+}
+
+function formatIndianPhone(value: string) {
+  const digits = value.replace(/\D/g, '').replace(/^91/, '').slice(0, 10)
+  const first = digits.slice(0, 5)
+  const second = digits.slice(5, 10)
+
+  return `+91${first ? ` ${first}` : ''}${second ? ` ${second}` : ''}`
+}
+
+function isValidDate(value: string) {
+  const match = /^(\d{2})-(\d{2})-(\d{4})$/.exec(value)
+  if (!match) return false
+
+  const day = Number(match[1])
+  const month = Number(match[2])
+  const year = Number(match[3])
+  const date = new Date(year, month - 1, day)
+
+  return (
+    date.getFullYear() === year &&
+    date.getMonth() === month - 1 &&
+    date.getDate() === day
+  )
+}
 
 const interests = [
   'Culture',
@@ -23,6 +69,39 @@ const interests = [
 ]
 
 export default function PlanJourneyPage() {
+  const [selectedInterests, setSelectedInterests] = useState<string[]>([])
+  const [date, setDate] = useState('')
+  const [treasury, setTreasury] = useState('')
+  const [name, setName] = useState('')
+  const [phone, setPhone] = useState('+91')
+
+  function toggleInterest(interest: string) {
+    setSelectedInterests((current) => {
+      if (current.includes(interest)) {
+        return current.filter((item) => item !== interest)
+      }
+
+      if (current.length >= 3) return current
+      return [...current, interest]
+    })
+  }
+
+  function handleDateChange(event: ChangeEvent<HTMLInputElement>) {
+    setDate(formatDateInput(event.target.value))
+  }
+
+  function handleTreasuryChange(event: ChangeEvent<HTMLInputElement>) {
+    setTreasury(formatIndianCurrency(event.target.value))
+  }
+
+  function handleNameChange(event: ChangeEvent<HTMLInputElement>) {
+    setName(event.target.value.replace(/[^A-Za-zÀ-ÖØ-öø-ÿ' -]/g, ''))
+  }
+
+  function handlePhoneChange(event: ChangeEvent<HTMLInputElement>) {
+    setPhone(formatIndianPhone(event.target.value))
+  }
+
   return (
     <section
       className="relative h-screen overflow-hidden"
@@ -33,7 +112,7 @@ export default function PlanJourneyPage() {
         backgroundRepeat: 'no-repeat',
       }}
     >
-      <div className="absolute inset-0 bg-black/10" />
+      <div className="absolute inset-0 bg-black/20" />
 
       {/* Parchment */}
       <div className="absolute inset-x-0 -top-4 bottom-[-15%] flex items-center justify-center overflow-hidden">
@@ -43,165 +122,261 @@ export default function PlanJourneyPage() {
             alt="Ancient parchment"
             fill
             priority
-            className="scale-x-[1.4] scale-y-[1.15] object-contain drop-shadow-[0_30px_60px_rgba(0,0,0,0.45)]"
+            className="scale-x-[1.4] scale-y-[1.15] object-contain brightness-[0.76] saturate-[0.88] contrast-[1.04] drop-shadow-[0_30px_60px_rgba(0,0,0,0.5)]"
           />
         </div>
       </div>
 
       {/* Questionnaire */}
-      <form className="absolute left-1/2 top-[55%] z-20 flex h-[76%] w-[69%] -translate-x-1/2 -translate-y-1/2 flex-col text-[#2d170c]">
-        {/* Heading */}
-        <div className="text-center">
-          <h1
-            className={`${royalFont.className} text-[clamp(2.6rem,4vw,4.8rem)] leading-none`}
-          >
-            The Traveller&apos;s Letter
-          </h1>
+      <form
+        className="absolute left-1/2 top-[54%] z-20 h-[74%] w-[76%] -translate-x-1/2 -translate-y-1/2 text-[#2d170c]"
+        onSubmit={(event) => event.preventDefault()}
+      >
+        {/* Burnt centre crease */}
+        <div className="pointer-events-none absolute left-1/2 top-[-2%] h-[104%] w-[3px] -translate-x-1/2 bg-gradient-to-b from-transparent via-[#6b3518]/30 to-transparent" />
 
-          <div className="mx-auto mt-2 flex w-[42%] items-center gap-3">
-            <span className="h-px flex-1 bg-[#5f351d]/45" />
-            <span className="text-[#5f351d]">✦</span>
-            <span className="h-px flex-1 bg-[#5f351d]/45" />
-          </div>
-        </div>
+        <div className="grid h-full grid-cols-2">
+          {/* LEFT PAGE */}
+          <section className="flex h-full justify-center pr-[3.2vw]">
+            <div className="flex h-full w-[86%] flex-col items-center">
+              <header className="mt-[1.8vh] w-full text-center">
+                <h1
+                  className={`${royalFont.className} text-[clamp(2.6rem,3.5vw,4.4rem)] leading-none`}
+                >
+                  The Traveller&apos;s Letter
+                </h1>
 
-        {/* First six fields */}
-        <div className="mt-[2.3vh] grid grid-cols-3 gap-x-[2vw] gap-y-[1.8vh]">
-          <Field label="Desired Kingdom">
-            <input
-              type="text"
-              placeholder="Kingdom of Italy, Japan..."
-              className={inputClass}
-            />
-          </Field>
+                <div className="mx-auto mt-3 flex w-[72%] items-center gap-3">
+                  <span className="h-px flex-1 bg-[#63371d]/35" />
+                  <span className="text-[#63371d]">✦</span>
+                  <span className="h-px flex-1 bg-[#63371d]/35" />
+                </div>
+              </header>
 
-          <Field label="Date of Embarkation">
-            <input
-              type="text"
-              placeholder="Preferred date"
-              className={inputClass}
-            />
-          </Field>
+              <div className="mt-[4vh] w-full">
+                <Field label="Desired Kingdom">
+                  <input
+                    type="text"
+                    placeholder="Kingdom of Italy, Japan..."
+                    className={inputClass}
+                  />
+                </Field>
 
-          <Field label="Length of the Expedition">
-            <input
-              type="text"
-              placeholder="Seven days"
-              className={inputClass}
-            />
-          </Field>
+                <Ornament />
 
-          <Field label="Members of the Entourage">
-            <input
-              type="number"
-              min="1"
-              placeholder="2"
-              className={inputClass}
-            />
-          </Field>
+                <div className="grid grid-cols-2 gap-x-[1.5vw]">
+                  <Field label="Date of Embarkation">
+                    <input
+                      name="date"
+                      type="text"
+                      value={date}
+                      onChange={handleDateChange}
+                      onBlur={(event) => {
+                        if (event.target.value && !isValidDate(event.target.value)) {
+                          event.target.setCustomValidity('Enter a valid date in DD-MM-YYYY format.')
+                        } else {
+                          event.target.setCustomValidity('')
+                        }
+                      }}
+                      onInput={(event) => event.currentTarget.setCustomValidity('')}
+                      placeholder="DD-MM-YYYY"
+                      inputMode="numeric"
+                      maxLength={10}
+                      pattern="\d{2}-\d{2}-\d{4}"
+                      className={inputClass}
+                      required
+                    />
+                  </Field>
 
-          <Field label="Young Companions">
-            <input
-              type="number"
-              min="0"
-              placeholder="0"
-              className={inputClass}
-            />
-          </Field>
+                  <Field label="Length of the Expedition">
+                    <input
+                      name="duration"
+                      type="text"
+                      placeholder="7"
+                      inputMode="numeric"
+                      maxLength={2}
+                      pattern="\d{1,2}"
+                      onInput={(event) => {
+                        event.currentTarget.value = event.currentTarget.value.replace(/\D/g, '').slice(0, 2)
+                      }}
+                      className={inputClass}
+                      required
+                    />
+                  </Field>
+                </div>
 
-          <Field label="Royal Treasury">
-            <input
-              type="text"
-              placeholder="₹2,00,000 – ₹3,00,000"
-              className={inputClass}
-            />
-          </Field>
-        </div>
+                <Ornament />
 
-        {/* Interests */}
-        <div className="my-[2vh] h-px bg-[#6a3c22]/25" />
+                <div className="grid grid-cols-2 gap-x-[1.5vw]">
+                  <Field label="Members of the Entourage">
+                    <input
+                      name="adults"
+                      type="text"
+                      placeholder="2"
+                      inputMode="numeric"
+                      maxLength={2}
+                      pattern="\d{1,2}"
+                      onInput={(event) => {
+                        event.currentTarget.value = event.currentTarget.value.replace(/\D/g, '').slice(0, 2)
+                      }}
+                      className={inputClass}
+                      required
+                    />
+                  </Field>
 
-        <div>
-          <h2
-            className={`${royalFont.className} text-center text-[clamp(1.7rem,2.2vw,2.5rem)] leading-none`}
-          >
-            Preferred Pursuits
-          </h2>
+                  <Field label="Young Companions">
+                    <input
+                      name="children"
+                      type="text"
+                      placeholder="0"
+                      inputMode="numeric"
+                      maxLength={2}
+                      pattern="\d{1,2}"
+                      onInput={(event) => {
+                        event.currentTarget.value = event.currentTarget.value.replace(/\D/g, '').slice(0, 2)
+                      }}
+                      className={inputClass}
+                    />
+                  </Field>
+                </div>
 
-          <div className="mt-[1.4vh] flex justify-center gap-[0.8vw]">
-            {interests.map((interest) => (
-              <label
-                key={interest}
-                className={`${royalFont.className} cursor-pointer rounded-full border border-[#654126]/45 bg-[#f7e1b7]/20 px-[1.2vw] py-[0.6vh] text-[clamp(0.9rem,1vw,1.15rem)] transition hover:bg-[#5b321c] hover:text-[#f5d9a6]`}
-              >
-                <input
-                  type="checkbox"
-                  name="interests"
-                  value={interest}
-                  className="sr-only"
-                />
-                {interest}
-              </label>
-            ))}
-          </div>
-        </div>
+                <Ornament />
 
-        <div className="my-[2vh] h-px bg-[#6a3c22]/25" />
+                <Field label="Royal Treasury">
+                  <input
+                    name="budget"
+                    type="text"
+                    value={treasury}
+                    onChange={handleTreasuryChange}
+                    placeholder="₹ 2,00,000"
+                    inputMode="numeric"
+                    className={inputClass}
+                    required
+                  />
+                </Field>
+              </div>
+            </div>
+          </section>
 
-        {/* Lodging and story */}
-        <div className="grid grid-cols-2 gap-x-[2vw]">
-          <Field label="Chosen Chambers">
-            <input
-              type="text"
-              placeholder="Palace hotel, heritage mansion..."
-              className={inputClass}
-            />
-          </Field>
+          {/* RIGHT PAGE */}
+          <section className="flex h-full justify-center pl-[3.2vw]">
+            <div className="flex h-full w-[86%] flex-col items-center">
+              {/* Preferred pursuits */}
+              <div className="w-full text-center">
+                <h2
+                  className={`${royalFont.className} text-[clamp(2rem,2.5vw,3rem)] leading-none`}
+                >
+                  Preferred Pursuits
+                </h2>
 
-          <Field label="Journey Chronicle">
-            <textarea
-              rows={1}
-              placeholder="Share the journey you wish to experience..."
-              className={`${inputClass} resize-none overflow-hidden`}
-            />
-          </Field>
-        </div>
+                <p className={`${answerFont.className} mt-1 text-[0.78rem] text-[#4f2f20]/80`}>
+                  Choose up to three
+                </p>
 
-        {/* Contact fields */}
-        <div className="mt-[2vh] grid grid-cols-3 gap-x-[2vw]">
-          <Field label="Honoured Name">
-            <input
-              type="text"
-              placeholder="Your full name"
-              className={inputClass}
-            />
-          </Field>
+                <div className="mt-[1.4vh] grid grid-cols-3 gap-x-[0.8vw] gap-y-[1.2vh]">
+                  {interests.map((interest) => {
+                    const selected = selectedInterests.includes(interest)
 
-          <Field label="Royal Correspondence">
-            <input
-              type="email"
-              placeholder="name@example.com"
-              className={inputClass}
-            />
-          </Field>
+                    return (
+                      <button
+                        key={interest}
+                        type="button"
+                        aria-pressed={selected}
+                        onClick={() => toggleInterest(interest)}
+                        className={`${answerFont.className} rounded-full border px-[0.8vw] py-[0.78vh] text-center text-[clamp(0.9rem,1vw,1.08rem)] transition duration-200 ${
+                          selected
+                            ? 'border-[#4a2715]/70 bg-[#4a2715] text-[#f0d6a6] shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_4px_10px_rgba(58,28,12,0.18)]'
+                            : 'border-[#5f3a22]/55 bg-[#f0d29a]/14 text-[#2f190f] hover:border-[#4a2715]/70 hover:bg-[#6a3a1f]/12'
+                        } ${
+                          !selected && selectedInterests.length >= 3
+                            ? 'cursor-not-allowed opacity-50'
+                            : 'cursor-pointer'
+                        }`}
+                      >
+                        {interest}
+                      </button>
+                    )
+                  })}
 
-          <Field label="Messenger's Number">
-            <input
-              type="tel"
-              placeholder="+91 98765 43210"
-              className={inputClass}
-            />
-          </Field>
-        </div>
+                  <input
+                    type="hidden"
+                    name="interests"
+                    value={selectedInterests.join(', ')}
+                  />
+                </div>
+              </div>
 
-        {/* Button */}
-        <div className="mt-auto flex justify-center pt-[1.5vh]">
-          <button
-            type="submit"
-            className={`${royalFont.className} min-w-[230px] border border-[#cba449]/70 bg-[#071b1e] px-8 py-[1vh] text-[clamp(1rem,1.15vw,1.3rem)] tracking-[0.08em] text-[#d9b74e] shadow-[0_10px_25px_rgba(0,0,0,0.28)] transition hover:-translate-y-0.5 hover:bg-[#0b282c]`}
-          >
-            ✦ Affix Your Seal ✦
-          </button>
+              <Ornament />
+
+              {/* Remaining right-side form */}
+              <div className="w-full">
+                <Field label="Chosen Chambers">
+                  <input
+                    type="text"
+                    placeholder="Palace hotel, heritage mansion..."
+                    className={inputClass}
+                  />
+                </Field>
+
+                <div className="mt-[1.5vh]">
+                  <Field label="The Journey You Envision">
+                    <textarea
+                      rows={2}
+                      placeholder="Tell us where you wish to go, what you hope to experience, and anything we should know..."
+                      className={textareaClass}
+                    />
+                  </Field>
+                </div>
+
+                <Ornament />
+
+                <div className="grid grid-cols-2 gap-x-[1.5vw]">
+                  <Field label="Honoured Name">
+                    <input
+                      name="name"
+                      type="text"
+                      value={name}
+                      onChange={handleNameChange}
+                      placeholder="Your full name"
+                      autoComplete="name"
+                      pattern="[A-Za-zÀ-ÖØ-öø-ÿ' -]+"
+                      className={inputClass}
+                      required
+                    />
+                  </Field>
+
+                  <Field label="Royal Correspondence">
+                    <input
+                      name="email"
+                      type="email"
+                      placeholder="name@example.com"
+                      autoComplete="email"
+                      className={inputClass}
+                      required
+                    />
+                  </Field>
+                </div>
+
+                <div className="mt-[1.5vh]">
+                  <Field label="Messenger's Number">
+                    <input
+                      name="phone"
+                      type="tel"
+                      value={phone}
+                      onChange={handlePhoneChange}
+                      placeholder="+91 XXXXX XXXXX"
+                      inputMode="numeric"
+                      autoComplete="tel"
+                      pattern="\+91 \d{5} \d{5}"
+                      maxLength={16}
+                      className={inputClass}
+                      required
+                    />
+                  </Field>
+                </div>
+              </div>
+            </div>
+          </section>
         </div>
       </form>
     </section>
@@ -216,9 +391,9 @@ function Field({
   children: React.ReactNode
 }) {
   return (
-    <label className="block min-w-0">
+    <label className="block min-w-0 text-center">
       <span
-        className={`${royalFont.className} block truncate text-[clamp(1rem,1.2vw,1.4rem)] leading-none`}
+        className={`${royalFont.className} block text-center text-[clamp(1rem,1.2vw,1.4rem)] leading-none`}
       >
         {label}
       </span>
@@ -228,5 +403,18 @@ function Field({
   )
 }
 
+function Ornament() {
+  return (
+    <div className="mx-auto my-[2vh] flex w-[62%] items-center gap-2 text-[#6b3b20]/65">
+      <span className="h-px flex-1 bg-[#6b3b20]/30" />
+      <span className="text-xs">❧</span>
+      <span className="h-px flex-1 bg-[#6b3b20]/30" />
+    </div>
+  )
+}
+
 const inputClass =
-  `${handwritingFont.className} w-full rounded-[8px] border border-[#6b452d]/35 bg-[#fff1cf]/35 px-4 py-[0.8vh] text-[clamp(1.15rem,1.35vw,1.6rem)] leading-none text-[#2d170c] outline-none placeholder:text-[#73503a]/65 focus:border-[#3d2415] focus:bg-[#fff3d6]/50`
+  `${answerFont.className} h-[44px] w-full rounded-[8px] border border-[#5f3a22]/38 bg-[#f4ddb0]/24 px-4 py-0 text-left text-[clamp(0.88rem,0.98vw,1.08rem)] leading-[44px] text-[#4b2b1b] outline-none transition placeholder:text-[#6a4632]/68 focus:border-[#3d2415] focus:bg-[#f6e2b9]/34`
+
+const textareaClass =
+  `${answerFont.className} min-h-[66px] w-full resize-none rounded-[8px] border border-[#5f3a22]/38 bg-[#f4ddb0]/24 px-4 py-3 text-left text-[clamp(0.88rem,0.98vw,1.08rem)] leading-relaxed text-[#4b2b1b] outline-none transition placeholder:text-[#6a4632]/68 focus:border-[#3d2415] focus:bg-[#f6e2b9]/34`
