@@ -2,6 +2,7 @@
 
 import Image from 'next/image'
 import { ChangeEvent, useState } from 'react'
+import RoyalDispatch from './RoyalDispatch'
 import {
   Pirata_One,
   Quintessential,
@@ -69,6 +70,7 @@ const interests = [
 ]
 
 export default function PlanJourneyPage() {
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const [selectedInterests, setSelectedInterests] = useState<string[]>([])
   const [date, setDate] = useState('')
   const [treasury, setTreasury] = useState('')
@@ -101,7 +103,22 @@ export default function PlanJourneyPage() {
   function handlePhoneChange(event: ChangeEvent<HTMLInputElement>) {
     setPhone(formatIndianPhone(event.target.value))
   }
+  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  event.preventDefault()
 
+  const form = event.currentTarget
+
+  if (!form.checkValidity()) {
+    form.reportValidity()
+    return
+  }
+
+  setIsSubmitting(true)
+
+  window.setTimeout(() => {
+    setIsSubmitting(false)
+  }, 8300)
+}
   return (
     <section
       className="relative h-screen overflow-hidden"
@@ -129,7 +146,11 @@ export default function PlanJourneyPage() {
 {/* Wax Seal */}
 <div className="absolute bottom-[1%] right-[6%] z-30">
   <button
-  type="submit"
+  type="button"
+  onClick={() => {
+  alert('Seal clicked')
+  setIsSubmitting(true)
+}}
   className="
     group relative
     transition-transform duration-200 ease-out
@@ -156,7 +177,7 @@ export default function PlanJourneyPage() {
       {/* Questionnaire */}
       <form
         className="absolute left-1/2 top-[54%] z-20 h-[74%] w-[76%] -translate-x-1/2 -translate-y-1/2 text-[#2d170c]"
-        onSubmit={(event) => event.preventDefault()}
+        onSubmit={handleSubmit}
       >
         {/* Burnt centre crease */}
         <div className="pointer-events-none absolute left-1/2 top-[-2%] h-[104%] w-[3px] -translate-x-1/2 bg-gradient-to-b from-transparent via-[#6b3518]/30 to-transparent" />
@@ -404,6 +425,7 @@ export default function PlanJourneyPage() {
           </section>
         </div>
       </form>
+      <RoyalDispatch open={isSubmitting} />
     </section>
   )
 }
