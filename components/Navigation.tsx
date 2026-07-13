@@ -4,6 +4,7 @@ import { Menu } from 'lucide-react'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
+import Link from 'next/link'
 import BrandLogo from './BrandLogo'
 
 export default function Navigation() {
@@ -65,43 +66,93 @@ export default function Navigation() {
         </motion.div>
 
         {/* CTA Button and Menu */}
-        <motion.div initial={introInitial} animate={introAnimate} transition={introTransition(0.38)} className="flex items-center gap-3">
-          <button className="btn-gold mt-gold-sheen mt-ui hidden md:block text-xs py-1.5 px-5 transition-transform duration-300 hover:-translate-y-0.5 hover:shadow-[0_14px_30px_rgba(212,175,55,0.24)]">Plan Your Journey →</button>
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="hidden md:flex items-center justify-center text-[#FAFAF9] w-9 h-9 border border-[#FAFAF9]/24 hover:border-[#D4AF37]/60 transition-all duration-300 rounded-full hover:bg-[#D4AF37]/10 hover:shadow-[0_0_0_5px_rgba(212,175,55,0.055)]"
-            aria-label="Menu"
-          >
-            <div className="flex flex-col gap-1.5">
-              <div className="w-4 h-px bg-[#FAFAF9]" />
-              <div className="w-4 h-px bg-[#FAFAF9]" />
-              <div className="w-4 h-px bg-[#FAFAF9]" />
-            </div>
-          </button>
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden text-[#FAFAF9] p-2 hover:text-[#D4AF37] transition"
-            aria-label="Menu"
-          >
-            <Menu size={24} />
-          </button>
-        </motion.div>
-      </div>
+<motion.div
+  initial={introInitial}
+  animate={introAnimate}
+  transition={introTransition(0.38)}
+  className="flex items-center gap-3"
+>
+  <Link
+    href="/plan"
+    className="btn-gold mt-gold-sheen mt-ui hidden md:block text-xs py-1.5 px-5 transition-transform duration-300 hover:-translate-y-0.5 hover:shadow-[0_14px_30px_rgba(212,175,55,0.24)]"
+  >
+    Plan Your Journey →
+  </Link>
 
-      {/* Mobile Menu */}
-      {isOpen && (
-        <div className="md:hidden bg-[#03191D]/86 backdrop-blur-xl border-t border-[#D4AF37]/10">
-          <div className="px-6 py-6 flex flex-col gap-4">
-            <a href="/destinations" className={mobileNavLinkClass}>Destinations</a>
-            <a href="/experiences" className={isExperiencesActive ? activeMobileNavLinkClass : mobileNavLinkClass}>Experiences</a>
-            <a href="#" className={mobileNavLinkClass}>Services</a>
-            <a href="/our-story" className={isOurStoryActive ? activeMobileNavLinkClass : mobileNavLinkClass}>Our Story</a>
-            <a href="#" className={mobileNavLinkClass}>Inspiration</a>
-            <a href="#" className={mobileNavLinkClass}>Contact</a>
-            <button className="btn-gold mt-ui w-full text-xs tracking-wide">Plan Your Journey →</button>
-          </div>
-        </div>
-      )}
-    </nav>
-  )
+  <button
+    onClick={() => setIsOpen(!isOpen)}
+    className="hidden md:flex items-center justify-center text-[#FAFAF9] w-9 h-9 border border-[#FAFAF9]/24 hover:border-[#D4AF37]/60 transition-all duration-300 rounded-full hover:bg-[#D4AF37]/10 hover:shadow-[0_0_0_5px_rgba(212,175,55,0.055)]"
+    aria-label="Menu"
+  >
+    <div className="flex flex-col gap-1.5">
+      <div className="w-4 h-px bg-[#FAFAF9]" />
+      <div className="w-4 h-px bg-[#FAFAF9]" />
+      <div className="w-4 h-px bg-[#FAFAF9]" />
+    </div>
+  </button>
+
+  <button
+    onClick={() => setIsOpen(!isOpen)}
+    className="md:hidden text-[#FAFAF9] p-2 hover:text-[#D4AF37] transition"
+    aria-label="Menu"
+  >
+    <Menu size={24} />
+  </button>
+</motion.div>
+</div>
+
+{/* Mobile Menu */}
+{isOpen && (
+  <div className="md:hidden bg-[#03191D]/86 backdrop-blur-xl border-t border-[#D4AF37]/10">
+    <div className="px-6 py-6 flex flex-col gap-4">
+      <a href="/destinations" className={mobileNavLinkClass}>
+        Destinations
+      </a>
+
+      <a
+        href="/experiences"
+        className={
+          isExperiencesActive
+            ? activeMobileNavLinkClass
+            : mobileNavLinkClass
+        }
+      >
+        Experiences
+      </a>
+
+      <a href="#" className={mobileNavLinkClass}>
+        Services
+      </a>
+
+      <a
+        href="/our-story"
+        className={
+          isOurStoryActive
+            ? activeMobileNavLinkClass
+            : mobileNavLinkClass
+        }
+      >
+        Our Story
+      </a>
+
+      <a href="#" className={mobileNavLinkClass}>
+        Inspiration
+      </a>
+
+      <a href="#" className={mobileNavLinkClass}>
+        Contact
+      </a>
+
+      <Link
+        href="/plan"
+        onClick={() => setIsOpen(false)}
+        className="btn-gold mt-ui w-full text-center text-xs tracking-wide"
+      >
+        Plan Your Journey →
+      </Link>
+    </div>
+  </div>
+)}
+</nav>
+)
 }
