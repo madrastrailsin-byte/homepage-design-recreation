@@ -126,7 +126,33 @@ export default function PlanJourneyPage() {
           />
         </div>
       </div>
-
+{/* Wax Seal */}
+<div className="absolute bottom-[1%] right-[6%] z-30">
+  <button
+  type="submit"
+  className="
+    group relative
+    transition-transform duration-200 ease-out
+    active:translate-y-[6px]
+    active:scale-[0.97]
+  "
+>
+  <Image
+    src="/assets/props/wax-seal-red.png"
+    alt="Seal Thy Letter"
+    width={98}
+    height={98}
+    priority
+    className="
+      rotate-[-22deg]
+      drop-shadow-[0_10px_18px_rgba(0,0,0,0.36)]
+      transition-[transform,filter] duration-200 ease-out
+      group-active:rotate-[-24deg]
+      group-active:drop-shadow-[0_3px_5px_rgba(0,0,0,0.28)]
+    "
+  />
+</button>
+</div>
       {/* Questionnaire */}
       <form
         className="absolute left-1/2 top-[54%] z-20 h-[74%] w-[76%] -translate-x-1/2 -translate-y-1/2 text-[#2d170c]"
@@ -328,9 +354,8 @@ export default function PlanJourneyPage() {
                   </Field>
                 </div>
 
-                <Ornament />
 
-                <div className="grid grid-cols-2 gap-x-[1.5vw]">
+                <div className="mt-[1.5vh] grid grid-cols-2 gap-x-[1.5vw]">
                   <Field label="Honoured Name">
                     <input
                       name="name"
@@ -357,7 +382,7 @@ export default function PlanJourneyPage() {
                   </Field>
                 </div>
 
-                <div className="mt-[1.5vh]">
+                <div className="mt-[0.8vh]">
                   <Field label="Messenger's Number">
                     <input
                       name="phone"
