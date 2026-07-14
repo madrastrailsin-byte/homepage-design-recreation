@@ -44,7 +44,7 @@ export default function RootLayout({
     <html lang="en" className={`${catamaran.variable} ${cormorantGaramond.variable} ${signature.variable} min-h-full w-full max-w-none overflow-x-hidden rounded-none border-0 bg-[#071B24] shadow-none`}>
       <body className="min-h-full w-full max-w-none overflow-x-hidden rounded-none border-0 bg-[#071B24] p-0 m-0 font-sans antialiased shadow-none">
         {children}
-        {process.env.NODE_ENV === 'production' && <Analytics />}
+        {process.env.VERCEL === '1' && <Analytics />}
       </body>
     </html>
   )
