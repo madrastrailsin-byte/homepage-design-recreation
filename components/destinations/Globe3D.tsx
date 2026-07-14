@@ -2,13 +2,15 @@
 
 import { Suspense, useEffect, useMemo, useRef, useState } from 'react'
 import { Canvas, useFrame, useLoader, useThree } from '@react-three/fiber'
-import { Environment, OrbitControls } from '@react-three/drei'
+import { Environment } from '@react-three/drei'
 import * as THREE from 'three'
 import { useReducedMotion } from 'framer-motion'
 import { destinations } from '@/lib/destinations'
 
 interface GlobeProps {
   selectedDestination?: string
+  previousDestination?: string
+  onSelectDestination?: (id: string) => void
 }
 
 interface DestinationMarkerProps {
@@ -19,6 +21,7 @@ interface DestinationMarkerProps {
   selected: boolean
   glowTexture: THREE.Texture
   reducedMotion: boolean
+  onSelect?: (id: string) => void
 }
 
 const ATMO_VERT = `
@@ -135,6 +138,7 @@ function DestinationMarker({
   selected,
   glowTexture,
   reducedMotion,
+  onSelect,
 }: DestinationMarkerProps) {
   const markerRef = useRef<THREE.Group>(null)
   const coreRef = useRef<THREE.Group>(null)
@@ -176,7 +180,7 @@ function DestinationMarker({
     }
 
     const elapsed = state.clock.getElapsedTime()
-    const emphasis = selected ? 1.34 : hovered ? 1.18 : 1
+    const emphasis = selected ? 1.38 : hovered ? 1.28 : 1
 
     let breathingScale = 1
     let pulseProgress = 0.34
@@ -198,14 +202,14 @@ function DestinationMarker({
       ? 0
       : Math.sin(elapsed * 0.55 + phase) * 0.08
 
-    const haloScale = selected ? 0.5 : hovered ? 0.43 : 0.36
+    const haloScale = selected ? 0.54 : hovered ? 0.49 : 0.36
     glowRef.current.scale.lerp(
       new THREE.Vector3(haloScale, haloScale, 1),
       damping,
     )
 
     const glowMaterial = glowRef.current.material as THREE.SpriteMaterial
-    glowMaterial.opacity = selected ? 0.92 : hovered ? 0.78 : 0.58
+    glowMaterial.opacity = selected ? 0.96 : hovered ? 0.9 : 0.58
 
     const pulseScale = reducedMotion
       ? selected
@@ -236,6 +240,10 @@ function DestinationMarker({
       onPointerOut={(event) => {
         event.stopPropagation()
         setHovered(false)
+      }}
+      onClick={(event) => {
+        event.stopPropagation()
+        onSelect?.(id)
       }}
     >
       <sprite
@@ -299,7 +307,7 @@ function DestinationMarker({
 
       {/* Larger invisible hit target keeps small markers easy to hover. */}
       <mesh position={[0, 0, 0.024]}>
-        <sphereGeometry args={[0.12, 12, 12]} />
+        <sphereGeometry args={[0.18, 16, 16]} />
         <meshBasicMaterial
           transparent
           opacity={0}
@@ -313,13 +321,35 @@ function DestinationMarker({
 
 function NasaEarth({
   selectedDestination,
+  previousDestination,
+  onSelect,
 }: {
   selectedDestination?: string
+  previousDestination?: string
+  onSelect?: (id: string) => void
 }) {
   const tiltRef = useRef<THREE.Group>(null)
   const globeRef = useRef<THREE.Group>(null)
   const clouds1Ref = useRef<THREE.Mesh>(null)
   const clouds2Ref = useRef<THREE.Mesh>(null)
+  const surfaceGlowRef = useRef<THREE.Sprite>(null)
+  const routeLineRef = useRef<THREE.Line>(null)
+  const routePointRef = useRef<THREE.Mesh>(null)
+  const transitionStartedAt = useRef(0)
+  const targetQuaternion = useRef(new THREE.Quaternion())
+  const isAnimatingToDestination = useRef(false)
+
+  const isDragging = useRef(false)
+  const pointerStart = useRef({ x: 0, y: 0 })
+  const pointerLast = useRef({ x: 0, y: 0 })
+  const pointerMoved = useRef(false)
+  const inertia = useRef({ yaw: 0, pitch: 0 })
+
+  const yawQuaternion = useRef(new THREE.Quaternion())
+  const pitchQuaternion = useRef(new THREE.Quaternion())
+  const yawAxis = useMemo(() => new THREE.Vector3(0, 1, 0), [])
+  const pitchAxis = useMemo(() => new THREE.Vector3(1, 0, 0), [])
+
   const prefersReducedMotion = useReducedMotion()
 
   const [dayTex, cloudTex, normalTex, specularTex] = useLoader(
@@ -381,6 +411,11 @@ function NasaEarth({
   const glowTexture = useMemo(() => createGlowTexture(), [])
 
   useEffect(() => {
+    if (!globeRef.current) return
+    targetQuaternion.current.copy(globeRef.current.quaternion)
+  }, [])
+
+  useEffect(() => {
     return () => {
       earthMaterial.dispose()
       atmosphereMaterial.dispose()
@@ -388,19 +423,90 @@ function NasaEarth({
     }
   }, [earthMaterial, atmosphereMaterial, glowTexture])
 
-  useFrame((_, delta) => {
-    if (prefersReducedMotion) return
+  useFrame((state, delta) => {
+    const elapsed = state.clock.getElapsedTime()
+    const now = performance.now()
+    const transitionProgress = Math.min(
+      1,
+      Math.max(0, (now - transitionStartedAt.current) / 2200),
+    )
+    const easedProgress =
+      transitionProgress * transitionProgress * (3 - 2 * transitionProgress)
 
     if (globeRef.current) {
-      globeRef.current.rotation.y += delta * 0.0065
+      if (!isDragging.current) {
+        if (isAnimatingToDestination.current) {
+          if (
+            transitionProgress >= 1 ||
+            globeRef.current.quaternion.angleTo(targetQuaternion.current) < 0.0025
+          ) {
+            globeRef.current.quaternion.copy(targetQuaternion.current)
+            isAnimatingToDestination.current = false
+          }
+        } else {
+          const inertiaDecay = Math.exp(-delta * 4.6)
+
+          if (
+            Math.abs(inertia.current.yaw) > 0.00001 ||
+            Math.abs(inertia.current.pitch) > 0.00001
+          ) {
+            yawQuaternion.current.setFromAxisAngle(
+              yawAxis,
+              inertia.current.yaw,
+            )
+            pitchQuaternion.current.setFromAxisAngle(
+              pitchAxis,
+              inertia.current.pitch,
+            )
+
+            targetQuaternion.current
+              .premultiply(yawQuaternion.current)
+              .multiply(pitchQuaternion.current)
+              .normalize()
+
+            inertia.current.yaw *= inertiaDecay
+            inertia.current.pitch *= inertiaDecay
+          } else if (!prefersReducedMotion) {
+            yawQuaternion.current.setFromAxisAngle(yawAxis, delta * 0.01)
+            targetQuaternion.current
+              .premultiply(yawQuaternion.current)
+              .normalize()
+          }
+        }
+      }
+
+      const followStrength = isDragging.current ? 12 : isAnimatingToDestination.current ? 2.2 : 7.5
+      const follow = 1 - Math.exp(-delta * followStrength)
+      globeRef.current.quaternion.slerp(targetQuaternion.current, follow)
     }
 
-    if (clouds1Ref.current) {
-      clouds1Ref.current.rotation.y += delta * 0.006
+    if (!prefersReducedMotion) {
+      if (clouds1Ref.current) clouds1Ref.current.rotation.y += delta * 0.006
+      if (clouds2Ref.current) clouds2Ref.current.rotation.y += delta * 0.009
     }
 
-    if (clouds2Ref.current) {
-      clouds2Ref.current.rotation.y += delta * 0.009
+    if (surfaceGlowRef.current) {
+      const pulse = prefersReducedMotion
+        ? 1
+        : 1 + Math.sin(elapsed * 1.65) * 0.055
+
+      surfaceGlowRef.current.scale.set(1.42 * pulse, 1.42 * pulse, 1)
+      const material = surfaceGlowRef.current.material as THREE.SpriteMaterial
+      material.opacity = selectedMarker ? 0.34 : 0
+    }
+
+    if (routeGeometry && routeLineRef.current) {
+      routeGeometry.geometry.setDrawRange(
+        0,
+        Math.max(2, Math.floor(routeGeometry.points.length * easedProgress)),
+      )
+    }
+
+    if (routeGeometry && routePointRef.current) {
+      routePointRef.current.position.copy(
+        routeGeometry.curve.getPoint(easedProgress),
+      )
+      routePointRef.current.visible = transitionProgress < 1
     }
   })
 
@@ -421,14 +527,160 @@ function NasaEarth({
     [R],
   )
 
+  const selectedMarker = useMemo(
+    () => markerPositions.find((item) => item.id === selectedDestination),
+    [markerPositions, selectedDestination],
+  )
+
+  const previousMarker = useMemo(
+    () => markerPositions.find((item) => item.id === previousDestination),
+    [markerPositions, previousDestination],
+  )
+
+  const routeGeometry = useMemo(() => {
+    if (!selectedMarker || !previousMarker || selectedMarker.id === previousMarker.id) {
+      return null
+    }
+
+    const start = previousMarker.position.clone().normalize().multiplyScalar(R * 1.03)
+    const end = selectedMarker.position.clone().normalize().multiplyScalar(R * 1.03)
+    const middle = start
+      .clone()
+      .add(end)
+      .normalize()
+      .multiplyScalar(R * 1.34)
+
+    const curve = new THREE.QuadraticBezierCurve3(start, middle, end)
+    const points = curve.getPoints(160)
+    const geometry = new THREE.BufferGeometry().setFromPoints(points)
+    geometry.setDrawRange(0, 0)
+
+    return { geometry, curve, points }
+  }, [previousMarker, selectedMarker, R])
+
+  useEffect(() => {
+    if (!selectedMarker || !globeRef.current) return
+
+    const destinationNormal = selectedMarker.position.clone().normalize()
+    const presentationDirection = new THREE.Vector3(-0.16, 0.04, 0.986).normalize()
+    const nextTarget = new THREE.Quaternion().setFromUnitVectors(
+      destinationNormal,
+      presentationDirection,
+    )
+
+    if (globeRef.current.quaternion.dot(nextTarget) < 0) {
+      nextTarget.set(
+        -nextTarget.x,
+        -nextTarget.y,
+        -nextTarget.z,
+        -nextTarget.w,
+      )
+    }
+
+    targetQuaternion.current.copy(nextTarget)
+    inertia.current = { yaw: 0, pitch: 0 }
+    transitionStartedAt.current = performance.now()
+    isAnimatingToDestination.current = true
+  }, [selectedMarker])
+
+  useEffect(() => {
+    return () => {
+      routeGeometry?.geometry.dispose()
+      document.body.style.cursor = ''
+    }
+  }, [routeGeometry])
+
+  const handlePointerDown = (event: any) => {
+    event.stopPropagation()
+
+    isDragging.current = true
+    pointerMoved.current = false
+    isAnimatingToDestination.current = false
+    inertia.current = { yaw: 0, pitch: 0 }
+
+    const x = event.nativeEvent.clientX
+    const y = event.nativeEvent.clientY
+
+    pointerStart.current = { x, y }
+    pointerLast.current = { x, y }
+
+    if (globeRef.current) {
+      targetQuaternion.current.copy(globeRef.current.quaternion)
+    }
+
+    event.target?.setPointerCapture?.(event.pointerId)
+    document.body.style.cursor = 'grabbing'
+  }
+
+  const handlePointerMove = (event: any) => {
+    if (!isDragging.current) return
+
+    const x = event.nativeEvent.clientX
+    const y = event.nativeEvent.clientY
+    const dx = x - pointerLast.current.x
+    const dy = y - pointerLast.current.y
+
+    if (
+      Math.abs(x - pointerStart.current.x) +
+        Math.abs(y - pointerStart.current.y) >
+      4
+    ) {
+      pointerMoved.current = true
+    }
+
+    const sensitivity = 0.0026
+    const yaw = dx * sensitivity
+    const pitch = dy * sensitivity
+
+    yawQuaternion.current.setFromAxisAngle(yawAxis, yaw)
+    pitchQuaternion.current.setFromAxisAngle(pitchAxis, pitch)
+
+    targetQuaternion.current
+      .premultiply(yawQuaternion.current)
+      .multiply(pitchQuaternion.current)
+      .normalize()
+
+    inertia.current = {
+      yaw: yaw * 0.28,
+      pitch: pitch * 0.28,
+    }
+
+    pointerLast.current = { x, y }
+  }
+
+  const handlePointerEnd = (event: any) => {
+    if (!isDragging.current) return
+
+    isDragging.current = false
+    event.target?.releasePointerCapture?.(event.pointerId)
+    document.body.style.cursor = 'grab'
+  }
+
   return (
     <group
       ref={tiltRef}
-      position={[-0.2, GROUP_Y, 0]}
+      position={[0.55, -0.52, 0]}
       rotation={[0, 0, THREE.MathUtils.degToRad(-23.4)]}
+      scale={[0.95, 0.95, 0.95]}
     >
       <group ref={globeRef} rotation={[0, -1.48, 0]}>
-        <mesh material={earthMaterial}>
+        <mesh
+          material={earthMaterial}
+          onPointerDown={handlePointerDown}
+          onPointerMove={handlePointerMove}
+          onPointerUp={handlePointerEnd}
+          onPointerCancel={handlePointerEnd}
+          onPointerOver={() => {
+            if (!isDragging.current) document.body.style.cursor = 'grab'
+          }}
+          onPointerOut={(event) => {
+            if (isDragging.current) {
+              handlePointerEnd(event)
+            } else {
+              document.body.style.cursor = ''
+            }
+          }}
+        >
           <sphereGeometry args={[R, 128, 128]} />
         </mesh>
 
@@ -485,6 +737,53 @@ function NasaEarth({
           />
         </mesh>
 
+        {routeGeometry && (
+          <>
+            <line ref={routeLineRef} geometry={routeGeometry.geometry} renderOrder={6}>
+              <lineBasicMaterial
+                color="#E7C66D"
+                transparent
+                opacity={0.68}
+                blending={THREE.AdditiveBlending}
+                depthWrite={false}
+                toneMapped={false}
+              />
+            </line>
+
+            <mesh ref={routePointRef} renderOrder={9}>
+              <sphereGeometry args={[0.062, 18, 18]} />
+              <meshBasicMaterial
+                color="#FFF1B8"
+                transparent
+                opacity={0.98}
+                blending={THREE.AdditiveBlending}
+                depthWrite={false}
+                toneMapped={false}
+              />
+            </mesh>
+          </>
+        )}
+
+        {selectedMarker && (
+          <sprite
+            ref={surfaceGlowRef}
+            position={selectedMarker.position.clone().normalize().multiplyScalar(R * 1.024)}
+            scale={[1.42, 1.42, 1]}
+            renderOrder={3}
+          >
+            <spriteMaterial
+              map={glowTexture}
+              color="#D4AF37"
+              transparent
+              opacity={0.34}
+              depthTest
+              depthWrite={false}
+              blending={THREE.AdditiveBlending}
+              toneMapped={false}
+            />
+          </sprite>
+        )}
+
         {markerPositions.map((destination) => (
           <DestinationMarker
             key={destination.id}
@@ -495,6 +794,7 @@ function NasaEarth({
             selected={selectedDestination === destination.id}
             glowTexture={glowTexture}
             reducedMotion={Boolean(prefersReducedMotion)}
+            onSelect={onSelect}
           />
         ))}
 
@@ -506,10 +806,15 @@ function NasaEarth({
   )
 }
 
+
 function GlobeScene({
   selectedDestination,
+  previousDestination,
+  onSelect,
 }: {
   selectedDestination?: string
+  previousDestination?: string
+  onSelect?: (id: string) => void
 }) {
   return (
     <>
@@ -543,26 +848,19 @@ function GlobeScene({
         color="#547493"
       />
 
-      <OrbitControls
-        makeDefault
-        target={[-0.2, 0.15, 0]}
-        enableZoom={false}
-        enablePan={false}
-        autoRotate={false}
-        enableDamping
-        dampingFactor={0.04}
-        rotateSpeed={0.38}
-        minPolarAngle={Math.PI * 0.16}
-        maxPolarAngle={Math.PI * 0.84}
+      <NasaEarth
+        selectedDestination={selectedDestination}
+        previousDestination={previousDestination}
+        onSelect={onSelect}
       />
-
-      <NasaEarth selectedDestination={selectedDestination} />
     </>
   )
 }
 
 export default function GlobeViewer({
   selectedDestination,
+  previousDestination,
+  onSelectDestination,
 }: GlobeProps) {
   const [isClient, setIsClient] = useState(false)
 
@@ -575,7 +873,7 @@ export default function GlobeViewer({
   return (
     <div className="h-full w-full overflow-hidden">
       <Canvas
-        camera={{ position: [0.15, 0.55, 15.4], fov: 47 }}
+        camera={{ position: [0.35, 0.58, 15.75], fov: 46 }}
         gl={{
           antialias: true,
           alpha: true,
@@ -583,7 +881,11 @@ export default function GlobeViewer({
         }}
       >
         <Suspense fallback={null}>
-          <GlobeScene selectedDestination={selectedDestination} />
+          <GlobeScene
+            selectedDestination={selectedDestination}
+            previousDestination={previousDestination}
+            onSelect={onSelectDestination}
+          />
         </Suspense>
       </Canvas>
     </div>

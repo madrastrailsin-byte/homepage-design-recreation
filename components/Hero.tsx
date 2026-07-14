@@ -7,6 +7,7 @@ import Lenis from 'lenis'
 import { motion, useReducedMotion } from 'framer-motion'
 import Image from 'next/image'
 import { useEffect, useRef } from 'react'
+import JourneyTransitionLink from './JourneyTransitionLink'
 
 export default function Hero() {
   const sectionRef = useRef<HTMLElement>(null)
@@ -201,11 +202,6 @@ export default function Hero() {
     }
   }, [prefersReducedMotion])
 
-  const handleJourneyClick = () => {
-    const footer = document.querySelector('footer')
-    footer?.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth', block: 'start' })
-  }
-
   return (
     <section 
       ref={sectionRef}
@@ -276,10 +272,13 @@ export default function Hero() {
 
           {/* CTA Buttons */}
           <div data-hero-reveal="ctas" className="mt-hero-actions flex flex-col sm:flex-row gap-4 items-start sm:items-center" style={{ opacity: 0 }}>
-            <button onClick={handleJourneyClick} className="mt-gold-sheen mt-ui group inline-flex items-center justify-center gap-2 rounded-[4px] bg-[#C9A24A] px-7 py-3 text-xs text-[#071B24] shadow-[0_12px_28px_rgba(201,162,74,0.18)] hover:bg-[#D4B860] hover:shadow-[0_17px_38px_rgba(201,162,74,0.24),0_0_22px_rgba(212,175,55,0.1)] md:px-8">
+            <JourneyTransitionLink
+              href="/plan"
+              className="mt-gold-sheen mt-ui group inline-flex items-center justify-center gap-2 rounded-[4px] bg-[#C9A24A] px-7 py-3 text-xs text-[#071B24] shadow-[0_12px_28px_rgba(201,162,74,0.18)] hover:bg-[#D4B860] hover:shadow-[0_17px_38px_rgba(201,162,74,0.24),0_0_22px_rgba(212,175,55,0.1)] md:px-8"
+            >
               <span>Start Your Journey</span>
               <span className={ctaArrowClass}>→</span>
-            </button>
+            </JourneyTransitionLink>
             <button className="group flex items-center gap-3.5 text-[#C9A24A] transition-colors hover:text-white">
               <div className="mt-gold-sheen flex h-10 w-10 items-center justify-center rounded-full border border-[#C9A24A]/85 bg-[#071B24]/10 shadow-[0_0_0_1px_rgba(201,162,74,0.08)] group-hover:border-white group-hover:bg-white/5">
                 <Play size={13} className="ml-0.5 fill-current" />

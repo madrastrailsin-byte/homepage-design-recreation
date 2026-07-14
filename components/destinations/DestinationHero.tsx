@@ -152,30 +152,21 @@ export default function DestinationHero({ children }: DestinationHeroProps) {
 
       {/* ── Editorial Typography — upper left ── */}
       <div
-        className="absolute top-28 md:top-36 left-8 md:left-14 lg:left-20 max-w-xs md:max-w-sm"
+        className="absolute top-[24%] left-8 md:left-14 lg:left-20 max-w-[260px]"
         style={{ zIndex: 40 }}
       >
-        <motion.p
-          className="mt-eyebrow text-[#C9A24A] text-[10px] tracking-[0.38em] mb-5"
-          style={{ opacity: 0.62 }}
-          custom={0}
-          variants={LINE}
-          initial="hidden"
-          animate="visible"
-        >
-          MadrasTrails · Beyond Boundaries
-        </motion.p>
 
         <motion.h1
-          className="mt-display text-[#F2E7CC] leading-[1.1] tracking-[-0.015em] mb-5"
-          style={{ fontSize: 'clamp(0.75rem, 1.36vw, 1.16rem)' }}
-          custom={1}
-          variants={LINE}
-          initial="hidden"
-          animate="visible"
-        >
-          The World<br />Awaits
-        </motion.h1>
+        className="mt-display mb-6 text-[#F2E7CC] text-[38px] md:text-[46px] lg:text-[54px] leading-[0.98] tracking-[-0.025em]"
+        custom={1}
+        variants={LINE}
+        initial="hidden"
+        animate="visible"
+>
+  The World
+  <br />
+  Awaits
+</motion.h1>
 
         <motion.div
           className="flex items-center gap-3 mb-5"
@@ -211,21 +202,6 @@ export default function DestinationHero({ children }: DestinationHeroProps) {
         animate={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
         transition={{ delay: 2.4, duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
       >
-        <div className="flex items-center gap-3">
-          {/* Mouse outline icon */}
-          <svg width="14" height="20" viewBox="0 0 14 20" fill="none" style={{ opacity: 0.45 }}>
-            <rect x="0.75" y="0.75" width="12.5" height="18.5" rx="6.25" stroke="#C9A24A" strokeWidth="1.1" />
-            <rect x="6.1" y="3.5" width="1.8" height="4.5" rx="0.9" fill="#C9A24A" opacity="0.7" />
-          </svg>
-          <div>
-            <p className="mt-eyebrow text-[#C9A24A] text-[9px] tracking-[0.32em]" style={{ opacity: 0.52 }}>
-              DRAG TO ROTATE
-            </p>
-            <p className="mt-eyebrow text-[#4A6070] text-[9px] tracking-[0.32em] mt-1" style={{ opacity: 0.42 }}>
-              SCROLL TO EXPLORE
-            </p>
-          </div>
-        </div>
 
         {/* Animated chevron */}
         <motion.div

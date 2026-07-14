@@ -28,8 +28,8 @@ export default function Scene03HotelStage({ content }: Scene03HotelStageProps) {
   }
 
   return (
-    <div className="mt-scene03-visual relative h-full min-h-[18rem] overflow-hidden sm:min-h-[22rem] md:min-h-0">
-      <div className="mt-scene03-image-shell absolute inset-0 overflow-hidden">
+    <div className="mt-scene03-visual relative h-full min-h-[18rem] overflow-visible sm:min-h-[22rem] md:min-h-0">
+      <div className="mt-scene03-image-shell absolute inset-y-0 -left-[18%] right-0 overflow-hidden">
         <AnimatePresence>
           <motion.div
             key={selectedHotel.image}
@@ -56,7 +56,9 @@ export default function Scene03HotelStage({ content }: Scene03HotelStageProps) {
 
       <div className="mt-scene03-overlay relative z-10 flex h-full flex-col justify-end gap-3 p-4 sm:p-6 md:justify-center md:p-8 lg:p-10">
         <div className="mt-scene03-overlay-grid flex w-full flex-col items-stretch gap-3 sm:items-end md:max-w-none md:flex-row md:items-center md:justify-end md:gap-4 lg:gap-5">
-          <Scene03SupportCards hotels={content.hotels} selectedId={selectedHotel.id} onSelect={handleHotelSelect} />
+          <div className="lg:translate-x-5">
+            <Scene03SupportCards hotels={content.hotels} selectedId={selectedHotel.id} onSelect={handleHotelSelect} />
+          </div>
           <div className="flex justify-end">
             <Scene03InfoPanel
               hotel={selectedHotel}
