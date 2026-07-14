@@ -2,6 +2,7 @@
 
 import Image from 'next/image'
 import { ChangeEvent, FormEvent, useState } from 'react'
+import AnimatedLantern from './AnimatedLantern'
 import RoyalDispatch from './RoyalDispatch'
 import {
   Pirata_One,
@@ -129,17 +130,29 @@ export default function PlanJourneyPage() {
       }}
     >
       <div className="absolute inset-0 bg-black/20" />
+      <AnimatedLantern />
+
 
       {/* Parchment */}
       <div className="absolute inset-x-0 -top-4 bottom-[-15%] flex items-center justify-center overflow-hidden">
-        <div className="relative h-[110%] w-[76%]">
+        <div className="parchment-breathe relative h-[110%] w-[76%]">
           <Image
-            src="/assets/parchment/parchment-blank.png"
-            alt="Ancient parchment"
-            fill
-            priority
-            className="scale-x-[1.4] scale-y-[1.15] object-contain brightness-[0.76] saturate-[0.88] contrast-[1.04] drop-shadow-[0_30px_60px_rgba(0,0,0,0.5)]"
-          />
+  src="/assets/parchment/parchment-blank.png"
+  alt="Ancient parchment"
+  fill
+  priority
+  className="scale-x-[1.4] scale-y-[1.15] object-contain brightness-[0.76] saturate-[0.88] contrast-[1.04] drop-shadow-[0_30px_60px_rgba(0,0,0,0.5)]"
+/>
+          {['top','right','bottom','corner'].map((edge) => (
+            <Image
+              key={edge}
+              src="/assets/parchment/parchment-blank.png"
+              alt=""
+              aria-hidden="true"
+              fill
+              className={`storm-edge storm-edge-${edge} scale-x-[1.4] scale-y-[1.15] object-contain brightness-[0.76] saturate-[0.88] contrast-[1.04]`}
+            />
+          ))}
         </div>
       </div>
 {/* Wax Seal */}
