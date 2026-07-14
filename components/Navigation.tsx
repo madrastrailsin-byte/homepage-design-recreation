@@ -99,7 +99,7 @@ ${logoPulse ? "mt-logo-receipt" : ""}
         </motion.a>
 
         {/* Desktop Menu */}
-        <motion.div initial={introInitial} animate={introAnimate} transition={introTransition(0.26)} className="hidden md:flex items-center gap-9 xl:gap-11">
+        <motion.div initial={introInitial} animate={introAnimate} transition={introTransition(0.26)} className="hidden lg:flex items-center gap-7 xl:gap-9">
           <a href="/destinations" className={navLinkClass}>
             Destinations
           </a>

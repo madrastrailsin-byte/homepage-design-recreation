@@ -3,6 +3,8 @@
 import { Suspense, useEffect, useMemo, useRef, useState } from 'react'
 import { Canvas, useFrame, useLoader, useThree } from '@react-three/fiber'
 import { Environment } from '@react-three/drei'
+import type * as ThreeTypes from '../../node_modules/.pnpm/@types+three@0.185.0/node_modules/@types/three'
+// @ts-expect-error The project has @types/three installed transitively but not hoisted for module resolution.
 import * as THREE from 'three'
 import { useReducedMotion } from 'framer-motion'
 import { destinations } from '@/lib/destinations'
@@ -15,11 +17,11 @@ interface GlobeProps {
 
 interface DestinationMarkerProps {
   id: string
-  position: THREE.Vector3
+  position: ThreeTypes.Vector3
   color: string
   phase: number
   selected: boolean
-  glowTexture: THREE.Texture
+  glowTexture: ThreeTypes.Texture
   reducedMotion: boolean
   onSelect?: (id: string) => void
 }
@@ -60,7 +62,7 @@ function SceneSetup() {
   useEffect(() => {
     gl.toneMapping = THREE.ACESFilmicToneMapping
     gl.toneMappingExposure = 0.9
-    ;(scene as THREE.Scene & { environmentIntensity?: number }).environmentIntensity =
+    ;(scene as ThreeTypes.Scene & { environmentIntensity?: number }).environmentIntensity =
       0.42
   }, [gl, scene])
 
@@ -140,11 +142,11 @@ function DestinationMarker({
   reducedMotion,
   onSelect,
 }: DestinationMarkerProps) {
-  const markerRef = useRef<THREE.Group>(null)
-  const coreRef = useRef<THREE.Group>(null)
-  const glowRef = useRef<THREE.Sprite>(null)
-  const pulseRef = useRef<THREE.Mesh>(null)
-  const pulseMaterialRef = useRef<THREE.MeshBasicMaterial>(null)
+  const markerRef = useRef<ThreeTypes.Group>(null)
+  const coreRef = useRef<ThreeTypes.Group>(null)
+  const glowRef = useRef<ThreeTypes.Sprite>(null)
+  const pulseRef = useRef<ThreeTypes.Mesh>(null)
+  const pulseMaterialRef = useRef<ThreeTypes.MeshBasicMaterial>(null)
   const [hovered, setHovered] = useState(false)
 
   const orientation = useMemo(() => {
@@ -208,7 +210,7 @@ function DestinationMarker({
       damping,
     )
 
-    const glowMaterial = glowRef.current.material as THREE.SpriteMaterial
+    const glowMaterial = glowRef.current.material as ThreeTypes.SpriteMaterial
     glowMaterial.opacity = selected ? 0.96 : hovered ? 0.9 : 0.58
 
     const pulseScale = reducedMotion
@@ -328,13 +330,13 @@ function NasaEarth({
   previousDestination?: string
   onSelect?: (id: string) => void
 }) {
-  const tiltRef = useRef<THREE.Group>(null)
-  const globeRef = useRef<THREE.Group>(null)
-  const clouds1Ref = useRef<THREE.Mesh>(null)
-  const clouds2Ref = useRef<THREE.Mesh>(null)
-  const surfaceGlowRef = useRef<THREE.Sprite>(null)
-  const routeLineRef = useRef<THREE.Line>(null)
-  const routePointRef = useRef<THREE.Mesh>(null)
+  const tiltRef = useRef<ThreeTypes.Group>(null)
+  const globeRef = useRef<ThreeTypes.Group>(null)
+  const clouds1Ref = useRef<ThreeTypes.Mesh>(null)
+  const clouds2Ref = useRef<ThreeTypes.Mesh>(null)
+  const surfaceGlowRef = useRef<ThreeTypes.Sprite>(null)
+  const routeLineRef = useRef<ThreeTypes.Line>(null)
+  const routePointRef = useRef<ThreeTypes.Mesh>(null)
   const transitionStartedAt = useRef(0)
   const targetQuaternion = useRef(new THREE.Quaternion())
   const isAnimatingToDestination = useRef(false)
@@ -491,7 +493,7 @@ function NasaEarth({
         : 1 + Math.sin(elapsed * 1.65) * 0.055
 
       surfaceGlowRef.current.scale.set(1.42 * pulse, 1.42 * pulse, 1)
-      const material = surfaceGlowRef.current.material as THREE.SpriteMaterial
+      const material = surfaceGlowRef.current.material as ThreeTypes.SpriteMaterial
       material.opacity = selectedMarker ? 0.34 : 0
     }
 
@@ -739,7 +741,7 @@ function NasaEarth({
 
         {routeGeometry && (
           <>
-            <line ref={routeLineRef} geometry={routeGeometry.geometry} renderOrder={6}>
+            <threeLine ref={routeLineRef} geometry={routeGeometry.geometry} renderOrder={6}>
               <lineBasicMaterial
                 color="#E7C66D"
                 transparent
@@ -748,7 +750,7 @@ function NasaEarth({
                 depthWrite={false}
                 toneMapped={false}
               />
-            </line>
+            </threeLine>
 
             <mesh ref={routePointRef} renderOrder={9}>
               <sphereGeometry args={[0.062, 18, 18]} />

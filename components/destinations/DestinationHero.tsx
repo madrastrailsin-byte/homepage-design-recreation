@@ -1,7 +1,7 @@
 'use client'
 
 import { useCallback, useRef } from 'react'
-import { motion, useMotionValue, useSpring, useTransform, useReducedMotion } from 'framer-motion'
+import { motion, useMotionValue, useSpring, useTransform, useReducedMotion, type Variants } from 'framer-motion'
 
 // Deterministic star positions — no Math.random() to avoid hydration mismatch
 const STAR_FIELD = Array.from({ length: 180 }, (_, i) => {
@@ -19,13 +19,15 @@ const STAR_FIELD = Array.from({ length: 180 }, (_, i) => {
 })
 
 // Staggered text reveal
-const LINE = {
+const LINE_EASE: [number, number, number, number] = [0.22, 1, 0.36, 1]
+
+const LINE: Variants = {
   hidden: { opacity: 0, y: 24, filter: 'blur(6px)' },
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
     filter: 'blur(0px)',
-    transition: { duration: 1.2, delay: 0.55 + i * 0.16, ease: [0.22, 1, 0.36, 1] },
+    transition: { duration: 1.2, delay: 0.55 + i * 0.16, ease: LINE_EASE },
   }),
 }
 

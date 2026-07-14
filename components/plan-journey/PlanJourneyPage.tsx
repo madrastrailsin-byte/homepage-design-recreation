@@ -121,7 +121,7 @@ export default function PlanJourneyPage() {
 
   return (
     <section
-      className="relative h-screen overflow-hidden"
+      className="relative min-h-svh overflow-x-hidden overflow-y-auto px-4 py-6 lg:h-screen lg:overflow-hidden lg:px-0 lg:py-0"
       style={{
         backgroundImage: "url('/assets/wood/tabletop-dark-antique.jpg')",
         backgroundSize: 'cover',
@@ -130,13 +130,15 @@ export default function PlanJourneyPage() {
       }}
     >
       <div className="absolute inset-0 bg-black/20" />
-      <AnimatedLantern />
+      <div className="hidden lg:block">
+        <AnimatedLantern />
+      </div>
 
 
       {/* Parchment */}
-      <div className="absolute inset-x-0 -top-4 bottom-[-15%] flex items-center justify-center overflow-hidden">
+      <div className="pointer-events-none absolute inset-x-2 top-4 bottom-4 flex items-center justify-center overflow-hidden rounded-[18px] lg:inset-x-0 lg:-top-4 lg:bottom-[-15%] lg:rounded-none">
         <div
-  className={`parchment-breathe relative h-[110%] w-[76%] transition-transform duration-150 ${
+  className={`parchment-breathe relative h-full w-full transition-transform duration-150 lg:h-[110%] lg:w-[76%] ${
     isSubmitting ? 'translate-y-[1px] scale-[0.998]' : ''
   }`}
 >
@@ -147,13 +149,13 @@ export default function PlanJourneyPage() {
               alt=""
               aria-hidden="true"
               fill
-              className={`storm-edge storm-edge-${edge} scale-x-[1.4] scale-y-[1.15] object-contain brightness-[0.76] saturate-[0.88] contrast-[1.04]`}
+              className={`storm-edge storm-edge-${edge} scale-x-[1.65] scale-y-[1.08] object-fill brightness-[0.76] saturate-[0.88] contrast-[1.04] lg:scale-x-[1.4] lg:scale-y-[1.15] lg:object-contain`}
             />
           ))}
         </div>
       </div>
 {/* Wax Seal */}
-      <div className="absolute bottom-[1%] right-[6%] z-30">
+      <div className="absolute bottom-[1%] right-[6%] z-30 hidden lg:block">
         <button
           type="submit"
           form="plan-journey-form"
@@ -193,19 +195,19 @@ export default function PlanJourneyPage() {
       {/* Questionnaire */}
       <form
         id="plan-journey-form"
-        className="absolute left-1/2 top-[54%] z-20 h-[74%] w-[76%] -translate-x-1/2 -translate-y-1/2 text-[#2d170c]"
+        className="relative z-20 mx-auto flex w-full max-w-[480px] flex-col px-3 py-7 text-[#2d170c] sm:px-6 lg:absolute lg:left-1/2 lg:top-[54%] lg:h-[74%] lg:w-[76%] lg:max-w-none lg:-translate-x-1/2 lg:-translate-y-1/2 lg:p-0"
         onSubmit={handleSubmit}
       >
         {/* Burnt centre crease */}
-        <div className="pointer-events-none absolute left-1/2 top-[-2%] h-[104%] w-[3px] -translate-x-1/2 bg-gradient-to-b from-transparent via-[#6b3518]/30 to-transparent" />
+        <div className="pointer-events-none absolute left-1/2 top-[-2%] hidden h-[104%] w-[3px] -translate-x-1/2 bg-gradient-to-b from-transparent via-[#6b3518]/30 to-transparent lg:block" />
 
-        <div className="grid h-full grid-cols-2">
+        <div className="grid gap-6 lg:h-full lg:grid-cols-2 lg:gap-0">
           {/* LEFT PAGE */}
-          <section className="flex h-full justify-center pr-[3.2vw]">
-            <div className="flex h-full w-[86%] flex-col items-center">
-              <header className="mt-[1.8vh] w-full text-center">
+          <section className="flex justify-center lg:h-full lg:pr-[3.2vw]">
+            <div className="flex w-full flex-col items-center lg:h-full lg:w-[86%]">
+              <header className="w-full text-center lg:mt-[1.8vh]">
                 <h1
-                  className={`${royalFont.className} text-[clamp(2.6rem,3.5vw,4.4rem)] leading-none`}
+                  className={`${royalFont.className} text-[clamp(2.65rem,13vw,4rem)] leading-none lg:text-[clamp(2.6rem,3.5vw,4.4rem)]`}
                 >
                   The Traveller&apos;s Letter
                 </h1>
@@ -217,7 +219,7 @@ export default function PlanJourneyPage() {
                 </div>
               </header>
 
-              <div className="mt-[4vh] w-full">
+              <div className="mt-8 w-full lg:mt-[4vh]">
                 <Field label="Desired Kingdom">
                   <input
                     type="text"
@@ -228,7 +230,7 @@ export default function PlanJourneyPage() {
 
                 <Ornament />
 
-                <div className="grid grid-cols-2 gap-x-[1.5vw]">
+                <div className="grid gap-5 lg:grid-cols-2 lg:gap-x-[1.5vw] lg:gap-y-0">
                   <Field label="Date of Embarkation">
                     <input
                       name="date"
@@ -271,7 +273,7 @@ export default function PlanJourneyPage() {
 
                 <Ornament />
 
-                <div className="grid grid-cols-2 gap-x-[1.5vw]">
+                <div className="grid gap-5 lg:grid-cols-2 lg:gap-x-[1.5vw] lg:gap-y-0">
                   <Field label="Members of the Entourage">
                     <input
                       name="adults"
@@ -323,21 +325,21 @@ export default function PlanJourneyPage() {
           </section>
 
           {/* RIGHT PAGE */}
-          <section className="flex h-full justify-center pl-[3.2vw]">
-            <div className="flex h-full w-[86%] flex-col items-center">
+          <section className="flex justify-center lg:h-full lg:pl-[3.2vw]">
+            <div className="flex w-full flex-col items-center lg:h-full lg:w-[86%]">
               {/* Preferred pursuits */}
               <div className="w-full text-center">
                 <h2
-                  className={`${royalFont.className} text-[clamp(2rem,2.5vw,3rem)] leading-none`}
+                  className={`${royalFont.className} text-[clamp(2rem,10vw,3rem)] leading-none lg:text-[clamp(2rem,2.5vw,3rem)]`}
                 >
                   Preferred Pursuits
                 </h2>
 
-                <p className={`${answerFont.className} mt-1 text-[0.78rem] text-[#4f2f20]/80`}>
+                <p className={`${answerFont.className} mt-1 text-sm text-[#4f2f20]/80 lg:text-[0.78rem]`}>
                   Choose up to three
                 </p>
 
-                <div className="mt-[1.4vh] grid grid-cols-3 gap-x-[0.8vw] gap-y-[1.2vh]">
+                <div className="mt-4 grid grid-cols-2 gap-3 lg:mt-[1.4vh] lg:grid-cols-3 lg:gap-x-[0.8vw] lg:gap-y-[1.2vh]">
                   {interests.map((interest) => {
                     const selected = selectedInterests.includes(interest)
 
@@ -347,7 +349,7 @@ export default function PlanJourneyPage() {
                         type="button"
                         aria-pressed={selected}
                         onClick={() => toggleInterest(interest)}
-                        className={`${answerFont.className} rounded-full border px-[0.8vw] py-[0.78vh] text-center text-[clamp(0.9rem,1vw,1.08rem)] transition duration-200 ${
+                        className={`${answerFont.className} min-h-12 rounded-full border px-3 py-2 text-center text-[1rem] transition duration-200 lg:min-h-0 lg:px-[0.8vw] lg:py-[0.78vh] lg:text-[clamp(0.9rem,1vw,1.08rem)] ${
                           selected
                             ? 'border-[#4a2715]/70 bg-[#4a2715] text-[#f0d6a6] shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_4px_10px_rgba(58,28,12,0.18)]'
                             : 'border-[#5f3a22]/55 bg-[#f0d29a]/14 text-[#2f190f] hover:border-[#4a2715]/70 hover:bg-[#6a3a1f]/12'
@@ -393,7 +395,7 @@ export default function PlanJourneyPage() {
                 </div>
 
 
-                <div className="mt-[1.5vh] grid grid-cols-2 gap-x-[1.5vw]">
+                <div className="mt-5 grid gap-5 lg:mt-[1.5vh] lg:grid-cols-2 lg:gap-x-[1.5vw] lg:gap-y-0">
                   <Field label="Honoured Name">
                     <input
                       name="name"
@@ -420,7 +422,7 @@ export default function PlanJourneyPage() {
                   </Field>
                 </div>
 
-                <div className="mt-[0.8vh]">
+                <div className="mt-5 lg:mt-[0.8vh]">
                   <Field label="Messenger's Number">
                     <input
                       name="phone"
@@ -441,6 +443,41 @@ export default function PlanJourneyPage() {
             </div>
           </section>
         </div>
+        <div className="mt-8 flex justify-center lg:hidden">
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            aria-label="Affix the royal seal and send this letter"
+            className="
+              group relative
+              transition-transform duration-200 ease-out
+              active:translate-y-[8px]
+              active:scale-[0.94]
+              disabled:cursor-default
+            "
+          >
+            <Image
+              src="/assets/props/wax-seal-red.png"
+              alt="Seal Thy Letter"
+              width={98}
+              height={98}
+              priority
+              className={`
+                h-auto w-[98px]
+                rotate-[-12deg]
+                drop-shadow-[0_10px_18px_rgba(0,0,0,0.36)]
+                transition-[transform,filter] duration-200 ease-out
+                group-active:rotate-[-14deg]
+                group-active:drop-shadow-[0_1px_2px_rgba(0,0,0,0.45)]
+                ${
+                  isSubmitting
+                    ? 'translate-y-[6px] scale-[0.97] rotate-[-14deg] drop-shadow-[0_3px_5px_rgba(0,0,0,0.28)]'
+                    : ''
+                }
+              `}
+            />
+          </button>
+        </div>
       </form>
       <RoyalDispatch
         open={isSubmitting}
@@ -460,19 +497,19 @@ function Field({
   return (
     <label className="block min-w-0 text-center">
       <span
-        className={`${royalFont.className} block text-center text-[clamp(1rem,1.2vw,1.4rem)] leading-none`}
+        className={`${royalFont.className} block text-center text-[clamp(1.25rem,6vw,1.7rem)] leading-none lg:text-[clamp(1rem,1.2vw,1.4rem)]`}
       >
         {label}
       </span>
 
-      <span className="mt-[0.7vh] block">{children}</span>
+      <span className="mt-2 block lg:mt-[0.7vh]">{children}</span>
     </label>
   )
 }
 
 function Ornament() {
   return (
-    <div className="mx-auto my-[2vh] flex w-[62%] items-center gap-2 text-[#6b3b20]/65">
+    <div className="mx-auto my-5 flex w-[62%] items-center gap-2 text-[#6b3b20]/65 lg:my-[2vh]">
       <span className="h-px flex-1 bg-[#6b3b20]/30" />
       <span className="text-xs">❧</span>
       <span className="h-px flex-1 bg-[#6b3b20]/30" />
@@ -481,7 +518,7 @@ function Ornament() {
 }
 
 const inputClass =
-  `${answerFont.className} h-[44px] w-full rounded-[8px] border border-[#5f3a22]/38 bg-[#f4ddb0]/24 px-4 py-0 text-left text-[clamp(0.88rem,0.98vw,1.08rem)] leading-[44px] text-[#4b2b1b] outline-none transition placeholder:text-[#6a4632]/68 focus:border-[#3d2415] focus:bg-[#f6e2b9]/34`
+  `${answerFont.className} h-12 w-full rounded-[8px] border border-[#5f3a22]/38 bg-[#f4ddb0]/24 px-4 py-0 text-left text-[1rem] leading-[48px] text-[#4b2b1b] outline-none transition placeholder:text-[#6a4632]/68 focus:border-[#3d2415] focus:bg-[#f6e2b9]/34 lg:h-[44px] lg:text-[clamp(0.88rem,0.98vw,1.08rem)] lg:leading-[44px]`
 
 const textareaClass =
-  `${answerFont.className} min-h-[66px] w-full resize-none rounded-[8px] border border-[#5f3a22]/38 bg-[#f4ddb0]/24 px-4 py-3 text-left text-[clamp(0.88rem,0.98vw,1.08rem)] leading-relaxed text-[#4b2b1b] outline-none transition placeholder:text-[#6a4632]/68 focus:border-[#3d2415] focus:bg-[#f6e2b9]/34`
+  `${answerFont.className} min-h-[120px] w-full resize-none rounded-[8px] border border-[#5f3a22]/38 bg-[#f4ddb0]/24 px-4 py-3 text-left text-[1rem] leading-relaxed text-[#4b2b1b] outline-none transition placeholder:text-[#6a4632]/68 focus:border-[#3d2415] focus:bg-[#f6e2b9]/34 lg:min-h-[66px] lg:text-[clamp(0.88rem,0.98vw,1.08rem)]`
