@@ -1,8 +1,8 @@
 'use client'
 
 import { motion, useReducedMotion } from 'framer-motion'
-import { ArrowRight } from 'lucide-react'
 import BrandLogo from './BrandLogo'
+import JourneyTransitionLink from './JourneyTransitionLink'
 
 export default function Footer() {
   const prefersReducedMotion = useReducedMotion()
@@ -38,20 +38,22 @@ export default function Footer() {
               className="mt-story-footer-newsletter"
             >
               <h3 className="mt-display text-xl md:text-2xl text-[#FAFAF9] mb-3">Let&apos;s craft your next journey</h3>
-              <p className="mt-body-copy text-[#D4AF37]/62 text-xs md:text-sm mb-4">Your story deserves more than a holiday.</p>
-              <form className="flex gap-2">
-                <input
-                  type="email"
-                  placeholder="Enter your email"
-                  className="mt-body-copy flex-1 bg-[#020F12]/36 border border-[#D4AF37]/20 rounded-lg px-4 py-2 text-xs md:text-sm text-[#FAFAF9] placeholder-[#FAFAF9]/34 focus:outline-none focus:border-[#D4AF37]"
-                />
-                <button
-                  type="submit"
-                  className="mt-gold-sheen flex items-center justify-center w-10 h-10 bg-[#D4AF37] text-[#03191D] rounded-full hover:bg-[#D4AF37] flex-shrink-0"
+              <p className="mt-body-copy text-[#D4AF37]/62 text-xs md:text-sm mb-4">Every unforgettable expedition begins with a conversation.</p>
+              <div className="flex flex-col items-start gap-3">
+                <JourneyTransitionLink
+                  href="/plan"
+                  className="mt-gold-sheen mt-ui inline-flex items-center justify-center rounded-[4px] bg-[#D4AF37] px-7 py-3 text-xs text-[#03191D] shadow-[0_12px_28px_rgba(212,175,55,0.18)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#E0BD4B] hover:shadow-[0_17px_38px_rgba(212,175,55,0.24)]"
                 >
-                  <ArrowRight size={18} />
-                </button>
-              </form>
+                  Begin Your Royal Dispatch →
+                </JourneyTransitionLink>
+
+                <a
+                  href="mailto:info@madrastrails.in"
+                  className="mt-body-copy text-xs text-[#FAFAF9]/62 transition-colors duration-300 hover:text-[#D4AF37]"
+                >
+                  Prefer a quick note? info@madrastrails.in
+                </a>
+              </div>
             </motion.div>
 
             {/* Part C: Follow Us Section */}

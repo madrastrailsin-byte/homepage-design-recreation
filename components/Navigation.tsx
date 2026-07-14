@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
 import Link from 'next/link'
 import BrandLogo from './BrandLogo'
+import JourneyTransitionLink from './JourneyTransitionLink'
 
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false)
@@ -116,12 +117,12 @@ ${logoPulse ? "mt-logo-receipt" : ""}
   transition={introTransition(0.38)}
   className="flex items-center gap-3"
 >
-  <Link
+  <JourneyTransitionLink
     href="/plan"
     className="btn-gold mt-gold-sheen mt-ui hidden md:block text-xs py-1.5 px-5 transition-transform duration-300 hover:-translate-y-0.5 hover:shadow-[0_14px_30px_rgba(212,175,55,0.24)]"
   >
     Plan Your Journey →
-  </Link>
+  </JourneyTransitionLink>
 
   <button
     onClick={() => setIsOpen(!isOpen)}
@@ -187,13 +188,13 @@ ${logoPulse ? "mt-logo-receipt" : ""}
         Contact
       </a>
 
-      <Link
+      <JourneyTransitionLink
         href="/plan"
-        onClick={() => setIsOpen(false)}
+        onNavigate={() => setIsOpen(false)}
         className="btn-gold mt-ui w-full text-center text-xs tracking-wide"
       >
         Plan Your Journey →
-      </Link>
+      </JourneyTransitionLink>
     </div>
   </div>
 )}

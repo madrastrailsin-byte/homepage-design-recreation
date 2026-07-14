@@ -7,6 +7,7 @@ import Lenis from 'lenis'
 import { motion, useReducedMotion } from 'framer-motion'
 import Image from 'next/image'
 import { useEffect, useRef } from 'react'
+import JourneyTransitionLink from './JourneyTransitionLink'
 
 export default function Hero() {
   const sectionRef = useRef<HTMLElement>(null)
@@ -147,6 +148,18 @@ export default function Hero() {
         .fromTo('.mt-story-destination-copy', { autoAlpha: 0.25, y: 24 }, { autoAlpha: 1, y: 0, ease: 'power3.out' }, 0.08)
         .fromTo('.mt-story-destination-stage', { autoAlpha: 0.35, y: 20, scale: 0.992 }, { autoAlpha: 1, y: 0, scale: 1, ease: 'power3.out' }, 0.16)
 
+      gsap.to('.mt-story-destination-stage', {
+        y: -8,
+        scale: 0.996,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: '.mt-scroll-destinations',
+          start: 'center 26%',
+          end: 'bottom top',
+          scrub: 0.8,
+        },
+      })
+
       gsap.timeline({
         scrollTrigger: {
           trigger: '.mt-scroll-experiences',
@@ -157,6 +170,17 @@ export default function Hero() {
       })
         .fromTo('.mt-story-experience-copy', { autoAlpha: 0.2, y: 28 }, { autoAlpha: 1, y: 0, ease: 'power3.out' }, 0)
         .fromTo('.mt-story-experience-card', { autoAlpha: 0.18, y: 44, scale: 0.988 }, { autoAlpha: 1, y: 0, scale: 1, stagger: 0.08, ease: 'power3.out' }, 0.12)
+
+      gsap.to('.mt-story-experience-card', {
+        y: -10,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: '.mt-scroll-experiences',
+          start: 'center 24%',
+          end: 'bottom top',
+          scrub: 0.8,
+        },
+      })
 
       gsap.timeline({
         scrollTrigger: {
@@ -177,11 +201,6 @@ export default function Hero() {
       lenis.destroy()
     }
   }, [prefersReducedMotion])
-
-  const handleJourneyClick = () => {
-    const footer = document.querySelector('footer')
-    footer?.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth', block: 'start' })
-  }
 
   return (
     <section 
@@ -225,7 +244,7 @@ export default function Hero() {
         <div className="mt-hero-exit-group relative max-w-[43rem]">
           <div className="mt-hero-camera-copy mt-hero-typography relative flex flex-col">
           {/* Main Headline Artwork */}
-          <div data-hero-reveal="heading" className="mb-4 md:mb-5 w-[170px] md:w-[230px] lg:w-[270px]" style={{ opacity: 0 }}>
+          <div data-hero-reveal="heading" className="mb-5 md:mb-6 w-[215px] md:w-[320px] lg:w-[400px]" style={{ opacity: 0 }}>
             <Image
               src="/images/homepage/hero-travel-like-local.svg"
               alt="Travel Like A Local"
@@ -237,7 +256,7 @@ export default function Hero() {
           </div>
 
           {/* Decorative divider */}
-          <div data-hero-reveal="divider" className="flex items-center gap-0 mb-4 md:mb-5" style={{ width: '220px' }}>
+          <div data-hero-reveal="divider" className="flex items-center gap-0 mb-5 md:mb-6" style={{ width: '248px' }}>
             <div data-hero-divider-line="left" className="flex-1 h-px origin-right bg-gradient-to-r from-[#C9A24A]/75 to-[#C9A24A]/35" style={{ transform: 'scaleX(0)' }} />
             <div className="relative mx-3 flex h-2.5 w-2.5 items-center justify-center">
               <div data-hero-divider-diamond className="h-1.5 w-1.5 rotate-45 border border-[#C9A24A]/80" style={{ opacity: 0, transform: 'rotate(45deg) scale(0.82)' }} />
@@ -247,16 +266,19 @@ export default function Hero() {
           </div>
 
           {/* Description */}
-          <p data-hero-reveal="description" className="mt-body-copy max-w-[24rem] text-sm leading-relaxed text-[#E8E8E8] mb-6 md:text-base md:mb-7" style={{ opacity: 0, textShadow: '0 10px 26px rgba(0, 0, 0, 0.34)' }}>
+          <p data-hero-reveal="description" className="mt-body-copy text-[#E8E8E8] text-sm md:text-base leading-relaxed mb-7 md:mb-8 max-w-[22rem]" style={{ opacity: 0, textShadow: '0 10px 26px rgba(0, 0, 0, 0.34)' }}>
             Travel has become faster. We believe it should become more meaningful.
           </p>
 
           {/* CTA Buttons */}
-          <div data-hero-reveal="ctas" className="mt-hero-actions flex flex-col items-start gap-3.5 sm:flex-row sm:items-center" style={{ opacity: 0 }}>
-            <button onClick={handleJourneyClick} className="mt-gold-sheen mt-ui group inline-flex items-center justify-center gap-2 rounded-[4px] bg-[#C9A24A] px-7 py-3 text-xs text-[#071B24] shadow-[0_12px_28px_rgba(201,162,74,0.18)] hover:bg-[#D4B860] hover:shadow-[0_17px_38px_rgba(201,162,74,0.24),0_0_22px_rgba(212,175,55,0.1)] md:px-8">
+          <div data-hero-reveal="ctas" className="mt-hero-actions flex flex-col sm:flex-row gap-4 items-start sm:items-center" style={{ opacity: 0 }}>
+            <JourneyTransitionLink
+              href="/plan"
+              className="mt-gold-sheen mt-ui group inline-flex items-center justify-center gap-2 rounded-[4px] bg-[#C9A24A] px-7 py-3 text-xs text-[#071B24] shadow-[0_12px_28px_rgba(201,162,74,0.18)] hover:bg-[#D4B860] hover:shadow-[0_17px_38px_rgba(201,162,74,0.24),0_0_22px_rgba(212,175,55,0.1)] md:px-8"
+            >
               <span>Start Your Journey</span>
               <span className={ctaArrowClass}>→</span>
-            </button>
+            </JourneyTransitionLink>
             <button className="group flex items-center gap-3.5 text-[#C9A24A] transition-colors hover:text-white">
               <div className="mt-gold-sheen flex h-10 w-10 items-center justify-center rounded-full border border-[#C9A24A]/85 bg-[#071B24]/10 shadow-[0_0_0_1px_rgba(201,162,74,0.08)] group-hover:border-white group-hover:bg-white/5">
                 <Play size={13} className="ml-0.5 fill-current" />
