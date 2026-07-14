@@ -10,18 +10,52 @@ import BrandLogo from './BrandLogo'
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
+  const [logoPulse, setLogoPulse] = useState(false)
+  const [isLogoAcknowledged, setIsLogoAcknowledged] = useState(false)
   const pathname = usePathname()
   const prefersReducedMotion = useReducedMotion()
   const introInitial = prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: -6 }
   const introAnimate = prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }
   const introTransition = (delay = 0) => ({ duration: 0.72, delay, ease: [0.22, 1, 0.36, 1] as const })
+  
+  useEffect(() => {
+  const handleRoyalDispatch = () => {
+    setLogoPulse(true)
 
+    window.setTimeout(() => {
+      setLogoPulse(false)
+    }, 2900)
+  }
+
+  window.addEventListener('royal-seal-finished', handleRoyalDispatch)
+
+  return () => {
+    window.removeEventListener('royal-seal-finished', handleRoyalDispatch)
+  }
+}, [])
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 18)
 
     handleScroll()
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  useEffect(() => {
+    let resetTimer: number | undefined
+
+    const acknowledgeDispatch = () => {
+      setIsLogoAcknowledged(false)
+      window.requestAnimationFrame(() => setIsLogoAcknowledged(true))
+      resetTimer = window.setTimeout(() => setIsLogoAcknowledged(false), 900)
+    }
+
+    window.addEventListener('royal-seal-finished', acknowledgeDispatch)
+
+    return () => {
+      window.removeEventListener('royal-seal-finished', acknowledgeDispatch)
+      if (resetTimer) window.clearTimeout(resetTimer)
+    }
   }, [])
 
   const navLinkClass =
@@ -48,7 +82,17 @@ export default function Navigation() {
           initial={introInitial}
           animate={introAnimate}
           transition={introTransition(0.12)}
-          className="relative inline-flex items-center rounded-[16px] border border-[#D8D8D5] bg-[#FAFAF9] px-[0.7rem] py-[0.45rem] shadow-[0_12px_36px_rgba(0,0,0,0.22)] transition-shadow duration-300 hover:shadow-[0_16px_44px_rgba(0,0,0,0.28)]"
+          className={`
+relative inline-flex items-center rounded-[16px]
+border border-[#D8D8D5]
+bg-[#FAFAF9]
+px-[0.7rem]
+py-[0.45rem]
+shadow-[0_12px_36px_rgba(0,0,0,0.22)]
+transition-all duration-500
+hover:shadow-[0_16px_44px_rgba(0,0,0,0.28)]
+${logoPulse ? "mt-logo-receipt" : ""}
+`}
         >
           <BrandLogo priority imageClassName="h-10 md:h-11 w-auto object-contain drop-shadow-[0_0_22px_rgba(232,244,255,0.068)]" />
         </motion.a>
@@ -153,6 +197,7 @@ export default function Navigation() {
     </div>
   </div>
 )}
+  
 </nav>
 )
 }

@@ -667,3 +667,69 @@ main.bg-\[\#0D1117\] {
     transform: translateZ(0) !important;
   }
 }
+
+/* Royal dispatch acknowledgement — premium golden line sweep */
+.mt-logo-receipt {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.mt-logo-receipt::before {
+  content: '';
+  position: absolute;
+  top: -45%;
+  bottom: -45%;
+  left: -42%;
+  width: 34%;
+  z-index: 5;
+  pointer-events: none;
+
+  background: linear-gradient(
+    105deg,
+    transparent 0%,
+    rgba(255, 238, 175, 0.08) 28%,
+    rgba(255, 226, 125, 0.42) 43%,
+    rgba(255, 255, 235, 0.98) 50%,
+    rgba(223, 176, 62, 0.52) 57%,
+    rgba(255, 238, 175, 0.1) 72%,
+    transparent 100%
+  );
+
+  filter: blur(2px);
+  mix-blend-mode: screen;
+  transform: skewX(-18deg);
+  animation: royalLightSweep 2600ms ease-in-out forwards;
+}
+
+@keyframes royalLightSweep {
+  0% {
+    left: -42%;
+    opacity: 0;
+  }
+
+  18% {
+    opacity: 0.35;
+  }
+
+  48% {
+    opacity: 1;
+  }
+
+  82% {
+    opacity: 0.35;
+  }
+
+  100% {
+    left: 112%;
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mt-logo-receipt::before {
+    animation: none !important;
+    opacity: 0 !important;
+  }
+}
+

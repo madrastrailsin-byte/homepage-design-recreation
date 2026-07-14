@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import { ChangeEvent, useState } from 'react'
+import { ChangeEvent, FormEvent, useState } from 'react'
 import RoyalDispatch from './RoyalDispatch'
 import {
   Pirata_One,
@@ -104,21 +104,20 @@ export default function PlanJourneyPage() {
     setPhone(formatIndianPhone(event.target.value))
   }
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
-  event.preventDefault()
+    event.preventDefault()
 
-  const form = event.currentTarget
+    const form = event.currentTarget
 
-  if (!form.checkValidity()) {
-    form.reportValidity()
-    return
+    if (!form.checkValidity()) {
+      form.reportValidity()
+      return
+    }
+
+    if (isSubmitting) return
+
+    setIsSubmitting(true)
   }
 
-  setIsSubmitting(true)
-
-  window.setTimeout(() => {
-    setIsSubmitting(false)
-  }, 8300)
-}
   return (
     <section
       className="relative h-screen overflow-hidden"
@@ -144,38 +143,46 @@ export default function PlanJourneyPage() {
         </div>
       </div>
 {/* Wax Seal */}
-<div className="absolute bottom-[1%] right-[6%] z-30">
-  <button
-  type="button"
-  onClick={() => {
-  alert('Seal clicked')
-  setIsSubmitting(true)
-}}
-  className="
-    group relative
-    transition-transform duration-200 ease-out
-    active:translate-y-[6px]
-    active:scale-[0.97]
-  "
->
-  <Image
-    src="/assets/props/wax-seal-red.png"
-    alt="Seal Thy Letter"
-    width={98}
-    height={98}
-    priority
-    className="
-      rotate-[-22deg]
-      drop-shadow-[0_10px_18px_rgba(0,0,0,0.36)]
-      transition-[transform,filter] duration-200 ease-out
-      group-active:rotate-[-24deg]
-      group-active:drop-shadow-[0_3px_5px_rgba(0,0,0,0.28)]
-    "
-  />
-</button>
-</div>
+      <div className="absolute bottom-[1%] right-[6%] z-30">
+        <button
+          type="submit"
+          form="plan-journey-form"
+          disabled={isSubmitting}
+          aria-label="Affix the royal seal and send this letter"
+          className="
+            group relative
+            transition-transform duration-200 ease-out
+            active:translate-y-[6px]
+            active:scale-[0.97]
+            disabled:cursor-default
+          "
+        >
+          <Image
+            src="/assets/props/wax-seal-red.png"
+            alt="Seal Thy Letter"
+            width={98}
+            height={98}
+            priority
+            className={`
+              h-auto w-[98px]
+              rotate-[-22deg]
+              drop-shadow-[0_10px_18px_rgba(0,0,0,0.36)]
+              transition-[transform,filter] duration-200 ease-out
+              group-active:rotate-[-24deg]
+              group-active:drop-shadow-[0_3px_5px_rgba(0,0,0,0.28)]
+              ${
+                isSubmitting
+                  ? 'translate-y-[6px] scale-[0.97] rotate-[-24deg] drop-shadow-[0_3px_5px_rgba(0,0,0,0.28)]'
+                  : ''
+              }
+            `}
+          />
+        </button>
+      </div>
+
       {/* Questionnaire */}
       <form
+        id="plan-journey-form"
         className="absolute left-1/2 top-[54%] z-20 h-[74%] w-[76%] -translate-x-1/2 -translate-y-1/2 text-[#2d170c]"
         onSubmit={handleSubmit}
       >
@@ -425,7 +432,10 @@ export default function PlanJourneyPage() {
           </section>
         </div>
       </form>
-      <RoyalDispatch open={isSubmitting} />
+      <RoyalDispatch
+        open={isSubmitting}
+        onComplete={() => setIsSubmitting(false)}
+      />
     </section>
   )
 }
