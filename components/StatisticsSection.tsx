@@ -10,7 +10,7 @@ export default function StatisticsSection() {
   return (
     <section className="mt-scroll-statistics mt-scene03-section w-full overflow-hidden bg-[#03191D]">
       <div className="mt-scene03-stage mx-auto w-full">
-        <div className="mt-scene03-grid grid min-h-0 grid-cols-1 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)]">
+        <div className="mt-scene03-grid grid min-h-0 grid-cols-1 lg:grid-cols-[minmax(0,1.02fr)_minmax(0,0.98fr)]">
           <div className="mt-scene03-copy-column relative bg-[#03191D]">
             <Scene03CopyColumn
               eyebrow={eyebrow}
@@ -22,13 +22,11 @@ export default function StatisticsSection() {
             />
           </div>
 
-          <div className="relative z-10 lg:-ml-24 lg:w-[calc(100%+6rem)]">
-            <Scene03HotelStage
-              content={{
-                hotels,
-              }}
-            />
-          </div>
+          <Scene03HotelStage
+            content={{
+              hotels,
+            }}
+          />
         </div>
       </div>
     </section>

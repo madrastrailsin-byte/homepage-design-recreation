@@ -10,49 +10,49 @@ import Footer from '@/components/Footer'
 const ease = [0.22, 1, 0.36, 1] as const
 
 const personalities = [
-  { title: 'Culture', image: '/images/destinations/japan/japan-tea-ceremony.jpg', objectPosition: 'center 48%' },
-  { title: 'Food', image: '/images/services/guides/chef-live-kitchen.jpg', objectPosition: 'center 52%' },
-  { title: 'Adventure', image: '/images/destinations/coastal/coastal-whitewater-rafting.jpg', objectPosition: 'center 46%' },
-  { title: 'Wildlife', image: '/images/destinations/tanzania/tanzania-safari.jpg', objectPosition: 'center 48%' },
-  { title: 'Ocean', image: '/images/destinations/coastal/coastal-whale-breach.jpg', objectPosition: 'center 46%' },
-  { title: 'Luxury', image: '/images/services/accommodation/tropical-luxury-bedroom.jpg', objectPosition: 'center 50%' },
+  { title: 'Culture', image: '/images/real-photos/library/cultural-celebration.jpg', objectPosition: 'center 45%' },
+  { title: 'Food', image: '/images/real-photos/library/authentic-local-market.jpg', objectPosition: 'center 55%' },
+  { title: 'Adventure', image: '/images/real-photos/library/small-group-travellers.jpg', objectPosition: 'center 40%' },
+  { title: 'Wildlife', image: '/images/real-photos/library/guide-explaining-culture.jpg', objectPosition: 'center 40%' },
+  { title: 'Ocean', image: '/images/real-photos/library/hidden-destination.jpg', objectPosition: 'center 60%' },
+  { title: 'Luxury', image: '/images/real-photos/library/luxury-travel-beginning.jpg', objectPosition: 'center 50%' },
 ]
 
 const chapters = [
-  { title: 'Mountains', image: '/images/destinations/tanzania/tanzania-kilimanjaro.jpg', objectPosition: 'center 44%' },
-  { title: 'Markets', image: '/images/destinations/vietnam/vietnam-hidden-market.jpg', objectPosition: 'center 52%' },
-  { title: 'Coastlines', image: '/images/destinations/coastal/coastal-sunset-waves.jpg', objectPosition: 'center 52%' },
-  { title: 'Waterfalls', image: '/images/destinations/laos/laos-waterfalls.jpg', objectPosition: 'center 46%' },
-  { title: 'Hidden Streets', image: '/images/destinations/greece/greece-mykonos-street.jpg', objectPosition: 'center 54%' },
+  { title: 'Mountains', image: '/images/real-photos/library/epic-landscape.jpg', objectPosition: 'center 40%' },
+  { title: 'Markets', image: '/images/real-photos/library/village-streets.jpg', objectPosition: 'center 50%' },
+  { title: 'Coastlines', image: '/images/real-photos/library/traveller-sunset.jpg', objectPosition: 'center 60%' },
+  { title: 'Wildlife', image: '/images/real-photos/library/beautiful-location.jpg', objectPosition: 'center 45%' },
+  { title: 'Hidden Streets', image: '/images/real-photos/library/traveller-local-family.jpg', objectPosition: 'center 55%' },
 ]
 
 const signatures = [
   {
     title: 'A Table You Remember',
-    image: '/images/services/concierge/italian-outdoor-dinner.jpg',
-    objectPosition: 'center 50%',
+    image: '/images/real-photos/library/authentic-local-cuisine.jpg',
+    objectPosition: 'center 55%',
     copy: 'Flavours, stories, and the people who make a place unforgettable.',
   },
   {
     title: 'A Door Opens',
-    image: '/images/services/guides/family-cooking.jpg',
-    objectPosition: 'center 48%',
+    image: '/images/real-photos/library/traveller-local-family-1.jpg',
+    objectPosition: 'center 55%',
     copy: 'Cultural encounters shaped with care, context, and welcome.',
   },
   {
     title: 'The Edge of Wonder',
-    image: '/images/services/concierge/queenstown-jetboat.jpg',
-    objectPosition: 'center 48%',
+    image: '/images/real-photos/library/adventure-activities.png',
+    objectPosition: 'center 35%',
     copy: 'Adventure with rhythm, restraint, and a sense of discovery.',
   },
 ]
 
 const gallery = [
-  { image: '/images/destinations/japan/japan-mount-fuji-sunrise.jpg', objectPosition: 'center 48%' },
-  { image: '/images/destinations/canada/canada-moraine-lake.jpg', objectPosition: 'center 50%' },
-  { image: '/images/services/guides/pottery-workshop.jpg', objectPosition: 'center 48%' },
-  { image: '/images/destinations/bhutan/bhutan-tigers-nest.jpg', objectPosition: 'center 46%' },
-  { image: '/images/services/accommodation/maldives-overwater-villa.jpg', objectPosition: 'center 50%' },
+  { image: '/images/real-photos/library/street-photography.webp', objectPosition: 'center 55%' },
+  { image: '/images/real-photos/library/solo-sunrise.jpg', objectPosition: 'center 45%' },
+  { image: '/images/real-photos/library/artisan-at-work.jpg', objectPosition: 'center 50%' },
+  { image: '/images/real-photos/library/warm-storytelling.jpg', objectPosition: 'center 45%' },
+  { image: '/images/real-photos/library/cooking-together.jpg', objectPosition: 'center 55%' },
 ]
 
 function Reveal({
@@ -272,7 +272,7 @@ export default function ExperiencesPage() {
       </section>
 
       <section className="relative flex min-h-[72vh] items-center overflow-hidden px-6 py-20 md:px-8 md:py-28">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_74%_28%,rgba(212,175,55,0.18),transparent_32%),radial-gradient(ellipse_at_24%_70%,rgba(14,58,67,0.5),transparent_40%),linear-gradient(135deg,#061C24,#020F12_62%,#071B24)]" />
+        <Image src="/images/real-photos/library/couple-ocean-mountains.jpg" alt="" fill sizes="100vw" className="object-cover opacity-[0.48] saturate-[0.9]" style={{ objectPosition: 'center 60%' }} />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_34%_54%,rgba(2,15,18,0.82),transparent_48%),linear-gradient(90deg,rgba(2,15,18,0.9),rgba(2,15,18,0.32))]" />
         <div className="relative z-10 mx-auto w-full max-w-7xl">
           <Reveal className="max-w-4xl">

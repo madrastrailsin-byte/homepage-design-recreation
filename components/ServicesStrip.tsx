@@ -11,26 +11,26 @@ const services = [
 
 export default function ServicesStrip() {
   return (
-    <div className="mt-scroll-services mt-services-flow mt-journey-motif relative isolate z-20 -mt-24 w-full bg-gradient-to-b from-transparent via-[#041D22] to-[#03191D] pt-6 pb-10 md:-mt-28 md:pt-7 md:pb-14">
-      <div className="pointer-events-none absolute inset-x-0 -top-24 z-0 h-40 bg-gradient-to-b from-transparent via-[#03191D]/18 to-[#041D22]" />
+    <div className="mt-scroll-services mt-services-flow mt-journey-motif relative isolate z-10 -mt-16 w-full bg-gradient-to-b from-[rgba(3,25,29,0.04)] via-[#041D22] to-[#03191D] pt-4 pb-9 md:-mt-20 md:pt-5 md:pb-12">
+      <div className="pointer-events-none absolute inset-x-0 -top-14 z-0 h-28 bg-gradient-to-b from-transparent via-[#03191D]/24 to-[#041D22]/96" />
       <div className="mt-services-scene mt-story-service-panel relative z-10 max-w-7xl mx-auto px-6 md:px-8">
         <div className="flex justify-center">
           <div
-            className="mt-premium-glass flex flex-wrap justify-center gap-x-6 gap-y-4 md:gap-x-9 md:gap-y-5 rounded-[22px] px-8 md:px-14 py-5 md:py-6 border border-[#C9A24A]/36 shadow-[0_28px_80px_rgba(0,0,0,0.3),inset_0_1px_0_rgba(255,255,255,0.05)]"
+            className="mt-premium-glass flex flex-wrap justify-center gap-4 md:gap-6 rounded-2xl px-8 md:px-12 py-3 md:py-4 border border-[#C9A24A]/30 shadow-[0_22px_70px_rgba(0,0,0,0.22)]"
           >
             {services.map((service, idx) => {
               const Icon = service.icon
               return (
-                <div key={idx} className="flex items-center gap-2.5 group whitespace-nowrap">
-                  <Icon size={18} className="text-[#C9A24A] group-hover:text-white transition-colors flex-shrink-0" />
-                  <span className="mt-ui text-[11px] font-medium text-[#C9A24A] tracking-[0.18em] group-hover:text-white transition-colors">{service.label}</span>
+                <div key={idx} className="flex items-center gap-2 group whitespace-nowrap">
+                  <Icon size={16} className="text-[#C9A24A] group-hover:text-white transition-colors flex-shrink-0" />
+                  <span className="text-[11px] font-light text-[#C9A24A] tracking-widest group-hover:text-white transition-colors">{service.label}</span>
                 </div>
               )
             })}
           </div>
         </div>
       </div>
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-0 h-28 bg-gradient-to-b from-transparent via-[#03191D]/28 to-[#03191D]" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-0 h-20 bg-gradient-to-b from-transparent via-[#03191D]/42 to-[#03191D]" />
     </div>
   )
 }

@@ -1,487 +1,383 @@
 'use client'
 
 import Image from 'next/image'
-import { ChangeEvent, FormEvent, useState } from 'react'
-import AnimatedLantern from './AnimatedLantern'
-import RoyalDispatch from './RoyalDispatch'
-import {
-  Pirata_One,
-  Quintessential,
-} from 'next/font/google'
+import { FormEvent, ReactNode, useMemo, useState } from 'react'
+import { Cormorant_Garamond, Marck_Script } from 'next/font/google'
 
-const royalFont = Pirata_One({
+const displayFont = Cormorant_Garamond({
+  subsets: ['latin'],
+  weight: ['500', '600', '700'],
+})
+
+const handwritingFont = Marck_Script({
   subsets: ['latin'],
   weight: '400',
 })
-
-const answerFont = Quintessential({
-  subsets: ['latin'],
-  weight: '400',
-})
-
-function formatDateInput(value: string) {
-  const digits = value.replace(/\D/g, '').slice(0, 8)
-  return [digits.slice(0, 2), digits.slice(2, 4), digits.slice(4, 8)]
-    .filter(Boolean)
-    .join('-')
-}
-
-function formatIndianCurrency(value: string) {
-  const digits = value.replace(/\D/g, '').slice(0, 9)
-  if (!digits) return ''
-
-  const lastThree = digits.slice(-3)
-  const remaining = digits.slice(0, -3)
-  const groupedRemaining = remaining.replace(/\B(?=(\d{2})+(?!\d))/g, ',')
-
-  return `₹ ${groupedRemaining ? `${groupedRemaining},` : ''}${lastThree}`
-}
-
-function formatIndianPhone(value: string) {
-  const digits = value.replace(/\D/g, '').replace(/^91/, '').slice(0, 10)
-  const first = digits.slice(0, 5)
-  const second = digits.slice(5, 10)
-
-  return `+91${first ? ` ${first}` : ''}${second ? ` ${second}` : ''}`
-}
-
-function isValidDate(value: string) {
-  const match = /^(\d{2})-(\d{2})-(\d{4})$/.exec(value)
-  if (!match) return false
-
-  const day = Number(match[1])
-  const month = Number(match[2])
-  const year = Number(match[3])
-  const date = new Date(year, month - 1, day)
-
-  return (
-    date.getFullYear() === year &&
-    date.getMonth() === month - 1 &&
-    date.getDate() === day
-  )
-}
 
 const interests = [
-  'Culture',
-  'Adventure',
-  'Cuisine',
-  'Nature',
-  'Wellness',
-  'Luxury',
+  { label: 'Culture', symbol: '⚱' },
+  { label: 'Adventure', symbol: '♞' },
+  { label: 'Food', symbol: '♨' },
+  { label: 'Nature', symbol: '⌁' },
+  { label: 'Wellness', symbol: '✣' },
+  { label: 'Luxury', symbol: '♕' },
 ]
 
 export default function PlanJourneyPage() {
-  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitted, setSubmitted] = useState(false)
   const [selectedInterests, setSelectedInterests] = useState<string[]>([])
-  const [date, setDate] = useState('')
-  const [treasury, setTreasury] = useState('')
-  const [name, setName] = useState('')
-  const [phone, setPhone] = useState('+91')
+
+  const interestText = useMemo(
+    () => selectedInterests.join(', '),
+    [selectedInterests]
+  )
 
   function toggleInterest(interest: string) {
-    setSelectedInterests((current) => {
-      if (current.includes(interest)) {
-        return current.filter((item) => item !== interest)
-      }
-
-      if (current.length >= 3) return current
-      return [...current, interest]
-    })
+    setSelectedInterests((current) =>
+      current.includes(interest)
+        ? current.filter((item) => item !== interest)
+        : [...current, interest]
+    )
   }
 
-  function handleDateChange(event: ChangeEvent<HTMLInputElement>) {
-    setDate(formatDateInput(event.target.value))
-  }
-
-  function handleTreasuryChange(event: ChangeEvent<HTMLInputElement>) {
-    setTreasury(formatIndianCurrency(event.target.value))
-  }
-
-  function handleNameChange(event: ChangeEvent<HTMLInputElement>) {
-    setName(event.target.value.replace(/[^A-Za-zÀ-ÖØ-öø-ÿ' -]/g, ''))
-  }
-
-  function handlePhoneChange(event: ChangeEvent<HTMLInputElement>) {
-    setPhone(formatIndianPhone(event.target.value))
-  }
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
-
-    const form = event.currentTarget
-
-    if (!form.checkValidity()) {
-      form.reportValidity()
-      return
-    }
-
-    if (isSubmitting) return
-
-    setIsSubmitting(true)
+    setSubmitted(true)
   }
 
   return (
     <section
-      className="relative h-screen overflow-hidden"
+      className="relative h-[calc(100svh-100px)] min-h-[620px] overflow-hidden bg-[#160b06]"
       style={{
-        backgroundImage: "url('/assets/wood/tabletop-dark-antique.jpg')",
-        backgroundSize: 'cover',
+        backgroundImage:
+          "linear-gradient(rgba(12,5,2,.14),rgba(7,3,1,.28)),url('/assets/wood/tabletop-dark-antique.jpg')",
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
+        backgroundSize: 'cover',
       }}
     >
-      <div className="absolute inset-0 bg-black/20" />
-      <AnimatedLantern />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_45%,rgba(255,201,112,.14),transparent_42%),linear-gradient(90deg,rgba(0,0,0,.28),transparent_20%,transparent_80%,rgba(0,0,0,.30))]" />
 
-
-      {/* Parchment */}
-      <div className="absolute inset-x-0 -top-4 bottom-[-15%] flex items-center justify-center overflow-hidden">
-        <div
-  className={`parchment-breathe relative h-[110%] w-[76%] transition-transform duration-150 ${
-    isSubmitting ? 'translate-y-[1px] scale-[0.998]' : ''
-  }`}
->
-          {['top','right','bottom','corner'].map((edge) => (
-            <Image
-              key={edge}
-              src="/assets/parchment/parchment-blank.png"
-              alt=""
-              aria-hidden="true"
-              fill
-              className={`storm-edge storm-edge-${edge} scale-x-[1.4] scale-y-[1.15] object-contain brightness-[0.76] saturate-[0.88] contrast-[1.04]`}
-            />
-          ))}
-        </div>
-      </div>
-{/* Wax Seal */}
-      <div className="absolute bottom-[1%] right-[6%] z-30">
-        <button
-          type="submit"
-          form="plan-journey-form"
-          disabled={isSubmitting}
-          aria-label="Affix the royal seal and send this letter"
-          className="
-            group relative
-            transition-transform duration-200 ease-out
-            active:translate-y-[8px]
-            active:scale-[0.94]
-            disabled:cursor-default
-          "
-        >
-          <Image
-            src="/assets/props/wax-seal-red.png"
-            alt="Seal Thy Letter"
-            width={98}
-            height={98}
-            priority
-            className={`
-              h-auto w-[98px]
-              rotate-[-22deg]
-              drop-shadow-[0_10px_18px_rgba(0,0,0,0.36)]
-              transition-[transform,filter] duration-200 ease-out
-              group-active:rotate-[-24deg]
-              group-active:drop-shadow-[0_1px_2px_rgba(0,0,0,0.45)]
-              ${
-                isSubmitting
-                  ? 'translate-y-[6px] scale-[0.97] rotate-[-24deg] drop-shadow-[0_3px_5px_rgba(0,0,0,0.28)]'
-                  : ''
-              }
-            `}
-          />
-        </button>
-      </div>
-
-      {/* Questionnaire */}
-      <form
-        id="plan-journey-form"
-        className="absolute left-1/2 top-[54%] z-20 h-[74%] w-[76%] -translate-x-1/2 -translate-y-1/2 text-[#2d170c]"
-        onSubmit={handleSubmit}
-      >
-        {/* Burnt centre crease */}
-        <div className="pointer-events-none absolute left-1/2 top-[-2%] h-[104%] w-[3px] -translate-x-1/2 bg-gradient-to-b from-transparent via-[#6b3518]/30 to-transparent" />
-
-        <div className="grid h-full grid-cols-2">
-          {/* LEFT PAGE */}
-          <section className="flex h-full justify-center pr-[3.2vw]">
-            <div className="flex h-full w-[86%] flex-col items-center">
-              <header className="mt-[1.8vh] w-full text-center">
-                <h1
-                  className={`${royalFont.className} text-[clamp(2.6rem,3.5vw,4.4rem)] leading-none`}
-                >
-                  The Traveller&apos;s Letter
-                </h1>
-
-                <div className="mx-auto mt-3 flex w-[72%] items-center gap-3">
-                  <span className="h-px flex-1 bg-[#63371d]/35" />
-                  <span className="text-[#63371d]">✦</span>
-                  <span className="h-px flex-1 bg-[#63371d]/35" />
-                </div>
-              </header>
-
-              <div className="mt-[4vh] w-full">
-                <Field label="Desired Kingdom">
-                  <input
-                    type="text"
-                    placeholder="Kingdom of Italy, Japan..."
-                    className={inputClass}
-                  />
-                </Field>
-
-                <Ornament />
-
-                <div className="grid grid-cols-2 gap-x-[1.5vw]">
-                  <Field label="Date of Embarkation">
-                    <input
-                      name="date"
-                      type="text"
-                      value={date}
-                      onChange={handleDateChange}
-                      onBlur={(event) => {
-                        if (event.target.value && !isValidDate(event.target.value)) {
-                          event.target.setCustomValidity('Enter a valid date in DD-MM-YYYY format.')
-                        } else {
-                          event.target.setCustomValidity('')
-                        }
-                      }}
-                      onInput={(event) => event.currentTarget.setCustomValidity('')}
-                      placeholder="DD-MM-YYYY"
-                      inputMode="numeric"
-                      maxLength={10}
-                      pattern="\d{2}-\d{2}-\d{4}"
-                      className={inputClass}
-                      required
-                    />
-                  </Field>
-
-                  <Field label="Length of the Expedition">
-                    <input
-                      name="duration"
-                      type="text"
-                      placeholder="7"
-                      inputMode="numeric"
-                      maxLength={2}
-                      pattern="\d{1,2}"
-                      onInput={(event) => {
-                        event.currentTarget.value = event.currentTarget.value.replace(/\D/g, '').slice(0, 2)
-                      }}
-                      className={inputClass}
-                      required
-                    />
-                  </Field>
-                </div>
-
-                <Ornament />
-
-                <div className="grid grid-cols-2 gap-x-[1.5vw]">
-                  <Field label="Members of the Entourage">
-                    <input
-                      name="adults"
-                      type="text"
-                      placeholder="2"
-                      inputMode="numeric"
-                      maxLength={2}
-                      pattern="\d{1,2}"
-                      onInput={(event) => {
-                        event.currentTarget.value = event.currentTarget.value.replace(/\D/g, '').slice(0, 2)
-                      }}
-                      className={inputClass}
-                      required
-                    />
-                  </Field>
-
-                  <Field label="Young Companions">
-                    <input
-                      name="children"
-                      type="text"
-                      placeholder="0"
-                      inputMode="numeric"
-                      maxLength={2}
-                      pattern="\d{1,2}"
-                      onInput={(event) => {
-                        event.currentTarget.value = event.currentTarget.value.replace(/\D/g, '').slice(0, 2)
-                      }}
-                      className={inputClass}
-                    />
-                  </Field>
-                </div>
-
-                <Ornament />
-
-                <Field label="Royal Treasury">
-                  <input
-                    name="budget"
-                    type="text"
-                    value={treasury}
-                    onChange={handleTreasuryChange}
-                    placeholder="₹ 2,00,000"
-                    inputMode="numeric"
-                    className={inputClass}
-                    required
-                  />
-                </Field>
-              </div>
-            </div>
-          </section>
-
-          {/* RIGHT PAGE */}
-          <section className="flex h-full justify-center pl-[3.2vw]">
-            <div className="flex h-full w-[86%] flex-col items-center">
-              {/* Preferred pursuits */}
-              <div className="w-full text-center">
-                <h2
-                  className={`${royalFont.className} text-[clamp(2rem,2.5vw,3rem)] leading-none`}
-                >
-                  Preferred Pursuits
-                </h2>
-
-                <p className={`${answerFont.className} mt-1 text-[0.78rem] text-[#4f2f20]/80`}>
-                  Choose up to three
-                </p>
-
-                <div className="mt-[1.4vh] grid grid-cols-3 gap-x-[0.8vw] gap-y-[1.2vh]">
-                  {interests.map((interest) => {
-                    const selected = selectedInterests.includes(interest)
-
-                    return (
-                      <button
-                        key={interest}
-                        type="button"
-                        aria-pressed={selected}
-                        onClick={() => toggleInterest(interest)}
-                        className={`${answerFont.className} rounded-full border px-[0.8vw] py-[0.78vh] text-center text-[clamp(0.9rem,1vw,1.08rem)] transition duration-200 ${
-                          selected
-                            ? 'border-[#4a2715]/70 bg-[#4a2715] text-[#f0d6a6] shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_4px_10px_rgba(58,28,12,0.18)]'
-                            : 'border-[#5f3a22]/55 bg-[#f0d29a]/14 text-[#2f190f] hover:border-[#4a2715]/70 hover:bg-[#6a3a1f]/12'
-                        } ${
-                          !selected && selectedInterests.length >= 3
-                            ? 'cursor-not-allowed opacity-50'
-                            : 'cursor-pointer'
-                        }`}
-                      >
-                        {interest}
-                      </button>
-                    )
-                  })}
-
-                  <input
-                    type="hidden"
-                    name="interests"
-                    value={selectedInterests.join(', ')}
-                  />
-                </div>
-              </div>
-
-              <Ornament />
-
-              {/* Remaining right-side form */}
-              <div className="w-full">
-                <Field label="Chosen Chambers">
-                  <input
-                    type="text"
-                    placeholder="Palace hotel, heritage mansion..."
-                    className={inputClass}
-                  />
-                </Field>
-
-                <div className="mt-[1.5vh]">
-                  <Field label="The Journey You Envision">
-                    <textarea
-                      rows={2}
-                      placeholder="Tell us where you wish to go, what you hope to experience, and anything we should know..."
-                      className={textareaClass}
-                    />
-                  </Field>
-                </div>
-
-
-                <div className="mt-[1.5vh] grid grid-cols-2 gap-x-[1.5vw]">
-                  <Field label="Honoured Name">
-                    <input
-                      name="name"
-                      type="text"
-                      value={name}
-                      onChange={handleNameChange}
-                      placeholder="Your full name"
-                      autoComplete="name"
-                      pattern="[A-Za-zÀ-ÖØ-öø-ÿ' -]+"
-                      className={inputClass}
-                      required
-                    />
-                  </Field>
-
-                  <Field label="Royal Correspondence">
-                    <input
-                      name="email"
-                      type="email"
-                      placeholder="name@example.com"
-                      autoComplete="email"
-                      className={inputClass}
-                      required
-                    />
-                  </Field>
-                </div>
-
-                <div className="mt-[0.8vh]">
-                  <Field label="Messenger's Number">
-                    <input
-                      name="phone"
-                      type="tel"
-                      value={phone}
-                      onChange={handlePhoneChange}
-                      placeholder="+91 XXXXX XXXXX"
-                      inputMode="numeric"
-                      autoComplete="tel"
-                      pattern="\+91 \d{5} \d{5}"
-                      maxLength={16}
-                      className={inputClass}
-                      required
-                    />
-                  </Field>
-                </div>
-              </div>
-            </div>
-          </section>
-        </div>
-      </form>
-      <RoyalDispatch
-        open={isSubmitting}
-        onComplete={() => setIsSubmitting(false)}
+      {/* BACK-RIGHT MAP */}
+      <Image
+        src="/assets/maps/parchment-folded-map.png"
+        alt=""
+        width={3162}
+        height={3162}
+        className="pointer-events-none absolute right-[-4.5vw] top-[2.5vh] z-[1] hidden w-[24vw] max-w-[390px] rotate-[9deg] opacity-90 drop-shadow-[0_26px_42px_rgba(0,0,0,.52)] xl:block"
       />
+
+      {/* LEFT CANDLE */}
+      <Image
+        src="/assets/props/candle-lit.png"
+        alt=""
+        width={5120}
+        height={5120}
+        className="pointer-events-none absolute left-[1.2vw] top-[2.4vh] z-30 hidden w-[8.6vw] max-w-[145px] min-w-[110px] drop-shadow-[0_24px_40px_rgba(0,0,0,.68)] xl:block"
+      />
+
+      {/* LEFT QUILL */}
+      <Image
+        src="/assets/props/quill-pen.png"
+        alt=""
+        width={4096}
+        height={4096}
+        className="pointer-events-none absolute bottom-[-5vh] left-[-2vw] z-30 hidden w-[19vw] max-w-[310px] min-w-[250px] -rotate-[20deg] drop-shadow-[0_26px_42px_rgba(0,0,0,.64)] xl:block"
+      />
+
+      {/* LEFT INK BOTTLE */}
+      <Image
+        src="/assets/props/ink-bottle.png"
+        alt=""
+        width={4096}
+        height={4096}
+        className="pointer-events-none absolute bottom-[2.5vh] left-[1.6vw] z-40 hidden w-[6vw] max-w-[98px] min-w-[78px] drop-shadow-[0_24px_38px_rgba(0,0,0,.75)] xl:block"
+      />
+
+      {/* RIGHT ROLLED SCROLL */}
+      <Image
+        src="/assets/props/closed-parchment-scroll.png"
+        alt=""
+        width={5097}
+        height={3780}
+        className="pointer-events-none absolute bottom-[-3vh] right-[-8vw] z-20 hidden w-[24vw] max-w-[390px] rotate-[78deg] drop-shadow-[0_30px_46px_rgba(0,0,0,.62)] 2xl:block"
+      />
+
+      {/* RIGHT COMPASS */}
+      <Image
+        src="/assets/props/compass-antique.png"
+        alt=""
+        width={4000}
+        height={4000}
+        className="pointer-events-none absolute bottom-[2vh] right-[1.5vw] z-40 hidden w-[8.8vw] max-w-[145px] min-w-[112px] rotate-[6deg] drop-shadow-[0_26px_42px_rgba(0,0,0,.68)] xl:block"
+      />
+
+      {/* WAX SEAL */}
+      <Image
+        src="/assets/props/wax-seal-red.png"
+        alt=""
+        width={4800}
+        height={3968}
+        className="pointer-events-none absolute bottom-[2.5vh] right-[10vw] z-40 hidden w-[5.2vw] max-w-[84px] min-w-[68px] -rotate-[10deg] drop-shadow-[0_16px_28px_rgba(68,7,7,.58)] xl:block"
+      />
+
+      {/* MAIN LANDSCAPE SCROLL */}
+      <div
+        className={`absolute left-1/2 top-1/2 z-10 h-[88%] w-[84%] max-w-[1380px] -translate-x-1/2 -translate-y-1/2 transition-all duration-700 ${
+          submitted ? 'scale-[.98] opacity-20 blur-[1px]' : ''
+        }`}
+      >
+        <div className="pointer-events-none absolute inset-x-[7%] bottom-[-2%] h-[10%] rounded-[50%] bg-black/60 blur-2xl" />
+
+        <div className="absolute inset-0 overflow-visible">
+          <Image
+            src="/assets/parchment/travellers-scroll-landscape.png"
+            alt=""
+            fill
+            priority
+            sizes="84vw"
+            className="pointer-events-none object-contain drop-shadow-[0_34px_70px_rgba(0,0,0,.62)]"
+          />
+        </div>
+
+        <form
+          onSubmit={handleSubmit}
+          className="absolute inset-[10%_12.5%_9%_12.5%] z-10 flex flex-col text-[#28170d]"
+        >
+          <header className="shrink-0 text-center">
+            <h1
+              className={`${displayFont.className} text-[clamp(2rem,3.25vw,4rem)] font-semibold leading-[.9] tracking-[-.035em]`}
+            >
+              The Traveller&apos;s Letter
+            </h1>
+
+            <div className="mx-auto mt-1.5 flex max-w-[28rem] items-center gap-3 text-[#704525]">
+              <span className="h-px flex-1 bg-[#7a4f30]/42" />
+              <span className="text-sm">❧</span>
+              <span className="h-px flex-1 bg-[#7a4f30]/42" />
+            </div>
+          </header>
+
+          <div className="mt-[2.2%] grid shrink-0 grid-cols-3 gap-x-[2.4%] gap-y-[1.7vh]">
+            <Field icon="⌖" label="Where do you want to go?">
+              <input
+                name="destination"
+                placeholder="Vietnam, Italy, Japan..."
+                required
+                className={inputClass}
+              />
+            </Field>
+
+            <Field icon="◷" label="When do you plan to travel?">
+              <input
+                name="dates"
+                placeholder="Preferred dates"
+                className={inputClass}
+              />
+            </Field>
+
+            <Field icon="⌛" label="How long will you travel?">
+              <input
+                name="duration"
+                placeholder="7 days"
+                className={inputClass}
+              />
+            </Field>
+
+            <Field icon="♙" label="Adults">
+              <input
+                name="adults"
+                type="number"
+                min="1"
+                placeholder="2"
+                className={inputClass}
+              />
+            </Field>
+
+            <Field icon="♙" label="Children">
+              <input
+                name="children"
+                type="number"
+                min="0"
+                placeholder="0"
+                className={inputClass}
+              />
+            </Field>
+
+            <Field icon="◈" label="Estimated budget">
+              <input
+                name="budget"
+                placeholder="₹2,00,000 – ₹3,00,000"
+                className={inputClass}
+              />
+            </Field>
+          </div>
+
+          <div className="my-[1.7vh] h-px shrink-0 bg-[#755033]/28" />
+
+          <div className="shrink-0">
+            <h2
+              className={`${displayFont.className} text-center text-[clamp(1.3rem,1.75vw,1.95rem)] font-semibold leading-none`}
+            >
+              What interests you most?
+            </h2>
+
+            <div className="mt-[1.1vh] grid grid-cols-6 gap-[.45vw]">
+              {interests.map(({ label, symbol }) => {
+                const active = selectedInterests.includes(label)
+
+                return (
+                  <button
+                    key={label}
+                    type="button"
+                    onClick={() => toggleInterest(label)}
+                    aria-pressed={active}
+                    className={`flex min-h-[52px] flex-col items-center justify-center rounded-sm border px-1 py-1 transition duration-300 ${
+                      active
+                        ? 'border-[#3a2012]/60 bg-[#3a2012] text-[#f1d49f]'
+                        : 'border-transparent text-[#382116] hover:border-[#6f4729]/30 hover:bg-[#fff4d8]/20'
+                    }`}
+                  >
+                    <span className="text-[clamp(1rem,1.25vw,1.35rem)] leading-none">
+                      {symbol}
+                    </span>
+                    <span
+                      className={`${displayFont.className} mt-0.5 text-[clamp(.78rem,.9vw,1rem)] font-semibold leading-none`}
+                    >
+                      {label}
+                    </span>
+                  </button>
+                )
+              })}
+            </div>
+
+            <input type="hidden" name="interests" value={interestText} />
+          </div>
+
+          <div className="my-[1.5vh] h-px shrink-0 bg-[#755033]/28" />
+
+          <div className="grid shrink-0 grid-cols-2 gap-x-[2.4%]">
+            <Field icon="⌂" label="Preferred lodgings">
+              <input
+                name="accommodation"
+                placeholder="Boutique, heritage, luxury..."
+                className={inputClass}
+              />
+            </Field>
+
+            <Field icon="✎" label="Your tale">
+              <textarea
+                name="dreamTrip"
+                rows={1}
+                placeholder="Share anything that helps us craft your perfect journey..."
+                className={`${inputClass} resize-none overflow-hidden`}
+              />
+            </Field>
+          </div>
+
+          <div className="mt-[1.8vh] grid shrink-0 grid-cols-3 gap-x-[2.4%]">
+            <Field icon="♙" label="Passenger name">
+              <input
+                name="name"
+                placeholder="Your full name"
+                required
+                className={inputClass}
+              />
+            </Field>
+
+            <Field icon="✉" label="Royal Seal — Email">
+              <input
+                name="email"
+                type="email"
+                placeholder="john@example.com"
+                required
+                className={inputClass}
+              />
+            </Field>
+
+            <Field icon="☎" label="Messenger line — Phone">
+              <input
+                name="phone"
+                placeholder="+91 98765 43210"
+                required
+                className={inputClass}
+              />
+            </Field>
+          </div>
+
+          <div className="mt-auto flex shrink-0 flex-col items-center pt-[1.6vh]">
+            <button
+              type="submit"
+              className={`${displayFont.className} inline-flex min-w-[12.5rem] items-center justify-center border border-[#cda74c]/60 bg-[#071b1e] px-6 py-[1.15vh] text-[clamp(.68rem,.72vw,.78rem)] font-semibold tracking-[.14em] text-[#e1bf64] shadow-[0_12px_24px_rgba(0,0,0,.25)] transition hover:-translate-y-0.5 hover:bg-[#0a262a]`}
+            >
+              SEAL THIS LETTER
+              <span className="ml-3 text-sm" aria-hidden="true">
+                ✦
+              </span>
+            </button>
+
+            <p className="mt-[.6vh] text-center text-[9px] font-medium tracking-[.015em] text-[#51311f]/75">
+              Your details are safe with us. We never share your information.
+            </p>
+          </div>
+        </form>
+      </div>
+
+      {submitted && (
+        <div className="absolute inset-0 z-50 flex items-center justify-center px-5">
+          <div className="w-full max-w-xl border border-[#d4af37]/35 bg-[#06191f]/95 px-8 py-10 text-center shadow-[0_34px_100px_rgba(0,0,0,.60)] backdrop-blur-xl">
+            <div className="mx-auto h-px w-28 bg-[#d4af37]/70" />
+            <p className="mt-6 text-[10px] tracking-[.2em] text-[#d4af37]">
+              YOUR LETTER HAS BEEN SEALED
+            </p>
+            <h2
+              className={`${displayFont.className} mt-4 text-5xl font-semibold text-[#fafaf9]`}
+            >
+              Thank you.
+            </h2>
+            <p className="mx-auto mt-5 max-w-md text-sm leading-relaxed text-[#fafaf9]/70">
+              Your journey has reached us. A MadrasTrails travel designer will be in touch shortly.
+            </p>
+            <button
+              type="button"
+              onClick={() => setSubmitted(false)}
+              className="mt-7 text-xs tracking-[.16em] text-[#d4af37]"
+            >
+              WRITE ANOTHER LETTER
+            </button>
+          </div>
+        </div>
+      )}
     </section>
   )
 }
 
 function Field({
+  icon,
   label,
   children,
 }: {
+  icon: string
   label: string
-  children: React.ReactNode
+  children: ReactNode
 }) {
   return (
-    <label className="block min-w-0 text-center">
+    <label className="block min-w-0">
       <span
-        className={`${royalFont.className} block text-center text-[clamp(1rem,1.2vw,1.4rem)] leading-none`}
+        className={`${displayFont.className} flex items-center gap-1.5 text-[clamp(.86rem,1vw,1.15rem)] font-semibold leading-none text-[#2a170d]`}
       >
-        {label}
+        <span
+          aria-hidden="true"
+          className="inline-flex h-4 w-4 shrink-0 items-center justify-center text-[.82rem] text-[#5c3a23]"
+        >
+          {icon}
+        </span>
+        <span className="truncate">{label}</span>
       </span>
-
-      <span className="mt-[0.7vh] block">{children}</span>
+      <span className="mt-[.45vh] block">{children}</span>
     </label>
   )
 }
 
-function Ornament() {
-  return (
-    <div className="mx-auto my-[2vh] flex w-[62%] items-center gap-2 text-[#6b3b20]/65">
-      <span className="h-px flex-1 bg-[#6b3b20]/30" />
-      <span className="text-xs">❧</span>
-      <span className="h-px flex-1 bg-[#6b3b20]/30" />
-    </div>
-  )
-}
-
 const inputClass =
-  `${answerFont.className} h-[44px] w-full rounded-[8px] border border-[#5f3a22]/38 bg-[#f4ddb0]/24 px-4 py-0 text-left text-[clamp(0.88rem,0.98vw,1.08rem)] leading-[44px] text-[#4b2b1b] outline-none transition placeholder:text-[#6a4632]/68 focus:border-[#3d2415] focus:bg-[#f6e2b9]/34`
-
-const textareaClass =
-  `${answerFont.className} min-h-[66px] w-full resize-none rounded-[8px] border border-[#5f3a22]/38 bg-[#f4ddb0]/24 px-4 py-3 text-left text-[clamp(0.88rem,0.98vw,1.08rem)] leading-relaxed text-[#4b2b1b] outline-none transition placeholder:text-[#6a4632]/68 focus:border-[#3d2415] focus:bg-[#f6e2b9]/34`
+  `${handwritingFont.className} w-full border-0 border-b border-[#684326]/48 bg-transparent px-1 py-[.45vh] text-[clamp(.9rem,1.05vw,1.18rem)] font-normal leading-tight text-[#2a170d] outline-none transition placeholder:text-[#76533d]/68 focus:border-[#2f1a0f] focus:bg-[#fff7df]/12`

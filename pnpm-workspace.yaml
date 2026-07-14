@@ -4,4 +4,3 @@ overrides:
 allowBuilds:
   msw: true
   sharp: false
-  unrs-resolver: false

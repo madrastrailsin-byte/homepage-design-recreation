@@ -8,28 +8,28 @@ const experiences = [
     id: 1,
     title: 'Local Flavours',
     subtitle: 'Taste the world like a local',
-    image: '/images/services/guides/local-cooking-class.jpg',
+    image: '/images/real-photos/library/authentic-local-cuisine.jpg',
     objectPosition: 'center 55%',
   },
   {
     id: 2,
     title: 'Luxury Escapes',
     subtitle: 'Indulge in unparalleled comfort',
-    image: '/images/services/accommodation/bali-jungle-infinity-pool.jpg',
+    image: '/images/real-photos/library/luxury-boutique-hotel.jpg',
     objectPosition: 'center 45%',
   },
   {
     id: 3,
     title: 'Cultural Connections',
     subtitle: 'Immerse in traditions that inspire',
-    image: '/images/destinations/japan/japan-tea-ceremony.jpg',
+    image: '/images/real-photos/library/local-guide-history.jpg',
     objectPosition: 'center 40%',
   },
   {
     id: 4,
     title: 'Adventure Awaits',
     subtitle: 'For the explorers at heart',
-    image: '/images/services/concierge/queenstown-jetboat.jpg',
+    image: '/images/real-photos/library/adventure-activities.png',
     objectPosition: 'center 35%',
   },
 ]
@@ -51,7 +51,7 @@ export default function ExperiencesSection() {
   const arrowHoverClass = prefersReducedMotion ? '' : 'group-hover:translate-x-0.5'
 
   return (
-    <section className="mt-scroll-experiences mt-journey-motif relative overflow-hidden bg-[#0D1117] py-12 md:py-14">
+    <section className="mt-scroll-experiences mt-journey-motif relative overflow-hidden bg-[#0D1117] py-16 md:py-20">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-[rgba(242,231,204,0.1)] via-[rgba(4,29,34,0.18)] to-transparent" />
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-b from-transparent via-[#03191D]/18 to-[#03191D]" />
       <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-8">
@@ -61,16 +61,12 @@ export default function ExperiencesSection() {
           whileInView={headerInView}
           transition={{ duration: 0.82, ease: motionEase }}
           viewport={{ once: true, amount: 0.24 }}
-          className="mt-story-experience-copy mb-8 grid items-end gap-5 md:mb-9 md:grid-cols-[minmax(0,1fr)_minmax(18rem,0.72fr)] md:gap-12"
+          className="mt-story-experience-copy mb-12 md:mb-16 max-w-2xl"
         >
-          <div>
-            <h2 className="mt-display text-4xl leading-tight text-white md:text-5xl">Handpicked</h2>
-            <h3 className="mt-display mt-1 text-4xl leading-tight text-white md:text-5xl">
-              Experiences Just for You
-            </h3>
-          </div>
-
-          <p className="mt-body-copy max-w-md text-sm leading-relaxed text-[#C9A24A]/70 md:justify-self-end md:text-right md:text-base">
+          <h2 className="mt-display text-4xl md:text-5xl text-white mb-2 leading-tight">Handpicked</h2>
+          <h3 className="mt-display text-4xl md:text-5xl text-white mb-4 md:mb-6 leading-tight">Experiences Just for You</h3>
+          <div className="w-px h-12 bg-gradient-to-b from-[#C9A24A] via-[#C9A24A]/50 to-transparent mb-4 md:mb-6" />
+          <p className="mt-body-copy text-[#C9A24A]/60 text-sm md:text-base leading-relaxed">
             Unique places. Authentic moments. Unforgettable memories.
           </p>
         </motion.div>
