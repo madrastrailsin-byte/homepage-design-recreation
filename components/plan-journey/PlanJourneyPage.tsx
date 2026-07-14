@@ -135,14 +135,11 @@ export default function PlanJourneyPage() {
 
       {/* Parchment */}
       <div className="absolute inset-x-0 -top-4 bottom-[-15%] flex items-center justify-center overflow-hidden">
-        <div className="parchment-breathe relative h-[110%] w-[76%]">
-          <Image
-  src="/assets/parchment/parchment-blank.png"
-  alt="Ancient parchment"
-  fill
-  priority
-  className="scale-x-[1.4] scale-y-[1.15] object-contain brightness-[0.76] saturate-[0.88] contrast-[1.04] drop-shadow-[0_30px_60px_rgba(0,0,0,0.5)]"
-/>
+        <div
+  className={`parchment-breathe relative h-[110%] w-[76%] transition-transform duration-150 ${
+    isSubmitting ? 'translate-y-[1px] scale-[0.998]' : ''
+  }`}
+>
           {['top','right','bottom','corner'].map((edge) => (
             <Image
               key={edge}
@@ -165,8 +162,8 @@ export default function PlanJourneyPage() {
           className="
             group relative
             transition-transform duration-200 ease-out
-            active:translate-y-[6px]
-            active:scale-[0.97]
+            active:translate-y-[8px]
+            active:scale-[0.94]
             disabled:cursor-default
           "
         >
@@ -182,7 +179,7 @@ export default function PlanJourneyPage() {
               drop-shadow-[0_10px_18px_rgba(0,0,0,0.36)]
               transition-[transform,filter] duration-200 ease-out
               group-active:rotate-[-24deg]
-              group-active:drop-shadow-[0_3px_5px_rgba(0,0,0,0.28)]
+              group-active:drop-shadow-[0_1px_2px_rgba(0,0,0,0.45)]
               ${
                 isSubmitting
                   ? 'translate-y-[6px] scale-[0.97] rotate-[-24deg] drop-shadow-[0_3px_5px_rgba(0,0,0,0.28)]'
