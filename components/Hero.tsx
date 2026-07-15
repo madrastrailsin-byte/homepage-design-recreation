@@ -7,16 +7,13 @@ import Lenis from 'lenis'
 import { motion, useReducedMotion } from 'framer-motion'
 import Image from 'next/image'
 import { useEffect, useRef } from 'react'
-import JourneyTransitionLink from './JourneyTransitionLink'
+import { useRouter } from 'next/navigation'
 
 export default function Hero() {
   const sectionRef = useRef<HTMLElement>(null)
+  const router = useRouter()
   const videoRef = useRef<HTMLVideoElement>(null)
   const prefersReducedMotion = useReducedMotion()
-  const ctaArrowClass = prefersReducedMotion
-    ? 'translate-y-px'
-    : 'translate-y-px transition-transform duration-300 group-hover:translate-x-0.5'
-
   useEffect(() => {
     const section = sectionRef.current
     const videoEl = videoRef.current
@@ -272,18 +269,13 @@ export default function Hero() {
 
           {/* CTA Buttons */}
           <div data-hero-reveal="ctas" className="mt-hero-actions flex flex-col items-start gap-[clamp(0.85rem,3.8vw,1rem)] sm:flex-row sm:items-center sm:gap-4" style={{ opacity: 0 }}>
-            <JourneyTransitionLink
-              href="/plan"
-              className="mt-gold-sheen mt-ui group inline-flex items-center justify-center gap-2 rounded-[4px] bg-[#C9A24A] px-[clamp(1.35rem,6vw,1.75rem)] py-[clamp(0.72rem,3.2vw,0.86rem)] text-[clamp(0.72rem,3vw,0.78rem)] text-[#071B24] shadow-[0_12px_28px_rgba(201,162,74,0.18)] hover:bg-[#D4B860] hover:shadow-[0_17px_38px_rgba(201,162,74,0.24),0_0_22px_rgba(212,175,55,0.1)] md:px-8 md:py-3 md:text-xs"
+            <button
+              type="button"
+              onClick={() => router.push('/services')}
+              className="mt-gold-sheen mt-ui group inline-flex items-center justify-center gap-2 rounded-[4px] bg-[#C9A24A] px-[clamp(1.35rem,6vw,1.75rem)] py-[clamp(0.72rem,3.2vw,0.86rem)] text-[clamp(0.72rem,3vw,0.78rem)] text-[#071B24] shadow-[0_12px_28px_rgba(201,162,74,0.18)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#D4B860] hover:shadow-[0_17px_38px_rgba(201,162,74,0.24)] md:px-8 md:py-3 md:text-xs"
             >
-              <span>Start Your Journey</span>
-              <span className={ctaArrowClass}>→</span>
-            </JourneyTransitionLink>
-            <button className="group flex items-center gap-3.5 text-[#C9A24A] transition-colors hover:text-white">
-              <div className="mt-gold-sheen flex h-10 w-10 items-center justify-center rounded-full border border-[#C9A24A]/85 bg-[#071B24]/10 shadow-[0_0_0_1px_rgba(201,162,74,0.08)] group-hover:border-white group-hover:bg-white/5">
-                <Play size={13} className="ml-0.5 fill-current" />
-              </div>
-              <span className="mt-ui text-xs tracking-[0.16em]">Watch Our Story</span>
+              <Play size={13} className="fill-current" />
+              <span>Explore Our Services</span>
             </button>
           </div>
           </div>

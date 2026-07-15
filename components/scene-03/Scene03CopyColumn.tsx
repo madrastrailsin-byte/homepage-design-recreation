@@ -1,4 +1,5 @@
 import { ArrowRight } from 'lucide-react'
+import JourneyPillars from './JourneyPillars'
 
 type Scene03CopyColumnProps = {
   eyebrow: string
@@ -37,15 +38,8 @@ export default function Scene03CopyColumn({
         {body}
       </p>
 
-      <div className="mt-8 flex flex-wrap items-center gap-x-3 gap-y-2 sm:mt-9">
-        {pillars.map((pillar, index) => (
-          <div key={pillar} className="flex items-center gap-3">
-            <span className="mt-display-soft text-base text-[#FAFAF9] md:text-lg">{pillar}</span>
-            {index < pillars.length - 1 ? (
-              <span className="h-px w-6 bg-[#C9A24A]/55 sm:w-8" aria-hidden="true" />
-            ) : null}
-          </div>
-        ))}
+      <div className="mt-8 sm:mt-9">
+        <JourneyPillars words={pillars} />
       </div>
 
       <a

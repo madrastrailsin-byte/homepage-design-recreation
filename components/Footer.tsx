@@ -1,15 +1,43 @@
 'use client'
 
+import { FormEvent, useEffect, useState } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
+import { ArrowRight, Check } from 'lucide-react'
 import BrandLogo from './BrandLogo'
-import JourneyTransitionLink from './JourneyTransitionLink'
 
 export default function Footer() {
+  const [phone, setPhone] = useState('')
+  const [submitted, setSubmitted] = useState(false)
+  const [showError, setShowError] = useState(false)
   const prefersReducedMotion = useReducedMotion()
+
+  useEffect(() => {
+    if (!submitted) return
+
+    const timer = window.setTimeout(() => {
+      setSubmitted(false)
+      setPhone('')
+    }, 3500)
+
+    return () => window.clearTimeout(timer)
+  }, [submitted])
   const motionEase = [0.22, 1, 0.36, 1] as const
   const revealInitial = prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 14 }
   const revealInView = prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }
   const socialLinkClass = 'mt-gold-sheen w-10 h-10 rounded-full border border-[#D4AF37]/50 flex items-center justify-center text-[#D4AF37] hover:bg-[#D4AF37] hover:text-[#03191D] hover:shadow-[0_10px_24px_rgba(212,175,55,0.14)]'
+
+  function handleCallbackRequest(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+
+    if (!/^\d{10}$/.test(phone)) {
+      setShowError(true)
+      setSubmitted(false)
+      return
+    }
+
+    setShowError(false)
+    setSubmitted(true)
+  }
 
   return (
     <footer className="mt-scroll-footer relative overflow-hidden border-t border-[#D4AF37]/10 bg-[#03191D]">
@@ -37,23 +65,68 @@ export default function Footer() {
               viewport={{ once: true, amount: 0.24 }}
               className="mt-story-footer-newsletter"
             >
-              <h3 className="mt-display text-xl md:text-2xl text-[#FAFAF9] mb-3">Let&apos;s craft your next journey</h3>
-              <p className="mt-body-copy text-[#D4AF37]/62 text-xs md:text-sm mb-4">Every unforgettable expedition begins with a conversation.</p>
-              <div className="flex flex-col items-start gap-3">
-                <JourneyTransitionLink
-                  href="/plan"
-                  className="mt-gold-sheen mt-ui inline-flex items-center justify-center rounded-[4px] bg-[#D4AF37] px-7 py-3 text-xs text-[#03191D] shadow-[0_12px_28px_rgba(212,175,55,0.18)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#E0BD4B] hover:shadow-[0_17px_38px_rgba(212,175,55,0.24)]"
-                >
-                  Begin Your Royal Dispatch →
-                </JourneyTransitionLink>
+              <h3 className="mt-display text-xl md:text-2xl text-[#FAFAF9] mb-3">Not ready to plan? Let&apos;s talk.</h3>
+              <p className="mt-body-copy text-[#D4AF37]/62 text-xs md:text-sm mb-4">
+                Share your number and one of our travel designers will call you to discuss future ideas.
+              </p>
 
-                <a
-                  href="mailto:info@madrastrails.in"
-                  className="mt-body-copy text-xs text-[#FAFAF9]/62 transition-colors duration-300 hover:text-[#D4AF37]"
-                >
-                  Prefer a quick note? info@madrastrails.in
-                </a>
-              </div>
+              <form
+  id="callback-request"
+  onSubmit={handleCallbackRequest}
+  className="w-full max-w-sm"
+>
+                <div className="flex items-stretch overflow-hidden rounded-[8px] border border-[#D4AF37]/28 bg-[#03191D]/72 shadow-[0_16px_44px_rgba(0,0,0,0.2)] transition focus-within:border-[#D4AF37]/60">
+                  <span className="mt-ui flex items-center border-r border-[#D4AF37]/18 px-3 text-xs text-[#D4AF37]">
+                    +91
+                  </span>
+
+                  <input
+                    type="tel"
+                    inputMode="numeric"
+                    autoComplete="tel-national"
+                    value={phone}
+                    onChange={(event) => {
+                      setPhone(event.target.value.replace(/\D/g, '').slice(0, 10))
+                      setShowError(false)
+                      setSubmitted(false)
+                    }}
+                    placeholder="Enter mobile number"
+                    aria-label="Mobile number"
+                    className="mt-body-copy min-w-0 flex-1 bg-transparent px-3 py-3 text-sm text-[#FAFAF9] outline-none placeholder:text-[#FAFAF9]/34"
+                  />
+
+                  <button
+                    type="submit"
+                    aria-label="Request a callback"
+                    className="mt-gold-sheen flex w-12 shrink-0 items-center justify-center bg-[#D4AF37] text-[#03191D] transition hover:bg-[#E0BD4B]"
+                  >
+                    <ArrowRight size={16} />
+                  </button>
+                </div>
+
+                <div className="min-h-7 pt-2">
+                  {submitted && (
+                    <motion.p
+                      initial={{ opacity: 0, y: 4 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="mt-body-copy inline-flex items-center gap-2 rounded-full border border-[#D4AF37]/18 bg-[#D4AF37]/8 px-3 py-1.5 text-xs text-[#FAFAF9]/78"
+                    >
+                      <Check size={13} className="text-[#D4AF37]" />
+                      Request received. We&apos;ll contact you shortly.
+                    </motion.p>
+                  )}
+
+                  {showError && (
+                    <motion.p
+                      initial={{ opacity: 0, y: 4 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="mt-body-copy text-xs text-[#D4AF37]/82"
+                    >
+                      Please enter a valid 10-digit mobile number.
+                    </motion.p>
+                  )}
+                </div>
+              </form>
             </motion.div>
 
             {/* Part C: Follow Us Section */}
@@ -79,7 +152,7 @@ export default function Footer() {
                   <svg className="w-4.5 h-4.5" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
                 </a>
                 {/* WhatsApp */}
-                <a href="https://wa.me/919342646883" target="_blank" rel="noopener noreferrer" className={socialLinkClass}>
+                <a href="https://wa.me/917891876918" target="_blank" rel="noopener noreferrer" className={socialLinkClass}>
                   <svg className="w-4.5 h-4.5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.665 15.01c-.293-.15-1.73-.855-1.995-.952-.263-.098-.455-.15-.647.15-.192.3-.743.952-.91 1.144-.166.192-.332.216-.625.065-.294-.15-1.24-.458-2.36-1.457-.874-.778-1.464-1.74-1.631-2.034-.167-.293-.018-.452.125-.599.128-.128.293-.334.44-.501.146-.167.195-.293.293-.486.098-.192.05-.36-.025-.503-.075-.143-.647-1.56-.888-2.133-.234-.548-.471-.474-.647-.483-.167-.008-.36-.01-.552-.01-.191 0-.503.072-.766.36-.263.287-1.004.98-1.004 2.389 0 1.409 1.028 2.77 1.172 2.963.144.192 2.032 3.138 4.924 4.4.688.3 1.225.48 1.643.615.69.217 1.318.187 1.814.113.554-.083 1.71-.699 1.95-1.375.24-.676.24-1.255.168-1.375-.07-.12-.263-.192-.554-.334z"/></svg>
                 </a>
               </div>
@@ -104,9 +177,9 @@ export default function Footer() {
               </div>
 
               {/* Phone */}
-              <a href="tel:+919342646883" className="flex items-center gap-1.5">
+              <a href="tel:+917891876918" className="flex items-center gap-1.5">
                 <svg className="w-4 h-4 text-[#D4AF37] flex-shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
-                <span>+91 93426 46883</span>
+                <span>+91 78918 76918</span>
               </a>
 
               {/* Email */}

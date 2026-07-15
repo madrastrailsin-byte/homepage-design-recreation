@@ -85,8 +85,9 @@ export default function Navigation() {
           transition={introTransition(0.12)}
           className={`
 relative inline-flex items-center rounded-[14px]
-border border-[#D8D8D5]
-bg-[#FAFAF9]
+border border-white/24
+bg-[#FAFAF9]/68
+backdrop-blur-xl
 px-[0.55rem]
 py-[0.32rem]
 sm:rounded-[15px]
@@ -95,9 +96,9 @@ sm:py-[0.38rem]
 md:rounded-[16px]
 md:px-[0.7rem]
 md:py-[0.45rem]
-shadow-[0_12px_36px_rgba(0,0,0,0.22)]
+shadow-[0_12px_32px_rgba(0,0,0,0.18)]
 transition-all duration-500
-hover:shadow-[0_16px_44px_rgba(0,0,0,0.28)]
+hover:shadow-[0_16px_40px_rgba(0,0,0,0.22)]
 ${logoPulse ? "mt-logo-receipt" : ""}
 `}
         >
@@ -113,10 +114,10 @@ ${logoPulse ? "mt-logo-receipt" : ""}
             Destinations
           </a>
           <a href="/experiences" className={isExperiencesActive ? activeNavLinkClass : navLinkClass}>Experiences</a>
-          <a href="#" className={navLinkClass}>Services</a>
+          <a href="/services" className={navLinkClass}>Services</a>
           <a href="/our-story" className={isOurStoryActive ? activeNavLinkClass : navLinkClass}>Our Story</a>
-          <a href="#" className={navLinkClass}>Inspiration</a>
-          <a href="#" className={navLinkClass}>Contact</a>
+          <a href="/our-story" className={navLinkClass}>Inspiration</a>
+          <a href="#callback-request" className={navLinkClass}>Contact</a>
         </motion.div>
 
         {/* CTA Button and Menu */}
@@ -132,18 +133,6 @@ ${logoPulse ? "mt-logo-receipt" : ""}
   >
     Plan Your Journey →
   </JourneyTransitionLink>
-
-  <button
-    onClick={() => setIsOpen(!isOpen)}
-    className="hidden md:flex items-center justify-center text-[#FAFAF9] w-9 h-9 border border-[#FAFAF9]/24 hover:border-[#D4AF37]/60 transition-all duration-300 rounded-full hover:bg-[#D4AF37]/10 hover:shadow-[0_0_0_5px_rgba(212,175,55,0.055)]"
-    aria-label="Menu"
-  >
-    <div className="flex flex-col gap-1.5">
-      <div className="w-4 h-px bg-[#FAFAF9]" />
-      <div className="w-4 h-px bg-[#FAFAF9]" />
-      <div className="w-4 h-px bg-[#FAFAF9]" />
-    </div>
-  </button>
 
   <button
     onClick={() => setIsOpen(!isOpen)}
@@ -174,7 +163,7 @@ ${logoPulse ? "mt-logo-receipt" : ""}
         Experiences
       </a>
 
-      <a href="#" className={mobileNavLinkClass}>
+      <a href="/services" className={mobileNavLinkClass}>
         Services
       </a>
 
@@ -189,11 +178,11 @@ ${logoPulse ? "mt-logo-receipt" : ""}
         Our Story
       </a>
 
-      <a href="#" className={mobileNavLinkClass}>
+      <a href="/our-story" className={mobileNavLinkClass}>
         Inspiration
       </a>
 
-      <a href="#" className={mobileNavLinkClass}>
+      <a href="#callback-request" className={mobileNavLinkClass}>
         Contact
       </a>
 

@@ -79,11 +79,16 @@ export default function Scene03InfoPanel({
         </div>
 
         <button
-          type="button"
-          className="btn-gold mt-gold-sheen mt-ui shrink-0 rounded-lg px-4 py-2.5 text-[10px] tracking-[0.14em] transition-transform duration-300 hover:-translate-y-px"
-        >
-          {hotel.ctaLabel}
-        </button>
+  type="button"
+  onClick={() => {
+    document
+      .getElementById('callback-request')
+      ?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+  }}
+  className="btn-gold mt-gold-sheen mt-ui shrink-0 rounded-lg px-4 py-2.5 text-[10px] tracking-[0.14em] transition-transform duration-300 hover:-translate-y-px"
+>
+  Enquire About This Stay
+</button>
       </div>
     </div>
   )
