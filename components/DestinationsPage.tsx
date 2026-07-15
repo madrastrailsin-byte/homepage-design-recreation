@@ -32,28 +32,43 @@ export default function DestinationsPage() {
   return (
     <section className="mt-destinations-page relative w-full overflow-hidden bg-[#071B24]">
       <style>{`
-        @media (max-width: 767px) {
+        @media (max-width: 1023px) {
+          .mt-destinations-page > section {
+            min-height: clamp(52rem, 134svh, 60rem);
+          }
+
           .mt-destinations-page [class*="top-[24%]"][class*="left-8"] {
-            top: clamp(5.75rem, 14vh, 7.25rem) !important;
-            left: clamp(1.25rem, 6vw, 1.75rem) !important;
-            max-width: min(15.5rem, calc(100vw - 2.5rem)) !important;
+            top: clamp(5.1rem, 9.2svh, 5.85rem) !important;
+            left: clamp(1.25rem, 5.8vw, 2rem) !important;
+            max-width: min(21rem, calc(100vw - 2.5rem)) !important;
           }
 
           .mt-destinations-page [class*="top-[24%]"][class*="left-8"] h1 {
-            margin-bottom: clamp(0.8rem, 3.8vw, 1.2rem);
-            font-size: clamp(2rem, 11vw, 2.6rem);
+            margin-bottom: clamp(0.18rem, 0.8svh, 0.42rem);
+            font-size: clamp(1.82rem, 6.1vw, 2.6rem);
+          }
+
+          .mt-destinations-page [class*="top-[24%]"][class*="left-8"] h1 + div {
+            margin-bottom: clamp(0.24rem, 0.9svh, 0.45rem);
+            gap: 0.45rem;
           }
 
           .mt-destinations-page [class*="top-[24%]"][class*="left-8"] p {
-            max-width: 12rem !important;
-            font-size: clamp(0.78rem, 3.6vw, 0.88rem);
-            line-height: 1.62;
+            max-width: min(20rem, calc(100vw - 2.5rem)) !important;
+            font-size: 0;
+            line-height: 1.22;
+            white-space: nowrap;
+          }
+
+          .mt-destinations-page [class*="top-[24%]"][class*="left-8"] p::after {
+            content: 'Your journey begins beyond the clouds.';
+            font-size: clamp(0.7rem, 2.35vw, 0.84rem);
           }
         }
       `}</style>
       <DestinationHero>
         <div
-          className="absolute inset-x-[-18vw] bottom-[25vh] top-[39vh] sm:inset-x-[-10vw] sm:bottom-[24vh] sm:top-[35vh] md:inset-x-[-6vw] md:bottom-[22vh] md:top-[18vh] lg:inset-0"
+          className="absolute inset-x-[-18vw] bottom-[clamp(21.5rem,40svh,25rem)] top-[clamp(10.55rem,20svh,11.25rem)] sm:inset-x-[-10vw] sm:bottom-[clamp(22rem,39svh,25.5rem)] sm:top-[clamp(10.7rem,18svh,11.5rem)] md:inset-x-[-6vw] md:bottom-[clamp(23rem,38svh,26rem)] md:top-[clamp(11rem,17svh,11.9rem)] lg:inset-0"
           style={{ zIndex: 10 }}
         >
           <Globe3D

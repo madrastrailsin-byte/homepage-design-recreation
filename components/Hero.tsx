@@ -214,7 +214,7 @@ export default function Hero() {
         <div className="mt-hero-kenburns h-full w-full">
           <video
             ref={videoRef}
-            className="mt-hero-video h-[calc(100%+2rem)] w-[calc(100%+2.5rem)] object-cover"
+            className="mt-hero-video h-[calc(100%+2rem)] w-[calc(100%+2.5rem)] object-cover object-[58%_center] md:object-center"
             src="/videos/hero.mp4"
             autoPlay
             muted
@@ -239,12 +239,12 @@ export default function Hero() {
 
       {/* Content */}
       <div
-        className="mt-hero-content relative z-10 max-w-7xl mx-auto w-full px-6 md:px-8 -translate-y-1 md:-translate-y-3 lg:-translate-y-5"
+        className="mt-hero-content relative z-10 mx-auto w-full max-w-7xl px-[clamp(1.25rem,6vw,1.75rem)] -translate-y-[clamp(0.75rem,3vh,1.75rem)] md:px-8 md:-translate-y-3 lg:-translate-y-5"
       >
         <div className="mt-hero-exit-group relative max-w-[43rem]">
           <div className="mt-hero-camera-copy mt-hero-typography relative flex flex-col">
           {/* Main Headline Artwork */}
-          <div data-hero-reveal="heading" className="mb-5 md:mb-6 w-[215px] md:w-[320px] lg:w-[400px]" style={{ opacity: 0 }}>
+          <div data-hero-reveal="heading" className="mb-[clamp(1rem,4.6vw,1.35rem)] w-[clamp(12.5rem,63vw,15rem)] md:mb-6 md:w-[320px] lg:w-[400px]" style={{ opacity: 0 }}>
             <Image
               src="/images/homepage/hero-travel-like-local.svg"
               alt="Travel Like A Local"
@@ -256,7 +256,7 @@ export default function Hero() {
           </div>
 
           {/* Decorative divider */}
-          <div data-hero-reveal="divider" className="flex items-center gap-0 mb-5 md:mb-6" style={{ width: '248px' }}>
+          <div data-hero-reveal="divider" className="mb-[clamp(1rem,4.6vw,1.35rem)] flex w-[clamp(13.75rem,70vw,15.5rem)] items-center gap-0 md:mb-6 md:w-[248px]">
             <div data-hero-divider-line="left" className="flex-1 h-px origin-right bg-gradient-to-r from-[#C9A24A]/75 to-[#C9A24A]/35" style={{ transform: 'scaleX(0)' }} />
             <div className="relative mx-3 flex h-2.5 w-2.5 items-center justify-center">
               <div data-hero-divider-diamond className="h-1.5 w-1.5 rotate-45 border border-[#C9A24A]/80" style={{ opacity: 0, transform: 'rotate(45deg) scale(0.82)' }} />
@@ -266,15 +266,15 @@ export default function Hero() {
           </div>
 
           {/* Description */}
-          <p data-hero-reveal="description" className="mt-body-copy text-[#E8E8E8] text-sm md:text-base leading-relaxed mb-7 md:mb-8 max-w-[22rem]" style={{ opacity: 0, textShadow: '0 10px 26px rgba(0, 0, 0, 0.34)' }}>
+          <p data-hero-reveal="description" className="mt-body-copy mb-[clamp(1.35rem,5.4vw,1.85rem)] max-w-[min(22rem,88vw)] text-[clamp(0.875rem,3.5vw,0.95rem)] leading-[1.68] text-[#E8E8E8] md:mb-8 md:max-w-[22rem] md:text-base md:leading-relaxed" style={{ opacity: 0, textShadow: '0 10px 26px rgba(0, 0, 0, 0.34)' }}>
             Travel has become faster. We believe it should become more meaningful.
           </p>
 
           {/* CTA Buttons */}
-          <div data-hero-reveal="ctas" className="mt-hero-actions flex flex-col sm:flex-row gap-4 items-start sm:items-center" style={{ opacity: 0 }}>
+          <div data-hero-reveal="ctas" className="mt-hero-actions flex flex-col items-start gap-[clamp(0.85rem,3.8vw,1rem)] sm:flex-row sm:items-center sm:gap-4" style={{ opacity: 0 }}>
             <JourneyTransitionLink
               href="/plan"
-              className="mt-gold-sheen mt-ui group inline-flex items-center justify-center gap-2 rounded-[4px] bg-[#C9A24A] px-7 py-3 text-xs text-[#071B24] shadow-[0_12px_28px_rgba(201,162,74,0.18)] hover:bg-[#D4B860] hover:shadow-[0_17px_38px_rgba(201,162,74,0.24),0_0_22px_rgba(212,175,55,0.1)] md:px-8"
+              className="mt-gold-sheen mt-ui group inline-flex items-center justify-center gap-2 rounded-[4px] bg-[#C9A24A] px-[clamp(1.35rem,6vw,1.75rem)] py-[clamp(0.72rem,3.2vw,0.86rem)] text-[clamp(0.72rem,3vw,0.78rem)] text-[#071B24] shadow-[0_12px_28px_rgba(201,162,74,0.18)] hover:bg-[#D4B860] hover:shadow-[0_17px_38px_rgba(201,162,74,0.24),0_0_22px_rgba(212,175,55,0.1)] md:px-8 md:py-3 md:text-xs"
             >
               <span>Start Your Journey</span>
               <span className={ctaArrowClass}>→</span>

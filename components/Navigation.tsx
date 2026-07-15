@@ -75,7 +75,7 @@ export default function Navigation() {
           : 'bg-[#020F12]/34 border-b border-[#D4AF37]/8'
       }`}
     >
-      <div className="max-w-7xl mx-auto px-6 md:px-8 py-2 md:py-3 flex items-center justify-between">
+      <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-4 py-1.5 sm:px-5 md:px-8 md:py-3">
         {/* Logo */}
         <motion.a
           href="/"
@@ -84,18 +84,27 @@ export default function Navigation() {
           animate={introAnimate}
           transition={introTransition(0.12)}
           className={`
-relative inline-flex items-center rounded-[16px]
+relative inline-flex items-center rounded-[14px]
 border border-[#D8D8D5]
 bg-[#FAFAF9]
-px-[0.7rem]
-py-[0.45rem]
+px-[0.55rem]
+py-[0.32rem]
+sm:rounded-[15px]
+sm:px-[0.62rem]
+sm:py-[0.38rem]
+md:rounded-[16px]
+md:px-[0.7rem]
+md:py-[0.45rem]
 shadow-[0_12px_36px_rgba(0,0,0,0.22)]
 transition-all duration-500
 hover:shadow-[0_16px_44px_rgba(0,0,0,0.28)]
 ${logoPulse ? "mt-logo-receipt" : ""}
 `}
         >
-          <BrandLogo priority imageClassName="h-10 md:h-11 w-auto object-contain drop-shadow-[0_0_22px_rgba(232,244,255,0.068)]" />
+          <BrandLogo
+  priority
+  imageClassName="h-8 w-auto object-contain drop-shadow-[0_0_22px_rgba(232,244,255,0.068)] sm:h-9 md:h-11"
+/>
         </motion.a>
 
         {/* Desktop Menu */}
@@ -138,7 +147,7 @@ ${logoPulse ? "mt-logo-receipt" : ""}
 
   <button
     onClick={() => setIsOpen(!isOpen)}
-    className="md:hidden text-[#FAFAF9] p-2 hover:text-[#D4AF37] transition"
+    className="flex h-11 w-11 items-center justify-center text-[#FAFAF9] transition hover:text-[#D4AF37] md:hidden"
     aria-label="Menu"
   >
     <Menu size={24} />
