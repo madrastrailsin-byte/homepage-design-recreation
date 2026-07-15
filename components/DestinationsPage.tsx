@@ -30,9 +30,32 @@ export default function DestinationsPage() {
   }
 
   return (
-    <section className="relative w-full overflow-hidden bg-[#071B24]">
+    <section className="mt-destinations-page relative w-full overflow-hidden bg-[#071B24]">
+      <style>{`
+        @media (max-width: 767px) {
+          .mt-destinations-page [class*="top-[24%]"][class*="left-8"] {
+            top: clamp(5.75rem, 14vh, 7.25rem) !important;
+            left: clamp(1.25rem, 6vw, 1.75rem) !important;
+            max-width: min(15.5rem, calc(100vw - 2.5rem)) !important;
+          }
+
+          .mt-destinations-page [class*="top-[24%]"][class*="left-8"] h1 {
+            margin-bottom: clamp(0.8rem, 3.8vw, 1.2rem);
+            font-size: clamp(2rem, 11vw, 2.6rem);
+          }
+
+          .mt-destinations-page [class*="top-[24%]"][class*="left-8"] p {
+            max-width: 12rem !important;
+            font-size: clamp(0.78rem, 3.6vw, 0.88rem);
+            line-height: 1.62;
+          }
+        }
+      `}</style>
       <DestinationHero>
-        <div className="absolute inset-0" style={{ zIndex: 10 }}>
+        <div
+          className="absolute inset-x-[-18vw] bottom-[25vh] top-[39vh] sm:inset-x-[-10vw] sm:bottom-[24vh] sm:top-[35vh] md:inset-x-[-6vw] md:bottom-[22vh] md:top-[18vh] lg:inset-0"
+          style={{ zIndex: 10 }}
+        >
           <Globe3D
             selectedDestination={selectedDestination.id}
             previousDestination={previousDestinationId}
@@ -43,7 +66,7 @@ export default function DestinationsPage() {
         <AnimatePresence mode="wait">
           <motion.div
             key={selectedDestination.id}
-            className="absolute bottom-5 right-2 top-[112px] w-[300px] md:right-4 md:w-[310px] lg:right-6 lg:w-[320px]"
+            className="absolute inset-x-[clamp(1rem,5vw,1.5rem)] bottom-[128px] h-[clamp(15.5rem,34vh,20rem)] max-w-[430px] md:bottom-[140px] md:mx-auto md:h-[clamp(18rem,36vh,22rem)] lg:bottom-5 lg:left-auto lg:right-6 lg:top-[112px] lg:mx-0 lg:h-auto lg:w-[320px] lg:max-w-none"
             style={{ zIndex: 30 }}
             initial={
               prefersReducedMotion
@@ -71,7 +94,7 @@ export default function DestinationsPage() {
         </AnimatePresence>
 
         <div
-          className="absolute bottom-4 left-4 right-[338px] md:bottom-5 md:left-7 md:right-[350px] lg:left-10 lg:right-[370px]"
+          className="absolute bottom-4 left-[clamp(1rem,5vw,1.5rem)] right-[clamp(1rem,5vw,1.5rem)] md:bottom-5 md:left-7 md:right-7 lg:left-10 lg:right-[370px]"
           style={{ zIndex: 38 }}
         >
           <DestinationRail

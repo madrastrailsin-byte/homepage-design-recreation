@@ -121,7 +121,7 @@ export default function PlanJourneyPage() {
 
   return (
     <section
-      className="relative min-h-svh overflow-x-hidden overflow-y-auto px-4 py-6 lg:h-screen lg:overflow-hidden lg:px-0 lg:py-0"
+      className="relative min-h-svh overflow-x-hidden overflow-y-auto px-5 pb-10 pt-24 sm:px-8 sm:pt-28 lg:h-screen lg:overflow-hidden lg:px-0 lg:py-0"
       style={{
         backgroundImage: "url('/assets/wood/tabletop-dark-antique.jpg')",
         backgroundSize: 'cover',
@@ -136,7 +136,7 @@ export default function PlanJourneyPage() {
 
 
       {/* Parchment */}
-      <div className="pointer-events-none absolute inset-x-2 top-4 bottom-4 flex items-center justify-center overflow-hidden rounded-[18px] lg:inset-x-0 lg:-top-4 lg:bottom-[-15%] lg:rounded-none">
+      <div className="pointer-events-none absolute left-1/2 top-20 bottom-8 flex w-[calc(100%-40px)] max-w-[440px] -translate-x-1/2 items-center justify-center overflow-hidden rounded-[26px] shadow-[0_24px_46px_rgba(22,10,4,0.48)] sm:top-24 sm:w-[calc(100%-64px)] lg:inset-x-0 lg:-top-4 lg:bottom-[-15%] lg:left-0 lg:w-auto lg:max-w-none lg:translate-x-0 lg:rounded-none lg:shadow-none">
         <div
   className={`parchment-breathe relative h-full w-full transition-transform duration-150 lg:h-[110%] lg:w-[76%] ${
     isSubmitting ? 'translate-y-[1px] scale-[0.998]' : ''
@@ -149,7 +149,7 @@ export default function PlanJourneyPage() {
               alt=""
               aria-hidden="true"
               fill
-              className={`storm-edge storm-edge-${edge} scale-x-[1.65] scale-y-[1.08] object-fill brightness-[0.76] saturate-[0.88] contrast-[1.04] lg:scale-x-[1.4] lg:scale-y-[1.15] lg:object-contain`}
+              className={`storm-edge storm-edge-${edge} scale-x-[1.18] scale-y-[1.04] object-cover brightness-[0.82] saturate-[0.9] contrast-[1.02] lg:scale-x-[1.4] lg:scale-y-[1.15] lg:object-contain lg:brightness-[0.76] lg:saturate-[0.88] lg:contrast-[1.04]`}
             />
           ))}
         </div>
@@ -195,13 +195,13 @@ export default function PlanJourneyPage() {
       {/* Questionnaire */}
       <form
         id="plan-journey-form"
-        className="relative z-20 mx-auto flex w-full max-w-[480px] flex-col px-3 py-7 text-[#2d170c] sm:px-6 lg:absolute lg:left-1/2 lg:top-[54%] lg:h-[74%] lg:w-[76%] lg:max-w-none lg:-translate-x-1/2 lg:-translate-y-1/2 lg:p-0"
+        className="relative z-20 mx-auto flex w-full max-w-[430px] flex-col px-5 py-10 text-[#2d170c] sm:max-w-[440px] sm:px-7 sm:py-12 lg:absolute lg:left-1/2 lg:top-[54%] lg:h-[74%] lg:w-[76%] lg:max-w-none lg:-translate-x-1/2 lg:-translate-y-1/2 lg:p-0"
         onSubmit={handleSubmit}
       >
         {/* Burnt centre crease */}
         <div className="pointer-events-none absolute left-1/2 top-[-2%] hidden h-[104%] w-[3px] -translate-x-1/2 bg-gradient-to-b from-transparent via-[#6b3518]/30 to-transparent lg:block" />
 
-        <div className="grid gap-6 lg:h-full lg:grid-cols-2 lg:gap-0">
+        <div className="grid gap-8 lg:h-full lg:grid-cols-2 lg:gap-0">
           {/* LEFT PAGE */}
           <section className="flex justify-center lg:h-full lg:pr-[3.2vw]">
             <div className="flex w-full flex-col items-center lg:h-full lg:w-[86%]">
@@ -212,14 +212,14 @@ export default function PlanJourneyPage() {
                   The Traveller&apos;s Letter
                 </h1>
 
-                <div className="mx-auto mt-3 flex w-[72%] items-center gap-3">
+                <div className="mx-auto mt-4 flex w-[72%] items-center gap-3 lg:mt-3">
                   <span className="h-px flex-1 bg-[#63371d]/35" />
                   <span className="text-[#63371d]">✦</span>
                   <span className="h-px flex-1 bg-[#63371d]/35" />
                 </div>
               </header>
 
-              <div className="mt-8 w-full lg:mt-[4vh]">
+              <div className="mt-9 w-full lg:mt-[4vh]">
                 <Field label="Desired Kingdom">
                   <input
                     type="text"
@@ -230,7 +230,7 @@ export default function PlanJourneyPage() {
 
                 <Ornament />
 
-                <div className="grid gap-5 lg:grid-cols-2 lg:gap-x-[1.5vw] lg:gap-y-0">
+                <div className="grid gap-6 lg:grid-cols-2 lg:gap-x-[1.5vw] lg:gap-y-0">
                   <Field label="Date of Embarkation">
                     <input
                       name="date"
@@ -273,7 +273,7 @@ export default function PlanJourneyPage() {
 
                 <Ornament />
 
-                <div className="grid gap-5 lg:grid-cols-2 lg:gap-x-[1.5vw] lg:gap-y-0">
+                <div className="grid gap-6 lg:grid-cols-2 lg:gap-x-[1.5vw] lg:gap-y-0">
                   <Field label="Members of the Entourage">
                     <input
                       name="adults"
@@ -339,7 +339,7 @@ export default function PlanJourneyPage() {
                   Choose up to three
                 </p>
 
-                <div className="mt-4 grid grid-cols-2 gap-3 lg:mt-[1.4vh] lg:grid-cols-3 lg:gap-x-[0.8vw] lg:gap-y-[1.2vh]">
+                <div className="mt-5 grid grid-cols-2 gap-3 lg:mt-[1.4vh] lg:grid-cols-3 lg:gap-x-[0.8vw] lg:gap-y-[1.2vh]">
                   {interests.map((interest) => {
                     const selected = selectedInterests.includes(interest)
 
@@ -384,7 +384,7 @@ export default function PlanJourneyPage() {
                   />
                 </Field>
 
-                <div className="mt-[1.5vh]">
+                <div className="mt-6 lg:mt-[1.5vh]">
                   <Field label="The Journey You Envision">
                     <textarea
                       rows={2}
@@ -395,7 +395,7 @@ export default function PlanJourneyPage() {
                 </div>
 
 
-                <div className="mt-5 grid gap-5 lg:mt-[1.5vh] lg:grid-cols-2 lg:gap-x-[1.5vw] lg:gap-y-0">
+                <div className="mt-6 grid gap-6 lg:mt-[1.5vh] lg:grid-cols-2 lg:gap-x-[1.5vw] lg:gap-y-0">
                   <Field label="Honoured Name">
                     <input
                       name="name"
@@ -422,7 +422,7 @@ export default function PlanJourneyPage() {
                   </Field>
                 </div>
 
-                <div className="mt-5 lg:mt-[0.8vh]">
+                <div className="mt-6 lg:mt-[0.8vh]">
                   <Field label="Messenger's Number">
                     <input
                       name="phone"
@@ -443,7 +443,7 @@ export default function PlanJourneyPage() {
             </div>
           </section>
         </div>
-        <div className="mt-8 flex justify-center lg:hidden">
+        <div className="mt-10 flex justify-center lg:hidden">
           <button
             type="submit"
             disabled={isSubmitting}
@@ -502,14 +502,14 @@ function Field({
         {label}
       </span>
 
-      <span className="mt-2 block lg:mt-[0.7vh]">{children}</span>
+      <span className="mt-3 block lg:mt-[0.7vh]">{children}</span>
     </label>
   )
 }
 
 function Ornament() {
   return (
-    <div className="mx-auto my-5 flex w-[62%] items-center gap-2 text-[#6b3b20]/65 lg:my-[2vh]">
+    <div className="mx-auto my-6 flex w-[58%] items-center gap-2 text-[#6b3b20]/55 lg:my-[2vh] lg:w-[62%] lg:text-[#6b3b20]/65">
       <span className="h-px flex-1 bg-[#6b3b20]/30" />
       <span className="text-xs">❧</span>
       <span className="h-px flex-1 bg-[#6b3b20]/30" />

@@ -106,6 +106,8 @@ const IMAGE_POSITION_BY_ID: Record<string, string> = {
 const getImagePosition = (id: string) =>
   IMAGE_POSITION_BY_ID[id] ?? 'center 50%'
 
+const FALLBACK_IMAGE = '/images/destinations/canada/canada-moraine-lake.jpg'
+
 function ArrowLeft() {
   return (
     <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.5">
@@ -202,6 +204,7 @@ export default function DestinationRail({
         {destinations.map((destination, index) => {
           const isSelected = destination.id === selectedId
           const region = REGION_BY_ID[destination.id] ?? 'Worldwide'
+          const imageSrc = destination.image || FALLBACK_IMAGE
 
           return (
             <motion.button
@@ -224,8 +227,8 @@ export default function DestinationRail({
               whileTap={prefersReducedMotion ? undefined : { scale: 0.985 }}
             >
               <img
-                src={destination.image}
-                alt={destination.name}
+                src={imageSrc}
+                alt={destination.name || 'Curated destination'}
                 loading="lazy"
                 className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.025]"
                 style={{ objectPosition: getImagePosition(destination.id) }}
@@ -253,14 +256,14 @@ export default function DestinationRail({
 
               <div className="absolute inset-x-0 bottom-0 z-10 p-3">
                 <div className="mb-1 flex items-center gap-1.5">
-                  <span className="text-sm leading-none">{destination.flag}</span>
+                  <span className="text-sm leading-none">{destination.flag || '✦'}</span>
                   <span className="truncate text-[7px] uppercase tracking-[0.18em] text-[#D4AF37]/80">
                     {region}
                   </span>
                 </div>
 
                 <h3 className="mt-display truncate text-[16px] leading-none text-[#F5E9D0]">
-                  {destination.name}
+                  {destination.name || 'Curated'}
                 </h3>
               </div>
 

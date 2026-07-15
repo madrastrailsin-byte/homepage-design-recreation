@@ -1,7 +1,7 @@
 'use client'
 
 import { Suspense, useEffect, useMemo, useRef, useState } from 'react'
-import { Canvas, useFrame, useLoader, useThree } from '@react-three/fiber'
+import { Canvas, extend, useFrame, useLoader, useThree } from '@react-three/fiber'
 import { Environment } from '@react-three/drei'
 import type * as ThreeTypes from '../../node_modules/.pnpm/@types+three@0.185.0/node_modules/@types/three'
 // @ts-expect-error The project has @types/three installed transitively but not hoisted for module resolution.
@@ -55,6 +55,12 @@ void main() {
 `
 
 const OUTWARD_AXIS = new THREE.Vector3(0, 0, 1)
+const FALLBACK_MARKER_COLOR = '#D4AF37'
+
+const getSafeCoordinate = (value: unknown) =>
+  typeof value === 'number' && Number.isFinite(value) ? value : 0
+
+extend({ ThreeLine: THREE.Line })
 
 function SceneSetup() {
   const { gl, scene } = useThree()
@@ -521,8 +527,8 @@ function NasaEarth({
         ...destination,
         phase: (index / Math.max(destinations.length, 1)) * Math.PI * 2,
         position: latLngToVector3(
-          destination.latitude,
-          destination.longitude,
+          getSafeCoordinate(destination.latitude),
+          getSafeCoordinate(destination.longitude),
           R * 1.021,
         ),
       })),
@@ -791,7 +797,7 @@ function NasaEarth({
             key={destination.id}
             id={destination.id}
             position={destination.position}
-            color={destination.markerColor}
+            color={destination.markerColor || FALLBACK_MARKER_COLOR}
             phase={destination.phase}
             selected={selectedDestination === destination.id}
             glowTexture={glowTexture}

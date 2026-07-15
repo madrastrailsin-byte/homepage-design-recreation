@@ -41,6 +41,9 @@ const IMAGE_POSITION_BY_ID: Record<string, string> = {
 const getImagePosition = (id: string) =>
   IMAGE_POSITION_BY_ID[id] ?? 'center 50%'
 
+const FALLBACK_MARKER_COLOR = '#D4AF37'
+const FALLBACK_IMAGE = '/images/destinations/canada/canada-moraine-lake.jpg'
+
 function SunIcon() {
   return (
     <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.5">
@@ -93,11 +96,16 @@ export default function DestinationPanel({ destination }: DestinationPanelProps)
   }
 
   const info = [
-    { label: 'Best Season', value: destination.bestSeason, icon: <SunIcon /> },
-    { label: 'Flight Time', value: destination.flightTime, icon: <PlaneIcon /> },
-    { label: 'Time Diff.', value: destination.timeDifference, icon: <ClockIcon /> },
-    { label: 'Currency', value: destination.currency, icon: <CurrencyIcon /> },
+    { label: 'Best Season', value: destination.bestSeason || 'By request', icon: <SunIcon /> },
+    { label: 'Flight Time', value: destination.flightTime || 'Tailored route', icon: <PlaneIcon /> },
+    { label: 'Time Diff.', value: destination.timeDifference || 'Confirmed on enquiry', icon: <ClockIcon /> },
+    { label: 'Currency', value: destination.currency || 'Local currency', icon: <CurrencyIcon /> },
   ]
+  const highlights = Array.isArray(destination.highlights)
+    ? destination.highlights.filter(Boolean).slice(0, 3)
+    : []
+  const imageSrc = destination.image || FALLBACK_IMAGE
+  const markerColor = destination.markerColor || FALLBACK_MARKER_COLOR
 
   return (
     <motion.aside
@@ -115,7 +123,7 @@ export default function DestinationPanel({ destination }: DestinationPanelProps)
     >
       <div
         className="pointer-events-none absolute -right-14 -top-20 h-56 w-56 rounded-full opacity-20 blur-3xl"
-        style={{ background: destination.markerColor }}
+        style={{ background: markerColor }}
       />
 
       <div
@@ -137,18 +145,18 @@ export default function DestinationPanel({ destination }: DestinationPanelProps)
 
       <header className="relative z-10 pr-10">
         <div className="mb-2 flex items-center gap-3">
-          <span className="text-2xl leading-none">{destination.flag}</span>
+          <span className="text-2xl leading-none">{destination.flag || '✦'}</span>
           <span className="text-[9px] uppercase tracking-[0.28em] text-[#D4AF37]/85">
             Curated Destination
           </span>
         </div>
 
         <h2 className="mt-display text-[34px] leading-[0.95] tracking-[-0.02em] text-[#F6EBD3]">
-          {destination.name}
+          {destination.name || 'Curated Destination'}
         </h2>
 
         <p className="mt-2 max-w-[250px] text-[13px] leading-5 text-[#D6E0E2]/82">
-          {destination.tagline}
+          {destination.tagline || 'Curated journeys, shaped around you.'}
         </p>
       </header>
 
@@ -156,8 +164,8 @@ export default function DestinationPanel({ destination }: DestinationPanelProps)
         <div className="relative h-[190px] w-full overflow-hidden bg-[#021017]">
           {!imageFailed && (
             <img
-              src={destination.image}
-              alt={destination.name}
+              src={imageSrc}
+              alt={destination.name || 'Curated destination'}
               loading="eager"
               onError={() => setImageFailed(true)}
               className="h-full w-full object-cover"
@@ -180,7 +188,7 @@ export default function DestinationPanel({ destination }: DestinationPanelProps)
 
         <div className="border-t border-[#D4AF37]/15 bg-[#03141B]/88 px-3 py-3 text-center">
           <p className="truncate text-[10px] uppercase tracking-[0.18em] text-[#F2E7CC]/88">
-            {destination.highlights.slice(0, 3).join('  |  ')}
+            {highlights.length > 0 ? highlights.join('  |  ') : 'Curated highlights by MadrasTrails'}
           </p>
         </div>
       </div>
@@ -208,7 +216,7 @@ export default function DestinationPanel({ destination }: DestinationPanelProps)
         type="button"
         className="relative z-10 mx-auto mt-4 flex w-[86%] items-center justify-between rounded-xl border border-[#F0D18A]/30 bg-gradient-to-r from-[#DDBD68]/85 via-[#D3AA4D]/78 to-[#B9852E]/82 px-4 py-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#07141A] shadow-[0_10px_26px_rgba(212,175,55,0.18)] backdrop-blur-xl transition hover:brightness-110"
       >
-        Explore {destination.name}
+        Explore {destination.name || 'Destination'}
         <span className="text-lg leading-none">→</span>
       </button>
 
