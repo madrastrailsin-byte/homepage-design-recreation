@@ -195,7 +195,7 @@ export default function PlanJourneyPage() {
       {/* Questionnaire */}
       <form
         id="plan-journey-form"
-        className="relative z-20 mx-auto w-[calc(100%-2rem)] max-w-[34rem] px-4 pb-12 pt-20 text-[#2d170c] lg:absolute lg:left-1/2 lg:top-[54%] lg:h-[74%] lg:w-[76%] lg:-translate-x-1/2 lg:-translate-y-1/2 lg:px-0 lg:pb-0 lg:pt-0"
+        className="relative z-20 mx-auto flex w-full max-w-[430px] flex-col px-5 py-10 text-[#2d170c] sm:max-w-[440px] sm:px-7 sm:py-12 lg:absolute lg:left-1/2 lg:top-[54%] lg:h-[74%] lg:w-[76%] lg:max-w-none lg:-translate-x-1/2 lg:-translate-y-1/2 lg:p-0"
         onSubmit={handleSubmit}
       >
         {/* Burnt centre crease */}
@@ -207,7 +207,7 @@ export default function PlanJourneyPage() {
             <div className="flex w-full flex-col items-center lg:h-full lg:w-[86%]">
               <header className="w-full text-center lg:mt-[1.8vh]">
                 <h1
-                  className={`${royalFont.className} relative z-20 mt-30 text-center text-[clamp(2.4rem,10vw,3.4rem)] leading-[0.92] text-[#3a1d0f] drop-shadow-[0_1px_0_rgba(255,235,190,0.35)] lg:mt-[1.8vh] lg:text-[clamp(2.6rem,3.5vw,4.4rem)]`}
+                  className={`${royalFont.className} text-[clamp(2.65rem,13vw,4rem)] leading-none lg:text-[clamp(2.6rem,3.5vw,4.4rem)]`}
                 >
                   The Traveller&apos;s Letter
                 </h1>
@@ -349,7 +349,7 @@ export default function PlanJourneyPage() {
                         type="button"
                         aria-pressed={selected}
                         onClick={() => toggleInterest(interest)}
-                        className={`${answerFont.className} min-h-11 rounded-full border px-3 py-2 text-center text-[1rem] transition duration-200 lg:min-h-0 lg:px-[0.8vw] lg:py-[0.78vh] lg:text-[clamp(0.9rem,1vw,1.08rem)] ${
+                        className={`${answerFont.className} min-h-12 rounded-full border px-3 py-2 text-center text-[1rem] transition duration-200 lg:min-h-0 lg:px-[0.8vw] lg:py-[0.78vh] lg:text-[clamp(0.9rem,1vw,1.08rem)] ${
                           selected
                             ? 'border-[#4a2715]/70 bg-[#4a2715] text-[#f0d6a6] shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_4px_10px_rgba(58,28,12,0.18)]'
                             : 'border-[#5f3a22]/55 bg-[#f0d29a]/14 text-[#2f190f] hover:border-[#4a2715]/70 hover:bg-[#6a3a1f]/12'
@@ -372,20 +372,19 @@ export default function PlanJourneyPage() {
                 </div>
               </div>
 
+              <Ornament />
 
               {/* Remaining right-side form */}
-              <div className="w-full flex flex-col gap-5 lg:gap-0">
-                <div className="mt-6">
-  <Field label="Chosen Chambers">
+              <div className="w-full">
+                <Field label="Chosen Chambers">
                   <input
                     type="text"
                     placeholder="Palace hotel, heritage mansion..."
                     className={inputClass}
                   />
-                  </Field>
-</div>
+                </Field>
 
-                <div>
+                <div className="mt-6 lg:mt-[1.5vh]">
                   <Field label="The Journey You Envision">
                     <textarea
                       rows={2}
@@ -396,7 +395,7 @@ export default function PlanJourneyPage() {
                 </div>
 
 
-                <div className="grid gap-5 lg:mt-[1.5vh] lg:grid-cols-2 lg:gap-x-[1.5vw] lg:gap-y-0">
+                <div className="mt-6 grid gap-6 lg:mt-[1.5vh] lg:grid-cols-2 lg:gap-x-[1.5vw] lg:gap-y-0">
                   <Field label="Honoured Name">
                     <input
                       name="name"
@@ -423,7 +422,7 @@ export default function PlanJourneyPage() {
                   </Field>
                 </div>
 
-                <div>
+                <div className="mt-6 lg:mt-[0.8vh]">
                   <Field label="Messenger's Number">
                     <input
                       name="phone"
@@ -498,14 +497,12 @@ function Field({
   return (
     <label className="block min-w-0 text-center">
       <span
-        className={`${royalFont.className} block text-center text-[clamp(1.25rem,6vw,1.7rem)] leading-[1.05] lg:text-[clamp(1rem,1.2vw,1.4rem)]`}
+        className={`${royalFont.className} block text-center text-[clamp(1.25rem,6vw,1.7rem)] leading-none lg:text-[clamp(1rem,1.2vw,1.4rem)]`}
       >
         {label}
       </span>
 
-      <span className="mt-2.5 block lg:mt-[0.7vh]">
-        {children}
-      </span>
+      <span className="mt-3 block lg:mt-[0.7vh]">{children}</span>
     </label>
   )
 }
@@ -524,4 +521,4 @@ const inputClass =
   `${answerFont.className} h-12 w-full rounded-[8px] border border-[#5f3a22]/38 bg-[#f4ddb0]/24 px-4 py-0 text-left text-[1rem] leading-[48px] text-[#4b2b1b] outline-none transition placeholder:text-[#6a4632]/68 focus:border-[#3d2415] focus:bg-[#f6e2b9]/34 lg:h-[44px] lg:text-[clamp(0.88rem,0.98vw,1.08rem)] lg:leading-[44px]`
 
 const textareaClass =
-  `${answerFont.className} min-h-[90px] w-full resize-none rounded-[8px] border border-[#5f3a22]/38 bg-[#f4ddb0]/24 px-4 py-3 text-left text-[1rem] leading-relaxed text-[#4b2b1b] outline-none transition placeholder:text-[#6a4632]/68 focus:border-[#3d2415] focus:bg-[#f6e2b9]/34 lg:min-h-[66px] lg:text-[clamp(0.88rem,0.98vw,1.08rem)]`
+  `${answerFont.className} min-h-[120px] w-full resize-none rounded-[8px] border border-[#5f3a22]/38 bg-[#f4ddb0]/24 px-4 py-3 text-left text-[1rem] leading-relaxed text-[#4b2b1b] outline-none transition placeholder:text-[#6a4632]/68 focus:border-[#3d2415] focus:bg-[#f6e2b9]/34 lg:min-h-[66px] lg:text-[clamp(0.88rem,0.98vw,1.08rem)]`
