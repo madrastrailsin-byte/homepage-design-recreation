@@ -59,7 +59,7 @@ export default function RoyalDispatch({ open, onComplete }: RoyalDispatchProps) 
   return (
     <div className="pointer-events-none absolute inset-0 z-[60]">
       <div
-        className={`absolute bottom-[7.5%] right-[3.5%] h-28 w-44 transition-opacity duration-300 ${
+        className={`absolute bottom-24 right-5 h-24 w-32 transition-opacity duration-300 sm:right-8 lg:bottom-[7.5%] lg:right-[3.5%] lg:h-28 lg:w-44 ${
           phase === 'sealed' ? 'opacity-100' : 'opacity-0'
         }`}
       >
@@ -81,26 +81,26 @@ export default function RoyalDispatch({ open, onComplete }: RoyalDispatchProps) 
       </div>
 
       <div
-        className={`absolute bottom-[12%] right-[6%] transition-all ${
-          phase === 'scroll'
-  ? 'translate-y-[-18px] scale-100 opacity-100 duration-[1400ms] ease-[cubic-bezier(0.22,1,0.36,1)]'
-            : phase === 'depart'
-  ? 'translate-y-[-32px] scale-[0.97] opacity-0 duration-[1800ms] ease-[cubic-bezier(0.4,0,0.2,1)]'
-              : 'translate-y-3 scale-[0.94] opacity-0 duration-300'
-        }`}
-      >
-        <Image
-          src="/assets/parchment/closed-parchment-scroll.png"
-          alt="Closed royal dispatch scroll"
-          width={80}
-          height={60}
-          priority
-          className="h-auto w-[100px] rotate-[-8deg] brightness-[0.8] saturate-[0.9] drop-shadow-[0_14px_20px_rgba(0,0,0,0.38)]"
-        />
-      </div>
+  className={`absolute bottom-20 left-6 transition-all sm:left-10 lg:bottom-[12%] lg:left-auto lg:right-[6%] ${
+    phase === 'scroll'
+      ? 'translate-y-[-18px] scale-100 opacity-100 duration-[1400ms] ease-[cubic-bezier(0.22,1,0.36,1)]'
+      : phase === 'depart'
+        ? 'translate-y-[-32px] scale-[0.97] opacity-0 duration-[1800ms] ease-[cubic-bezier(0.4,0,0.2,1)]'
+        : 'translate-y-3 scale-[0.94] opacity-0 duration-300'
+  }`}
+>
+  <Image
+    src="/assets/parchment/closed-parchment-scroll.png"
+    alt="Closed royal dispatch scroll"
+    width={80}
+    height={60}
+    priority
+    className="h-auto w-[92px] rotate-[-8deg] brightness-[0.8] saturate-[0.9] drop-shadow-[0_14px_20px_rgba(0,0,0,0.38)] sm:w-[104px] lg:w-[100px]"
+  />
+</div>
 
       {phase === 'depart' && (
-        <div className="absolute bottom-[16%] right-[8%] h-36 w-24">
+        <div className="absolute bottom-24 right-6 h-32 w-20 sm:right-10 lg:bottom-[16%] lg:right-[8%] lg:h-36 lg:w-24">
           {[0, 1, 2, 3, 4].map((particle) => (
             <span
               key={particle}

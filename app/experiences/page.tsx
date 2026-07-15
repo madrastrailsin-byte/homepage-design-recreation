@@ -117,10 +117,32 @@ function ImageCard({
 
 export default function ExperiencesPage() {
   return (
-    <main className="min-h-screen w-full overflow-x-hidden bg-[#03191D] text-[#FAFAF9]">
+    <main className="mt-experiences-page min-h-screen w-full overflow-x-hidden bg-[#03191D] text-[#FAFAF9]">
+      <style>{`
+        @media (max-width: 1023px) {
+          .mt-experiences-page .mt-premium-nav > div:first-child {
+            padding-top: 0.2rem;
+            padding-bottom: 0.2rem;
+          }
+
+          .mt-experiences-page .mt-premium-nav a[aria-label="MadrasTrails homepage"] {
+            padding-top: 0.24rem;
+            padding-bottom: 0.24rem;
+          }
+
+          .mt-experiences-page .mt-premium-nav a[aria-label="MadrasTrails homepage"] img {
+            height: clamp(1.75rem, 7.8vw, 2.45rem);
+          }
+
+          .mt-experiences-page .mt-premium-nav button[aria-label="Menu"] {
+            height: 2.5rem;
+            width: 2.5rem;
+          }
+        }
+      `}</style>
       <Navigation />
 
-      <section className="relative flex min-h-screen items-end overflow-hidden px-6 pb-16 pt-32 md:px-8 md:pb-24">
+      <section className="relative flex min-h-[100svh] items-end overflow-hidden px-6 pb-[5.5rem] pt-28 md:px-8 md:pb-[7rem] lg:min-h-screen lg:pb-24 lg:pt-32">
         <video
           className="absolute inset-0 h-full w-full object-cover"
           style={{ objectPosition: 'center center' }}
@@ -159,7 +181,7 @@ export default function ExperiencesPage() {
             <p className="mt-eyebrow mb-4 text-xs text-[#D4AF37]">TRAVEL PERSONALITY</p>
             <h2 className="mt-display text-5xl leading-tight md:text-7xl">Choose the feeling first.</h2>
           </Reveal>
-          <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-x-5 gap-y-5 md:grid-cols-2 lg:grid-cols-3">
             {personalities.map((item, index) => (
               <Reveal key={item.title} delay={index * 0.04}>
                 <ImageCard image={item.image} title={item.title} objectPosition={item.objectPosition} className="min-h-[22rem]" />
@@ -271,7 +293,7 @@ export default function ExperiencesPage() {
         </div>
       </section>
 
-      <section className="relative flex min-h-[72vh] items-center overflow-hidden px-6 py-20 md:px-8 md:py-28">
+      <section className="relative flex min-h-[58vh] items-center overflow-hidden px-6 py-14 md:min-h-[60vh] md:px-8 md:py-20 lg:min-h-[72vh] lg:py-28">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_74%_28%,rgba(212,175,55,0.18),transparent_32%),radial-gradient(ellipse_at_24%_70%,rgba(14,58,67,0.5),transparent_40%),linear-gradient(135deg,#061C24,#020F12_62%,#071B24)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_34%_54%,rgba(2,15,18,0.82),transparent_48%),linear-gradient(90deg,rgba(2,15,18,0.9),rgba(2,15,18,0.32))]" />
         <div className="relative z-10 mx-auto w-full max-w-7xl">
