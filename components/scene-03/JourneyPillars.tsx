@@ -13,7 +13,7 @@ function GoldRoadsterIcon() {
   return (
     <svg
   viewBox="0 0 72 36"
-  className="h-8 w-14 overflow-visible md:h-9 md:w-16"
+  className="h-9 w-16 overflow-visible md:h-10 md:w-20"
   fill="none"
   aria-hidden="true"
   style={{ transform: 'scaleX(-1)' }}
@@ -85,7 +85,7 @@ function GoldRoadsterIcon() {
 function RoadProps() {
   return (
     <motion.div
-      className="absolute inset-x-0 top-[3.43rem] h-8"
+      className="absolute inset-x-0 top-[3.9rem] h-8"
       animate={{ x: ['0%', '-50%'] }}
       transition={{ duration: 9.5, repeat: Infinity, ease: 'linear' }}
       aria-hidden="true"
@@ -181,7 +181,7 @@ export default function JourneyPillars({ words = fallbackWords }: JourneyPillars
       <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
         {sequence.map((word, index) => (
           <div key={word} className="flex items-center gap-3">
-            <span className="mt-display text-base italic text-[#F6E8C3] md:text-lg">
+            <span className="mt-display-soft text-xl italic text-[#F6E8C3] md:text-2xl">
               {word}
             </span>
             {index < sequence.length - 1 ? (
@@ -194,8 +194,8 @@ export default function JourneyPillars({ words = fallbackWords }: JourneyPillars
   }
 
   return (
-    <div className="relative w-full max-w-[24rem]">
-      <div className="grid grid-cols-4 gap-2 px-1">
+    <div className="relative w-full max-w-[30rem]">
+      <div className="grid grid-cols-4 gap-3 px-1">
         {sequence.map((word, index) => (
           <motion.span
             key={word}
@@ -206,21 +206,21 @@ export default function JourneyPillars({ words = fallbackWords }: JourneyPillars
               filter: index < visibleCount ? 'blur(0px)' : 'blur(4px)',
             }}
             transition={{ duration: 0.82, ease: [0.22, 1, 0.36, 1] }}
-            className="mt-display text-center text-[1.05rem] italic text-[#F6E8C3] sm:text-[1.15rem]"
+            className="mt-display-soft text-center text-[1.12rem] italic text-[#F6E8C3] sm:text-[1.28rem]"
           >
             {word}
           </motion.span>
         ))}
       </div>
 
-      <div className="relative mt-2 h-[5.8rem] overflow-hidden">
-        <div className="absolute left-0 right-0 top-[4.15rem] h-px bg-gradient-to-r from-[#C9A24A]/28 via-[#D4AF37] to-[#C9A24A]/28]" />
+      <div className="relative mt-3 h-[6.5rem] overflow-hidden">
+        <div className="absolute left-0 right-0 top-[4.9rem] h-px bg-gradient-to-r from-[#C9A24A]/28 via-[#D4AF37] to-[#C9A24A]/28]" />
 
         <RoadProps />
 
         <motion.div
-          className="absolute top-[1.78rem]"
-          animate={{ left: ['19%', '28%'] }}
+          className="absolute top-[2.05rem]"
+          animate={{ left: ['18%', '34%'] }}
           transition={{
             duration: 26,
             repeat: Infinity,
@@ -231,7 +231,7 @@ export default function JourneyPillars({ words = fallbackWords }: JourneyPillars
         >
           <div className="relative">
             <motion.div
-              className="absolute right-[3.2rem] top-[0.85rem] flex flex-col gap-[3px]"
+              className="absolute right-[3.8rem] top-[0.95rem] flex flex-col gap-[3px]"
               animate={{ x: [0, -5, 0], opacity: [0.12, 0.58, 0.12] }}
               transition={{ duration: 0.42, repeat: Infinity }}
               aria-hidden="true"
@@ -244,13 +244,13 @@ export default function JourneyPillars({ words = fallbackWords }: JourneyPillars
             <GoldRoadsterIcon />
 
             <motion.span
-              className="absolute -left-1 top-[1.95rem] h-1 w-1 rounded-full bg-[#D4AF37]/46"
+              className="absolute -left-1 top-[2.25rem] h-1 w-1 rounded-full bg-[#D4AF37]/46"
               animate={{ x: [0, -10, -19], y: [0, -2, -4], opacity: [0, 0.56, 0] }}
               transition={{ duration: 1.05, repeat: Infinity, repeatDelay: 0.14 }}
               aria-hidden="true"
             />
             <motion.span
-              className="absolute left-1 top-[2.1rem] h-0.5 w-0.5 rounded-full bg-[#D4AF37]/30"
+              className="absolute left-1 top-[2.4rem] h-0.5 w-0.5 rounded-full bg-[#D4AF37]/30"
               animate={{ x: [0, -8, -15], y: [0, 2, -1], opacity: [0, 0.42, 0] }}
               transition={{ duration: 1.2, repeat: Infinity, repeatDelay: 0.28 }}
               aria-hidden="true"

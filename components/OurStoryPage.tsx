@@ -5,7 +5,6 @@ import Image from 'next/image'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useReducedMotion } from 'framer-motion'
-import { ArrowRight } from 'lucide-react'
 
 export default function OurStoryPage() {
   const pageRef = useRef<HTMLDivElement>(null)
@@ -105,7 +104,7 @@ export default function OurStoryPage() {
             <div data-reveal className="mb-6 flex items-center gap-3">
               <span className="mt-ui text-[11px] text-[#D4AF37]/80">02</span>
               <span className="h-px w-14 bg-gradient-to-r from-[#D4AF37] to-transparent" />
-              <span className="mt-eyebrow text-[10px] text-[#D4AF37]">THE PEOPLE BEHIND THE TRAIL</span>
+              <span className="mt-eyebrow text-[10px] text-[#D4AF37]">OUR PHILOSOPHY</span>
             </div>
 
             <h2 data-reveal className="mt-display text-5xl leading-[1.02] md:text-7xl">
@@ -124,46 +123,109 @@ export default function OurStoryPage() {
         </div>
       </section>
 
-      <section className="relative px-6 pb-16 pt-4 md:px-8 md:pb-20">
-        <div className="relative mx-auto min-h-[38rem] max-w-7xl overflow-hidden rounded-[2rem]">
-          <Image
-            src="/images/services/guides/community-tourism.jpg"
-            alt=""
-            fill
-            sizes="100vw"
-            className="object-cover"
-            style={{ objectPosition: 'center 48%' }}
-          />
+      <section className="relative overflow-hidden px-6 pb-16 pt-10 md:px-8 md:pb-20 md:pt-14">
+        <div className="pointer-events-none absolute left-1/2 top-10 h-[30rem] w-[30rem] -translate-x-1/2 rounded-full bg-[#0E3A43]/14 blur-[110px]" />
 
-          <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(2,15,18,0.92)_0%,rgba(2,15,18,0.66)_48%,rgba(2,15,18,0.18)_100%)]" />
-          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(2,15,18,0.08),rgba(2,15,18,0.52))]" />
-
-          <div className="relative z-10 flex min-h-[38rem] items-center px-7 py-12 md:px-14">
-            <div className="max-w-2xl">
-              <div data-reveal className="mb-6 flex items-center gap-3">
-                <span className="mt-ui text-[11px] text-[#D4AF37]/80">03</span>
-                <span className="h-px w-14 bg-gradient-to-r from-[#D4AF37] to-transparent" />
-                <span className="mt-eyebrow text-[10px] text-[#D4AF37]">THE NEXT CHAPTER</span>
-              </div>
-
-              <h2 data-reveal className="mt-display text-5xl leading-[1.02] md:text-7xl">
-                Your story deserves
-                <span className="block text-[#D4AF37]">more than a holiday.</span>
-              </h2>
-
-              <p data-reveal className="mt-body-copy mt-6 max-w-lg text-base leading-relaxed text-[#FAFAF9]/76">
-                Begin with a conversation. We will take care of everything that follows.
-              </p>
-
-              <a
-                data-reveal
-                href="#"
-                className="btn-gold mt-gold-sheen mt-ui mt-8 inline-flex w-fit items-center gap-2 text-xs"
-              >
-                Start Your Journey
-                <ArrowRight size={14} />
-              </a>
+        <div className="relative mx-auto max-w-7xl">
+          <div data-reveal className="mx-auto max-w-3xl text-center">
+            <div className="mb-6 flex items-center justify-center gap-3">
+              <span className="h-px w-12 bg-gradient-to-r from-transparent to-[#D4AF37]" />
+              <span className="mt-eyebrow text-[10px] text-[#D4AF37]">THE PEOPLE BEHIND MADRASTRAILS</span>
+              <span className="h-px w-12 bg-gradient-to-l from-transparent to-[#D4AF37]" />
             </div>
+
+            <h2 className="mt-display text-5xl leading-[1.04] text-[#FAFAF9] md:text-7xl">
+              Meet the people
+              <span className="block text-[#D4AF37]">behind every journey.</span>
+            </h2>
+
+            <p className="mt-body-copy mx-auto mt-7 max-w-2xl text-base leading-[1.8] text-[#FAFAF9]/68">
+              Behind every itinerary is a conversation, a relationship, and two people who care deeply about getting every detail right.
+            </p>
+          </div>
+
+          <div className="relative mt-14 grid items-start gap-14 lg:mt-20 lg:grid-cols-2 lg:gap-20">
+            <div className="pointer-events-none absolute bottom-16 left-1/2 top-20 hidden w-px -translate-x-1/2 bg-gradient-to-b from-transparent via-[#D4AF37]/30 to-transparent lg:block" />
+
+            <article data-reveal className="relative">
+              <div className="mx-auto flex h-full max-w-[34rem] flex-col">
+                <div className="relative mx-auto aspect-[4/5] w-full max-w-[24rem] overflow-hidden rounded-[2rem] border border-[#D4AF37]/38 bg-[radial-gradient(circle_at_70%_18%,rgba(212,175,55,0.16),transparent_32%),linear-gradient(145deg,#0A3038,#020F12)] shadow-[0_28px_80px_rgba(0,0,0,0.38),0_0_28px_rgba(212,175,55,0.14),inset_0_0_24px_rgba(212,175,55,0.06)]">
+                  <div className="pointer-events-none absolute inset-[1px] rounded-[calc(2rem-1px)] border border-white/[0.04]" />
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <span className="mt-display text-7xl text-[#D4AF37]/32">MD</span>
+                  </div>
+                  <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-[#020F12] to-transparent" />
+                  <p className="mt-ui absolute bottom-6 left-6 text-[9px] tracking-[0.22em] text-[#D4AF37]/68">
+                    PORTRAIT TO BE ADDED
+                  </p>
+                </div>
+
+                <div className="mt-7 text-center">
+                  <h3 className="mt-display-soft text-[2.45rem] italic leading-[1.02] text-[#FAFAF9] md:text-[2.9rem]">
+                    Geetha Solomon
+                  </h3>
+                  <p className="mt-ui mt-3 text-[10px] font-medium tracking-[0.22em] text-[#D8C08A]">
+                    MANAGING DIRECTOR
+                  </p>
+
+                  <p className="mt-body-copy mx-auto mt-6 min-h-[10.5rem] max-w-[31rem] text-base leading-[1.9] text-[#FAFAF9]/70">
+                    As Managing Director and principal investor, she provides the strategic backing that powers MadrasTrails&rsquo; long-term vision. Through trusted relationships across business, industry, public life and entertainment, she brings the brand closer to discerning travellers and meaningful opportunities.
+                  </p>
+
+                  <p className="mt-ui mx-auto mt-7 whitespace-nowrap text-center text-[9px] tracking-[0.16em] text-[#D4AF37]/82">
+                    STRATEGIC VISION <span className="px-2 text-[#D4AF37]/38">|</span> INVESTMENT <span className="px-2 text-[#D4AF37]/38">|</span> CLIENT RELATIONSHIPS
+                  </p>
+                </div>
+              </div>
+            </article>
+
+            <article data-reveal className="relative">
+              <div className="mx-auto flex h-full max-w-[34rem] flex-col">
+                <div className="relative mx-auto aspect-[4/5] w-full max-w-[24rem] overflow-hidden rounded-[2rem] border border-[#D4AF37]/38 bg-[radial-gradient(circle_at_30%_16%,rgba(212,175,55,0.16),transparent_32%),linear-gradient(145deg,#0B343C,#020F12)] shadow-[0_28px_80px_rgba(0,0,0,0.38),0_0_28px_rgba(212,175,55,0.14),inset_0_0_24px_rgba(212,175,55,0.06)]">
+                  <div className="pointer-events-none absolute inset-[1px] rounded-[calc(2rem-1px)] border border-white/[0.04]" />
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <span className="mt-display text-7xl text-[#D4AF37]/32">GS</span>
+                  </div>
+                  <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-[#020F12] to-transparent" />
+                  <p className="mt-ui absolute bottom-6 left-6 text-[9px] tracking-[0.22em] text-[#D4AF37]/68">
+                    PORTRAIT TO BE ADDED
+                  </p>
+                </div>
+
+                <div className="mt-7 text-center">
+                  <h3 className="mt-display-soft text-[2.45rem] italic leading-[1.02] text-[#FAFAF9] md:text-[2.9rem]">
+                    Gideon Solomon
+                  </h3>
+                  <p className="mt-ui mt-3 text-[10px] font-medium tracking-[0.22em] text-[#D8C08A]">
+                    FOUNDER &amp; CHIEF JOURNEY ARCHITECT
+                  </p>
+
+                  <p className="mt-body-copy mx-auto mt-6 min-h-[10.5rem] max-w-[31rem] text-base leading-[1.9] text-[#FAFAF9]/70">
+                    Gideon leads the vision, destination curation, supplier partnerships, travel planning, client experience and creative direction of MadrasTrails. From the first conversation to the traveller&rsquo;s return home, every journey is personally shaped to feel thoughtful, seamless and deeply individual.
+                  </p>
+
+                  <p className=" mt-ui mx-auto mt-7 whitespace-nowrap text-center text-[9px] tracking-[0.16em] text-[#D4AF37]/82">
+                    VISION <span className="px-2 text-[#D4AF37]/38">|</span> JOURNEY DESIGN <span className="px-2 text-[#D4AF37]/38">|</span> CLIENT EXPERIENCE
+                  </p>
+                </div>
+              </div>
+            </article>
+          </div>
+
+          <div data-reveal className="mx-auto mt-16 max-w-5xl text-center md:mt-20">
+            <p className="mt-ui text-[10px] tracking-[0.24em] text-[#D4AF37]/68">
+              OUR SHARED PROMISE
+            </p>
+
+            <p className="mt-display mt-5 text-[2.35rem] leading-[1.06] text-[#FAFAF9] md:text-[3.55rem]">
+              Thoughtful journeys,
+              <span className="block italic text-[#D4AF37]">personally imagined.</span>
+            </p>
+
+            <p className="mt-display-soft mx-auto mt-5 max-w-3xl text-xl leading-[1.65] text-[#F2E7CC]/76 md:text-2xl">
+              From the first conversation to the moment you return home,
+              <span className="text-[#D8C08A]"> every detail carries our attention.</span>
+            </p>
           </div>
         </div>
       </section>

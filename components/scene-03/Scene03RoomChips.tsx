@@ -21,7 +21,7 @@ export default function Scene03RoomChips({ options, selectedId, onSelect }: Scen
             role="option"
             aria-selected={isSelected}
             onClick={() => onSelect(option.id)}
-            className={`mt-scene03-chip mt-ui rounded-full border px-3 py-1.5 text-[10px] tracking-[0.12em] transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+            className={`mt-scene03-chip mt-ui rounded-full border px-3.5 py-1 text-[10px] tracking-[0.12em] transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${
               isSelected
                 ? 'border-[#C9A24A]/75 bg-[#C9A24A]/14 text-[#FAFAF9] shadow-[0_8px_24px_rgba(0,0,0,0.18)]'
                 : 'border-[#C9A24A]/22 bg-[#020F12]/28 text-[#E8E8E8]/72 hover:border-[#C9A24A]/42 hover:bg-[#020F12]/42 hover:text-[#FAFAF9]'

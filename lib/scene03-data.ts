@@ -9,6 +9,7 @@ export type Scene03Hotel = {
   destinationTitle: string
   name: string
   image: string
+  imagePosition: string
   rating: number
   reviewLabel: string
   priceUnit: string
@@ -39,6 +40,7 @@ export const scene03Content: Scene03Content = {
       destinationTitle: 'Abu Dhabi, UAE',
       name: 'Emirates Palace',
       image: '/images/services/accommodation/abu-dhabi-luxury-hotel.jpg',
+      imagePosition: 'center 48%',
       rating: 4.9,
       reviewLabel: 'Palatial city retreat',
       priceUnit: 'per night',
@@ -54,6 +56,7 @@ export const scene03Content: Scene03Content = {
       destinationTitle: 'Ubud, Bali',
       name: 'Ubud Jungle Retreat',
       image: '/images/services/accommodation/bali-jungle-infinity-pool.jpg',
+      imagePosition: 'center 44%',
       rating: 4.9,
       reviewLabel: 'Rainforest sanctuary',
       priceUnit: 'per night',
@@ -69,6 +72,7 @@ export const scene03Content: Scene03Content = {
       destinationTitle: 'Maldives',
       name: 'Soneva Jani',
       image: '/images/services/accommodation/maldives-overwater-villa.jpg',
+      imagePosition: 'center 52%',
       rating: 5.0,
       reviewLabel: 'Lagoon sanctuary',
       priceUnit: 'per night',
@@ -84,6 +88,7 @@ export const scene03Content: Scene03Content = {
       destinationTitle: 'Tropical Private Retreat',
       name: 'Private Pool Residence',
       image: '/images/services/accommodation/tropical-luxury-bedroom.jpg',
+      imagePosition: 'center 48%',
       rating: 4.9,
       reviewLabel: 'Private tropical stay',
       priceUnit: 'per night',
