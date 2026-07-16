@@ -2,18 +2,21 @@
 
 import { motion, useReducedMotion } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
+import Link from 'next/link'
 
 const destinations = [
   {
     id: 1,
-    name: 'Canada',
+    name: 'Italy',
+    slug: 'italy',
     label: 'Discover',
-    image: '/images/destinations/canada/canada-moraine-lake.jpg',
-    objectPosition: 'center 35%',
+    image: '/images/destinations/italy/italy-amalfi-coast.jpg',
+    objectPosition: 'center 45%',
   },
   {
     id: 2,
     name: 'Türkiye',
+    slug: 'turkiye',
     label: 'Explore',
     image: '/images/destinations/turkiye/turkiye-hot-air-balloon.jpg',
     objectPosition: 'center 45%',
@@ -21,6 +24,7 @@ const destinations = [
   {
     id: 3,
     name: 'Japan',
+    slug: 'japan',
     label: 'Experience',
     image: '/images/destinations/japan/japan-mount-fuji-sunrise.jpg',
     objectPosition: 'center 55%',
@@ -78,7 +82,6 @@ export default function DestinationsSection() {
               <div className="w-2.5 h-4 border border-[#C9A24A] rounded-full" />
               <div className="w-px h-24 bg-gradient-to-b from-[#C9A24A] to-transparent" />
             </motion.div>
-
             {/* Main Text Block */}
             <div className="flex-1">
               {/* Curated/Crafted Label - Two Lines, Tight */}
@@ -154,7 +157,8 @@ export default function DestinationsSection() {
             <div className="relative">
               {/* Cards Grid */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {/* Card 1 - Canada */}
+                {/* Card 1 - Italy */}
+                <Link href="/destinations?country=italy" className="block">
                 <motion.div
                   initial={revealInitial}
                   whileInView={revealInView}
@@ -182,15 +186,18 @@ export default function DestinationsSection() {
                           <h3 className="mt-display text-3xl text-white mb-1">{destinations[0].name}</h3>
                           <p className="mt-body-copy text-[#C9A24A] text-xs mb-0">{destinations[0].label}</p>
                         </div>
-                        <button className={outlineArrowButton}>
+                        <span className={outlineArrowButton}>
                           <ArrowRight size={15} className={`transition-transform ${iconHoverClass}`} />
-                        </button>
+                        </span>
                       </div>
                     </div>
                   </div>
                 </motion.div>
 
+                </Link>
+
                 {/* Card 2 - Türkiye (Center - Featured) */}
+                <Link href="/destinations?country=turkiye" className="block">
                 <div className="md:-translate-y-6">
                   <motion.div
                     initial={revealInitial}
@@ -219,16 +226,19 @@ export default function DestinationsSection() {
                             <h3 className="mt-display text-4xl text-white mb-1">{destinations[1].name}</h3>
                             <p className="mt-body-copy text-[#C9A24A] text-xs">{destinations[1].label}</p>
                           </div>
-                          <button className={filledArrowButton}>
+                          <span className={filledArrowButton}>
                             <ArrowRight size={15} className={`transition-transform ${iconHoverClass}`} />
-                          </button>
+                          </span>
                         </div>
                       </div>
                     </div>
                   </motion.div>
                 </div>
 
+                </Link>
+
                 {/* Card 3 - Japan */}
+                <Link href="/destinations?country=japan" className="block">
                 <motion.div
                   initial={revealInitial}
                   whileInView={revealInView}
@@ -256,13 +266,13 @@ export default function DestinationsSection() {
                           <h3 className="mt-display text-3xl text-white mb-1">{destinations[2].name}</h3>
                           <p className="mt-body-copy text-[#C9A24A] text-xs">{destinations[2].label}</p>
                         </div>
-                        <button className={outlineArrowButton}>
+                        <span className={outlineArrowButton}>
                           <ArrowRight size={15} className={`transition-transform ${iconHoverClass}`} />
-                        </button>
+                        </span>
                       </div>
                     </div>
                   </div>
-                </motion.div>
+                </motion.div>                </Link>
               </div>
             </div>
           </div>

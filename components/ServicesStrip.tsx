@@ -11,8 +11,8 @@ const services = [
 
 export default function ServicesStrip() {
   return (
-    <div className="mt-scroll-services mt-services-flow mt-journey-motif relative isolate z-20 -mt-24 w-full bg-gradient-to-b from-transparent via-[#041D22] to-[#03191D] pt-6 pb-10 md:-mt-28 md:pt-7 md:pb-14">
-      <div className="pointer-events-none absolute inset-x-0 -top-24 z-0 h-40 bg-gradient-to-b from-transparent via-[#03191D]/18 to-[#041D22]" />
+    <div className="mt-scroll-services mt-services-flow mt-journey-motif relative isolate z-20 -mt-10 w-full bg-gradient-to-b from-transparent via-[#041D22] to-[#03191D] pt-10 pb-10 md:-mt-14 md:pt-10 md:pb-14">
+      <div className="pointer-events-none absolute inset-x-0 -top-16 z-0 h-32 bg-gradient-to-b from-transparent via-[#03191D]/18 to-[#041D22]" />
       <div className="mt-services-scene mt-story-service-panel relative z-10 max-w-7xl mx-auto px-6 md:px-8">
         <div className="flex justify-center">
           <div

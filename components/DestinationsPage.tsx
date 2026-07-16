@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { useSearchParams } from 'next/navigation'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import DestinationHero from './destinations/DestinationHero'
 import Globe3D from './destinations/Globe3D'
@@ -12,11 +13,26 @@ export default function DestinationsPage() {
   const [selectedDestination, setSelectedDestination] = useState(destinations[0])
   const [previousDestinationId, setPreviousDestinationId] = useState<string>()
   const [mounted, setMounted] = useState(false)
+  const searchParams = useSearchParams()
   const prefersReducedMotion = useReducedMotion()
 
   useEffect(() => {
     setMounted(true)
   }, [])
+
+  useEffect(() => {
+    const countryId = searchParams.get('country')?.trim().toLowerCase()
+    if (!countryId) return
+
+    const destination = destinations.find((item) => item.id === countryId)
+    if (!destination) return
+
+    setSelectedDestination((current) => {
+      if (current.id === destination.id) return current
+      setPreviousDestinationId(current.id)
+      return destination
+    })
+  }, [searchParams])
 
   if (!mounted || !selectedDestination) return null
 

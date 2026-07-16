@@ -60,7 +60,7 @@
     margin: 0;
     padding: 0;
     overflow-x: hidden !important;
-    overflow-y: auto;
+    overflow-y: visible;
     border: 0 !important;
     border-radius: 0 !important;
     outline: 0 !important;
@@ -74,7 +74,9 @@
       linear-gradient(135deg, var(--mt-bg-deeper) 0%, var(--mt-bg-dark) 48%, var(--mt-bg-soft) 100%);
     background-attachment: fixed;
   }
-  
+  html {
+  overflow-y: auto;
+}
   body {
     @apply text-foreground;
     width: 100%;
@@ -83,7 +85,7 @@
     margin: 0;
     padding: 0;
     overflow-x: hidden !important;
-    overflow-y: auto;
+    overflow-y: visible;
     border: 0 !important;
     border-radius: 0 !important;
     outline: 0 !important;

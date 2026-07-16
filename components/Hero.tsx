@@ -2,8 +2,6 @@
 
 import { Play } from 'lucide-react'
 import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import Lenis from 'lenis'
 import { motion, useReducedMotion } from 'framer-motion'
 import Image from 'next/image'
 import { useEffect, useRef } from 'react'
@@ -65,146 +63,12 @@ export default function Hero() {
     return () => ctx.revert()
   }, [prefersReducedMotion])
 
-  useEffect(() => {
-    if (prefersReducedMotion) return
-
-    gsap.registerPlugin(ScrollTrigger)
-
-    const lenis = new Lenis({
-      duration: 0.96,
-      easing: (t) => 1 - Math.pow(1 - t, 3.6),
-      smoothWheel: true,
-      wheelMultiplier: 0.88,
-      touchMultiplier: 1.08,
-      anchors: true,
-    })
-
-    const lenisTicker = (time: number) => {
-      lenis.raf(time * 1000)
-    }
-
-    lenis.on('scroll', ScrollTrigger.update)
-    gsap.ticker.add(lenisTicker)
-    gsap.ticker.lagSmoothing(0)
-
-    const ctx = gsap.context(() => {
-      gsap.to(document.documentElement, {
-        '--mt-light-x': '68%',
-        '--mt-light-y': '18%',
-        '--mt-light-warmth': '0.18',
-        ease: 'none',
-        scrollTrigger: {
-          trigger: document.body,
-          start: 'top top',
-          end: 'bottom bottom',
-          scrub: 1.2,
-        },
-      })
-
-      gsap.to('.mt-hero-exit-group', {
-        opacity: 0.56,
-        y: -22,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: '.mt-scroll-hero',
-          start: '90% top',
-          end: 'bottom top',
-          scrub: true,
-        },
-      })
-
-      gsap.to('.mt-hero-scroll-settle', {
-        opacity: 1,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: '.mt-scroll-hero',
-          start: 'top top',
-          end: 'bottom top',
-          scrub: true,
-        },
-      })
-
-      gsap.timeline({
-        scrollTrigger: {
-          trigger: '.mt-scroll-services',
-          start: 'top 92%',
-          once: true,
-        },
-      })
-        .fromTo('.mt-story-service-panel', { autoAlpha: 0, y: 42, scale: 0.992 }, { autoAlpha: 1, y: 0, scale: 1, duration: 1, ease: 'power3.out' })
-
-      gsap.timeline({
-        scrollTrigger: {
-          trigger: '.mt-scroll-destinations',
-          start: 'top 92%',
-          end: 'center 45%',
-          scrub: 0.75,
-        },
-      })
-        .fromTo('.mt-story-destination-bg', { autoAlpha: 0, scale: 1.012 }, { autoAlpha: 1, scale: 1, ease: 'power3.out' }, 0)
-        .fromTo('.mt-story-destination-copy', { autoAlpha: 0.25, y: 24 }, { autoAlpha: 1, y: 0, ease: 'power3.out' }, 0.08)
-        .fromTo('.mt-story-destination-stage', { autoAlpha: 0.35, y: 20, scale: 0.992 }, { autoAlpha: 1, y: 0, scale: 1, ease: 'power3.out' }, 0.16)
-
-      gsap.to('.mt-story-destination-stage', {
-        y: -8,
-        scale: 0.996,
-        ease: 'power2.out',
-        scrollTrigger: {
-          trigger: '.mt-scroll-destinations',
-          start: 'center 26%',
-          end: 'bottom top',
-          scrub: 0.8,
-        },
-      })
-
-      gsap.timeline({
-        scrollTrigger: {
-          trigger: '.mt-scroll-experiences',
-          start: 'top 90%',
-          end: 'center 48%',
-          scrub: 0.72,
-        },
-      })
-        .fromTo('.mt-story-experience-copy', { autoAlpha: 0.2, y: 28 }, { autoAlpha: 1, y: 0, ease: 'power3.out' }, 0)
-        .fromTo('.mt-story-experience-card', { autoAlpha: 0.18, y: 44, scale: 0.988 }, { autoAlpha: 1, y: 0, scale: 1, stagger: 0.08, ease: 'power3.out' }, 0.12)
-
-      gsap.to('.mt-story-experience-card', {
-        y: -10,
-        ease: 'power2.out',
-        scrollTrigger: {
-          trigger: '.mt-scroll-experiences',
-          start: 'center 24%',
-          end: 'bottom top',
-          scrub: 0.8,
-        },
-      })
-
-      gsap.timeline({
-        scrollTrigger: {
-          trigger: '.mt-scroll-footer',
-          start: 'top 94%',
-          end: 'center 64%',
-          scrub: 0.8,
-        },
-      })
-        .fromTo('.mt-scroll-footer', { autoAlpha: 0.82, y: 34 }, { autoAlpha: 1, y: 0, ease: 'power3.out' }, 0)
-    })
-
-    ScrollTrigger.refresh()
-
-    return () => {
-      ctx.revert()
-      gsap.ticker.remove(lenisTicker)
-      lenis.destroy()
-    }
-  }, [prefersReducedMotion])
-
   return (
     <section 
       ref={sectionRef}
-      className="mt-scroll-hero relative w-full flex items-center overflow-hidden pt-24 md:pt-28"
+      className="mt-scroll-hero relative w-full flex items-center overflow-hidden pt-20 md:pt-24"
       style={{
-        height: 'calc(100vh + 60px)',
+        height: '100svh',
       }}
     >
       <div className="mt-hero-video-shell absolute -inset-x-5 -inset-y-4">
@@ -231,7 +95,6 @@ export default function Hero() {
         <div className="mt-hero-gold-highlight absolute inset-0" />
         <div className="mt-hero-top-vignette absolute inset-0" />
         <div className="mt-hero-bottom-vignette absolute inset-0" />
-        <div className="mt-hero-scroll-settle absolute inset-0" />
       </div>
 
       {/* Content */}

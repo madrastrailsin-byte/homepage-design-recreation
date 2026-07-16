@@ -89,7 +89,7 @@ export const destinations: Destination[] = [
     timeDifference: "4h behind India",
     currency: "EUR",
     flag: "🇮🇹",
-    image: "/images/destinations/greece/greece-mykonos-street.jpg",
+    image: "/images/destinations/italy/italy-amalfi-coast.jpg",
   },
   {
     id: "germany",
