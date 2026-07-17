@@ -1,433 +1,812 @@
-'use client'
+"use client";
 
-import Image from 'next/image'
-import Link from 'next/link'
-import { useEffect, useMemo, useRef, useState } from 'react'
-import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
+import Image from "next/image";
+import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import {
   ArrowRight,
-  BriefcaseBusiness,
-  CalendarDays,
   Check,
   Compass,
-  Crown,
-  FileCheck2,
-  Gem,
-  Globe2,
-  Heart,
-  Map,
   Plane,
-  ShieldCheck,
-  Ship,
   Sparkles,
-  Users,
   X,
-} from 'lucide-react'
-import type { TravelService } from '@/lib/services-data'
+} from "lucide-react";
+import type { TravelService } from "@/lib/services-data";
 
 interface ServicesFieldProps {
-  services: TravelService[]
+  services: TravelService[];
 }
 
-const ease = [0.22, 1, 0.36, 1] as const
+interface BoardPiece {
+  left: number;
+  top: number;
+  width: number;
+  height: number;
+  rotate: number;
+  z: number;
+  tone: string;
+  shadow: string;
+  shape: string;
+}
 
-const insertStyles = [
-  {
-    shell: 'bg-[#E8DEC9] text-[#261C12]',
-    accent: 'text-[#74531C]',
-    border: 'border-[#2A2117]/20',
-    icon: Plane,
-  },
-  {
-    shell: 'bg-[#071729] text-[#E5C77A]',
-    accent: 'text-[#E5C77A]',
-    border: 'border-[#D7B45F]/30',
-    icon: FileCheck2,
-  },
-  {
-    shell: 'bg-[#DBD6C8] text-[#201A14]',
-    accent: 'text-[#6D5424]',
-    border: 'border-[#211A13]/18',
-    icon: Ship,
-  },
-  {
-    shell: 'bg-[#ECE2CE] text-[#281E14]',
-    accent: 'text-[#785B26]',
-    border: 'border-[#2B2117]/18',
-    icon: ShieldCheck,
-  },
-  {
-    shell: 'bg-[#23262A] text-[#F3E8D1]',
-    accent: 'text-[#D6B362]',
-    border: 'border-[#E1C57D]/24',
-    icon: Heart,
-  },
-  {
-    shell: 'bg-[#10261C] text-[#E9D9AC]',
-    accent: 'text-[#D9B85F]',
-    border: 'border-[#D8BD73]/24',
-    icon: BriefcaseBusiness,
-  },
-  {
-    shell: 'bg-[#E5D9C3] text-[#2A2117]',
-    accent: 'text-[#74551D]',
-    border: 'border-[#2A2117]/18',
-    icon: Users,
-  },
-  {
-    shell: 'bg-[#E8DDCA] text-[#2B2017]',
-    accent: 'text-[#7B5B27]',
-    border: 'border-[#2A2117]/18',
-    icon: CalendarDays,
-  },
-  {
-    shell: 'bg-[#C9B18C] text-[#2A2017]',
-    accent: 'text-[#68471A]',
-    border: 'border-[#2A2117]/22',
-    icon: Map,
-  },
-] as const
+interface ArchiveFragment {
+  left: number;
+  top: number;
+  width: number;
+  height: number;
+  rotate: number;
+  z: number;
+  variant: "paper" | "photo" | "note" | "stamp" | "ticket" | "map";
+  label: string;
+  image?: string;
+}
 
-function PortfolioMonogram({ compact = false }: { compact?: boolean }) {
+const ease = [0.22, 1, 0.36, 1] as const;
+
+const boardPieces: BoardPiece[] = [
+  {
+    left: 5,
+    top: 10,
+    width: 37,
+    height: 16,
+    rotate: -3.2,
+    z: 42,
+    tone: "bg-[#f6ead4] text-[#241910]",
+    shadow: "0 38px 78px rgba(0,0,0,.52)",
+    shape: "polygon(0 4%,100% 0,98% 100%,2% 96%)",
+  },
+  {
+    left: 41,
+    top: 2,
+    width: 15,
+    height: 36,
+    rotate: 2.8,
+    z: 38,
+    tone: "bg-[#f5ead6] text-[#21170f]",
+    shadow: "0 34px 72px rgba(0,0,0,.48)",
+    shape: "polygon(4% 0,100% 3%,96% 100%,0 95%)",
+  },
+  {
+    left: 67,
+    top: 4,
+    width: 27,
+    height: 39,
+    rotate: -3.4,
+    z: 46,
+    tone: "bg-[#101827] text-[#faf3e2]",
+    shadow: "0 48px 100px rgba(0,0,0,.62)",
+    shape: "polygon(0 0,96% 3%,100% 96%,4% 100%)",
+  },
+  {
+    left: 5,
+    top: 36,
+    width: 20,
+    height: 42,
+    rotate: 3.1,
+    z: 35,
+    tone: "bg-[#f4ead7] text-[#21170f]",
+    shadow: "0 36px 76px rgba(0,0,0,.49)",
+    shape: "polygon(3% 0,100% 2%,95% 96%,0 100%)",
+  },
+  {
+    left: 29,
+    top: 37,
+    width: 28,
+    height: 25,
+    rotate: -3.5,
+    z: 45,
+    tone: "bg-[#f6ead5] text-[#21170f]",
+    shadow: "0 42px 88px rgba(0,0,0,.53)",
+    shape: "polygon(0 6%,96% 0,100% 92%,5% 100%)",
+  },
+  {
+    left: 61,
+    top: 42,
+    width: 34,
+    height: 22,
+    rotate: 2.1,
+    z: 40,
+    tone: "bg-[#f0e6d4] text-[#21170f]",
+    shadow: "0 40px 84px rgba(0,0,0,.52)",
+    shape: "polygon(0 2%,100% 0,97% 100%,3% 96%)",
+  },
+  {
+    left: 6,
+    top: 65,
+    width: 31,
+    height: 25,
+    rotate: -2.8,
+    z: 39,
+    tone: "bg-[#eadfc9] text-[#21170f]",
+    shadow: "0 38px 80px rgba(0,0,0,.5)",
+    shape: "polygon(2% 0,100% 4%,96% 100%,0 94%)",
+  },
+  {
+    left: 40,
+    top: 66,
+    width: 29,
+    height: 28,
+    rotate: 2.7,
+    z: 43,
+    tone: "bg-[#f2e7d2] text-[#21170f]",
+    shadow: "0 44px 92px rgba(0,0,0,.56)",
+    shape: "polygon(0 0,100% 3%,97% 95%,8% 100%,0 88%)",
+  },
+  {
+    left: 73,
+    top: 70,
+    width: 22,
+    height: 25,
+    rotate: -2.4,
+    z: 41,
+    tone: "bg-[#f4e8d2] text-[#21170f]",
+    shadow: "0 40px 84px rgba(0,0,0,.52)",
+    shape: "polygon(0 0,94% 0,100% 12%,97% 100%,4% 97%)",
+  },
+];
+
+const deskScraps = [
+  { left: 0, top: 1, width: 17, height: 14, rotate: -8, z: 8, src: "/images/services/torn-paper-1.png" },
+  { left: 20, top: 0, width: 14, height: 19, rotate: 7, z: 7, src: "/images/services/torn-paper-3.png" },
+  { left: 55, top: 1, width: 16, height: 13, rotate: 9, z: 7, src: "/images/services/torn-paper-4.png" },
+  { left: 88, top: 16, width: 14, height: 20, rotate: -10, z: 9, src: "/images/services/torn-paper-6.png" },
+  { left: -2, top: 52, width: 16, height: 18, rotate: 11, z: 8, src: "/images/services/torn-paper-7.png" },
+  { left: 22, top: 55, width: 15, height: 13, rotate: 6, z: 19, src: "/images/services/handwritten-note-1.png" },
+  { left: 51, top: 55, width: 13, height: 16, rotate: -9, z: 18, src: "/images/services/handwritten-note-2.png" },
+  { left: 84, top: 58, width: 15, height: 13, rotate: 8, z: 8, src: "/images/services/torn-paper-8.png" },
+  { left: 3, top: 86, width: 10, height: 10, rotate: -5, z: 20, src: "/images/services/postage-stamp-1.png" },
+  { left: 34, top: 86, width: 8, height: 9, rotate: 9, z: 20, src: "/images/services/postage-stamp-4.png" },
+  { left: 94, top: 80, width: 7, height: 9, rotate: -7, z: 20, src: "/images/services/postage-stamp-5.png" },
+  { left: 14, top: 28, width: 12, height: 12, rotate: 14, z: 12, src: "/images/services/torn-paper-5.png" },
+  { left: 37, top: 28, width: 10, height: 10, rotate: -12, z: 12, src: "/images/services/postage-stamp-3.png" },
+  { left: 58, top: 27, width: 11, height: 12, rotate: 10, z: 11, src: "/images/services/torn-paper-1.png" },
+  { left: 76, top: 35, width: 15, height: 10, rotate: -8, z: 19, src: "/images/services/masking-tape-1.png" },
+  { left: 16, top: 77, width: 12, height: 9, rotate: 8, z: 18, src: "/images/services/masking-tape-2.png" },
+] as const;
+
+const archiveFragments: ArchiveFragment[] = [
+  { left: -4, top: 18, width: 23, height: 34, rotate: 3, z: 3, variant: "map", label: "terminal plan" },
+  { left: -1, top: 4, width: 15, height: 22, rotate: -7, z: 5, variant: "paper", label: "old fare list" },
+  { left: 9, top: 0, width: 13, height: 15, rotate: 5, z: 10, variant: "photo", label: "runway", image: "/images/services/luxury-flight.jpg" },
+  { left: 18, top: 18, width: 9, height: 18, rotate: -4, z: 12, variant: "ticket", label: "private transfer" },
+  { left: 19, top: -3, width: 17, height: 22, rotate: -3, z: 4, variant: "paper", label: "airline timetable" },
+  { left: 31, top: 0, width: 13, height: 24, rotate: -8, z: 6, variant: "map", label: "coastal route" },
+  { left: 36, top: 17, width: 9, height: 13, rotate: 12, z: 14, variant: "stamp", label: "entry" },
+  { left: 49, top: -2, width: 12, height: 16, rotate: 6, z: 9, variant: "paper", label: "customs copy" },
+  { left: 58, top: 10, width: 9, height: 18, rotate: -11, z: 12, variant: "note", label: "We handle the paperwork." },
+  { left: 64, top: 1, width: 11, height: 17, rotate: 9, z: 7, variant: "ticket", label: "deck access" },
+  { left: 79, top: 0, width: 14, height: 17, rotate: 5, z: 9, variant: "photo", label: "deck light", image: "/images/services/luxury-resort.jpg" },
+  { left: 92, top: 3, width: 11, height: 22, rotate: -9, z: 6, variant: "paper", label: "cabin brief" },
+  { left: 0, top: 30, width: 11, height: 24, rotate: 8, z: 10, variant: "map", label: "region map" },
+  { left: 17, top: 30, width: 16, height: 20, rotate: -6, z: 13, variant: "paper", label: "travel notes" },
+  { left: 23, top: 43, width: 9, height: 14, rotate: 9, z: 22, variant: "note", label: "Coverage that travels with you." },
+  { left: 34, top: 33, width: 9, height: 16, rotate: -13, z: 11, variant: "paper", label: "hotel brief" },
+  { left: 44, top: 28, width: 14, height: 19, rotate: 7, z: 10, variant: "paper", label: "romance is not rushed" },
+  { left: 52, top: 38, width: 8, height: 13, rotate: -14, z: 23, variant: "stamp", label: "mailed" },
+  { left: 56, top: 48, width: 12, height: 23, rotate: 5, z: 13, variant: "ticket", label: "meeting pass" },
+  { left: 72, top: 29, width: 12, height: 16, rotate: -8, z: 12, variant: "note", label: "On time. Every time. Everywhere." },
+  { left: 84, top: 43, width: 14, height: 18, rotate: 7, z: 12, variant: "photo", label: "airport lounge", image: "/images/services/accommodation/family-airport.jpg" },
+  { left: 96, top: 39, width: 9, height: 20, rotate: -12, z: 7, variant: "paper", label: "flight brief" },
+  { left: 93, top: 25, width: 9, height: 15, rotate: 7, z: 14, variant: "note", label: "From oceans to rivers." },
+  { left: 0, top: 74, width: 14, height: 22, rotate: -5, z: 7, variant: "map", label: "regional map" },
+  { left: -3, top: 62, width: 17, height: 23, rotate: 7, z: 4, variant: "paper", label: "railway guide" },
+  { left: 24, top: 85, width: 12, height: 14, rotate: 8, z: 22, variant: "photo", label: "group walk", image: "/images/services/concierge/local-guide-tour.jpg" },
+  { left: 32, top: 65, width: 11, height: 20, rotate: -9, z: 12, variant: "paper", label: "local ledger" },
+  { left: 51, top: 72, width: 10, height: 20, rotate: 10, z: 13, variant: "paper", label: "event copy" },
+  { left: 62, top: 60, width: 9, height: 14, rotate: -6, z: 18, variant: "ticket", label: "guest wave" },
+  { left: 70, top: 83, width: 12, height: 15, rotate: -12, z: 20, variant: "note", label: "Details make legends." },
+  { left: 76, top: 58, width: 8, height: 20, rotate: 4, z: 11, variant: "paper", label: "currency sheet" },
+  { left: 85, top: 64, width: 11, height: 25, rotate: 8, z: 18, variant: "paper", label: "wander list" },
+  { left: 91, top: 76, width: 12, height: 18, rotate: -5, z: 23, variant: "photo", label: "island stay", image: "/images/services/accommodation/maldives-overwater-villa.jpg" },
+  { left: 41, top: 90, width: 16, height: 12, rotate: 3, z: 8, variant: "ticket", label: "restaurant clipping" },
+];
+
+function Monogram({ compact = false }: { compact?: boolean }) {
   return (
     <div
-      className={`relative grid place-items-center border border-[#C99A39]/70 text-[#D8AF58] ${
-        compact ? 'h-9 w-9' : 'h-14 w-14'
-      }`}
-      aria-hidden="true"
+      className={`relative grid place-items-center border border-[#c99a39]/70 text-[#d8af58] ${compact ? "h-9 w-9" : "h-14 w-14"}`}
     >
-      <span className="absolute inset-[18%] rotate-45 border border-[#C99A39]/60" />
+      <span className="absolute inset-[18%] rotate-45 border border-[#c99a39]/55" />
       <Compass size={compact ? 17 : 25} strokeWidth={1.15} />
     </div>
-  )
+  );
 }
 
-function ServiceInsert({
+function Tape({ className = "" }: { className?: string }) {
+  return (
+    <span
+      className={`pointer-events-none absolute h-5 w-24 bg-[#d8c39b]/70 shadow-[0_7px_15px_rgba(0,0,0,.16)] backdrop-blur-[1px] ${className}`}
+    />
+  );
+}
+
+function Pin({ className = "" }: { className?: string }) {
+  return (
+    <span
+      className={`pointer-events-none absolute h-3 w-3 rounded-full bg-[#bb8c31] shadow-[0_3px_8px_rgba(0,0,0,.28)] ${className}`}
+    />
+  );
+}
+
+function ServiceDocument({ service, index }: { service: TravelService; index: number }) {
+  switch (index) {
+    case 0:
+      return (
+        <div className="relative z-10 flex h-full flex-col justify-between">
+          <div className="absolute bottom-3 right-6 flex h-10 w-28 items-end gap-[3px]" aria-hidden="true">
+            {Array.from({ length: 18 }).map((_, line) => (
+              <span key={line} className={`${line % 3 === 0 ? "h-9" : line % 2 === 0 ? "h-7" : "h-5"} w-px bg-[#241910]/42`} />
+            ))}
+          </div>
+          <div className="flex items-start justify-between gap-5">
+            <div>
+              <p className="mt-ui text-[.52rem] tracking-[.28em] text-[#8a6323]">BOARDING PASS</p>
+              <p className="mt-ui mt-1 text-[.46rem] tracking-[.2em] text-[#25190f]/48">{service.number} / FLIGHT BOOKINGS</p>
+              <h3 className="mt-display mt-1 text-[clamp(1.45rem,2.25vw,2.85rem)] leading-[.84] tracking-[-.035em]">
+                {service.title}
+              </h3>
+            </div>
+            <Plane size={20} strokeWidth={1.15} className="text-[#8a6323]" />
+          </div>
+          <div className="grid grid-cols-[1fr_auto_1fr] items-end gap-5 border-t border-[#25190f]/15 pt-3">
+            <div>
+              <p className="mt-ui text-[.48rem] tracking-[.22em] text-[#25190f]/44">FROM</p>
+              <p className="mt-display-soft text-2xl">MAA</p>
+              <p className="mt-ui mt-1 text-[.45rem] tracking-[.16em] text-[#25190f]/42">14 MAY</p>
+            </div>
+            <div className="mb-6 h-px w-20 bg-[#8a6323]/42" />
+            <div className="text-right">
+              <p className="mt-ui text-[.48rem] tracking-[.22em] text-[#25190f]/44">TO</p>
+              <p className="mt-display-soft text-2xl">ANY</p>
+              <p className="mt-ui mt-1 text-[.45rem] tracking-[.16em] text-[#25190f]/42">GATE 06 / 2A</p>
+            </div>
+          </div>
+        </div>
+      );
+
+    case 1:
+      return (
+        <div className="relative z-10 flex h-full flex-col justify-between">
+          <div>
+            <p className="mt-ui text-[.5rem] tracking-[.25em] text-[#8a6323]">{service.number} / VISA ASSISTANCE</p>
+            <p className="mt-ui mt-1 text-[.46rem] tracking-[.22em] text-[#25190f]/42">VISA / ENTRY</p>
+          </div>
+          <div className="relative mx-auto h-24 w-20 border border-[#25190f]/15 bg-[#8a6323]/10">
+            <span className="absolute inset-4 rounded-full border border-[#8a6323]/35" />
+            <span className="absolute bottom-4 left-3 right-3 rounded-sm border border-[#8a6323]/35 py-1 text-center text-[.45rem] tracking-[.18em] text-[#8a6323] rotate-[-8deg]">
+              APPROVED
+            </span>
+          </div>
+          <div className="space-y-1.5">
+            <span className="block h-px bg-[#25190f]/16" />
+            <span className="block h-px w-4/5 bg-[#25190f]/12" />
+            <span className="block h-px w-2/3 bg-[#25190f]/10" />
+          </div>
+          <h3 className="mt-display text-[clamp(1.35rem,2.15vw,2.5rem)] leading-[.88] tracking-[-.03em]">
+            {service.title}
+          </h3>
+        </div>
+      );
+
+    case 2:
+      return (
+        <div className="relative z-10 h-full bg-[#0d2234]">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_76%_18%,rgba(216,175,88,.18),transparent_22%),linear-gradient(145deg,#102d43,#0a1726_58%,#06090f)]" />
+          <div className="absolute inset-0 opacity-30 [background-image:repeating-linear-gradient(0deg,rgba(255,255,255,.035)_0,rgba(255,255,255,.035)_1px,transparent_1px,transparent_5px)]" />
+          <svg className="absolute inset-0 h-full w-full opacity-20" viewBox="0 0 420 520" fill="none" aria-hidden="true">
+            <path d="M-20 370 C70 292 138 410 222 302 C285 220 350 242 444 160" stroke="#d8af58" strokeWidth="1.2" />
+            <path d="M24 210 C92 175 138 205 178 154 C230 88 315 96 378 42" stroke="#f8f3e8" strokeWidth=".8" opacity=".6" />
+            <path d="M72 72 L118 440 M238 18 L210 510 M340 60 L306 480" stroke="#f8f3e8" strokeWidth=".7" opacity=".35" />
+            <path d="M316 124 l30 12 -30 12 8 -12 -8 -12Z" fill="#d8af58" opacity=".55" />
+          </svg>
+          <div className="absolute inset-0 border-[12px] border-[#e8d9bd]/85 mix-blend-screen opacity-20" />
+          <div className="absolute inset-x-5 top-5 flex justify-between">
+            <p className="mt-ui text-[.52rem] tracking-[.27em] text-[#f8f3e8]">VOYAGE</p>
+            <p className="mt-ui text-[.52rem] tracking-[.22em] text-[#d8af58]">{service.number}</p>
+          </div>
+          <p className="mt-display-soft absolute left-5 top-[4.45rem] max-w-[10rem] text-[clamp(1rem,1.55vw,1.65rem)] leading-[.98] text-[#d8af58]">
+            The world at sea.
+          </p>
+          <h3 className="mt-display absolute bottom-5 left-5 right-5 text-[clamp(2.1rem,4vw,4.8rem)] leading-[.78] tracking-[-.05em] text-[#faf7f0]">
+            {service.title}
+          </h3>
+        </div>
+      );
+
+    case 3:
+      return (
+        <div className="relative z-10 flex h-full flex-col gap-3">
+          <div className="relative h-[34%] overflow-hidden bg-[#160f0a]">
+            <Image
+              src="/images/services/accommodation/traveller-sunset.jpg"
+              alt=""
+              fill
+              sizes="(min-width: 1024px) 18vw, 80vw"
+              className="object-cover saturate-[.75]"
+              style={{ objectPosition: "center 45%" }}
+            />
+          </div>
+          <div className="grid flex-1 grid-cols-[.8fr_1fr] gap-3">
+            <div className="border-r border-[#25190f]/12 pr-2">
+              <p className="mt-ui mb-4 text-[.48rem] tracking-[.22em] text-[#8a6323]">{service.number} / INSURANCE</p>
+              <div className="space-y-2">
+                {Array.from({ length: 12 }).map((_, line) => (
+                  <span key={line} className="block h-px bg-[#25190f]/14" />
+                ))}
+              </div>
+            </div>
+            <div className="flex flex-1 flex-col justify-between">
+              <p className="mt-ui text-[.48rem] tracking-[.22em] text-[#8a6323]">TRAVEL PROTECTION</p>
+              <h3 className="mt-display text-[clamp(1.28rem,2vw,2.25rem)] leading-[.9] tracking-[-.03em]">
+                {service.title}
+              </h3>
+              <p className="mt-body-copy text-[.62rem] leading-relaxed text-[#25190f]/56">{service.shortDescription}</p>
+            </div>
+          </div>
+        </div>
+      );
+
+    case 4:
+      return (
+        <div className="relative z-10 flex h-full gap-5">
+          <div className="relative h-full w-[48%] overflow-hidden bg-[#160f0a]">
+            <Image
+              src="/images/services/beach-sunset.jpg"
+              alt=""
+              fill
+              sizes="(min-width: 1024px) 13vw, 70vw"
+              className="object-cover saturate-[.9]"
+              style={{ objectPosition: "center 50%" }}
+            />
+          </div>
+          <div className="flex flex-1 flex-col justify-between">
+            <p className="mt-ui text-[.48rem] tracking-[.22em] text-[#8a6323]">{service.number} / HONEYMOONS</p>
+            <p className="font-[var(--font-signature)] text-[clamp(1.25rem,1.65vw,1.8rem)] leading-none text-[#25190f]/58">To the beginning of forever.</p>
+            <h3 className="mt-display text-[clamp(1.75rem,2.55vw,2.9rem)] leading-[.84] tracking-[-.04em]">
+              {service.title}
+            </h3>
+            <p className="mt-body-copy text-[.6rem] leading-snug text-[#25190f]/55">Curated escapes. Timeless memories.</p>
+          </div>
+        </div>
+      );
+
+    case 5:
+      return (
+        <div className="relative z-10 flex h-full flex-col justify-between">
+          <div className="flex items-start justify-between border-b border-[#25190f]/12 pb-3">
+            <p className="mt-ui text-[.5rem] tracking-[.25em] text-[#8a6323]">{service.number} / EXECUTIVE ITINERARY</p>
+            <span className="h-8 w-8 rounded-full border border-[#8a6323]/35" />
+          </div>
+          <h3 className="mt-display text-[clamp(1.7rem,2.8vw,3.35rem)] leading-[.86] tracking-[-.035em]">
+            {service.title}
+          </h3>
+          <div className="space-y-2 text-[.52rem] text-[#25190f]/54">
+            <div className="grid grid-cols-[3.5rem_1fr_auto] gap-3">
+              <span>08:10</span>
+              <span>Airport meet</span>
+              <span>OK</span>
+            </div>
+            <div className="grid grid-cols-[3.5rem_1fr_auto] gap-3">
+              <span>12:40</span>
+              <span>Boardroom transfer</span>
+              <span>VIP</span>
+            </div>
+          </div>
+        </div>
+      );
+
+    case 6:
+      return (
+        <div className="relative z-10 h-full overflow-hidden">
+          <div className="absolute right-4 top-4 h-16 w-20 overflow-hidden bg-[#160f0a]">
+            <Image
+              src="/images/services/concierge/local-guide-tour.jpg"
+              alt=""
+              fill
+              sizes="12vw"
+              className="object-cover saturate-[.76]"
+              style={{ objectPosition: "center" }}
+            />
+          </div>
+          <svg className="absolute inset-0 h-full w-full opacity-70" viewBox="0 0 420 250" fill="none" aria-hidden="true">
+            <path d="M28 206 C95 103 145 178 201 78 C246 0 318 50 392 24" stroke="#8a6323" strokeWidth="1.4" strokeLinecap="round" />
+            <path d="M58 18 L102 234 M192 8 L213 238 M312 19 L268 238" stroke="#25190f" strokeWidth=".8" opacity=".14" />
+            <circle cx="28" cy="206" r="6" fill="#8a6323" />
+            <circle cx="201" cy="78" r="5" fill="#8a6323" opacity=".75" />
+            <circle cx="392" cy="24" r="6" fill="#8a6323" />
+          </svg>
+          <div className="relative flex h-full flex-col justify-between">
+            <p className="mt-ui text-[.5rem] tracking-[.25em] text-[#8a6323]">{service.number} / GROUP TOURS</p>
+            <h3 className="mt-display max-w-[12rem] text-[clamp(1.55rem,2.45vw,2.9rem)] leading-[.86] tracking-[-.04em]">
+              {service.title}
+            </h3>
+          </div>
+        </div>
+      );
+
+    case 7:
+      return (
+        <div className="relative z-10 flex h-full gap-4">
+          <div className="relative h-full w-[56%] overflow-hidden bg-[#160f0a]">
+            <Image
+              src="/images/services/concierge/italian-outdoor-dinner.jpg"
+              alt=""
+              fill
+              sizes="(min-width: 1024px) 15vw, 80vw"
+              className="object-cover saturate-[.82]"
+              style={{ objectPosition: "center 50%" }}
+            />
+          </div>
+          <div className="flex flex-1 flex-col justify-between border-l border-[#25190f]/12 pl-3">
+            <p className="mt-ui text-[.48rem] tracking-[.22em] text-[#8a6323]">{service.number} / PHOTO FEATURE</p>
+            <h3 className="mt-display text-[clamp(1.18rem,1.9vw,2.15rem)] leading-[.9] tracking-[-.035em]">
+              {service.title}
+            </h3>
+          </div>
+        </div>
+      );
+
+    default:
+      return (
+        <div className="relative z-10 flex h-full flex-col justify-between">
+          <div className="absolute inset-0 -z-10 translate-x-2 translate-y-2 bg-[#dbc9aa] opacity-85" />
+          <div className="flex items-center justify-between">
+            <p className="mt-ui text-[.5rem] tracking-[.25em] text-[#8a6323]">{service.number}</p>
+            <p className="mt-ui text-[.48rem] tracking-[.2em] text-[#25190f]/46">PLANNING FOLDER</p>
+          </div>
+          <div className="-mx-1 h-12 border-y border-[#25190f]/12 bg-[#8a6323]/9">
+            <div className="grid h-full grid-cols-4">
+              <span className="border-r border-[#25190f]/10" />
+              <span className="border-r border-[#25190f]/10" />
+              <span className="border-r border-[#25190f]/10" />
+              <span />
+            </div>
+          </div>
+          <h3 className="mt-display text-[clamp(1.7rem,2.75vw,3.15rem)] leading-[.84] tracking-[-.04em]">
+            {service.title}
+          </h3>
+          <div className="space-y-1.5 text-[.55rem] text-[#25190f]/56">
+            <p>Day pace / private</p>
+            <p>Stay style / considered</p>
+            <p>Access / arranged</p>
+          </div>
+        </div>
+      );
+  }
+}
+
+function BoardServicePiece({
   service,
   index,
   onOpen,
 }: {
-  service: TravelService
-  index: number
-  onOpen: () => void
+  service: TravelService;
+  index: number;
+  onOpen: () => void;
 }) {
-  const prefersReducedMotion = useReducedMotion()
-  const style = insertStyles[index % insertStyles.length]
-  const Icon = style.icon
-
-  return (
-    <motion.button
-      type="button"
-      onClick={onOpen}
-      className={`group relative min-h-0 overflow-hidden border p-3 text-left outline-none transition-[filter] focus-visible:ring-2 focus-visible:ring-[#D4AF37]/70 md:p-3.5 ${style.shell} ${style.border}`}
-      initial={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 18 }}
-      animate={{ opacity: 1, y: 0 }}
-      whileHover={
-        prefersReducedMotion
-          ? undefined
-          : {
-              y: -8,
-              rotate: index % 2 === 0 ? -0.8 : 0.8,
-              scale: 1.018,
-            }
-      }
-      whileTap={{ scale: 0.985 }}
-      transition={{ duration: 0.5, delay: 0.08 + index * 0.045, ease }}
-      style={{
-        boxShadow:
-          '0 16px 30px rgba(0,0,0,0.30), inset 0 1px 0 rgba(255,255,255,0.18), inset 0 -1px 0 rgba(0,0,0,0.08)',
-      }}
-      aria-label={`Open ${service.title}`}
-    >
-      <span className="pointer-events-none absolute inset-0 opacity-35 [background-image:repeating-linear-gradient(0deg,rgba(255,255,255,0.045)_0,rgba(255,255,255,0.045)_1px,transparent_1px,transparent_4px)]" />
-      <span className="pointer-events-none absolute inset-x-0 top-0 h-px bg-white/35" />
-
-      {index === 2 || index === 4 ? (
-        <>
-          <Image
-            src={service.image}
-            alt=""
-            fill
-            sizes="(min-width: 1024px) 17vw, 50vw"
-            className="object-cover opacity-65 saturate-[0.78] transition-transform duration-700 group-hover:scale-[1.045]"
-            style={{ objectPosition: service.objectPosition }}
-          />
-          <span className="absolute inset-0 bg-gradient-to-b from-black/5 via-black/18 to-black/70" />
-        </>
-      ) : null}
-
-      {index === 8 ? (
-        <svg
-          className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.18]"
-          viewBox="0 0 240 180"
-          fill="none"
-          aria-hidden="true"
-        >
-          <path d="M-10 150C47 97 81 127 123 70C161 18 202 37 254-9" stroke="currentColor" strokeWidth="1" />
-          <path d="M33 -8L68 191M105 -7L132 187M184 -5L158 186" stroke="currentColor" strokeWidth=".7" />
-          <circle cx="123" cy="70" r="4" fill="currentColor" />
-        </svg>
-      ) : null}
-
-      <div className="relative z-10 flex h-full min-h-[8.1rem] flex-col justify-between gap-3 xl:min-h-[9.2rem]">
-        <div className="flex items-start justify-between gap-3">
-          <span className={`mt-ui text-[0.48rem] tracking-[0.22em] ${style.accent}`}>
-            {service.number}
-          </span>
-          <Icon size={15} strokeWidth={1.3} className={style.accent} />
-        </div>
-
-        <div className="text-center">
-          <h3 className="mt-display text-[clamp(1rem,1.35vw,1.45rem)] leading-[0.92] tracking-[-0.025em]">
-            {service.title}
-          </h3>
-          <p className="mt-body-copy mx-auto mt-2 line-clamp-2 max-w-[13rem] text-[0.58rem] leading-[1.35] opacity-65">
-            {service.shortDescription}
-          </p>
-        </div>
-
-        <span className={`mx-auto h-px w-8 bg-current opacity-35 ${style.accent}`} />
-      </div>
-    </motion.button>
-  )
-}
-
-function Benefit({
-  icon: Icon,
-  title,
-  copy,
-}: {
-  icon: typeof Crown
-  title: string
-  copy: string
-}) {
-  return (
-    <div className="flex min-w-0 items-start gap-3">
-      <Icon className="mt-0.5 shrink-0 text-[#C99A39]" size={20} strokeWidth={1.2} />
-      <div>
-        <p className="mt-ui text-[0.56rem] tracking-[0.15em] text-[#C99A39]">{title}</p>
-        <p className="mt-body-copy mt-1 text-[0.68rem] leading-relaxed text-[#F8F3E8]/52">{copy}</p>
-      </div>
-    </div>
-  )
-}
-
-export default function ServicesField({ services }: ServicesFieldProps) {
-  const prefersReducedMotion = useReducedMotion()
-  const [portfolioOpen, setPortfolioOpen] = useState(true)
-  const [openService, setOpenService] = useState<TravelService | null>(null)
-  const [activeIndex, setActiveIndex] = useState<number | null>(null)
-  const closeButtonRef = useRef<HTMLButtonElement | null>(null)
-
-  const visibleServices = useMemo(() => services.slice(0, 9), [services])
-
-  useEffect(() => {
-    if (!openService) return
-
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') setOpenService(null)
-    }
-
-    document.body.style.overflow = 'hidden'
-    window.addEventListener('keydown', onKeyDown)
-    closeButtonRef.current?.focus()
-
-    return () => {
-      document.body.style.overflow = ''
-      window.removeEventListener('keydown', onKeyDown)
-    }
-  }, [openService])
+  const prefersReducedMotion = useReducedMotion();
+  const piece = boardPieces[index];
 
   return (
     <>
-      <section className="relative min-h-[100svh] overflow-hidden bg-[#090806] text-[#F8F3E8]">
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_16%_26%,rgba(193,135,45,0.13),transparent_30%),radial-gradient(circle_at_72%_46%,rgba(121,72,25,0.18),transparent_38%),linear-gradient(180deg,#050504_0%,#100d08_52%,#070604_100%)]" />
-        <div className="pointer-events-none absolute inset-0 opacity-[0.18] [background-image:repeating-linear-gradient(90deg,rgba(94,57,25,0.24)_0,rgba(94,57,25,0.24)_2px,transparent_2px,transparent_18px)]" />
-        <div className="pointer-events-none absolute -left-24 top-14 h-64 w-64 rounded-full bg-[#D4AF37]/10 blur-[110px]" />
-        <div className="pointer-events-none absolute -right-28 top-20 h-[34rem] w-[34rem] rounded-full bg-[#8B5E2F]/12 blur-[140px]" />
+      {index === 5 ? (
+        <motion.div
+          aria-hidden="true"
+          className="absolute bg-[#172015] shadow-[0_28px_58px_rgba(0,0,0,.42)]"
+          style={{
+            left: `${piece.left + 1.2}%`,
+            top: `${piece.top + 1.8}%`,
+            width: `${piece.width}%`,
+            height: `${piece.height}%`,
+            zIndex: piece.z - 1,
+            clipPath: "polygon(0 2%,100% 0,97% 100%,3% 96%)",
+            transformOrigin: "center",
+          }}
+          initial={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 16, rotate: piece.rotate + 1.4 }}
+          whileInView={prefersReducedMotion ? { opacity: 0.9 } : { opacity: 0.9, y: 0, rotate: piece.rotate + 1.4 }}
+          transition={{ duration: 0.72, delay: index * 0.055, ease }}
+          viewport={{ once: true, amount: 0.2 }}
+        />
+      ) : null}
+      <motion.button
+        type="button"
+        onClick={onOpen}
+        aria-label={`Open ${service.title}`}
+        className={`group absolute flex min-w-0 flex-col overflow-hidden p-4 text-left outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37]/70 md:p-5 ${piece.tone}`}
+        style={{
+          left: `${piece.left}%`,
+          top: `${piece.top}%`,
+          width: `${piece.width}%`,
+          height: `${piece.height}%`,
+          zIndex: piece.z,
+          clipPath: piece.shape,
+          boxShadow: piece.shadow,
+          transformOrigin: "center",
+        }}
+        initial={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 18, rotate: piece.rotate }}
+        whileInView={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0, rotate: piece.rotate }}
+        whileHover={
+          prefersReducedMotion
+            ? undefined
+            : {
+                y: -7,
+                rotate: Math.max(-3, Math.min(3, piece.rotate * 0.35)),
+                boxShadow: "0 44px 92px rgba(0,0,0,.55), 0 0 0 1px rgba(212,175,55,.22)",
+              }
+        }
+        transition={{ duration: 0.72, delay: index * 0.055, ease }}
+        viewport={{ once: true, amount: 0.2 }}
+      >
+        {index === 0 ? <Tape className="left-10 top-2 rotate-[-4deg]" /> : null}
+        {index === 1 ? <Pin className="right-5 top-5" /> : null}
+        {index === 2 ? <Tape className="right-8 top-2 rotate-[5deg]" /> : null}
+        {index === 3 ? <Tape className="right-1 top-8 rotate-[82deg]" /> : null}
+        {index === 4 ? <Image src="/images/services/postage-stamp-3.png" alt="" width={44} height={52} className="pointer-events-none absolute right-4 top-4 z-20 rotate-[8deg] opacity-80" /> : null}
+        {index === 5 ? <span className="pointer-events-none absolute right-0 top-0 z-20 h-10 w-10 bg-[linear-gradient(135deg,rgba(36,25,16,.18),rgba(255,255,255,.48)_48%,transparent_50%)]" /> : null}
+        {index === 6 ? <Image src="/images/services/paper-clip-1.png" alt="" width={36} height={58} className="pointer-events-none absolute right-5 top-3 z-20 rotate-[12deg] opacity-80" /> : null}
+        {index === 7 ? <Tape className="left-2 top-8 rotate-[-80deg]" /> : null}
+        {index === 8 ? <Image src="/images/services/push-pin-3.png" alt="" width={26} height={26} className="pointer-events-none absolute right-7 top-5 z-20 opacity-80" /> : null}
+        <span className="pointer-events-none absolute inset-x-5 top-0 z-20 h-px bg-gradient-to-r from-transparent via-white/70 to-transparent opacity-70" />
+        <ServiceDocument service={service} index={index} />
+      </motion.button>
+    </>
+  );
+}
 
-        <div className="relative z-10 mx-auto flex min-h-[100svh] w-full max-w-[1600px] flex-col px-5 pb-5 pt-24 md:px-8 md:pb-6 md:pt-28 lg:px-10">
-          <div className="grid flex-1 items-center gap-10 lg:grid-cols-[0.72fr_1.72fr] lg:gap-8 xl:grid-cols-[0.62fr_1.78fr]">
-            <motion.div
-              className="relative z-20 max-w-[32rem] lg:pl-6 xl:pl-10"
-              initial={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.9, ease }}
-            >
-              <p className="mt-eyebrow text-[0.62rem] text-[#C99A39]">SERVICES</p>
-              <span className="mt-4 block h-px w-16 bg-[#C99A39]/80" />
+function DeskScrap({ scrap, index }: { scrap: (typeof deskScraps)[number]; index: number }) {
+  return (
+    <motion.div
+      aria-hidden="true"
+      className="absolute opacity-42 blur-[.25px]"
+      style={{
+        left: `${scrap.left}%`,
+        top: `${scrap.top}%`,
+        width: `${scrap.width}%`,
+        height: `${scrap.height}%`,
+        zIndex: scrap.z,
+      }}
+      initial={{ opacity: 0, rotate: scrap.rotate, y: 8 }}
+      whileInView={{ opacity: 0.42, rotate: scrap.rotate, y: 0 }}
+      transition={{ duration: 0.7, delay: index * 0.025, ease }}
+      viewport={{ once: true, amount: 0.1 }}
+    >
+      <Image src={scrap.src} alt="" fill sizes="18vw" className="object-contain drop-shadow-[0_18px_24px_rgba(0,0,0,.32)]" />
+    </motion.div>
+  );
+}
 
-              <h1 className="mt-display mt-8 text-[clamp(3.5rem,6.2vw,7.4rem)] leading-[0.82] tracking-[-0.05em] text-[#FAF7F0]">
-                Every journey
-                <br />
-                begins with
-                <br />
-                <em className="font-normal text-[#D5A94D]">intention.</em>
-              </h1>
+function ArchiveFragmentPiece({ fragment, index }: { fragment: ArchiveFragment; index: number }) {
+  const prefersReducedMotion = useReducedMotion();
+  const isBackground = fragment.z <= 10;
+  const visibleOpacity = fragment.variant === "photo" ? (isBackground ? 0.42 : 0.56) : isBackground ? 0.38 : 0.52;
+  const shadowOpacity = isBackground ? ".18" : ".28";
+  const baseStyle = {
+    left: `${fragment.left}%`,
+    top: `${fragment.top}%`,
+    width: `${fragment.width}%`,
+    height: `${fragment.height}%`,
+    zIndex: fragment.z,
+  };
 
-              <p className="mt-body-copy mt-8 max-w-[27rem] text-sm leading-[1.8] text-[#FAF7F0]/66 md:text-base">
-                From the first booking to the final memory, we take care of every detail that shapes extraordinary travel.
+  if (fragment.variant === "photo" && fragment.image) {
+    return (
+      <motion.div
+        aria-hidden="true"
+        className="absolute overflow-hidden border-[6px] border-[#d8c8a8] bg-[#120c08] blur-[.2px]"
+        style={baseStyle}
+        initial={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 8, rotate: fragment.rotate }}
+        whileInView={prefersReducedMotion ? { opacity: visibleOpacity } : { opacity: visibleOpacity, y: 0, rotate: fragment.rotate }}
+        transition={{ duration: 0.72, delay: index * 0.018, ease }}
+        viewport={{ once: true, amount: 0.1 }}
+      >
+        <Image src={fragment.image} alt="" fill sizes="18vw" className="object-cover saturate-[.58] brightness-[.68]" />
+      </motion.div>
+    );
+  }
+
+  return (
+    <motion.div
+      aria-hidden="true"
+      className={`absolute overflow-hidden p-3 text-[#2b2117] ${
+        fragment.variant === "note"
+          ? "bg-[#c59b54] blur-[.15px]"
+          : fragment.variant === "stamp"
+            ? "border border-[#a77d33]/35 bg-[#d9c59a] blur-[.2px]"
+            : fragment.variant === "map"
+              ? "bg-[#d7ccb7] blur-[.3px]"
+              : fragment.variant === "ticket"
+                ? "bg-[#eadcc3] blur-[.15px]"
+                : "bg-[#d8c8ad] blur-[.25px]"
+      }`}
+      style={{
+        ...baseStyle,
+        boxShadow: `0 18px 36px rgba(0,0,0,${shadowOpacity})`,
+        clipPath:
+          fragment.variant === "stamp"
+            ? "polygon(5% 0,95% 0,100% 8%,95% 16%,100% 24%,95% 32%,100% 40%,95% 48%,100% 56%,95% 64%,100% 72%,95% 80%,100% 88%,95% 100%,5% 100%,0 92%,5% 84%,0 76%,5% 68%,0 60%,5% 52%,0 44%,5% 36%,0 28%,5% 20%,0 12%)"
+            : "polygon(0 3%,98% 0,100% 94%,4% 100%)",
+      }}
+      initial={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 8, rotate: fragment.rotate }}
+      whileInView={prefersReducedMotion ? { opacity: visibleOpacity } : { opacity: visibleOpacity, y: 0, rotate: fragment.rotate }}
+      transition={{ duration: 0.72, delay: index * 0.018, ease }}
+      viewport={{ once: true, amount: 0.1 }}
+    >
+      {fragment.variant === "note" ? (
+        <p className="font-[var(--font-signature)] text-[clamp(.9rem,1.25vw,1.45rem)] leading-[.95] text-[#2b2117]/54">
+          {fragment.label}
+        </p>
+      ) : fragment.variant === "map" ? (
+        <>
+          <svg className="absolute inset-0 h-full w-full opacity-55" viewBox="0 0 220 160" fill="none">
+            <path d="M22 128 C58 70 92 104 118 48 C140 4 184 35 204 18" stroke="#8a6323" strokeWidth="1.4" />
+            <path d="M42 8 L64 150 M130 4 L104 156 M184 18 L164 150" stroke="#2b2117" strokeWidth=".7" opacity=".22" />
+            <circle cx="22" cy="128" r="4" fill="#8a6323" />
+            <circle cx="118" cy="48" r="4" fill="#8a6323" />
+          </svg>
+          <p className="relative mt-ui text-[.42rem] tracking-[.18em] text-[#8a6323]">{fragment.label}</p>
+        </>
+      ) : (
+        <>
+          <p className="mt-ui text-[.42rem] tracking-[.2em] text-[#8a6323]">{fragment.label}</p>
+          <div className="mt-3 space-y-1.5">
+            <span className="block h-px bg-[#2b2117]/14" />
+            <span className="block h-px w-5/6 bg-[#2b2117]/12" />
+            <span className="block h-px w-2/3 bg-[#2b2117]/10" />
+          </div>
+        </>
+      )}
+    </motion.div>
+  );
+}
+
+function SecondaryEphemera() {
+  return (
+    <>
+      <div className="absolute left-[27%] top-[25%] z-[18] h-[10%] w-[15%] rotate-[5deg] bg-[#eadcc3] p-3 text-[#241910] opacity-64 shadow-[0_20px_42px_rgba(0,0,0,.24)]">
+        <p className="mt-ui text-[.42rem] tracking-[.2em] text-[#8a6323]">ROOM HOLD</p>
+        <div className="mt-3 space-y-1.5">
+          <span className="block h-px bg-[#241910]/14" />
+          <span className="block h-px w-4/5 bg-[#241910]/12" />
+          <span className="block h-px w-2/3 bg-[#241910]/10" />
+        </div>
+      </div>
+      <div className="absolute left-[82%] top-[31%] z-[17] h-[11%] w-[9%] rotate-[8deg] bg-[#f0e5cf] p-3 text-[#241910] opacity-58 shadow-[0_18px_38px_rgba(0,0,0,.24)]">
+        <p className="font-[var(--font-signature)] text-[clamp(.9rem,1.2vw,1.3rem)] leading-none text-[#241910]/54">call concierge</p>
+        <span className="mt-4 block h-px w-3/4 bg-[#8a6323]/28" />
+      </div>
+      <div className="absolute left-[25%] top-[67%] z-[16] h-[11%] w-[14%] rotate-[8deg] bg-[#dbc7a7] p-3 text-[#241910] opacity-56 shadow-[0_17px_34px_rgba(0,0,0,.22)]">
+        <p className="mt-ui text-[.42rem] tracking-[.2em] text-[#8a6323]">BAG TAG</p>
+        <p className="mt-display-soft mt-3 text-2xl leading-none">MT</p>
+      </div>
+      <div className="absolute left-[57%] top-[82%] z-[22] h-[8%] w-[12%] rotate-[-5deg] border border-[#8a6323]/28 bg-[#eadcc3] p-2 text-[#241910] opacity-62 shadow-[0_16px_32px_rgba(0,0,0,.24)]">
+        <p className="mt-ui text-[.4rem] tracking-[.18em] text-[#8a6323]">DINNER / 20:30</p>
+        <span className="mt-2 block h-px bg-[#241910]/14" />
+      </div>
+      <svg className="absolute left-[19%] top-[31%] z-[15] h-[10%] w-[17%] rotate-[-9deg] opacity-55" viewBox="0 0 220 90" fill="none" aria-hidden="true">
+        <path d="M8 72 C55 16 101 103 150 26 C169 -4 196 10 213 22" stroke="#c99a39" strokeWidth="2" strokeLinecap="round" />
+        <circle cx="8" cy="72" r="5" fill="#c99a39" />
+        <circle cx="150" cy="26" r="4" fill="#c99a39" />
+        <circle cx="213" cy="22" r="5" fill="#c99a39" />
+      </svg>
+    </>
+  );
+}
+
+function StorytellingProps() {
+  return (
+    <>
+      <div className="pointer-events-none absolute left-[45%] top-[50%] z-[25] h-16 w-16 rounded-full border-[10px] border-[#1d120b]/18 opacity-45" />
+      <svg className="pointer-events-none absolute inset-0 z-[27] h-full w-full opacity-45" viewBox="0 0 1000 620" fill="none" aria-hidden="true">
+        <path d="M175 325 C205 303 248 303 274 332 C241 357 197 354 175 325Z" stroke="#9f2f22" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M742 207 C778 178 830 185 858 224" stroke="#1e4f7a" strokeWidth="2" strokeLinecap="round" />
+        <path d="M374 197 L407 184 L398 214" stroke="#9f2f22" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M646 514 C670 495 707 500 725 522" stroke="#1e4f7a" strokeWidth="1.8" strokeLinecap="round" />
+        <path d="M518 312 l18 -4 m-11 -8 l4 18" stroke="#9f2f22" strokeWidth="2" strokeLinecap="round" />
+      </svg>
+      <div className="pointer-events-none absolute left-[46%] top-[49%] z-[28] rotate-[-8deg] font-[var(--font-signature)] text-[1rem] leading-none text-[#1e120c]/38">
+        Hidden Gem?
+      </div>
+      <div className="pointer-events-none absolute right-[16%] bottom-[5%] z-[28] rotate-[7deg] font-[var(--font-signature)] text-[.95rem] leading-none text-[#1e120c]/34">
+        Confirmed
+      </div>
+    </>
+  );
+}
+
+export default function ServicesField({ services }: ServicesFieldProps) {
+  const prefersReducedMotion = useReducedMotion();
+  const [openService, setOpenService] = useState<TravelService | null>(null);
+  const closeButtonRef = useRef<HTMLButtonElement | null>(null);
+  const visibleServices = services.slice(0, 9);
+
+  useEffect(() => {
+    if (!openService) return;
+    const onKeyDown = (event: KeyboardEvent) =>
+      event.key === "Escape" && setOpenService(null);
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", onKeyDown);
+    closeButtonRef.current?.focus();
+    return () => {
+      document.body.style.overflow = "";
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, [openService]);
+
+  return (
+    <>
+      <section
+        id="madras-diary"
+        aria-labelledby="services-board-title"
+        className="relative h-auto overflow-hidden bg-[#170d08] text-[#f8f3e8] md:[--header-height:92px] md:h-[calc(100svh-var(--header-height))] lg:[--header-height:96px]"
+      >
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(18,10,6,.34),rgba(12,7,4,.56)),url('/images/services/walnut-desk.jpg')] bg-cover bg-center" />
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_48%_38%,rgba(236,183,86,.13),transparent_34%),radial-gradient(circle_at_80%_78%,rgba(82,40,15,.48),transparent_36%),linear-gradient(180deg,rgba(3,3,3,.26),rgba(8,5,3,.58))]" />
+        <h2 id="services-board-title" className="sr-only">
+          MadrasTrails services inspiration board
+        </h2>
+
+        <div className="relative z-10 mx-auto h-auto min-h-[42rem] w-full max-w-[1500px] px-4 py-5 sm:px-6 md:h-full md:min-h-0 md:px-8 md:py-6 lg:px-10">
+          <div className="absolute inset-x-4 top-4 z-[60] flex items-start justify-between gap-6 text-[#f8f3e8]/62 md:inset-x-8 lg:inset-x-10">
+            <div>
+              <p className="mt-eyebrow text-[.58rem] text-[#d8af58]">THE ART OF THE JOURNEY</p>
+              <p className="mt-body-copy mt-1 max-w-xs text-xs leading-relaxed text-[#f8f3e8]/55">
+                Nine ways we shape extraordinary travel.
               </p>
-
-              <button
-                type="button"
-                onClick={() => setPortfolioOpen((open) => !open)}
-                className="mt-ui group mt-9 inline-flex items-center gap-8 border-b border-[#C99A39]/75 pb-3 text-[0.66rem] tracking-[0.2em] text-[#FAF7F0] outline-none transition-colors hover:text-[#D8AF58] focus-visible:ring-2 focus-visible:ring-[#D4AF37]/65"
-              >
-                {portfolioOpen ? 'CLOSE PORTFOLIO' : 'OPEN PORTFOLIO'}
-                <ArrowRight
-                  size={17}
-                  strokeWidth={1.25}
-                  className={`text-[#D8AF58] transition-transform duration-500 ${
-                    portfolioOpen ? 'rotate-180' : 'group-hover:translate-x-1'
-                  }`}
-                />
-              </button>
-            </motion.div>
-
-            <div
-              className="relative min-h-[36rem] lg:min-h-[42rem] xl:min-h-[47rem]"
-              onMouseLeave={() => setActiveIndex(null)}
-            >
-              <div className="pointer-events-none absolute bottom-[3%] left-[7%] right-[4%] h-[11%] rounded-[50%] bg-black/70 blur-3xl" />
-
-              <motion.div
-                className="absolute inset-[3%_0_4%_2%] origin-center"
-                initial={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 38, rotateX: 5 }}
-                animate={{ opacity: 1, y: 0, rotateX: 0 }}
-                transition={{ duration: 1.05, delay: 0.12, ease }}
-                style={{ perspective: 1800 }}
-              >
-                <motion.div
-                  className="relative h-full w-full"
-                  animate={
-                    prefersReducedMotion
-                      ? undefined
-                      : {
-                          rotateX: activeIndex === null ? 0 : -0.6,
-                          rotateY: activeIndex === null ? 0 : activeIndex < 3 ? -0.7 : activeIndex > 5 ? 0.7 : 0,
-                        }
-                  }
-                  transition={{ duration: 0.5, ease }}
-                >
-                  <div
-                    className="absolute inset-y-[4%] left-[1%] w-[43%] overflow-hidden rounded-[1.2rem_0.35rem_0.35rem_1.2rem] border border-[#7F5726]/60 bg-[#24170F]"
-                    style={{
-                      boxShadow:
-                        '0 45px 95px rgba(0,0,0,0.65), inset 0 0 0 2px rgba(255,255,255,0.025), inset -20px 0 40px rgba(0,0,0,0.32)',
-                    }}
-                  >
-                    <div className="absolute inset-0 opacity-80 [background-image:radial-gradient(circle_at_20%_20%,rgba(255,255,255,0.08),transparent_18%),repeating-linear-gradient(112deg,rgba(255,255,255,0.018)_0,rgba(255,255,255,0.018)_1px,rgba(0,0,0,0.02)_1px,rgba(0,0,0,0.02)_3px)]" />
-                    <div className="absolute inset-y-0 right-0 w-12 bg-gradient-to-l from-black/45 to-transparent" />
-
-                    <motion.div
-                      className="relative flex h-full flex-col items-center justify-center px-10 text-center"
-                      animate={
-                        portfolioOpen
-                          ? { opacity: 1, scale: 1 }
-                          : { opacity: 0.88, scale: 0.985 }
-                      }
-                    >
-                      <PortfolioMonogram />
-                      <p className="mt-display mt-5 text-[clamp(1.8rem,3vw,3.4rem)] tracking-[0.08em] text-[#D8AF58]">
-                        MADRAS TRAILS
-                      </p>
-                      <p className="mt-ui mt-2 text-[0.55rem] tracking-[0.24em] text-[#D8AF58]/75">
-                        PRIVATE TRAVEL CURATOR
-                      </p>
-                    </motion.div>
-
-                    <span className="absolute right-[-0.35rem] top-1/2 h-10 w-5 -translate-y-1/2 rounded-full border border-[#B98437]/55 bg-[#1A100A] shadow-[0_5px_16px_rgba(0,0,0,0.5)]" />
-                  </div>
-
-                  <motion.div
-                    className="absolute inset-y-[4%] right-[1%] w-[61%] overflow-hidden rounded-[0.35rem_1.2rem_1.2rem_0.35rem] border border-[#805A2A]/55 bg-[#2B1C11]"
-                    animate={
-                      portfolioOpen
-                        ? { x: 0, opacity: 1, rotateY: 0 }
-                        : { x: '-31%', opacity: 0.94, rotateY: -9 }
-                    }
-                    transition={{ duration: 0.85, ease }}
-                    style={{
-                      transformOrigin: 'left center',
-                      boxShadow:
-                        '0 45px 95px rgba(0,0,0,0.68), inset 0 0 0 2px rgba(255,255,255,0.025), inset 22px 0 35px rgba(0,0,0,0.30)',
-                    }}
-                  >
-                    <div className="absolute inset-0 opacity-75 [background-image:repeating-linear-gradient(112deg,rgba(255,255,255,0.018)_0,rgba(255,255,255,0.018)_1px,rgba(0,0,0,0.02)_1px,rgba(0,0,0,0.02)_3px)]" />
-                    <div className="absolute inset-y-[5%] left-[4%] right-[4%] rounded-[0.55rem] border border-[#B68A48]/28 bg-[#17100B]/88 shadow-[inset_0_18px_42px_rgba(0,0,0,0.48)]" />
-                    <div className="absolute inset-y-[6.5%] left-[5.5%] right-[5.5%] border border-[#D3B06C]/10" />
-
-                    <div
-                      className={`relative z-10 grid h-full grid-cols-3 grid-rows-3 gap-3 px-[7%] py-[8%] transition-opacity duration-500 ${
-                        portfolioOpen ? 'opacity-100' : 'pointer-events-none opacity-0'
-                      }`}
-                    >
-                      {visibleServices.map((service, index) => (
-                        <div
-                          key={service.number}
-                          onMouseEnter={() => setActiveIndex(index)}
-                          className="min-h-0"
-                        >
-                          <ServiceInsert
-                            service={service}
-                            index={index}
-                            onOpen={() => setOpenService(service)}
-                          />
-                        </div>
-                      ))}
-                    </div>
-                  </motion.div>
-
-                  <div className="pointer-events-none absolute bottom-[1.5%] left-[45%] h-4 w-[40%] rounded-full bg-black/70 blur-xl" />
-                  <div className="pointer-events-none absolute bottom-[0.6%] left-[35%] h-[1.05rem] w-[36%] rotate-[-2deg] rounded-full bg-[#0E0D0B] shadow-[0_8px_15px_rgba(0,0,0,0.7)]">
-                    <span className="absolute left-[8%] right-[8%] top-1/2 h-px bg-[#B98A34]/55" />
-                    <span className="absolute right-[8%] top-1/2 h-2.5 w-2.5 -translate-y-1/2 rounded-full border border-[#D0A247]/70" />
-                  </div>
-                </motion.div>
-              </motion.div>
             </div>
+            <p className="mt-ui hidden text-[.5rem] tracking-[.22em] text-[#f8f3e8]/46 sm:block">
+              PRIVATE TRAVEL CURATOR / MADRAS TRAILS
+            </p>
           </div>
 
-          <div className="mt-7 grid gap-5 border-t border-[#C99A39]/22 py-5 sm:grid-cols-2 lg:mt-2 lg:grid-cols-[repeat(4,minmax(0,1fr))_auto] lg:gap-6">
-            <Benefit icon={Crown} title="PERSONAL APPROACH" copy="We listen. We understand. We curate." />
-            <Benefit icon={Gem} title="PRIVILEGED ACCESS" copy="Preferred rates, private experiences, global partners." />
-            <Benefit icon={ShieldCheck} title="TRUST & CONFIDENTIALITY" copy="Your journey is personal. So is our commitment." />
-            <Benefit icon={Globe2} title="GLOBAL REACH" copy="Local expertise. Worldwide connections." />
+          <div className="relative mx-auto mt-12 hidden h-[calc(100%-3.25rem)] w-full md:block">
+            {archiveFragments.map((fragment, index) => (
+              <ArchiveFragmentPiece key={`${fragment.label}-${index}`} fragment={fragment} index={index} />
+            ))}
+            {deskScraps.map((scrap, index) => (
+              <DeskScrap key={`${scrap.src}-${index}`} scrap={scrap} index={index} />
+            ))}
+            <SecondaryEphemera />
+            <Image src="/images/services/paper-clip-2.png" alt="" width={54} height={72} className="pointer-events-none absolute left-[60%] top-[31%] z-[24] rotate-[-13deg] opacity-70 drop-shadow-[0_14px_18px_rgba(0,0,0,.34)]" />
+            <Image src="/images/services/masking-tape-1.png" alt="" width={128} height={34} className="pointer-events-none absolute left-[24%] top-[28%] z-[21] rotate-[7deg] opacity-75" />
+            <Image src="/images/services/masking-tape-2.png" alt="" width={118} height={34} className="pointer-events-none absolute left-[80%] top-[64%] z-[21] rotate-[-5deg] opacity-75" />
+            <Image src="/images/services/passport-stamp-1.png" alt="" width={84} height={84} className="pointer-events-none absolute left-[56%] top-[14%] z-[23] rotate-[13deg] opacity-55" />
+            <StorytellingProps />
 
-            <Link
-              href="/plan"
-              className="mt-ui group flex min-h-12 items-center justify-center gap-8 border border-[#C99A39]/45 px-6 text-[0.58rem] tracking-[0.17em] text-[#F8F3E8] transition-colors hover:border-[#C99A39] hover:text-[#D8AF58] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37]/65 lg:min-w-[17rem]"
-            >
-              LET&apos;S PLAN YOUR JOURNEY
-              <ArrowRight size={17} strokeWidth={1.2} className="text-[#D8AF58] transition-transform group-hover:translate-x-1" />
-            </Link>
+            {visibleServices.map((service, index) => (
+              <BoardServicePiece
+                key={service.number}
+                service={service}
+                index={index}
+                onOpen={() => setOpenService(service)}
+              />
+            ))}
           </div>
 
-          <div className="relative mt-4 grid gap-4 md:hidden">
-            {visibleServices.map((service, index) => {
-              const style = insertStyles[index % insertStyles.length]
-              const Icon = style.icon
-
-              return (
-                <button
-                  key={`mobile-${service.number}`}
-                  type="button"
-                  onClick={() => setOpenService(service)}
-                  className={`relative overflow-hidden border p-5 text-left ${style.shell} ${style.border}`}
-                >
-                  <span className="pointer-events-none absolute inset-0 opacity-30 [background-image:repeating-linear-gradient(0deg,rgba(255,255,255,0.05)_0,rgba(255,255,255,0.05)_1px,transparent_1px,transparent_4px)]" />
-                  <div className="relative z-10 flex items-start justify-between gap-5">
-                    <div>
-                      <p className={`mt-ui text-[0.52rem] tracking-[0.22em] ${style.accent}`}>{service.number}</p>
-                      <h3 className="mt-display mt-4 text-3xl leading-[0.9]">{service.title}</h3>
-                      <p className="mt-body-copy mt-3 text-sm leading-relaxed opacity-65">{service.shortDescription}</p>
-                    </div>
-                    <Icon size={22} strokeWidth={1.2} className={`shrink-0 ${style.accent}`} />
-                  </div>
-                </button>
-              )
-            })}
+          <div className="relative mx-auto mt-12 flex max-w-[34rem] flex-col gap-0 pb-8 md:hidden">
+            {visibleServices.map((service, index) => (
+              <motion.button
+                key={service.number}
+                type="button"
+                onClick={() => setOpenService(service)}
+                aria-label={`Open ${service.title}`}
+                className={`relative min-h-[11.8rem] w-full overflow-hidden p-4 text-left outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37]/70 ${boardPieces[index].tone}`}
+                style={{
+                  zIndex: 20 + index,
+                  marginTop: index === 0 ? 0 : "-1.1rem",
+                  transform: `rotate(${index % 2 === 0 ? -1.4 : 1.2}deg)`,
+                  clipPath: boardPieces[index].shape,
+                  boxShadow: boardPieces[index].shadow,
+                }}
+                initial={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 14 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                whileHover={prefersReducedMotion ? undefined : { y: -5, rotate: 0 }}
+                transition={{ duration: 0.55, delay: index * 0.035, ease }}
+                viewport={{ once: true, amount: 0.18 }}
+              >
+                <ServiceDocument service={service} index={index} />
+              </motion.button>
+            ))}
           </div>
         </div>
       </section>
@@ -435,95 +814,95 @@ export default function ServicesField({ services }: ServicesFieldProps) {
       <AnimatePresence>
         {openService ? (
           <motion.div
-            className="fixed inset-0 z-[100] overflow-y-auto bg-[#080704] text-[#F8F3E8]"
+            className="fixed inset-0 z-[100] overflow-y-auto bg-[#080704] text-[#f8f3e8]"
             role="dialog"
             aria-modal="true"
             aria-labelledby="service-overlay-title"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.38, ease }}
           >
-            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_18%_22%,rgba(212,175,55,0.10),transparent_33%),linear-gradient(135deg,#080704,#171109_55%,#070604)]" />
-
+            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_18%_22%,rgba(212,175,55,.1),transparent_33%),linear-gradient(135deg,#080704,#171109_55%,#070604)]" />
             <button
               ref={closeButtonRef}
               type="button"
               onClick={() => setOpenService(null)}
-              className="mt-ui fixed right-5 top-5 z-30 grid h-11 w-11 place-items-center rounded-full border border-[#C99A39]/45 bg-[#090806]/75 text-[#F8F3E8] backdrop-blur-md transition-colors hover:border-[#D8AF58] hover:text-[#D8AF58] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37]/65 md:right-8 md:top-8"
+              className="mt-ui fixed right-5 top-5 z-30 grid h-11 w-11 place-items-center rounded-full border border-[#c99a39]/45 bg-[#090806]/75 text-[#f8f3e8] backdrop-blur-md hover:border-[#d8af58] hover:text-[#d8af58] md:right-8 md:top-8"
               aria-label="Close service details"
             >
               <X size={18} />
             </button>
 
             <motion.div
-              className="relative z-10 mx-auto grid min-h-svh w-full max-w-[1500px] items-center gap-10 px-5 py-20 md:px-8 md:py-24 lg:grid-cols-[0.82fr_1.18fr] lg:px-10"
-              initial={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 24, scale: 0.99 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: 16, scale: 0.995 }}
+              className="relative z-10 mx-auto grid min-h-svh w-full max-w-[1500px] items-center gap-10 px-5 py-20 md:px-8 md:py-24 lg:grid-cols-[.82fr_1.18fr] lg:px-10"
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 16 }}
               transition={{ duration: 0.62, ease }}
             >
               <div className="lg:pl-8">
                 <div className="flex items-center gap-4">
-                  <PortfolioMonogram compact />
-                  <p className="mt-eyebrow text-[0.6rem] text-[#C99A39]">
+                  <Monogram compact />
+                  <p className="mt-eyebrow text-[.6rem] text-[#c99a39]">
                     {openService.number} / PRIVATE TRAVEL SERVICE
                   </p>
                 </div>
-
                 <h2
                   id="service-overlay-title"
-                  className="mt-display mt-8 text-[clamp(4rem,8.8vw,9.6rem)] leading-[0.78] tracking-[-0.055em] text-[#FAF7F0]"
+                  className="mt-display mt-8 text-[clamp(4rem,8.8vw,9.6rem)] leading-[.78] tracking-[-.055em] text-[#faf7f0]"
                 >
                   {openService.title}
                 </h2>
-
-                <p className="mt-body-copy mt-8 max-w-xl text-base leading-[1.8] text-[#FAF7F0]/66 md:text-lg">
+                <p className="mt-body-copy mt-8 max-w-xl text-base leading-[1.8] text-[#faf7f0]/66 md:text-lg">
                   {openService.description}
                 </p>
-
                 <div className="mt-9 space-y-3">
                   {[
-                    'Personal consultation and careful planning',
-                    'Trusted global partners and preferred access',
-                    'Responsive support before and during travel',
+                    "Personal consultation and careful planning",
+                    "Trusted global partners and preferred access",
+                    "Responsive support before and during travel",
                   ].map((item) => (
-                    <div key={item} className="flex items-center gap-3 text-sm text-[#FAF7F0]/68">
-                      <span className="grid h-5 w-5 place-items-center rounded-full border border-[#C99A39]/45 text-[#C99A39]">
+                    <div
+                      key={item}
+                      className="flex items-center gap-3 text-sm text-[#faf7f0]/68"
+                    >
+                      <span className="grid h-5 w-5 place-items-center rounded-full border border-[#c99a39]/45 text-[#c99a39]">
                         <Check size={11} />
                       </span>
                       <span className="mt-body-copy">{item}</span>
                     </div>
                   ))}
                 </div>
-
                 <Link
                   href="/plan"
                   onClick={() => setOpenService(null)}
-                  className="mt-ui group mt-10 inline-flex items-center gap-8 border-b border-[#C99A39]/70 pb-3 text-[0.66rem] tracking-[0.18em] text-[#FAF7F0] transition-colors hover:text-[#D8AF58] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37]/65"
+                  className="mt-ui group mt-10 inline-flex items-center gap-8 border-b border-[#c99a39]/70 pb-3 text-[.66rem] tracking-[.18em] hover:text-[#d8af58]"
                 >
                   DISCUSS THIS WITH US
-                  <ArrowRight size={17} strokeWidth={1.2} className="text-[#D8AF58] transition-transform group-hover:translate-x-1" />
+                  <ArrowRight
+                    size={17}
+                    className="text-[#d8af58] transition-transform group-hover:translate-x-1"
+                  />
                 </Link>
               </div>
 
-              <div className="relative min-h-[27rem] overflow-hidden border border-[#C99A39]/20 bg-[#171109] shadow-[0_40px_100px_rgba(0,0,0,0.6)] md:min-h-[38rem] lg:min-h-[46rem]">
+              <div className="relative min-h-[27rem] overflow-hidden border border-[#c99a39]/20 bg-[#171109] shadow-[0_40px_100px_rgba(0,0,0,.6)] md:min-h-[38rem] lg:min-h-[46rem]">
                 <Image
                   src={openService.image}
                   alt=""
                   fill
                   sizes="(min-width: 1024px) 58vw, 100vw"
-                  className="object-cover saturate-[0.82]"
+                  className="object-cover saturate-[.82]"
                   style={{ objectPosition: openService.objectPosition }}
                   priority
                 />
-                <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(5,4,3,0.02),rgba(5,4,3,0.40))]" />
-                <div className="absolute bottom-0 left-0 right-0 border-t border-[#C99A39]/22 bg-[#0A0805]/72 px-6 py-5 backdrop-blur-sm">
+                <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(5,4,3,.02),rgba(5,4,3,.4))]" />
+                <div className="absolute bottom-0 left-0 right-0 border-t border-[#c99a39]/22 bg-[#0a0805]/72 px-6 py-5 backdrop-blur-sm">
                   <div className="flex items-center justify-between gap-6">
-                    <p className="mt-ui text-[0.55rem] tracking-[0.2em] text-[#D8AF58]">
+                    <p className="mt-ui text-[.55rem] tracking-[.2em] text-[#d8af58]">
                       MADRAS TRAILS / PRIVATE TRAVEL CURATOR
                     </p>
-                    <Sparkles size={16} className="text-[#D8AF58]" />
+                    <Sparkles size={16} className="text-[#d8af58]" />
                   </div>
                 </div>
               </div>
@@ -532,5 +911,5 @@ export default function ServicesField({ services }: ServicesFieldProps) {
         ) : null}
       </AnimatePresence>
     </>
-  )
+  );
 }
