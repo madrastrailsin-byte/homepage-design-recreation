@@ -53,7 +53,7 @@ const boardPieces: BoardPiece[] = [
     rotate: -3.2,
     z: 42,
     tone: "bg-[#f6ead4] text-[#241910]",
-    shadow: "0 38px 78px rgba(0,0,0,.52)",
+    shadow: "0 18px 36px rgba(0,0,0,.34)",
     shape: "polygon(0 4%,100% 0,98% 100%,2% 96%)",
   },
   {
@@ -64,7 +64,7 @@ const boardPieces: BoardPiece[] = [
     rotate: 2.8,
     z: 38,
     tone: "bg-[#f5ead6] text-[#21170f]",
-    shadow: "0 34px 72px rgba(0,0,0,.48)",
+    shadow: "0 18px 36px rgba(0,0,0,.34)",
     shape: "polygon(4% 0,100% 3%,96% 100%,0 95%)",
   },
   {
@@ -75,7 +75,7 @@ const boardPieces: BoardPiece[] = [
     rotate: -3.4,
     z: 46,
     tone: "bg-[#101827] text-[#faf3e2]",
-    shadow: "0 48px 100px rgba(0,0,0,.62)",
+    shadow: "0 18px 36px rgba(0,0,0,.34)",
     shape: "polygon(0 0,96% 3%,100% 96%,4% 100%)",
   },
   {
@@ -86,7 +86,7 @@ const boardPieces: BoardPiece[] = [
     rotate: 3.1,
     z: 35,
     tone: "bg-[#f4ead7] text-[#21170f]",
-    shadow: "0 36px 76px rgba(0,0,0,.49)",
+    shadow: "0 18px 36px rgba(0,0,0,.34)",
     shape: "polygon(3% 0,100% 2%,95% 96%,0 100%)",
   },
   {
@@ -97,7 +97,7 @@ const boardPieces: BoardPiece[] = [
     rotate: -3.5,
     z: 45,
     tone: "bg-[#f6ead5] text-[#21170f]",
-    shadow: "0 42px 88px rgba(0,0,0,.53)",
+    shadow: "0 18px 36px rgba(0,0,0,.34)",
     shape: "polygon(0 6%,96% 0,100% 92%,5% 100%)",
   },
   {
@@ -108,7 +108,7 @@ const boardPieces: BoardPiece[] = [
     rotate: 2.1,
     z: 40,
     tone: "bg-[#f0e6d4] text-[#21170f]",
-    shadow: "0 40px 84px rgba(0,0,0,.52)",
+    shadow: "0 18px 36px rgba(0,0,0,.34)",
     shape: "polygon(0 2%,100% 0,97% 100%,3% 96%)",
   },
   {
@@ -119,7 +119,7 @@ const boardPieces: BoardPiece[] = [
     rotate: -2.8,
     z: 39,
     tone: "bg-[#eadfc9] text-[#21170f]",
-    shadow: "0 38px 80px rgba(0,0,0,.5)",
+    shadow: "0 18px 36px rgba(0,0,0,.34)",
     shape: "polygon(2% 0,100% 4%,96% 100%,0 94%)",
   },
   {
@@ -130,7 +130,7 @@ const boardPieces: BoardPiece[] = [
     rotate: 2.7,
     z: 43,
     tone: "bg-[#f2e7d2] text-[#21170f]",
-    shadow: "0 44px 92px rgba(0,0,0,.56)",
+    shadow: "0 18px 36px rgba(0,0,0,.34)",
     shape: "polygon(0 0,100% 3%,97% 95%,8% 100%,0 88%)",
   },
   {
@@ -141,7 +141,7 @@ const boardPieces: BoardPiece[] = [
     rotate: -2.4,
     z: 41,
     tone: "bg-[#f4e8d2] text-[#21170f]",
-    shadow: "0 40px 84px rgba(0,0,0,.52)",
+    shadow: "0 18px 36px rgba(0,0,0,.34)",
     shape: "polygon(0 0,94% 0,100% 12%,97% 100%,4% 97%)",
   },
 ];
@@ -532,7 +532,7 @@ function BoardServicePiece({
             : {
                 y: -7,
                 rotate: Math.max(-3, Math.min(3, piece.rotate * 0.35)),
-                boxShadow: "0 44px 92px rgba(0,0,0,.55), 0 0 0 1px rgba(212,175,55,.22)",
+                boxShadow: "0 22px 44px rgba(0,0,0,.38), 0 0 0 1px rgba(212,175,55,.18)",
               }
         }
         transition={{ duration: 0.72, delay: index * 0.055, ease }}
@@ -554,9 +554,9 @@ function BoardServicePiece({
   );
 }
 
-function DeskScrap({ scrap, index }: { scrap: (typeof deskScraps)[number]; index: number }) {
+function DeskScrap({ scrap }: { scrap: (typeof deskScraps)[number] }) {
   return (
-    <motion.div
+    <div
       aria-hidden="true"
       className="absolute opacity-42 blur-[.25px]"
       style={{
@@ -565,14 +565,17 @@ function DeskScrap({ scrap, index }: { scrap: (typeof deskScraps)[number]; index
         width: `${scrap.width}%`,
         height: `${scrap.height}%`,
         zIndex: scrap.z,
+        transform: `rotate(${scrap.rotate}deg)`,
       }}
-      initial={{ opacity: 0, rotate: scrap.rotate, y: 8 }}
-      whileInView={{ opacity: 0.42, rotate: scrap.rotate, y: 0 }}
-      transition={{ duration: 0.7, delay: index * 0.025, ease }}
-      viewport={{ once: true, amount: 0.1 }}
     >
-      <Image src={scrap.src} alt="" fill sizes="18vw" className="object-contain drop-shadow-[0_18px_24px_rgba(0,0,0,.32)]" />
-    </motion.div>
+      <Image
+        src={scrap.src}
+        alt=""
+        fill
+        sizes="18vw"
+        className="object-contain drop-shadow-[0_18px_24px_rgba(0,0,0,.32)]"
+      />
+    </div>
   );
 }
 
@@ -591,22 +594,19 @@ function ArchiveFragmentPiece({ fragment, index }: { fragment: ArchiveFragment; 
 
   if (fragment.variant === "photo" && fragment.image) {
     return (
-      <motion.div
+      <div
         aria-hidden="true"
         className="absolute overflow-hidden border-[6px] border-[#d8c8a8] bg-[#120c08] blur-[.2px]"
         style={baseStyle}
-        initial={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 8, rotate: fragment.rotate }}
-        whileInView={prefersReducedMotion ? { opacity: visibleOpacity } : { opacity: visibleOpacity, y: 0, rotate: fragment.rotate }}
-        transition={{ duration: 0.72, delay: index * 0.018, ease }}
-        viewport={{ once: true, amount: 0.1 }}
+  
       >
         <Image src={fragment.image} alt="" fill sizes="18vw" className="object-cover saturate-[.58] brightness-[.68]" />
-      </motion.div>
+      </div>
     );
   }
 
   return (
-    <motion.div
+    <div
       aria-hidden="true"
       className={`absolute overflow-hidden p-3 text-[#2b2117] ${
         fragment.variant === "note"
@@ -627,10 +627,7 @@ function ArchiveFragmentPiece({ fragment, index }: { fragment: ArchiveFragment; 
             ? "polygon(5% 0,95% 0,100% 8%,95% 16%,100% 24%,95% 32%,100% 40%,95% 48%,100% 56%,95% 64%,100% 72%,95% 80%,100% 88%,95% 100%,5% 100%,0 92%,5% 84%,0 76%,5% 68%,0 60%,5% 52%,0 44%,5% 36%,0 28%,5% 20%,0 12%)"
             : "polygon(0 3%,98% 0,100% 94%,4% 100%)",
       }}
-      initial={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 8, rotate: fragment.rotate }}
-      whileInView={prefersReducedMotion ? { opacity: visibleOpacity } : { opacity: visibleOpacity, y: 0, rotate: fragment.rotate }}
-      transition={{ duration: 0.72, delay: index * 0.018, ease }}
-      viewport={{ once: true, amount: 0.1 }}
+  
     >
       {fragment.variant === "note" ? (
         <p className="font-[var(--font-signature)] text-[clamp(.9rem,1.25vw,1.45rem)] leading-[.95] text-[#2b2117]/54">
@@ -656,7 +653,7 @@ function ArchiveFragmentPiece({ fragment, index }: { fragment: ArchiveFragment; 
           </div>
         </>
       )}
-    </motion.div>
+    </div>
   );
 }
 
