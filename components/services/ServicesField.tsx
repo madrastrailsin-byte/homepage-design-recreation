@@ -147,22 +147,22 @@ const boardPieces: BoardPiece[] = [
 ];
 
 const deskScraps = [
-  { left: 0, top: 1, width: 17, height: 14, rotate: -8, z: 8, src: "/images/services/torn-paper-1.png" },
-  { left: 20, top: 0, width: 14, height: 19, rotate: 7, z: 7, src: "/images/services/torn-paper-3.png" },
-  { left: 55, top: 1, width: 16, height: 13, rotate: 9, z: 7, src: "/images/services/torn-paper-4.png" },
-  { left: 88, top: 16, width: 14, height: 20, rotate: -10, z: 9, src: "/images/services/torn-paper-6.png" },
-  { left: -2, top: 52, width: 16, height: 18, rotate: 11, z: 8, src: "/images/services/torn-paper-7.png" },
-  { left: 22, top: 55, width: 15, height: 13, rotate: 6, z: 19, src: "/images/services/handwritten-note-1.png" },
-  { left: 51, top: 55, width: 13, height: 16, rotate: -9, z: 18, src: "/images/services/handwritten-note-2.png" },
-  { left: 84, top: 58, width: 15, height: 13, rotate: 8, z: 8, src: "/images/services/torn-paper-8.png" },
-  { left: 3, top: 86, width: 10, height: 10, rotate: -5, z: 20, src: "/images/services/postage-stamp-1.png" },
-  { left: 34, top: 86, width: 8, height: 9, rotate: 9, z: 20, src: "/images/services/postage-stamp-4.png" },
-  { left: 94, top: 80, width: 7, height: 9, rotate: -7, z: 20, src: "/images/services/postage-stamp-5.png" },
-  { left: 14, top: 28, width: 12, height: 12, rotate: 14, z: 12, src: "/images/services/torn-paper-5.png" },
-  { left: 37, top: 28, width: 10, height: 10, rotate: -12, z: 12, src: "/images/services/postage-stamp-3.png" },
-  { left: 58, top: 27, width: 11, height: 12, rotate: 10, z: 11, src: "/images/services/torn-paper-1.png" },
-  { left: 76, top: 35, width: 15, height: 10, rotate: -8, z: 19, src: "/images/services/masking-tape-1.png" },
-  { left: 16, top: 77, width: 12, height: 9, rotate: 8, z: 18, src: "/images/services/masking-tape-2.png" },
+  { left: 0, top: 1, width: 17, height: 14, rotate: -8, z: 8, src: "/images/services/torn-paper-1.webp" },
+  { left: 20, top: 0, width: 14, height: 19, rotate: 7, z: 7, src: "/images/services/torn-paper-3.webp" },
+  { left: 55, top: 1, width: 16, height: 13, rotate: 9, z: 7, src: "/images/services/torn-paper-4.webp" },
+  { left: 88, top: 16, width: 14, height: 20, rotate: -10, z: 9, src: "/images/services/torn-paper-6.webp" },
+  { left: -2, top: 52, width: 16, height: 18, rotate: 11, z: 8, src: "/images/services/torn-paper-7.webp" },
+  { left: 22, top: 55, width: 15, height: 13, rotate: 6, z: 19, src: "/images/services/handwritten-note-1.webp" },
+  { left: 51, top: 55, width: 13, height: 16, rotate: -9, z: 18, src: "/images/services/handwritten-note-2.webp" },
+  { left: 84, top: 58, width: 15, height: 13, rotate: 8, z: 8, src: "/images/services/torn-paper-8.webp" },
+  { left: 3, top: 86, width: 10, height: 10, rotate: -5, z: 20, src: "/images/services/postage-stamp-1.webp" },
+  { left: 34, top: 86, width: 8, height: 9, rotate: 9, z: 20, src: "/images/services/postage-stamp-4.webp" },
+  { left: 94, top: 80, width: 7, height: 9, rotate: -7, z: 20, src: "/images/services/postage-stamp-5.webp" },
+  { left: 14, top: 28, width: 12, height: 12, rotate: 14, z: 12, src: "/images/services/torn-paper-5.webp" },
+  { left: 37, top: 28, width: 10, height: 10, rotate: -12, z: 12, src: "/images/services/postage-stamp-3.webp" },
+  { left: 58, top: 27, width: 11, height: 12, rotate: 10, z: 11, src: "/images/services/torn-paper-1.webp" },
+  { left: 76, top: 35, width: 15, height: 10, rotate: -8, z: 19, src: "/images/services/masking-tape-1.webp" },
+  { left: 16, top: 77, width: 12, height: 9, rotate: 8, z: 18, src: "/images/services/masking-tape-2.webp" },
 ] as const;
 
 const archiveFragments: ArchiveFragment[] = [
@@ -542,11 +542,11 @@ function BoardServicePiece({
         {index === 1 ? <Pin className="right-5 top-5" /> : null}
         {index === 2 ? <Tape className="right-8 top-2 rotate-[5deg]" /> : null}
         {index === 3 ? <Tape className="right-1 top-8 rotate-[82deg]" /> : null}
-        {index === 4 ? <Image src="/images/services/postage-stamp-3.png" alt="" width={44} height={52} className="pointer-events-none absolute right-4 top-4 z-20 rotate-[8deg] opacity-80" /> : null}
+        {index === 4 ? <Image src="/images/services/postage-stamp-3.webp" alt="" width={44} height={52} className="pointer-events-none absolute right-4 top-4 z-20 rotate-[8deg] opacity-80" /> : null}
         {index === 5 ? <span className="pointer-events-none absolute right-0 top-0 z-20 h-10 w-10 bg-[linear-gradient(135deg,rgba(36,25,16,.18),rgba(255,255,255,.48)_48%,transparent_50%)]" /> : null}
-        {index === 6 ? <Image src="/images/services/paper-clip-1.png" alt="" width={36} height={58} className="pointer-events-none absolute right-5 top-3 z-20 rotate-[12deg] opacity-80" /> : null}
+        {index === 6 ? <Image src="/images/services/paper-clip-1.webp" alt="" width={36} height={58} className="pointer-events-none absolute right-5 top-3 z-20 rotate-[12deg] opacity-80" /> : null}
         {index === 7 ? <Tape className="left-2 top-8 rotate-[-80deg]" /> : null}
-        {index === 8 ? <Image src="/images/services/push-pin-3.png" alt="" width={26} height={26} className="pointer-events-none absolute right-7 top-5 z-20 opacity-80" /> : null}
+        {index === 8 ? <Image src="/images/services/push-pin-3.webp" alt="" width={26} height={26} className="pointer-events-none absolute right-7 top-5 z-20 opacity-80" /> : null}
         <span className="pointer-events-none absolute inset-x-5 top-0 z-20 h-px bg-gradient-to-r from-transparent via-white/70 to-transparent opacity-70" />
         <ServiceDocument service={service} index={index} />
       </motion.button>
@@ -600,7 +600,15 @@ function ArchiveFragmentPiece({ fragment, index }: { fragment: ArchiveFragment; 
         style={baseStyle}
   
       >
-        <Image src={fragment.image} alt="" fill sizes="18vw" className="object-cover saturate-[.58] brightness-[.68]" />
+        <Image
+  src={fragment.image}
+  alt=""
+  fill
+  sizes="18vw"
+  loading="lazy"
+  quality={70}
+  className="object-cover saturate-[.58] brightness-[.68]"
+/>
       </div>
     );
   }
@@ -764,10 +772,10 @@ export default function ServicesField({ services }: ServicesFieldProps) {
               <DeskScrap key={`${scrap.src}-${index}`} scrap={scrap} index={index} />
             ))}
             <SecondaryEphemera />
-            <Image src="/images/services/paper-clip-2.png" alt="" width={54} height={72} className="pointer-events-none absolute left-[60%] top-[31%] z-[24] rotate-[-13deg] opacity-70 drop-shadow-[0_14px_18px_rgba(0,0,0,.34)]" />
-            <Image src="/images/services/masking-tape-1.png" alt="" width={128} height={34} className="pointer-events-none absolute left-[24%] top-[28%] z-[21] rotate-[7deg] opacity-75" />
-            <Image src="/images/services/masking-tape-2.png" alt="" width={118} height={34} className="pointer-events-none absolute left-[80%] top-[64%] z-[21] rotate-[-5deg] opacity-75" />
-            <Image src="/images/services/passport-stamp-1.png" alt="" width={84} height={84} className="pointer-events-none absolute left-[56%] top-[14%] z-[23] rotate-[13deg] opacity-55" />
+            <Image src="/images/services/paper-clip-2.webp" alt="" width={54} height={72} className="pointer-events-none absolute left-[60%] top-[31%] z-[24] rotate-[-13deg] opacity-70 drop-shadow-[0_14px_18px_rgba(0,0,0,.34)]" />
+            <Image src="/images/services/masking-tape-1.webp" alt="" width={128} height={34} className="pointer-events-none absolute left-[24%] top-[28%] z-[21] rotate-[7deg] opacity-75" />
+            <Image src="/images/services/masking-tape-2.webp" alt="" width={118} height={34} className="pointer-events-none absolute left-[80%] top-[64%] z-[21] rotate-[-5deg] opacity-75" />
+            <Image src="/images/services/passport-stamp-1.webp" alt="" width={84} height={84} className="pointer-events-none absolute left-[56%] top-[14%] z-[23] rotate-[13deg] opacity-55" />
             <StorytellingProps />
 
             {visibleServices.map((service, index) => (
