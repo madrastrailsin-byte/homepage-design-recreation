@@ -47,9 +47,9 @@ const ease = [0.22, 1, 0.36, 1] as const;
 const boardPieces: BoardPiece[] = [
   {
     left: 5,
-    top: 10,
+    top: 8,
     width: 37,
-    height: 16,
+    height: 20,
     rotate: -3.2,
     z: 42,
     tone: "bg-[#f6ead4] text-[#241910]",
@@ -191,7 +191,7 @@ const archiveFragments: ArchiveFragment[] = [
   { left: 93, top: 25, width: 9, height: 15, rotate: 7, z: 14, variant: "note", label: "From oceans to rivers." },
   { left: 0, top: 74, width: 14, height: 22, rotate: -5, z: 7, variant: "map", label: "regional map" },
   { left: -3, top: 62, width: 17, height: 23, rotate: 7, z: 4, variant: "paper", label: "railway guide" },
-  { left: 24, top: 85, width: 12, height: 14, rotate: 8, z: 22, variant: "photo", label: "group walk", image: "/images/services/concierge/local-guide-tour.jpg" },
+  { left: 24, top: 85, width: 12, height: 14, rotate: 8, z: 22, variant: "photo", label: "group walk", image: "/images/services/concierge/local-guide-tour-2.jpg" },
   { left: 32, top: 65, width: 11, height: 20, rotate: -9, z: 12, variant: "paper", label: "local ledger" },
   { left: 51, top: 72, width: 10, height: 20, rotate: 10, z: 13, variant: "paper", label: "event copy" },
   { left: 62, top: 60, width: 9, height: 14, rotate: -6, z: 18, variant: "ticket", label: "guest wave" },
@@ -243,7 +243,7 @@ function ServiceDocument({ service, index }: { service: TravelService; index: nu
             <div>
               <p className="mt-ui text-[.52rem] tracking-[.28em] text-[#8a6323]">BOARDING PASS</p>
               <p className="mt-ui mt-1 text-[.46rem] tracking-[.2em] text-[#25190f]/48">{service.number} / FLIGHT BOOKINGS</p>
-              <h3 className="mt-display mt-1 text-[clamp(1.45rem,2.25vw,2.85rem)] leading-[.84] tracking-[-.035em]">
+              <h3 className="mt-display mt-2 text-[clamp(1.45rem,2.25vw,2.85rem)] leading-[.84] tracking-[-.035em]">
                 {service.title}
               </h3>
             </div>
@@ -291,8 +291,13 @@ function ServiceDocument({ service, index }: { service: TravelService; index: nu
 
     case 2:
       return (
-        <div className="relative z-10 h-full bg-[#0d2234]">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_76%_18%,rgba(216,175,88,.18),transparent_22%),linear-gradient(145deg,#102d43,#0a1726_58%,#06090f)]" />
+        <div className="relative z-10 h-full">
+          <Image
+  src="/images/services/luxury-cruise.jpg"
+  alt=""
+  fill
+  className="object-cover"
+/>
           <div className="absolute inset-0 opacity-30 [background-image:repeating-linear-gradient(0deg,rgba(255,255,255,.035)_0,rgba(255,255,255,.035)_1px,transparent_1px,transparent_5px)]" />
           <svg className="absolute inset-0 h-full w-full opacity-20" viewBox="0 0 420 520" fill="none" aria-hidden="true">
             <path d="M-20 370 C70 292 138 410 222 302 C285 220 350 242 444 160" stroke="#d8af58" strokeWidth="1.2" />
@@ -300,14 +305,12 @@ function ServiceDocument({ service, index }: { service: TravelService; index: nu
             <path d="M72 72 L118 440 M238 18 L210 510 M340 60 L306 480" stroke="#f8f3e8" strokeWidth=".7" opacity=".35" />
             <path d="M316 124 l30 12 -30 12 8 -12 -8 -12Z" fill="#d8af58" opacity=".55" />
           </svg>
-          <div className="absolute inset-0 border-[12px] border-[#e8d9bd]/85 mix-blend-screen opacity-20" />
+          <div className="absolute inset-0 border border-white/10" />
           <div className="absolute inset-x-5 top-5 flex justify-between">
             <p className="mt-ui text-[.52rem] tracking-[.27em] text-[#f8f3e8]">VOYAGE</p>
             <p className="mt-ui text-[.52rem] tracking-[.22em] text-[#d8af58]">{service.number}</p>
           </div>
-          <p className="mt-display-soft absolute left-5 top-[4.45rem] max-w-[10rem] text-[clamp(1rem,1.55vw,1.65rem)] leading-[.98] text-[#d8af58]">
-            The world at sea.
-          </p>
+    
           <h3 className="mt-display absolute bottom-5 left-5 right-5 text-[clamp(2.1rem,4vw,4.8rem)] leading-[.78] tracking-[-.05em] text-[#faf7f0]">
             {service.title}
           </h3>
@@ -378,9 +381,12 @@ function ServiceDocument({ service, index }: { service: TravelService; index: nu
             <p className="mt-ui text-[.5rem] tracking-[.25em] text-[#8a6323]">{service.number} / EXECUTIVE ITINERARY</p>
             <span className="h-8 w-8 rounded-full border border-[#8a6323]/35" />
           </div>
-          <h3 className="mt-display text-[clamp(1.7rem,2.8vw,3.35rem)] leading-[.86] tracking-[-.035em]">
-            {service.title}
-          </h3>
+          <h3
+  className="mt-display text-[clamp(1.7rem,2.8vw,3.35rem)] leading-[.86] tracking-[-.035em]"
+  style={{ transform: "translate(10px, -10px)" }}
+>
+  {service.title}
+</h3>
           <div className="space-y-2 text-[.52rem] text-[#25190f]/54">
             <div className="grid grid-cols-[3.5rem_1fr_auto] gap-3">
               <span>08:10</span>
@@ -399,7 +405,7 @@ function ServiceDocument({ service, index }: { service: TravelService; index: nu
     case 6:
       return (
         <div className="relative z-10 h-full overflow-hidden">
-          <div className="absolute right-4 top-4 h-16 w-20 overflow-hidden bg-[#160f0a]">
+          <div className="absolute right-4 top-4 h-24 w-32 overflow-hidden bg-[#160f0a]">
             <Image
               src="/images/services/concierge/local-guide-tour.jpg"
               alt=""
@@ -418,9 +424,12 @@ function ServiceDocument({ service, index }: { service: TravelService; index: nu
           </svg>
           <div className="relative flex h-full flex-col justify-between">
             <p className="mt-ui text-[.5rem] tracking-[.25em] text-[#8a6323]">{service.number} / GROUP TOURS</p>
-            <h3 className="mt-display max-w-[12rem] text-[clamp(1.55rem,2.45vw,2.9rem)] leading-[.86] tracking-[-.04em]">
-              {service.title}
-            </h3>
+            <h3
+  className="mt-display max-w-[12rem] text-[clamp(1.55rem,2.45vw,2.9rem)] leading-[.86] tracking-[-.04em]"
+  style={{ transform: "translateY(-14px)" }}
+>
+  {service.title}
+</h3>
           </div>
         </div>
       );
@@ -513,7 +522,9 @@ function BoardServicePiece({
         type="button"
         onClick={onOpen}
         aria-label={`Open ${service.title}`}
-        className={`group absolute flex min-w-0 flex-col overflow-hidden p-4 text-left outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37]/70 md:p-5 ${piece.tone}`}
+        className={`group absolute flex min-w-0 flex-col overflow-hidden text-left outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37]/70 ${
+  index === 2 ? "p-1.5 md:p-2" : "p-4 md:p-5"
+} ${piece.tone}`}
         style={{
           left: `${piece.left}%`,
           top: `${piece.top}%`,
