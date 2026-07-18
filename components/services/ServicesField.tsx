@@ -43,6 +43,7 @@ interface ArchiveFragment {
 }
 
 const ease = [0.22, 1, 0.36, 1] as const;
+type LightPhase = "off" | "flickering" | "on";
 
 const boardPieces: BoardPiece[] = [
   {
@@ -745,48 +746,132 @@ function DetectiveScrapbookLayer() {
   return (
     <div aria-hidden="true" className="pointer-events-none absolute inset-0 hidden md:block">
       <div className="absolute -left-[7%] top-[2%] z-[4] h-[43%] w-[29%] rotate-[-7deg] opacity-48">
-        <Image src="/images/scrapbook/old-map-fragment.png" alt="" fill sizes="29vw" loading="lazy" quality={55} className="object-contain drop-shadow-[0_20px_26px_rgba(0,0,0,.42)]" />
+        <Image src="/images/scrapbook/optimized/old-map-fragment.webp" alt="" fill sizes="29vw" loading="lazy" quality={55} className="object-contain drop-shadow-[0_20px_26px_rgba(0,0,0,.42)]" />
       </div>
       <div className="absolute left-[16%] top-[-8%] z-[9] h-[31%] w-[19%] rotate-[5deg] opacity-55">
-        <Image src="/images/scrapbook/news-article-1.png" alt="" fill sizes="19vw" loading="lazy" quality={55} className="object-contain drop-shadow-[0_18px_24px_rgba(0,0,0,.4)]" />
+        <Image src="/images/scrapbook/optimized/news-article-1.webp" alt="" fill sizes="19vw" loading="lazy" quality={55} className="object-contain drop-shadow-[0_18px_24px_rgba(0,0,0,.4)]" />
       </div>
       <div className="absolute right-[17%] top-[-10%] z-[8] h-[32%] w-[16%] rotate-[-68deg] opacity-52">
-        <Image src="/images/scrapbook/news-article-2.png" alt="" fill sizes="16vw" loading="lazy" quality={55} className="object-contain drop-shadow-[0_18px_24px_rgba(0,0,0,.4)]" />
+        <Image src="/images/scrapbook/optimized/news-article-2.webp" alt="" fill sizes="16vw" loading="lazy" quality={55} className="object-contain drop-shadow-[0_18px_24px_rgba(0,0,0,.4)]" />
       </div>
       <div className="absolute right-[-5%] top-[23%] z-[6] h-[34%] w-[20%] rotate-[7deg] opacity-46">
-        <Image src="/images/scrapbook/news-article-3.png" alt="" fill sizes="20vw" loading="lazy" quality={55} className="object-contain drop-shadow-[0_18px_24px_rgba(0,0,0,.38)]" />
+        <Image src="/images/scrapbook/optimized/news-article-3.webp" alt="" fill sizes="20vw" loading="lazy" quality={55} className="object-contain drop-shadow-[0_18px_24px_rgba(0,0,0,.38)]" />
       </div>
       <div className="absolute bottom-[-11%] left-[8%] z-[5] h-[35%] w-[23%] rotate-[4deg] opacity-48">
-        <Image src="/images/scrapbook/news-article-4.png" alt="" fill sizes="23vw" loading="lazy" quality={55} className="object-contain drop-shadow-[0_18px_24px_rgba(0,0,0,.4)]" />
+        <Image src="/images/scrapbook/optimized/news-article-4.webp" alt="" fill sizes="23vw" loading="lazy" quality={55} className="object-contain drop-shadow-[0_18px_24px_rgba(0,0,0,.4)]" />
       </div>
       <div className="absolute left-[2%] top-[45%] z-[26] h-[17%] w-[13%] rotate-[-10deg] opacity-76">
-        <Image src="/images/scrapbook/magnifying-glass.png" alt="" fill sizes="13vw" loading="lazy" quality={55} className="object-contain drop-shadow-[0_16px_16px_rgba(0,0,0,.52)]" />
+        <Image src="/images/scrapbook/optimized/magnifying-glass.webp" alt="" fill sizes="13vw" loading="lazy" quality={55} className="object-contain drop-shadow-[0_16px_16px_rgba(0,0,0,.52)]" />
       </div>
       <div className="absolute bottom-[4%] left-[35%] z-[24] h-[11%] w-[18%] rotate-[-8deg] opacity-68">
-        <Image src="/images/scrapbook/pencil.png" alt="" fill sizes="18vw" loading="lazy" quality={55} className="object-contain drop-shadow-[0_12px_14px_rgba(0,0,0,.48)]" />
+        <Image src="/images/scrapbook/optimized/pencil.webp" alt="" fill sizes="18vw" loading="lazy" quality={55} className="object-contain drop-shadow-[0_12px_14px_rgba(0,0,0,.48)]" />
       </div>
       <div className="absolute left-[31%] top-[1%] z-[20] h-[9%] w-[14%] rotate-[-5deg] opacity-66">
-        <Image src="/images/scrapbook/vecteezy_beige-washi-tape_67165582.png" alt="" fill sizes="14vw" loading="lazy" quality={55} className="object-contain" />
+        <Image src="/images/scrapbook/optimized/vecteezy_beige-washi-tape_67165582.webp" alt="" fill sizes="14vw" loading="lazy" quality={55} className="object-contain" />
       </div>
       <div className="absolute right-[7%] top-[14%] z-[25] h-[14%] w-[8%] rotate-[12deg] opacity-72">
-        <Image src="/images/scrapbook/vecteezy_silver-paperclip-perfect-for-office-and-stationery-designs_66969764.png" alt="" fill sizes="8vw" loading="lazy" quality={55} className="object-contain drop-shadow-[0_9px_10px_rgba(0,0,0,.4)]" />
+        <Image src="/images/scrapbook/optimized/vecteezy_silver-paperclip-perfect-for-office-and-stationery-designs_66969764.webp" alt="" fill sizes="8vw" loading="lazy" quality={55} className="object-contain drop-shadow-[0_9px_10px_rgba(0,0,0,.4)]" />
       </div>
       <div className="absolute bottom-[17%] left-[1%] z-[23] h-[12%] w-[8%] rotate-[-8deg] opacity-70">
-        <Image src="/images/scrapbook/vecteezy_yellow-binder-clip-isolated-design-element_70808748.png" alt="" fill sizes="8vw" loading="lazy" quality={55} className="object-contain drop-shadow-[0_12px_12px_rgba(0,0,0,.48)]" />
+        <Image src="/images/scrapbook/optimized/vecteezy_yellow-binder-clip-isolated-design-element_70808748.webp" alt="" fill sizes="8vw" loading="lazy" quality={55} className="object-contain drop-shadow-[0_12px_12px_rgba(0,0,0,.48)]" />
       </div>
       <div className="absolute bottom-[10%] right-[43%] z-[26] h-[12%] w-[8%] rotate-[7deg] opacity-72">
-        <Image src="/images/scrapbook/vecteezy_3d-black-metal-binder-clip_73076346.png" alt="" fill sizes="8vw" loading="lazy" quality={55} className="object-contain drop-shadow-[0_12px_12px_rgba(0,0,0,.5)]" />
+        <Image src="/images/scrapbook/optimized/vecteezy_3d-black-metal-binder-clip_73076346.webp" alt="" fill sizes="8vw" loading="lazy" quality={55} className="object-contain drop-shadow-[0_12px_12px_rgba(0,0,0,.5)]" />
       </div>
     </div>
   );
 }
 
 export default function ServicesField({ services }: ServicesFieldProps) {
+  const [isPulling, setIsPulling] = useState(false);
   const prefersReducedMotion = useReducedMotion();
   const [openService, setOpenService] = useState<TravelService | null>(null);
+  const [lightPhase, setLightPhase] = useState<LightPhase>("off");
+const [lightLevel, setLightLevel] = useState(0);
+const lightTimersRef = useRef<number[]>([]);
   const closeButtonRef = useRef<HTMLButtonElement | null>(null);
   const visibleServices = services.slice(0, 9);
+  const clearLightTimers = () => {
+  lightTimersRef.current.forEach((timer) => window.clearTimeout(timer));
+  lightTimersRef.current = [];
+};
+const startLightSequence = () => {
+  const toggleLight = () => {
+  if (lightPhase === "flickering" || isPulling) return;
 
+  setIsPulling(true);
+
+  window.setTimeout(() => {
+    if (lightPhase === "on") {
+      lightTimersRef.current.forEach((timer) => window.clearTimeout(timer));
+      lightTimersRef.current = [];
+
+      setLightLevel(0);
+      setLightPhase("off");
+    } else {
+      startLightSequence();
+    }
+  }, 220);
+
+  window.setTimeout(() => {
+    setIsPulling(false);
+  }, 650);
+};
+  if (lightPhase !== "off") return;
+
+  clearLightTimers();
+
+  if (prefersReducedMotion) {
+    setLightPhase("on");
+    setLightLevel(1);
+    return;
+  }
+
+  setLightPhase("flickering");
+  setLightLevel(0);
+
+  const sequence = [
+    { delay: 110, level: 0.82 },
+    { delay: 70, level: 0 },
+    { delay: 45, level: 0.38 },
+    { delay: 135, level: 0 },
+    { delay: 35, level: 0.94 },
+    { delay: 55, level: 0.08 },
+    { delay: 180, level: 0 },
+    { delay: 28, level: 0.7 },
+    { delay: 42, level: 0 },
+    { delay: 95, level: 0.5 },
+    { delay: 38, level: 0.12 },
+    { delay: 220, level: 0 },
+    { delay: 55, level: 0.88 },
+    { delay: 80, level: 0.22 },
+    { delay: 34, level: 1 },
+    { delay: 65, level: 0 },
+    { delay: 145, level: 0.76 },
+    { delay: 48, level: 0.18 },
+    { delay: 90, level: 1 },
+  ];
+
+  let elapsed = 0;
+
+  sequence.forEach(({ delay, level }, index) => {
+    elapsed += delay;
+
+    const timer = window.setTimeout(() => {
+      setLightLevel(level);
+
+      if (index === sequence.length - 1) {
+        setLightPhase("on");
+        setLightLevel(1);
+      }
+    }, elapsed);
+
+    lightTimersRef.current.push(timer);
+  });
+};
+useEffect(() => {
+  return () => clearLightTimers();
+}, []);
   useEffect(() => {
     if (!openService) return;
     const onKeyDown = (event: KeyboardEvent) =>
@@ -799,130 +884,144 @@ export default function ServicesField({ services }: ServicesFieldProps) {
       window.removeEventListener("keydown", onKeyDown);
     };
   }, [openService]);
+const toggleLight = () => {
+  if (lightPhase === "flickering" || isPulling) return;
+
+  setIsPulling(true);
+
+  window.setTimeout(() => {
+    if (lightPhase === "on") {
+      lightTimersRef.current.forEach((timer) => window.clearTimeout(timer));
+      lightTimersRef.current = [];
+
+      setLightLevel(0);
+      setLightPhase("off");
+    } else {
+      startLightSequence();
+    }
+  }, 220);
+
+  window.setTimeout(() => {
+    setIsPulling(false);
+  }, 650);
+};
+
 
   return (
     <>
       <section
         id="madras-diary"
         aria-labelledby="services-board-title"
-        className="relative isolate h-auto overflow-hidden bg-[#170d08] text-[#f8f3e8] md:[--header-height:92px] md:h-[calc(100svh-var(--header-height))] lg:[--header-height:96px]"
+        className="relative isolate h-auto overflow-hidden bg-[#170d08] text-[#f8f3e8] md:[--header-height:92px] md:h-[88svh] lg:[--header-height:96px]"
       >
         <div className="absolute inset-0 z-0 bg-[#2a170d] bg-[linear-gradient(rgba(32,16,8,.18),rgba(12,7,4,.5)),url('/images/services/walnut-desk.jpg')] bg-cover bg-center saturate-[.78]" />
-        {/* Power-cut darkness over the entire investigation board */}
+        {/* Complete room darkness */}
 <div
   aria-hidden="true"
-  className="pointer-events-none absolute inset-0 z-[50] bg-black/80"
+  className="pointer-events-none absolute inset-0 z-[65] bg-black"
+  style={{
+    opacity: 0.92 - lightLevel * 0.72,
+    transition:
+      lightPhase === "on"
+        ? "opacity 700ms cubic-bezier(0.22, 1, 0.36, 1)"
+        : "none",
+  }}
 />
 
-{/* Faulty overhead lamp — flickers, then remains steadily lit */}
-<motion.div
+{/* Overhead room illumination */}
+<div
   aria-hidden="true"
-  className="pointer-events-none absolute inset-0 z-[51]"
-  initial={{ opacity: 0 }}
-  animate={
-    prefersReducedMotion
-      ? { opacity: 0.72 }
-      : {
-          opacity: [
-            0,
-            0.08,
-            0,
-            0.24,
-            0.03,
-            0.46,
-            0.1,
-            0.62,
-            0.28,
-            0.7,
-            0.48,
-            0.72,
-          ],
-        }
-  }
-  transition={
-    prefersReducedMotion
-      ? { duration: 0 }
-      : {
-          duration: 3.2,
-          times: [
-            0,
-            0.06,
-            0.11,
-            0.18,
-            0.25,
-            0.34,
-            0.43,
-            0.54,
-            0.64,
-            0.75,
-            0.86,
-            1,
-          ],
-          ease: "linear",
-        }
-  }
+  className="pointer-events-none absolute inset-0 z-[66]"
+  style={{
+    opacity: lightLevel,
+    transition:
+      lightPhase === "on"
+        ? "opacity 650ms cubic-bezier(0.22, 1, 0.36, 1)"
+        : "none",
+  }}
 >
-  {/* Broad pyramid-shaped spread from the overhead lamp */}
   <div
-    className="absolute inset-[-7%]"
-    style={{
-      clipPath: "polygon(46% 0%, 54% 0%, 84% 100%, 16% 100%)",
-      background: `
-        linear-gradient(
-          180deg,
-          rgba(255, 228, 181, 0.28) 0%,
-          rgba(247, 199, 132, 0.22) 28%,
-          rgba(219, 151, 78, 0.14) 65%,
-          rgba(164, 89, 35, 0.05) 100%
-        )
-      `,
-      filter: "blur(42px)",
-      mixBlendMode: "screen",
-    }}
-  />
-
-  {/* Soft light falling across the objects, without a circular spotlight */}
-  <div
-    className="absolute inset-0"
+    className="absolute inset-[-8%]"
     style={{
       background: `
         radial-gradient(
-          ellipse 46% 68% at 50% 39%,
-          rgba(255, 229, 184, 0.16) 0%,
-          rgba(236, 183, 112, 0.09) 50%,
-          transparent 78%
+          ellipse 55% 74% at 50% 35%,
+          rgba(255, 232, 190, 0.28) 0%,
+          rgba(240, 190, 122, 0.18) 34%,
+          rgba(192, 119, 57, 0.08) 66%,
+          transparent 82%
         )
       `,
+      filter: "blur(26px)",
       mixBlendMode: "screen",
     }}
   />
 
-  {/* Keep the outer sides and lower corners in deep shadow */}
   <div
     className="absolute inset-0"
     style={{
       background: `
         linear-gradient(
           90deg,
-          rgba(0, 0, 0, 0.9) 0%,
-          rgba(0, 0, 0, 0.66) 11%,
-          rgba(0, 0, 0, 0.2) 28%,
-          transparent 42%,
-          transparent 58%,
-          rgba(0, 0, 0, 0.2) 72%,
-          rgba(0, 0, 0, 0.66) 89%,
-          rgba(0, 0, 0, 0.9) 100%
+          rgba(0, 0, 0, 0.82) 0%,
+          rgba(0, 0, 0, 0.48) 12%,
+          rgba(0, 0, 0, 0.08) 32%,
+          transparent 44%,
+          transparent 56%,
+          rgba(0, 0, 0, 0.08) 68%,
+          rgba(0, 0, 0, 0.48) 88%,
+          rgba(0, 0, 0, 0.82) 100%
         ),
         linear-gradient(
           180deg,
-          transparent 50%,
-          rgba(0, 0, 0, 0.18) 74%,
-          rgba(0, 0, 0, 0.66) 100%
+          transparent 46%,
+          rgba(0, 0, 0, 0.12) 72%,
+          rgba(0, 0, 0, 0.52) 100%
         )
       `,
     }}
   />
-</motion.div>
+</div>
+
+{/* Antique brass pull chain */}
+<button
+  type="button"
+  onClick={toggleLight}
+  disabled={lightPhase === "flickering" || isPulling}
+  aria-label={
+    lightPhase === "on"
+      ? "Turn off investigation lamp"
+      : "Turn on investigation lamp"
+  }
+  className="absolute right-10 top-0 z-[70] flex flex-col items-center disabled:pointer-events-none"
+>
+  {/* Fixed ceiling mount */}
+  <div className="h-2 w-2 rounded-full bg-[#3b2b18]" />
+
+  {/* Continuous brass chain */}
+<div
+  className="mt-1 flex origin-top flex-col items-center gap-[2px] transition-transform duration-100 ease-out"
+  style={{
+    filter: "drop-shadow(0 2px 2px rgba(0,0,0,.45))",
+    transform: isPulling ? "scaleY(1.14)" : "scaleY(1)",
+  }}
+>
+  {Array.from({ length: 18 }).map((_, i) => (
+    <div
+      key={`chain-${i}`}
+      className="h-[8px] w-[4px] rounded-full border border-[#b7893e] bg-[#8c672c]"
+    />
+  ))}
+</div>
+
+    {/* Porcelain handle */}
+<div
+  className="mt-1 h-10 w-6 rounded-b-full rounded-t-[40%] border border-[#c8b89d] bg-gradient-to-b from-[#faf6ef] to-[#ddd1bd] shadow-[0_4px_12px_rgba(0,0,0,.45)] transition-transform duration-100 ease-out"
+  style={{
+    transform: isPulling ? "translateY(20px)" : "translateY(0)",
+  }}
+/>
+</button>
         <h2 id="services-board-title" className="sr-only">
           MadrasTrails services inspiration board
         </h2>

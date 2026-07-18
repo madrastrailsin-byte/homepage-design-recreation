@@ -28,7 +28,7 @@ export default function ServicesPage() {
       `}</style>
       <Navigation />
 
-      <section className="relative flex min-h-[88svh] items-center overflow-hidden px-6 pb-12 pt-28 md:min-h-[86svh] md:px-8 md:pb-14 lg:px-10">
+      <section className="relative flex min-h-[100svh] items-center overflow-hidden px-6 pb-12 pt-28 md:px-8 md:pb-14 lg:px-10">
         <video
           className="mt-services-hero-video absolute inset-0 h-full w-full object-cover opacity-[0.4] saturate-[0.78]"
           style={{ objectPosition: 'center center' }}
