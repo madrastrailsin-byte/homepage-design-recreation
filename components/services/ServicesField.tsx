@@ -754,10 +754,33 @@ export default function ServicesField({ services }: ServicesFieldProps) {
       <section
         id="madras-diary"
         aria-labelledby="services-board-title"
-        className="relative h-auto overflow-hidden bg-[#170d08] text-[#f8f3e8] md:[--header-height:92px] md:h-[calc(100svh-var(--header-height))] lg:[--header-height:96px]"
+        className="relative isolate h-auto overflow-hidden bg-[#170d08] text-[#f8f3e8] md:[--header-height:92px] md:h-[calc(100svh-var(--header-height))] lg:[--header-height:96px]"
       >
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(18,10,6,.34),rgba(12,7,4,.56)),url('/images/services/walnut-desk.jpg')] bg-cover bg-center" />
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_48%_38%,rgba(236,183,86,.13),transparent_34%),radial-gradient(circle_at_80%_78%,rgba(82,40,15,.48),transparent_36%),linear-gradient(180deg,rgba(3,3,3,.26),rgba(8,5,3,.58))]" />
+        <div className="absolute inset-0 z-0 bg-[linear-gradient(rgba(18,10,6,.34),rgba(12,7,4,.56)),url('/images/services/walnut-desk.jpg')] bg-cover bg-center" />
+        <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-[3]">
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_42%,rgba(255,224,166,.13)_0%,rgba(236,183,86,.07)_38%,transparent_72%)]" />
+          <div className="absolute left-1/2 top-[46%] h-[100%] w-[80%] -translate-x-1/2 -translate-y-1/2">
+            <motion.div
+              className="h-full w-full rounded-full bg-[radial-gradient(ellipse_at_center,rgba(255,224,166,.28)_0%,rgba(244,185,103,.13)_34%,transparent_72%)] opacity-60 blur-[60px] mix-blend-screen"
+              animate={
+                prefersReducedMotion
+                  ? undefined
+                  : { x: [-15, 15], y: [-4, 4], rotate: [-1, 1] }
+              }
+              transition={
+                prefersReducedMotion
+                  ? undefined
+                  : {
+                      duration: 30,
+                      ease: "easeInOut",
+                      repeat: Infinity,
+                      repeatType: "reverse",
+                    }
+              }
+            />
+          </div>
+        </div>
+        <div className="pointer-events-none absolute inset-0 z-[2] bg-[radial-gradient(circle_at_48%_38%,rgba(236,183,86,.13),transparent_34%),radial-gradient(circle_at_80%_78%,rgba(82,40,15,.48),transparent_36%),linear-gradient(180deg,rgba(3,3,3,.26),rgba(8,5,3,.58))]" />
         <h2 id="services-board-title" className="sr-only">
           MadrasTrails services inspiration board
         </h2>
