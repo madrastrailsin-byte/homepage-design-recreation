@@ -730,6 +730,57 @@ function StorytellingProps() {
   );
 }
 
+function DetectiveConnections() {
+  return (
+    <div
+      aria-hidden="true"
+      className="pointer-events-none absolute inset-0"
+    >
+      {/* red strings and pins go here */}
+    </div>
+  );
+}
+
+function DetectiveScrapbookLayer() {
+  return (
+    <div aria-hidden="true" className="pointer-events-none absolute inset-0 hidden md:block">
+      <div className="absolute -left-[7%] top-[2%] z-[4] h-[43%] w-[29%] rotate-[-7deg] opacity-48">
+        <Image src="/images/scrapbook/old-map-fragment.png" alt="" fill sizes="29vw" loading="lazy" quality={55} className="object-contain drop-shadow-[0_20px_26px_rgba(0,0,0,.42)]" />
+      </div>
+      <div className="absolute left-[16%] top-[-8%] z-[9] h-[31%] w-[19%] rotate-[5deg] opacity-55">
+        <Image src="/images/scrapbook/news-article-1.png" alt="" fill sizes="19vw" loading="lazy" quality={55} className="object-contain drop-shadow-[0_18px_24px_rgba(0,0,0,.4)]" />
+      </div>
+      <div className="absolute right-[17%] top-[-10%] z-[8] h-[32%] w-[16%] rotate-[-68deg] opacity-52">
+        <Image src="/images/scrapbook/news-article-2.png" alt="" fill sizes="16vw" loading="lazy" quality={55} className="object-contain drop-shadow-[0_18px_24px_rgba(0,0,0,.4)]" />
+      </div>
+      <div className="absolute right-[-5%] top-[23%] z-[6] h-[34%] w-[20%] rotate-[7deg] opacity-46">
+        <Image src="/images/scrapbook/news-article-3.png" alt="" fill sizes="20vw" loading="lazy" quality={55} className="object-contain drop-shadow-[0_18px_24px_rgba(0,0,0,.38)]" />
+      </div>
+      <div className="absolute bottom-[-11%] left-[8%] z-[5] h-[35%] w-[23%] rotate-[4deg] opacity-48">
+        <Image src="/images/scrapbook/news-article-4.png" alt="" fill sizes="23vw" loading="lazy" quality={55} className="object-contain drop-shadow-[0_18px_24px_rgba(0,0,0,.4)]" />
+      </div>
+      <div className="absolute left-[2%] top-[45%] z-[26] h-[17%] w-[13%] rotate-[-10deg] opacity-76">
+        <Image src="/images/scrapbook/magnifying-glass.png" alt="" fill sizes="13vw" loading="lazy" quality={55} className="object-contain drop-shadow-[0_16px_16px_rgba(0,0,0,.52)]" />
+      </div>
+      <div className="absolute bottom-[4%] left-[35%] z-[24] h-[11%] w-[18%] rotate-[-8deg] opacity-68">
+        <Image src="/images/scrapbook/pencil.png" alt="" fill sizes="18vw" loading="lazy" quality={55} className="object-contain drop-shadow-[0_12px_14px_rgba(0,0,0,.48)]" />
+      </div>
+      <div className="absolute left-[31%] top-[1%] z-[20] h-[9%] w-[14%] rotate-[-5deg] opacity-66">
+        <Image src="/images/scrapbook/vecteezy_beige-washi-tape_67165582.png" alt="" fill sizes="14vw" loading="lazy" quality={55} className="object-contain" />
+      </div>
+      <div className="absolute right-[7%] top-[14%] z-[25] h-[14%] w-[8%] rotate-[12deg] opacity-72">
+        <Image src="/images/scrapbook/vecteezy_silver-paperclip-perfect-for-office-and-stationery-designs_66969764.png" alt="" fill sizes="8vw" loading="lazy" quality={55} className="object-contain drop-shadow-[0_9px_10px_rgba(0,0,0,.4)]" />
+      </div>
+      <div className="absolute bottom-[17%] left-[1%] z-[23] h-[12%] w-[8%] rotate-[-8deg] opacity-70">
+        <Image src="/images/scrapbook/vecteezy_yellow-binder-clip-isolated-design-element_70808748.png" alt="" fill sizes="8vw" loading="lazy" quality={55} className="object-contain drop-shadow-[0_12px_12px_rgba(0,0,0,.48)]" />
+      </div>
+      <div className="absolute bottom-[10%] right-[43%] z-[26] h-[12%] w-[8%] rotate-[7deg] opacity-72">
+        <Image src="/images/scrapbook/vecteezy_3d-black-metal-binder-clip_73076346.png" alt="" fill sizes="8vw" loading="lazy" quality={55} className="object-contain drop-shadow-[0_12px_12px_rgba(0,0,0,.5)]" />
+      </div>
+    </div>
+  );
+}
+
 export default function ServicesField({ services }: ServicesFieldProps) {
   const prefersReducedMotion = useReducedMotion();
   const [openService, setOpenService] = useState<TravelService | null>(null);
@@ -756,31 +807,122 @@ export default function ServicesField({ services }: ServicesFieldProps) {
         aria-labelledby="services-board-title"
         className="relative isolate h-auto overflow-hidden bg-[#170d08] text-[#f8f3e8] md:[--header-height:92px] md:h-[calc(100svh-var(--header-height))] lg:[--header-height:96px]"
       >
-        <div className="absolute inset-0 z-0 bg-[linear-gradient(rgba(18,10,6,.34),rgba(12,7,4,.56)),url('/images/services/walnut-desk.jpg')] bg-cover bg-center" />
-        <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-[3]">
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_42%,rgba(255,224,166,.13)_0%,rgba(236,183,86,.07)_38%,transparent_72%)]" />
-          <div className="absolute left-1/2 top-[46%] h-[100%] w-[80%] -translate-x-1/2 -translate-y-1/2">
-            <motion.div
-              className="h-full w-full rounded-full bg-[radial-gradient(ellipse_at_center,rgba(255,224,166,.28)_0%,rgba(244,185,103,.13)_34%,transparent_72%)] opacity-60 blur-[60px] mix-blend-screen"
-              animate={
-                prefersReducedMotion
-                  ? undefined
-                  : { x: [-15, 15], y: [-4, 4], rotate: [-1, 1] }
-              }
-              transition={
-                prefersReducedMotion
-                  ? undefined
-                  : {
-                      duration: 30,
-                      ease: "easeInOut",
-                      repeat: Infinity,
-                      repeatType: "reverse",
-                    }
-              }
-            />
-          </div>
-        </div>
-        <div className="pointer-events-none absolute inset-0 z-[2] bg-[radial-gradient(circle_at_48%_38%,rgba(236,183,86,.13),transparent_34%),radial-gradient(circle_at_80%_78%,rgba(82,40,15,.48),transparent_36%),linear-gradient(180deg,rgba(3,3,3,.26),rgba(8,5,3,.58))]" />
+        <div className="absolute inset-0 z-0 bg-[#2a170d] bg-[linear-gradient(rgba(32,16,8,.18),rgba(12,7,4,.5)),url('/images/services/walnut-desk.jpg')] bg-cover bg-center saturate-[.78]" />
+        {/* Power-cut darkness over the entire investigation board */}
+<div
+  aria-hidden="true"
+  className="pointer-events-none absolute inset-0 z-[50] bg-black/80"
+/>
+
+{/* Faulty overhead lamp — flickers, then remains steadily lit */}
+<motion.div
+  aria-hidden="true"
+  className="pointer-events-none absolute inset-0 z-[51]"
+  initial={{ opacity: 0 }}
+  animate={
+    prefersReducedMotion
+      ? { opacity: 0.72 }
+      : {
+          opacity: [
+            0,
+            0.08,
+            0,
+            0.24,
+            0.03,
+            0.46,
+            0.1,
+            0.62,
+            0.28,
+            0.7,
+            0.48,
+            0.72,
+          ],
+        }
+  }
+  transition={
+    prefersReducedMotion
+      ? { duration: 0 }
+      : {
+          duration: 3.2,
+          times: [
+            0,
+            0.06,
+            0.11,
+            0.18,
+            0.25,
+            0.34,
+            0.43,
+            0.54,
+            0.64,
+            0.75,
+            0.86,
+            1,
+          ],
+          ease: "linear",
+        }
+  }
+>
+  {/* Broad pyramid-shaped spread from the overhead lamp */}
+  <div
+    className="absolute inset-[-7%]"
+    style={{
+      clipPath: "polygon(46% 0%, 54% 0%, 84% 100%, 16% 100%)",
+      background: `
+        linear-gradient(
+          180deg,
+          rgba(255, 228, 181, 0.28) 0%,
+          rgba(247, 199, 132, 0.22) 28%,
+          rgba(219, 151, 78, 0.14) 65%,
+          rgba(164, 89, 35, 0.05) 100%
+        )
+      `,
+      filter: "blur(42px)",
+      mixBlendMode: "screen",
+    }}
+  />
+
+  {/* Soft light falling across the objects, without a circular spotlight */}
+  <div
+    className="absolute inset-0"
+    style={{
+      background: `
+        radial-gradient(
+          ellipse 46% 68% at 50% 39%,
+          rgba(255, 229, 184, 0.16) 0%,
+          rgba(236, 183, 112, 0.09) 50%,
+          transparent 78%
+        )
+      `,
+      mixBlendMode: "screen",
+    }}
+  />
+
+  {/* Keep the outer sides and lower corners in deep shadow */}
+  <div
+    className="absolute inset-0"
+    style={{
+      background: `
+        linear-gradient(
+          90deg,
+          rgba(0, 0, 0, 0.9) 0%,
+          rgba(0, 0, 0, 0.66) 11%,
+          rgba(0, 0, 0, 0.2) 28%,
+          transparent 42%,
+          transparent 58%,
+          rgba(0, 0, 0, 0.2) 72%,
+          rgba(0, 0, 0, 0.66) 89%,
+          rgba(0, 0, 0, 0.9) 100%
+        ),
+        linear-gradient(
+          180deg,
+          transparent 50%,
+          rgba(0, 0, 0, 0.18) 74%,
+          rgba(0, 0, 0, 0.66) 100%
+        )
+      `,
+    }}
+  />
+</motion.div>
         <h2 id="services-board-title" className="sr-only">
           MadrasTrails services inspiration board
         </h2>
@@ -798,12 +940,16 @@ export default function ServicesField({ services }: ServicesFieldProps) {
             </p>
           </div>
 
-          <div className="relative mx-auto mt-12 hidden h-[calc(100%-3.25rem)] w-full md:block">
+          <div className="relative mx-auto mt-12 hidden h-[calc(100%_-_3.25rem)] w-full md:block">
+            <DetectiveScrapbookLayer />
             {archiveFragments.map((fragment, index) => (
               <ArchiveFragmentPiece key={`${fragment.label}-${index}`} fragment={fragment} index={index} />
             ))}
             {deskScraps.map((scrap, index) => (
-              <DeskScrap key={`${scrap.src}-${index}`} scrap={scrap} index={index} />
+              <DeskScrap
+  key={`${scrap.src}-${index}`}
+  scrap={scrap}
+/>
             ))}
             <SecondaryEphemera />
             <Image src="/images/services/paper-clip-2.webp" alt="" width={54} height={72} className="pointer-events-none absolute left-[60%] top-[31%] z-[24] rotate-[-13deg] opacity-70 drop-shadow-[0_14px_18px_rgba(0,0,0,.34)]" />
@@ -811,6 +957,7 @@ export default function ServicesField({ services }: ServicesFieldProps) {
             <Image src="/images/services/masking-tape-2.webp" alt="" width={118} height={34} className="pointer-events-none absolute left-[80%] top-[64%] z-[21] rotate-[-5deg] opacity-75" />
             <Image src="/images/services/passport-stamp-1.webp" alt="" width={84} height={84} className="pointer-events-none absolute left-[56%] top-[14%] z-[23] rotate-[13deg] opacity-55" />
             <StorytellingProps />
+            <DetectiveConnections />
 
             {visibleServices.map((service, index) => (
               <BoardServicePiece
