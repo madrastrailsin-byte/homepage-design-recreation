@@ -234,7 +234,7 @@ function ServiceDocument({ service, index }: { service: TravelService; index: nu
   switch (index) {
     case 0:
       return (
-        <div className="relative z-10 flex h-full flex-col justify-between">
+        <div className="relative z-10 flex h-full flex-col justify-center gap-8">
           <div className="absolute bottom-3 right-6 flex h-10 w-28 items-end gap-[3px]" aria-hidden="true">
             {Array.from({ length: 18 }).map((_, line) => (
               <span key={line} className={`${line % 3 === 0 ? "h-9" : line % 2 === 0 ? "h-7" : "h-5"} w-px bg-[#241910]/42`} />
@@ -515,7 +515,29 @@ function BoardServicePiece({
           }}
           initial={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 16, rotate: piece.rotate + 1.4 }}
           whileInView={prefersReducedMotion ? { opacity: 0.9 } : { opacity: 0.9, y: 0, rotate: piece.rotate + 1.4 }}
-          transition={{ duration: 0.72, delay: index * 0.055, ease }}
+          transition={{
+  opacity: {
+    duration: 0.55,
+    delay: index * 0.04,
+    ease,
+  },
+  y: {
+    type: "spring",
+    stiffness: 620,
+    damping: 30,
+    mass: 0.38,
+  },
+  rotate: {
+    type: "spring",
+    stiffness: 560,
+    damping: 28,
+    mass: 0.4,
+  },
+  boxShadow: {
+    duration: 0.14,
+    ease: "easeOut",
+  },
+}}
           viewport={{ once: true, amount: 0.2 }}
         />
       ) : null}
@@ -539,14 +561,22 @@ function BoardServicePiece({
         initial={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 18, rotate: piece.rotate }}
         whileInView={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0, rotate: piece.rotate }}
         whileHover={
-          prefersReducedMotion
-            ? undefined
-            : {
-                y: -7,
-                rotate: Math.max(-3, Math.min(3, piece.rotate * 0.35)),
-                boxShadow: "0 22px 44px rgba(0,0,0,.38), 0 0 0 1px rgba(212,175,55,.18)",
-              }
-        }
+  prefersReducedMotion
+    ? undefined
+    : {
+        y: -10,
+        scale: 1.018,
+        rotate: Math.max(-2, Math.min(2, piece.rotate * 0.22)),
+        boxShadow:
+          "0 28px 54px rgba(0,0,0,.42), 0 0 0 1px rgba(212,175,55,.22)",
+        transition: {
+          type: "spring",
+          stiffness: 620,
+          damping: 30,
+          mass: 0.38,
+        },
+      }
+}
         transition={{ duration: 0.72, delay: index * 0.055, ease }}
         viewport={{ once: true, amount: 0.2 }}
       >
@@ -870,20 +900,36 @@ const startLightSequence = () => {
   });
 };
 useEffect(() => {
-  return () => clearLightTimers();
-}, []);
-  useEffect(() => {
-    if (!openService) return;
-    const onKeyDown = (event: KeyboardEvent) =>
-      event.key === "Escape" && setOpenService(null);
-    document.body.style.overflow = "hidden";
-    window.addEventListener("keydown", onKeyDown);
-    closeButtonRef.current?.focus();
-    return () => {
-      document.body.style.overflow = "";
-      window.removeEventListener("keydown", onKeyDown);
-    };
-  }, [openService]);
+  if (!openService) return;
+
+  const onKeyDown = (event: KeyboardEvent) => {
+    if (event.key === "Escape") {
+      setOpenService(null);
+    }
+  };
+
+  const scrollY = window.scrollY;
+
+  document.documentElement.style.overflow = "hidden";
+  document.body.style.overflow = "hidden";
+  document.body.style.position = "fixed";
+  document.body.style.top = `-${scrollY}px`;
+  document.body.style.width = "100%";
+
+  window.addEventListener("keydown", onKeyDown);
+  closeButtonRef.current?.focus();
+
+  return () => {
+    document.documentElement.style.overflow = "";
+    document.body.style.overflow = "";
+    document.body.style.position = "";
+    document.body.style.top = "";
+    document.body.style.width = "";
+
+    window.scrollTo(0, scrollY);
+    window.removeEventListener("keydown", onKeyDown);
+  };
+}, [openService]);
 const toggleLight = () => {
   if (lightPhase === "flickering" || isPulling) return;
 
@@ -1099,7 +1145,7 @@ const toggleLight = () => {
       <AnimatePresence>
         {openService ? (
           <motion.div
-            className="fixed inset-0 z-[100] overflow-y-auto bg-[#080704] text-[#f8f3e8]"
+            className="fixed inset-0 z-[100] h-[100svh] overflow-y-auto overscroll-contain bg-[#080704] text-[#f8f3e8] lg:overflow-hidden"
             role="dialog"
             aria-modal="true"
             aria-labelledby="service-overlay-title"
@@ -1119,7 +1165,7 @@ const toggleLight = () => {
             </button>
 
             <motion.div
-              className="relative z-10 mx-auto grid min-h-svh w-full max-w-[1500px] items-center gap-10 px-5 py-20 md:px-8 md:py-24 lg:grid-cols-[.82fr_1.18fr] lg:px-10"
+              className="relative z-10 mx-auto grid w-full max-w-[1500px] gap-8 px-5 py-8 md:px-8 lg:h-[100svh] lg:grid-cols-[.82fr_1.18fr] lg:items-center lg:gap-10 lg:px-10 lg:py-4"
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 16 }}
@@ -1134,44 +1180,48 @@ const toggleLight = () => {
                 </div>
                 <h2
                   id="service-overlay-title"
-                  className="mt-display mt-8 text-[clamp(4rem,8.8vw,9.6rem)] leading-[.78] tracking-[-.055em] text-[#faf7f0]"
+                  className="mt-display mt-6 text-[clamp(3.8rem,6.5vw,7.5rem)] leading-[.8] tracking-[-.055em] text-[#faf7f0]"
                 >
                   {openService.title}
                 </h2>
-                <p className="mt-body-copy mt-8 max-w-xl text-base leading-[1.8] text-[#faf7f0]/66 md:text-lg">
-                  {openService.description}
-                </p>
-                <div className="mt-9 space-y-3">
-                  {[
-                    "Personal consultation and careful planning",
-                    "Trusted global partners and preferred access",
-                    "Responsive support before and during travel",
-                  ].map((item) => (
-                    <div
-                      key={item}
-                      className="flex items-center gap-3 text-sm text-[#faf7f0]/68"
-                    >
-                      <span className="grid h-5 w-5 place-items-center rounded-full border border-[#c99a39]/45 text-[#c99a39]">
-                        <Check size={11} />
-                      </span>
-                      <span className="mt-body-copy">{item}</span>
-                    </div>
-                  ))}
-                </div>
-                <Link
-                  href="/plan"
-                  onClick={() => setOpenService(null)}
-                  className="mt-ui group mt-10 inline-flex items-center gap-8 border-b border-[#c99a39]/70 pb-3 text-[.66rem] tracking-[.18em] hover:text-[#d8af58]"
-                >
-                  DISCUSS THIS WITH US
-                  <ArrowRight
-                    size={17}
-                    className="text-[#d8af58] transition-transform group-hover:translate-x-1"
-                  />
-                </Link>
+
+<p className="mt-body-copy mt-6 max-w-xl text-base leading-[1.65] text-[#faf7f0]/66 md:text-lg">
+  {openService.description}
+</p>
+
+<p className="mt-body-copy mt-4 max-w-xl text-sm leading-[1.75] text-[#faf7f0]/52 md:text-base">
+  {openService.overview}
+</p>
+
+<div className="mt-6 space-y-2.5">
+  {openService.highlights.map((item) => (
+    <div
+      key={item}
+      className="flex items-start gap-3 text-sm text-[#faf7f0]/68"
+    >
+      <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full border border-[#c99a39]/45 text-[#c99a39]">
+        <Check size={11} />
+      </span>
+
+      <span className="mt-body-copy leading-relaxed">{item}</span>
+    </div>
+  ))}
+</div>
+
+<Link
+  href="/plan"
+  onClick={() => setOpenService(null)}
+  className="mt-ui group mt-7 inline-flex items-center gap-8 border-b border-[#c99a39]/70 pb-3 text-[.66rem] tracking-[.18em] hover:text-[#d8af58]"
+>
+  START PLANNING THIS JOURNEY
+  <ArrowRight
+    size={17}
+    className="text-[#d8af58] transition-transform group-hover:translate-x-1"
+  />
+</Link>
               </div>
 
-              <div className="relative min-h-[27rem] overflow-hidden border border-[#c99a39]/20 bg-[#171109] shadow-[0_40px_100px_rgba(0,0,0,.6)] md:min-h-[38rem] lg:min-h-[46rem]">
+              <div className="relative min-h-[27rem] overflow-hidden border border-[#c99a39]/20 bg-[#171109] shadow-[0_40px_100px_rgba(0,0,0,.6)] md:min-h-[34rem] lg:h-[82svh] lg:min-h-0 lg:max-h-[46rem]">
                 <Image
                   src={openService.image}
                   alt=""
