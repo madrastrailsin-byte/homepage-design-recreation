@@ -54,7 +54,6 @@ void main() {
 }
 `
 
-const OUTWARD_AXIS = new THREE.Vector3(0, 0, 1)
 const FALLBACK_MARKER_COLOR = '#D4AF37'
 
 const getSafeCoordinate = (value: unknown) =>
@@ -154,7 +153,10 @@ function DestinationMarker({
   const pulseRef = useRef<ThreeTypes.Mesh>(null)
   const pulseMaterialRef = useRef<ThreeTypes.MeshBasicMaterial>(null)
   const [hovered, setHovered] = useState(false)
-
+  
+  const targetScaleVector = useRef(new THREE.Vector3())
+const haloScaleVector = useRef(new THREE.Vector3())
+const OUTWARD_AXIS = new THREE.Vector3(0, 0, 1)
   const orientation = useMemo(() => {
     const outwardNormal = position.clone().normalize()
     return new THREE.Quaternion().setFromUnitVectors(
@@ -177,6 +179,7 @@ function DestinationMarker({
   }, [hovered])
 
   useFrame((state, delta) => {
+    
     if (
       !markerRef.current ||
       !coreRef.current ||
@@ -186,7 +189,20 @@ function DestinationMarker({
     ) {
       return
     }
+if (!selected && !hovered) {
+  markerRef.current.scale.setScalar(1)
+  coreRef.current.rotation.z = 0
+  glowRef.current.scale.set(0.36, 0.36, 1)
 
+  const glowMaterial =
+    glowRef.current.material as ThreeTypes.SpriteMaterial
+
+  glowMaterial.opacity = 0.58
+  pulseRef.current.scale.setScalar(1.3)
+  pulseMaterialRef.current.opacity = 0.2
+
+  return
+}
     const elapsed = state.clock.getElapsedTime()
     const emphasis = selected ? 1.38 : hovered ? 1.28 : 1
 
@@ -201,20 +217,16 @@ function DestinationMarker({
     const targetScale = emphasis * breathingScale
     const damping = 1 - Math.exp(-delta * 10)
 
-    markerRef.current.scale.lerp(
-      new THREE.Vector3(targetScale, targetScale, targetScale),
-      damping,
-    )
+    targetScaleVector.current.set(targetScale, targetScale, targetScale)
+markerRef.current.scale.lerp(targetScaleVector.current, damping)
 
     coreRef.current.rotation.z = reducedMotion
       ? 0
       : Math.sin(elapsed * 0.55 + phase) * 0.08
 
     const haloScale = selected ? 0.54 : hovered ? 0.49 : 0.36
-    glowRef.current.scale.lerp(
-      new THREE.Vector3(haloScale, haloScale, 1),
-      damping,
-    )
+    haloScaleVector.current.set(haloScale, haloScale, 1)
+glowRef.current.scale.lerp(haloScaleVector.current, damping)
 
     const glowMaterial = glowRef.current.material as ThreeTypes.SpriteMaterial
     glowMaterial.opacity = selected ? 0.96 : hovered ? 0.9 : 0.58
@@ -881,7 +893,8 @@ export default function GlobeViewer({
   return (
     <div className="h-full w-full overflow-hidden">
       <Canvas
-        camera={{ position: [0.35, 0.58, 15.75], fov: 46 }}
+  dpr={[1, 1.5]}
+  camera={{ position: [0.35, 0.58, 15.75], fov: 46 }}
         gl={{
           antialias: true,
           alpha: true,
