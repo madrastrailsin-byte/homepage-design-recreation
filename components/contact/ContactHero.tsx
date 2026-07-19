@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Phone, Mail, MessageCircle } from "lucide-react";
+import Link from "next/link";
 
 const reveal = {
   hidden: { opacity: 0, y: 28, filter: "blur(10px)" },
@@ -12,9 +13,16 @@ const reveal = {
   },
 };
 
+
 export default function ContactHero() {
   return (
     <section className="relative h-[100svh] overflow-hidden bg-black text-white">
+      <Link
+  href="/"
+  className="absolute left-6 top-6 z-[999] rounded-full border border-white/20 bg-black/20 px-4 py-2 text-xs uppercase tracking-[0.25em] text-white backdrop-blur-md transition-all duration-500 hover:border-white/40 hover:bg-white hover:text-black"
+>
+  ← Home
+</Link>
       {/* Cinematic video */}
       <motion.video
         initial={{ opacity: 0, scale: 1.08 }}

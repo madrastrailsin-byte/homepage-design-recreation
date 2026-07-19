@@ -60,7 +60,7 @@ export default function Navigation() {
   }, [])
 
   const navLinkClass =
-    'mt-ui relative text-[#FAFAF9] text-xs transition duration-300 hover:text-[#D4AF37] after:absolute after:left-0 after:-bottom-1 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-[#D4AF37]/80 after:transition-transform after:duration-300 hover:after:scale-x-100'
+    'mt-ui relative text-[13px] tracking-[0.12em] text-[#FAFAF9]/90 transition-all duration-500 hover:text-[#D4AF37] after:absolute after:left-1/2 after:-translate-x-1/2 after:-bottom-2 after:h-[2px] after:w-0 after:rounded-full after:bg-[#D4AF37] after:transition-all after:duration-500 hover:after:w-6'
   const activeNavLinkClass = `${navLinkClass} !text-[#D4AF37] after:!scale-x-100`
   const mobileNavLinkClass = 'mt-ui text-[#FAFAF9] text-sm hover:text-[#D4AF37] transition'
   const activeMobileNavLinkClass = `${mobileNavLinkClass} !text-[#D4AF37]`
@@ -75,7 +75,7 @@ export default function Navigation() {
           : 'bg-[#020F12]/34 border-b border-[#D4AF37]/8'
       }`}
     >
-      <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-4 py-1.5 sm:px-5 md:px-8 md:py-3">
+      <div className="mx-auto grid w-full max-w-[92rem] grid-cols-[1fr_auto_1fr] items-center px-4 py-1.5 sm:px-5 md:px-8 md:py-4">
         {/* Logo */}
         <motion.a
           href="/"
@@ -84,10 +84,10 @@ export default function Navigation() {
           animate={introAnimate}
           transition={introTransition(0.12)}
           className={`
-relative inline-flex items-center rounded-[14px]
-border border-white/24
-bg-[#FAFAF9]/68
-backdrop-blur-xl
+justify-self-start relative inline-flexrelative inline-flex items-center rounded-[14px]
+border border-white/15
+bg-black/45
+backdrop-blur-md
 px-[0.55rem]
 py-[0.32rem]
 sm:rounded-[15px]
@@ -109,15 +109,26 @@ ${logoPulse ? "mt-logo-receipt" : ""}
         </motion.a>
 
         {/* Desktop Menu */}
-        <motion.div initial={introInitial} animate={introAnimate} transition={introTransition(0.26)} className="hidden lg:flex items-center gap-7 xl:gap-9">
-          <a href="/destinations" className={navLinkClass}>
-            Destinations
-          </a>
-          <a href="/experiences" className={isExperiencesActive ? activeNavLinkClass : navLinkClass}>Experiences</a>
-          <a href="/services" className={navLinkClass}>Services</a>
-          <a href="/our-story" className={isOurStoryActive ? activeNavLinkClass : navLinkClass}>Our Story</a>
-          <a href="/our-story" className={navLinkClass}>Inspiration</a>
-          <a href="/contact" className={navLinkClass}>Contact</a>
+        <motion.div initial={introInitial} animate={introAnimate} transition={introTransition(0.26)} className="hidden justify-self-center lg:flex items-center gap-8 xl:gap-12 whitespace-nowrap">
+          <>
+  <a href="/destinations" className={navLinkClass}>Destinations</a>
+
+  <span className="text-white/10 text-xs select-none">│</span>
+
+  <a href="/experiences" className={isExperiencesActive ? activeNavLinkClass : navLinkClass}>Experiences</a>
+
+  <span className="text-white/10 text-xs select-none">│</span>
+
+  <a href="/services" className={navLinkClass}>Services</a>
+
+  <span className="text-white/10 text-xs select-none">│</span>
+
+  <a href="/our-story" className={isOurStoryActive ? activeNavLinkClass : navLinkClass}>Our Story</a>
+
+  <span className="text-white/10 text-xs select-none">│</span>
+
+  <a href="/contact" className={navLinkClass}>Contact</a>
+</>
         </motion.div>
 
         {/* CTA Button and Menu */}
@@ -125,7 +136,7 @@ ${logoPulse ? "mt-logo-receipt" : ""}
   initial={introInitial}
   animate={introAnimate}
   transition={introTransition(0.38)}
-  className="flex items-center gap-3"
+  className="justify-self-end mr-12 xl:mr-14 flex items-center gap-3"
 >
   <JourneyTransitionLink
     href="/plan"
@@ -176,10 +187,6 @@ ${logoPulse ? "mt-logo-receipt" : ""}
         }
       >
         Our Story
-      </a>
-
-      <a href="/our-story" className={mobileNavLinkClass}>
-        Inspiration
       </a>
 
       <a href="/contact" className={mobileNavLinkClass}>
