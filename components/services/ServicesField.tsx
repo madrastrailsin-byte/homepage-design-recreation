@@ -745,39 +745,39 @@ function DetectiveConnections() {
 function DetectiveScrapbookLayer() {
   return (
     <div aria-hidden="true" className="pointer-events-none absolute inset-0 hidden md:block">
-      <div className="absolute -left-[7%] top-[2%] z-[4] h-[43%] w-[29%] rotate-[-7deg] opacity-48">
-        <Image src="/images/scrapbook/optimized/old-map-fragment.webp" alt="" fill sizes="29vw" loading="lazy" quality={55} className="object-contain drop-shadow-[0_20px_26px_rgba(0,0,0,.42)]" />
-      </div>
-      <div className="absolute left-[16%] top-[-8%] z-[9] h-[31%] w-[19%] rotate-[5deg] opacity-55">
-        <Image src="/images/scrapbook/optimized/news-article-1.webp" alt="" fill sizes="19vw" loading="lazy" quality={55} className="object-contain drop-shadow-[0_18px_24px_rgba(0,0,0,.4)]" />
-      </div>
-      <div className="absolute right-[17%] top-[-10%] z-[8] h-[32%] w-[16%] rotate-[-68deg] opacity-52">
-        <Image src="/images/scrapbook/optimized/news-article-2.webp" alt="" fill sizes="16vw" loading="lazy" quality={55} className="object-contain drop-shadow-[0_18px_24px_rgba(0,0,0,.4)]" />
-      </div>
-      <div className="absolute right-[-5%] top-[23%] z-[6] h-[34%] w-[20%] rotate-[7deg] opacity-46">
-        <Image src="/images/scrapbook/optimized/news-article-3.webp" alt="" fill sizes="20vw" loading="lazy" quality={55} className="object-contain drop-shadow-[0_18px_24px_rgba(0,0,0,.38)]" />
-      </div>
-      <div className="absolute bottom-[-11%] left-[8%] z-[5] h-[35%] w-[23%] rotate-[4deg] opacity-48">
-        <Image src="/images/scrapbook/optimized/news-article-4.webp" alt="" fill sizes="23vw" loading="lazy" quality={55} className="object-contain drop-shadow-[0_18px_24px_rgba(0,0,0,.4)]" />
-      </div>
-      <div className="absolute left-[2%] top-[45%] z-[26] h-[17%] w-[13%] rotate-[-10deg] opacity-76">
-        <Image src="/images/scrapbook/optimized/magnifying-glass.webp" alt="" fill sizes="13vw" loading="lazy" quality={55} className="object-contain drop-shadow-[0_16px_16px_rgba(0,0,0,.52)]" />
-      </div>
-      <div className="absolute bottom-[4%] left-[35%] z-[24] h-[11%] w-[18%] rotate-[-8deg] opacity-68">
-        <Image src="/images/scrapbook/optimized/pencil.webp" alt="" fill sizes="18vw" loading="lazy" quality={55} className="object-contain drop-shadow-[0_12px_14px_rgba(0,0,0,.48)]" />
-      </div>
-      <div className="absolute left-[31%] top-[1%] z-[20] h-[9%] w-[14%] rotate-[-5deg] opacity-66">
+      {/*<div className="absolute -left-[7%] top-[2%] z-[4] h-[43%] w-[29%] rotate-[-7deg] opacity-48">
+        <Image src="/images/scrapbook/optimized/old-map-fragment.webp" alt="" fill sizes="29vw" loading="lazy" quality={55} className="object-contain" />
+      </div>*/}
+      {/*<div className="absolute left-[16%] top-[-8%] z-[9] h-[31%] w-[19%] rotate-[5deg] opacity-55">
+        <Image src="/images/scrapbook/optimized/news-article-1.webp" alt="" fill sizes="19vw" loading="lazy" quality={55} className="object-contain" />
+      </div>*/}
+      {/*<div className="absolute right-[17%] top-[-10%] z-[8] h-[32%] w-[16%] rotate-[-68deg] opacity-52">
+        <Image src="/images/scrapbook/optimized/news-article-2.webp" alt="" fill sizes="16vw" loading="lazy" quality={55} className="object-contain" />
+      </div>*/}
+      {/*<div className="absolute right-[-5%] top-[23%] z-[6] h-[34%] w-[20%] rotate-[7deg] opacity-46">
+        <Image src="/images/scrapbook/optimized/news-article-3.webp" alt="" fill sizes="20vw" loading="lazy" quality={55} className="object-contain" />
+      </div>*/}
+      {/*<div className="absolute bottom-[-11%] left-[8%] z-[5] h-[35%] w-[23%] rotate-[4deg] opacity-48">
+        <Image src="/images/scrapbook/optimized/news-article-4.webp" alt="" fill sizes="23vw" loading="lazy" quality={55} className="object-contain" />
+      </div>*/}
+      {/*<div className="absolute left-[2%] top-[45%] z-[26] h-[17%] w-[13%] rotate-[-10deg] opacity-76">
+        <Image src="/images/scrapbook/optimized/magnifying-glass.webp" alt="" fill sizes="13vw" loading="lazy" quality={55} className="object-contain" />
+      </div>*/}
+      {/*<div className="absolute bottom-[4%] left-[35%] z-[24] h-[11%] w-[18%] rotate-[-8deg] opacity-68">
+        <Image src="/images/scrapbook/optimized/pencil.webp" alt="" fill sizes="18vw" loading="lazy" quality={55} className="object-contain" />
+      </div>*/}
+      {/*<div className="absolute left-[31%] top-[1%] z-[20] h-[9%] w-[14%] rotate-[-5deg] opacity-66">
         <Image src="/images/scrapbook/optimized/vecteezy_beige-washi-tape_67165582.webp" alt="" fill sizes="14vw" loading="lazy" quality={55} className="object-contain" />
-      </div>
-      <div className="absolute right-[7%] top-[14%] z-[25] h-[14%] w-[8%] rotate-[12deg] opacity-72">
-        <Image src="/images/scrapbook/optimized/vecteezy_silver-paperclip-perfect-for-office-and-stationery-designs_66969764.webp" alt="" fill sizes="8vw" loading="lazy" quality={55} className="object-contain drop-shadow-[0_9px_10px_rgba(0,0,0,.4)]" />
-      </div>
-      <div className="absolute bottom-[17%] left-[1%] z-[23] h-[12%] w-[8%] rotate-[-8deg] opacity-70">
-        <Image src="/images/scrapbook/optimized/vecteezy_yellow-binder-clip-isolated-design-element_70808748.webp" alt="" fill sizes="8vw" loading="lazy" quality={55} className="object-contain drop-shadow-[0_12px_12px_rgba(0,0,0,.48)]" />
-      </div>
-      <div className="absolute bottom-[10%] right-[43%] z-[26] h-[12%] w-[8%] rotate-[7deg] opacity-72">
-        <Image src="/images/scrapbook/optimized/vecteezy_3d-black-metal-binder-clip_73076346.webp" alt="" fill sizes="8vw" loading="lazy" quality={55} className="object-contain drop-shadow-[0_12px_12px_rgba(0,0,0,.5)]" />
-      </div>
+      </div>*/}
+      {/*<div className="absolute right-[7%] top-[14%] z-[25] h-[14%] w-[8%] rotate-[12deg] opacity-72">
+        <Image src="/images/scrapbook/optimized/vecteezy_silver-paperclip-perfect-for-office-and-stationery-designs_66969764.webp" alt="" fill sizes="8vw" loading="lazy" quality={55} className="object-contain" />
+      </div>*/}
+      {/*<div className="absolute bottom-[17%] left-[1%] z-[23] h-[12%] w-[8%] rotate-[-8deg] opacity-70">
+        <Image src="/images/scrapbook/optimized/vecteezy_yellow-binder-clip-isolated-design-element_70808748.webp" alt="" fill sizes="8vw" loading="lazy" quality={55} className="object-contain" />
+      </div>*/}
+      {/*<div className="absolute bottom-[10%] right-[43%] z-[26] h-[12%] w-[8%] rotate-[7deg] opacity-72">
+        <Image src="/images/scrapbook/optimized/vecteezy_3d-black-metal-binder-clip_73076346.webp" alt="" fill sizes="8vw" loading="lazy" quality={55} className="object-contain" />
+      </div>*/}
     </div>
   );
 }
