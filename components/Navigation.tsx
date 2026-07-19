@@ -117,7 +117,7 @@ ${logoPulse ? "mt-logo-receipt" : ""}
           <a href="/services" className={navLinkClass}>Services</a>
           <a href="/our-story" className={isOurStoryActive ? activeNavLinkClass : navLinkClass}>Our Story</a>
           <a href="/our-story" className={navLinkClass}>Inspiration</a>
-          <a href="#callback-request" className={navLinkClass}>Contact</a>
+          <a href="/contact" className={navLinkClass}>Contact</a>
         </motion.div>
 
         {/* CTA Button and Menu */}
@@ -182,9 +182,9 @@ ${logoPulse ? "mt-logo-receipt" : ""}
         Inspiration
       </a>
 
-      <a href="#callback-request" className={mobileNavLinkClass}>
-        Contact
-      </a>
+      <a href="/contact" className={mobileNavLinkClass}>
+  Contact
+</a>
 
       <JourneyTransitionLink
         href="/plan"
