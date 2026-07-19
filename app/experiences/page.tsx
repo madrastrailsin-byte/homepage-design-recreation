@@ -186,7 +186,7 @@ function JourneyTile({ journey, index, active, onSelect }: { journey: (typeof jo
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_26%_100%,rgba(212,175,55,0.09),transparent_42%)]" />
 
       <div className="absolute inset-x-5 top-5 flex items-center justify-between md:inset-x-6 md:top-6">
-        <span className="flex h-10 w-10 items-center justify-center rounded-full border border-white/14 bg-[#020F12]/46 text-[#F2E7CC] backdrop-blur-md transition-all duration-500 group-hover:border-[#D4AF37]/50 group-hover:text-[#D4AF37]" style={{ boxShadow: `0 0 28px ${journey.accent}18` }}>
+        <span className="flex h-10 w-10 items-center justify-center rounded-full border border-white/14 bg-[#020F12]/46 text-[#F2E7CC] transition-all duration-500 group-hover:border-[#D4AF37]/50 group-hover:text-[#D4AF37]" style={{ boxShadow: `0 0 28px ${journey.accent}18` }}>
           <Icon size={17} strokeWidth={1.45} />
         </span>
         <span className="mt-ui text-[9px] tracking-[0.24em] text-white/46 transition-colors duration-500 group-hover:text-[#D4AF37]">0{index + 1}</span>
@@ -203,7 +203,7 @@ function JourneyTile({ journey, index, active, onSelect }: { journey: (typeof jo
               Discover journeys shaped around the way you want to feel, connect and explore.
             </p>
           </div>
-          <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-[#D4AF37]/38 bg-[#020F12]/38 text-[#D4AF37] backdrop-blur-md transition-all duration-500 group-hover:translate-x-1 group-hover:border-[#D4AF37]/72 group-hover:bg-[#D4AF37] group-hover:text-[#071B24]">
+          <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-[#D4AF37]/38 bg-[#020F12]/38 text-[#D4AF37] transition-all duration-500 group-hover:translate-x-1 group-hover:border-[#D4AF37]/72 group-hover:bg-[#D4AF37] group-hover:text-[#071B24]">
             <ArrowRight size={16} />
           </span>
         </div>

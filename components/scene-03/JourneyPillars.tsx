@@ -64,7 +64,7 @@ function GoldRoadsterIcon() {
               stroke="#C9A24A"
               strokeWidth="1.05"
               animate={{ rotate: 360 }}
-              transition={{ duration: 0.22, repeat: Infinity, ease: 'linear' }}
+              transition={{ duration: 0.8, repeat: Infinity, ease: 'linear' }}
               style={{ transformOrigin: `${cx}px 29.5px` }}
             />
             <motion.path
@@ -72,7 +72,7 @@ function GoldRoadsterIcon() {
               stroke="#C9A24A"
               strokeWidth=".55"
               animate={{ rotate: 360 }}
-              transition={{ duration: 0.22, repeat: Infinity, ease: 'linear' }}
+              transition={{ duration: 0.8, repeat: Infinity, ease: 'linear' }}
               style={{ transformOrigin: `${cx}px 29.5px` }}
             />
           </g>
@@ -233,7 +233,7 @@ export default function JourneyPillars({ words = fallbackWords }: JourneyPillars
             <motion.div
               className="absolute right-[3.8rem] top-[0.95rem] flex flex-col gap-[3px]"
               animate={{ x: [0, -5, 0], opacity: [0.12, 0.58, 0.12] }}
-              transition={{ duration: 0.42, repeat: Infinity }}
+              transition={{ duration: 1.2, repeat: Infinity }}
               aria-hidden="true"
             >
               <span className="h-px w-12 bg-gradient-to-l from-[#D4AF37]/64 via-[#D4AF37]/22 to-transparent" />

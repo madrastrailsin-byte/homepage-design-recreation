@@ -84,7 +84,7 @@ export default function ExperiencesSection() {
                 <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(2,15,18,0.08),rgba(2,15,18,0.5))]" />
 
                 <div className="relative flex min-h-[10.5rem] items-center gap-4 p-5 sm:p-6">
-                  <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-[#C9A24A]/28 bg-[#020F12]/52 text-[#C9A24A] backdrop-blur-md transition-all duration-300 group-hover:border-[#C9A24A]/65">
+                  <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-[#C9A24A]/28 bg-[#020F12]/52 text-[#C9A24A] transition-all duration-300 group-hover:border-[#C9A24A]/65">
                     <Icon size={17} strokeWidth={1.45} className="block translate-x-[1px]" />
                   </span>
 
@@ -101,7 +101,7 @@ export default function ExperiencesSection() {
                     <span className="mt-ui hidden text-[9px] tracking-[0.18em] text-white/36 sm:block">
                       0{index + 1}
                     </span>
-                    <span className="grid h-10 w-10 place-items-center rounded-full border border-white/16 bg-[#020F12]/36 text-white/70 backdrop-blur-md transition-all duration-300 group-hover:translate-x-1 group-hover:border-[#C9A24A]/60 group-hover:text-[#C9A24A]">
+                    <span className="grid h-10 w-10 place-items-center rounded-full border border-white/16 bg-[#020F12]/36 text-white/70 transition-all duration-300 group-hover:translate-x-1 group-hover:border-[#C9A24A]/60 group-hover:text-[#C9A24A]">
                       <ArrowRight size={15} />
                     </span>
                   </span>
