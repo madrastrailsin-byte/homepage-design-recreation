@@ -1,6 +1,10 @@
-const sharp = require("sharp");
-const fs = require("fs");
-const path = require("path");
+import sharp from "sharp";
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const dir = path.join(__dirname, "../public/images/services");
 
@@ -26,18 +30,21 @@ async function walk(folder) {
         .webp({ quality: 80 })
         .toFile(full.replace(ext, ".webp"));
     } else {
-  const temp = full.replace(ext, ".tmp.jpg");
+      const temp = full.replace(ext, ".tmp.jpg");
 
-  await sharp(full)
-    .resize({ width: 1800, withoutEnlargement: true })
-    .jpeg({ quality: 75, mozjpeg: true })
-    .toFile(temp);
+      await sharp(full)
+        .resize({ width: 1800, withoutEnlargement: true })
+        .jpeg({ quality: 75, mozjpeg: true })
+        .toFile(temp);
 
-  fs.renameSync(temp, full);
-}
+      fs.renameSync(temp, full);
+    }
 
     console.log(file);
   }
 }
 
-walk(dir);
+walk(dir).catch((error) => {
+  console.error(error);
+  process.exitCode = 1;
+});

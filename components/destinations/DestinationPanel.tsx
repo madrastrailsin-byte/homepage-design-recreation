@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
+import Image from "next/image";
 
 interface Destination {
   id: string
@@ -163,14 +164,16 @@ export default function DestinationPanel({ destination }: DestinationPanelProps)
       <div className="relative z-10 mt-4 overflow-hidden rounded-[18px] border border-[#D4AF37]/20">
         <div className="relative h-[190px] w-full overflow-hidden bg-[#021017]">
           {!imageFailed && (
-            <img
-              src={imageSrc}
-              alt={destination.name || 'Curated destination'}
-              loading="eager"
-              onError={() => setImageFailed(true)}
-              className="h-full w-full object-cover"
-              style={{ objectPosition: getImagePosition(destination.id) }}
-            />
+            <Image
+  src={imageSrc}
+  alt={destination.name || "Curated destination"}
+  fill
+  priority
+  sizes="(min-width: 1024px) 420px, 100vw"
+  onError={() => setImageFailed(true)}
+  className="object-cover"
+  style={{ objectPosition: getImagePosition(destination.id) }}
+/>
           )}
 
           {imageFailed && (

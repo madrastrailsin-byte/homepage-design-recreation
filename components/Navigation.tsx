@@ -4,7 +4,6 @@ import { Menu } from 'lucide-react'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
-import Link from 'next/link'
 import BrandLogo from './BrandLogo'
 import JourneyTransitionLink from './JourneyTransitionLink'
 
@@ -12,7 +11,7 @@ export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
   const [logoPulse, setLogoPulse] = useState(false)
-  const [isLogoAcknowledged, setIsLogoAcknowledged] = useState(false)
+  const [, setIsLogoAcknowledged] = useState(false)
   const pathname = usePathname()
   const prefersReducedMotion = useReducedMotion()
   const introInitial = prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: -6 }

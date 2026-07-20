@@ -621,10 +621,12 @@ function DeskScrap({ scrap }: { scrap: (typeof deskScraps)[number] }) {
   );
 }
 
-function ArchiveFragmentPiece({ fragment, index }: { fragment: ArchiveFragment; index: number }) {
-  const prefersReducedMotion = useReducedMotion();
+function ArchiveFragmentPiece({
+  fragment,
+}: {
+  fragment: ArchiveFragment;
+}) {
   const isBackground = fragment.z <= 10;
-  const visibleOpacity = fragment.variant === "photo" ? (isBackground ? 0.42 : 0.56) : isBackground ? 0.38 : 0.52;
   const shadowOpacity = isBackground ? ".18" : ".28";
   const baseStyle = {
     left: `${fragment.left}%`,
@@ -826,27 +828,6 @@ const lightTimersRef = useRef<number[]>([]);
   lightTimersRef.current = [];
 };
 const startLightSequence = () => {
-  const toggleLight = () => {
-  if (lightPhase === "flickering" || isPulling) return;
-
-  setIsPulling(true);
-
-  window.setTimeout(() => {
-    if (lightPhase === "on") {
-      lightTimersRef.current.forEach((timer) => window.clearTimeout(timer));
-      lightTimersRef.current = [];
-
-      setLightLevel(0);
-      setLightPhase("off");
-    } else {
-      startLightSequence();
-    }
-  }, 220);
-
-  window.setTimeout(() => {
-    setIsPulling(false);
-  }, 650);
-};
   if (lightPhase !== "off") return;
 
   clearLightTimers();
@@ -1088,7 +1069,10 @@ const toggleLight = () => {
           <div className="relative mx-auto mt-12 hidden h-[calc(100%_-_3.25rem)] w-full md:block">
             <DetectiveScrapbookLayer />
             {archiveFragments.map((fragment, index) => (
-              <ArchiveFragmentPiece key={`${fragment.label}-${index}`} fragment={fragment} index={index} />
+              <ArchiveFragmentPiece
+  key={`${fragment.label}-${index}`}
+  fragment={fragment}
+/>
             ))}
             {deskScraps.map((scrap, index) => (
               <DeskScrap

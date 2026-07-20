@@ -32,27 +32,31 @@ export default function RoyalDispatch({ open, onComplete }: RoyalDispatchProps) 
   const [phase, setPhase] = useState<DispatchPhase>('idle')
 
   useEffect(() => {
-    if (!open) {
-      setPhase('idle')
-      return
-    }
+  const start = window.setTimeout(() => {
+    setPhase(open ? 'sealed' : 'idle')
+  }, 0)
 
-    setPhase('sealed')
-
-    const showScroll = window.setTimeout(() => setPhase('scroll'), 2400)
-    const dismissScroll = window.setTimeout(() => setPhase('depart'), 4800)
-    const finish = window.setTimeout(() => {
-      window.dispatchEvent(new CustomEvent('royal-seal-finished'))
-      setPhase('idle')
-      onComplete()
-    }, 6900)
-
+  if (!open) {
     return () => {
-      window.clearTimeout(showScroll)
-      window.clearTimeout(dismissScroll)
-      window.clearTimeout(finish)
+      window.clearTimeout(start)
     }
-  }, [open, onComplete])
+  }
+
+  const showScroll = window.setTimeout(() => setPhase('scroll'), 2400)
+  const dismissScroll = window.setTimeout(() => setPhase('depart'), 4800)
+  const finish = window.setTimeout(() => {
+    window.dispatchEvent(new CustomEvent('royal-seal-finished'))
+    setPhase('idle')
+    onComplete()
+  }, 6900)
+
+  return () => {
+    window.clearTimeout(start)
+    window.clearTimeout(showScroll)
+    window.clearTimeout(dismissScroll)
+    window.clearTimeout(finish)
+  }
+}, [open, onComplete])
 
   if (!open || phase === 'idle') return null
 

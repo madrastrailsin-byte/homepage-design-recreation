@@ -225,13 +225,18 @@ export default function ExperiencesPage() {
       return
     }
 
-    setActiveJourneyId(requestedJourney)
+    const updateJourney = window.setTimeout(() => {
+  setActiveJourneyId(requestedJourney)
+}, 0)
 
     const timer = window.setTimeout(() => {
       showcaseRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }, 450)
 
-    return () => window.clearTimeout(timer)
+    return () => {
+  window.clearTimeout(updateJourney)
+  window.clearTimeout(timer)
+}
   }, [])
 
   const selectJourney = (id: string) => {

@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
+import Image from "next/image";
 
 interface Destination {
   id: string
@@ -226,16 +227,17 @@ export default function DestinationRail({
               whileHover={prefersReducedMotion ? undefined : { y: -4 }}
               whileTap={prefersReducedMotion ? undefined : { scale: 0.985 }}
             >
-              <img
-                src={imageSrc}
-                alt={destination.name || 'Curated destination'}
-                loading="lazy"
-                className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.025]"
-                style={{ objectPosition: getImagePosition(destination.id) }}
-                onError={(event) => {
-                  event.currentTarget.style.display = 'none'
-                }}
-              />
+              <Image
+  src={imageSrc}
+  alt={destination.name || "Curated destination"}
+  fill
+  sizes="(min-width: 1024px) 320px, (min-width: 768px) 50vw, 100vw"
+  className="absolute inset-0 object-cover transition-transform duration-700 group-hover:scale-[1.025]"
+  style={{ objectPosition: getImagePosition(destination.id) }}
+  onError={(event) => {
+    event.currentTarget.style.display = "none"
+  }}
+/>
 
               <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_70%_24%,rgba(212,175,55,0.18),transparent_30%),linear-gradient(145deg,#0A2A33,#021017)]" />
 

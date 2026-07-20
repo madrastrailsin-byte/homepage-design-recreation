@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import DestinationHero from './destinations/DestinationHero'
@@ -10,40 +10,28 @@ import DestinationRail from './destinations/DestinationRail'
 import { destinations } from '@/lib/destinations'
 
 export default function DestinationsPage() {
-  const [selectedDestination, setSelectedDestination] = useState(destinations[0])
-  const [previousDestinationId, setPreviousDestinationId] = useState<string>()
-  const [mounted, setMounted] = useState(false)
   const searchParams = useSearchParams()
   const prefersReducedMotion = useReducedMotion()
 
-  useEffect(() => {
-    setMounted(true)
-  }, [])
-
-  useEffect(() => {
+  const [selectedDestination, setSelectedDestination] = useState(() => {
     const countryId = searchParams.get('country')?.trim().toLowerCase()
-    if (!countryId) return
 
-    const destination = destinations.find((item) => item.id === countryId)
-    if (!destination) return
+    return (
+      destinations.find((destination) => destination.id === countryId) ??
+      destinations[0]
+    )
+  })
 
-    setSelectedDestination((current) => {
-      if (current.id === destination.id) return current
-      setPreviousDestinationId(current.id)
-      return destination
-    })
-  }, [searchParams])
-
-  if (!mounted || !selectedDestination) return null
+  const [previousDestinationId, setPreviousDestinationId] = useState<string>()
 
   const selectDestination = (id: string) => {
-    const destination = destinations.find((item) => item.id === id)
+  const destination = destinations.find((item) => item.id === id)
 
-    if (!destination || destination.id === selectedDestination.id) return
+  if (!destination || destination.id === selectedDestination.id) return
 
-    setPreviousDestinationId(selectedDestination.id)
-    setSelectedDestination(destination)
-  }
+  setPreviousDestinationId(selectedDestination.id)
+  setSelectedDestination(destination)
+}
 
   return (
     <section className="mt-destinations-page relative w-full overflow-hidden bg-[#071B24]">

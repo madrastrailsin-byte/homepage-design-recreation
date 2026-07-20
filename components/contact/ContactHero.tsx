@@ -33,7 +33,7 @@ export default function ContactHero() {
         muted
         loop
         playsInline
-        preload="auto"
+        preload="metadata"
       >
         <source src="/videos/contact/hero.mp4" type="video/mp4" />
       </motion.video>
@@ -84,33 +84,42 @@ export default function ContactHero() {
             transition={{ duration: 1, delay: 2 }}
             className="mt-8 flex flex-wrap items-center gap-x-12 lg:gap-x-16 gap-y-4 border-t border-white/20 pt-6"
           >
-            <a href="tel:+917891876918"
-              className="group flex flex-col items-center text-xs uppercase tracking-[0.28em] text-white/75 transition hover:text-[#D4AF37]"
-            >
+            <a
+  href="tel:+917891876918"
+  aria-label="Call MadrasTrails"
+  className="group flex flex-col items-center text-xs uppercase tracking-[0.28em] text-white/75 transition hover:text-[#D4AF37]"
+>
               <Phone className="mb-3 h-4 w-4 text-white/50 transition-colors group-hover:text-[#D4AF37]" />
               Speak With Us
             </a>
 
-            <a href="mailto:info@madrastrails.in"
-              className="group flex flex-col items-center text-xs uppercase tracking-[0.28em] text-white/75 transition hover:text-[#D4AF37]"
-            >
+            <a
+  href="mailto:info@madrastrails.in"
+  aria-label="Email MadrasTrails"
+  className="group flex flex-col items-center text-xs uppercase tracking-[0.28em] text-white/75 transition hover:text-[#D4AF37]"
+>
               <Mail className="mb-3 h-4 w-4 text-white/50 transition-colors group-hover:text-[#D4AF37]" />
               Write To Us
             </a>
 
-            <a href="https://wa.me/917891876918?text=Hi%20MadrasTrails,%20I'd%20like%20to%20plan%20a%20trip."
-              className="group flex flex-col items-center text-xs uppercase tracking-[0.28em] text-white/75 transition hover:text-[#D4AF37]"
-            >
+            <a
+  href="https://wa.me/917891876918?text=Hi%20MadrasTrails,%20I'd%20like%20to%20plan%20a%20trip."
+  target="_blank"
+  rel="noopener noreferrer"
+  aria-label="Chat with MadrasTrails on WhatsApp"
+  className="group flex flex-col items-center text-xs uppercase tracking-[0.28em] text-white/75 transition hover:text-[#D4AF37]"
+>
               <MessageCircle className="mb-3 h-4 w-4 text-white/50 transition-colors group-hover:text-[#D4AF37]" />
-              Let's Chat
+              Let&apos;s Chat
             </a>
 
-            <a
-              href="/plan"
-              className="ml-0 border border-white/35 px-6 py-3 text-xs uppercase tracking-[0.24em] transition-all duration-700 hover:-translate-y-0.5 hover:scale-[1.02] hover:border-[#D4AF37] hover:bg-[#D4AF37] hover:text-[#03191D] lg:ml-auto"
-            >
-              Begin the conversation
-            </a>
+            <Link
+  href="/plan"
+  aria-label="Begin planning your journey"
+  className="ml-0 border border-white/35 px-6 py-3 text-xs uppercase tracking-[0.24em] transition-all duration-700 hover:-translate-y-0.5 hover:scale-[1.02] hover:border-[#D4AF37] hover:bg-[#D4AF37] hover:text-[#03191D] lg:ml-auto"
+>
+  Begin the conversation
+</Link>
           </motion.div>
         </div>
       </div>

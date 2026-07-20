@@ -8,6 +8,7 @@ import type * as ThreeTypes from '../../node_modules/.pnpm/@types+three@0.185.0/
 import * as THREE from 'three'
 import { useReducedMotion } from 'framer-motion'
 import { destinations } from '@/lib/destinations'
+import type { ThreeEvent } from '@react-three/fiber'
 
 interface GlobeProps {
   selectedDestination?: string
@@ -55,6 +56,7 @@ void main() {
 `
 
 const FALLBACK_MARKER_COLOR = '#D4AF37'
+const OUTWARD_AXIS = new THREE.Vector3(0, 0, 1)
 
 const getSafeCoordinate = (value: unknown) =>
   typeof value === 'number' && Number.isFinite(value) ? value : 0
@@ -65,8 +67,11 @@ function SceneSetup() {
   const { gl, scene } = useThree()
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/immutability
     gl.toneMapping = THREE.ACESFilmicToneMapping
     gl.toneMappingExposure = 0.9
+
+    // eslint-disable-next-line react-hooks/immutability
     ;(scene as ThreeTypes.Scene & { environmentIntensity?: number }).environmentIntensity =
       0.42
   }, [gl, scene])
@@ -79,8 +84,11 @@ function StarBackground() {
   const texture = useLoader(THREE.TextureLoader, '/backgrounds/stars.jpg')
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/immutability
     texture.mapping = THREE.EquirectangularReflectionMapping
     texture.colorSpace = THREE.SRGBColorSpace
+
+    // eslint-disable-next-line react-hooks/immutability
     scene.background = texture
 
     return () => {
@@ -155,10 +163,9 @@ function DestinationMarker({
   const [hovered, setHovered] = useState(false)
   
   const targetScaleVector = useRef(new THREE.Vector3())
-const haloScaleVector = useRef(new THREE.Vector3())
-const OUTWARD_AXIS = new THREE.Vector3(0, 0, 1)
+  const haloScaleVector = useRef(new THREE.Vector3())
   const orientation = useMemo(() => {
-    const outwardNormal = position.clone().normalize()
+  const outwardNormal = position.clone().normalize()
     return new THREE.Quaternion().setFromUnitVectors(
       OUTWARD_AXIS,
       outwardNormal,
@@ -177,7 +184,6 @@ const OUTWARD_AXIS = new THREE.Vector3(0, 0, 1)
       document.body.style.cursor = ''
     }
   }, [hovered])
-
   useFrame((state, delta) => {
     
     if (
@@ -436,14 +442,60 @@ function NasaEarth({
   }, [])
 
   useEffect(() => {
-    return () => {
-      earthMaterial.dispose()
-      atmosphereMaterial.dispose()
-      glowTexture.dispose()
-    }
-  }, [earthMaterial, atmosphereMaterial, glowTexture])
+  return () => {
+    earthMaterial.dispose()
+    atmosphereMaterial.dispose()
+    glowTexture.dispose()
+  }
+}, [earthMaterial, atmosphereMaterial, glowTexture])
 
-  useFrame((state, delta) => {
+const R = 7.69
+
+  const markerPositions = useMemo(
+  () =>
+    destinations.map((destination, index) => ({
+      ...destination,
+      phase: (index / Math.max(destinations.length, 1)) * Math.PI * 2,
+      position: latLngToVector3(
+        getSafeCoordinate(destination.latitude),
+        getSafeCoordinate(destination.longitude),
+        R * 1.021,
+      ),
+    })),
+  [],
+)
+
+const selectedMarker = useMemo(
+  () => markerPositions.find((item) => item.id === selectedDestination),
+  [markerPositions, selectedDestination],
+)
+  const previousMarker = useMemo(
+    () => markerPositions.find((item) => item.id === previousDestination),
+    [markerPositions, previousDestination],
+  )
+
+  const routeGeometry = useMemo(() => {
+    if (!selectedMarker || !previousMarker || selectedMarker.id === previousMarker.id) {
+      return null
+    }
+
+    const start = previousMarker.position.clone().normalize().multiplyScalar(R * 1.03)
+    const end = selectedMarker.position.clone().normalize().multiplyScalar(R * 1.03)
+    const middle = start
+      .clone()
+      .add(end)
+      .normalize()
+      .multiplyScalar(R * 1.34)
+
+    const curve = new THREE.QuadraticBezierCurve3(start, middle, end)
+    const points = curve.getPoints(160)
+    const geometry = new THREE.BufferGeometry().setFromPoints(points)
+    geometry.setDrawRange(0, 0)
+
+    return { geometry, curve, points }
+  }, [previousMarker, selectedMarker, R])
+
+useFrame((state, delta) => {
     const elapsed = state.clock.getElapsedTime()
     const now = performance.now()
     const transitionProgress = Math.min(
@@ -530,54 +582,6 @@ function NasaEarth({
     }
   })
 
-  const R = 7.69
-  const GROUP_Y = -0.7
-
-  const markerPositions = useMemo(
-    () =>
-      destinations.map((destination, index) => ({
-        ...destination,
-        phase: (index / Math.max(destinations.length, 1)) * Math.PI * 2,
-        position: latLngToVector3(
-          getSafeCoordinate(destination.latitude),
-          getSafeCoordinate(destination.longitude),
-          R * 1.021,
-        ),
-      })),
-    [R],
-  )
-
-  const selectedMarker = useMemo(
-    () => markerPositions.find((item) => item.id === selectedDestination),
-    [markerPositions, selectedDestination],
-  )
-
-  const previousMarker = useMemo(
-    () => markerPositions.find((item) => item.id === previousDestination),
-    [markerPositions, previousDestination],
-  )
-
-  const routeGeometry = useMemo(() => {
-    if (!selectedMarker || !previousMarker || selectedMarker.id === previousMarker.id) {
-      return null
-    }
-
-    const start = previousMarker.position.clone().normalize().multiplyScalar(R * 1.03)
-    const end = selectedMarker.position.clone().normalize().multiplyScalar(R * 1.03)
-    const middle = start
-      .clone()
-      .add(end)
-      .normalize()
-      .multiplyScalar(R * 1.34)
-
-    const curve = new THREE.QuadraticBezierCurve3(start, middle, end)
-    const points = curve.getPoints(160)
-    const geometry = new THREE.BufferGeometry().setFromPoints(points)
-    geometry.setDrawRange(0, 0)
-
-    return { geometry, curve, points }
-  }, [previousMarker, selectedMarker, R])
-
   useEffect(() => {
     if (!selectedMarker || !globeRef.current) return
 
@@ -610,7 +614,7 @@ function NasaEarth({
     }
   }, [routeGeometry])
 
-  const handlePointerDown = (event: any) => {
+  const handlePointerDown = (event: ThreeEvent<PointerEvent>) => {
     event.stopPropagation()
 
     isDragging.current = true
@@ -632,7 +636,7 @@ function NasaEarth({
     document.body.style.cursor = 'grabbing'
   }
 
-  const handlePointerMove = (event: any) => {
+  const handlePointerMove = (event: ThreeEvent<PointerEvent>) => {
     if (!isDragging.current) return
 
     const x = event.nativeEvent.clientX
@@ -668,7 +672,7 @@ function NasaEarth({
     pointerLast.current = { x, y }
   }
 
-  const handlePointerEnd = (event: any) => {
+  const handlePointerEnd = (event: ThreeEvent<PointerEvent>) => {
     if (!isDragging.current) return
 
     isDragging.current = false
@@ -701,12 +705,12 @@ function NasaEarth({
             }
           }}
         >
-          <sphereGeometry args={[R, 128, 128]} />
+          <sphereGeometry args={[R, 96, 96]} />
         </mesh>
 
         {/* Glossy ocean-only shell */}
         <mesh renderOrder={1}>
-          <sphereGeometry args={[R * 1.0008, 128, 128]} />
+          <sphereGeometry args={[R * 1.0008, 96, 96]} />
 
           <meshPhysicalMaterial
             alphaMap={specularTex}
@@ -718,7 +722,7 @@ function NasaEarth({
             clearcoat={1}
             clearcoatRoughness={0.008}
             reflectivity={1}
-            envMapIntensity={3.4}
+            envMapIntensity={1.8}
             ior={1.333}
             depthWrite={false}
             blending={THREE.NormalBlending}
@@ -726,7 +730,7 @@ function NasaEarth({
         </mesh>
 
         <mesh ref={clouds1Ref}>
-          <sphereGeometry args={[R * 1.01, 128, 128]} />
+          <sphereGeometry args={[R * 1.01, 96, 96]} />
           <meshPhongMaterial
             map={cloudTex}
             alphaMap={cloudTex}
@@ -742,7 +746,7 @@ function NasaEarth({
         </mesh>
 
         <mesh ref={clouds2Ref}>
-          <sphereGeometry args={[R * 1.016, 96, 96]} />
+          <sphereGeometry args={[R * 1.016, 72, 72]} />
           <meshPhongMaterial
             map={cloudTex}
             alphaMap={cloudTex}
@@ -882,13 +886,6 @@ export default function GlobeViewer({
   previousDestination,
   onSelectDestination,
 }: GlobeProps) {
-  const [isClient, setIsClient] = useState(false)
-
-  useEffect(() => {
-    setIsClient(true)
-  }, [])
-
-  if (!isClient) return null
 
   return (
     <div className="h-full w-full overflow-hidden">
