@@ -41,7 +41,7 @@ export default function Hero() {
 
       gsap.set(video, { opacity: 0 })
       gsap.set(title, { opacity: 0, y: 22, scale: 0.992 })
-      gsap.set(description, { opacity: 0, y: 12 })
+      gsap.set(description, { opacity: 1, y: 0 })
       gsap.set(ctas, { opacity: 0, y: 12, scale: 0.995 })
       gsap.set(divider, { opacity: 1 })
       gsap.set(dividerLines, { scaleX: 0 })
@@ -56,7 +56,6 @@ export default function Hero() {
         .to(title, { opacity: 1, y: 0, scale: 1, duration: 1.05 }, 0.84)
         .to(dividerLines, { scaleX: 1, duration: 0.9, stagger: 0.04 }, 1.92)
         .to(dividerDiamond, { opacity: 1, scale: 1, duration: 0.58 }, 2.14)
-        .to(description, { opacity: 1, y: 0, duration: 0.84 }, 2.36)
         .to(ctas, { opacity: 1, y: 0, scale: 1, duration: 0.9 }, 2.7)
     }, section)
 
