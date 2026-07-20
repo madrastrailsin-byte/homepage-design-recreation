@@ -52,11 +52,39 @@ export default function Hero() {
       })
 
       timeline
-        .to(video, { opacity: 1, duration: 1.45 }, 0.05)
-        .to(title, { opacity: 1, y: 0, scale: 1, duration: 1.05 }, 0.84)
-        .to(dividerLines, { scaleX: 1, duration: 0.9, stagger: 0.04 }, 1.92)
-        .to(dividerDiamond, { opacity: 1, scale: 1, duration: 0.58 }, 2.14)
-        .to(ctas, { opacity: 1, y: 0, scale: 1, duration: 0.9 }, 2.7)
+  .to(video, { opacity: 1, duration: 0.8 }, 0)
+
+  .to(title, {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    duration: 0.45,
+  }, 0.05)
+
+  .to(description, {
+    opacity: 1,
+    y: 0,
+    duration: 0.35,
+  }, 0.12)
+
+  .to(ctas, {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    duration: 0.35,
+  }, 0.18)
+
+  .to(dividerLines, {
+    scaleX: 1,
+    duration: 0.45,
+    stagger: 0.03,
+  }, 0.22)
+
+  .to(dividerDiamond, {
+    opacity: 1,
+    scale: 1,
+    duration: 0.3,
+  }, 0.35)
     }, section)
 
     return () => ctx.revert()
