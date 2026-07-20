@@ -41,7 +41,7 @@ export default function Hero() {
 
       gsap.set(video, { opacity: 0 })
       gsap.set(title, { opacity: 0, y: 22, scale: 0.992 })
-      gsap.set(description, { opacity: 1, y: 0 })
+      gsap.set(description, { opacity: 1, y: 0, clearProps: 'all' })
       gsap.set(ctas, { opacity: 0, y: 12, scale: 0.995 })
       gsap.set(divider, { opacity: 1 })
       gsap.set(dividerLines, { scaleX: 0 })
@@ -62,10 +62,9 @@ export default function Hero() {
   }, 0.05)
 
   .to(description, {
-    opacity: 1,
-    y: 0,
-    duration: 0.35,
-  }, 0.12)
+  clearProps: 'all',
+  duration: 0.01,
+}, 0)
 
   .to(ctas, {
     opacity: 1,
@@ -153,7 +152,7 @@ export default function Hero() {
           </div>
 
           {/* Description */}
-          <p data-hero-reveal="description" className="mt-body-copy mb-[clamp(1.35rem,5.4vw,1.85rem)] max-w-[min(22rem,88vw)] text-[clamp(0.875rem,3.5vw,0.95rem)] leading-[1.68] text-[#E8E8E8] md:mb-8 md:max-w-[22rem] md:text-base md:leading-relaxed" style={{ opacity: 0, textShadow: '0 10px 26px rgba(0, 0, 0, 0.34)' }}>
+          <p data-hero-reveal="description" className="mt-body-copy mb-[clamp(1.35rem,5.4vw,1.85rem)] max-w-[min(22rem,88vw)] text-[clamp(0.875rem,3.5vw,0.95rem)] leading-[1.68] text-[#E8E8E8] md:mb-8 md:max-w-[22rem] md:text-base md:leading-relaxed" style={{textShadow: '0 10px 26px rgba(0, 0, 0, 0.34)' }}>
             Travel has become faster. We believe it should become more meaningful.
           </p>
 
