@@ -26,39 +26,69 @@ const experiences = [
   { id: 'family', title: 'Family', mood: 'Share · Laugh · Grow', video: '/videos/experiences/family.mp4', icon: UsersRound },
   { id: 'wildlife', title: 'Wildlife & Nature', mood: 'Observe · Wander · Wonder', video: '/videos/experiences/wildlife.mp4', icon: Sparkles },
 ]
-
-export default function ExperiencesSection() {
-  const reduceMotion = useReducedMotion()
-  const sectionRef = useRef<HTMLElement>(null)
-  const [shouldLoadVideos, setShouldLoadVideos] = useState(false)
+function ExperienceVideo({
+  src,
+  index,
+}: {
+  src: string
+  index: number
+}) {
+  const containerRef = useRef<HTMLDivElement>(null)
+  const [shouldLoad, setShouldLoad] = useState(false)
 
   useEffect(() => {
-    const section = sectionRef.current
-    if (!section) return
+    const container = containerRef.current
+    if (!container) return
+
+    let timer: number | undefined
 
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (!entry.isIntersecting) return
 
-        setShouldLoadVideos(true)
+        timer = window.setTimeout(() => {
+          setShouldLoad(true)
+        }, index * 120)
+
         observer.disconnect()
       },
       {
-        rootMargin: '800px 0px',
-        threshold: 0,
+        rootMargin: '200px 0px',
+        threshold: 0.01,
       },
     )
 
-    observer.observe(section)
+    observer.observe(container)
 
-    return () => observer.disconnect()
-  }, [])
+    return () => {
+      observer.disconnect()
+      if (timer) window.clearTimeout(timer)
+    }
+  }, [index])
 
   return (
-    <section
-  ref={sectionRef}
-  className="mt-scroll-experiences relative overflow-hidden bg-[#071318] px-5 py-16 sm:px-6 md:px-8 md:py-20"
->
+    <div ref={containerRef} className="absolute inset-0" aria-hidden="true">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_78%_35%,rgba(201,162,74,0.16),transparent_42%),linear-gradient(135deg,#0A252B,#020F12)]" />
+
+      {shouldLoad && (
+        <video
+          className="absolute inset-0 h-full w-full object-cover opacity-50 saturate-[0.85] transition-transform duration-[1000ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.025]"
+          src={src}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="none"
+        />
+      )}
+    </div>
+  )
+}
+export default function ExperiencesSection() {
+  const reduceMotion = useReducedMotion()
+
+  return (
+    <section className="mt-scroll-experiences relative overflow-hidden bg-[#071318] px-5 py-16 sm:px-6 md:px-8 md:py-20">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_86%_18%,rgba(201,162,74,0.07),transparent_24%),linear-gradient(180deg,#071318,#03191D)]" />
 
       <div className="relative mx-auto max-w-7xl">
@@ -97,24 +127,10 @@ export default function ExperiencesSection() {
                 className="group relative isolate min-h-[10.5rem] overflow-hidden rounded-[1.35rem] border border-white/10 bg-[#020F12] shadow-[0_18px_55px_rgba(0,0,0,0.28)] transition-[border-color,box-shadow] duration-500 hover:border-[#C9A24A]/42 hover:shadow-[0_26px_70px_rgba(0,0,0,0.4)]"
                 aria-label={`Open ${experience.title} experiences`}
               >
-                <div
-  aria-hidden="true"
-  className="absolute inset-0 bg-[radial-gradient(circle_at_78%_35%,rgba(201,162,74,0.16),transparent_42%),linear-gradient(135deg,#0A252B,#020F12)]"
+                <ExperienceVideo
+  src={experience.video}
+  index={index}
 />
-
-{shouldLoadVideos && (
-  <video
-    className="absolute inset-0 h-full w-full object-cover opacity-50 saturate-[0.85] transition-transform duration-[1000ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.025]"
-    src={experience.video}
-    autoPlay
-    muted
-    loop
-    playsInline
-    preload="metadata"
-    aria-hidden="true"
-  />
-)}
-
                 <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(2,15,18,0.94)_0%,rgba(2,15,18,0.78)_48%,rgba(2,15,18,0.4)_100%)]" />
                 <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(2,15,18,0.08),rgba(2,15,18,0.5))]" />
 
