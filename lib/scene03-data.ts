@@ -39,7 +39,7 @@ export const scene03Content: Scene03Content = {
     id: 'soneva-fushi',
     destinationTitle: 'Baa Atoll, Maldives',
     name: 'Soneva Fushi',
-    image: '/images/home/hotels/soneva-fushi.jpg',
+    image: '/images/home/hotels/soneva-fushi.webp',
     imagePosition: 'center',
     rating: 4.9,
     reviewLabel: '2,900+ guest reviews',
