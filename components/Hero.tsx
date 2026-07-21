@@ -40,7 +40,12 @@ export default function Hero() {
       }
 
       gsap.set(video, { opacity: 0 })
-      gsap.set(title, { opacity: 0, y: 22, scale: 0.992 })
+      gsap.set(title, {
+  opacity: 1,
+  y: 0,
+  scale: 1,
+  clearProps: 'all',
+})
       gsap.set(description, { opacity: 1, y: 0, clearProps: 'all' })
       gsap.set(ctas, { opacity: 0, y: 12, scale: 0.995 })
       gsap.set(divider, { opacity: 1 })
@@ -54,12 +59,6 @@ export default function Hero() {
       timeline
   .to(video, { opacity: 1, duration: 0.8 }, 0)
 
-  .to(title, {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    duration: 0.45,
-  }, 0.05)
 
   .to(description, {
   clearProps: 'all',
@@ -130,15 +129,19 @@ export default function Hero() {
         <div className="mt-hero-exit-group relative max-w-[43rem]">
           <div className="mt-hero-camera-copy mt-hero-typography relative flex flex-col">
           {/* Main Headline Artwork */}
-          <div data-hero-reveal="heading" className="mb-[clamp(1rem,4.6vw,1.35rem)] w-[clamp(12.5rem,63vw,15rem)] md:mb-6 md:w-[320px] lg:w-[400px]" style={{ opacity: 0 }}>
+          <div
+  data-hero-reveal="heading"
+  className="mb-[clamp(1rem,4.6vw,1.35rem)] w-[clamp(12.5rem,63vw,15rem)] md:mb-6 md:w-[320px] lg:w-[400px]"
+>
             <Image
-              src="/images/homepage/hero-travel-like-local.svg"
-              alt="Travel Like A Local"
-              width={1024}
-              height={576}
-              priority
-              className="h-auto w-full object-contain"
-            />
+  src="/images/homepage/hero-travel-like-local.svg"
+  alt="Travel Like A Local"
+  width={1024}
+  height={576}
+  priority
+  fetchPriority="high"
+  className="h-auto w-full object-contain"
+/>
           </div>
 
           {/* Decorative divider */}
