@@ -84,8 +84,8 @@ export default function Navigation() {
           transition={introTransition(0.12)}
           className={`
 justify-self-start relative inline-flexrelative inline-flex items-center rounded-[14px]
-border border-white/15
-bg-black/45
+border border-white/20
+bg-black/35
 backdrop-blur-md
 px-[0.55rem]
 py-[0.32rem]
