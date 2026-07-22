@@ -106,7 +106,7 @@ export default function DiscoverSection({
 
 <DidYouKnow facts={japanFacts} />
 
-        </motion.div>
+</motion.div>
 
         <div className="absolute right-0 top-12 hidden w-[58%] lg:block">
           <div className="pointer-events-none absolute -inset-12 -z-10 rounded-[60px] bg-[#2C7A82]/10 blur-[90px]" />
