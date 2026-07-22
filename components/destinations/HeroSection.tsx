@@ -45,7 +45,7 @@ export default function HeroSection({ destination }: HeroSectionProps) {
       <div className="absolute inset-0 bg-gradient-to-b from-black/35 via-black/45 to-[#07161D]/95" />
 
       {/* Content */}
-      <div className="relative z-10 flex h-full items-center">
+      <div className="relative z-10 flex h-full items-center pt-20 sm:pt-24 lg:pt-28">
         <div className="mx-auto w-full max-w-7xl px-6">
           <div className="max-w-3xl">
             <motion.p
@@ -57,7 +57,7 @@ export default function HeroSection({ destination }: HeroSectionProps) {
                 delay: 0.8,
                 ease: [0.22, 1, 0.36, 1],
               }}
-              className="mb-6 text-xs uppercase tracking-[0.5em] text-white/75"
+              className="mb-10 text-xs uppercase tracking-[0.5em] text-white/75 sm:mb-5"
             >
               MadrasTrails
             </motion.p>

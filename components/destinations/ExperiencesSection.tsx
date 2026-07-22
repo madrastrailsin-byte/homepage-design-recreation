@@ -83,7 +83,7 @@ export default function ExperiencesSection() {
 
   return (
     <>
-      <section className="relative overflow-hidden bg-[#06161d] px-5 pb-24 pt-10 text-white sm:px-8 sm:pb-28 sm:pt-14 lg:px-12 lg:pb-36 lg:pt-16">
+      <section className="relative overflow-hidden bg-[#06161d] px-5 pb-8 pt-10 text-white sm:px-8 sm:pb-9 sm:pt-14 lg:px-12 lg:pb-10 lg:pt-16">
         <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#d6b06e]/45 to-transparent" />
 
         <div className="mx-auto max-w-[1500px]">
@@ -96,7 +96,7 @@ export default function ExperiencesSection() {
                 transition={{ duration: 0.7 }}
                 className="text-[9px] font-medium uppercase tracking-[0.4em] text-[#d6b06e]"
               >
-                Signature experiences
+                Curated encounters
               </motion.p>
 
               <motion.h2
@@ -152,7 +152,7 @@ export default function ExperiencesSection() {
 
           <div className="mt-8 flex items-center justify-between border-t border-white/10 pt-6">
             <p className="text-[8px] font-medium uppercase tracking-[0.3em] text-white/25">
-              The MadrasTrails Japan collection
+              The MadrasTrails Japan edit
             </p>
 
             <span className="h-px w-16 bg-[#d6b06e]/50" />
@@ -265,6 +265,12 @@ function ExperienceDrawer({
   experience: Experience | null
   onClose: () => void
 }) {
+  const [showConcierge, setShowConcierge] = useState(false)
+
+  useEffect(() => {
+    setShowConcierge(false)
+  }, [experience])
+
   if (typeof document === "undefined") return null
 
   return createPortal(
@@ -364,12 +370,9 @@ function ExperienceDrawer({
                 </p>
               </div>
 
-              <a
-                href={`mailto:info@madrastrails.in?subject=${encodeURIComponent(
-                  `${experience.title} — Japan journey enquiry`,
-                )}&body=${encodeURIComponent(
-                  `Hello MadrasTrails,\n\nI'm interested in the ${experience.title} experience during my Japan journey.\n\nI'd love to discuss how this can be included in a bespoke itinerary.\n\nThank you.`,
-                )}`}
+              <button
+                type="button"
+                onClick={() => setShowConcierge(true)}
                 className="group mt-10 flex w-full items-center justify-between rounded-full bg-[#d6b06e] px-6 py-4 text-[#06161d] transition-colors duration-400 hover:bg-[#e1c184]"
               >
                 <span className="text-[9px] font-medium uppercase tracking-[0.28em]">
@@ -378,9 +381,108 @@ function ExperienceDrawer({
                 <span className="transition-transform duration-400 group-hover:translate-x-1">
                   →
                 </span>
-              </a>
+              </button>
             </div>
           </motion.aside>
+
+          <AnimatePresence>
+            {showConcierge ? (
+              <motion.div
+                className="fixed inset-0 z-[10001] flex items-end justify-center p-4 sm:items-center sm:p-8"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+              >
+                <motion.button
+                  type="button"
+                  aria-label="Close concierge"
+                  onClick={() => setShowConcierge(false)}
+                  className="absolute inset-0 bg-[#02090d]/82 backdrop-blur-xl"
+                />
+
+                <motion.div
+                  role="dialog"
+                  aria-modal="true"
+                  aria-labelledby="concierge-title"
+                  initial={{ opacity: 0, y: 40, scale: 0.97 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: 28, scale: 0.98 }}
+                  transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+                  className="relative w-full max-w-[520px] overflow-hidden rounded-[30px] border border-white/12 bg-[#0b2028]/95 p-7 shadow-[0_35px_120px_rgba(0,0,0,0.58)] backdrop-blur-2xl sm:p-10"
+                >
+                  <div className="pointer-events-none absolute inset-x-12 top-0 h-px bg-gradient-to-r from-transparent via-[#d6b06e]/70 to-transparent" />
+                  <div className="pointer-events-none absolute -right-24 -top-24 h-56 w-56 rounded-full bg-[#d6b06e]/10 blur-3xl" />
+
+                  <button
+                    type="button"
+                    onClick={() => setShowConcierge(false)}
+                    aria-label="Close concierge"
+                    className="absolute right-5 top-5 flex h-10 w-10 items-center justify-center rounded-full border border-white/15 text-xl font-light text-white/70 transition hover:border-white/35 hover:text-white"
+                  >
+                    ×
+                  </button>
+
+                  <p className="text-[8px] font-medium uppercase tracking-[0.36em] text-[#d6b06e]">
+                    Private journey concierge
+                  </p>
+
+                  <h3
+                    id="concierge-title"
+                    className="mt-5 max-w-md font-serif text-[38px] font-light leading-[1.02] tracking-[-0.04em] text-white sm:text-[46px]"
+                  >
+                    Let&apos;s turn this moment
+                    <span className="block italic text-white/42">
+                      into your journey.
+                    </span>
+                  </h3>
+
+                  <p className="mt-6 max-w-md text-sm font-light leading-7 text-white/55">
+                    Begin a private conversation with a MadrasTrails journey
+                    designer about {experience.title}. Your experience choice is
+                    already included in the message.
+                  </p>
+
+                  <div className="mt-8 border-y border-white/10 py-5">
+                    <p className="text-[8px] font-medium uppercase tracking-[0.3em] text-white/28">
+                      Selected experience
+                    </p>
+                    <p className="mt-3 font-serif text-xl font-light text-white/78">
+                      {experience.title}
+                    </p>
+                    <p className="mt-2 text-[9px] uppercase tracking-[0.25em] text-white/30">
+                      {experience.location}
+                    </p>
+                  </div>
+
+                  <a
+                    href={`https://wa.me/917891876918?text=${encodeURIComponent(
+                      `Hello MadrasTrails, I'm interested in "${experience.title}" for my Japan journey. I'd love to speak with a journey designer about creating a bespoke itinerary around this experience.`,
+                    )}`}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="group mt-8 flex w-full items-center justify-between rounded-full bg-[#d6b06e] px-6 py-4 text-[#06161d] transition-colors duration-400 hover:bg-[#e1c184]"
+                  >
+                    <span>
+                      <span className="block text-[9px] font-medium uppercase tracking-[0.28em]">
+                        Continue on WhatsApp
+                      </span>
+                      <span className="mt-1 block text-[10px] font-light text-[#06161d]/55">
+                        Chat with a journey designer
+                      </span>
+                    </span>
+
+                    <span className="flex h-10 w-10 items-center justify-center rounded-full border border-[#06161d]/15 transition-transform duration-400 group-hover:translate-x-1">
+                      →
+                    </span>
+                  </a>
+
+                  <p className="mt-5 text-center text-[8px] uppercase tracking-[0.24em] text-white/22">
+                    Personal. Private. No forms.
+                  </p>
+                </motion.div>
+              </motion.div>
+            ) : null}
+          </AnimatePresence>
         </motion.div>
       ) : null}
     </AnimatePresence>,
