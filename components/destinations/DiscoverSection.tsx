@@ -1,5 +1,6 @@
 "use client"
 
+import DidYouKnow from "./DidYouKnow"
 import { motion } from "framer-motion"
 
 interface DiscoverSectionProps {
@@ -15,6 +16,13 @@ interface DiscoverSectionProps {
 export default function DiscoverSection({
   destination,
 }: DiscoverSectionProps) {
+  const japanFacts = [
+    { title:"Japan has 25 UNESCO World Heritage Sites.", description:"From Kyoto's centuries-old temples to the primeval forests of Yakushima, Japan protects an extraordinary collection of cultural and natural treasures.", story:"Japan's UNESCO sites showcase more than a thousand years of history.", location:"Kyoto • Yakushima • Nara", season:"Year-round"},
+    { title:"More than 6,800 islands make up Japan.", description:"Japan stretches across thousands of islands.", story:"Its geography shaped its culture.", location:"Nationwide", season:"Spring–Autumn"},
+    { title:"Japan's rail network is among the world's most efficient.", description:"The Shinkansen connects regions seamlessly.", story:"A benchmark for safety and punctuality.", location:"Tokyo • Kyoto • Osaka", season:"Year-round"},
+    { title:"Omotenashi goes beyond hospitality.", description:"Thoughtful service anticipates every need.", story:"A defining part of Japanese culture.", location:"Nationwide", season:"Every season"},
+  ]
+
   return (
     <section className="mx-auto max-w-7xl px-6 pb-24 pt-10 lg:pt-14">
       <motion.div
@@ -96,32 +104,7 @@ export default function DiscoverSection({
   </div>
 </div>
 
-<div className="mt-9 max-w-[430px] border-t border-white/10 pt-6">
-  <div className="flex items-center gap-4">
-    <p className="text-[9px] font-medium uppercase tracking-[0.34em] text-[#D6B06E]">
-      Did you know?
-    </p>
-
-    <span className="h-px flex-1 bg-white/10" />
-  </div>
-
-  <p className="mt-5 font-serif text-[25px] font-light leading-[1.2] tracking-[-0.02em] text-white/85">
-    Japan is home to more than
-    <span className="italic text-white/45"> twenty UNESCO World Heritage Sites.</span>
-  </p>
-
-  <p className="mt-4 max-w-[390px] text-sm font-light leading-6 text-white/50">
-    They range from Kyoto’s historic monuments and Hiroshima’s sacred
-    Miyajima island to the ancient cedar forests of Yakushima.
-  </p>
-
-  <button
-    type="button"
-    className="mt-5 text-[9px] font-medium uppercase tracking-[0.28em] text-[#D6B06E]/80 transition-colors duration-300 hover:text-[#D6B06E]"
-  >
-    Read the story →
-  </button>
-</div>
+<DidYouKnow facts={japanFacts} />
 
         </motion.div>
 
@@ -165,7 +148,7 @@ export default function DiscoverSection({
     delay: 0.2,
     ease: [0.22, 1, 0.36, 1],
   }}
-  className="absolute left-[80px] top-27 z-20 w-[260px] rounded-[26px] border border-white/15 bg-[#07161D]/30 p-6 shadow-[0_24px_70px_rgba(0,0,0,0.28)] backdrop-blur-2xl"
+  className="absolute left-[80px] top-8 z-20 w-[260px] rounded-[26px] border border-white/15 bg-[#07161D]/30 p-6 shadow-[0_24px_70px_rgba(0,0,0,0.28)] backdrop-blur-2xl"
 >
               <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/35 to-transparent" />
 
