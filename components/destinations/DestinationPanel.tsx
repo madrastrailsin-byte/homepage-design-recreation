@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Link from 'next/link'
 import { motion, useReducedMotion } from 'framer-motion'
 import Image from "next/image";
 
@@ -215,13 +216,13 @@ export default function DestinationPanel({ destination }: DestinationPanelProps)
         ))}
       </div>
 
-      <button
-        type="button"
-        className="relative z-10 mx-auto mt-4 flex w-[86%] items-center justify-between rounded-xl border border-[#F0D18A]/30 bg-gradient-to-r from-[#DDBD68]/85 via-[#D3AA4D]/78 to-[#B9852E]/82 px-4 py-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#07141A] shadow-[0_10px_26px_rgba(212,175,55,0.18)] backdrop-blur-xl transition hover:brightness-110"
-      >
-        Explore {destination.name || 'Destination'}
-        <span className="text-lg leading-none">→</span>
-      </button>
+      <Link
+  href={`/destinations/${destination.id}`}
+  className="relative z-10 mx-auto mt-4 flex w-[86%] items-center justify-between rounded-xl border border-[#F0D18A]/30 bg-gradient-to-r from-[#DDBD68]/85 via-[#D3AA4D]/78 to-[#B9852E]/82 px-4 py-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#07141A] shadow-[0_10px_26px_rgba(212,175,55,0.18)] backdrop-blur-xl transition hover:brightness-110"
+>
+  Explore {destination.name || 'Destination'}
+  <span className="text-lg leading-none">→</span>
+</Link>
 
       <div className="pointer-events-none absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-[#FFF1C7]/30 to-transparent" />
     </motion.aside>
