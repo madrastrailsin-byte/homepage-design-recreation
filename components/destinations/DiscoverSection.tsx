@@ -45,36 +45,110 @@ export default function DiscoverSection({
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 1, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-          className="relative z-20 max-w-md pt-4 lg:pt-10"
+          className="relative z-20 max-w-[460px] pt-4 lg:pt-10"
         >
           <p className="mb-4 text-[10px] font-medium uppercase tracking-[0.38em] text-[#D6B06E]">
             01 · Why visit
           </p>
 
           <h3 className="font-serif text-4xl font-light leading-tight tracking-[-0.03em] text-white md:text-5xl">
-            A world of contrasts,
-            <span className="block italic text-white/45">perfectly balanced.</span>
-          </h3>
+  Why Japan belongs
+  <span className="block italic text-white/45">on your journey.</span>
+</h3>
 
-          <div className="mt-7 h-px w-20 bg-[#D6B06E]/60" />
+<div className="mt-7 h-px w-20 bg-[#D6B06E]/60" />
 
-          <p className="mt-7 max-w-sm text-base font-light leading-7 text-white/55">
-            {destination.description}
-          </p>
+<div className="mt-7 max-w-[430px] space-y-6">
+  <div className="border-l border-[#D6B06E]/45 pl-5">
+    <p className="font-serif text-[20px] font-light leading-tight text-white/85">
+      Centuries-old culture you can still experience
+    </p>
+
+    <p className="mt-2 text-sm font-light leading-6 text-white/50">
+      Stay in traditional ryokans, enter working temples, witness tea
+      ceremonies, and explore historic districts where customs remain part of
+      daily life.
+    </p>
+  </div>
+
+  <div className="border-l border-white/15 pl-5">
+    <p className="font-serif text-[20px] font-light leading-tight text-white/85">
+      Extraordinary variety within one journey
+    </p>
+
+    <p className="mt-2 text-sm font-light leading-6 text-white/50">
+      Move from Tokyo’s electric energy to Kyoto’s shrines, Hakone’s mountain
+      onsen, and peaceful villages using one of the world’s most efficient rail
+      networks.
+    </p>
+  </div>
+
+    <div className="border-l border-white/15 pl-5">
+    <p className="font-serif text-[20px] font-light leading-tight text-white/85">
+      Craftsmanship found in every detail
+    </p>
+
+    <p className="mt-2 text-sm font-light leading-6 text-white/50">
+      From intimate sushi counters and handmade ceramics to gardens, hotels,
+      and hospitality, Japan turns precision and thoughtful service into an
+      art form.
+    </p>
+  </div>
+</div>
+
+<div className="mt-9 max-w-[430px] border-t border-white/10 pt-6">
+  <div className="flex items-center gap-4">
+    <p className="text-[9px] font-medium uppercase tracking-[0.34em] text-[#D6B06E]">
+      Did you know?
+    </p>
+
+    <span className="h-px flex-1 bg-white/10" />
+  </div>
+
+  <p className="mt-5 font-serif text-[25px] font-light leading-[1.2] tracking-[-0.02em] text-white/85">
+    Japan is home to more than
+    <span className="italic text-white/45"> twenty UNESCO World Heritage Sites.</span>
+  </p>
+
+  <p className="mt-4 max-w-[390px] text-sm font-light leading-6 text-white/50">
+    They range from Kyoto’s historic monuments and Hiroshima’s sacred
+    Miyajima island to the ancient cedar forests of Yakushima.
+  </p>
+
+  <button
+    type="button"
+    className="mt-5 text-[9px] font-medium uppercase tracking-[0.28em] text-[#D6B06E]/80 transition-colors duration-300 hover:text-[#D6B06E]"
+  >
+    Read the story →
+  </button>
+</div>
+
         </motion.div>
 
         <div className="absolute right-0 top-12 hidden w-[58%] lg:block">
           <div className="pointer-events-none absolute -inset-12 -z-10 rounded-[60px] bg-[#2C7A82]/10 blur-[90px]" />
 
           <div className="relative overflow-hidden rounded-[42px] border border-white/5 shadow-[0_40px_120px_rgba(0,0,0,0.45)]">
-            <img
-              src={destination.image}
-              alt={destination.name}
-              className="h-[820px] w-full object-cover object-center opacity-45 transition-transform duration-700 hover:scale-[1.03]"
-            />
+            <motion.img
+  src={destination.image}
+  alt={destination.name}
+  initial={{ scale: 1.03, y: 0 }}
+  animate={{
+    scale: [1.03, 1.065, 1.03],
+    y: [0, -8, 0],
+  }}
+  transition={{
+    duration: 24,
+    repeat: Infinity,
+    ease: "easeInOut",
+  }}
+  className="h-[820px] w-full object-cover object-center opacity-55 saturate-[0.78] contrast-[1.08] brightness-[0.82] sepia-[0.08]"
+/>
 
-            <div className="absolute inset-0 bg-gradient-to-l from-transparent via-[#07161D]/45 to-[#07161D]" />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#07161D] via-transparent to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-l from-[#07161D]/5 via-[#07161D]/35 to-[#07161D]/95" />
+<div className="absolute inset-0 bg-gradient-to-t from-[#07161D]/95 via-[#07161D]/15 to-[#07161D]/20" />
+<div className="absolute inset-0 bg-[radial-gradient(circle_at_28%_24%,rgba(214,176,110,0.10),transparent_32%)]" />
+<div className="absolute inset-0 bg-[radial-gradient(circle_at_82%_46%,rgba(44,122,130,0.10),transparent_38%)]" />
 
             <div className="absolute left-8 top-8 z-20 rounded-full border border-white/15 bg-[#07161D]/25 px-4 py-2 backdrop-blur-xl">
               <p className="text-[9px] font-medium uppercase tracking-[0.32em] text-white/70">
@@ -91,7 +165,7 @@ export default function DiscoverSection({
     delay: 0.2,
     ease: [0.22, 1, 0.36, 1],
   }}
-  className="absolute left-8 top-[180px] z-20 w-[260px] rounded-[26px] border border-white/15 bg-[#07161D]/30 p-6 shadow-[0_24px_70px_rgba(0,0,0,0.28)] backdrop-blur-2xl"
+  className="absolute left-[80px] top-27 z-20 w-[260px] rounded-[26px] border border-white/15 bg-[#07161D]/30 p-6 shadow-[0_24px_70px_rgba(0,0,0,0.28)] backdrop-blur-2xl"
 >
               <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/35 to-transparent" />
 
@@ -101,11 +175,12 @@ export default function DiscoverSection({
                     Destination dossier
                   </p>
                   <h4 className="mt-3 font-serif text-[28px] font-light leading-none tracking-[-0.025em] text-white">
-                    Tokyo
-                  </h4>
-                  <p className="mt-2 text-[10px] font-medium uppercase tracking-[0.28em] text-white/40">
-                    {destination.name}
-                  </p>
+  Japan
+</h4>
+
+<p className="mt-2 text-[10px] font-medium uppercase tracking-[0.24em] text-white/40">
+  Tokyo · Kyoto · Hakone
+</p>
                 </div>
 
                 <span className="mt-1 rounded-full border border-white/15 px-3 py-1 text-[8px] font-medium uppercase tracking-[0.24em] text-white/55">
@@ -156,8 +231,9 @@ export default function DiscoverSection({
 
               <div className="mt-5 flex items-center justify-between border-t border-white/10 pt-4">
   <p className="text-[8px] font-medium uppercase tracking-[0.26em] text-white/35">
-    35.6762° N · 139.6503° E
+    Island nation · East Asia
   </p>
+
   <span className="h-px w-8 bg-[#D6B06E]/60" />
 </div>
 </motion.div>
@@ -172,7 +248,7 @@ export default function DiscoverSection({
     delay: 0.25,
     ease: [0.22, 1, 0.36, 1],
   }}
-  className="absolute -right-6 top-[350px] z-30 hidden w-[340px] rounded-[30px] border border-white/15 bg-[#0B2028]/22 p-7 shadow-[0_28px_80px_rgba(0,0,0,0.30)] backdrop-blur-3xl lg:block"
+  className="absolute right-[-40px] top-[390px] z-30 hidden w-[340px] rounded-[30px] border border-white/15 bg-[#0B2028]/22 p-7 shadow-[0_28px_80px_rgba(0,0,0,0.30)] backdrop-blur-3xl lg:block"
 >
             <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/35 to-transparent" />
 
@@ -181,14 +257,19 @@ export default function DiscoverSection({
             </p>
 
             <h3 className="mt-5 font-serif text-[34px] font-light leading-[1.08] tracking-[-0.025em] text-white">
-              Taste the ritual,
-              <span className="block italic text-white/45">not just the cuisine.</span>
-            </h3>
+  Experience
+  <span className="block italic text-white/45">omakase.</span>
+</h3>
 
-            <p className="mt-6 max-w-[245px] text-sm font-light leading-6 text-white/55">
-              Sushi counters, seasonal kaiseki, wagyu, ramen, and matcha crafted
-              with extraordinary precision.
-            </p>
+<p className="mt-6 max-w-[255px] text-sm font-light leading-6 text-white/55">
+  Take a seat at an intimate Tokyo sushi counter and leave every course to the
+  chef, who selects and serves each piece at the exact moment it reaches
+  perfection.
+</p>
+
+<p className="mt-5 border-t border-white/10 pt-4 text-[9px] font-medium uppercase tracking-[0.25em] text-[#D6B06E]/75">
+  Best experienced · Tokyo
+</p>
           </motion.div>
         </div>
 
@@ -197,7 +278,7 @@ export default function DiscoverSection({
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, amount: 0.25 }}
           transition={{ duration: 1, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
-          className="absolute left-[25%] top-[590px] z-30 hidden w-[280px] rounded-[30px] border border-white/15 bg-[#0B2028]/20 p-7 shadow-[0_28px_80px_rgba(0,0,0,0.3)] backdrop-blur-3xl lg:block"
+          className="absolute left-[37%] top-[580px] z-30 hidden w-[280px] rounded-[30px] border border-white/15 bg-[#0B2028]/20 p-7 shadow-[0_28px_80px_rgba(0,0,0,0.3)] backdrop-blur-3xl lg:block"
         >
           <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
 
@@ -206,14 +287,18 @@ export default function DiscoverSection({
           </p>
 
           <h3 className="mt-5 font-serif text-[30px] font-light leading-[1.08] tracking-[-0.025em] text-white">
-            Find stillness
-            <span className="block italic text-white/45">beyond the guidebooks.</span>
-          </h3>
+  Sleep inside
+  <span className="block italic text-white/45">a sacred temple.</span>
+</h3>
 
-          <p className="mt-5 max-w-[220px] text-sm font-light leading-6 text-white/55">
-            Step into secluded temple gardens, quiet mountain villages, and
-            intimate neighbourhoods rarely seen by passing travellers.
-          </p>
+<p className="mt-5 max-w-[225px] text-sm font-light leading-6 text-white/55">
+  Spend the night with Buddhist monks on Mount Koya, dine on traditional
+  shojin ryori, and rise before dawn to join their candlelit morning prayers.
+</p>
+
+<p className="mt-5 border-t border-white/10 pt-4 text-[9px] font-medium uppercase tracking-[0.24em] text-[#D6B06E]/75">
+  Koyasan · Wakayama
+</p>
         </motion.div>
       </div>
     </section>
