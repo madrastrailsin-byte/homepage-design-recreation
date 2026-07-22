@@ -1,6 +1,12 @@
 "use client"
 
-import { FormEvent, useEffect, useMemo, useState } from "react"
+import {
+  FormEvent,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react"
 import { motion } from "framer-motion"
 
 type ContactMethod = "whatsapp" | "email" | "call"
@@ -33,12 +39,28 @@ export default function JourneyEnquiry({
   const [message, setMessage] = useState(initialMessage)
   const [contactMethod, setContactMethod] = useState<ContactMethod>("whatsapp")
   const [submitted, setSubmitted] = useState(false)
-
+  const enquiryTopRef = useRef<HTMLDivElement>(null)
+  const messageRef = useRef<HTMLTextAreaElement>(null)
+  
   useEffect(() => {
     setMessage(initialMessage)
     setSubmitted(false)
   }, [initialMessage])
+  useEffect(() => {
+  enquiryTopRef.current?.scrollIntoView({
+    behavior: "instant",
+    block: "start",
+  })
+}, [experience])
 
+useEffect(() => {
+  const textarea = messageRef.current
+
+  if (!textarea) return
+
+  textarea.style.height = "0px"
+  textarea.style.height = `${textarea.scrollHeight}px`
+}, [message])
   const enquiryText = useMemo(
     () =>
       [
@@ -130,7 +152,8 @@ export default function JourneyEnquiry({
 
   return (
     <motion.div
-      key="enquiry"
+  ref={enquiryTopRef}
+  key="enquiry"
       initial={{ opacity: 0, x: 24 }}
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: 24 }}
@@ -193,7 +216,13 @@ export default function JourneyEnquiry({
         </div>
 
         <Field label="Your message">
-          <textarea value={message} onChange={(event) => setMessage(event.target.value)} rows={7} className={`${inputClassName} resize-none leading-6`} />
+          <textarea
+  ref={messageRef}
+  value={message}
+  onChange={(event) => setMessage(event.target.value)}
+  rows={1}
+  className={`${inputClassName} resize-none overflow-hidden leading-6`}
+/>
         </Field>
 
         <fieldset>
