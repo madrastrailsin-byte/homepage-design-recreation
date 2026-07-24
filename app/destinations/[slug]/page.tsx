@@ -1,4 +1,6 @@
 import DestinationTemplate from "@/components/destinations/DestinationTemplate"
+import { destinations } from "@/lib/destinations"
+import { notFound } from "next/navigation"
 
 interface DestinationPageProps {
   params: Promise<{
@@ -11,21 +13,10 @@ export default async function DestinationPage({
 }: DestinationPageProps) {
   const { slug } = await params
 
-  const destination = {
-    name: slug.charAt(0).toUpperCase() + slug.slice(1),
-    tagline: "Where timeless traditions meet unforgettable experiences.",
-    description:
-      "Discover handcrafted journeys designed around authentic culture, luxury stays, extraordinary cuisine, and unforgettable moments curated exclusively for you.",
-    image:
-      "https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?q=80&w=2000&auto=format&fit=crop",
-    highlights: [
-      "Luxury",
-      "Culture",
-      "Food",
-      "Nature",
-      "Adventure",
-      "Family",
-    ],
+  const destination = destinations.find((d) => d.id === slug)
+
+  if (!destination) {
+    notFound()
   }
 
   return <DestinationTemplate destination={destination} />

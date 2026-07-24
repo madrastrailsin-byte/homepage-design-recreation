@@ -632,7 +632,7 @@ useFrame((state, delta) => {
       targetQuaternion.current.copy(globeRef.current.quaternion)
     }
 
-    event.target?.setPointerCapture?.(event.pointerId)
+    ;(event.currentTarget as HTMLElement).setPointerCapture(event.pointerId)
     document.body.style.cursor = 'grabbing'
   }
 
@@ -676,7 +676,7 @@ useFrame((state, delta) => {
     if (!isDragging.current) return
 
     isDragging.current = false
-    event.target?.releasePointerCapture?.(event.pointerId)
+    ;(event.currentTarget as HTMLElement).releasePointerCapture(event.pointerId)
     document.body.style.cursor = 'grab'
   }
 

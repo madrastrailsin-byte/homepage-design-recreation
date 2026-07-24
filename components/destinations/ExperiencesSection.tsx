@@ -15,7 +15,7 @@ type Experience = {
   recommendation: string
 }
 
-const experiences: Experience[] = [
+const japanExperiences: Experience[] = [
   {
     eyebrow: "Private retreat",
     title: "A Night Inside Old Japan",
@@ -57,9 +57,24 @@ const experiences: Experience[] = [
   },
 ]
 
-export default function ExperiencesSection() {
+import type { Destination } from "@/lib/destinations"
+
+export default function ExperiencesSection({
+  destination,
+}: {
+  destination: Destination
+}) {
   const [selectedExperience, setSelectedExperience] =
     useState<Experience | null>(null)
+
+  const experiences =
+    destination.id === "japan"
+      ? japanExperiences
+      : destination.experiences ?? []
+
+  if (experiences.length === 0) {
+    return null
+  }
 
   useEffect(() => {
     if (!selectedExperience) return
@@ -152,7 +167,7 @@ export default function ExperiencesSection() {
 
           <div className="mt-8 flex items-center justify-between border-t border-white/10 pt-6">
             <p className="text-[8px] font-medium uppercase tracking-[0.3em] text-white/25">
-              The MadrasTrails Japan edit
+              {`The MadrasTrails ${destination.name} edit`}
             </p>
 
             <span className="h-px w-16 bg-[#d6b06e]/50" />
@@ -161,9 +176,10 @@ export default function ExperiencesSection() {
       </section>
 
       <ExperienceDrawer
-        experience={selectedExperience}
-        onClose={() => setSelectedExperience(null)}
-      />
+  destination={destination}
+  experience={selectedExperience}
+  onClose={() => setSelectedExperience(null)}
+/>
     </>
   )
 }
@@ -259,9 +275,11 @@ function ExperienceCard({
 }
 
 function ExperienceDrawer({
+  destination,
   experience,
   onClose,
 }: {
+  destination: Destination
   experience: Experience | null
   onClose: () => void
 }) {
@@ -456,7 +474,7 @@ function ExperienceDrawer({
 
                   <a
                     href={`https://wa.me/917891876918?text=${encodeURIComponent(
-                      `Hello MadrasTrails, I'm interested in "${experience.title}" for my Japan journey. I'd love to speak with a journey designer about creating a bespoke itinerary around this experience.`,
+                      `Hello MadrasTrails, I'm interested in "${experience.title}" for my ${destination.name} journey. I'd love to speak with a journey designer about creating a bespoke itinerary around this experience.`,
                     )}`}
                     target="_blank"
                     rel="noreferrer"

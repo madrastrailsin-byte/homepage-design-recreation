@@ -1,6 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
+import Link from "next/link"
 
 interface HeroSectionProps {
   destination: {
@@ -28,6 +29,13 @@ const reveal = {
 export default function HeroSection({ destination }: HeroSectionProps) {
   return (
     <section className="relative h-screen overflow-hidden">
+      <Link
+  href="/destinations"
+  className="absolute left-6 top-16 z-30 inline-flex items-center gap-3 rounded-full border border-white/20 bg-black/20 px-5 py-3 text-[10px] font-medium uppercase tracking-[0.28em] text-white/80 backdrop-blur-xl transition hover:border-white/40 hover:bg-white/10 hover:text-white sm:left-8 lg:left-12"
+>
+  <span>←</span>
+  <span>Destinations</span>
+</Link>
       {/* Background Image */}
       <motion.img
         src={destination.image}
@@ -45,8 +53,8 @@ export default function HeroSection({ destination }: HeroSectionProps) {
       <div className="absolute inset-0 bg-gradient-to-b from-black/35 via-black/45 to-[#07161D]/95" />
 
       {/* Content */}
-      <div className="relative z-10 flex h-full items-center pt-20 sm:pt-24 lg:pt-28">
-        <div className="mx-auto w-full max-w-7xl px-6">
+      <div className="relative z-10 flex h-full items-start">
+        <div className="mx-auto w-full max-w-7xl px-6 pt-28 sm:pt-36 lg:pt-44">
           <div className="max-w-3xl">
             <motion.p
               variants={reveal}
@@ -116,11 +124,11 @@ export default function HeroSection({ destination }: HeroSectionProps) {
                 ))}
               </div>
 
-              <button className="rounded-full bg-white px-8 py-4 text-sm font-medium text-black transition hover:scale-105">
-                Plan My Journey
+              <button className="rounded-full bg-[#C9A96A] px-6 py-2 text-sm font-medium text-[#07161D] shadow-lg transition-all duration-300 hover:scale-105 hover:bg-[#D6B97D] hover:shadow-xl">
+              Plan My Journey
               </button>
 
-              <div className="mt-20 flex items-center gap-3 text-sm uppercase tracking-[0.3em] text-white/60">
+              <div className="mt-12 flex items-center gap-3 text-sm uppercase tracking-[0.3em] text-white/60">
                 <span>Scroll</span>
                 <div className="h-px w-20 bg-white/30" />
               </div>
