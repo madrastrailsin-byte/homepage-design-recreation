@@ -3,26 +3,22 @@ import Link from "next/link"
 import HeroSection from "./HeroSection"
 import DiscoverSection from "./DiscoverSection"
 import ExperiencesSection from "./ExperiencesSection"
+import type { Destination } from "@/lib/destinations"
 
 interface DestinationTemplateProps {
-  destination: {
-    name: string
-    tagline: string
-    description: string
-    image: string
-    highlights: string[]
-  }
+  destination: Destination
 }
 
 export default function DestinationTemplate({
   destination,
 }: DestinationTemplateProps) {
   return (
-    <main className="relative bg-[#03131A] text-white">
+  <main className="bg-[#03131A] text-white">
+    <div className="relative">
       <Link
         href="/destinations"
         aria-label="Back to destinations"
-        className="group fixed left-5 top-5 z-[100] inline-flex items-center gap-3 rounded-full border border-white/16 bg-[#06161d]/68 px-4 py-3 text-[9px] font-medium uppercase tracking-[0.28em] text-white/72 shadow-[0_14px_45px_rgba(0,0,0,0.24)] backdrop-blur-xl transition-all duration-300 hover:border-[#d6b06e]/55 hover:bg-[#06161d]/88 hover:text-white sm:left-7 sm:top-7"
+        className="group absolute left-5 top-5 z-[100] inline-flex items-center gap-3 rounded-full border border-white/16 bg-[#06161d]/68 px-4 py-3 text-[9px] font-medium uppercase tracking-[0.22em] text-white backdrop-blur-md transition-colors hover:bg-[#06161d]/90"
       >
         <span
           aria-hidden="true"
@@ -34,8 +30,10 @@ export default function DestinationTemplate({
       </Link>
 
       <HeroSection destination={destination} />
-      <DiscoverSection destination={destination} />
-      <ExperiencesSection />
-    </main>
-  )
+    </div>
+
+    <DiscoverSection destination={destination} />
+    <ExperiencesSection destination={destination} />
+  </main>
+)
 }
