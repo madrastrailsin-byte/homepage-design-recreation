@@ -5,6 +5,12 @@ import Image from 'next/image'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useReducedMotion } from 'framer-motion'
+import { Qwigley } from "next/font/google";
+
+export const qwigley = Qwigley({
+  subsets: ["latin"],
+  weight: "400",
+});
 
 export default function OurStoryPage() {
   const pageRef = useRef<HTMLDivElement>(null)
@@ -161,9 +167,9 @@ export default function OurStoryPage() {
                 </div>
 
                 <div className="mt-7 text-center">
-                  <h3 className="mt-display-soft text-[2.45rem] italic leading-[1.02] text-[#FAFAF9] md:text-[2.9rem]">
-                    Geetha Solomon
-                  </h3>
+                  <h3 className={`${qwigley.className} text-[3.5rem] leading-none text-[#FAFAF9] md:text-[5rem]`}>
+  Geetha Solomon
+</h3>
                   <p className="mt-ui mt-3 text-[10px] font-medium tracking-[0.22em] text-[#D8C08A]">
                     MANAGING DIRECTOR
                   </p>
@@ -173,7 +179,7 @@ export default function OurStoryPage() {
                   </p>
 
                   <p className="mt-ui mx-auto mt-7 whitespace-nowrap text-center text-[9px] tracking-[0.16em] text-[#D4AF37]/82">
-                    STRATEGIC VISION <span className="px-2 text-[#D4AF37]/38">|</span> INVESTMENT <span className="px-2 text-[#D4AF37]/38">|</span> CLIENT RELATIONSHIPS
+                    LEADERSHIP <span className="px-2 text-[#D4AF37]/38">|</span> PARTNERSHIPS <span className="px-2 text-[#D4AF37]/38">|</span> CLIENT RELATIONS
                   </p>
                 </div>
               </div>
@@ -193,19 +199,19 @@ export default function OurStoryPage() {
                 </div>
 
                 <div className="mt-7 text-center">
-                  <h3 className="mt-display-soft text-[2.45rem] italic leading-[1.02] text-[#FAFAF9] md:text-[2.9rem]">
-                    Gideon Solomon
-                  </h3>
+                  <h3 className={`${qwigley.className} text-[3.5rem] leading-none text-[#FAFAF9] md:text-[5rem]`}>
+  Gideon Solomon
+</h3>
                   <p className="mt-ui mt-3 text-[10px] font-medium tracking-[0.22em] text-[#D8C08A]">
                     FOUNDER &amp; CHIEF JOURNEY ARCHITECT
                   </p>
 
                   <p className="mt-body-copy mx-auto mt-6 min-h-[10.5rem] max-w-[31rem] text-base leading-[1.9] text-[#FAFAF9]/70">
-                    Gideon leads the vision, destination curation, supplier partnerships, travel planning, client experience and creative direction of MadrasTrails. From the first conversation to the traveller&rsquo;s return home, every journey is personally shaped to feel thoughtful, seamless and deeply individual.
+                    Gideon leads the vision, destination curation, supplier partnerships, travel planning, client experience and creative direction of MadrasTrails. From the first conversation to the traveller’s return home, every journey is personally shaped to feel thoughtful, seamless and deeply individual. Crafted with care. Remembered for life.
                   </p>
 
                   <p className=" mt-ui mx-auto mt-7 whitespace-nowrap text-center text-[9px] tracking-[0.16em] text-[#D4AF37]/82">
-                    VISION <span className="px-2 text-[#D4AF37]/38">|</span> JOURNEY DESIGN <span className="px-2 text-[#D4AF37]/38">|</span> CLIENT EXPERIENCE
+                    STRATEGIC VISION <span className="px-2 text-[#D4AF37]/38">|</span> JOURNEY DESIGN <span className="px-2 text-[#D4AF37]/38">|</span> CREATIVE DIRECTION
                   </p>
                 </div>
               </div>
