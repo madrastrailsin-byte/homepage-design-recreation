@@ -216,6 +216,8 @@ function ExperienceCard({
       <img
         src={experience.image}
         alt={experience.title}
+        loading="lazy"
+        decoding="async"
         className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1400ms] ease-out group-hover:scale-[1.055]"
       />
 
@@ -327,6 +329,8 @@ function ExperienceDrawer({
               <img
                 src={experience.image}
                 alt={experience.title}
+                loading="lazy"
+                decoding="async"
                 className="h-full w-full object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#07161d] via-[#07161d]/5 to-black/20" />

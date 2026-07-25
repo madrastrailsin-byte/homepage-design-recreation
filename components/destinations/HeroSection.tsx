@@ -1,6 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
+import Image from "next/image"
 import Link from "next/link"
 
 interface HeroSectionProps {
@@ -26,6 +27,8 @@ const reveal = {
   },
 }
 
+const MotionImage = motion.create(Image)
+
 export default function HeroSection({ destination }: HeroSectionProps) {
   return (
     <section className="relative h-screen overflow-hidden">
@@ -37,16 +40,20 @@ export default function HeroSection({ destination }: HeroSectionProps) {
   <span>Destinations</span>
 </Link>
       {/* Background Image */}
-      <motion.img
+      <MotionImage
         src={destination.image}
         alt={destination.name}
+        fill
+        priority
+        quality={78}
+        sizes="100vw"
         initial={{ opacity: 0, scale: 1.1 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{
           duration: 2.8,
           ease: [0.22, 1, 0.36, 1],
         }}
-        className="absolute inset-0 h-full w-full object-cover"
+        className="object-cover"
       />
 
       {/* Overlay */}

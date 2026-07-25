@@ -22,6 +22,7 @@ interface Destination {
 
 interface DestinationPanelProps {
   destination: Destination
+  prioritizeImage?: boolean
 }
 
 
@@ -44,7 +45,7 @@ const getImagePosition = (id: string) =>
   IMAGE_POSITION_BY_ID[id] ?? 'center 50%'
 
 const FALLBACK_MARKER_COLOR = '#D4AF37'
-const FALLBACK_IMAGE = '/images/destinations/canada/canada-moraine-lake.jpg'
+const FALLBACK_IMAGE = '/images/destinations/canada/canada-moraine-lake.webp'
 
 function SunIcon() {
   return (
@@ -80,7 +81,10 @@ function CurrencyIcon() {
   )
 }
 
-export default function DestinationPanel({ destination }: DestinationPanelProps) {
+export default function DestinationPanel({
+  destination,
+  prioritizeImage = false,
+}: DestinationPanelProps) {
   const prefersReducedMotion = useReducedMotion()
   const [isOpen, setIsOpen] = useState(true)
   const [imageFailed, setImageFailed] = useState(false)
@@ -166,15 +170,17 @@ export default function DestinationPanel({ destination }: DestinationPanelProps)
         <div className="relative h-[190px] w-full overflow-hidden bg-[#021017]">
           {!imageFailed && (
             <Image
-  src={imageSrc}
-  alt={destination.name || "Curated destination"}
-  fill
-  priority
-  sizes="(min-width: 1024px) 420px, 100vw"
-  onError={() => setImageFailed(true)}
-  className="object-cover"
-  style={{ objectPosition: getImagePosition(destination.id) }}
-/>
+              src={imageSrc}
+              alt={destination.name || "Curated destination"}
+              fill
+              priority={prioritizeImage}
+              loading={prioritizeImage ? undefined : "lazy"}
+              quality={75}
+              sizes="(min-width: 1024px) 288px, (min-width: 768px) 398px, calc(100vw - 5rem)"
+              onError={() => setImageFailed(true)}
+              className="object-cover"
+              style={{ objectPosition: getImagePosition(destination.id) }}
+            />
           )}
 
           {imageFailed && (

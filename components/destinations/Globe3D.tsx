@@ -7,7 +7,7 @@ import type * as ThreeTypes from '../../node_modules/.pnpm/@types+three@0.185.0/
 // @ts-expect-error The project has @types/three installed transitively but not hoisted for module resolution.
 import * as THREE from 'three'
 import { useReducedMotion } from 'framer-motion'
-import { destinations } from '@/lib/destinations'
+import { destinationMetadata } from '@/lib/destinations'
 import type { ThreeEvent } from '@react-three/fiber'
 
 interface GlobeProps {
@@ -453,9 +453,10 @@ const R = 7.69
 
   const markerPositions = useMemo(
   () =>
-    destinations.map((destination, index) => ({
+    destinationMetadata.map((destination, index) => ({
       ...destination,
-      phase: (index / Math.max(destinations.length, 1)) * Math.PI * 2,
+      phase:
+        (index / Math.max(destinationMetadata.length, 1)) * Math.PI * 2,
       position: latLngToVector3(
         getSafeCoordinate(destination.latitude),
         getSafeCoordinate(destination.longitude),

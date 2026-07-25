@@ -1,5 +1,5 @@
 import DestinationTemplate from "@/components/destinations/DestinationTemplate"
-import { destinations } from "@/lib/destinations"
+import { loadDestination } from "@/lib/destinations"
 import { notFound } from "next/navigation"
 
 interface DestinationPageProps {
@@ -13,7 +13,7 @@ export default async function DestinationPage({
 }: DestinationPageProps) {
   const { slug } = await params
 
-  const destination = destinations.find((d) => d.id === slug)
+  const destination = await loadDestination(slug)
 
   if (!destination) {
     notFound()

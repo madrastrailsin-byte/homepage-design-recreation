@@ -10,7 +10,7 @@ const destinations = [
     name: 'Italy',
     slug: 'italy',
     label: 'Discover',
-    image: '/images/destinations/italy/italy-amalfi-coast.jpg',
+    image: '/images/destinations/italy/italy-amalfi-coast.webp',
     objectPosition: 'center 45%',
   },
   {
@@ -18,7 +18,7 @@ const destinations = [
     name: 'Türkiye',
     slug: 'turkiye',
     label: 'Explore',
-    image: '/images/destinations/turkiye/turkiye-hot-air-balloon.jpg',
+    image: '/images/destinations/turkiye/turkiye-hot-air-balloon.webp',
     objectPosition: 'center 45%',
   },
   {
@@ -26,7 +26,7 @@ const destinations = [
     name: 'Japan',
     slug: 'japan',
     label: 'Experience',
-    image: '/images/destinations/japan/japan-mount-fuji-sunrise.jpg',
+    image: '/images/destinations/japan/japan-mount-fuji-sunrise.webp',
     objectPosition: 'center 55%',
   },
 ]

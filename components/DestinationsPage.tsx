@@ -1,13 +1,22 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import dynamic from 'next/dynamic'
 import { useSearchParams } from 'next/navigation'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import DestinationHero from './destinations/DestinationHero'
-import Globe3D from './destinations/Globe3D'
 import DestinationPanel from './destinations/DestinationPanel'
 import DestinationRail from './destinations/DestinationRail'
-import { destinations } from '@/lib/destinations'
+import {
+  destinationMetadata,
+  loadDestination,
+  type Destination,
+} from '@/lib/destinations'
+
+const Globe3D = dynamic(() => import('./destinations/Globe3D'), {
+  ssr: false,
+  loading: () => <div className="h-full w-full" aria-hidden="true" />,
+})
 
 export default function DestinationsPage() {
   const searchParams = useSearchParams()
@@ -17,21 +26,40 @@ export default function DestinationsPage() {
     const countryId = searchParams.get('country')?.trim().toLowerCase()
 
     return (
-      destinations.find((destination) => destination.id === countryId) ??
-      destinations[0]
+      destinationMetadata.find((destination) => destination.id === countryId) ??
+      destinationMetadata[0]
     )
   })
 
   const [previousDestinationId, setPreviousDestinationId] = useState<string>()
+  const [isInitialSelection, setIsInitialSelection] = useState(true)
+  const [selectedDestinationDetails, setSelectedDestinationDetails] =
+    useState<Destination>()
+
+  useEffect(() => {
+    let cancelled = false
+
+    loadDestination(selectedDestination.id).then((destination) => {
+      if (!cancelled) {
+        setSelectedDestinationDetails(destination)
+      }
+    })
+
+    return () => {
+      cancelled = true
+    }
+  }, [selectedDestination.id])
 
   const selectDestination = (id: string) => {
-  const destination = destinations.find((item) => item.id === id)
+    const destination = destinationMetadata.find((item) => item.id === id)
 
-  if (!destination || destination.id === selectedDestination.id) return
+    if (!destination || destination.id === selectedDestination.id) return
 
-  setPreviousDestinationId(selectedDestination.id)
-  setSelectedDestination(destination)
-}
+    setPreviousDestinationId(selectedDestination.id)
+    setSelectedDestinationDetails(undefined)
+    setSelectedDestination(destination)
+    setIsInitialSelection(false)
+  }
 
   return (
     <section className="mt-destinations-page relative w-full overflow-hidden bg-[#071B24]">
@@ -83,33 +111,38 @@ export default function DestinationsPage() {
         </div>
 
         <AnimatePresence mode="wait">
-          <motion.div
-            key={selectedDestination.id}
-            className="absolute inset-x-[clamp(1rem,5vw,1.5rem)] bottom-[128px] h-[clamp(15.5rem,34vh,20rem)] max-w-[430px] md:bottom-[140px] md:mx-auto md:h-[clamp(18rem,36vh,22rem)] lg:bottom-5 lg:left-auto lg:right-6 lg:top-[112px] lg:mx-0 lg:h-auto lg:w-[320px] lg:max-w-none"
-            style={{ zIndex: 30 }}
-            initial={
-              prefersReducedMotion
-                ? {}
-                : { opacity: 0, x: 24, filter: 'blur(8px)' }
-            }
-            animate={
-              prefersReducedMotion
-                ? {}
-                : { opacity: 1, x: 0, filter: 'blur(0px)' }
-            }
-            exit={
-              prefersReducedMotion
-                ? {}
-                : { opacity: 0, x: -12, filter: 'blur(4px)' }
-            }
-            transition={{
-              duration: 0.78,
-              delay: prefersReducedMotion ? 0 : 0.48,
-              ease: [0.22, 1, 0.36, 1],
-            }}
-          >
-            <DestinationPanel destination={selectedDestination} />
-          </motion.div>
+          {selectedDestinationDetails ? (
+            <motion.div
+              key={selectedDestinationDetails.id}
+              className="absolute inset-x-[clamp(1rem,5vw,1.5rem)] bottom-[128px] h-[clamp(15.5rem,34vh,20rem)] max-w-[430px] md:bottom-[140px] md:mx-auto md:h-[clamp(18rem,36vh,22rem)] lg:bottom-5 lg:left-auto lg:right-6 lg:top-[112px] lg:mx-0 lg:h-auto lg:w-[320px] lg:max-w-none"
+              style={{ zIndex: 30 }}
+              initial={
+                prefersReducedMotion
+                  ? {}
+                  : { opacity: 0, x: 24, filter: 'blur(8px)' }
+              }
+              animate={
+                prefersReducedMotion
+                  ? {}
+                  : { opacity: 1, x: 0, filter: 'blur(0px)' }
+              }
+              exit={
+                prefersReducedMotion
+                  ? {}
+                  : { opacity: 0, x: -12, filter: 'blur(4px)' }
+              }
+              transition={{
+                duration: 0.78,
+                delay: prefersReducedMotion ? 0 : 0.48,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+            >
+              <DestinationPanel
+                destination={selectedDestinationDetails}
+                prioritizeImage={isInitialSelection}
+              />
+            </motion.div>
+          ) : null}
         </AnimatePresence>
 
         <div
@@ -117,7 +150,7 @@ export default function DestinationsPage() {
           style={{ zIndex: 38 }}
         >
           <DestinationRail
-            destinations={destinations}
+            destinations={destinationMetadata}
             selectedId={selectedDestination.id}
             onSelect={selectDestination}
           />

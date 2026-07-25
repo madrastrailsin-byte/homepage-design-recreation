@@ -223,7 +223,7 @@ export const travelServices: TravelService[] = [
     'Dedicated planning from inspiration to return',
   ],
 
-  image: '/images/destinations/japan/japan-mount-fuji-sunrise.jpg',
+  image: '/images/destinations/japan/japan-mount-fuji-sunrise.webp',
   objectPosition: 'center 48%',
   editorialFormat: 'travel itinerary',
 },

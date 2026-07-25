@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useMemo, useRef } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
 import Image from "next/image";
 
@@ -107,7 +107,7 @@ const IMAGE_POSITION_BY_ID: Record<string, string> = {
 const getImagePosition = (id: string) =>
   IMAGE_POSITION_BY_ID[id] ?? 'center 50%'
 
-const FALLBACK_IMAGE = '/images/destinations/canada/canada-moraine-lake.jpg'
+const FALLBACK_IMAGE = '/images/destinations/canada/canada-moraine-lake.webp'
 
 function ArrowLeft() {
   return (
@@ -122,6 +122,62 @@ function ArrowRight() {
     <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.5">
       <path d="M9 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
+  )
+}
+
+function DestinationRailImage({
+  destination,
+  imageSrc,
+  isSelected,
+}: {
+  destination: Destination
+  imageSrc: string
+  isSelected: boolean
+}) {
+  const proximityRef = useRef<HTMLSpanElement>(null)
+  const [shouldRender, setShouldRender] = useState(isSelected)
+
+  useEffect(() => {
+    if (isSelected) {
+      setShouldRender(true)
+    }
+  }, [isSelected])
+
+  useEffect(() => {
+    if (shouldRender || !proximityRef.current) return
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return
+        setShouldRender(true)
+        observer.disconnect()
+      },
+      { rootMargin: '200px' },
+    )
+
+    observer.observe(proximityRef.current)
+
+    return () => observer.disconnect()
+  }, [shouldRender])
+
+  return (
+    <span ref={proximityRef} className="absolute inset-0">
+      {shouldRender ? (
+        <Image
+          src={imageSrc}
+          alt={destination.name || 'Curated destination'}
+          fill
+          loading="lazy"
+          quality={75}
+          sizes="(min-width: 768px) 188px, 172px"
+          className="absolute inset-0 object-cover transition-transform duration-700 group-hover:scale-[1.025]"
+          style={{ objectPosition: getImagePosition(destination.id) }}
+          onError={(event) => {
+            event.currentTarget.style.display = 'none'
+          }}
+        />
+      ) : null}
+    </span>
   )
 }
 
@@ -227,17 +283,11 @@ export default function DestinationRail({
               whileHover={prefersReducedMotion ? undefined : { y: -4 }}
               whileTap={prefersReducedMotion ? undefined : { scale: 0.985 }}
             >
-              <Image
-  src={imageSrc}
-  alt={destination.name || "Curated destination"}
-  fill
-  sizes="(min-width: 1024px) 320px, (min-width: 768px) 50vw, 100vw"
-  className="absolute inset-0 object-cover transition-transform duration-700 group-hover:scale-[1.025]"
-  style={{ objectPosition: getImagePosition(destination.id) }}
-  onError={(event) => {
-    event.currentTarget.style.display = "none"
-  }}
-/>
+              <DestinationRailImage
+                destination={destination}
+                imageSrc={imageSrc}
+                isSelected={isSelected}
+              />
 
               <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_70%_24%,rgba(212,175,55,0.18),transparent_30%),linear-gradient(145deg,#0A2A33,#021017)]" />
 
