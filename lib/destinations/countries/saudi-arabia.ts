@@ -18,7 +18,6 @@ const destination: Destination = {
     "Riyadh and Diriyah",
     "Red Sea Coast",
     "Al-Ahsa Oasis",
-    "Asir Highlands",
   ],
   bestSeason: "Oct–Mar",
   flightTime: "5–9h",
@@ -42,15 +41,14 @@ const destination: Destination = {
         value: "9–14 days",
       },
       {
-        label: "Signature route",
-        value:
-          "Riyadh and Diriyah · AlUla and Hegra · Historic Jeddah · Red Sea Coast",
-      },
+  label: "Signature route",
+  value: "AlUla · Riyadh · Red Sea",
+},
     ],
     whyVisit:
       "Saudi Arabia offers access to archaeological and natural landscapes that remained outside mainstream international tourism for decades. Explore Hegra with specialist storytellers, walk through the coral-stone architecture of Historic Jeddah, examine the origins of the Saudi state in Diriyah and continue toward mountain communities or marine-rich Red Sea islands.",
     destinationDossier:
-      "Caravan histories. Sandstone monuments. Oasis civilisations. Red Sea horizons.",
+  "Caravan Kingdoms. Desert Monuments. Oasis Culture.",
     hiddenGem: {
       title: "The Asir Highlands",
       description:

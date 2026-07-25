@@ -152,7 +152,7 @@ export default function DiscoverSection({
             >
               <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/35 to-transparent" />
 
-              <div className="flex items-start justify-between gap-6">
+              <div className="relative">
                 <div>
                   <p className="text-[9px] font-medium uppercase tracking-[0.34em] text-[#D6B06E]">
                     Destination dossier
@@ -160,14 +160,11 @@ export default function DiscoverSection({
                   <h4 className="mt-3 font-serif text-[28px] font-light leading-none tracking-[-0.025em] text-white">
                     {destination.name}
                   </h4>
-                  <p className="mt-2 text-[10px] font-medium uppercase tracking-[0.24em] text-white/40">
-                    {dossierRoute}
-                  </p>
+                  <p className="mt-2 whitespace-nowrap text-[9px] font-medium uppercase tracking-[0.18em] text-white/40">
+  {dossierRoute}
+</p>
                 </div>
 
-                <span className="mt-1 rounded-full border border-white/15 px-3 py-1 text-[8px] font-medium uppercase tracking-[0.24em] text-white/55">
-                  Curated
-                </span>
               </div>
 
               <div className="my-5 h-px bg-white/10" />

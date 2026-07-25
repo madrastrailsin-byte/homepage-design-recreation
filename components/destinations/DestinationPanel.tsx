@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from "react"
 import Link from 'next/link'
 import { motion, useReducedMotion } from 'framer-motion'
 import Image from "next/image";
@@ -88,6 +88,10 @@ export default function DestinationPanel({
   const prefersReducedMotion = useReducedMotion()
   const [isOpen, setIsOpen] = useState(true)
   const [imageFailed, setImageFailed] = useState(false)
+
+  useEffect(() => {
+  setImageFailed(false)
+}, [destination.id, destination.image])
 
   if (!isOpen) {
     return (

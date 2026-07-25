@@ -1,5 +1,6 @@
 "use client"
 
+import { useEffect, useState } from "react"
 import { motion } from "framer-motion"
 import Image from "next/image"
 import Link from "next/link"
@@ -13,6 +14,9 @@ interface HeroSectionProps {
     highlights: string[]
   }
 }
+
+const FALLBACK_IMAGE =
+  "/images/destinations/canada/canada-moraine-lake.webp"
 
 const reveal = {
   hidden: {
@@ -30,23 +34,36 @@ const reveal = {
 const MotionImage = motion.create(Image)
 
 export default function HeroSection({ destination }: HeroSectionProps) {
+  const [imageSrc, setImageSrc] = useState(
+    destination.image || FALLBACK_IMAGE,
+  )
+
+  useEffect(() => {
+    setImageSrc(destination.image || FALLBACK_IMAGE)
+  }, [destination.image])
+
   return (
     <section className="relative h-screen overflow-hidden">
       <Link
-  href="/destinations"
-  className="absolute left-6 top-16 z-30 inline-flex items-center gap-3 rounded-full border border-white/20 bg-black/20 px-5 py-3 text-[10px] font-medium uppercase tracking-[0.28em] text-white/80 backdrop-blur-xl transition hover:border-white/40 hover:bg-white/10 hover:text-white sm:left-8 lg:left-12"
->
-  <span>←</span>
-  <span>Destinations</span>
-</Link>
-      {/* Background Image */}
+        href="/destinations"
+        className="absolute left-6 top-16 z-30 inline-flex items-center gap-3 rounded-full border border-white/20 bg-black/20 px-5 py-3 text-[10px] font-medium uppercase tracking-[0.28em] text-white/80 backdrop-blur-xl transition hover:border-white/40 hover:bg-white/10 hover:text-white sm:left-8 lg:left-12"
+      >
+        <span>←</span>
+        <span>Destinations</span>
+      </Link>
+
       <MotionImage
-        src={destination.image}
+        src={imageSrc}
         alt={destination.name}
         fill
         priority
         quality={78}
         sizes="100vw"
+        onError={() => {
+          if (imageSrc !== FALLBACK_IMAGE) {
+            setImageSrc(FALLBACK_IMAGE)
+          }
+        }}
         initial={{ opacity: 0, scale: 1.1 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{
@@ -56,10 +73,8 @@ export default function HeroSection({ destination }: HeroSectionProps) {
         className="object-cover"
       />
 
-      {/* Overlay */}
       <div className="absolute inset-0 bg-gradient-to-b from-black/35 via-black/45 to-[#07161D]/95" />
 
-      {/* Content */}
       <div className="relative z-10 flex h-full items-start">
         <div className="mx-auto w-full max-w-7xl px-6 pt-28 sm:pt-36 lg:pt-44">
           <div className="max-w-3xl">
@@ -132,7 +147,7 @@ export default function HeroSection({ destination }: HeroSectionProps) {
               </div>
 
               <button className="rounded-full bg-[#C9A96A] px-6 py-2 text-sm font-medium text-[#07161D] shadow-lg transition-all duration-300 hover:scale-105 hover:bg-[#D6B97D] hover:shadow-xl">
-              Plan My Journey
+                Plan My Journey
               </button>
 
               <div className="mt-12 flex items-center gap-3 text-sm uppercase tracking-[0.3em] text-white/60">
