@@ -13,10 +13,32 @@ import {
   type Destination,
 } from '@/lib/destinations'
 
-const Globe3D = dynamic(() => import('./destinations/Globe3D'), {
+let globe3DModulePromise:
+  | ReturnType<typeof importGlobe3D>
+  | undefined
+
+function importGlobe3D() {
+  return import('./destinations/Globe3D')
+}
+
+function loadGlobe3D() {
+  globe3DModulePromise ??= importGlobe3D()
+  return globe3DModulePromise
+}
+
+const Globe3D = dynamic(loadGlobe3D, {
   ssr: false,
-  loading: () => <div className="h-full w-full" aria-hidden="true" />,
+  loading: () => (
+    <div
+      className="h-full w-full bg-[#020810] bg-[url('/backgrounds/stars.jpg')] bg-cover bg-center"
+      aria-label="Loading globe"
+    />
+  ),
 })
+
+if (typeof window !== 'undefined') {
+  void loadGlobe3D()
+}
 
 export default function DestinationsPage() {
   const searchParams = useSearchParams()

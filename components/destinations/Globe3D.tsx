@@ -1,6 +1,14 @@
 'use client'
 
-import { Suspense, useEffect, useMemo, useRef, useState } from 'react'
+import {
+  Suspense,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type RefObject,
+} from 'react'
 import { Canvas, extend, useFrame, useLoader, useThree } from '@react-three/fiber'
 import { Environment } from '@react-three/drei'
 import type * as ThreeTypes from '../../node_modules/.pnpm/@types+three@0.185.0/node_modules/@types/three'
@@ -345,14 +353,128 @@ glowRef.current.scale.lerp(haloScaleVector.current, damping)
   )
 }
 
+function ProgressiveSurfaceDetails({
+  earthMaterial,
+  radius,
+}: {
+  earthMaterial: ThreeTypes.MeshStandardMaterial
+  radius: number
+}) {
+  const [normalTex, specularTex] = useLoader(THREE.TextureLoader, [
+    '/textures/earth_normal_8k.png',
+    '/textures/earth_specular_8k.png',
+  ])
+
+  useMemo(() => {
+    for (const texture of [normalTex, specularTex]) {
+      texture.colorSpace = THREE.NoColorSpace
+      texture.wrapS = THREE.RepeatWrapping
+      texture.wrapT = THREE.ClampToEdgeWrapping
+      texture.anisotropy = 16
+      texture.needsUpdate = true
+    }
+  }, [normalTex, specularTex])
+
+  useEffect(() => {
+    earthMaterial.normalMap = normalTex
+    earthMaterial.roughnessMap = specularTex
+    earthMaterial.needsUpdate = true
+  }, [earthMaterial, normalTex, specularTex])
+
+  return (
+    <mesh renderOrder={1}>
+      <sphereGeometry args={[radius * 1.0008, 96, 96]} />
+
+      <meshPhysicalMaterial
+        alphaMap={specularTex}
+        transparent
+        opacity={0.18}
+        color="#0a5b84"
+        roughness={0.03}
+        metalness={0}
+        clearcoat={1}
+        clearcoatRoughness={0.008}
+        reflectivity={1}
+        envMapIntensity={1.8}
+        ior={1.333}
+        depthWrite={false}
+        blending={THREE.NormalBlending}
+      />
+    </mesh>
+  )
+}
+
+function ProgressiveCloudLayers({
+  clouds1Ref,
+  clouds2Ref,
+  radius,
+}: {
+  clouds1Ref: RefObject<ThreeTypes.Mesh | null>
+  clouds2Ref: RefObject<ThreeTypes.Mesh | null>
+  radius: number
+}) {
+  const cloudTex = useLoader(
+    THREE.TextureLoader,
+    '/textures/earth_clouds_8k.jpg',
+  )
+
+  useMemo(() => {
+    cloudTex.colorSpace = THREE.SRGBColorSpace
+    cloudTex.wrapS = THREE.RepeatWrapping
+    cloudTex.wrapT = THREE.ClampToEdgeWrapping
+    cloudTex.anisotropy = 16
+    cloudTex.needsUpdate = true
+  }, [cloudTex])
+
+  return (
+    <>
+      <mesh ref={clouds1Ref}>
+        <sphereGeometry args={[radius * 1.01, 96, 96]} />
+        <meshPhongMaterial
+          map={cloudTex}
+          alphaMap={cloudTex}
+          color="#eef3f6"
+          transparent
+          opacity={0.48}
+          depthWrite={false}
+          blending={THREE.NormalBlending}
+          shininess={6}
+          emissive="#263442"
+          emissiveIntensity={0.04}
+        />
+      </mesh>
+
+      <mesh ref={clouds2Ref}>
+        <sphereGeometry args={[radius * 1.016, 72, 72]} />
+        <meshPhongMaterial
+          map={cloudTex}
+          alphaMap={cloudTex}
+          color="#dfe8ef"
+          transparent
+          opacity={0.1}
+          depthWrite={false}
+          blending={THREE.NormalBlending}
+          shininess={2}
+          emissive="#1d2a36"
+          emissiveIntensity={0.025}
+        />
+      </mesh>
+    </>
+  )
+}
+
 function NasaEarth({
   selectedDestination,
   previousDestination,
   onSelect,
+  loadDetails,
+  onBaseVisible,
 }: {
   selectedDestination?: string
   previousDestination?: string
   onSelect?: (id: string) => void
+  loadDetails: boolean
+  onBaseVisible: () => void
 }) {
   const tiltRef = useRef<ThreeTypes.Group>(null)
   const globeRef = useRef<ThreeTypes.Group>(null)
@@ -378,47 +500,30 @@ function NasaEarth({
 
   const prefersReducedMotion = useReducedMotion()
 
-  const [dayTex, cloudTex, normalTex, specularTex] = useLoader(
+  const dayTex = useLoader(
     THREE.TextureLoader,
-    [
-      '/textures/earth_day_8k.png',
-      '/textures/earth_clouds_8k.jpg',
-      '/textures/earth_normal_8k.png',
-      '/textures/earth_specular_8k.png',
-    ],
+    '/textures/earth_day_8k.png',
   )
 
   useMemo(() => {
-    for (const texture of [dayTex, cloudTex]) {
-      texture.colorSpace = THREE.SRGBColorSpace
-      texture.wrapS = THREE.RepeatWrapping
-      texture.wrapT = THREE.ClampToEdgeWrapping
-      texture.anisotropy = 16
-      texture.needsUpdate = true
-    }
-
-    for (const texture of [normalTex, specularTex]) {
-      texture.colorSpace = THREE.NoColorSpace
-      texture.wrapS = THREE.RepeatWrapping
-      texture.wrapT = THREE.ClampToEdgeWrapping
-      texture.anisotropy = 16
-      texture.needsUpdate = true
-    }
-  }, [dayTex, cloudTex, normalTex, specularTex])
+    dayTex.colorSpace = THREE.SRGBColorSpace
+    dayTex.wrapS = THREE.RepeatWrapping
+    dayTex.wrapT = THREE.ClampToEdgeWrapping
+    dayTex.anisotropy = 16
+    dayTex.needsUpdate = true
+  }, [dayTex])
 
   const earthMaterial = useMemo(
     () =>
       new THREE.MeshStandardMaterial({
         map: dayTex,
-        normalMap: normalTex,
         normalScale: new THREE.Vector2(0.075, 0.075),
-        roughnessMap: specularTex,
         roughness: 0.6,
         metalness: 0,
         envMapIntensity: 0.48,
         color: new THREE.Color('#e8eef2'),
       }),
-    [dayTex, normalTex, specularTex],
+    [dayTex],
   )
 
   const atmosphereMaterial = useMemo(
@@ -440,6 +545,10 @@ function NasaEarth({
     if (!globeRef.current) return
     targetQuaternion.current.copy(globeRef.current.quaternion)
   }, [])
+
+  useEffect(() => {
+    onBaseVisible()
+  }, [onBaseVisible])
 
   useEffect(() => {
   return () => {
@@ -709,58 +818,24 @@ useFrame((state, delta) => {
           <sphereGeometry args={[R, 96, 96]} />
         </mesh>
 
-        {/* Glossy ocean-only shell */}
-        <mesh renderOrder={1}>
-          <sphereGeometry args={[R * 1.0008, 96, 96]} />
+        {loadDetails ? (
+          <>
+            <Suspense fallback={null}>
+              <ProgressiveSurfaceDetails
+                earthMaterial={earthMaterial}
+                radius={R}
+              />
+            </Suspense>
 
-          <meshPhysicalMaterial
-            alphaMap={specularTex}
-            transparent
-            opacity={0.18}
-            color="#0a5b84"
-            roughness={0.03}
-            metalness={0}
-            clearcoat={1}
-            clearcoatRoughness={0.008}
-            reflectivity={1}
-            envMapIntensity={1.8}
-            ior={1.333}
-            depthWrite={false}
-            blending={THREE.NormalBlending}
-          />
-        </mesh>
-
-        <mesh ref={clouds1Ref}>
-          <sphereGeometry args={[R * 1.01, 96, 96]} />
-          <meshPhongMaterial
-            map={cloudTex}
-            alphaMap={cloudTex}
-            color="#eef3f6"
-            transparent
-            opacity={0.48}
-            depthWrite={false}
-            blending={THREE.NormalBlending}
-            shininess={6}
-            emissive="#263442"
-            emissiveIntensity={0.04}
-          />
-        </mesh>
-
-        <mesh ref={clouds2Ref}>
-          <sphereGeometry args={[R * 1.016, 72, 72]} />
-          <meshPhongMaterial
-            map={cloudTex}
-            alphaMap={cloudTex}
-            color="#dfe8ef"
-            transparent
-            opacity={0.1}
-            depthWrite={false}
-            blending={THREE.NormalBlending}
-            shininess={2}
-            emissive="#1d2a36"
-            emissiveIntensity={0.025}
-          />
-        </mesh>
+            <Suspense fallback={null}>
+              <ProgressiveCloudLayers
+                clouds1Ref={clouds1Ref}
+                clouds2Ref={clouds2Ref}
+                radius={R}
+              />
+            </Suspense>
+          </>
+        ) : null}
 
         {routeGeometry && (
           <>
@@ -832,6 +907,37 @@ useFrame((state, delta) => {
 }
 
 
+function EnvironmentIntensityRamp() {
+  const { scene } = useThree()
+  const intensity = useRef(0)
+
+  useFrame((_state, delta) => {
+    if (intensity.current >= 0.42) return
+
+    intensity.current = Math.min(0.42, intensity.current + delta * 0.35)
+
+    // eslint-disable-next-line react-hooks/immutability
+    ;(
+      scene as ThreeTypes.Scene & { environmentIntensity?: number }
+    ).environmentIntensity = intensity.current
+  })
+
+  return null
+}
+
+function DeferredEnvironment() {
+  return (
+    <>
+      <Environment
+        files="/hdri/sunrise-clouds-01.exr"
+        background={false}
+        environmentIntensity={0}
+      />
+      <EnvironmentIntensityRamp />
+    </>
+  )
+}
+
 function GlobeScene({
   selectedDestination,
   previousDestination,
@@ -841,15 +947,19 @@ function GlobeScene({
   previousDestination?: string
   onSelect?: (id: string) => void
 }) {
+  const [baseVisible, setBaseVisible] = useState(false)
+  const handleBaseVisible = useCallback(() => setBaseVisible(true), [])
+
   return (
     <>
       <SceneSetup />
       <StarBackground />
-      <Environment
-        files="/hdri/sunrise-clouds-01.exr"
-        background={false}
-        environmentIntensity={0.42}
-      />
+
+      {baseVisible ? (
+        <Suspense fallback={null}>
+          <DeferredEnvironment />
+        </Suspense>
+      ) : null}
 
       <ambientLight intensity={0.7} color="#7890aa" />
 
@@ -877,6 +987,8 @@ function GlobeScene({
         selectedDestination={selectedDestination}
         previousDestination={previousDestination}
         onSelect={onSelect}
+        loadDetails={baseVisible}
+        onBaseVisible={handleBaseVisible}
       />
     </>
   )
