@@ -11,7 +11,11 @@ import {
   UsersRound,
   type LucideIcon,
 } from 'lucide-react'
-import { journeyInteractiveContentClassName } from './layout'
+import {
+  journeyContinueButtonClassName,
+  journeyInteractiveContentClassName,
+  journeyStepSectionClassName,
+} from './layout'
 
 const easing = [0.22, 1, 0.36, 1] as const
 
@@ -138,7 +142,7 @@ export default function TravellerSelectionScreen({
         }}
       />
 
-      <section className="relative z-10 mx-auto flex min-h-[100svh] w-full max-w-[1180px] flex-col px-5 pb-24 pt-8 sm:px-8 lg:px-10 lg:pb-16 lg:pt-[2vh]">
+      <section className={journeyStepSectionClassName}>
         <header className="text-center">
           <motion.p
             initial={reveal}
@@ -387,13 +391,13 @@ export default function TravellerSelectionScreen({
             ← Back
           </button>
           <p className="justify-self-center text-[10px] uppercase tracking-[0.25em] text-white/48">
-            Step 3 of 10
+            Step 3 of 8
           </p>
           <button
             type="button"
             disabled={counts.adults < 1}
             onClick={onContinue}
-            className="justify-self-end rounded-full border border-[#D4AF37]/70 bg-[#D4AF37] px-5 py-2.5 text-xs font-bold uppercase tracking-[0.14em] text-[#03191D] shadow-[0_8px_28px_rgba(212,175,55,0.2)] transition enabled:hover:-translate-y-0.5 enabled:hover:bg-[#e2c45c] enabled:hover:shadow-[0_10px_34px_rgba(212,175,55,0.34)] disabled:cursor-not-allowed disabled:border-white/10 disabled:bg-white/[0.07] disabled:text-white/28 disabled:shadow-none"
+            className={journeyContinueButtonClassName}
           >
             Continue →
           </button>

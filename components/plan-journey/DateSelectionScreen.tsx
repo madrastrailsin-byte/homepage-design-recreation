@@ -3,7 +3,11 @@
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { useMemo, useState } from 'react'
-import { journeyInteractiveContentClassName } from './layout'
+import {
+  journeyContinueButtonClassName,
+  journeyInteractiveContentClassName,
+  journeyStepSectionClassName,
+} from './layout'
 
 const easing = [0.22, 1, 0.36, 1] as const
 const weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
@@ -83,7 +87,7 @@ function CalendarMonth({
 
   return (
     <section aria-label={monthFormatter.format(month)}>
-      <h2 className="mb-4 text-center font-serif text-2xl font-semibold text-white sm:text-[1.7rem] lg:mb-2">
+      <h2 className="mb-4 text-center font-serif text-2xl font-semibold text-white sm:text-[1.7rem] lg:mb-3">
         {monthFormatter.format(month)}
       </h2>
       <div className="grid grid-cols-7 text-center">
@@ -121,7 +125,7 @@ function CalendarMonth({
               aria-label={dateFormatter.format(date)}
               aria-pressed={selectedDeparture || selectedReturn}
               onClick={() => onSelect(date)}
-              className={`group relative isolate grid h-9 place-items-center text-sm outline-none transition sm:h-10 lg:h-8 ${
+              className={`group relative isolate grid h-9 place-items-center text-sm outline-none transition sm:h-10 lg:h-9 ${
                 disabled
                   ? 'cursor-not-allowed text-white/14'
                   : 'text-white/72 hover:text-white focus-visible:ring-1 focus-visible:ring-[#D4AF37]'
@@ -247,7 +251,7 @@ export default function DateSelectionScreen({
         }}
       />
 
-      <section className="relative z-10 mx-auto flex min-h-[100svh] w-full max-w-[1180px] flex-col px-5 pb-24 pt-8 sm:px-8 lg:px-10 lg:pb-16 lg:pt-[2vh]">
+      <section className={journeyStepSectionClassName}>
         <header className="text-center">
           <motion.p
             initial={reveal}
@@ -436,7 +440,7 @@ export default function DateSelectionScreen({
             ← Back
           </button>
           <p className="justify-self-center text-[10px] uppercase tracking-[0.25em] text-white/48">
-            Step 2 of 10
+            Step 2 of 8
           </p>
           <button
             type="button"
@@ -444,7 +448,7 @@ export default function DateSelectionScreen({
             onClick={() => {
               if (departure && returnDate) onContinue(departure, returnDate)
             }}
-            className="justify-self-end rounded-full border border-[#D4AF37]/70 bg-[#D4AF37] px-5 py-2.5 text-xs font-bold uppercase tracking-[0.14em] text-[#03191D] shadow-[0_8px_28px_rgba(212,175,55,0.2)] transition enabled:hover:-translate-y-0.5 enabled:hover:bg-[#e2c45c] enabled:hover:shadow-[0_10px_34px_rgba(212,175,55,0.34)] disabled:cursor-not-allowed disabled:border-white/10 disabled:bg-white/[0.07] disabled:text-white/28 disabled:shadow-none"
+            className={journeyContinueButtonClassName}
           >
             Continue →
           </button>

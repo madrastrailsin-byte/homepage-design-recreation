@@ -9,12 +9,18 @@ import {
 } from 'framer-motion'
 import { Check } from 'lucide-react'
 import Image from 'next/image'
-import { type MouseEvent } from 'react'
-import { journeyInteractiveContentClassName } from './layout'
+import { type MouseEvent, type ReactNode } from 'react'
+import {
+  journeyContinueButtonClassName,
+  journeyInteractiveContentClassName,
+  journeyStepSectionClassName,
+} from './layout'
 
 const easing = [0.22, 1, 0.36, 1] as const
 
-interface Experience {
+export interface Experience {
+  description?: string
+  eyebrow?: string
   icon: string
   id: string
   image: string
@@ -258,7 +264,17 @@ function ExperienceCard({
         {experience.icon}
       </span>
       <span className="absolute inset-x-3 bottom-3 z-[2] font-serif text-[1.08rem] font-semibold leading-tight text-[#fffdf7] drop-shadow-[0_2px_7px_rgba(0,0,0,0.95)]">
+        {experience.eyebrow ? (
+          <span className="mb-1 block font-sans text-[8px] font-semibold uppercase tracking-[0.14em] text-[#e9cb63]">
+            {experience.eyebrow}
+          </span>
+        ) : null}
         {experience.title}
+        {experience.description ? (
+          <span className="mt-1 block font-sans text-[9px] font-light leading-snug text-white/58">
+            {experience.description}
+          </span>
+        ) : null}
       </span>
 
       <AnimatePresence>
@@ -297,23 +313,52 @@ function ExperienceCard({
 }
 
 interface ExperienceSelectionScreenProps {
+  contentClassName?: string
+  emptyPrompt?: string
+  emptySummary?: string
+  getPersonalisedSummary?: (selectedIds: string[]) => string
+  guidance?: ReactNode
+  limitMessage?: string
+  maxSelections?: number
   onBack: () => void
   onChange: (experienceIds: string[]) => void
   onContinue: () => void
+  options?: Experience[]
+  panelFooter?: string
+  panelTitle?: string
+  readyOnAnySelection?: boolean
   selectedIds: string[]
+  step?: number
+  supportingCopy?: string
+  title?: string
 }
 
 export default function ExperienceSelectionScreen({
+  emptyPrompt = 'Select the experiences that resonate with you. Every choice helps us craft a journey that’s uniquely yours.',
+  emptySummary = 'Every unforgettable journey begins with a single inspiration.',
+  contentClassName = journeyInteractiveContentClassName,
+  getPersonalisedSummary,
+  guidance,
+  limitMessage = 'You’ve chosen your three signature experiences.',
+  maxSelections = 3,
   onBack,
   onChange,
   onContinue,
+  options = experiences,
+  panelFooter,
+  panelTitle = 'Your signature journey',
+  readyOnAnySelection = false,
   selectedIds,
+  step = 4,
+  supportingCopy = 'Choose up to three experiences that will shape your journey.',
+  title = 'What kind of journey are you dreaming of?',
 }: ExperienceSelectionScreenProps) {
   const prefersReducedMotion = useReducedMotion()
-  const selectedExperiences = experiences.filter((experience) =>
+  const selectedExperiences = options.filter((experience) =>
     selectedIds.includes(experience.id),
   )
-  const atLimit = selectedIds.length >= 3
+  const atLimit = selectedIds.length >= maxSelections
+  const ready = readyOnAnySelection ? selectedIds.length > 0 : atLimit
 
   function toggleExperience(id: string) {
     if (selectedIds.includes(id)) {
@@ -324,7 +369,10 @@ export default function ExperienceSelectionScreen({
     if (!atLimit) onChange([...selectedIds, id])
   }
 
-  const summaryLine = getSummaryLine(selectedIds)
+  const summaryLine =
+    selectedIds.length === 0
+      ? emptySummary
+      : getPersonalisedSummary?.(selectedIds) ?? getSummaryLine(selectedIds)
 
   const reveal = prefersReducedMotion
     ? {}
@@ -358,7 +406,7 @@ export default function ExperienceSelectionScreen({
         }}
       />
 
-      <section className="relative z-10 mx-auto flex min-h-[100svh] w-full max-w-[1180px] flex-col px-5 pb-24 pt-8 sm:px-8 lg:px-10 lg:pb-16 lg:pt-[2vh]">
+      <section className={journeyStepSectionClassName}>
         <header className="text-center">
           <motion.p
             initial={reveal}
@@ -374,7 +422,7 @@ export default function ExperienceSelectionScreen({
             transition={{ duration: 1.05, delay: 0.55, ease: easing }}
             className="mt-2 font-serif text-[clamp(2.35rem,4.5vw,4.2rem)] font-semibold leading-[0.98] tracking-[-0.035em]"
           >
-            What kind of journey are you dreaming of?
+            {title}
           </motion.h1>
           <motion.p
             initial={reveal}
@@ -382,11 +430,13 @@ export default function ExperienceSelectionScreen({
             transition={{ duration: 0.9, delay: 0.75, ease: easing }}
             className="mt-2 text-sm font-light tracking-[0.025em] text-white/62 sm:text-base lg:mt-1"
           >
-            Choose up to three experiences that will shape your journey.
+            {supportingCopy}
           </motion.p>
         </header>
 
-        <div className={journeyInteractiveContentClassName}>
+        {guidance}
+
+        <div className={contentClassName}>
           <motion.div
             initial="hidden"
             animate="visible"
@@ -401,7 +451,7 @@ export default function ExperienceSelectionScreen({
             }}
             className="grid grid-cols-2 gap-[18px] md:grid-cols-3 lg:grid-cols-4"
           >
-            {experiences.map((experience) => (
+            {options.map((experience) => (
               <ExperienceCard
                 key={experience.id}
                 experience={experience}
@@ -425,7 +475,7 @@ export default function ExperienceSelectionScreen({
             className="relative rounded-2xl border border-[#D4AF37]/28 bg-white/[0.075] p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.1),0_0_32px_rgba(212,175,55,0.08),0_18px_50px_rgba(0,0,0,0.24)] backdrop-blur-xl lg:h-[336px] lg:overflow-hidden"
           >
             <p className="mt-eyebrow text-[9px] text-[#D4AF37]">
-              Your signature journey
+              {panelTitle}
             </p>
 
             <div className="mt-5 flex min-h-28 flex-wrap content-start gap-2">
@@ -456,8 +506,7 @@ export default function ExperienceSelectionScreen({
                     exit={{ opacity: 0 }}
                     className="text-sm font-light leading-relaxed text-white/34"
                   >
-                    Select the experiences that resonate with you. Every choice
-                    helps us craft a journey that&apos;s uniquely yours.
+                    {emptyPrompt}
                   </motion.p>
                 )}
               </AnimatePresence>
@@ -482,6 +531,12 @@ export default function ExperienceSelectionScreen({
               </AnimatePresence>
             </div>
 
+            {panelFooter ? (
+              <p className="mt-3 text-[10px] font-light leading-relaxed tracking-[0.025em] text-white/36">
+                {panelFooter}
+              </p>
+            ) : null}
+
             <AnimatePresence>
               {atLimit ? (
                 <motion.p
@@ -490,7 +545,7 @@ export default function ExperienceSelectionScreen({
                   exit={{ opacity: 0, y: 5 }}
                   className="absolute bottom-5 left-5 right-5 text-[9px] uppercase tracking-[0.14em] text-[#D4AF37]/65"
                 >
-                  You&apos;ve chosen your three signature experiences.
+                  {limitMessage}
                 </motion.p>
               ) : null}
             </AnimatePresence>
@@ -511,14 +566,14 @@ export default function ExperienceSelectionScreen({
             ← Back
           </button>
           <p className="justify-self-center text-[10px] uppercase tracking-[0.25em] text-white/48">
-            Step 4 of 10
+                    Step {step} of 8
           </p>
           <motion.button
             type="button"
             disabled={selectedIds.length === 0}
             onClick={onContinue}
             animate={
-              atLimit
+              ready
                 ? prefersReducedMotion
                   ? {
                       filter: 'brightness(1.07)',
@@ -542,14 +597,14 @@ export default function ExperienceSelectionScreen({
                   }
             }
             transition={{
-              duration: atLimit ? 3.2 : 0.4,
-              repeat: atLimit && !prefersReducedMotion ? Infinity : 0,
+              duration: ready ? 3.2 : 0.4,
+              repeat: ready && !prefersReducedMotion ? Infinity : 0,
               ease: 'easeInOut',
             }}
-            className="group/continue relative isolate justify-self-end overflow-hidden rounded-full border border-[#D4AF37]/70 bg-[#D4AF37] px-5 py-2.5 text-xs font-bold uppercase tracking-[0.14em] text-[#03191D] transition-[background-color,border-color,color,filter,box-shadow,transform] duration-[400ms] enabled:hover:-translate-y-0.5 enabled:hover:bg-[#e2c45c] disabled:cursor-not-allowed disabled:border-white/10 disabled:bg-white/[0.07] disabled:text-white/28 disabled:shadow-none"
+            className={`${journeyContinueButtonClassName} group/continue relative isolate overflow-hidden`}
           >
             <AnimatePresence>
-              {atLimit && !prefersReducedMotion ? (
+              {ready && !prefersReducedMotion ? (
                 <motion.span
                   key="ready-shimmer"
                   aria-hidden="true"

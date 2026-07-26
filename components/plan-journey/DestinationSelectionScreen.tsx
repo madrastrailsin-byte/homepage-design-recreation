@@ -14,6 +14,8 @@ import {
   destinationMetadata,
   type DestinationMetadata,
 } from '@/lib/destinations'
+import type { JourneyDestination } from './journeyModel'
+import { journeyContinueButtonClassName } from './layout'
 
 const easing = [0.22, 1, 0.36, 1] as const
 
@@ -22,9 +24,16 @@ const popularDestinations = destinationMetadata
   .slice(0, 8)
 
 interface DestinationSelectionScreenProps {
-  initialSelectedId?: string
-  onContinue?: (destinationId: string) => void
-  onSelectionChange?: (destinationId: string) => void
+  initialDestination?: JourneyDestination
+  onContinue?: (destination: JourneyDestination) => void
+  onSelectionChange?: (destination: JourneyDestination) => void
+}
+
+const destinationAliases: Record<string, string> = {
+  korea: 'south korea',
+  uae: 'united arab emirates',
+  uk: 'united kingdom',
+  usa: 'united states',
 }
 
 interface DestinationCardProps {
@@ -201,20 +210,23 @@ function DestinationCard({
 }
 
 export default function DestinationSelectionScreen({
-  initialSelectedId,
+  initialDestination,
   onContinue,
   onSelectionChange,
 }: DestinationSelectionScreenProps) {
-  const [query, setQuery] = useState('')
-  const [selectedId, setSelectedId] = useState<string | undefined>(
-    initialSelectedId,
+  const [query, setQuery] = useState(
+    initialDestination?.type === 'custom' ? initialDestination.name : '',
   )
+  const [selectedDestination, setSelectedDestination] = useState<
+    JourneyDestination | undefined
+  >(initialDestination)
   const prefersReducedMotion = useReducedMotion()
 
   const visibleDestinations = useMemo(() => {
     const normalizedQuery = query.trim().toLocaleLowerCase()
 
     if (!normalizedQuery) return popularDestinations
+    const searchableQuery = destinationAliases[normalizedQuery] ?? normalizedQuery
 
     return destinationMetadata
       .filter(
@@ -222,10 +234,24 @@ export default function DestinationSelectionScreen({
           destination.image.startsWith('/') &&
           `${destination.name} ${destination.tagline}`
             .toLocaleLowerCase()
-            .includes(normalizedQuery),
+            .includes(searchableQuery),
       )
       .slice(0, 8)
   }, [query])
+
+  const normalizedQuery = query.trim().replace(/\s+/g, ' ')
+  const normalizedQueryLower = normalizedQuery.toLocaleLowerCase()
+  const matchesKnownDestination = destinationMetadata.some((destination) => {
+    const knownName = destination.name.toLocaleLowerCase()
+    return (
+      knownName === normalizedQueryLower ||
+      knownName === destinationAliases[normalizedQueryLower]
+    )
+  })
+  const canUseCustomDestination =
+    normalizedQuery.length >= 2 &&
+    /[\p{L}\p{M}]/u.test(normalizedQuery) &&
+    !matchesKnownDestination
 
   const reveal = prefersReducedMotion
     ? {}
@@ -302,11 +328,46 @@ export default function DestinationSelectionScreen({
           <input
             type="search"
             value={query}
-            onChange={(event) => setQuery(event.target.value)}
+            onChange={(event) => {
+              setQuery(event.target.value)
+              setSelectedDestination(undefined)
+            }}
             placeholder="Search countries, cities or destinations..."
             aria-label="Search destinations"
             className="h-14 w-full rounded-2xl border border-white/18 bg-white/[0.09] pl-14 pr-5 text-sm text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.12),0_16px_50px_rgba(0,0,0,0.28)] outline-none backdrop-blur-xl transition placeholder:text-white/42 focus:border-[#D4AF37]/70 focus:bg-white/[0.12] focus:ring-2 focus:ring-[#D4AF37]/15 sm:h-16 sm:text-base"
           />
+          <AnimatePresence>
+            {canUseCustomDestination ? (
+              <motion.button
+                type="button"
+                initial={{ opacity: 0, y: -6 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -6 }}
+                onClick={() => {
+                  const destination: JourneyDestination = {
+                    name: normalizedQuery,
+                    type: 'custom',
+                  }
+                  setSelectedDestination(destination)
+                  onSelectionChange?.(destination)
+                }}
+                className={`mt-2 w-full rounded-xl border px-4 py-3 text-left backdrop-blur-xl transition ${
+                  selectedDestination?.type === 'custom' &&
+                  selectedDestination.name === normalizedQuery
+                    ? 'border-[#D4AF37] bg-[#D4AF37]/12 shadow-[0_0_24px_rgba(212,175,55,0.16)]'
+                    : 'border-white/12 bg-[#021316]/88 hover:border-[#D4AF37]/55 hover:bg-white/[0.08]'
+                }`}
+              >
+                <span className="block font-serif text-base text-white">
+                  Plan a journey to “{normalizedQuery}”
+                </span>
+                <span className="mt-1 block text-[10px] font-light tracking-[0.02em] text-white/45">
+                  Our travel designers will curate this destination especially
+                  for you.
+                </span>
+              </motion.button>
+            ) : null}
+          </AnimatePresence>
         </motion.div>
 
         <div className="mb-4 mt-5 flex items-center justify-center gap-4">
@@ -337,21 +398,28 @@ export default function DestinationSelectionScreen({
               key={destination.id}
               destination={destination}
               index={index}
-              selected={selectedId === destination.id}
+              selected={
+                selectedDestination?.type === 'curated' &&
+                selectedDestination.id === destination.id
+              }
               prefersReducedMotion={Boolean(prefersReducedMotion)}
               onSelect={(destinationId) => {
-                setSelectedId(destinationId)
-                onSelectionChange?.(destinationId)
+                const metadata = destinationMetadata.find(
+                  (destination) => destination.id === destinationId,
+                )
+                if (!metadata) return
+                const destination: JourneyDestination = {
+                  id: metadata.id,
+                  name: metadata.name,
+                  type: 'curated',
+                }
+                setSelectedDestination(destination)
+                onSelectionChange?.(destination)
               }}
             />
           ))}
         </motion.div>
 
-        {visibleDestinations.length === 0 ? (
-          <p className="py-12 text-center text-sm text-white/55">
-            No destinations match your search.
-          </p>
-        ) : null}
       </section>
 
       <nav
@@ -367,15 +435,15 @@ export default function DestinationSelectionScreen({
             ← Back
           </button>
           <p className="justify-self-center text-[10px] uppercase tracking-[0.25em] text-white/48">
-            Step 1 of 10
+            Step 1 of 8
           </p>
           <button
             type="button"
-            disabled={!selectedId}
+            disabled={!selectedDestination}
             onClick={() => {
-              if (selectedId) onContinue?.(selectedId)
+              if (selectedDestination) onContinue?.(selectedDestination)
             }}
-            className="justify-self-end rounded-full border border-[#D4AF37]/70 bg-[#D4AF37] px-5 py-2.5 text-xs font-bold uppercase tracking-[0.14em] text-[#03191D] shadow-[0_8px_28px_rgba(212,175,55,0.2)] transition enabled:hover:-translate-y-0.5 enabled:hover:bg-[#e2c45c] enabled:hover:shadow-[0_10px_34px_rgba(212,175,55,0.34)] disabled:cursor-not-allowed disabled:border-white/10 disabled:bg-white/[0.07] disabled:text-white/28 disabled:shadow-none"
+            className={journeyContinueButtonClassName}
           >
             Continue →
           </button>
