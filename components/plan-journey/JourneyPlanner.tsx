@@ -1,9 +1,9 @@
 'use client'
 
 import { useGSAP } from '@gsap/react'
-import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import gsap from 'gsap'
 import { useRef, useState } from 'react'
+import { flushSync } from 'react-dom'
 import BudgetSelectionScreen from './BudgetSelectionScreen'
 import ContactDetailsScreen from './ContactDetailsScreen'
 import DateSelectionScreen from './DateSelectionScreen'
@@ -14,7 +14,6 @@ import JourneyBriefScreen from './JourneyBriefScreen'
 import type { JourneyDestination, JourneyPlanData } from './journeyModel'
 import TravellerSelectionScreen from './TravellerSelectionScreen'
 
-const easing = [0.22, 1, 0.36, 1] as const
 const journeyVideos: Record<number, string> = {
   1: '/videos/plan-journey/optimized/screen-1-destination.mp4',
   2: '/videos/plan-journey/optimized/screen-2-dates.mp4',
@@ -28,7 +27,7 @@ const journeyVideos: Record<number, string> = {
 
 export default function JourneyPlanner() {
   const [step, setStep] = useState(1)
-  const [direction, setDirection] = useState(1)
+  const [outgoingStep, setOutgoingStep] = useState<number | null>(null)
   const [journey, setJourney] = useState<JourneyPlanData>({
     experienceIds: [],
     travellers: {
@@ -38,86 +37,135 @@ export default function JourneyPlanner() {
       seniors: 0,
     },
   })
-  const prefersReducedMotion = useReducedMotion()
-  const videoRef = useRef<HTMLVideoElement>(null)
-  const [activeVideo, setActiveVideo] = useState(journeyVideos[1])
+  const videoRefs = useRef<Array<HTMLVideoElement | null>>([])
+  const screenContentRefs = useRef<Record<number, HTMLDivElement | null>>({})
+  const transitionTimelineRef = useRef<gsap.core.Timeline | null>(null)
+  const transitionLockedRef = useRef(false)
 
-  useGSAP(
-    () => {
-      if (prefersReducedMotion || activeVideo === journeyVideos[step]) return
+  useGSAP(() => {
+    const videos = videoRefs.current.filter(
+      (video): video is HTMLVideoElement => video !== null,
+    )
 
-      gsap.to(videoRef.current, {
-        opacity: 0,
-        duration: 0.3,
-        ease: 'power2.in',
-        onComplete: () => setActiveVideo(journeyVideos[step]),
-      })
-    },
-    { dependencies: [step, prefersReducedMotion] },
-  )
+    videos.forEach((video, index) => {
+      gsap.set(video, { opacity: index === 0 ? 1 : 0 })
+      if (index === 0) {
+        video.play().catch(() => undefined)
+      } else {
+        video.pause()
+      }
+    })
 
-  useGSAP(
-    () => {
-      if (prefersReducedMotion) return
-
-      gsap.fromTo(
-        videoRef.current,
-        { opacity: 0 },
-        { opacity: 1, duration: 0.3, ease: 'power2.out' },
-      )
-    },
-    { dependencies: [activeVideo, prefersReducedMotion] },
-  )
+    return () => {
+      transitionTimelineRef.current?.kill()
+    }
+  }, [])
 
   function navigate(nextStep: number) {
-    setDirection(nextStep > step ? 1 : -1)
-    setStep(nextStep)
+    if (transitionLockedRef.current || nextStep === step) return
+
+    const screenContent = screenContentRefs.current[step]
+    const currentVideo = videoRefs.current[step - 1]
+    const nextVideo = videoRefs.current[nextStep - 1]
+    if (!screenContent || !currentVideo || !nextVideo) return
+
+    transitionLockedRef.current = true
+    nextVideo.play().catch(() => undefined)
+
+    const videos = videoRefs.current.filter(
+      (video): video is HTMLVideoElement => video !== null,
+    )
+    gsap.killTweensOf([screenContent, ...videos])
+
+    transitionTimelineRef.current = gsap
+      .timeline({
+        onComplete: () => {
+          videos.forEach((video, index) => {
+            const isActive = index === nextStep - 1
+            gsap.set(video, { opacity: isActive ? 1 : 0 })
+            if (!isActive) video.pause()
+          })
+          flushSync(() => setOutgoingStep(null))
+          transitionLockedRef.current = false
+          transitionTimelineRef.current = null
+        },
+      })
+      .to(
+        screenContent,
+        { opacity: 0, duration: 0.4, ease: 'power2.in' },
+        0,
+      )
+      .to(
+        currentVideo,
+        { opacity: 0, duration: 1.2, ease: 'power2.inOut' },
+        0,
+      )
+      .to(
+        nextVideo,
+        { opacity: 1, duration: 1.2, ease: 'power2.inOut' },
+        0,
+      )
+      .call(
+        () => {
+          flushSync(() => {
+            setOutgoingStep(step)
+            setStep(nextStep)
+          })
+
+          const incomingContent = screenContentRefs.current[nextStep]
+          if (!incomingContent) return
+
+          gsap.set(incomingContent, { opacity: 0 })
+          transitionTimelineRef.current?.to(
+            incomingContent,
+            { opacity: 1, duration: 0.65, ease: 'power2.out' },
+            0.25,
+          )
+        },
+        [],
+        0.15,
+      )
   }
 
-  const transition = {
-    duration: prefersReducedMotion ? 0 : 0.75,
-    ease: easing,
-  }
+  const visibleSteps = outgoingStep === null ? [step] : [outgoingStep, step]
 
   return (
     <div className="relative min-h-[100svh] overflow-hidden bg-[#020f12]">
-      {!prefersReducedMotion ? (
+      {Object.entries(journeyVideos).map(([videoStep, source], index) => (
         <video
-          key={activeVideo}
-          ref={videoRef}
+          key={videoStep}
+          ref={(video) => {
+            videoRefs.current[index] = video
+          }}
           aria-hidden="true"
-          className="pointer-events-none absolute inset-0 h-full w-full object-cover"
+          className={`pointer-events-none absolute inset-0 h-full w-full object-cover ${
+            index === 0 ? 'opacity-100' : 'opacity-0'
+          }`}
           autoPlay
           muted
           loop
           playsInline
-          preload="metadata"
-        >
-          <source src={activeVideo} type="video/mp4" />
-        </video>
-      ) : null}
+          preload="auto"
+          src={source}
+        />
+      ))}
       <div className="pointer-events-none absolute inset-0 bg-[#021316]/58" />
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/34 via-[#03191d]/34 to-[#020f12]/88" />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/5 via-[#03191d]/5 to-[#020f12]/12" />
 
-      <AnimatePresence mode="wait" custom={direction}>
-        <motion.div
-          key={step}
-          custom={direction}
-          initial={
-            prefersReducedMotion
-              ? { opacity: 1 }
-              : { opacity: 0, x: direction * 42, filter: 'blur(10px)' }
-          }
-          animate={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
-          exit={
-            prefersReducedMotion
-              ? { opacity: 0 }
-              : { opacity: 0, x: direction * -42, filter: 'blur(10px)' }
-          }
-          transition={transition}
-          className="relative z-10"
-        >
-          {step === 1 ? (
+      <div className="relative z-10">
+        {visibleSteps.map((screenStep) => (
+          <div
+            key={screenStep}
+            ref={(content) => {
+              screenContentRefs.current[screenStep] = content
+            }}
+            className={
+              screenStep === outgoingStep
+                ? 'pointer-events-none absolute inset-0 z-0'
+                : 'relative z-10'
+            }
+          >
+          {screenStep === 1 ? (
             <DestinationSelectionScreen
               initialDestination={journey.destination}
               onSelectionChange={(destination: JourneyDestination) =>
@@ -127,7 +175,7 @@ export default function JourneyPlanner() {
             />
           ) : null}
 
-          {step === 2 ? (
+          {screenStep === 2 ? (
             <DateSelectionScreen
               initialDeparture={journey.departure}
               initialReturnDate={journey.returnDate}
@@ -150,7 +198,7 @@ export default function JourneyPlanner() {
             />
           ) : null}
 
-          {step === 3 ? (
+          {screenStep === 3 ? (
             <TravellerSelectionScreen
               counts={journey.travellers}
               onChange={(travellers) =>
@@ -161,7 +209,7 @@ export default function JourneyPlanner() {
             />
           ) : null}
 
-          {step === 4 ? (
+          {screenStep === 4 ? (
             <ExperienceSelectionScreen
               selectedIds={journey.experienceIds}
               onChange={(experienceIds) =>
@@ -172,7 +220,7 @@ export default function JourneyPlanner() {
             />
           ) : null}
 
-          {step === 5 ? (
+          {screenStep === 5 ? (
             <BudgetSelectionScreen
               selectedId={journey.budgetId}
               onChange={(budgetId) =>
@@ -183,7 +231,7 @@ export default function JourneyPlanner() {
             />
           ) : null}
 
-          {step === 6 ? (
+          {screenStep === 6 ? (
             <DreamJourneyScreen
               details={journey.dreamJourney}
               onChange={(dreamJourney) =>
@@ -194,7 +242,7 @@ export default function JourneyPlanner() {
             />
           ) : null}
 
-          {step === 7 ? (
+          {screenStep === 7 ? (
             <ContactDetailsScreen
               details={journey.contactDetails}
               onChange={(contactDetails) =>
@@ -205,15 +253,16 @@ export default function JourneyPlanner() {
             />
           ) : null}
 
-          {step === 8 ? (
+          {screenStep === 8 ? (
             <JourneyBriefScreen
               journey={journey}
               onBack={() => navigate(7)}
               onEdit={navigate}
             />
           ) : null}
-        </motion.div>
-      </AnimatePresence>
+          </div>
+        ))}
+      </div>
     </div>
   )
 }
