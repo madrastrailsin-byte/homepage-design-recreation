@@ -379,21 +379,7 @@ export default function ExperienceSelectionScreen({
     : { opacity: 0, y: 24, filter: 'blur(9px)' }
 
   return (
-    <main className="relative min-h-[100svh] overflow-hidden bg-[#020f12] text-[#FAFAF9]">
-      <motion.video
-        aria-hidden="true"
-        initial={prefersReducedMotion ? false : { opacity: 0, scale: 1.08 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 2.4, ease: easing }}
-        className="absolute inset-0 h-full w-full object-cover"
-        autoPlay
-        muted
-        loop
-        playsInline
-        preload="metadata"
-      >
-        <source src="/videos/contact/hero.mp4" type="video/mp4" />
-      </motion.video>
+    <main className="relative min-h-[100svh] overflow-hidden bg-transparent text-[#FAFAF9]">
 
       <div className="absolute inset-0 bg-[#021316]/80" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_22%,rgba(20,72,76,0.18),transparent_38%)]" />

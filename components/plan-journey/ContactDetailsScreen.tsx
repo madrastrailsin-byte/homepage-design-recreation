@@ -147,20 +147,7 @@ export default function ContactDetailsScreen({
     : { opacity: 0, y: 24, filter: 'blur(9px)' }
 
   return (
-    <main className="relative min-h-[100svh] overflow-x-hidden bg-[#020f12] text-[#FAFAF9] lg:overflow-hidden">
-      <motion.video
-        aria-hidden="true"
-        initial={prefersReducedMotion ? false : { opacity: 0, scale: 1.08 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 2.4, ease: easing }}
-        className="absolute inset-0 h-full w-full object-cover"
-        autoPlay
-        muted
-        loop
-        playsInline
-      >
-        <source src="/videos/contact/hero.mp4" type="video/mp4" />
-      </motion.video>
+    <main className="relative min-h-[100svh] overflow-x-hidden bg-transparent text-[#FAFAF9] lg:overflow-hidden">
       <div className="absolute inset-0 bg-[#021316]/82" />
       <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-[#03191d]/42 to-[#020f12]/96" />
 

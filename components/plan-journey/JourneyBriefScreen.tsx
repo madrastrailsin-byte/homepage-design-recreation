@@ -141,17 +141,7 @@ export default function JourneyBriefScreen({
           : 'email'
 
     return (
-      <main className="relative grid min-h-[100svh] place-items-center overflow-hidden bg-[#020f12] px-6 text-center text-white">
-        <video
-          aria-hidden="true"
-          className="absolute inset-0 h-full w-full object-cover opacity-25"
-          autoPlay
-          muted
-          loop
-          playsInline
-        >
-          <source src="/videos/contact/hero.mp4" type="video/mp4" />
-        </video>
+      <main className="relative grid min-h-[100svh] place-items-center overflow-hidden bg-transparent px-6 text-center text-white">
         <div className="absolute inset-0 bg-[#021316]/84" />
         <motion.div
           initial={reveal}
@@ -198,17 +188,7 @@ export default function JourneyBriefScreen({
   }
 
   return (
-    <main className="relative min-h-[100svh] overflow-x-hidden bg-[#020f12] text-[#FAFAF9] lg:overflow-hidden">
-      <video
-        aria-hidden="true"
-        className="absolute inset-0 h-full w-full object-cover"
-        autoPlay
-        muted
-        loop
-        playsInline
-      >
-        <source src="/videos/contact/hero.mp4" type="video/mp4" />
-      </video>
+    <main className="relative min-h-[100svh] overflow-x-hidden bg-transparent text-[#FAFAF9] lg:overflow-hidden">
       <div className="absolute inset-0 bg-[#021316]/84" />
       <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-[#03191d]/42 to-[#020f12]/96" />
 

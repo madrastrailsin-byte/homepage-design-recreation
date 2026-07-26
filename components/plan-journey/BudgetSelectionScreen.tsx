@@ -168,18 +168,7 @@ export default function BudgetSelectionScreen({
     : { opacity: 0, y: 24, filter: 'blur(9px)' }
 
   return (
-    <main className="relative min-h-[100svh] overflow-x-hidden bg-[#020f12] text-[#FAFAF9] lg:overflow-hidden">
-      <video
-        aria-hidden="true"
-        className="absolute inset-0 h-full w-full object-cover"
-        autoPlay
-        muted
-        loop
-        playsInline
-        preload="metadata"
-      >
-        <source src="/videos/contact/hero.mp4" type="video/mp4" />
-      </video>
+    <main className="relative min-h-[100svh] overflow-x-hidden bg-transparent text-[#FAFAF9] lg:overflow-hidden">
       <div className="absolute inset-0 bg-[#021316]/80" />
       <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-[#03191d]/42 to-[#020f12]/96" />
 
