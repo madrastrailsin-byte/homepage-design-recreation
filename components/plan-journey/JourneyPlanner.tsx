@@ -2,6 +2,8 @@
 
 import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
+import { Home } from 'lucide-react'
+import Link from 'next/link'
 import { useRef, useState } from 'react'
 import { flushSync } from 'react-dom'
 import BudgetSelectionScreen from './BudgetSelectionScreen'
@@ -151,6 +153,13 @@ export default function JourneyPlanner() {
       ))}
       <div className="pointer-events-none absolute inset-0 bg-[#021316]/58" />
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/5 via-[#03191d]/5 to-[#020f12]/12" />
+      <Link
+        href="/"
+        className="absolute left-6 top-6 z-[999] inline-flex items-center gap-2 rounded-full border border-white/20 bg-black/20 px-4 py-2 text-xs uppercase tracking-[0.25em] text-white backdrop-blur-md transition-all duration-500 hover:border-white/40 hover:bg-white hover:text-black"
+      >
+        <Home aria-hidden="true" className="h-3.5 w-3.5" />
+        Home
+      </Link>
 
       <div className="relative z-10">
         {visibleSteps.map((screenStep) => (
