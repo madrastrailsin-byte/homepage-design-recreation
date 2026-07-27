@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
 import Image from "next/image";
+import { getDestinationRegion } from '@/lib/destinations'
 
 interface Destination {
   id: string
@@ -18,76 +19,6 @@ interface DestinationRailProps {
   selectedId: string
   onSelect: (id: string) => void
 }
-
-const REGION_BY_ID: Record<string, string> = {
-  japan: 'Asia',
-  switzerland: 'Europe',
-  france: 'Europe',
-  italy: 'Europe',
-  germany: 'Europe',
-  'united-arab-emirates': 'Middle East',
-  maldives: 'Indian Ocean',
-  singapore: 'Asia',
-  greece: 'Europe',
-  australia: 'Oceania',
-  'new-zealand': 'Oceania',
-  norway: 'Europe',
-  iceland: 'Europe',
-  canada: 'North America',
-  'united-kingdom': 'Europe',
-  spain: 'Europe',
-  turkiye: 'Europe & Asia',
-  austria: 'Europe',
-  portugal: 'Europe',
-  netherlands: 'Europe',
-  ireland: 'Europe',
-  belgium: 'Europe',
-  denmark: 'Europe',
-  sweden: 'Europe',
-  'czech-republic': 'Europe',
-  hungary: 'Europe',
-  china: 'Asia',
-  thailand: 'Asia',
-  malaysia: 'Asia',
-  'south-korea': 'Asia',
-  vietnam: 'Asia',
-  indonesia: 'Asia',
-  philippines: 'Asia',
-  'hong-kong': 'Asia',
-  'united-states': 'North America',
-  mexico: 'North America',
-  egypt: 'Africa',
-  'south-africa': 'Africa',
-  brazil: 'South America',
-  argentina: 'South America',
-  india: 'Asia',
-  'sri-lanka': 'Asia',
-  nepal: 'Asia',
-  bhutan: 'Asia',
-  cambodia: 'Asia',
-  taiwan: 'Asia',
-  uzbekistan: 'Central Asia',
-  georgia: 'Europe & Asia',
-  finland: 'Europe',
-  croatia: 'Europe',
-  poland: 'Europe',
-  morocco: 'Africa',
-  kenya: 'Africa',
-  tanzania: 'Africa',
-  namibia: 'Africa',
-  seychelles: 'Indian Ocean',
-  mauritius: 'Indian Ocean',
-  oman: 'Middle East',
-  qatar: 'Middle East',
-  peru: 'South America',
-  chile: 'South America',
-  ecuador: 'South America',
-  'costa-rica': 'Central America',
-  fiji: 'Oceania',
-  'french-polynesia': 'Oceania',
-  'saudi-arabia': 'Middle East',
-}
-
 
 const IMAGE_POSITION_BY_ID: Record<string, string> = {
   japan: 'center 46%',
@@ -255,7 +186,7 @@ export default function DestinationRail({
       >
         {destinations.map((destination, index) => {
           const isSelected = destination.id === selectedId
-          const region = REGION_BY_ID[destination.id] ?? 'Worldwide'
+          const region = getDestinationRegion(destination.id)
           const imageSrc = destination.image || FALLBACK_IMAGE
 
           return (

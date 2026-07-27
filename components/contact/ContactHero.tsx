@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Phone, Mail, MessageCircle } from "lucide-react";
+import { Phone, Mail, MapPin, MessageCircle } from "lucide-react";
 import Link from "next/link";
 
 const reveal = {
@@ -111,6 +111,17 @@ export default function ContactHero() {
 >
               <MessageCircle className="mb-3 h-4 w-4 text-white/50 transition-colors group-hover:text-[#D4AF37]" />
               Let&apos;s Chat
+            </a>
+
+            <a
+  href="https://www.google.com/maps/search/?api=1&query=%23362%2C%20Eden%20Avenue%2C%20Mogappair%2C%20Chennai%20%E2%80%93%20600%20037"
+  target="_blank"
+  rel="noopener noreferrer"
+  aria-label="View the MadrasTrails office on Google Maps"
+  className="group flex flex-col items-center whitespace-nowrap text-[9px] uppercase tracking-[0.18em] text-white/75 transition hover:text-[#D4AF37] sm:text-xs sm:tracking-[0.22em]"
+>
+              <MapPin className="mb-3 h-4 w-4 text-white/50 transition-colors group-hover:text-[#D4AF37]" />
+              #362, Eden Avenue, Mogappair, Chennai – 600 037
             </a>
 
             <Link

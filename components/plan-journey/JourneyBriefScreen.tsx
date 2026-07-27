@@ -1,7 +1,7 @@
 'use client'
 
 import { motion, useReducedMotion } from 'framer-motion'
-import { Edit3, Send } from 'lucide-react'
+import { Check, Edit3, LoaderCircle, Send } from 'lucide-react'
 import Link from 'next/link'
 import { useRef, useState } from 'react'
 import {
@@ -82,6 +82,7 @@ export default function JourneyBriefScreen({
   const [success, setSuccess] = useState<{ reference?: string }>()
   const errorRef = useRef<HTMLParagraphElement>(null)
   const successRef = useRef<HTMLHeadingElement>(null)
+  const submissionInFlightRef = useRef(false)
 
   const nights =
     journey.departure && journey.returnDate
@@ -113,7 +114,8 @@ export default function JourneyBriefScreen({
     : { opacity: 0, y: 24, filter: 'blur(9px)' }
 
   async function handleSubmit() {
-    if (isSubmitting) return
+    if (submissionInFlightRef.current) return
+    submissionInFlightRef.current = true
     setIsSubmitting(true)
     setError('')
 
@@ -127,19 +129,12 @@ export default function JourneyBriefScreen({
       setError('We couldn’t send your journey just now. Please try again.')
       requestAnimationFrame(() => errorRef.current?.focus())
     } finally {
+      submissionInFlightRef.current = false
       setIsSubmitting(false)
     }
   }
 
   if (success) {
-    const firstName = contact?.fullName.trim().split(/\s+/u)[0] || 'Traveller'
-    const preferredMethod =
-      contact?.preferredContact === 'whatsapp'
-        ? 'WhatsApp'
-        : contact?.preferredContact === 'phone'
-          ? 'a phone call'
-          : 'email'
-
     return (
       <main className="relative grid min-h-[100svh] place-items-center overflow-hidden bg-transparent px-6 text-center text-white">
         <div className="absolute inset-0 bg-[#021316]/84" />
@@ -149,23 +144,33 @@ export default function JourneyBriefScreen({
           className="relative z-10 max-w-3xl"
         >
           <p className="mt-eyebrow text-[10px] text-[#D4AF37]">
-            Journey received
+            JOURNEY BRIEF RECEIVED
           </p>
           <h1
             ref={successRef}
             tabIndex={-1}
             className="mt-3 font-serif text-[clamp(2.8rem,6vw,5.4rem)] font-semibold leading-none outline-none"
           >
-            Your journey is now in thoughtful hands.
+            Your Journey Begins Here
           </h1>
           <p className="mx-auto mt-5 max-w-2xl text-sm font-light leading-relaxed text-white/58">
-            Thank you, {firstName}. A MadrasTrails travel designer will review
-            every detail and contact you through {preferredMethod}.
+            Thank you for sharing your travel vision with us. One of our
+            MadrasTrails Travel Designers will personally review your journey
+            brief and contact you within 24 hours to begin crafting your
+            experience.
           </p>
-          <p className="mt-2 font-serif text-xl italic text-white/68">
-            We look forward to turning your ideas into a journey worth
-            remembering.
-          </p>
+          <div className="mx-auto mt-7 max-w-md rounded-2xl border border-[#D4AF37]/24 bg-white/[0.055] px-6 py-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_18px_50px_rgba(0,0,0,0.24)] backdrop-blur-xl">
+            <Check
+              className="mx-auto h-5 w-5 text-[#D4AF37]"
+              aria-hidden="true"
+            />
+            <p className="mt-3 font-serif text-xl text-white/84">
+              Journey Brief Received
+            </p>
+            <p className="mt-2 text-[11px] font-light text-white/46">
+              We’ll reach out through your preferred contact method.
+            </p>
+          </div>
           {success.reference ? (
             <p className="mt-5 text-[10px] uppercase tracking-[0.18em] text-[#D4AF37]/72">
               Journey reference: {success.reference}
@@ -173,7 +178,7 @@ export default function JourneyBriefScreen({
           ) : null}
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <Link href="/" className={journeyContinueButtonClassName}>
-              Return Home
+              Return to Home
             </Link>
             <Link
               href="/destinations"
@@ -349,7 +354,15 @@ export default function JourneyBriefScreen({
               className={`${journeyContinueButtonClassName} relative mx-auto mt-6 overflow-hidden`}
             >
               <span className="relative z-10 inline-flex items-center gap-2">
-                {isSubmitting ? 'Sending your journey…' : 'Submit my journey'}
+                {isSubmitting ? (
+                  <LoaderCircle
+                    className="h-3.5 w-3.5 animate-spin"
+                    aria-hidden="true"
+                  />
+                ) : null}
+                {isSubmitting
+                  ? 'Sending Your Journey…'
+                  : 'Submit My Journey'}
                 {!isSubmitting ? (
                   <Send className="h-3.5 w-3.5" aria-hidden="true" />
                 ) : null}

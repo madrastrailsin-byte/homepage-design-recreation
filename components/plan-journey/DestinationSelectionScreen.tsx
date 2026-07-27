@@ -12,6 +12,7 @@ import Image from 'next/image'
 import { useMemo, useState, type MouseEvent } from 'react'
 import {
   destinationMetadata,
+  getDestinationRegion,
   type DestinationMetadata,
 } from '@/lib/destinations'
 import type { JourneyDestination } from './journeyModel'
@@ -35,6 +36,9 @@ const destinationAliases: Record<string, string> = {
   uk: 'united kingdom',
   usa: 'united states',
 }
+
+const normalizeSearchValue = (value: string) =>
+  value.trim().replace(/\s+/g, ' ').toLocaleLowerCase()
 
 interface DestinationCardProps {
   destination: DestinationMetadata
@@ -223,26 +227,24 @@ export default function DestinationSelectionScreen({
   const prefersReducedMotion = useReducedMotion()
 
   const visibleDestinations = useMemo(() => {
-    const normalizedQuery = query.trim().toLocaleLowerCase()
+    const normalizedQuery = normalizeSearchValue(query)
 
     if (!normalizedQuery) return popularDestinations
     const searchableQuery = destinationAliases[normalizedQuery] ?? normalizedQuery
 
     return destinationMetadata
-      .filter(
-        (destination) =>
-          destination.image.startsWith('/') &&
-          `${destination.name} ${destination.tagline}`
-            .toLocaleLowerCase()
-            .includes(searchableQuery),
+      .filter((destination) =>
+        normalizeSearchValue(
+          `${destination.name} ${destination.tagline} ${getDestinationRegion(destination.id)}`,
+        ).includes(searchableQuery),
       )
       .slice(0, 8)
   }, [query])
 
   const normalizedQuery = query.trim().replace(/\s+/g, ' ')
-  const normalizedQueryLower = normalizedQuery.toLocaleLowerCase()
+  const normalizedQueryLower = normalizeSearchValue(normalizedQuery)
   const matchesKnownDestination = destinationMetadata.some((destination) => {
-    const knownName = destination.name.toLocaleLowerCase()
+    const knownName = normalizeSearchValue(destination.name)
     return (
       knownName === normalizedQueryLower ||
       knownName === destinationAliases[normalizedQueryLower]

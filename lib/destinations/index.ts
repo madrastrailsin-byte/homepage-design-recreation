@@ -72,5 +72,9 @@ export interface DestinationMetadata {
   bestSeason: string
 }
 
-export { destinationMetadata } from "./metadata"
+export {
+  destinationMetadata,
+  DESTINATION_REGION_BY_ID,
+  getDestinationRegion,
+} from "./metadata"
 export { loadDestination } from "./loaders"

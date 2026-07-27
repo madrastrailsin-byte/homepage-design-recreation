@@ -1,0 +1,174 @@
+import { NextResponse } from 'next/server'
+import type { createJourneySubmissionPayload } from '@/components/plan-journey/journeyModel'
+import { MADRAS_TRAILS_EMAIL } from '@/lib/company'
+
+type JourneySubmissionPayload = ReturnType<
+  typeof createJourneySubmissionPayload
+>
+
+const RESEND_ENDPOINT = 'https://api.resend.com/emails'
+
+function escapeHtml(value: unknown) {
+  return String(value ?? '')
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#039;')
+}
+
+function isJourneySubmission(
+  value: unknown,
+): value is JourneySubmissionPayload {
+  if (!value || typeof value !== 'object') return false
+
+  const submission = value as Partial<JourneySubmissionPayload>
+  const contact = submission.contactDetails
+
+  return Boolean(
+    submission.destination?.name &&
+      contact?.fullName?.trim() &&
+      contact?.email?.trim() &&
+      contact?.consentToContact,
+  )
+}
+
+function formatJourneyBrief(payload: JourneySubmissionPayload) {
+  const contact = payload.contactDetails
+  const destination = payload.destination?.name ?? 'Not specified'
+  const dates = payload.travelDates
+  const travellers = Object.entries(payload.travellers)
+    .map(([label, count]) => `${label}: ${count}`)
+    .join(', ')
+  const experiences = payload.experiences.join(', ') || 'Not specified'
+  const inspirations =
+    payload.dreamJourney?.inspirations.join(', ') || 'Not specified'
+
+  const rows = [
+    ['Destination', destination],
+    [
+      'Travel dates',
+      `${dates.departureDate || 'Not specified'} to ${dates.returnDate || 'Not specified'} · ${dates.days} days / ${dates.nights} nights`,
+    ],
+    ['Travellers', travellers],
+    ['Experiences', experiences],
+    [
+      'Budget',
+      payload.budget
+        ? `${payload.budget.tier} · ${payload.budget.range}`
+        : 'Not specified',
+    ],
+    ['Dream journey', payload.dreamJourney?.notes || 'Not specified'],
+    ['Inspirations', inspirations],
+    ['Full name', contact?.fullName || 'Not specified'],
+    ['Email', contact?.email || 'Not specified'],
+    [
+      'Mobile',
+      contact
+        ? `${contact.countryCode} ${contact.mobile}`
+        : 'Not specified',
+    ],
+    [
+      'Preferred contact',
+      contact
+        ? `${contact.preferredContact || 'Not specified'} · ${contact.preferredTime || 'Anytime'}`
+        : 'Not specified',
+    ],
+    ['City', contact?.city || 'Not specified'],
+    ['Marketing consent', contact?.marketingConsent ? 'Yes' : 'No'],
+  ] as const
+
+  const text = rows.map(([label, value]) => `${label}: ${value}`).join('\n\n')
+  const html = rows
+    .map(
+      ([label, value]) =>
+        `<tr><td style="padding:10px 16px;color:#9b7b38;font-size:12px;text-transform:uppercase;letter-spacing:.08em;vertical-align:top">${escapeHtml(label)}</td><td style="padding:10px 16px;color:#e9e2d2;font-size:14px;line-height:1.6">${escapeHtml(value)}</td></tr>`,
+    )
+    .join('')
+
+  return {
+    html: `<div style="background:#06161d;padding:32px;font-family:Arial,sans-serif"><h1 style="margin:0 0 24px;color:#d4af37;font-family:Georgia,serif;font-weight:400">New Journey Brief</h1><table style="width:100%;max-width:760px;border-collapse:collapse;background:#0b2028;border:1px solid rgba(212,175,55,.22)">${html}</table></div>`,
+    text,
+  }
+}
+
+export async function POST(request: Request) {
+  const apiKey = process.env.RESEND_API_KEY
+  const from =
+    process.env.JOURNEY_ENQUIRY_FROM_EMAIL ??
+    'MadrasTrails Journey Planner <journeys@madrastrails.in>'
+  const to = process.env.JOURNEY_ENQUIRY_TO_EMAIL ?? MADRAS_TRAILS_EMAIL
+
+  if (!apiKey) {
+    return NextResponse.json(
+      { error: 'Journey delivery is not configured.' },
+      { status: 503 },
+    )
+  }
+
+  let payload: unknown
+
+  try {
+    payload = await request.json()
+  } catch {
+    return NextResponse.json(
+      { error: 'The journey brief could not be read.' },
+      { status: 400 },
+    )
+  }
+
+  if (!isJourneySubmission(payload)) {
+    return NextResponse.json(
+      { error: 'The journey brief is incomplete.' },
+      { status: 400 },
+    )
+  }
+
+  const brief = formatJourneyBrief(payload)
+  const guestName = payload.contactDetails?.fullName.trim() || 'Traveller'
+  const destination = payload.destination?.name || 'Bespoke Journey'
+
+  try {
+    const response = await fetch(RESEND_ENDPOINT, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        from,
+        to: [to],
+        reply_to: payload.contactDetails?.email,
+        subject: `Journey brief · ${guestName} · ${destination}`,
+        text: brief.text,
+        html: brief.html,
+      }),
+    })
+
+    const result = (await response.json().catch(() => ({}))) as {
+      id?: string
+      message?: string
+    }
+
+    if (!response.ok || !result.id) {
+      console.error('Journey enquiry delivery failed', {
+        status: response.status,
+        message: result.message,
+      })
+      return NextResponse.json(
+        { error: 'We could not deliver your journey brief just now.' },
+        { status: 502 },
+      )
+    }
+
+    return NextResponse.json({ reference: result.id })
+  } catch (error) {
+    console.error('Journey enquiry delivery request failed', {
+      message: error instanceof Error ? error.message : 'Unknown error',
+    })
+    return NextResponse.json(
+      { error: 'We could not reach our journey delivery service.' },
+      { status: 502 },
+    )
+  }
+}

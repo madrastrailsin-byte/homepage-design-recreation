@@ -2,7 +2,7 @@
 
 import { FormEvent, useEffect, useState } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
-import { ArrowRight, Check } from 'lucide-react'
+import { ArrowRight, Check, MapPin } from 'lucide-react'
 import BrandLogo from './BrandLogo'
 
 export default function Footer() {
@@ -171,10 +171,15 @@ export default function Footer() {
             {/* Contact Info - Right Side (Inline) */}
             <div className="mt-body-copy flex flex-wrap gap-4 md:gap-6 text-[#999999] text-xs md:text-sm justify-center md:justify-end">
               {/* Location */}
-              <div className="flex items-center gap-1.5">
-                <svg className="w-4 h-4 text-[#D4AF37] flex-shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm3.5-9c.83 0 1.5-.67 1.5-1.5S16.33 8 15.5 8 14 8.67 14 9.5s.67 1.5 1.5 1.5z"/></svg>
-                <span>Chennai, Tamil Nadu, India</span>
-              </div>
+              <a
+                href="https://www.google.com/maps/search/?api=1&query=%23362%2C%20Eden%20Avenue%2C%20Mogappair%2C%20Chennai%20%E2%80%93%20600%20037"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1.5 whitespace-nowrap"
+              >
+                <MapPin className="h-4 w-4 flex-shrink-0 text-[#D4AF37]" />
+                <span>#362, Eden Avenue, Mogappair, Chennai – 600 037</span>
+              </a>
 
               {/* Phone */}
               <a href="tel:+917891876918" className="flex items-center gap-1.5">
