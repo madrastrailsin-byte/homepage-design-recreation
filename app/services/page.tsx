@@ -3,6 +3,7 @@ import { ArrowRight } from 'lucide-react'
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
 import ServicesField from '@/components/services/ServicesField'
+import LazyCtaVideo from '@/components/services/LazyCtaVideo'
 import { travelServices } from '@/lib/services-data'
 
 export default function ServicesPage() {
@@ -60,17 +61,7 @@ export default function ServicesPage() {
       <ServicesField services={travelServices} />
 
       <section className="relative flex min-h-[88svh] items-start overflow-hidden px-6 pt-20 pb-20 md:px-8 lg:px-10">
-        <video
-  className="absolute inset-0 h-full w-full object-cover opacity-[0.72] saturate-[0.95]"
-  style={{ objectPosition: 'center center' }}
-  src="/videos/services/hero-cta.mp4"
-  autoPlay
-  muted
-  loop
-  playsInline
-  preload="metadata"
-  aria-hidden="true"
-/>
+        <LazyCtaVideo />
         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(2,15,18,0.12),rgba(2,15,18,0.32))]" />
         <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-col items-start">
           <p className="mt-eyebrow mb-7 text-xs text-[#D4AF37]/86">BEGIN</p>
