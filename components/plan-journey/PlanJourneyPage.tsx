@@ -129,7 +129,7 @@ export default function PlanJourneyPage() {
         backgroundRepeat: 'no-repeat',
       }}
     >
-      <div className="absolute inset-0 bg-black/20" />
+      <div className="absolute inset-0 bg-black/5" />
       <div className="hidden lg:block">
         <AnimatedLantern />
       </div>

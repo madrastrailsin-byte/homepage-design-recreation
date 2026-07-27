@@ -1,6 +1,7 @@
 'use client'
 
 import { Menu } from 'lucide-react'
+import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
@@ -110,7 +111,7 @@ ${logoPulse ? "mt-logo-receipt" : ""}
         {/* Desktop Menu */}
         <motion.div initial={introInitial} animate={introAnimate} transition={introTransition(0.26)} className="hidden justify-self-center lg:flex items-center gap-8 xl:gap-12 whitespace-nowrap">
           <>
-  <a href="/destinations" className={navLinkClass}>Destinations</a>
+  <Link href="/destinations" className={navLinkClass}>Destinations</Link>
 
   <span className="text-white/10 text-xs select-none">│</span>
 
@@ -158,9 +159,9 @@ ${logoPulse ? "mt-logo-receipt" : ""}
 {isOpen && (
   <div className="md:hidden bg-[#03191D]/86 backdrop-blur-xl border-t border-[#D4AF37]/10">
     <div className="px-6 py-6 flex flex-col gap-4">
-      <a href="/destinations" className={mobileNavLinkClass}>
+      <Link href="/destinations" className={mobileNavLinkClass}>
         Destinations
-      </a>
+      </Link>
 
       <a
         href="/experiences"

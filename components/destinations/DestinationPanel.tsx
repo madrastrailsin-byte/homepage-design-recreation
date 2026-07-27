@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import Link from 'next/link'
 import { motion, useReducedMotion } from 'framer-motion'
 import Image from "next/image";
@@ -87,11 +87,18 @@ export default function DestinationPanel({
 }: DestinationPanelProps) {
   const prefersReducedMotion = useReducedMotion()
   const [isOpen, setIsOpen] = useState(true)
-  const [imageFailed, setImageFailed] = useState(false)
+  const imageSrc = destination.image || FALLBACK_IMAGE
+  const imageKey = `${destination.id}:${imageSrc}`
+  const [imageState, setImageState] = useState({
+    key: imageKey,
+    failed: false,
+  })
 
-  useEffect(() => {
-  setImageFailed(false)
-}, [destination.id, destination.image])
+  if (imageState.key !== imageKey) {
+    setImageState({ key: imageKey, failed: false })
+  }
+
+  const imageFailed = imageState.key === imageKey && imageState.failed
 
   if (!isOpen) {
     return (
@@ -114,7 +121,6 @@ export default function DestinationPanel({
   const highlights = Array.isArray(destination.highlights)
     ? destination.highlights.filter(Boolean).slice(0, 3)
     : []
-  const imageSrc = destination.image || FALLBACK_IMAGE
   const markerColor = destination.markerColor || FALLBACK_MARKER_COLOR
 
   return (
@@ -181,7 +187,7 @@ export default function DestinationPanel({
               loading={prioritizeImage ? undefined : "lazy"}
               quality={75}
               sizes="(min-width: 1024px) 288px, (min-width: 768px) 398px, calc(100vw - 5rem)"
-              onError={() => setImageFailed(true)}
+              onError={() => setImageState({ key: imageKey, failed: true })}
               className="object-cover"
               style={{ objectPosition: getImagePosition(destination.id) }}
             />

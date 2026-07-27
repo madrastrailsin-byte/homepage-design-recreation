@@ -26,6 +26,21 @@ export default function JourneyEnquiry({
   destination = "Japan",
   onBack,
 }: JourneyEnquiryProps) {
+  return (
+    <JourneyEnquiryForm
+      key={`${destination}:${experience}`}
+      experience={experience}
+      destination={destination}
+      onBack={onBack}
+    />
+  )
+}
+
+function JourneyEnquiryForm({
+  experience,
+  destination,
+  onBack,
+}: Required<JourneyEnquiryProps>) {
   const initialMessage = useMemo(
     () =>
       `Hello MadrasTrails,\n\nI'm interested in the ${experience} experience during my ${destination} journey.\n\nI'd love to discuss how this can be included in a bespoke itinerary.\n\nThank you.`,
@@ -41,11 +56,7 @@ export default function JourneyEnquiry({
   const [submitted, setSubmitted] = useState(false)
   const enquiryTopRef = useRef<HTMLDivElement>(null)
   const messageRef = useRef<HTMLTextAreaElement>(null)
-  
-  useEffect(() => {
-    setMessage(initialMessage)
-    setSubmitted(false)
-  }, [initialMessage])
+
   useEffect(() => {
   enquiryTopRef.current?.scrollIntoView({
     behavior: "instant",

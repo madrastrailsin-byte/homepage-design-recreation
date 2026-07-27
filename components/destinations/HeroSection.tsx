@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { motion } from "framer-motion"
 import Image from "next/image"
 import Link from "next/link"
@@ -34,13 +34,23 @@ const reveal = {
 const MotionImage = motion.create(Image)
 
 export default function HeroSection({ destination }: HeroSectionProps) {
-  const [imageSrc, setImageSrc] = useState(
-    destination.image || FALLBACK_IMAGE,
-  )
+  const requestedImage = destination.image || FALLBACK_IMAGE
+  const [imageState, setImageState] = useState({
+    requested: requestedImage,
+    resolved: requestedImage,
+  })
 
-  useEffect(() => {
-    setImageSrc(destination.image || FALLBACK_IMAGE)
-  }, [destination.image])
+  if (imageState.requested !== requestedImage) {
+    setImageState({
+      requested: requestedImage,
+      resolved: requestedImage,
+    })
+  }
+
+  const imageSrc =
+    imageState.requested === requestedImage
+      ? imageState.resolved
+      : requestedImage
 
   return (
     <section className="relative h-screen overflow-hidden">
@@ -61,7 +71,10 @@ export default function HeroSection({ destination }: HeroSectionProps) {
         sizes="100vw"
         onError={() => {
           if (imageSrc !== FALLBACK_IMAGE) {
-            setImageSrc(FALLBACK_IMAGE)
+            setImageState({
+              requested: requestedImage,
+              resolved: FALLBACK_IMAGE,
+            })
           }
         }}
         initial={{ opacity: 0, scale: 1.1 }}

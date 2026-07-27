@@ -136,15 +136,10 @@ function DestinationRailImage({
 }) {
   const proximityRef = useRef<HTMLSpanElement>(null)
   const [shouldRender, setShouldRender] = useState(isSelected)
+  const renderImage = shouldRender || isSelected
 
   useEffect(() => {
-    if (isSelected) {
-      setShouldRender(true)
-    }
-  }, [isSelected])
-
-  useEffect(() => {
-    if (shouldRender || !proximityRef.current) return
+    if (renderImage || !proximityRef.current) return
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -158,11 +153,11 @@ function DestinationRailImage({
     observer.observe(proximityRef.current)
 
     return () => observer.disconnect()
-  }, [shouldRender])
+  }, [renderImage])
 
   return (
     <span ref={proximityRef} className="absolute inset-0">
-      {shouldRender ? (
+      {renderImage ? (
         <Image
           src={imageSrc}
           alt={destination.name || 'Curated destination'}

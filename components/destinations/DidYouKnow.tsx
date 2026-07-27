@@ -28,14 +28,10 @@ export default function DidYouKnow({
     return () => window.clearTimeout(timer)
   }, [activeIndex, facts.length, isStoryOpen])
 
-  useEffect(() => {
-    if (activeIndex < facts.length) return
-    setActiveIndex(0)
-  }, [activeIndex, facts.length])
-
   if (facts.length === 0) return null
 
-  const activeFact = facts[activeIndex]
+  const visibleIndex = activeIndex < facts.length ? activeIndex : 0
+  const activeFact = facts[visibleIndex]
 
   return (
     <>
@@ -51,7 +47,7 @@ export default function DidYouKnow({
         <div className="relative min-h-[190px]">
           <AnimatePresence mode="wait">
             <motion.div
-              key={activeIndex}
+              key={visibleIndex}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
@@ -79,9 +75,9 @@ export default function DidYouKnow({
                 type="button"
                 onClick={() => setActiveIndex(index)}
                 aria-label={`Show fact ${index + 1}`}
-                aria-current={index === activeIndex ? "true" : undefined}
+                aria-current={index === visibleIndex ? "true" : undefined}
                 className={`h-2 rounded-full transition-all duration-300 ${
-                  index === activeIndex
+                  index === visibleIndex
                     ? "w-6 bg-[#D6B06E]"
                     : "w-2 bg-white/25 hover:bg-white/45"
                 }`}

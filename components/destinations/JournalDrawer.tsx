@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { AnimatePresence, motion } from "framer-motion"
 import { createPortal } from "react-dom"
 import JourneyEnquiry from "./JourneyEnquiry"
@@ -38,11 +38,13 @@ export default function JournalDrawer({
     null,
   )
 
+  const closeDrawer = useCallback(() => {
+    setSelectedExperience(null)
+    onClose()
+  }, [onClose])
+
   useEffect(() => {
-    if (!isOpen) {
-      setSelectedExperience(null)
-      return
-    }
+    if (!isOpen) return
 
     const previousOverflow = document.body.style.overflow
 
@@ -52,7 +54,7 @@ export default function JournalDrawer({
       if (selectedExperience) {
         setSelectedExperience(null)
       } else {
-        onClose()
+        closeDrawer()
       }
     }
 
@@ -63,11 +65,7 @@ export default function JournalDrawer({
       document.body.style.overflow = previousOverflow
       window.removeEventListener("keydown", handleEscape)
     }
-  }, [isOpen, onClose, selectedExperience])
-
-  useEffect(() => {
-    setSelectedExperience(null)
-  }, [fact])
+  }, [closeDrawer, isOpen, selectedExperience])
 
   if (typeof document === "undefined") return null
 
@@ -83,7 +81,7 @@ export default function JournalDrawer({
           <motion.button
             type="button"
             aria-label="Close journal"
-            onClick={onClose}
+            onClick={closeDrawer}
             className="absolute inset-0 cursor-default bg-[#031015]/80 backdrop-blur-md"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -116,7 +114,7 @@ export default function JournalDrawer({
 
               <button
                 type="button"
-                onClick={onClose}
+                onClick={closeDrawer}
                 aria-label="Close journal"
                 className="flex h-11 w-11 items-center justify-center rounded-full border border-white/15 text-xl font-light text-white/65 transition-colors duration-300 hover:border-white/30 hover:text-white"
               >

@@ -383,7 +383,7 @@ export default function ExperienceSelectionScreen({
 
       <div className="absolute inset-0 bg-[#021316]/80" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_22%,rgba(20,72,76,0.18),transparent_38%)]" />
-      <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-[#03191d]/42 to-[#020f12]/96" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/5 via-[#03191d]/5 to-[#020f12]/12" />
       <div
         className="pointer-events-none absolute inset-0 opacity-[0.045]"
         style={{

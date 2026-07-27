@@ -1,7 +1,7 @@
 "use client"
 
 import { AnimatePresence, motion } from "framer-motion"
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { createPortal } from "react-dom"
 
 type Experience = {
@@ -66,14 +66,21 @@ export default function ExperiencesSection({
 }) {
   const [selectedExperience, setSelectedExperience] =
     useState<Experience | null>(null)
+  const [showConcierge, setShowConcierge] = useState(false)
 
   const experiences =
     destination.id === "japan"
       ? japanExperiences
       : destination.experiences ?? []
 
-  if (experiences.length === 0) {
-    return null
+  const closeExperience = useCallback(() => {
+    setShowConcierge(false)
+    setSelectedExperience(null)
+  }, [])
+
+  function selectExperience(experience: Experience) {
+    setShowConcierge(false)
+    setSelectedExperience(experience)
   }
 
   useEffect(() => {
@@ -83,7 +90,7 @@ export default function ExperiencesSection({
 
     function handleEscape(event: KeyboardEvent) {
       if (event.key === "Escape") {
-        setSelectedExperience(null)
+        closeExperience()
       }
     }
 
@@ -94,7 +101,11 @@ export default function ExperiencesSection({
       document.body.style.overflow = previousOverflow
       window.removeEventListener("keydown", handleEscape)
     }
-  }, [selectedExperience])
+  }, [closeExperience, selectedExperience])
+
+  if (experiences.length === 0) {
+    return null
+  }
 
   return (
     <>
@@ -149,19 +160,19 @@ export default function ExperiencesSection({
               experience={experiences[0]}
               index={0}
               featured
-              onSelect={setSelectedExperience}
+              onSelect={selectExperience}
             />
 
             <ExperienceCard
               experience={experiences[1]}
               index={1}
-              onSelect={setSelectedExperience}
+              onSelect={selectExperience}
             />
 
             <ExperienceCard
               experience={experiences[2]}
               index={2}
-              onSelect={setSelectedExperience}
+              onSelect={selectExperience}
             />
           </div>
 
@@ -176,10 +187,13 @@ export default function ExperiencesSection({
       </section>
 
       <ExperienceDrawer
-  destination={destination}
-  experience={selectedExperience}
-  onClose={() => setSelectedExperience(null)}
-/>
+        destination={destination}
+        experience={selectedExperience}
+        showConcierge={showConcierge}
+        onShowConcierge={() => setShowConcierge(true)}
+        onHideConcierge={() => setShowConcierge(false)}
+        onClose={closeExperience}
+      />
     </>
   )
 }
@@ -279,18 +293,18 @@ function ExperienceCard({
 function ExperienceDrawer({
   destination,
   experience,
+  showConcierge,
+  onShowConcierge,
+  onHideConcierge,
   onClose,
 }: {
   destination: Destination
   experience: Experience | null
+  showConcierge: boolean
+  onShowConcierge: () => void
+  onHideConcierge: () => void
   onClose: () => void
 }) {
-  const [showConcierge, setShowConcierge] = useState(false)
-
-  useEffect(() => {
-    setShowConcierge(false)
-  }, [experience])
-
   if (typeof document === "undefined") return null
 
   return createPortal(
@@ -394,7 +408,7 @@ function ExperienceDrawer({
 
               <button
                 type="button"
-                onClick={() => setShowConcierge(true)}
+                onClick={onShowConcierge}
                 className="group mt-10 flex w-full items-center justify-between rounded-full bg-[#d6b06e] px-6 py-4 text-[#06161d] transition-colors duration-400 hover:bg-[#e1c184]"
               >
                 <span className="text-[9px] font-medium uppercase tracking-[0.28em]">
@@ -418,7 +432,7 @@ function ExperienceDrawer({
                 <motion.button
                   type="button"
                   aria-label="Close concierge"
-                  onClick={() => setShowConcierge(false)}
+                  onClick={onHideConcierge}
                   className="absolute inset-0 bg-[#02090d]/82 backdrop-blur-xl"
                 />
 
@@ -437,7 +451,7 @@ function ExperienceDrawer({
 
                   <button
                     type="button"
-                    onClick={() => setShowConcierge(false)}
+                    onClick={onHideConcierge}
                     aria-label="Close concierge"
                     className="absolute right-5 top-5 flex h-10 w-10 items-center justify-center rounded-full border border-white/15 text-xl font-light text-white/70 transition hover:border-white/35 hover:text-white"
                   >

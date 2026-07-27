@@ -89,18 +89,22 @@ function SceneSetup() {
 
 function StarBackground() {
   const { scene } = useThree()
-  const texture = useLoader(THREE.TextureLoader, '/backgrounds/stars.jpg')
+  const sourceTexture = useLoader(THREE.TextureLoader, '/backgrounds/stars.jpg')
+  const texture = useMemo(() => {
+    const configuredTexture = sourceTexture.clone()
+    configuredTexture.mapping = THREE.EquirectangularReflectionMapping
+    configuredTexture.colorSpace = THREE.SRGBColorSpace
+    configuredTexture.needsUpdate = true
+    return configuredTexture
+  }, [sourceTexture])
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/immutability
-    texture.mapping = THREE.EquirectangularReflectionMapping
-    texture.colorSpace = THREE.SRGBColorSpace
-
     // eslint-disable-next-line react-hooks/immutability
     scene.background = texture
 
     return () => {
       scene.background = null
+      texture.dispose()
     }
   }, [scene, texture])
 
@@ -360,47 +364,69 @@ function ProgressiveSurfaceDetails({
   earthMaterial: ThreeTypes.MeshStandardMaterial
   radius: number
 }) {
-  const [normalTex, specularTex] = useLoader(THREE.TextureLoader, [
+  const [normalSource, specularSource] = useLoader(THREE.TextureLoader, [
     '/textures/earth_normal_8k.png',
     '/textures/earth_specular_8k.png',
   ])
 
-  useMemo(() => {
-    for (const texture of [normalTex, specularTex]) {
+  const [normalTex, specularTex] = useMemo(() => {
+    const configuredTextures = [
+      normalSource.clone(),
+      specularSource.clone(),
+    ] as const
+
+    for (const texture of configuredTextures) {
       texture.colorSpace = THREE.NoColorSpace
       texture.wrapS = THREE.RepeatWrapping
       texture.wrapT = THREE.ClampToEdgeWrapping
       texture.anisotropy = 16
       texture.needsUpdate = true
     }
-  }, [normalTex, specularTex])
 
-  useEffect(() => {
-    earthMaterial.normalMap = normalTex
-    earthMaterial.roughnessMap = specularTex
-    earthMaterial.needsUpdate = true
+    return configuredTextures
+  }, [normalSource, specularSource])
+
+  const detailedEarthMaterial = useMemo(() => {
+    const material = earthMaterial.clone()
+    material.normalMap = normalTex
+    material.roughnessMap = specularTex
+    material.needsUpdate = true
+    return material
   }, [earthMaterial, normalTex, specularTex])
 
-  return (
-    <mesh renderOrder={1}>
-      <sphereGeometry args={[radius * 1.0008, 96, 96]} />
+  useEffect(
+    () => () => {
+      detailedEarthMaterial.dispose()
+      normalTex.dispose()
+      specularTex.dispose()
+    },
+    [detailedEarthMaterial, normalTex, specularTex],
+  )
 
-      <meshPhysicalMaterial
-        alphaMap={specularTex}
-        transparent
-        opacity={0.18}
-        color="#0a5b84"
-        roughness={0.03}
-        metalness={0}
-        clearcoat={1}
-        clearcoatRoughness={0.008}
-        reflectivity={1}
-        envMapIntensity={1.8}
-        ior={1.333}
-        depthWrite={false}
-        blending={THREE.NormalBlending}
-      />
-    </mesh>
+  return (
+    <>
+      <primitive object={detailedEarthMaterial} attach="material" />
+
+      <mesh renderOrder={1}>
+        <sphereGeometry args={[radius * 1.0008, 96, 96]} />
+
+        <meshPhysicalMaterial
+          alphaMap={specularTex}
+          transparent
+          opacity={0.18}
+          color="#0a5b84"
+          roughness={0.03}
+          metalness={0}
+          clearcoat={1}
+          clearcoatRoughness={0.008}
+          reflectivity={1}
+          envMapIntensity={1.8}
+          ior={1.333}
+          depthWrite={false}
+          blending={THREE.NormalBlending}
+        />
+      </mesh>
+    </>
   )
 }
 
@@ -413,18 +439,21 @@ function ProgressiveCloudLayers({
   clouds2Ref: RefObject<ThreeTypes.Mesh | null>
   radius: number
 }) {
-  const cloudTex = useLoader(
+  const cloudSource = useLoader(
     THREE.TextureLoader,
     '/textures/earth_clouds_8k.jpg',
   )
+  const cloudTex = useMemo(() => {
+    const configuredTexture = cloudSource.clone()
+    configuredTexture.colorSpace = THREE.SRGBColorSpace
+    configuredTexture.wrapS = THREE.RepeatWrapping
+    configuredTexture.wrapT = THREE.ClampToEdgeWrapping
+    configuredTexture.anisotropy = 16
+    configuredTexture.needsUpdate = true
+    return configuredTexture
+  }, [cloudSource])
 
-  useMemo(() => {
-    cloudTex.colorSpace = THREE.SRGBColorSpace
-    cloudTex.wrapS = THREE.RepeatWrapping
-    cloudTex.wrapT = THREE.ClampToEdgeWrapping
-    cloudTex.anisotropy = 16
-    cloudTex.needsUpdate = true
-  }, [cloudTex])
+  useEffect(() => () => cloudTex.dispose(), [cloudTex])
 
   return (
     <>
@@ -500,18 +529,19 @@ function NasaEarth({
 
   const prefersReducedMotion = useReducedMotion()
 
-  const dayTex = useLoader(
+  const daySource = useLoader(
     THREE.TextureLoader,
     '/textures/earth_day_8k.png',
   )
-
-  useMemo(() => {
-    dayTex.colorSpace = THREE.SRGBColorSpace
-    dayTex.wrapS = THREE.RepeatWrapping
-    dayTex.wrapT = THREE.ClampToEdgeWrapping
-    dayTex.anisotropy = 16
-    dayTex.needsUpdate = true
-  }, [dayTex])
+  const dayTex = useMemo(() => {
+    const configuredTexture = daySource.clone()
+    configuredTexture.colorSpace = THREE.SRGBColorSpace
+    configuredTexture.wrapS = THREE.RepeatWrapping
+    configuredTexture.wrapT = THREE.ClampToEdgeWrapping
+    configuredTexture.anisotropy = 16
+    configuredTexture.needsUpdate = true
+    return configuredTexture
+  }, [daySource])
 
   const earthMaterial = useMemo(
     () =>
@@ -555,8 +585,9 @@ function NasaEarth({
     earthMaterial.dispose()
     atmosphereMaterial.dispose()
     glowTexture.dispose()
+    dayTex.dispose()
   }
-}, [earthMaterial, atmosphereMaterial, glowTexture])
+}, [atmosphereMaterial, dayTex, earthMaterial, glowTexture])
 
 const R = 7.69
 
@@ -816,17 +847,18 @@ useFrame((state, delta) => {
           }}
         >
           <sphereGeometry args={[R, 96, 96]} />
-        </mesh>
-
-        {loadDetails ? (
-          <>
+          {loadDetails ? (
             <Suspense fallback={null}>
               <ProgressiveSurfaceDetails
                 earthMaterial={earthMaterial}
                 radius={R}
               />
             </Suspense>
+          ) : null}
+        </mesh>
 
+        {loadDetails ? (
+          <>
             <Suspense fallback={null}>
               <ProgressiveCloudLayers
                 clouds1Ref={clouds1Ref}
@@ -909,16 +941,17 @@ useFrame((state, delta) => {
 
 function EnvironmentIntensityRamp() {
   const { scene } = useThree()
+  const sceneRef = useRef(scene)
   const intensity = useRef(0)
 
   useFrame((_state, delta) => {
     if (intensity.current >= 0.42) return
 
     intensity.current = Math.min(0.42, intensity.current + delta * 0.35)
-
-    // eslint-disable-next-line react-hooks/immutability
     ;(
-      scene as ThreeTypes.Scene & { environmentIntensity?: number }
+      sceneRef.current as ThreeTypes.Scene & {
+        environmentIntensity?: number
+      }
     ).environmentIntensity = intensity.current
   })
 
