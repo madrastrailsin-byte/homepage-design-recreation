@@ -78,60 +78,64 @@ export default function ContactHero() {
           </motion.h1>
 
           <motion.div
-            variants={reveal}
-            initial="hidden"
-            animate="visible"
-            transition={{ duration: 1, delay: 2 }}
-            className="mt-8 flex flex-wrap items-center gap-x-12 lg:gap-x-16 gap-y-4 border-t border-white/20 pt-6"
-          >
-            <a
-  href="tel:+917891876918"
-  aria-label="Call MadrasTrails"
-  className="group flex flex-col items-center text-xs uppercase tracking-[0.28em] text-white/75 transition hover:text-[#D4AF37]"
+  variants={reveal}
+  initial="hidden"
+  animate="visible"
+  transition={{ duration: 1, delay: 2 }}
+  className="mt-8 flex flex-col items-stretch gap-7 lg:flex-row lg:items-center lg:justify-between"
 >
-              <Phone className="mb-3 h-4 w-4 text-white/50 transition-colors group-hover:text-[#D4AF37]" />
-              Speak With Us
-            </a>
+  <div className="flex w-fit max-w-full flex-col items-center">
+    <div className="grid grid-cols-3 items-start gap-x-3 sm:gap-x-12 lg:gap-x-16">
+      <a
+        href="tel:+917891876918"
+        aria-label="Call MadrasTrails"
+        className="group flex flex-col items-center whitespace-nowrap text-[9px] font-medium uppercase tracking-[0.18em] text-white/90 transition hover:text-[#D4AF37] sm:text-xs sm:tracking-[0.28em]"
+      >
+        <Phone className="mb-3 h-4 w-4 text-white/70 transition-colors group-hover:text-[#D4AF37]" />
+        Speak With Us
+      </a>
 
-            <a
-  href="mailto:info@madrastrails.in"
-  aria-label="Email MadrasTrails"
-  className="group flex flex-col items-center text-xs uppercase tracking-[0.28em] text-white/75 transition hover:text-[#D4AF37]"
->
-              <Mail className="mb-3 h-4 w-4 text-white/50 transition-colors group-hover:text-[#D4AF37]" />
-              Write To Us
-            </a>
+      <a
+        href="mailto:info@madrastrails.in"
+        aria-label="Email MadrasTrails"
+        className="group flex flex-col items-center whitespace-nowrap text-[9px] font-medium uppercase tracking-[0.18em] text-white/90 transition hover:text-[#D4AF37] sm:text-xs sm:tracking-[0.28em]"
+      >
+        <Mail className="mb-3 h-4 w-4 text-white/70 transition-colors group-hover:text-[#D4AF37]" />
+        Write To Us
+      </a>
 
-            <a
-  href="https://wa.me/917891876918?text=Hi%20MadrasTrails,%20I'd%20like%20to%20plan%20a%20trip."
-  target="_blank"
-  rel="noopener noreferrer"
-  aria-label="Chat with MadrasTrails on WhatsApp"
-  className="group flex flex-col items-center text-xs uppercase tracking-[0.28em] text-white/75 transition hover:text-[#D4AF37]"
->
-              <MessageCircle className="mb-3 h-4 w-4 text-white/50 transition-colors group-hover:text-[#D4AF37]" />
-              Let&apos;s Chat
-            </a>
+      <a
+        href="https://wa.me/917891876918?text=Hi%20MadrasTrails,%20I'd%20like%20to%20plan%20a%20trip."
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Chat with MadrasTrails on WhatsApp"
+        className="group flex flex-col items-center whitespace-nowrap text-[9px] font-medium uppercase tracking-[0.18em] text-white/90 transition hover:text-[#D4AF37] sm:text-xs sm:tracking-[0.28em]"
+      >
+        <MessageCircle className="mb-3 h-4 w-4 text-white/70 transition-colors group-hover:text-[#D4AF37]" />
+        Let&apos;s Chat
+      </a>
+    </div>
 
-            <a
-  href="https://www.google.com/maps/search/?api=1&query=%23362%2C%20Eden%20Avenue%2C%20Mogappair%2C%20Chennai%20%E2%80%93%20600%20037"
-  target="_blank"
-  rel="noopener noreferrer"
-  aria-label="View the MadrasTrails office on Google Maps"
-  className="group flex flex-col items-center whitespace-nowrap text-[9px] uppercase tracking-[0.18em] text-white/75 transition hover:text-[#D4AF37] sm:text-xs sm:tracking-[0.22em]"
->
-              <MapPin className="mb-3 h-4 w-4 text-white/50 transition-colors group-hover:text-[#D4AF37]" />
-              #362, Eden Avenue, Mogappair, Chennai – 600 037
-            </a>
+    <a
+      href="https://www.google.com/maps/search/?api=1&query=%23362%2C%20Eden%20Avenue%2C%20Mogappair%2C%20Chennai%20%E2%80%93%20600%20037"
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="View the MadrasTrails office on Google Maps"
+      className="group mt-8 flex -translate-x-2 items-center justify-center gap-3 whitespace-nowrap text-[9px] font-medium uppercase tracking-[0.18em] text-white/85 transition hover:text-[#D4AF37] sm:text-xs sm:tracking-[0.22em]"
+    >
+      <MapPin className="h-4 w-4 shrink-0 text-white/70 transition-colors group-hover:text-[#D4AF37]" />
+      #362, Eden Avenue, Mogappair, Chennai – 600 037
+    </a>
+  </div>
 
-            <Link
-  href="/plan"
-  aria-label="Begin planning your journey"
-  className="ml-0 border border-white/35 px-6 py-3 text-xs uppercase tracking-[0.24em] transition-all duration-700 hover:-translate-y-0.5 hover:scale-[1.02] hover:border-[#D4AF37] hover:bg-[#D4AF37] hover:text-[#03191D] lg:ml-auto"
->
-  Begin the conversation
-</Link>
-          </motion.div>
+  <Link
+    href="/plan"
+    aria-label="Begin planning your journey"
+    className="self-center rounded-[15px] border border-white/55 bg-white/70 px-9 py-4 text-center text-xs font-semibold uppercase tracking-[0.24em] text-[#071B24] shadow-[inset_0_1px_0_rgba(255,255,255,0.85),0_14px_36px_rgba(0,0,0,0.26)] backdrop-blur-[18px] transition-all duration-300 hover:-translate-y-0.5 hover:bg-white/85 hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.95),0_18px_42px_rgba(0,0,0,0.3)] lg:shrink-0"
+  >
+    Begin the conversation
+  </Link>
+</motion.div>
         </div>
       </div>
 
