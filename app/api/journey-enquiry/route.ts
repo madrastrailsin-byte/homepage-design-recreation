@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import type { createJourneySubmissionPayload } from '@/components/plan-journey/journeyModel'
 import { MADRAS_TRAILS_EMAIL } from '@/lib/company'
+import { getSupabaseAdmin } from '@/lib/supabase/server'
 
 type JourneySubmissionPayload = ReturnType<
   typeof createJourneySubmissionPayload
@@ -92,19 +93,45 @@ function formatJourneyBrief(payload: JourneySubmissionPayload) {
   }
 }
 
+function createJourneyLead(payload: JourneySubmissionPayload) {
+  const contact = payload.contactDetails
+
+  return {
+    destination_name: payload.destination?.name ?? null,
+    destination_type: payload.destination?.type ?? null,
+    departure_date: payload.travelDates.departureDate || null,
+    return_date: payload.travelDates.returnDate || null,
+    number_of_days: payload.travelDates.days,
+    number_of_nights: payload.travelDates.nights,
+    adults: payload.travellers.adults,
+    children: payload.travellers.children,
+    infants: payload.travellers.infants,
+    senior_citizens: payload.travellers.seniors,
+    experiences: payload.experiences,
+    budget_tier: payload.budget?.tier ?? null,
+    budget_range: payload.budget?.range ?? null,
+    dream_journey_notes: payload.dreamJourney?.notes ?? null,
+    inspirations: payload.dreamJourney?.inspirations ?? [],
+    full_name: contact?.fullName ?? null,
+    email: contact?.email ?? null,
+    country_code: contact?.countryCode ?? null,
+    mobile: contact?.mobile ?? null,
+    city: contact?.city || null,
+    preferred_contact: contact?.preferredContact || null,
+    preferred_contact_time: contact?.preferredTime || null,
+    consent_to_contact: contact?.consentToContact ?? false,
+    marketing_consent: contact?.marketingConsent ?? false,
+    email_delivery_status: 'pending',
+    raw_submission: payload,
+  }
+}
+
 export async function POST(request: Request) {
   const apiKey = process.env.RESEND_API_KEY
   const from =
     process.env.JOURNEY_ENQUIRY_FROM_EMAIL ??
     'MadrasTrails Journey Planner <journeys@madrastrails.in>'
   const to = process.env.JOURNEY_ENQUIRY_TO_EMAIL ?? MADRAS_TRAILS_EMAIL
-
-  if (!apiKey) {
-    return NextResponse.json(
-      { error: 'Journey delivery is not configured.' },
-      { status: 503 },
-    )
-  }
 
   let payload: unknown
 
@@ -121,6 +148,66 @@ export async function POST(request: Request) {
     return NextResponse.json(
       { error: 'The journey brief is incomplete.' },
       { status: 400 },
+    )
+  }
+
+  let supabase: ReturnType<typeof getSupabaseAdmin>
+
+  try {
+    supabase = getSupabaseAdmin()
+  } catch (error) {
+    console.error('Journey enquiry storage is not configured', {
+      message: error instanceof Error ? error.message : 'Unknown error',
+    })
+    return NextResponse.json(
+      { error: 'Journey storage is not configured.' },
+      { status: 503 },
+    )
+  }
+
+  const { data: lead, error: insertError } = await supabase
+    .from('journey_leads')
+    .insert(createJourneyLead(payload))
+    .select('id')
+    .single()
+
+  if (insertError || !lead) {
+    console.error('Journey enquiry storage failed', {
+      code: insertError?.code,
+      message: insertError?.message,
+    })
+    return NextResponse.json(
+      { error: 'We could not safely save your journey brief just now.' },
+      { status: 500 },
+    )
+  }
+
+  const updateDeliveryStatus = async (status: 'sent' | 'failed') => {
+    const { error } = await supabase
+      .from('journey_leads')
+      .update({ email_delivery_status: status })
+      .eq('id', lead.id)
+
+    if (error) {
+      console.error('Journey enquiry delivery status update failed', {
+        leadId: lead.id,
+        status,
+        code: error.code,
+        message: error.message,
+      })
+    }
+  }
+
+  if (!apiKey) {
+    await updateDeliveryStatus('failed')
+    return NextResponse.json(
+      {
+        reference: lead.id,
+        emailDeliveryStatus: 'failed',
+        message:
+          'Your journey brief was received, but email delivery is temporarily unavailable.',
+      },
+      { status: 202 },
     )
   }
 
@@ -155,20 +242,37 @@ export async function POST(request: Request) {
         status: response.status,
         message: result.message,
       })
+      await updateDeliveryStatus('failed')
       return NextResponse.json(
-        { error: 'We could not deliver your journey brief just now.' },
-        { status: 502 },
+        {
+          reference: lead.id,
+          emailDeliveryStatus: 'failed',
+          message:
+            'Your journey brief was received, but its notification email could not be delivered.',
+        },
+        { status: 202 },
       )
     }
 
-    return NextResponse.json({ reference: result.id })
+    await updateDeliveryStatus('sent')
+    return NextResponse.json({
+      reference: lead.id,
+      emailDeliveryStatus: 'sent',
+      emailReference: result.id,
+    })
   } catch (error) {
     console.error('Journey enquiry delivery request failed', {
       message: error instanceof Error ? error.message : 'Unknown error',
     })
+    await updateDeliveryStatus('failed')
     return NextResponse.json(
-      { error: 'We could not reach our journey delivery service.' },
-      { status: 502 },
+      {
+        reference: lead.id,
+        emailDeliveryStatus: 'failed',
+        message:
+          'Your journey brief was received, but its notification email could not be delivered.',
+      },
+      { status: 202 },
     )
   }
 }
