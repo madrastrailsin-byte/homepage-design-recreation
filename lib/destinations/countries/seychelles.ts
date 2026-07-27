@@ -72,32 +72,6 @@ const destination: Destination = {
       recommendation:
         "Visit during early morning high tide when the water reflects the surrounding granite formations in brilliant shades of blue.",
     },
-    {
-      eyebrow: "Nature sanctuary",
-      title: "Among the Coco de Mer Palms",
-      location: "Vallée de Mai · Praslin",
-      image:
-        "/images/destinations/seychelles/seychelles-vallee-de-mai.jpg",
-      description:
-        "Explore a prehistoric palm forest where the legendary coco de mer grows naturally beneath a dense emerald canopy filled with rare endemic birds.",
-      season: "Year-round",
-      idealFor: "Nature lovers and families",
-      recommendation:
-        "Visit with an experienced naturalist who can explain the remarkable ecology and evolution of this UNESCO-listed forest.",
-    },
-    {
-      eyebrow: "Ocean escape",
-      title: "Private Catamaran Through the Inner Islands",
-      location: "Mahé Archipelago",
-      image:
-        "/images/destinations/seychelles/seychelles-catamaran.jpg",
-      description:
-        "Cruise between hidden coves, snorkel vibrant coral reefs and anchor beside deserted beaches accessible only by sea.",
-      season: "April–May · October–November",
-      idealFor: "Luxury travellers, families and special celebrations",
-      recommendation:
-        "A full-day private charter allows complete flexibility to follow calm seas, marine life sightings and secluded anchorages.",
-    },
   ],
 
   didYouKnow: [

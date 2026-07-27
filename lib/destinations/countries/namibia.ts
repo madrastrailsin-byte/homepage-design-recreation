@@ -64,39 +64,13 @@ const destination: Destination = {
       title: "First Light over Sossusvlei",
       location: "Namib-Naukluft · Namib Sand Sea",
       image:
-        "/images/destinations/namibia/namibia-sossusvlei-dunes.jpg",
+        "/images/destinations/namibia/namibia-sossusvlei.jpg",
       description:
         "Enter the dune corridor before sunrise and watch the Namib’s sculpted ridges emerge from darkness in bands of apricot, rust and deep shadow before walking across the white clay floor of Deadvlei.",
       season: "April to October",
       idealFor: "Photographers, couples and first-time visitors",
       recommendation:
         "Stay inside or immediately beside the park boundary for the earliest possible access, then explore with a private guide who can time the dunes and clay pans around changing light rather than the busiest arrival hours.",
-    },
-    {
-      eyebrow: "Desert wildlife",
-      title: "Tracking the Hoanib’s Elephants",
-      location: "Damaraland · Kaokoveld",
-      image:
-        "/images/destinations/namibia/namibia-desert-elephants.jpg",
-      description:
-        "Follow dry riverbeds through ochre escarpments and gravel plains in search of elephants whose movements, feeding patterns and remarkable resilience have adapted to one of Africa’s most water-scarce environments.",
-      season: "May to October",
-      idealFor: "Wildlife enthusiasts, conservation-minded travellers and repeat safari guests",
-      recommendation:
-        "Allow at least three nights in the region. Sightings are never staged or guaranteed, and the experience is most rewarding when guides have time to interpret tracks, weather and recent animal movement.",
-    },
-    {
-      eyebrow: "Atlantic frontier",
-      title: "Above the Skeleton Coast",
-      location: "Skeleton Coast",
-      image:
-        "/images/destinations/namibia/namibia-skeleton-coast.jpg",
-      description:
-        "Fly above a frontier of shifting dunes, abandoned mining settlements, immense seal colonies and shipwrecks claimed by sand, then land in a wilderness where Atlantic fog is often the desert’s only reliable source of moisture.",
-      season: "May to November",
-      idealFor: "Adventurers, aerial photographers and exceptional celebrations",
-      recommendation:
-        "Experience the coast as a privately guided fly-in journey rather than a brief scenic excursion, combining aerial perspective with time on the ground among the canyons, dunes and ephemeral river systems of the remote north.",
     },
   ],
 

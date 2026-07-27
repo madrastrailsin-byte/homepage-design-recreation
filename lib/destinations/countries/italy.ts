@@ -64,44 +64,7 @@ const destination: Destination = {
     },
   },
 
-  experiences: [
-  {
-    eyebrow: "Ancient Rome",
-    title: "Rome After Hours",
-    location: "Rome",
-    image: "/images/destinations/italy/italy-rome-colosseum.jpg",
-    description:
-      "Explore Rome with a private historian when its ancient monuments and atmospheric streets are quieter, followed by an intimate dinner in a historic setting.",
-    season: "Best from April to June and September to October",
-    idealFor: "First-time visitors, couples and history lovers",
-    recommendation:
-      "We arrange expert-led access and carefully timed routes that reveal Rome beyond the busiest daytime crowds.",
-  },
-  {
-    eyebrow: "Living craftsmanship",
-    title: "Inside Florence’s Artisan Workshops",
-    location: "Florence",
-    image: "/images/destinations/italy/italy-florence-duomo.jpg",
-    description:
-      "Meet specialist leatherworkers, goldsmiths, marblers and restorers inside private Florentine workshops where traditional techniques remain part of everyday practice.",
-    season: "Beautiful year-round",
-    idealFor: "Art lovers, collectors and design-focused travellers",
-    recommendation:
-      "We prioritise genuine working ateliers and private appointments rather than staged demonstrations.",
-  },
-  {
-    eyebrow: "Tuscan slow travel",
-    title: "Vineyards and Villages of Val d’Orcia",
-    location: "Tuscany",
-    image: "/images/destinations/italy/italy-tuscany-vineyard.jpg",
-    description:
-      "Travel through the UNESCO-listed Val d’Orcia, visiting medieval villages, family-run wine estates and countryside restaurants surrounded by vineyards and cypress-lined hills.",
-    season: "Best from April to June and September to October",
-    idealFor: "Couples, food lovers and slow travellers",
-    recommendation:
-      "We combine private tastings, scenic drives and unhurried stays so the landscape becomes part of the journey rather than a brief stop.",
-  },
-],
+  experiences: [],
 
   didYouKnow: [
     {

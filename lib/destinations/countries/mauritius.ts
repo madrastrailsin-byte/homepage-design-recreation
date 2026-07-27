@@ -64,39 +64,13 @@ const destination: Destination = {
       title: "Le Morne at First Light",
       location: "Le Morne Peninsula",
       image:
-        "/images/destinations/mauritius/mauritius-le-morne-sunrise.jpg",
+        "/images/destinations/mauritius/mauritius-le-morne.jpg",
       description:
         "Walk beneath the basalt walls of Le Morne Brabant as morning light reaches the lagoon, accompanied by a guide who interprets the mountain not merely as a scenic landmark, but as a place of refuge, resistance and remembrance.",
       season: "May to October",
       idealFor: "Cultural travellers, hikers and photographers",
       recommendation:
         "Choose a privately guided heritage walk rather than approaching Le Morne solely as a summit challenge. The landscape becomes far more meaningful when its history is understood before the ascent.",
-    },
-    {
-      eyebrow: "Island interior",
-      title: "Forest, Waterfall and Wild Tea",
-      location: "Black River Gorges · Chamarel",
-      image:
-        "/images/destinations/mauritius/mauritius-black-river-gorges.jpg",
-      description:
-        "Move through ebony forest, volcanic ravines and misted highlands with a naturalist before continuing into the southwest’s cultivated landscape for tea, rum and a contemporary Mauritian lunch rooted in local produce.",
-      season: "May to November",
-      idealFor: "Nature lovers, culinary travellers and active families",
-      recommendation:
-        "Begin early with a private forest walk, when endemic birds are most active, then connect the highlands with a small-scale producer rather than treating Chamarel as a sequence of roadside stops.",
-    },
-    {
-      eyebrow: "Lagoon passage",
-      title: "The Untamed Eastern Islets",
-      location: "East Coast · Île aux Aigrettes",
-      image:
-        "/images/destinations/mauritius/mauritius-east-coast-lagoon.jpg",
-      description:
-        "Cross clear eastern waters by private boat, snorkel above sheltered reefs and step ashore with a conservation guide on an islet where native forest and endangered species have been carefully restored.",
-      season: "October to April",
-      idealFor: "Couples, families and conservation-minded travellers",
-      recommendation:
-        "Combine a quiet morning conservation visit with a privately catered lagoon journey, avoiding crowded excursion circuits and allowing the day to follow wind, tide and water clarity.",
     },
   ],
 

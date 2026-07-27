@@ -64,39 +64,13 @@ const destination: Destination = {
       title: "In the Path of the Great Migration",
       location: "Serengeti",
       image:
-        "/images/destinations/tanzania/tanzania-great-migration.jpg",
+        "/images/destinations/africa/tanzania.webp",
       description:
         "Stay in an elegant mobile camp positioned around the herds’ seasonal movement, then enter the plains at first light with a private guide as wildebeest, zebra and their predators gather across an immense, unfenced ecosystem.",
       season: "January to March · June to October",
       idealFor: "Wildlife devotees, photographers and milestone journeys",
       recommendation:
         "We match the camp location to the migration phase rather than relying on one fixed Serengeti address, allowing the journey to follow calving grounds, river crossings or quieter concentrations of wildlife.",
-    },
-    {
-      eyebrow: "Volcanic sanctuary",
-      title: "First Light in Ngorongoro",
-      location: "Ngorongoro Conservation Area",
-      image:
-        "/images/destinations/tanzania/tanzania-ngorongoro-crater.jpg",
-      description:
-        "Descend from the misted crater rim into a vast volcanic caldera where grasslands, forests, marshes and soda lakes sustain an exceptional concentration of wildlife within one naturally enclosed landscape.",
-      season: "Beautiful year-round",
-      idealFor: "First-time safari travellers, families and wildlife photographers",
-      recommendation:
-        "Stay close to the crater rim and begin early, when the floor is cooler, wildlife is active and the morning atmosphere feels more intimate before day traffic builds.",
-    },
-    {
-      eyebrow: "Safari to shore",
-      title: "Zanzibar Beyond the Beach",
-      location: "Stone Town · Zanzibar Archipelago",
-      image:
-        "/images/destinations/tanzania/tanzania-zanzibar-stone-town.jpg",
-      description:
-        "Move through Stone Town with a local historian, trace the island’s maritime and spice-trading legacy, and sail the coast by traditional dhow before retreating to a secluded stretch of the archipelago.",
-      season: "June to October · January to February",
-      idealFor: "Couples, culture seekers and restorative journey finales",
-      recommendation:
-        "We balance time on the coast with meaningful access to Zanzibar’s living culture, pairing an atmospheric Stone Town stay with a quieter beach retreat away from the busiest resort enclaves.",
     },
   ],
 
