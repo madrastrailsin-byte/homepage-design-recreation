@@ -10,9 +10,6 @@ const nextConfig = {
     root: __dirname,
   },
   outputFileTracingRoot: __dirname,
-  typescript: {
-    ignoreBuildErrors: true,
-  },
   images: {
     unoptimized: true,
   },

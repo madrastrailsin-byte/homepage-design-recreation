@@ -41,8 +41,9 @@ export default function DreamJourneyScreen({
   const prefersReducedMotion = useReducedMotion()
   const notes = details?.notes ?? ''
   const selectedInspirations = details?.inspirations ?? []
-  const meaningfulLength = notes.trim().replace(/\s+/g, ' ').length
-  const ready = meaningfulLength >= 20
+  const selectionLimitReached = selectedInspirations.length >= 3
+  const ready =
+    selectedInspirations.length >= 1 && selectedInspirations.length <= 3
   const reveal = prefersReducedMotion
     ? {}
     : { opacity: 0, y: 24, filter: 'blur(9px)' }
@@ -56,7 +57,10 @@ export default function DreamJourneyScreen({
   }
 
   function toggleInspiration(inspiration: string) {
-    const nextInspirations = selectedInspirations.includes(inspiration)
+    const selected = selectedInspirations.includes(inspiration)
+    if (!selected && selectionLimitReached) return
+
+    const nextInspirations = selected
       ? selectedInspirations.filter((item) => item !== inspiration)
       : [...selectedInspirations, inspiration]
 
@@ -138,19 +142,25 @@ export default function DreamJourneyScreen({
             <div className="mt-4 grid grid-cols-1 gap-x-4 gap-y-3 sm:grid-cols-2 lg:grid-cols-3">
               {inspirations.map((inspiration) => {
                 const selected = selectedInspirations.includes(inspiration)
+                const disabled = !selected && selectionLimitReached
                 return (
                   <motion.button
                     key={inspiration}
                     type="button"
                     aria-pressed={selected}
+                    disabled={disabled}
                     onClick={() => toggleInspiration(inspiration)}
-                    whileHover={prefersReducedMotion ? {} : { scale: 1.025 }}
-                    whileTap={prefersReducedMotion ? {} : { scale: 0.975 }}
+                    whileHover={
+                      prefersReducedMotion || disabled ? {} : { scale: 1.025 }
+                    }
+                    whileTap={
+                      prefersReducedMotion || disabled ? {} : { scale: 0.975 }
+                    }
                     transition={{ duration: 0.2, ease: easing }}
                     className={`flex h-11 w-full items-center justify-center rounded-full border px-2.5 text-center text-[11px] font-medium leading-tight tracking-[0.02em] transition duration-200 2xl:text-xs ${
                       selected
                         ? 'border-[#D4AF37]/85 bg-[#D4AF37]/15 text-[#edcf67] shadow-[0_0_18px_rgba(212,175,55,0.16)]'
-                        : 'border-white/12 bg-black/10 text-white/48 hover:border-[#D4AF37]/42 hover:bg-white/[0.06] hover:text-white/72'
+                        : 'border-white/12 bg-black/10 text-white/48 hover:border-[#D4AF37]/42 hover:bg-white/[0.06] hover:text-white/72 disabled:cursor-not-allowed disabled:opacity-35 disabled:hover:border-white/12 disabled:hover:bg-black/10 disabled:hover:text-white/48'
                     }`}
                   >
                     {inspiration}

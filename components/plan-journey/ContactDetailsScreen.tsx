@@ -394,12 +394,7 @@ export default function ContactDetailsScreen({
               reaching out, so the conversation begins with an understanding of
               what matters to you.
             </p>
-            <p className="mt-5 rounded-xl border border-white/8 bg-black/10 px-3 py-2.5 text-[10px] font-light leading-relaxed text-white/38">
-              Your details remain private and will only be used to plan and
-              communicate about your journey.
-            </p>
-
-            <div className="mt-5 border-t border-[#D4AF37]/18 pt-4">
+            <div className="mt-4 border-t border-[#D4AF37]/18 pt-4">
               <p className="mt-eyebrow text-[8px] text-[#D4AF37]">
                 Contact MadrasTrails
               </p>

@@ -219,7 +219,7 @@ export default function TravellerSelectionScreen({
                     </div>
                   </div>
 
-                  <div className="mt-5 flex items-center justify-between">
+                  <div className="mt-5 grid grid-cols-[2.25rem_minmax(4rem,1fr)_2.25rem] items-center gap-4">
                     <button
                       type="button"
                       disabled={atMinimum}
@@ -232,7 +232,7 @@ export default function TravellerSelectionScreen({
 
                     <div
                       aria-live="polite"
-                      className="relative grid min-w-16 place-items-center"
+                      className="relative isolate z-10 grid min-w-0 place-items-center"
                     >
                       <AnimatePresence mode="popLayout" initial={false}>
                         <motion.span
@@ -356,7 +356,7 @@ export default function TravellerSelectionScreen({
               type="button"
               title="Adults and Senior Citizens are charged the same. The age distinction is only for journey planning and assistance, not pricing."
               aria-label="Pricing information: Adults and Senior Citizens are charged the same. The age distinction is only for journey planning and assistance, not pricing."
-              className="absolute bottom-4 right-4 grid h-6 w-6 place-items-center rounded-full border border-white/10 bg-black/10 text-white/28 transition hover:border-[#D4AF37]/35 hover:text-[#D4AF37]/65 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#D4AF37]"
+              className="absolute right-4 top-4 z-10 grid h-6 w-6 place-items-center rounded-full border border-white/10 bg-black/10 text-white/28 transition hover:border-[#D4AF37]/35 hover:text-[#D4AF37]/65 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#D4AF37]"
             >
               <Info className="h-3.5 w-3.5" aria-hidden="true" />
             </button>

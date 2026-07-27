@@ -1,8 +1,9 @@
 import 'server-only'
 
-import { createClient } from '@supabase/supabase-js'
+import { createClient, type SupabaseClient } from '@supabase/supabase-js'
+import type { Database } from '@/lib/supabase/database.types'
 
-let supabaseAdmin: ReturnType<typeof createClient> | null = null
+let supabaseAdmin: SupabaseClient<Database> | null = null
 
 export function getSupabaseAdmin() {
   if (supabaseAdmin) return supabaseAdmin
@@ -14,7 +15,7 @@ export function getSupabaseAdmin() {
     throw new Error('Supabase journey storage is not configured.')
   }
 
-  supabaseAdmin = createClient(supabaseUrl, serviceRoleKey, {
+  supabaseAdmin = createClient<Database>(supabaseUrl, serviceRoleKey, {
     auth: {
       autoRefreshToken: false,
       persistSession: false,

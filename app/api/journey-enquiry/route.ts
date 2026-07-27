@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import type { createJourneySubmissionPayload } from '@/components/plan-journey/journeyModel'
 import { MADRAS_TRAILS_EMAIL } from '@/lib/company'
 import { getSupabaseAdmin } from '@/lib/supabase/server'
+import type { Json } from '@/lib/supabase/database.types'
 
 type JourneySubmissionPayload = ReturnType<
   typeof createJourneySubmissionPayload
@@ -147,7 +148,7 @@ function createJourneyLead(payload: JourneySubmissionPayload) {
     consent_to_contact: contact?.consentToContact ?? false,
     marketing_consent: contact?.marketingConsent ?? false,
     email_delivery_status: 'pending',
-    raw_submission: payload,
+    raw_submission: payload as unknown as Json,
   }
 }
 

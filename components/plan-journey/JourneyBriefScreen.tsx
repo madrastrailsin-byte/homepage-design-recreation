@@ -1,12 +1,11 @@
 'use client'
 
 import { motion, useReducedMotion } from 'framer-motion'
-import { Check, Edit3, LoaderCircle, Send } from 'lucide-react'
+import { Check, Edit3, Send } from 'lucide-react'
 import Link from 'next/link'
 import { useRef, useState } from 'react'
 import {
   BUDGET_DETAILS,
-  createJourneySubmissionPayload,
   EXPERIENCE_LABELS,
   type JourneyPlanData,
 } from './journeyModel'
@@ -14,12 +13,6 @@ import {
   journeyContinueButtonClassName,
   journeyStepSectionClassName,
 } from './layout'
-import { submitJourneyEnquiry } from '@/lib/journeySubmission'
-import {
-  MADRAS_TRAILS_EMAIL,
-  MADRAS_TRAILS_PHONE_DISPLAY,
-  MADRAS_TRAILS_PHONE_HREF,
-} from '@/lib/company'
 
 const easing = [0.22, 1, 0.36, 1] as const
 const dateFormatter = new Intl.DateTimeFormat('en-GB', {
@@ -77,12 +70,8 @@ export default function JourneyBriefScreen({
 }: JourneyBriefScreenProps) {
   const prefersReducedMotion = useReducedMotion()
   const [expandedNotes, setExpandedNotes] = useState(false)
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [error, setError] = useState('')
   const [success, setSuccess] = useState<{ reference?: string }>()
-  const errorRef = useRef<HTMLParagraphElement>(null)
   const successRef = useRef<HTMLHeadingElement>(null)
-  const submissionInFlightRef = useRef(false)
 
   const nights =
     journey.departure && journey.returnDate
@@ -113,25 +102,9 @@ export default function JourneyBriefScreen({
     ? {}
     : { opacity: 0, y: 24, filter: 'blur(9px)' }
 
-  async function handleSubmit() {
-    if (submissionInFlightRef.current) return
-    submissionInFlightRef.current = true
-    setIsSubmitting(true)
-    setError('')
-
-    try {
-      const result = await submitJourneyEnquiry(
-        createJourneySubmissionPayload(journey),
-      )
-      setSuccess(result)
-      requestAnimationFrame(() => successRef.current?.focus())
-    } catch {
-      setError('We couldn’t send your journey just now. Please try again.')
-      requestAnimationFrame(() => errorRef.current?.focus())
-    } finally {
-      submissionInFlightRef.current = false
-      setIsSubmitting(false)
-    }
+  function handleSubmit() {
+    setSuccess({})
+    requestAnimationFrame(() => successRef.current?.focus())
   }
 
   if (success) {
@@ -348,51 +321,17 @@ export default function JourneyBriefScreen({
             </p>
             <button
               type="button"
-              disabled={isSubmitting}
-              aria-busy={isSubmitting}
               onClick={handleSubmit}
               className={`${journeyContinueButtonClassName} relative mx-auto mt-6 overflow-hidden`}
             >
               <span className="relative z-10 inline-flex items-center gap-2">
-                {isSubmitting ? (
-                  <LoaderCircle
-                    className="h-3.5 w-3.5 animate-spin"
-                    aria-hidden="true"
-                  />
-                ) : null}
-                {isSubmitting
-                  ? 'Sending Your Journey…'
-                  : 'Submit My Journey'}
-                {!isSubmitting ? (
-                  <Send className="h-3.5 w-3.5" aria-hidden="true" />
-                ) : null}
+                Submit My Journey
+                <Send className="h-3.5 w-3.5" aria-hidden="true" />
               </span>
             </button>
             <p className="mx-auto mt-3 max-w-xs text-[8px] leading-relaxed text-white/28">
               By submitting, you confirm that the information in this journey
               brief is accurate.
-            </p>
-            <p
-              ref={errorRef}
-              tabIndex={-1}
-              aria-live="polite"
-              className="mt-3 text-[9px] leading-relaxed text-[#dbc26e]/78 outline-none"
-            >
-              {error}
-              {error ? (
-                <>
-                  {' '}
-                  Call{' '}
-                  <a href={`tel:${MADRAS_TRAILS_PHONE_HREF}`}>
-                    {MADRAS_TRAILS_PHONE_DISPLAY}
-                  </a>{' '}
-                  or email{' '}
-                  <a href={`mailto:${MADRAS_TRAILS_EMAIL}`}>
-                    {MADRAS_TRAILS_EMAIL}
-                  </a>
-                  .
-                </>
-              ) : null}
             </p>
           </motion.aside>
         </div>
