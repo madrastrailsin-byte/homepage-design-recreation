@@ -18,6 +18,31 @@ function escapeHtml(value: unknown) {
     .replaceAll("'", '&#039;')
 }
 
+function getReadableDeliveryError(
+  error: unknown,
+  fallback: string,
+): string {
+  if (error instanceof Error) return error.message || fallback
+  if (typeof error === 'string' && error.trim()) return error.trim()
+
+  if (error && typeof error === 'object') {
+    const details = error as Record<string, unknown>
+
+    for (const key of ['message', 'error', 'name']) {
+      const value = details[key]
+      if (typeof value === 'string' && value.trim()) return value.trim()
+    }
+
+    try {
+      return JSON.stringify(error)
+    } catch {
+      return fallback
+    }
+  }
+
+  return fallback
+}
+
 function isJourneySubmission(
   value: unknown,
 ): value is JourneySubmissionPayload {
@@ -128,10 +153,18 @@ function createJourneyLead(payload: JourneySubmissionPayload) {
 
 export async function POST(request: Request) {
   const apiKey = process.env.RESEND_API_KEY
+  const configuredFrom = process.env.JOURNEY_ENQUIRY_FROM_EMAIL
+  const configuredTo = process.env.JOURNEY_ENQUIRY_TO_EMAIL
   const from =
-    process.env.JOURNEY_ENQUIRY_FROM_EMAIL ??
+    configuredFrom ??
     'MadrasTrails Journey Planner <journeys@madrastrails.in>'
-  const to = process.env.JOURNEY_ENQUIRY_TO_EMAIL ?? MADRAS_TRAILS_EMAIL
+  const to = configuredTo ?? MADRAS_TRAILS_EMAIL
+
+  console.info('Journey enquiry email configuration', {
+    hasResendApiKey: Boolean(apiKey),
+    hasJourneyEnquiryFromEmail: Boolean(configuredFrom),
+    hasJourneyEnquiryToEmail: Boolean(configuredTo),
+  })
 
   let payload: unknown
 
@@ -182,24 +215,34 @@ export async function POST(request: Request) {
     )
   }
 
-  const updateDeliveryStatus = async (status: 'sent' | 'failed') => {
+  const updateDeliveryStatus = async (
+    status: 'sent' | 'failed',
+    emailDeliveryError: string | null,
+  ) => {
     const { error } = await supabase
       .from('journey_leads')
-      .update({ email_delivery_status: status })
+      .update({
+        email_delivery_status: status,
+        email_delivery_error: emailDeliveryError,
+      })
       .eq('id', lead.id)
 
     if (error) {
       console.error('Journey enquiry delivery status update failed', {
         leadId: lead.id,
         status,
-        code: error.code,
-        message: error.message,
+        error,
       })
     }
   }
 
   if (!apiKey) {
-    await updateDeliveryStatus('failed')
+    const deliveryError = 'RESEND_API_KEY is not configured.'
+    console.error('Journey enquiry delivery failed', {
+      leadId: lead.id,
+      error: deliveryError,
+    })
+    await updateDeliveryStatus('failed', deliveryError)
     return NextResponse.json(
       {
         reference: lead.id,
@@ -216,6 +259,10 @@ export async function POST(request: Request) {
   const destination = payload.destination?.name || 'Bespoke Journey'
 
   try {
+    console.info('Journey enquiry Resend request starting', {
+      leadId: lead.id,
+    })
+
     const response = await fetch(RESEND_ENDPOINT, {
       method: 'POST',
       headers: {
@@ -232,17 +279,40 @@ export async function POST(request: Request) {
       }),
     })
 
-    const result = (await response.json().catch(() => ({}))) as {
+    const responseBody = await response.text()
+    let result: {
       id?: string
       message?: string
     }
 
+    try {
+      result = JSON.parse(responseBody) as typeof result
+    } catch {
+      result = {}
+    }
+
+    console.info('Journey enquiry Resend response received', {
+      leadId: lead.id,
+      ok: response.ok,
+      status: response.status,
+      statusText: response.statusText,
+      hasEmailId: Boolean(result.id),
+      hasErrorMessage: Boolean(result.message),
+    })
+
     if (!response.ok || !result.id) {
+      const deliveryError = getReadableDeliveryError(
+        result.message || responseBody,
+        `Resend returned HTTP ${response.status} ${response.statusText}.`,
+      )
       console.error('Journey enquiry delivery failed', {
+        leadId: lead.id,
         status: response.status,
-        message: result.message,
+        statusText: response.statusText,
+        resendError: result,
+        responseBody,
       })
-      await updateDeliveryStatus('failed')
+      await updateDeliveryStatus('failed', deliveryError)
       return NextResponse.json(
         {
           reference: lead.id,
@@ -254,17 +324,26 @@ export async function POST(request: Request) {
       )
     }
 
-    await updateDeliveryStatus('sent')
+    await updateDeliveryStatus('sent', null)
+    console.info('Journey enquiry email delivered', {
+      leadId: lead.id,
+      emailReference: result.id,
+    })
     return NextResponse.json({
       reference: lead.id,
       emailDeliveryStatus: 'sent',
       emailReference: result.id,
     })
   } catch (error) {
+    const deliveryError = getReadableDeliveryError(
+      error,
+      'The Resend delivery request failed for an unknown reason.',
+    )
     console.error('Journey enquiry delivery request failed', {
-      message: error instanceof Error ? error.message : 'Unknown error',
+      leadId: lead.id,
+      error,
     })
-    await updateDeliveryStatus('failed')
+    await updateDeliveryStatus('failed', deliveryError)
     return NextResponse.json(
       {
         reference: lead.id,
