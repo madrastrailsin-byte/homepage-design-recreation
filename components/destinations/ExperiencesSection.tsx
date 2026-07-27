@@ -1,6 +1,7 @@
 "use client"
 
 import { AnimatePresence, motion } from "framer-motion"
+import Image from "next/image"
 import { useCallback, useEffect, useState } from "react"
 import { createPortal } from "react-dom"
 
@@ -227,11 +228,15 @@ function ExperienceCard({
           : "lg:min-h-[438px]"
       }`}
     >
-      <img
+      <Image
         src={experience.image}
         alt={experience.title}
-        loading="lazy"
-        decoding="async"
+        fill
+        sizes={
+          featured
+            ? "(min-width: 1024px) 58vw, 100vw"
+            : "(min-width: 1024px) 38vw, 100vw"
+        }
         className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1400ms] ease-out group-hover:scale-[1.055]"
       />
 
@@ -340,11 +345,11 @@ function ExperienceDrawer({
             className="relative z-10 h-dvh w-full overflow-y-auto border-l border-white/10 bg-[#07161d] shadow-[-30px_0_100px_rgba(0,0,0,0.48)] sm:max-w-[620px]"
           >
             <div className="relative h-[43vh] min-h-[360px]">
-              <img
+              <Image
                 src={experience.image}
                 alt={experience.title}
-                loading="lazy"
-                decoding="async"
+                fill
+                sizes="(min-width: 640px) 620px, 100vw"
                 className="h-full w-full object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#07161d] via-[#07161d]/5 to-black/20" />
