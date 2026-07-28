@@ -39,6 +39,15 @@ const nextConfig = {
           },
         ],
       },
+      {
+        source: '/textures/earth_day_8k.012cce75a3f8.png',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
     ]
   },
   images: {

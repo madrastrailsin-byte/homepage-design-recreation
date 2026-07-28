@@ -6,7 +6,7 @@ import DestinationsPage from '@/components/DestinationsPage'
 
 const INITIAL_GLOBE_TEXTURES = [
   '/backgrounds/stars.jpg',
-  '/textures/earth_day_8k.png',
+  '/textures/earth_day_8k.012cce75a3f8.png',
 ] as const
 
 export const metadata: Metadata = {

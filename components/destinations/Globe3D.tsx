@@ -531,7 +531,7 @@ function NasaEarth({
 
   const daySource = useLoader(
     THREE.TextureLoader,
-    '/textures/earth_day_8k.png',
+    '/textures/earth_day_8k.012cce75a3f8.png',
   )
   const dayTex = useMemo(() => {
     const configuredTexture = daySource.clone()
