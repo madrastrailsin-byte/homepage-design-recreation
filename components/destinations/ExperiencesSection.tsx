@@ -232,6 +232,10 @@ function ExperienceCard({
         src={experience.image}
         alt={experience.title}
         fill
+        unoptimized={
+          typeof experience.image === "string" &&
+          experience.image.startsWith("https://images.unsplash.com/")
+        }
         sizes={
           featured
             ? "(min-width: 1024px) 58vw, 100vw"
@@ -349,6 +353,10 @@ function ExperienceDrawer({
                 src={experience.image}
                 alt={experience.title}
                 fill
+                unoptimized={
+                  typeof experience.image === "string" &&
+                  experience.image.startsWith("https://images.unsplash.com/")
+                }
                 sizes="(min-width: 640px) 620px, 100vw"
                 className="h-full w-full object-cover"
               />

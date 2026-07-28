@@ -66,6 +66,10 @@ export default function HeroSection({ destination }: HeroSectionProps) {
         src={imageSrc}
         alt={destination.name}
         fill
+        unoptimized={
+          typeof imageSrc === "string" &&
+          imageSrc.startsWith("https://images.unsplash.com/")
+        }
         priority
         quality={78}
         sizes="100vw"

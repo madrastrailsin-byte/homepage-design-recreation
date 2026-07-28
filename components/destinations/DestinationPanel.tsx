@@ -183,6 +183,10 @@ export default function DestinationPanel({
               src={imageSrc}
               alt={destination.name || "Curated destination"}
               fill
+              unoptimized={
+                typeof imageSrc === "string" &&
+                imageSrc.startsWith("https://images.unsplash.com/")
+              }
               priority={prioritizeImage}
               loading={prioritizeImage ? undefined : "lazy"}
               quality={75}

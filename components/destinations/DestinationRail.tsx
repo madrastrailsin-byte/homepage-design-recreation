@@ -93,6 +93,10 @@ function DestinationRailImage({
           src={imageSrc}
           alt={destination.name || 'Curated destination'}
           fill
+          unoptimized={
+            typeof imageSrc === 'string' &&
+            imageSrc.startsWith('https://images.unsplash.com/')
+          }
           loading="lazy"
           quality={75}
           sizes="(min-width: 768px) 188px, 172px"
