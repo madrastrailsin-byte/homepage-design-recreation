@@ -297,6 +297,7 @@ function ServiceDocument({ service, index }: { service: TravelService; index: nu
   src="/images/services/luxury-cruise.jpg"
   alt=""
   fill
+  sizes="(max-width: 767px) min(544px, calc(100vw - 32px)), (min-width: 1536px) 405px, 27vw"
   className="object-cover"
 />
           <div className="absolute inset-0 opacity-30 [background-image:repeating-linear-gradient(0deg,rgba(255,255,255,.035)_0,rgba(255,255,255,.035)_1px,transparent_1px,transparent_5px)]" />
