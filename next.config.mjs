@@ -30,6 +30,15 @@ const nextConfig = {
           },
         ],
       },
+      {
+        source: '/hdri/sunrise-clouds-01.12160ae49759.exr',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
     ]
   },
   images: {

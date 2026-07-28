@@ -962,7 +962,7 @@ function DeferredEnvironment() {
   return (
     <>
       <Environment
-        files="/hdri/sunrise-clouds-01.exr"
+        files="/hdri/sunrise-clouds-01.12160ae49759.exr"
         background={false}
         environmentIntensity={0}
       />
