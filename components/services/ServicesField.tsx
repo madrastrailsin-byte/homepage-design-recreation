@@ -585,11 +585,11 @@ function BoardServicePiece({
         {index === 1 ? <Pin className="right-5 top-5" /> : null}
         {index === 2 ? <Tape className="right-8 top-2 rotate-[5deg]" /> : null}
         {index === 3 ? <Tape className="right-1 top-8 rotate-[82deg]" /> : null}
-        {index === 4 ? <Image src="/images/services/postage-stamp-3.webp" alt="" width={44} height={52} className="pointer-events-none absolute right-4 top-4 z-20 rotate-[8deg] opacity-80" /> : null}
+        {index === 4 ? <Image src="/images/services/postage-stamp-3.webp" alt="" width={44} height={52} unoptimized className="pointer-events-none absolute right-4 top-4 z-20 rotate-[8deg] opacity-80" /> : null}
         {index === 5 ? <span className="pointer-events-none absolute right-0 top-0 z-20 h-10 w-10 bg-[linear-gradient(135deg,rgba(36,25,16,.18),rgba(255,255,255,.48)_48%,transparent_50%)]" /> : null}
-        {index === 6 ? <Image src="/images/services/paper-clip-1.webp" alt="" width={36} height={58} className="pointer-events-none absolute right-5 top-3 z-20 rotate-[12deg] opacity-80" /> : null}
+        {index === 6 ? <Image src="/images/services/paper-clip-1.webp" alt="" width={36} height={58} unoptimized className="pointer-events-none absolute right-5 top-3 z-20 rotate-[12deg] opacity-80" /> : null}
         {index === 7 ? <Tape className="left-2 top-8 rotate-[-80deg]" /> : null}
-        {index === 8 ? <Image src="/images/services/push-pin-3.webp" alt="" width={26} height={26} className="pointer-events-none absolute right-7 top-5 z-20 opacity-80" /> : null}
+        {index === 8 ? <Image src="/images/services/push-pin-3.webp" alt="" width={26} height={26} unoptimized className="pointer-events-none absolute right-7 top-5 z-20 opacity-80" /> : null}
         <span className="pointer-events-none absolute inset-x-5 top-0 z-20 h-px bg-gradient-to-r from-transparent via-white/70 to-transparent opacity-70" />
         <ServiceDocument service={service} index={index} />
       </motion.button>
@@ -615,6 +615,7 @@ function DeskScrap({ scrap }: { scrap: (typeof deskScraps)[number] }) {
         src={scrap.src}
         alt=""
         fill
+        unoptimized
         sizes="18vw"
         className="object-contain drop-shadow-[0_18px_24px_rgba(0,0,0,.32)]"
       />
@@ -1082,10 +1083,10 @@ const toggleLight = () => {
 />
             ))}
             <SecondaryEphemera />
-            <Image src="/images/services/paper-clip-2.webp" alt="" width={54} height={72} className="pointer-events-none absolute left-[60%] top-[31%] z-[24] rotate-[-13deg] opacity-70 drop-shadow-[0_14px_18px_rgba(0,0,0,.34)]" />
-            <Image src="/images/services/masking-tape-1.webp" alt="" width={128} height={34} className="pointer-events-none absolute left-[24%] top-[28%] z-[21] rotate-[7deg] opacity-75" />
-            <Image src="/images/services/masking-tape-2.webp" alt="" width={118} height={34} className="pointer-events-none absolute left-[80%] top-[64%] z-[21] rotate-[-5deg] opacity-75" />
-            <Image src="/images/services/passport-stamp-1.webp" alt="" width={84} height={84} className="pointer-events-none absolute left-[56%] top-[14%] z-[23] rotate-[13deg] opacity-55" />
+            <Image src="/images/services/paper-clip-2.webp" alt="" width={54} height={72} unoptimized className="pointer-events-none absolute left-[60%] top-[31%] z-[24] rotate-[-13deg] opacity-70 drop-shadow-[0_14px_18px_rgba(0,0,0,.34)]" />
+            <Image src="/images/services/masking-tape-1.webp" alt="" width={128} height={34} unoptimized className="pointer-events-none absolute left-[24%] top-[28%] z-[21] rotate-[7deg] opacity-75" />
+            <Image src="/images/services/masking-tape-2.webp" alt="" width={118} height={34} unoptimized className="pointer-events-none absolute left-[80%] top-[64%] z-[21] rotate-[-5deg] opacity-75" />
+            <Image src="/images/services/passport-stamp-1.webp" alt="" width={84} height={84} unoptimized className="pointer-events-none absolute left-[56%] top-[14%] z-[23] rotate-[13deg] opacity-55" />
             <StorytellingProps />
             <DetectiveConnections />
 

@@ -138,6 +138,7 @@ export default function Hero() {
   alt="Travel Like A Local"
   width={1024}
   height={576}
+  unoptimized
   priority
   fetchPriority="high"
   className="h-auto w-full object-contain"
