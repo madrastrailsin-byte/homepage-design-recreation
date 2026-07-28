@@ -21,6 +21,15 @@ const nextConfig = {
           },
         ],
       },
+      {
+        source: '/videos/services/hero-cta.5c822b2d6e09.mp4',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
     ]
   },
   images: {
