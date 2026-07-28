@@ -5,7 +5,7 @@ import Navigation from '@/components/Navigation'
 import DestinationsPage from '@/components/DestinationsPage'
 
 const INITIAL_GLOBE_TEXTURES = [
-  '/backgrounds/stars.jpg',
+  '/backgrounds/stars.1fd005ddd6d5.jpg',
   '/textures/earth_day_8k.012cce75a3f8.png',
 ] as const
 

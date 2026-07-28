@@ -89,7 +89,7 @@ function SceneSetup() {
 
 function StarBackground() {
   const { scene } = useThree()
-  const sourceTexture = useLoader(THREE.TextureLoader, '/backgrounds/stars.jpg')
+  const sourceTexture = useLoader(THREE.TextureLoader, '/backgrounds/stars.1fd005ddd6d5.jpg')
   const texture = useMemo(() => {
     const configuredTexture = sourceTexture.clone()
     configuredTexture.mapping = THREE.EquirectangularReflectionMapping

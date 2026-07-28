@@ -48,6 +48,15 @@ const nextConfig = {
           },
         ],
       },
+      {
+        source: '/backgrounds/stars.1fd005ddd6d5.jpg',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
     ]
   },
   images: {
