@@ -10,6 +10,19 @@ const nextConfig = {
     root: __dirname,
   },
   outputFileTracingRoot: __dirname,
+  async headers() {
+    return [
+      {
+        source: '/videos/services/hero.058e56fde19b.mp4',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+    ]
+  },
   images: {
     unoptimized: true,
     qualities: [70, 75, 78],
