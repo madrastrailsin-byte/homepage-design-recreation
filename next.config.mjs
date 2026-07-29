@@ -58,6 +58,15 @@ const nextConfig = {
         ],
       },
       {
+        source: '/textures/earth_specular_8k.733e74bbe1ff.png',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      {
         source: '/backgrounds/stars.1fd005ddd6d5.jpg',
         headers: [
           {
