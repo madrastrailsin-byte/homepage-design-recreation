@@ -441,7 +441,7 @@ function ProgressiveCloudLayers({
 }) {
   const cloudSource = useLoader(
     THREE.TextureLoader,
-    '/textures/earth_clouds_8k.jpg',
+    '/textures/earth_clouds_8k.b6a30378ffda.jpg',
   )
   const cloudTex = useMemo(() => {
     const configuredTexture = cloudSource.clone()
