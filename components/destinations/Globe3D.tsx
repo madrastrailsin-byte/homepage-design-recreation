@@ -4,6 +4,7 @@ import {
   Suspense,
   useCallback,
   useEffect,
+  useLayoutEffect,
   useMemo,
   useRef,
   useState,
@@ -32,7 +33,24 @@ interface DestinationMarkerProps {
   selected: boolean
   glowTexture: ThreeTypes.Texture
   reducedMotion: boolean
+  coreTransform: MarkerCoreTransform
   onSelect?: (id: string) => void
+}
+
+interface MarkerCoreTransform {
+  scale: number
+  rotationZ: number
+  pulseScale: number
+  pulseOpacity: number
+  coreDirty: boolean
+  highlightDirty: boolean
+  pulseDirty: boolean
+}
+
+interface MarkerCoreInstance {
+  position: ThreeTypes.Vector3
+  orientation: ThreeTypes.Quaternion
+  transform: MarkerCoreTransform
 }
 
 const ATMO_VERT = `
@@ -65,6 +83,83 @@ void main() {
 
 const FALLBACK_MARKER_COLOR = '#D4AF37'
 const OUTWARD_AXIS = new THREE.Vector3(0, 0, 1)
+const MARKER_CORE_GEOMETRY = new THREE.SphereGeometry(0.047, 20, 20)
+const MARKER_HIGHLIGHT_GEOMETRY = new THREE.SphereGeometry(0.017, 14, 14)
+const MARKER_HIT_TARGET_GEOMETRY = new THREE.SphereGeometry(0.18, 16, 16)
+const MARKER_PULSE_GEOMETRY = new THREE.RingGeometry(0.062, 0.078, 48)
+const MARKER_CORE_MATERIAL = new THREE.MeshBasicMaterial({
+  color: FALLBACK_MARKER_COLOR,
+  toneMapped: false,
+  depthTest: true,
+  depthWrite: true,
+})
+const MARKER_HIGHLIGHT_MATERIAL = new THREE.MeshBasicMaterial({
+  color: '#fff8dc',
+  toneMapped: false,
+  depthTest: true,
+  depthWrite: false,
+})
+const MARKER_HIT_TARGET_MATERIAL = new THREE.MeshBasicMaterial({
+  transparent: true,
+  opacity: 0,
+  depthWrite: false,
+  colorWrite: false,
+})
+const MARKER_PULSE_INSTANCE_OPACITY = new THREE.InstancedBufferAttribute(
+  new Float32Array(destinationMetadata.length),
+  1,
+)
+MARKER_PULSE_INSTANCE_OPACITY.setUsage(THREE.DynamicDrawUsage)
+const MARKER_PULSE_INSTANCED_GEOMETRY = MARKER_PULSE_GEOMETRY.clone()
+MARKER_PULSE_INSTANCED_GEOMETRY.setAttribute(
+  'instanceOpacity',
+  MARKER_PULSE_INSTANCE_OPACITY,
+)
+const MARKER_PULSE_MATERIAL = new THREE.MeshBasicMaterial({
+  color: FALLBACK_MARKER_COLOR,
+  transparent: true,
+  opacity: 1,
+  side: THREE.DoubleSide,
+  depthTest: true,
+  depthWrite: false,
+  blending: THREE.AdditiveBlending,
+  toneMapped: false,
+})
+MARKER_PULSE_MATERIAL.onBeforeCompile = (
+  shader: ThreeTypes.WebGLProgramParametersWithUniforms,
+) => {
+  shader.vertexShader = shader.vertexShader
+    .replace(
+      '#include <common>',
+      `#include <common>
+attribute float instanceOpacity;
+varying float vInstanceOpacity;`,
+    )
+    .replace(
+      '#include <begin_vertex>',
+      `#include <begin_vertex>
+vInstanceOpacity = instanceOpacity;`,
+    )
+  shader.fragmentShader = shader.fragmentShader
+    .replace(
+      '#include <common>',
+      `#include <common>
+varying float vInstanceOpacity;`,
+    )
+    .replace(
+      'vec4 diffuseColor = vec4( diffuse, opacity );',
+      `vec4 diffuseColor = vec4( diffuse, opacity );
+diffuseColor.a *= vInstanceOpacity;`,
+    )
+}
+MARKER_PULSE_MATERIAL.customProgramCacheKey = () =>
+  'marker-pulse-instanced-opacity-v1'
+const MARKER_CORE_OFFSET = new THREE.Vector3(0, 0, 0.022)
+const MARKER_HIGHLIGHT_OFFSET = new THREE.Vector3(0, 0, 0.036)
+const MARKER_PULSE_OFFSET = new THREE.Vector3(0, 0, 0.012)
+const MARKER_CORE_UNIT_SCALE = new THREE.Vector3(1, 1, 1)
+const MARKER_CORE_ROTATION_AXIS = new THREE.Vector3(0, 0, 1)
+const MARKER_PULSE_ROTATION = new THREE.Quaternion()
 
 const getSafeCoordinate = (value: unknown) =>
   typeof value === 'number' && Number.isFinite(value) ? value : 0
@@ -157,6 +252,302 @@ function createGlowTexture() {
   return texture
 }
 
+function syncMarkerCoreTransform(
+  transform: MarkerCoreTransform,
+  scale: number,
+  rotationZ: number,
+) {
+  if (transform.scale === scale && transform.rotationZ === rotationZ) return
+
+  transform.scale = scale
+  transform.rotationZ = rotationZ
+  transform.coreDirty = true
+  transform.highlightDirty = true
+  transform.pulseDirty = true
+}
+
+function syncMarkerPulseTransform(
+  transform: MarkerCoreTransform,
+  scale: number,
+  opacity: number,
+) {
+  if (transform.pulseScale === scale && transform.pulseOpacity === opacity) {
+    return
+  }
+
+  transform.pulseScale = scale
+  transform.pulseOpacity = opacity
+  transform.pulseDirty = true
+}
+
+function InstancedMarkerCores({
+  instances,
+}: {
+  instances: MarkerCoreInstance[]
+}) {
+  const meshRef = useRef<ThreeTypes.InstancedMesh>(null)
+  const markerMatrix = useMemo(() => new THREE.Matrix4(), [])
+  const coreMatrix = useMemo(() => new THREE.Matrix4(), [])
+  const instanceMatrix = useMemo(() => new THREE.Matrix4(), [])
+  const scale = useMemo(() => new THREE.Vector3(), [])
+  const rotation = useMemo(() => new THREE.Quaternion(), [])
+
+  const updateInstance = useCallback(
+    (mesh: ThreeTypes.InstancedMesh, instance: MarkerCoreInstance, index: number) => {
+      scale.setScalar(instance.transform.scale)
+      rotation.setFromAxisAngle(
+        MARKER_CORE_ROTATION_AXIS,
+        instance.transform.rotationZ,
+      )
+      markerMatrix.compose(instance.position, instance.orientation, scale)
+      coreMatrix.compose(
+        MARKER_CORE_OFFSET,
+        rotation,
+        MARKER_CORE_UNIT_SCALE,
+      )
+      instanceMatrix.multiplyMatrices(markerMatrix, coreMatrix)
+      mesh.setMatrixAt(index, instanceMatrix)
+      instance.transform.coreDirty = false
+    },
+    [coreMatrix, instanceMatrix, markerMatrix, rotation, scale],
+  )
+
+  useLayoutEffect(() => {
+    const mesh = meshRef.current
+    if (!mesh) return
+
+    for (let index = 0; index < instances.length; index += 1) {
+      updateInstance(mesh, instances[index], index)
+    }
+    mesh.instanceMatrix.needsUpdate = true
+    mesh.computeBoundingSphere()
+  }, [instances, updateInstance])
+
+  useEffect(() => {
+    const mesh = meshRef.current
+    return () => mesh?.dispose()
+  }, [])
+
+  useFrame(() => {
+    const mesh = meshRef.current
+    if (!mesh) return
+
+    let changed = false
+    for (let index = 0; index < instances.length; index += 1) {
+      const instance = instances[index]
+      if (!instance.transform.coreDirty) continue
+      updateInstance(mesh, instance, index)
+      changed = true
+    }
+
+    if (changed) {
+      mesh.instanceMatrix.needsUpdate = true
+    }
+  })
+
+  return (
+    <instancedMesh
+      ref={meshRef}
+      args={[
+        MARKER_CORE_GEOMETRY,
+        MARKER_CORE_MATERIAL,
+        instances.length,
+      ]}
+      renderOrder={7}
+      dispose={null}
+    />
+  )
+}
+
+function InstancedMarkerHighlights({
+  instances,
+}: {
+  instances: MarkerCoreInstance[]
+}) {
+  const meshRef = useRef<ThreeTypes.InstancedMesh>(null)
+  const markerMatrix = useMemo(() => new THREE.Matrix4(), [])
+  const coreMatrix = useMemo(() => new THREE.Matrix4(), [])
+  const highlightMatrix = useMemo(
+    () =>
+      new THREE.Matrix4().makeTranslation(
+        MARKER_HIGHLIGHT_OFFSET.x,
+        MARKER_HIGHLIGHT_OFFSET.y,
+        MARKER_HIGHLIGHT_OFFSET.z,
+      ),
+    [],
+  )
+  const instanceMatrix = useMemo(() => new THREE.Matrix4(), [])
+  const scale = useMemo(() => new THREE.Vector3(), [])
+  const rotation = useMemo(() => new THREE.Quaternion(), [])
+
+  const updateInstance = useCallback(
+    (mesh: ThreeTypes.InstancedMesh, instance: MarkerCoreInstance, index: number) => {
+      scale.setScalar(instance.transform.scale)
+      rotation.setFromAxisAngle(
+        MARKER_CORE_ROTATION_AXIS,
+        instance.transform.rotationZ,
+      )
+      markerMatrix.compose(instance.position, instance.orientation, scale)
+      coreMatrix.compose(
+        MARKER_CORE_OFFSET,
+        rotation,
+        MARKER_CORE_UNIT_SCALE,
+      )
+      instanceMatrix
+        .multiplyMatrices(markerMatrix, coreMatrix)
+        .multiply(highlightMatrix)
+      mesh.setMatrixAt(index, instanceMatrix)
+      instance.transform.highlightDirty = false
+    },
+    [
+      coreMatrix,
+      highlightMatrix,
+      instanceMatrix,
+      markerMatrix,
+      rotation,
+      scale,
+    ],
+  )
+
+  useLayoutEffect(() => {
+    const mesh = meshRef.current
+    if (!mesh) return
+
+    for (let index = 0; index < instances.length; index += 1) {
+      updateInstance(mesh, instances[index], index)
+    }
+    mesh.instanceMatrix.needsUpdate = true
+    mesh.computeBoundingSphere()
+  }, [instances, updateInstance])
+
+  useEffect(() => {
+    const mesh = meshRef.current
+    return () => mesh?.dispose()
+  }, [])
+
+  useFrame(() => {
+    const mesh = meshRef.current
+    if (!mesh) return
+
+    let changed = false
+    for (let index = 0; index < instances.length; index += 1) {
+      const instance = instances[index]
+      if (!instance.transform.highlightDirty) continue
+      updateInstance(mesh, instance, index)
+      changed = true
+    }
+
+    if (changed) {
+      mesh.instanceMatrix.needsUpdate = true
+    }
+  })
+
+  return (
+    <instancedMesh
+      ref={meshRef}
+      args={[
+        MARKER_HIGHLIGHT_GEOMETRY,
+        MARKER_HIGHLIGHT_MATERIAL,
+        instances.length,
+      ]}
+      renderOrder={8}
+      dispose={null}
+    />
+  )
+}
+
+function InstancedMarkerPulses({
+  instances,
+}: {
+  instances: MarkerCoreInstance[]
+}) {
+  const meshRef = useRef<ThreeTypes.InstancedMesh>(null)
+  const markerMatrix = useMemo(() => new THREE.Matrix4(), [])
+  const pulseMatrix = useMemo(() => new THREE.Matrix4(), [])
+  const instanceMatrix = useMemo(() => new THREE.Matrix4(), [])
+  const markerScale = useMemo(() => new THREE.Vector3(), [])
+  const pulseScale = useMemo(() => new THREE.Vector3(), [])
+
+  const updateInstance = useCallback(
+    (mesh: ThreeTypes.InstancedMesh, instance: MarkerCoreInstance, index: number) => {
+      markerScale.setScalar(instance.transform.scale)
+      pulseScale.setScalar(instance.transform.pulseScale)
+      markerMatrix.compose(
+        instance.position,
+        instance.orientation,
+        markerScale,
+      )
+      pulseMatrix.compose(
+        MARKER_PULSE_OFFSET,
+        MARKER_PULSE_ROTATION,
+        pulseScale,
+      )
+      instanceMatrix.multiplyMatrices(markerMatrix, pulseMatrix)
+      mesh.setMatrixAt(index, instanceMatrix)
+      MARKER_PULSE_INSTANCE_OPACITY.setX(
+        index,
+        instance.transform.pulseOpacity,
+      )
+      instance.transform.pulseDirty = false
+    },
+    [
+      instanceMatrix,
+      markerMatrix,
+      markerScale,
+      pulseMatrix,
+      pulseScale,
+    ],
+  )
+
+  useLayoutEffect(() => {
+    const mesh = meshRef.current
+    if (!mesh) return
+
+    for (let index = 0; index < instances.length; index += 1) {
+      updateInstance(mesh, instances[index], index)
+    }
+    mesh.instanceMatrix.needsUpdate = true
+    MARKER_PULSE_INSTANCE_OPACITY.needsUpdate = true
+    mesh.computeBoundingSphere()
+  }, [instances, updateInstance])
+
+  useEffect(() => {
+    const mesh = meshRef.current
+    return () => mesh?.dispose()
+  }, [])
+
+  useFrame(() => {
+    const mesh = meshRef.current
+    if (!mesh) return
+
+    let changed = false
+    for (let index = 0; index < instances.length; index += 1) {
+      const instance = instances[index]
+      if (!instance.transform.pulseDirty) continue
+      updateInstance(mesh, instance, index)
+      changed = true
+    }
+
+    if (changed) {
+      mesh.instanceMatrix.needsUpdate = true
+      MARKER_PULSE_INSTANCE_OPACITY.needsUpdate = true
+    }
+  })
+
+  return (
+    <instancedMesh
+      ref={meshRef}
+      args={[
+        MARKER_PULSE_INSTANCED_GEOMETRY,
+        MARKER_PULSE_MATERIAL,
+        instances.length,
+      ]}
+      renderOrder={4}
+      dispose={null}
+    />
+  )
+}
+
 function DestinationMarker({
   id,
   position,
@@ -165,13 +556,12 @@ function DestinationMarker({
   selected,
   glowTexture,
   reducedMotion,
+  coreTransform,
   onSelect,
 }: DestinationMarkerProps) {
   const markerRef = useRef<ThreeTypes.Group>(null)
   const coreRef = useRef<ThreeTypes.Group>(null)
   const glowRef = useRef<ThreeTypes.Sprite>(null)
-  const pulseRef = useRef<ThreeTypes.Mesh>(null)
-  const pulseMaterialRef = useRef<ThreeTypes.MeshBasicMaterial>(null)
   const [hovered, setHovered] = useState(false)
   
   const targetScaleVector = useRef(new THREE.Vector3())
@@ -201,9 +591,7 @@ function DestinationMarker({
     if (
       !markerRef.current ||
       !coreRef.current ||
-      !glowRef.current ||
-      !pulseRef.current ||
-      !pulseMaterialRef.current
+      !glowRef.current
     ) {
       return
     }
@@ -216,8 +604,8 @@ if (!selected && !hovered) {
     glowRef.current.material as ThreeTypes.SpriteMaterial
 
   glowMaterial.opacity = 0.58
-  pulseRef.current.scale.setScalar(1.3)
-  pulseMaterialRef.current.opacity = 0.2
+  syncMarkerCoreTransform(coreTransform, 1, 0)
+  syncMarkerPulseTransform(coreTransform, 1.3, 0.2)
 
   return
 }
@@ -241,6 +629,11 @@ markerRef.current.scale.lerp(targetScaleVector.current, damping)
     coreRef.current.rotation.z = reducedMotion
       ? 0
       : Math.sin(elapsed * 0.55 + phase) * 0.08
+    syncMarkerCoreTransform(
+      coreTransform,
+      markerRef.current.scale.x,
+      coreRef.current.rotation.z,
+    )
 
     const haloScale = selected ? 0.54 : hovered ? 0.49 : 0.36
     haloScaleVector.current.set(haloScale, haloScale, 1)
@@ -255,14 +648,13 @@ glowRef.current.scale.lerp(haloScaleVector.current, damping)
         : 1.3
       : 1 + pulseProgress * (selected ? 2.25 : 1.75)
 
-    pulseRef.current.scale.setScalar(pulseScale)
-
-    pulseMaterialRef.current.opacity = reducedMotion
+    const pulseOpacity = reducedMotion
       ? selected
         ? 0.46
         : 0.2
       : Math.pow(1 - pulseProgress, 2) *
         (selected ? 0.74 : hovered ? 0.55 : 0.36)
+    syncMarkerPulseTransform(coreTransform, pulseScale, pulseOpacity)
   })
 
   return (
@@ -302,55 +694,19 @@ glowRef.current.scale.lerp(haloScaleVector.current, damping)
         />
       </sprite>
 
-      <mesh
-        ref={pulseRef}
-        position={[0, 0, 0.012]}
-        renderOrder={4}
-      >
-        <ringGeometry args={[0.062, 0.078, 48]} />
-        <meshBasicMaterial
-          ref={pulseMaterialRef}
-          color={color}
-          transparent
-          opacity={0.32}
-          side={THREE.DoubleSide}
-          depthTest
-          depthWrite={false}
-          blending={THREE.AdditiveBlending}
-          toneMapped={false}
-        />
-      </mesh>
-
-      <group ref={coreRef} position={[0, 0, 0.022]}>
-        <mesh renderOrder={7}>
-          <sphereGeometry args={[0.047, 20, 20]} />
-          <meshBasicMaterial
-            color={color}
-            toneMapped={false}
-            depthTest
-            depthWrite
-          />
-        </mesh>
-
-        <mesh position={[0, 0, 0.036]} renderOrder={8}>
-          <sphereGeometry args={[0.017, 14, 14]} />
-          <meshBasicMaterial
-            color="#fff8dc"
-            toneMapped={false}
-            depthTest
-            depthWrite={false}
-          />
-        </mesh>
-      </group>
+      <group ref={coreRef} position={[0, 0, 0.022]} />
 
       {/* Larger invisible hit target keeps small markers easy to hover. */}
       <mesh position={[0, 0, 0.024]}>
-        <sphereGeometry args={[0.18, 16, 16]} />
-        <meshBasicMaterial
-          transparent
-          opacity={0}
-          depthWrite={false}
-          colorWrite={false}
+        <primitive
+          object={MARKER_HIT_TARGET_GEOMETRY}
+          attach="geometry"
+          dispose={null}
+        />
+        <primitive
+          object={MARKER_HIT_TARGET_MATERIAL}
+          attach="material"
+          dispose={null}
         />
       </mesh>
     </group>
@@ -605,6 +961,30 @@ const R = 7.69
     })),
   [],
 )
+  const markerCoreInstances = useMemo<MarkerCoreInstance[]>(
+    () =>
+      markerPositions.map(({ position }) => {
+        const outwardNormal = position.clone().normalize()
+
+        return {
+          position,
+          orientation: new THREE.Quaternion().setFromUnitVectors(
+            OUTWARD_AXIS,
+            outwardNormal,
+          ),
+          transform: {
+            scale: 1,
+            rotationZ: 0,
+            pulseScale: 1.3,
+            pulseOpacity: 0.32,
+            coreDirty: true,
+            highlightDirty: true,
+            pulseDirty: true,
+          },
+        }
+      }),
+    [markerPositions],
+  )
 
 const selectedMarker = useMemo(
   () => markerPositions.find((item) => item.id === selectedDestination),
@@ -916,7 +1296,7 @@ useFrame((state, delta) => {
           </sprite>
         )}
 
-        {markerPositions.map((destination) => (
+        {markerPositions.map((destination, index) => (
           <DestinationMarker
             key={destination.id}
             id={destination.id}
@@ -926,9 +1306,14 @@ useFrame((state, delta) => {
             selected={selectedDestination === destination.id}
             glowTexture={glowTexture}
             reducedMotion={Boolean(prefersReducedMotion)}
+            coreTransform={markerCoreInstances[index].transform}
             onSelect={onSelect}
           />
         ))}
+
+        <InstancedMarkerCores instances={markerCoreInstances} />
+        <InstancedMarkerHighlights instances={markerCoreInstances} />
+        <InstancedMarkerPulses instances={markerCoreInstances} />
 
         <mesh material={atmosphereMaterial}>
           <sphereGeometry args={[R * 1.028, 96, 96]} />
@@ -1038,6 +1423,19 @@ export default function GlobeViewer({
       <Canvas
   dpr={[1, 1.5]}
   camera={{ position: [0.35, 0.58, 15.75], fov: 46 }}
+        onCreated={({ gl, scene, camera }) => {
+          if (new URLSearchParams(window.location.search).has('profile-globe')) {
+            ;(
+              globalThis as typeof globalThis & {
+                __MT_GLOBE_PROFILE__?: {
+                  gl: typeof gl
+                  scene: typeof scene
+                  camera: typeof camera
+                }
+              }
+            ).__MT_GLOBE_PROFILE__ = { gl, scene, camera }
+          }
+        }}
         gl={{
           antialias: true,
           alpha: true,
