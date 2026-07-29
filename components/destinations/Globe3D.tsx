@@ -365,7 +365,7 @@ function ProgressiveSurfaceDetails({
   radius: number
 }) {
   const [normalSource, specularSource] = useLoader(THREE.TextureLoader, [
-    '/textures/earth_normal_8k.png',
+    '/textures/earth_normal_8k.40053a14fef6.png',
     '/textures/earth_specular_8k.png',
   ])
 

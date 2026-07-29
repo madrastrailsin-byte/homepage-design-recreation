@@ -49,6 +49,15 @@ const nextConfig = {
         ],
       },
       {
+        source: '/textures/earth_normal_8k.40053a14fef6.png',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      {
         source: '/backgrounds/stars.1fd005ddd6d5.jpg',
         headers: [
           {
