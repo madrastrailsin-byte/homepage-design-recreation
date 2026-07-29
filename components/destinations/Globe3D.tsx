@@ -1423,19 +1423,6 @@ export default function GlobeViewer({
       <Canvas
   dpr={[1, 1.5]}
   camera={{ position: [0.35, 0.58, 15.75], fov: 46 }}
-        onCreated={({ gl, scene, camera }) => {
-          if (new URLSearchParams(window.location.search).has('profile-globe')) {
-            ;(
-              globalThis as typeof globalThis & {
-                __MT_GLOBE_PROFILE__?: {
-                  gl: typeof gl
-                  scene: typeof scene
-                  camera: typeof camera
-                }
-              }
-            ).__MT_GLOBE_PROFILE__ = { gl, scene, camera }
-          }
-        }}
         gl={{
           antialias: true,
           alpha: true,
