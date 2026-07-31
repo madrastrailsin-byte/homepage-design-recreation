@@ -1,6 +1,5 @@
 import Navigation from '@/components/Navigation'
-import Hero from '@/components/Hero'
-import ServicesStrip from '@/components/ServicesStrip'
+import HomepageStory from '@/components/HomepageStory'
 import DestinationsSection from '@/components/DestinationsSection'
 import StatisticsSection from '@/components/StatisticsSection'
 import ExperiencesSection from '@/components/ExperiencesSection'
@@ -10,8 +9,7 @@ export default function Home() {
   return (
     <main className="min-h-screen w-full overflow-x-hidden rounded-none border-0 bg-[#0D1117] shadow-none">
       <Navigation />
-      <Hero />
-      <ServicesStrip />
+      <HomepageStory />
       <DestinationsSection />
       <StatisticsSection />
       <ExperiencesSection />
