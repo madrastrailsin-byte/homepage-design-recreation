@@ -72,7 +72,6 @@
       radial-gradient(circle at var(--mt-light-x) var(--mt-light-y), rgba(13, 56, 63, 0.28), transparent 32%),
       radial-gradient(circle at 22% 82%, rgba(8, 45, 52, 0.22), transparent 38%),
       linear-gradient(135deg, var(--mt-bg-deeper) 0%, var(--mt-bg-dark) 48%, var(--mt-bg-soft) 100%);
-    background-attachment: fixed;
   }
   html {
   overflow-y: auto;

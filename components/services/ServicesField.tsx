@@ -1051,6 +1051,42 @@ const toggleLight = () => {
   }}
 />
 </button>
+
+        {/* Carved wall instruction beside the pull chain */}
+        <motion.div
+          aria-hidden="true"
+          className="pointer-events-none absolute right-[4.8rem] top-[8.6rem] z-[70] hidden select-none md:block"
+          animate={
+            prefersReducedMotion
+              ? undefined
+              : lightPhase === "off"
+                ? { opacity: [0.5, 0.82, 0.5] }
+                : { opacity: 0.0 }
+          }
+          transition={
+            prefersReducedMotion
+              ? undefined
+              : lightPhase === "off"
+                ? { duration: 2.8, repeat: Infinity, ease: "easeInOut" }
+                : { duration: 0.35 }
+          }
+          style={{
+            transform: "rotate(-5deg)",
+            color: "rgba(210, 183, 142, 0.64)",
+            textShadow:
+              "0 1px 0 rgba(255,235,198,.08), 0 -1px 0 rgba(0,0,0,.72), 1px 0 0 rgba(0,0,0,.42)",
+            filter: "drop-shadow(0 2px 2px rgba(0,0,0,.32))",
+          }}
+        >
+          <p className="whitespace-nowrap font-['Crimes_Times_Six'] text-[1.3rem] tracking-[0.08em]">
+  PULL THE CHAIN
+</p>
+          <div className="mt-1 flex items-center justify-end gap-2">
+            <span className="h-px w-10 bg-gradient-to-r from-transparent to-[#caa56a]/55" />
+            <span className="inline-block rotate-[18deg] text-[1rem] text-[#caa56a]/62">↗</span>
+          </div>
+        </motion.div>
+
         <h2 id="services-board-title" className="sr-only">
           MadrasTrails services inspiration board
         </h2>
