@@ -120,7 +120,6 @@ export default function Hero() {
         <div className="mt-hero-gold-highlight absolute inset-0" />
         <div className="mt-hero-top-vignette absolute inset-0" />
         <div className="mt-hero-bottom-vignette absolute inset-0" />
-        <div className="mt-hero-scroll-settle absolute inset-0" />
       </div>
 
       {/* Content */}
@@ -177,7 +176,7 @@ export default function Hero() {
       </div>
 
       {/* Scroll Indicator */}
-      <div className="mt-hero-scroll-indicator absolute right-6 top-1/2 z-20 hidden translate-y-10 flex-col items-center gap-4 text-[10px] text-[#C9A24A] md:flex lg:right-8">
+      <div className="absolute right-6 top-1/2 z-20 hidden translate-y-10 flex-col items-center gap-4 text-[10px] text-[#C9A24A] md:flex lg:right-8">
         <div className="relative h-24 w-px overflow-hidden bg-[#C9A24A]/18">
           <motion.div
             animate={prefersReducedMotion ? undefined : { y: ['-100%', '125%'] }}
