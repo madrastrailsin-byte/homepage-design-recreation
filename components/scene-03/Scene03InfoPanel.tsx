@@ -28,7 +28,11 @@ export default function Scene03InfoPanel({
       </h3>
 
       <div className="mt-3 flex items-center gap-2">
-        <div className="flex items-center gap-0.5" aria-label={`Rating ${hotel.rating} out of 5`}>
+        <div
+  className="flex items-center gap-0.5"
+  role="img"
+  aria-label={`Rating ${hotel.rating} out of 5`}
+>
           {Array.from({ length: 5 }).map((_, index) => (
             <Star
               key={index}
