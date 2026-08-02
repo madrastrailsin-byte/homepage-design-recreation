@@ -213,9 +213,11 @@ function JourneyTile({ journey, index, active, onSelect }: { journey: (typeof jo
 }
 
 export default function ExperiencesPage() {
+  const prefersReducedMotion = useReducedMotion()
   const [activeJourneyId, setActiveJourneyId] = useState(journeys[0].id)
   const showcaseRef = useRef<HTMLElement>(null)
   const activeJourney = journeys.find((journey) => journey.id === activeJourneyId) ?? journeys[0]
+  const ActiveJourneyIcon = activeJourney.icon
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search)
@@ -312,83 +314,145 @@ export default function ExperiencesPage() {
       <section
         id="showcase"
         ref={showcaseRef}
-        className="relative scroll-mt-24 overflow-hidden px-5 pb-20 sm:px-6 md:px-8 md:pb-28"
+        className="relative scroll-mt-20 overflow-hidden bg-[#020F12]"
       >
-        <div className="relative mx-auto max-w-7xl overflow-hidden rounded-[2rem] border border-[#D4AF37]/20 bg-[#020F12] shadow-[0_36px_120px_rgba(0,0,0,0.42)]">
-          <AnimatePresence mode="wait">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeJourney.id}
+            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, scale: 0.985 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, scale: 1.015 }}
+            transition={{ duration: prefersReducedMotion ? 0 : 0.8, ease }}
+            className="relative h-[clamp(42rem,88svh,52rem)] overflow-hidden"
+          >
+            <motion.video
+              key={activeJourney.video}
+              initial={prefersReducedMotion ? undefined : { scale: 1.16 }}
+              animate={{ scale: 1 }}
+              transition={{ duration: prefersReducedMotion ? 0 : 1.6, ease }}
+              className="absolute inset-0 h-full w-full object-cover"
+              src={activeJourney.video}
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="metadata"
+              aria-hidden="true"
+            />
+
+            <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(2,15,18,0.94)_0%,rgba(2,15,18,0.78)_32%,rgba(2,15,18,0.24)_68%,rgba(2,15,18,0.46)_100%)]" />
+            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(2,15,18,0.18),transparent_42%,rgba(2,15,18,0.92)_100%)]" />
+            <div
+              className="absolute inset-0"
+              style={{ background: `radial-gradient(circle at 78% 24%, ${activeJourney.accent}38, transparent 34%)` }}
+            />
+
             <motion.div
-              key={activeJourney.id}
-              initial={{ opacity: 0, y: 18 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -12 }}
-              transition={{ duration: 0.55, ease }}
-              className="grid min-h-[34rem] lg:grid-cols-[1.18fr_0.82fr]"
-            >
-              <div className="relative min-h-[24rem] overflow-hidden lg:min-h-full">
-                <video
-                  key={activeJourney.video}
-                  className="absolute inset-0 h-full w-full object-cover"
-                  src={activeJourney.video}
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  preload="metadata"
-                  aria-hidden="true"
-                />
-                <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(2,15,18,0.06),rgba(2,15,18,0.72))]" />
-                <div className="absolute bottom-7 left-7 right-7">
-                  <p className="mt-ui text-[10px] tracking-[0.22em]" style={{ color: activeJourney.accent }}>
-                    {activeJourney.descriptor.toUpperCase()}
-                  </p>
-                  <h3 className="mt-display mt-3 text-5xl leading-none text-white md:text-6xl">
+              aria-hidden="true"
+              initial={prefersReducedMotion ? undefined : { x: '-140%', opacity: 0 }}
+              animate={prefersReducedMotion ? undefined : { x: '520%', opacity: [0, 0.65, 0] }}
+              transition={{ duration: 1.2, ease: 'easeInOut' }}
+              className="pointer-events-none absolute inset-y-0 z-10 w-[16%] bg-[linear-gradient(90deg,transparent,rgba(255,248,221,0.18),transparent)] mix-blend-screen"
+            />
+
+            <div className="relative z-20 mx-auto flex h-full w-full max-w-[1500px] items-center px-5 py-20 sm:px-7 md:px-10 md:py-24 lg:px-14">
+              <div className="grid w-full items-center gap-7 lg:grid-cols-[1.08fr_0.92fr] lg:gap-12">
+                <motion.div
+                  initial={prefersReducedMotion ? undefined : { opacity: 0, x: -42 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.78, delay: 0.1, ease }}
+                >
+                  <div className="mb-6 flex items-center gap-4">
+                    <span
+                      className="flex h-14 w-14 items-center justify-center rounded-full border border-white/18 bg-black/25 text-white backdrop-blur-xl"
+                      style={{ boxShadow: `0 0 40px ${activeJourney.accent}28` }}
+                    >
+                      <ActiveJourneyIcon size={21} strokeWidth={1.35} />
+                    </span>
+                    <div>
+                      <p className="mt-eyebrow text-[9px] text-white/42">CURATED EXPERIENCE</p>
+                      <p className="mt-ui mt-1 text-[10px] tracking-[0.2em]" style={{ color: activeJourney.accent }}>
+                        {activeJourney.descriptor.toUpperCase()}
+                      </p>
+                    </div>
+                  </div>
+
+                  <h3 className="mt-display max-w-4xl text-[clamp(3.5rem,8vw,7.4rem)] leading-[0.82] tracking-[-0.055em] text-white">
                     {activeJourney.title}
                   </h3>
-                </div>
-              </div>
 
-              <div className="flex flex-col justify-between p-7 md:p-9 lg:p-10">
-                <div>
-                  <p className="mt-body-copy max-w-xl text-base leading-relaxed text-white/68 md:text-lg">
+                  <p className="mt-body-copy mt-5 max-w-xl text-base leading-[1.65] text-white/68 md:text-lg">
                     {activeJourney.summary}
                   </p>
+                </motion.div>
 
-                  <div className="mt-8 grid gap-x-6 gap-y-3 sm:grid-cols-2">
+                <motion.aside
+                  initial={prefersReducedMotion ? undefined : { opacity: 0, y: 46, scale: 0.96 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  transition={{ duration: 0.8, delay: 0.2, ease }}
+                  className="max-h-[34rem] overflow-y-auto rounded-[1.6rem] border border-white/14 bg-[linear-gradient(180deg,rgba(8,18,22,0.5),rgba(2,10,13,0.62))] p-5 shadow-[0_30px_90px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-2xl sm:p-6"
+                >
+                  <p className="mt-eyebrow mb-4 text-[9px] text-[#D4AF37]">SIGNATURE MOMENTS</p>
+
+                  <div className="grid gap-1.5 sm:grid-cols-2">
                     {activeJourney.experiences.map((experience, index) => (
                       <motion.div
                         key={experience}
-                        initial={{ opacity: 0, x: 10 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.4, delay: index * 0.045, ease }}
-                        className="flex items-center gap-3 text-sm text-white/74"
+                        initial={prefersReducedMotion ? undefined : { opacity: 0, y: 12 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.4, delay: 0.28 + index * 0.045, ease }}
+                        className="flex items-center gap-2.5 rounded-full border border-white/10 bg-white/[0.045] px-3 py-1.5 text-xs text-white/76"
                       >
                         <span className="h-1.5 w-1.5 rotate-45 bg-[#D4AF37]" />
                         {experience}
                       </motion.div>
                     ))}
                   </div>
-                </div>
 
-                <div className="mt-10">
-                  <p className="mt-eyebrow mb-4 text-[10px] text-[#D4AF37]">
-                    POPULAR DESTINATIONS
-                  </p>
-                  <div className="flex flex-wrap gap-2.5">
-                    {activeJourney.destinations.map((destination) => (
-                      <a
-                        key={destination}
-                        href={`/destinations?country=${destination}`}
-                        className="mt-ui rounded-full border border-[#D4AF37]/28 px-4 py-2 text-[10px] tracking-[0.16em] text-[#F2E7CC]/80 transition-all duration-300 hover:border-[#D4AF37]/70 hover:bg-[#D4AF37]/10 hover:text-[#D4AF37]"
-                      >
-                        {destination.replaceAll('-', ' ').toUpperCase()}
-                      </a>
-                    ))}
+                  <div className="mt-5 border-t border-white/10 pt-4">
+                    <p className="mt-eyebrow mb-3 text-[9px] text-white/42">POPULAR DESTINATIONS</p>
+                    <div className="flex flex-wrap gap-2">
+                      {activeJourney.destinations.map((destination, index) => (
+                        <motion.a
+                          key={destination}
+                          href={`/destinations?country=${destination}`}
+                          initial={prefersReducedMotion ? undefined : { opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.36, delay: 0.52 + index * 0.05, ease }}
+                          className="mt-ui rounded-full border border-[#D4AF37]/30 bg-[#D4AF37]/[0.045] px-3.5 py-2 text-[9px] tracking-[0.14em] text-[#F2E7CC]/80 transition-all duration-300 hover:border-[#D4AF37]/70 hover:bg-[#D4AF37]/12 hover:text-[#D4AF37]"
+                        >
+                          {destination.replaceAll('-', ' ').toUpperCase()}
+                        </motion.a>
+                      ))}
+                    </div>
                   </div>
-                </div>
+                </motion.aside>
               </div>
-            </motion.div>
-          </AnimatePresence>
-        </div>
+            </div>
+
+            <div className="absolute right-4 top-1/2 z-30 hidden -translate-y-1/2 flex-col gap-2 lg:flex">
+              {journeys.map((journey, index) => {
+                const isActive = journey.id === activeJourney.id
+
+                return (
+                  <button
+                    key={journey.id}
+                    type="button"
+                    onClick={() => setActiveJourneyId(journey.id)}
+                    aria-label={`Show ${journey.title}`}
+                    className={`group flex items-center justify-end gap-3 transition-all duration-300 ${isActive ? 'text-white' : 'text-white/35 hover:text-white/75'}`}
+                  >
+                    <span className="mt-ui text-[9px] tracking-[0.14em] opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                      {journey.title.toUpperCase()}
+                    </span>
+                    <span className={`block rounded-full transition-all duration-300 ${isActive ? 'h-8 w-[2px] bg-[#D4AF37]' : 'h-3 w-px bg-white/28 group-hover:h-5 group-hover:bg-white/60'}`} />
+                    <span className="mt-ui w-5 text-right text-[8px]">0{index + 1}</span>
+                  </button>
+                )
+              })}
+            </div>
+          </motion.div>
+        </AnimatePresence>
       </section>
 
       <Footer />

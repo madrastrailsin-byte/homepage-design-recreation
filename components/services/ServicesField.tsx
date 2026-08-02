@@ -1167,101 +1167,170 @@ const toggleLight = () => {
       <AnimatePresence>
         {openService ? (
           <motion.div
-            className="fixed inset-0 z-[100] h-[100svh] overflow-y-auto overscroll-contain bg-[#080704] text-[#f8f3e8] lg:overflow-hidden"
+            className="fixed inset-0 z-[100] h-[100svh] overflow-y-auto overscroll-contain bg-[#02080B] text-[#F8F3E8] lg:overflow-hidden"
             role="dialog"
             aria-modal="true"
             aria-labelledby="service-overlay-title"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
+            transition={{ duration: prefersReducedMotion ? 0 : 0.45 }}
           >
-            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_18%_22%,rgba(212,175,55,.1),transparent_33%),linear-gradient(135deg,#080704,#171109_55%,#070604)]" />
+            <motion.div
+              aria-hidden="true"
+              className="absolute inset-0"
+              initial={prefersReducedMotion ? false : { scale: 1.08, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 1.035, opacity: 0 }}
+              transition={{ duration: prefersReducedMotion ? 0 : 0.9, ease }}
+            >
+              <Image
+                src={openService.image}
+                alt=""
+                fill
+                sizes="100vw"
+                className="object-cover brightness-[0.62] saturate-[0.72]"
+                style={{ objectPosition: openService.objectPosition }}
+                priority
+              />
+            </motion.div>
+
+            <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,
+rgba(2,8,11,0.98) 0%,
+rgba(2,8,11,0.92) 40%,
+rgba(2,8,11,0.55) 70%,
+rgba(2,8,11,0.82) 100%
+)]" />
+            <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(2,8,11,0.26),transparent_38%,rgba(2,8,11,0.92)_100%)]" />
+            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_76%_18%,rgba(212,175,55,0.18),transparent_30%)]" />
+
+            <motion.div
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-y-0 z-10 w-[16%] bg-[linear-gradient(90deg,transparent,rgba(255,245,215,0.18),transparent)] mix-blend-screen"
+              initial={prefersReducedMotion ? false : { x: "-140%", opacity: 0 }}
+              animate={
+                prefersReducedMotion
+                  ? { opacity: 0 }
+                  : { x: "620%", opacity: [0, 0.72, 0] }
+              }
+              transition={{ duration: prefersReducedMotion ? 0 : 1.2, ease: "easeInOut" }}
+            />
+
             <button
               ref={closeButtonRef}
               type="button"
               onClick={() => setOpenService(null)}
-              className="mt-ui fixed right-5 top-5 z-30 grid h-11 w-11 place-items-center rounded-full border border-[#c99a39]/45 bg-[#090806]/75 text-[#f8f3e8] backdrop-blur-md hover:border-[#d8af58] hover:text-[#d8af58] md:right-8 md:top-8"
+              className="mt-ui fixed right-5 top-5 z-30 grid h-12 w-12 place-items-center rounded-full border border-white/15 bg-black/30 text-[#F8F3E8] shadow-[0_12px_40px_rgba(0,0,0,0.32)] backdrop-blur-xl transition-all duration-300 hover:rotate-90 hover:border-[#D4AF37]/65 hover:bg-[#D4AF37] hover:text-[#07141A] md:right-8 md:top-8"
               aria-label="Close service details"
             >
               <X size={18} />
             </button>
 
             <motion.div
-              className="relative z-10 mx-auto grid w-full max-w-[1500px] gap-8 px-5 py-8 md:px-8 lg:h-[100svh] lg:grid-cols-[.82fr_1.18fr] lg:items-center lg:gap-10 lg:px-10 lg:py-4"
-              initial={{ opacity: 0, y: 24 }}
+              className="relative z-20 mx-auto flex min-h-[100svh] items-start pt-16 px-5 py-24 md:px-8 lg:px-12"
+              initial={prefersReducedMotion ? false : { opacity: 0, y: 28 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 16 }}
-              transition={{ duration: 0.62, ease }}
+              exit={{ opacity: 0, y: 18 }}
+              transition={{ duration: prefersReducedMotion ? 0 : 0.72, ease }}
             >
-              <div className="lg:pl-8">
-                <div className="flex items-center gap-4">
-                  <Monogram compact />
-                  <p className="mt-eyebrow text-[.6rem] text-[#c99a39]">
-                    {openService.number} / PRIVATE TRAVEL SERVICE
-                  </p>
-                </div>
-                <h2
-                  id="service-overlay-title"
-                  className="mt-display mt-6 text-[clamp(3.8rem,6.5vw,7.5rem)] leading-[.8] tracking-[-.055em] text-[#faf7f0]"
+              <div className="grid w-full items-center gap-8 lg:grid-cols-[0.92fr_1.08fr] lg:gap-12">
+                <motion.div
+                  initial={prefersReducedMotion ? false : { opacity: 0, x: -38 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: prefersReducedMotion ? 0 : 0.72, delay: 0.08, ease }}
+                  className="lg:pl-4"
                 >
-                  {openService.title}
-                </h2>
-
-<p className="mt-body-copy mt-6 max-w-xl text-base leading-[1.65] text-[#faf7f0]/66 md:text-lg">
-  {openService.description}
-</p>
-
-<p className="mt-body-copy mt-4 max-w-xl text-sm leading-[1.75] text-[#faf7f0]/52 md:text-base">
-  {openService.overview}
-</p>
-
-<div className="mt-6 space-y-2.5">
-  {openService.highlights.map((item) => (
-    <div
-      key={item}
-      className="flex items-start gap-3 text-sm text-[#faf7f0]/68"
-    >
-      <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full border border-[#c99a39]/45 text-[#c99a39]">
-        <Check size={11} />
-      </span>
-
-      <span className="mt-body-copy leading-relaxed">{item}</span>
-    </div>
-  ))}
-</div>
-
-<Link
-  href="/plan"
-  onClick={() => setOpenService(null)}
-  className="mt-ui group mt-7 inline-flex items-center gap-8 border-b border-[#c99a39]/70 pb-3 text-[.66rem] tracking-[.18em] hover:text-[#d8af58]"
->
-  START PLANNING THIS JOURNEY
-  <ArrowRight
-    size={17}
-    className="text-[#d8af58] transition-transform group-hover:translate-x-1"
-  />
-</Link>
-              </div>
-
-              <div className="relative min-h-[27rem] overflow-hidden border border-[#c99a39]/20 bg-[#171109] shadow-[0_40px_100px_rgba(0,0,0,.6)] md:min-h-[34rem] lg:h-[82svh] lg:min-h-0 lg:max-h-[46rem]">
-                <Image
-                  src={openService.image}
-                  alt=""
-                  fill
-                  sizes="(min-width: 1024px) 58vw, 100vw"
-                  className="object-cover saturate-[.82]"
-                  style={{ objectPosition: openService.objectPosition }}
-                  priority
-                />
-                <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(5,4,3,.02),rgba(5,4,3,.4))]" />
-                <div className="absolute bottom-0 left-0 right-0 border-t border-[#c99a39]/22 bg-[#0a0805]/72 px-6 py-5 backdrop-blur-sm">
-                  <div className="flex items-center justify-between gap-6">
-                    <p className="mt-ui text-[.55rem] tracking-[.2em] text-[#d8af58]">
-                      MADRAS TRAILS / PRIVATE TRAVEL CURATOR
+                  <div className="flex items-center gap-4">
+                    <Monogram compact />
+                    <p className="mt-eyebrow text-[0.58rem] text-[#D4AF37]">
+                      {openService.number} / PRIVATE TRAVEL SERVICE
                     </p>
-                    <Sparkles size={16} className="text-[#d8af58]" />
                   </div>
-                </div>
+
+                  <h2
+                    id="service-overlay-title"
+                    className="mt-display mt-6 max-w-3xl text-[clamp(3.6rem,7vw,7.6rem)] leading-[0.8] tracking-[-0.055em] text-white"
+                  >
+                    {openService.title}
+                  </h2>
+
+                  <p className="mt-body-copy mt-6 max-w-xl text-base leading-[1.7] text-white/72 md:text-lg">
+                    {openService.description}
+                  </p>
+
+                  <div className="mt-6 max-w-xl rounded-[1.5rem] border border-white/12 bg-[linear-gradient(180deg,rgba(10,18,21,0.5),rgba(2,9,12,0.58))] p-5 shadow-[0_28px_90px_rgba(0,0,0,0.34),inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-2xl md:p-6">
+                    <p className="mt-body-copy text-sm leading-[1.75] text-white/58 md:text-base">
+                      {openService.overview}
+                    </p>
+
+                    <div className="mt-5 grid gap-2.5 sm:grid-cols-2">
+                      {openService.highlights.map((item, index) => (
+                        <motion.div
+                          key={item}
+                          initial={prefersReducedMotion ? false : { opacity: 0, y: 12 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{
+                            duration: prefersReducedMotion ? 0 : 0.4,
+                            delay: 0.22 + index * 0.045,
+                            ease,
+                          }}
+                          className="flex items-start gap-3 rounded-full border border-white/10 bg-white/[0.045] px-3 py-2 text-sm text-white/74"
+                        >
+                          <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full border border-[#D4AF37]/45 text-[#D4AF37]">
+                            <Check size={11} />
+                          </span>
+                          <span className="mt-body-copy leading-relaxed">{item}</span>
+                        </motion.div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <Link
+                    href="/plan"
+                    onClick={() => setOpenService(null)}
+                    className="mt-ui group mt-7 inline-flex items-center gap-6 rounded-full border border-[#D4AF37]/45 bg-[#D4AF37]/10 px-6 py-3 text-[0.64rem] tracking-[0.18em] text-[#F2E7CC] shadow-[0_16px_42px_rgba(0,0,0,0.26)] backdrop-blur-xl transition-all duration-300 hover:border-[#D4AF37] hover:bg-[#D4AF37] hover:text-[#07141A]"
+                  >
+                    START PLANNING THIS JOURNEY
+                    <ArrowRight
+                      size={17}
+                      className="transition-transform duration-300 group-hover:translate-x-1"
+                    />
+                  </Link>
+                </motion.div>
+
+                <motion.div
+                  initial={prefersReducedMotion ? false : { opacity: 0, x: 42, scale: 0.96 }}
+                  animate={{ opacity: 1, x: 0, scale: 1 }}
+                  transition={{ duration: prefersReducedMotion ? 0 : 0.78, delay: 0.12, ease }}
+                  className="relative min-h-[24rem] overflow-hidden rounded-[2rem] border border-white/12 bg-black/20 shadow-[0_42px_130px_rgba(0,0,0,0.48),inset_0_1px_0_rgba(255,255,255,0.06)] md:min-h-[32rem] lg:h-[70svh] lg:max-h-[46rem]"
+                >
+                  <Image
+                    src={openService.image}
+                    alt=""
+                    fill
+                    sizes="(min-width: 1024px) 54vw, 100vw"
+                    className="object-cover saturate-[0.9]"
+                    style={{ objectPosition: openService.objectPosition }}
+                    priority
+                  />
+
+                  <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(2,8,11,0.02),rgba(2,8,11,0.2)_52%,rgba(2,8,11,0.84)_100%)]" />
+                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_76%_20%,rgba(212,175,55,0.16),transparent_34%)]" />
+
+                  <div className="absolute inset-x-5 bottom-5 rounded-[1.4rem] border border-white/12 bg-black/30 px-5 py-4 shadow-[0_18px_54px_rgba(0,0,0,0.32),inset_0_1px_0_rgba(255,255,255,0.07)] backdrop-blur-2xl md:inset-x-7 md:bottom-7">
+                    <div className="flex items-center justify-between gap-6">
+                      <div>
+                        <p className="mt-ui text-[0.52rem] tracking-[0.22em] text-[#D4AF37]">
+                          MADRAS TRAILS
+                        </p>
+                        <p className="mt-body-copy mt-2 text-sm text-white/64">
+                          Designed around your pace, comfort and purpose.
+                        </p>
+                      </div>
+                      <Sparkles size={17} className="shrink-0 text-[#D4AF37]" />
+                    </div>
+                  </div>
+                </motion.div>
               </div>
             </motion.div>
           </motion.div>

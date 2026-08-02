@@ -1,7 +1,7 @@
 "use client"
 
 import type { Destination } from "@/lib/destinations"
-import { motion } from "framer-motion"
+import { motion, useReducedMotion } from "framer-motion"
 import DidYouKnow from "./DidYouKnow"
 
 interface DiscoverSectionProps {
@@ -29,6 +29,7 @@ const japanWhyVisit = [
 export default function DiscoverSection({
   destination,
 }: DiscoverSectionProps) {
+  const prefersReducedMotion = useReducedMotion()
   const discover = destination.discover
   const isJapan = destination.id === "japan"
 
@@ -94,21 +95,43 @@ export default function DiscoverSection({
 
           <div className="mt-7 max-w-[430px] space-y-6">
             {whyVisitItems.map((item, index) => (
-              <div
+              <motion.div
                 key={`${item.title}-${index}`}
-                className={`border-l pl-5 ${
-                  index === 0
-                    ? "border-[#D6B06E]/45"
-                    : "border-white/15"
-                }`}
+                initial={
+                  prefersReducedMotion
+                    ? false
+                    : { opacity: 0, x: -18, y: 8 }
+                }
+                whileInView={{ opacity: 1, x: 0, y: 0 }}
+                viewport={{ once: true, amount: 0.55 }}
+                transition={{
+                  duration: prefersReducedMotion ? 0 : 0.62,
+                  delay: prefersReducedMotion ? 0 : index * 0.12,
+                  ease: [0.22, 1, 0.36, 1],
+                }}
+                className="relative pl-5"
               >
+                <motion.span
+                  aria-hidden="true"
+                  className={`absolute left-0 top-0 w-px ${
+                    index === 0 ? "bg-[#D6B06E]/70" : "bg-white/18"
+                  }`}
+                  initial={prefersReducedMotion ? false : { height: 0 }}
+                  whileInView={{ height: "100%" }}
+                  viewport={{ once: true, amount: 0.6 }}
+                  transition={{
+                    duration: prefersReducedMotion ? 0 : 0.7,
+                    delay: prefersReducedMotion ? 0 : 0.08 + index * 0.12,
+                    ease: [0.22, 1, 0.36, 1],
+                  }}
+                />
                 <p className="font-serif text-[20px] font-light leading-tight text-white/85">
                   {item.title}
                 </p>
                 <p className="mt-2 text-sm font-light leading-6 text-white/50">
                   {item.description}
                 </p>
-              </div>
+              </motion.div>
             ))}
           </div>
 
@@ -122,10 +145,44 @@ export default function DiscoverSection({
             <motion.img
               src={destination.image}
               alt={destination.name}
-              initial={{ scale: 1.03, y: 0 }}
-              animate={{ scale: [1.03, 1.065, 1.03], y: [0, -8, 0] }}
-              transition={{ duration: 24, repeat: Infinity, ease: "easeInOut" }}
-              className="h-[820px] w-full object-cover object-center opacity-55 saturate-[0.78] contrast-[1.08] brightness-[0.82] sepia-[0.08]"
+              initial={prefersReducedMotion ? false : { scale: 1.035, x: 0, y: 0 }}
+              animate={
+                prefersReducedMotion
+                  ? { scale: 1.035 }
+                  : {
+                      scale: [1.035, 1.075, 1.045],
+                      x: [0, -14, 6],
+                      y: [0, -8, 2],
+                    }
+              }
+              transition={
+                prefersReducedMotion
+                  ? undefined
+                  : { duration: 28, repeat: Infinity, ease: "easeInOut" }
+              }
+              className="h-[820px] w-full object-cover object-center opacity-52 saturate-[0.74] contrast-[1.1] brightness-[0.78] sepia-[0.08]"
+            />
+
+            <motion.div
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-y-0 z-10 w-[18%] bg-[linear-gradient(90deg,transparent,rgba(255,241,202,0.14),transparent)] mix-blend-screen"
+              initial={prefersReducedMotion ? false : { x: "-180%", opacity: 0 }}
+              animate={
+                prefersReducedMotion
+                  ? { opacity: 0 }
+                  : { x: "620%", opacity: [0, 0.5, 0] }
+              }
+              transition={
+                prefersReducedMotion
+                  ? undefined
+                  : {
+                      duration: 1.3,
+                      delay: 2.2,
+                      repeat: Infinity,
+                      repeatDelay: 12,
+                      ease: "easeInOut",
+                    }
+              }
             />
 
             <div className="absolute inset-0 bg-gradient-to-l from-[#07161D]/5 via-[#07161D]/35 to-[#07161D]/95" />
@@ -148,7 +205,7 @@ export default function DiscoverSection({
                 delay: 0.2,
                 ease: [0.22, 1, 0.36, 1],
               }}
-              className="absolute left-[60px] top-25 z-20 w-[260px] rounded-[26px] border border-white/15 bg-[#07161D]/30 p-6 shadow-[0_24px_70px_rgba(0,0,0,0.28)] backdrop-blur-2xl"
+              className="absolute left-[60px] top-25 z-20 w-[260px] rounded-[26px] border border-[#D6B06E]/18 bg-[linear-gradient(180deg,rgba(7,22,29,0.42),rgba(2,12,17,0.34))] p-6 shadow-[0_28px_86px_rgba(0,0,0,0.34),0_0_28px_rgba(214,176,110,0.06),inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-3xl"
             >
               <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/35 to-transparent" />
 
@@ -225,7 +282,7 @@ export default function DiscoverSection({
               delay: 0.25,
               ease: [0.22, 1, 0.36, 1],
             }}
-            className="absolute right-[-40px] top-[390px] z-30 hidden w-[340px] rounded-[30px] border border-white/15 bg-[#0B2028]/22 p-7 shadow-[0_28px_80px_rgba(0,0,0,0.30)] backdrop-blur-3xl lg:block"
+            className="absolute right-[-40px] top-[390px] z-30 hidden w-[340px] rounded-[30px] border border-white/12 bg-[linear-gradient(180deg,rgba(10,16,19,0.58),rgba(2,8,11,0.48))] p-7 shadow-[0_32px_100px_rgba(0,0,0,0.42),inset_0_1px_0_rgba(255,255,255,0.07)] backdrop-blur-[28px] lg:block"
           >
             <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/35 to-transparent" />
             <p className="text-[10px] font-medium uppercase tracking-[0.36em] text-[#D6B06E]">
@@ -252,7 +309,7 @@ export default function DiscoverSection({
             delay: 0.35,
             ease: [0.22, 1, 0.36, 1],
           }}
-          className="absolute left-[37%] top-[580px] z-30 hidden w-[280px] rounded-[30px] border border-white/15 bg-[#0B2028]/20 p-7 shadow-[0_28px_80px_rgba(0,0,0,0.3)] backdrop-blur-3xl lg:block"
+          className="absolute left-[37%] top-[580px] z-30 hidden w-[280px] rounded-[30px] border border-white/12 bg-[linear-gradient(180deg,rgba(10,16,19,0.58),rgba(2,8,11,0.48))] p-7 shadow-[0_32px_100px_rgba(0,0,0,0.42),inset_0_1px_0_rgba(255,255,255,0.07)] backdrop-blur-[28px] lg:block"
         >
           <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
           <p className="text-[10px] font-medium uppercase tracking-[0.36em] text-[#D6B06E]">

@@ -1,6 +1,6 @@
 "use client"
 
-import { AnimatePresence, motion } from "framer-motion"
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion"
 import Image from "next/image"
 import { useCallback, useEffect, useState } from "react"
 import { createPortal } from "react-dom"
@@ -65,6 +65,7 @@ export default function ExperiencesSection({
 }: {
   destination: Destination
 }) {
+  const prefersReducedMotion = useReducedMotion() ?? false
   const [selectedExperience, setSelectedExperience] =
     useState<Experience | null>(null)
   const [showConcierge, setShowConcierge] = useState(false)
@@ -162,18 +163,21 @@ export default function ExperiencesSection({
               index={0}
               featured
               onSelect={selectExperience}
+              prefersReducedMotion={prefersReducedMotion}
             />
 
             <ExperienceCard
               experience={experiences[1]}
               index={1}
               onSelect={selectExperience}
+              prefersReducedMotion={prefersReducedMotion}
             />
 
             <ExperienceCard
               experience={experiences[2]}
               index={2}
               onSelect={selectExperience}
+              prefersReducedMotion={prefersReducedMotion}
             />
           </div>
 
@@ -194,6 +198,7 @@ export default function ExperiencesSection({
         onShowConcierge={() => setShowConcierge(true)}
         onHideConcierge={() => setShowConcierge(false)}
         onClose={closeExperience}
+        prefersReducedMotion={prefersReducedMotion}
       />
     </>
   )
@@ -204,25 +209,28 @@ function ExperienceCard({
   index,
   featured = false,
   onSelect,
+  prefersReducedMotion,
 }: {
   experience: Experience
   index: number
   featured?: boolean
   onSelect: (experience: Experience) => void
+  prefersReducedMotion: boolean
 }) {
   return (
     <motion.button
       type="button"
       onClick={() => onSelect(experience)}
-      initial={{ opacity: 0, y: 34 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial={prefersReducedMotion ? false : { opacity: 0, y: 34, scale: 0.985 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
       viewport={{ once: true, amount: 0.2 }}
       transition={{
         duration: 0.9,
         delay: index * 0.08,
         ease: [0.22, 1, 0.36, 1],
       }}
-      className={`group relative isolate min-h-[440px] overflow-hidden rounded-[30px] border border-white/10 bg-white/[0.025] text-left ${
+      whileHover={prefersReducedMotion ? undefined : { y: -8, scale: 1.008 }}
+      className={`group relative isolate min-h-[440px] overflow-hidden rounded-[30px] border border-white/10 bg-white/[0.025] text-left shadow-[0_28px_90px_rgba(0,0,0,0.28)] transition-[border-color,box-shadow] duration-500 hover:border-[#D6B06E]/28 hover:shadow-[0_40px_120px_rgba(0,0,0,0.42),0_0_34px_rgba(214,176,110,0.08)] ${
         featured
           ? "lg:row-span-2 lg:min-h-[900px]"
           : "lg:min-h-[438px]"
@@ -241,12 +249,13 @@ function ExperienceCard({
             ? "(min-width: 1024px) 58vw, 100vw"
             : "(min-width: 1024px) 38vw, 100vw"
         }
-        className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1400ms] ease-out group-hover:scale-[1.055]"
+        className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1600ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.075]"
       />
 
       <div className="absolute inset-0 bg-gradient-to-t from-[#020a0e] via-[#020a0e]/24 to-transparent" />
       <div className="absolute inset-0 bg-gradient-to-r from-[#020a0e]/35 via-transparent to-transparent opacity-60" />
-      <div className="absolute inset-0 bg-[#06161d]/0 transition-colors duration-700 group-hover:bg-[#06161d]/12" />
+      <div className="absolute inset-0 bg-[#06161d]/0 transition-colors duration-700 group-hover:bg-[#06161d]/18" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/24 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
 
       <span className="absolute left-6 top-6 z-10 font-serif text-[15px] font-light text-white/55 sm:left-8 sm:top-8">
         {String(index + 1).padStart(2, "0")}
@@ -306,6 +315,7 @@ function ExperienceDrawer({
   onShowConcierge,
   onHideConcierge,
   onClose,
+  prefersReducedMotion,
 }: {
   destination: Destination
   experience: Experience | null
@@ -313,6 +323,7 @@ function ExperienceDrawer({
   onShowConcierge: () => void
   onHideConcierge: () => void
   onClose: () => void
+  prefersReducedMotion: boolean
 }) {
   if (typeof document === "undefined") return null
 
@@ -339,16 +350,16 @@ function ExperienceDrawer({
             role="dialog"
             aria-modal="true"
             aria-labelledby="experience-title"
-            initial={{ x: "100%" }}
-            animate={{ x: 0 }}
-            exit={{ x: "100%" }}
+            initial={prefersReducedMotion ? { opacity: 1 } : { x: "100%", opacity: 0.85 }}
+            animate={{ x: 0, opacity: 1 }}
+            exit={prefersReducedMotion ? { opacity: 0 } : { x: "100%", opacity: 0.85 }}
             transition={{
               duration: 0.72,
               ease: [0.22, 1, 0.36, 1],
             }}
-            className="relative z-10 h-dvh w-full overflow-y-auto border-l border-white/10 bg-[#07161d] shadow-[-30px_0_100px_rgba(0,0,0,0.48)] sm:max-w-[620px]"
+            className="relative z-10 h-dvh w-full overflow-y-auto border-l border-white/10 bg-[linear-gradient(180deg,rgba(7,22,29,0.98),rgba(2,10,14,0.99))] shadow-[-34px_0_120px_rgba(0,0,0,0.54)] sm:max-w-[660px]"
           >
-            <div className="relative h-[43vh] min-h-[360px]">
+            <div className="relative h-[46vh] min-h-[380px] overflow-hidden">
               <Image
                 src={experience.image}
                 alt={experience.title}
@@ -358,9 +369,10 @@ function ExperienceDrawer({
                   experience.image.startsWith("https://images.unsplash.com/")
                 }
                 sizes="(min-width: 640px) 620px, 100vw"
-                className="h-full w-full object-cover"
+                className="h-full w-full object-cover scale-[1.03]"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#07161d] via-[#07161d]/5 to-black/20" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#07161d] via-[#07161d]/8 to-black/28" />
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_76%_18%,rgba(214,176,110,0.14),transparent_34%)]" />
 
               <button
                 type="button"
@@ -410,7 +422,7 @@ function ExperienceDrawer({
                 </div>
               </div>
 
-              <div className="mt-10 rounded-[24px] border border-[#d6b06e]/20 bg-[#d6b06e]/[0.055] p-6">
+              <div className="mt-10 rounded-[24px] border border-white/12 bg-[linear-gradient(180deg,rgba(10,18,22,0.5),rgba(2,9,12,0.58))] p-6 shadow-[0_26px_80px_rgba(0,0,0,0.34),inset_0_1px_0_rgba(255,255,255,0.07)] backdrop-blur-2xl">
                 <p className="text-[8px] font-medium uppercase tracking-[0.32em] text-[#d6b06e]">
                   Why MadrasTrails recommends it
                 </p>
@@ -422,14 +434,15 @@ function ExperienceDrawer({
               <button
                 type="button"
                 onClick={onShowConcierge}
-                className="group mt-10 flex w-full items-center justify-between rounded-full bg-[#d6b06e] px-6 py-4 text-[#06161d] transition-colors duration-400 hover:bg-[#e1c184]"
+                className="group relative mt-10 flex w-full items-center justify-between overflow-hidden rounded-full bg-[#d6b06e] px-6 py-4 text-[#06161d] shadow-[0_16px_40px_rgba(214,176,110,0.2)] transition-all duration-400 hover:-translate-y-0.5 hover:bg-[#e1c184] hover:shadow-[0_22px_52px_rgba(214,176,110,0.28)]"
               >
-                <span className="text-[9px] font-medium uppercase tracking-[0.28em]">
+                <span className="relative z-10 text-[9px] font-medium uppercase tracking-[0.28em]">
                   Let&apos;s craft your journey
                 </span>
-                <span className="transition-transform duration-400 group-hover:translate-x-1">
+                <span className="relative z-10 transition-transform duration-400 group-hover:translate-x-1">
                   →
                 </span>
+                <span className="pointer-events-none absolute inset-y-0 -left-1/3 w-1/3 skew-x-[-18deg] bg-white/34 opacity-0 blur-sm transition-all duration-700 group-hover:left-[115%] group-hover:opacity-100" />
               </button>
             </div>
           </motion.aside>

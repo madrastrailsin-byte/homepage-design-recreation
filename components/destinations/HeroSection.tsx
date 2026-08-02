@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { motion } from "framer-motion"
+import { motion, useReducedMotion } from "framer-motion"
 import Image from "next/image"
 import Link from "next/link"
 
@@ -18,22 +18,10 @@ interface HeroSectionProps {
 const FALLBACK_IMAGE =
   "/images/destinations/canada/canada-moraine-lake.webp"
 
-const reveal = {
-  hidden: {
-    opacity: 0,
-    y: 28,
-    filter: "blur(10px)",
-  },
-  visible: {
-    opacity: 1,
-    y: 0,
-    filter: "blur(0px)",
-  },
-}
-
 const MotionImage = motion.create(Image)
 
 export default function HeroSection({ destination }: HeroSectionProps) {
+  const prefersReducedMotion = useReducedMotion()
   const requestedImage = destination.image || FALLBACK_IMAGE
   const [imageState, setImageState] = useState({
     requested: requestedImage,
@@ -53,15 +41,7 @@ export default function HeroSection({ destination }: HeroSectionProps) {
       : requestedImage
 
   return (
-    <section className="relative h-screen overflow-hidden">
-      <Link
-        href="/destinations"
-        className="absolute left-6 top-16 z-30 inline-flex items-center gap-3 rounded-full border border-white/20 bg-black/20 px-5 py-3 text-[10px] font-medium uppercase tracking-[0.28em] text-white/80 backdrop-blur-xl transition hover:border-white/40 hover:bg-white/10 hover:text-white sm:left-8 lg:left-12"
-      >
-        <span>←</span>
-        <span>Destinations</span>
-      </Link>
-
+    <section className="relative min-h-[100svh] overflow-hidden bg-[#020A0E]">
       <MotionImage
         src={imageSrc}
         alt={destination.name}
@@ -71,7 +51,7 @@ export default function HeroSection({ destination }: HeroSectionProps) {
           imageSrc.startsWith("https://images.unsplash.com/")
         }
         priority
-        quality={78}
+        quality={82}
         sizes="100vw"
         onError={() => {
           if (imageSrc !== FALLBACK_IMAGE) {
@@ -81,100 +61,121 @@ export default function HeroSection({ destination }: HeroSectionProps) {
             })
           }
         }}
-        initial={{ opacity: 0, scale: 1.1 }}
+        initial={
+          prefersReducedMotion
+            ? { opacity: 1 }
+            : { opacity: 0, scale: 1.14 }
+        }
         animate={{ opacity: 1, scale: 1 }}
         transition={{
-          duration: 2.8,
+          duration: prefersReducedMotion ? 0 : 2.2,
           ease: [0.22, 1, 0.36, 1],
         }}
         className="object-cover"
       />
 
-      <div className="absolute inset-0 bg-gradient-to-b from-black/35 via-black/45 to-[#07161D]/95" />
+      <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(2,10,14,0.94)_0%,rgba(2,10,14,0.72)_38%,rgba(2,10,14,0.22)_72%,rgba(2,10,14,0.42)_100%)]" />
+      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(2,10,14,0.24),transparent_36%,rgba(2,10,14,0.92)_100%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_74%_20%,rgba(214,176,110,0.16),transparent_32%)]" />
 
-      <div className="relative z-10 flex h-full items-start">
-        <div className="mx-auto w-full max-w-7xl px-6 pt-28 sm:pt-36 lg:pt-44">
-          <div className="max-w-3xl">
-            <motion.p
-              variants={reveal}
-              initial="hidden"
-              animate="visible"
-              transition={{
-                duration: 1,
-                delay: 0.8,
-                ease: [0.22, 1, 0.36, 1],
-              }}
-              className="mb-10 text-xs uppercase tracking-[0.5em] text-white/75 sm:mb-5"
-            >
-              MadrasTrails
-            </motion.p>
+      <Link
+        href="/destinations"
+        className="group absolute left-5 top-24 z-30 inline-flex items-center gap-3 rounded-full border border-white/15 bg-black/24 px-5 py-3 text-[9px] font-medium uppercase tracking-[0.26em] text-white/75 shadow-[0_14px_40px_rgba(0,0,0,0.24)] backdrop-blur-xl transition-all duration-300 hover:border-[#D6B06E]/45 hover:bg-black/36 hover:text-white sm:left-8 lg:left-12"
+      >
+        <span className="transition-transform duration-300 group-hover:-translate-x-1">
+          ←
+        </span>
+        <span>Destinations</span>
+      </Link>
 
-            <motion.h1
-              variants={reveal}
-              initial="hidden"
-              animate="visible"
-              transition={{
-                duration: 1.2,
-                delay: 1.15,
-                ease: [0.22, 1, 0.36, 1],
-              }}
-              className="mb-8 text-6xl font-light leading-none text-white md:text-8xl"
-            >
+      <div className="relative z-10 mx-auto flex min-h-[100svh] w-full max-w-[1500px] items-end px-5 pb-8 pt-28 sm:px-8 sm:pb-10 lg:px-12 lg:pb-14">
+        <div className="grid w-full items-end gap-8 lg:grid-cols-[1.08fr_0.92fr] lg:gap-14">
+          <motion.div
+            initial={
+              prefersReducedMotion
+                ? false
+                : { opacity: 0, x: -38, y: 20 }
+            }
+            animate={{ opacity: 1, x: 0, y: 0 }}
+            transition={{
+              duration: prefersReducedMotion ? 0 : 0.9,
+              delay: 0.35,
+              ease: [0.22, 1, 0.36, 1],
+            }}
+          >
+            <p className="text-[9px] font-medium uppercase tracking-[0.42em] text-[#D6B06E]">
+              MadrasTrails · Curated Destination
+            </p>
+
+            <h1 className="mt-5 max-w-5xl font-serif text-[clamp(4.6rem,11vw,10rem)] font-light leading-[0.76] tracking-[-0.065em] text-white">
               {destination.name}
-            </motion.h1>
+            </h1>
 
-            <motion.div
-              variants={reveal}
-              initial="hidden"
-              animate="visible"
-              transition={{
-                duration: 1,
-                delay: 1.65,
-                ease: [0.22, 1, 0.36, 1],
-              }}
-            >
-              <p className="mb-4 text-2xl italic text-white/90">
-                {destination.tagline}
-              </p>
+            <p className="mt-7 max-w-2xl font-serif text-[clamp(1.55rem,3vw,2.45rem)] font-light italic leading-[1.08] text-white/72">
+              {destination.tagline}
+            </p>
 
-              <p className="mb-10 max-w-2xl text-lg leading-8 text-white/80">
-                {destination.description}
-              </p>
-            </motion.div>
+            <p className="mt-5 max-w-2xl text-base font-light leading-[1.75] text-white/62 md:text-lg">
+              {destination.description}
+            </p>
+          </motion.div>
 
-            <motion.div
-              variants={reveal}
-              initial="hidden"
-              animate="visible"
-              transition={{
-                duration: 1,
-                delay: 2.1,
-                ease: [0.22, 1, 0.36, 1],
-              }}
-            >
-              <div className="mb-10 flex flex-wrap gap-3">
-                {destination.highlights.map((item) => (
-                  <span
-                    key={item}
-                    className="rounded-full border border-white/20 bg-white/10 px-5 py-2.5 text-sm text-white backdrop-blur-xl transition-all duration-300 hover:border-white/40 hover:bg-white/15"
-                  >
-                    {item}
-                  </span>
-                ))}
-              </div>
+          <motion.aside
+            initial={
+              prefersReducedMotion
+                ? false
+                : { opacity: 0, y: 40, scale: 0.96 }
+            }
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{
+              duration: prefersReducedMotion ? 0 : 0.9,
+              delay: 0.5,
+              ease: [0.22, 1, 0.36, 1],
+            }}
+            className="rounded-[1.7rem] border border-white/14 bg-[linear-gradient(180deg,rgba(7,20,25,0.44),rgba(2,10,14,0.58))] p-5 shadow-[0_30px_100px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-2xl sm:p-6"
+          >
+            <p className="text-[9px] font-medium uppercase tracking-[0.34em] text-[#D6B06E]">
+              Signature highlights
+            </p>
 
-              <button className="rounded-full bg-[#C9A96A] px-6 py-2 text-sm font-medium text-[#07161D] shadow-lg transition-all duration-300 hover:scale-105 hover:bg-[#D6B97D] hover:shadow-xl">
+            <div className="mt-5 flex flex-wrap gap-2.5">
+              {destination.highlights.map((item, index) => (
+                <motion.span
+                  key={item}
+                  initial={
+                    prefersReducedMotion
+                      ? false
+                      : { opacity: 0, y: 12 }
+                  }
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{
+                    duration: prefersReducedMotion ? 0 : 0.42,
+                    delay: 0.62 + index * 0.055,
+                    ease: [0.22, 1, 0.36, 1],
+                  }}
+                  className="rounded-full border border-white/12 bg-white/[0.045] px-4 py-2 text-sm font-light text-white/74"
+                >
+                  {item}
+                </motion.span>
+              ))}
+            </div>
+
+            <div className="mt-6 border-t border-white/10 pt-5">
+              <Link
+                href="/plan"
+                className="group inline-flex items-center gap-5 rounded-full border border-[#D6B06E]/38 bg-[#D6B06E]/10 px-5 py-3 text-[10px] font-medium uppercase tracking-[0.18em] text-[#F2E7CC] transition-all duration-300 hover:border-[#D6B06E] hover:bg-[#D6B06E] hover:text-[#07161D]"
+              >
                 Plan My Journey
-              </button>
-
-              <div className="mt-12 flex items-center gap-3 text-sm uppercase tracking-[0.3em] text-white/60">
-                <span>Scroll</span>
-                <div className="h-px w-20 bg-white/30" />
-              </div>
-            </motion.div>
-          </div>
+                <span className="transition-transform duration-300 group-hover:translate-x-1">
+                  →
+                </span>
+              </Link>
+            </div>
+          </motion.aside>
         </div>
       </div>
+
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-20 h-24 bg-gradient-to-t from-[#03131A] to-transparent" />
     </section>
   )
 }

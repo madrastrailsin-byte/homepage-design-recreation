@@ -1,9 +1,9 @@
 'use client'
 
-import { useState } from "react"
+import { useState } from 'react'
 import Link from 'next/link'
-import { motion, useReducedMotion } from 'framer-motion'
-import Image from "next/image";
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
+import Image from 'next/image'
 
 interface Destination {
   id: string
@@ -25,7 +25,6 @@ interface DestinationPanelProps {
   prioritizeImage?: boolean
 }
 
-
 const IMAGE_POSITION_BY_ID: Record<string, string> = {
   japan: 'center 46%',
   canada: 'center 50%',
@@ -45,7 +44,8 @@ const getImagePosition = (id: string) =>
   IMAGE_POSITION_BY_ID[id] ?? 'center 50%'
 
 const FALLBACK_MARKER_COLOR = '#D4AF37'
-const FALLBACK_IMAGE = '/images/destinations/canada/canada-moraine-lake.webp'
+const FALLBACK_IMAGE =
+  '/images/destinations/canada/canada-moraine-lake.webp'
 
 function SunIcon() {
   return (
@@ -118,28 +118,42 @@ export default function DestinationPanel({
     { label: 'Time Diff.', value: destination.timeDifference || 'Confirmed on enquiry', icon: <ClockIcon /> },
     { label: 'Currency', value: destination.currency || 'Local currency', icon: <CurrencyIcon /> },
   ]
+
   const highlights = Array.isArray(destination.highlights)
     ? destination.highlights.filter(Boolean).slice(0, 3)
     : []
+
   const markerColor = destination.markerColor || FALLBACK_MARKER_COLOR
 
   return (
     <motion.aside
       key={destination.id}
-      initial={prefersReducedMotion ? false : { opacity: 0, x: 22, scale: 0.985 }}
-      animate={{ opacity: 1, x: 0, scale: 1 }}
-      transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
+      initial={prefersReducedMotion ? false : { opacity: 0, x: 34, scale: 0.965, rotateY: -2 }}
+      animate={{ opacity: 1, x: 0, scale: 1, rotateY: 0 }}
+      transition={{ duration: 0.82, ease: [0.22, 1, 0.36, 1] }}
       className="relative flex h-full max-h-[calc(100vh-132px)] w-full flex-col overflow-hidden rounded-[28px] border border-[#D4AF37]/35 p-4 backdrop-blur-2xl"
       style={{
         background:
           'linear-gradient(180deg, rgba(5,21,29,0.86) 0%, rgba(2,13,19,0.74) 100%)',
         boxShadow:
           'inset 0 1px 0 rgba(255,245,218,0.10), inset 0 -1px 0 rgba(212,175,55,0.08), 0 28px 90px rgba(0,0,0,0.48), 0 0 34px rgba(212,175,55,0.10)',
+        transformPerspective: 1200,
       }}
     >
-      <div
-        className="pointer-events-none absolute -right-14 -top-20 h-56 w-56 rounded-full opacity-20 blur-3xl"
+      <motion.div
+        aria-hidden="true"
+        className="pointer-events-none absolute -right-14 -top-20 h-56 w-56 rounded-full blur-3xl"
         style={{ background: markerColor }}
+        animate={
+          prefersReducedMotion
+            ? { opacity: 0.18 }
+            : { opacity: [0.12, 0.26, 0.14], scale: [0.95, 1.08, 0.98] }
+        }
+        transition={
+          prefersReducedMotion
+            ? undefined
+            : { duration: 5.5, repeat: Infinity, ease: 'easeInOut' }
+        }
       />
 
       <div
@@ -159,7 +173,12 @@ export default function DestinationPanel({
         ×
       </button>
 
-      <header className="relative z-10 pr-10">
+      <motion.header
+        className="relative z-10 pr-10"
+        initial={prefersReducedMotion ? false : { opacity: 0, y: 18 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.58, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+      >
         <div className="mb-2 flex items-center gap-3">
           <span className="text-2xl leading-none">{destination.flag || '✦'}</span>
           <span className="text-[9px] uppercase tracking-[0.28em] text-[#D4AF37]/85">
@@ -174,28 +193,50 @@ export default function DestinationPanel({
         <p className="mt-2 max-w-[250px] text-[13px] leading-5 text-[#D6E0E2]/82">
           {destination.tagline || 'Curated journeys, shaped around you.'}
         </p>
-      </header>
+      </motion.header>
 
-      <div className="relative z-10 mt-4 overflow-hidden rounded-[18px] border border-[#D4AF37]/20">
+      <motion.div
+        className="relative z-10 mt-4 overflow-hidden rounded-[18px] border border-[#D4AF37]/20"
+        initial={prefersReducedMotion ? false : { opacity: 0, y: 22, scale: 0.98 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ duration: 0.68, delay: 0.16, ease: [0.22, 1, 0.36, 1] }}
+      >
         <div className="relative h-[190px] w-full overflow-hidden bg-[#021017]">
-          {!imageFailed && (
-            <Image
-              src={imageSrc}
-              alt={destination.name || "Curated destination"}
-              fill
-              unoptimized={
-                typeof imageSrc === "string" &&
-                imageSrc.startsWith("https://images.unsplash.com/")
-              }
-              priority={prioritizeImage}
-              loading={prioritizeImage ? undefined : "lazy"}
-              quality={75}
-              sizes="(min-width: 1024px) 288px, (min-width: 768px) 398px, calc(100vw - 5rem)"
-              onError={() => setImageState({ key: imageKey, failed: true })}
-              className="object-cover"
-              style={{ objectPosition: getImagePosition(destination.id) }}
-            />
-          )}
+          <AnimatePresence mode="wait">
+            {!imageFailed && (
+              <motion.div
+                key={imageKey}
+                className="absolute inset-0"
+                initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, scale: 1.08 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, scale: 1.04 }}
+                transition={{ duration: prefersReducedMotion ? 0 : 0.72, ease: [0.22, 1, 0.36, 1] }}
+              >
+                <motion.div
+                  className="absolute inset-0"
+                  animate={prefersReducedMotion ? undefined : { scale: [1, 1.035, 1] }}
+                  transition={prefersReducedMotion ? undefined : { duration: 10, repeat: Infinity, ease: 'easeInOut' }}
+                >
+                  <Image
+                    src={imageSrc}
+                    alt={destination.name || 'Curated destination'}
+                    fill
+                    unoptimized={
+                      typeof imageSrc === 'string' &&
+                      imageSrc.startsWith('https://images.unsplash.com/')
+                    }
+                    priority={prioritizeImage}
+                    loading={prioritizeImage ? undefined : 'lazy'}
+                    quality={75}
+                    sizes="(min-width: 1024px) 288px, (min-width: 768px) 398px, calc(100vw - 5rem)"
+                    onError={() => setImageState({ key: imageKey, failed: true })}
+                    className="object-cover"
+                    style={{ objectPosition: getImagePosition(destination.id) }}
+                  />
+                </motion.div>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
           {imageFailed && (
             <div
@@ -207,21 +248,41 @@ export default function DestinationPanel({
             />
           )}
 
+          <motion.div
+            aria-hidden="true"
+            key={`sweep-${destination.id}`}
+            className="pointer-events-none absolute inset-y-0 z-10 w-[24%] bg-[linear-gradient(90deg,transparent,rgba(255,246,218,0.22),transparent)] mix-blend-screen"
+            initial={prefersReducedMotion ? { opacity: 0 } : { x: '-160%', opacity: 0 }}
+            animate={prefersReducedMotion ? { opacity: 0 } : { x: '520%', opacity: [0, 0.8, 0] }}
+            transition={{ duration: prefersReducedMotion ? 0 : 1.05, ease: 'easeInOut' }}
+          />
+
           <div className="absolute inset-0 bg-gradient-to-t from-[#020B10]/82 via-transparent to-[#020B10]/8" />
         </div>
 
-        <div className="border-t border-[#D4AF37]/15 bg-[#03141B]/88 px-3 py-3 text-center">
+        <motion.div
+          className="border-t border-[#D4AF37]/15 bg-[#03141B]/88 px-3 py-3 text-center"
+          initial={prefersReducedMotion ? false : { opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+        >
           <p className="truncate text-[10px] uppercase tracking-[0.18em] text-[#F2E7CC]/88">
-            {highlights.length > 0 ? highlights.join('  |  ') : 'Curated highlights by MadrasTrails'}
+            {highlights.length > 0
+              ? highlights.join('  |  ')
+              : 'Curated highlights by MadrasTrails'}
           </p>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
 
       <div className="relative z-10 mt-4 grid grid-cols-4 gap-2">
-        {info.map((item) => (
-          <div
+        {info.map((item, index) => (
+          <motion.div
             key={item.label}
-            className="min-w-0 rounded-2xl border border-[#D4AF37]/15 bg-white/[0.025] px-2 py-3 text-center"
+            initial={prefersReducedMotion ? false : { opacity: 0, y: 18, scale: 0.94 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 0.46, delay: 0.28 + index * 0.07, ease: [0.22, 1, 0.36, 1] }}
+            whileHover={prefersReducedMotion ? undefined : { y: -4, scale: 1.02 }}
+            className="min-w-0 rounded-2xl border border-[#D4AF37]/15 bg-white/[0.025] px-2 py-3 text-center transition-colors duration-300 hover:border-[#D4AF37]/38 hover:bg-white/[0.045]"
           >
             <div className="mx-auto mb-2 flex h-8 w-8 items-center justify-center rounded-full border border-[#D4AF37]/35 text-[#D4AF37] shadow-[0_0_18px_rgba(212,175,55,0.10)]">
               {item.icon}
@@ -232,17 +293,25 @@ export default function DestinationPanel({
             <p className="mt-1 break-words text-[9px] leading-4 text-[#F2E7CC]/88">
               {item.value}
             </p>
-          </div>
+          </motion.div>
         ))}
       </div>
 
-      <Link
-  href={`/destinations/${destination.id}`}
-  className="relative z-10 mx-auto mt-4 flex w-[86%] items-center justify-between rounded-xl border border-[#F0D18A]/30 bg-gradient-to-r from-[#DDBD68]/85 via-[#D3AA4D]/78 to-[#B9852E]/82 px-4 py-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#07141A] shadow-[0_10px_26px_rgba(212,175,55,0.18)] backdrop-blur-xl transition hover:brightness-110"
->
-  Explore {destination.name || 'Destination'}
-  <span className="text-lg leading-none">→</span>
-</Link>
+      <motion.div
+        className="relative z-10 mx-auto mt-4 w-[86%]"
+        initial={prefersReducedMotion ? false : { opacity: 0, y: 18 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.52, delay: 0.54, ease: [0.22, 1, 0.36, 1] }}
+      >
+        <Link
+          href={`/destinations/${destination.id}`}
+          className="group relative flex items-center justify-between overflow-hidden rounded-xl border border-[#F0D18A]/30 bg-gradient-to-r from-[#DDBD68]/85 via-[#D3AA4D]/78 to-[#B9852E]/82 px-4 py-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#07141A] shadow-[0_10px_26px_rgba(212,175,55,0.18)] backdrop-blur-xl transition hover:brightness-110"
+        >
+          <span className="relative z-10">Explore {destination.name || 'Destination'}</span>
+          <span className="relative z-10 text-lg leading-none transition-transform duration-300 group-hover:translate-x-1">→</span>
+          <span className="pointer-events-none absolute inset-y-0 -left-1/3 w-1/3 skew-x-[-18deg] bg-white/30 opacity-0 blur-sm transition-all duration-700 group-hover:left-[115%] group-hover:opacity-100" />
+        </Link>
+      </motion.div>
 
       <div className="pointer-events-none absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-[#FFF1C7]/30 to-transparent" />
     </motion.aside>

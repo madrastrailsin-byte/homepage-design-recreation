@@ -50,7 +50,7 @@ export default function JourneyPlanner() {
     )
 
     videos.forEach((video, index) => {
-      gsap.set(video, { opacity: index === 0 ? 1 : 0 })
+      gsap.set(video, { opacity: index === 0 ? 1 : 0, scale: 1.04 })
       if (index === 0) {
         video.play().catch(() => undefined)
       } else {
@@ -71,22 +71,36 @@ export default function JourneyPlanner() {
     const nextVideo = videoRefs.current[nextStep - 1]
     if (!screenContent || !currentVideo || !nextVideo) return
 
+    const direction = nextStep > step ? 1 : -1
+
     transitionLockedRef.current = true
     nextVideo.play().catch(() => undefined)
 
     const videos = videoRefs.current.filter(
       (video): video is HTMLVideoElement => video !== null,
     )
+
     gsap.killTweensOf([screenContent, ...videos])
+    gsap.set(nextVideo, {
+      opacity: 0,
+      scale: 1.12,
+      xPercent: direction * 3,
+    })
 
     transitionTimelineRef.current = gsap
       .timeline({
+        defaults: { ease: 'power3.inOut' },
         onComplete: () => {
           videos.forEach((video, index) => {
             const isActive = index === nextStep - 1
-            gsap.set(video, { opacity: isActive ? 1 : 0 })
+            gsap.set(video, {
+              opacity: isActive ? 1 : 0,
+              scale: isActive ? 1.04 : 1.08,
+              xPercent: 0,
+            })
             if (!isActive) video.pause()
           })
+
           flushSync(() => setOutgoingStep(null))
           transitionLockedRef.current = false
           transitionTimelineRef.current = null
@@ -94,18 +108,34 @@ export default function JourneyPlanner() {
       })
       .to(
         screenContent,
-        { opacity: 0, duration: 0.4, ease: 'power2.in' },
+        {
+          opacity: 0,
+          x: direction * -72,
+          scale: 0.965,
+          filter: 'blur(8px)',
+          duration: 0.48,
+        },
         0,
       )
       .to(
         currentVideo,
-        { opacity: 0, duration: 1.2, ease: 'power2.inOut' },
+        {
+          opacity: 0,
+          scale: 1.12,
+          xPercent: direction * -2,
+          duration: 1,
+        },
         0,
       )
       .to(
         nextVideo,
-        { opacity: 1, duration: 1.2, ease: 'power2.inOut' },
-        0,
+        {
+          opacity: 1,
+          scale: 1.04,
+          xPercent: 0,
+          duration: 1,
+        },
+        0.05,
       )
       .call(
         () => {
@@ -117,19 +147,33 @@ export default function JourneyPlanner() {
           const incomingContent = screenContentRefs.current[nextStep]
           if (!incomingContent) return
 
-          gsap.set(incomingContent, { opacity: 0 })
+          gsap.set(incomingContent, {
+            opacity: 0,
+            x: direction * 84,
+            scale: 0.97,
+            filter: 'blur(10px)',
+          })
+
           transitionTimelineRef.current?.to(
             incomingContent,
-            { opacity: 1, duration: 0.65, ease: 'power2.out' },
-            0.25,
+            {
+              opacity: 1,
+              x: 0,
+              scale: 1,
+              filter: 'blur(0px)',
+              duration: 0.72,
+              ease: 'power3.out',
+            },
+            0.28,
           )
         },
         [],
-        0.15,
+        0.12,
       )
   }
 
   const visibleSteps = outgoingStep === null ? [step] : [outgoingStep, step]
+  const progress = (step / 8) * 100
 
   return (
     <div className="relative min-h-[100svh] overflow-hidden bg-[#020f12]">
@@ -140,7 +184,7 @@ export default function JourneyPlanner() {
             videoRefs.current[index] = video
           }}
           aria-hidden="true"
-          className={`pointer-events-none absolute inset-0 h-full w-full object-cover ${
+          className={`pointer-events-none absolute inset-0 h-full w-full object-cover will-change-transform ${
             index === 0 ? 'opacity-100' : 'opacity-0'
           }`}
           autoPlay
@@ -151,8 +195,11 @@ export default function JourneyPlanner() {
           src={source}
         />
       ))}
+
       <div className="pointer-events-none absolute inset-0 bg-[#021316]/58" />
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/5 via-[#03191d]/5 to-[#020f12]/12" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_18%,rgba(212,175,55,0.08),transparent_34%)]" />
+
       <Link
         href="/"
         className="absolute left-6 top-6 z-[999] inline-flex items-center gap-2 rounded-full border border-white/20 bg-black/20 px-4 py-2 text-xs uppercase tracking-[0.25em] text-white backdrop-blur-md transition-all duration-500 hover:border-white/40 hover:bg-white hover:text-black"
@@ -160,6 +207,19 @@ export default function JourneyPlanner() {
         <Home aria-hidden="true" className="h-3.5 w-3.5" />
         Home
       </Link>
+
+      <div className="absolute inset-x-6 top-20 z-[998] md:inset-x-10">
+        <div className="h-px overflow-hidden bg-white/10">
+          <div
+            className="h-full bg-gradient-to-r from-[#B9852E] via-[#D4AF37] to-[#F0D18A] shadow-[0_0_18px_rgba(212,175,55,0.45)] transition-[width] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]"
+            style={{ width: `${progress}%` }}
+          />
+        </div>
+        <div className="mt-2 flex items-center justify-between text-[9px] uppercase tracking-[0.22em] text-white/35">
+          <span>Journey {String(step).padStart(2, '0')}</span>
+          <span>08</span>
+        </div>
+      </div>
 
       <div className="relative z-10">
         {visibleSteps.map((screenStep) => (
@@ -170,105 +230,105 @@ export default function JourneyPlanner() {
             }}
             className={
               screenStep === outgoingStep
-                ? 'pointer-events-none absolute inset-0 z-0'
-                : 'relative z-10'
+                ? 'pointer-events-none absolute inset-0 z-0 will-change-transform'
+                : 'relative z-10 will-change-transform'
             }
           >
-          {screenStep === 1 ? (
-            <DestinationSelectionScreen
-              initialDestination={journey.destination}
-              onSelectionChange={(destination: JourneyDestination) =>
-                setJourney((current) => ({ ...current, destination }))
-              }
-              onContinue={() => navigate(2)}
-            />
-          ) : null}
+            {screenStep === 1 ? (
+              <DestinationSelectionScreen
+                initialDestination={journey.destination}
+                onSelectionChange={(destination: JourneyDestination) =>
+                  setJourney((current) => ({ ...current, destination }))
+                }
+                onContinue={() => navigate(2)}
+              />
+            ) : null}
 
-          {screenStep === 2 ? (
-            <DateSelectionScreen
-              initialDeparture={journey.departure}
-              initialReturnDate={journey.returnDate}
-              onDatesChange={(nextDeparture, nextReturn) => {
-                setJourney((current) => ({
-                  ...current,
-                  departure: nextDeparture,
-                  returnDate: nextReturn,
-                }))
-              }}
-              onBack={() => navigate(1)}
-              onContinue={(nextDeparture, nextReturn) => {
-                setJourney((current) => ({
-                  ...current,
-                  departure: nextDeparture,
-                  returnDate: nextReturn,
-                }))
-                navigate(3)
-              }}
-            />
-          ) : null}
+            {screenStep === 2 ? (
+              <DateSelectionScreen
+                initialDeparture={journey.departure}
+                initialReturnDate={journey.returnDate}
+                onDatesChange={(nextDeparture, nextReturn) => {
+                  setJourney((current) => ({
+                    ...current,
+                    departure: nextDeparture,
+                    returnDate: nextReturn,
+                  }))
+                }}
+                onBack={() => navigate(1)}
+                onContinue={(nextDeparture, nextReturn) => {
+                  setJourney((current) => ({
+                    ...current,
+                    departure: nextDeparture,
+                    returnDate: nextReturn,
+                  }))
+                  navigate(3)
+                }}
+              />
+            ) : null}
 
-          {screenStep === 3 ? (
-            <TravellerSelectionScreen
-              counts={journey.travellers}
-              onChange={(travellers) =>
-                setJourney((current) => ({ ...current, travellers }))
-              }
-              onBack={() => navigate(2)}
-              onContinue={() => navigate(4)}
-            />
-          ) : null}
+            {screenStep === 3 ? (
+              <TravellerSelectionScreen
+                counts={journey.travellers}
+                onChange={(travellers) =>
+                  setJourney((current) => ({ ...current, travellers }))
+                }
+                onBack={() => navigate(2)}
+                onContinue={() => navigate(4)}
+              />
+            ) : null}
 
-          {screenStep === 4 ? (
-            <ExperienceSelectionScreen
-              selectedIds={journey.experienceIds}
-              onChange={(experienceIds) =>
-                setJourney((current) => ({ ...current, experienceIds }))
-              }
-              onBack={() => navigate(3)}
-              onContinue={() => navigate(5)}
-            />
-          ) : null}
+            {screenStep === 4 ? (
+              <ExperienceSelectionScreen
+                selectedIds={journey.experienceIds}
+                onChange={(experienceIds) =>
+                  setJourney((current) => ({ ...current, experienceIds }))
+                }
+                onBack={() => navigate(3)}
+                onContinue={() => navigate(5)}
+              />
+            ) : null}
 
-          {screenStep === 5 ? (
-            <BudgetSelectionScreen
-              selectedId={journey.budgetId}
-              onChange={(budgetId) =>
-                setJourney((current) => ({ ...current, budgetId }))
-              }
-              onBack={() => navigate(4)}
-              onContinue={() => navigate(6)}
-            />
-          ) : null}
+            {screenStep === 5 ? (
+              <BudgetSelectionScreen
+                selectedId={journey.budgetId}
+                onChange={(budgetId) =>
+                  setJourney((current) => ({ ...current, budgetId }))
+                }
+                onBack={() => navigate(4)}
+                onContinue={() => navigate(6)}
+              />
+            ) : null}
 
-          {screenStep === 6 ? (
-            <DreamJourneyScreen
-              details={journey.dreamJourney}
-              onChange={(dreamJourney) =>
-                setJourney((current) => ({ ...current, dreamJourney }))
-              }
-              onBack={() => navigate(5)}
-              onContinue={() => navigate(7)}
-            />
-          ) : null}
+            {screenStep === 6 ? (
+              <DreamJourneyScreen
+                details={journey.dreamJourney}
+                onChange={(dreamJourney) =>
+                  setJourney((current) => ({ ...current, dreamJourney }))
+                }
+                onBack={() => navigate(5)}
+                onContinue={() => navigate(7)}
+              />
+            ) : null}
 
-          {screenStep === 7 ? (
-            <ContactDetailsScreen
-              details={journey.contactDetails}
-              onChange={(contactDetails) =>
-                setJourney((current) => ({ ...current, contactDetails }))
-              }
-              onBack={() => navigate(6)}
-              onContinue={() => navigate(8)}
-            />
-          ) : null}
+            {screenStep === 7 ? (
+              <ContactDetailsScreen
+                details={journey.contactDetails}
+                onChange={(contactDetails) =>
+                  setJourney((current) => ({ ...current, contactDetails }))
+                }
+                onBack={() => navigate(6)}
+                onContinue={() => navigate(8)}
+              />
+            ) : null}
 
-          {screenStep === 8 ? (
-            <JourneyBriefScreen
-              journey={journey}
-              onBack={() => navigate(7)}
-              onEdit={navigate}
-            />
-          ) : null}
+            {screenStep === 8 ? (
+              <JourneyBriefScreen
+                journey={journey}
+                onBack={() => navigate(7)}
+                onEdit={navigate}
+              />
+            ) : null}
           </div>
         ))}
       </div>
