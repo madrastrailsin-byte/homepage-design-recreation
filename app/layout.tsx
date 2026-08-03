@@ -26,7 +26,8 @@ const signature = Satisfy({
 
 export const metadata: Metadata = {
   title: 'MadrasTrails - Beyond Boundaries',
-  description: 'Curated global journeys, crafted personally. Travel like a local with MadrasTrails.',
+  description:
+    'Curated global journeys, crafted personally. Travel like a local with MadrasTrails.',
   generator: 'v0.app',
 }
 
@@ -41,8 +42,11 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`${catamaran.variable} ${cormorantGaramond.variable} ${signature.variable} min-h-full w-full max-w-none overflow-x-hidden rounded-none border-0 bg-[#071B24] shadow-none`}>
-      <body className="min-h-full w-full max-w-none overflow-x-hidden rounded-none border-0 bg-[#071B24] p-0 m-0 font-sans antialiased shadow-none">
+    <html
+      lang="en"
+      className={`${catamaran.variable} ${cormorantGaramond.variable} ${signature.variable} min-h-full w-full max-w-none overflow-x-hidden rounded-none border-0 bg-[#071B24] shadow-none`}
+    >
+      <body className="m-0 min-h-full w-full max-w-none overflow-x-hidden rounded-none border-0 bg-[#071B24] p-0 font-sans antialiased shadow-none">
         {children}
         {process.env.VERCEL === '1' && <Analytics />}
       </body>
