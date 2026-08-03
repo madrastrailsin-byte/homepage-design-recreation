@@ -61,16 +61,19 @@ interface JourneyBriefScreenProps {
   journey: JourneyPlanData
   onBack: () => void
   onEdit: (step: number) => void
+  onSuccess?: () => void
 }
 
 export default function JourneyBriefScreen({
   journey,
   onBack,
   onEdit,
+  onSuccess,
 }: JourneyBriefScreenProps) {
   const prefersReducedMotion = useReducedMotion()
   const [expandedNotes, setExpandedNotes] = useState(false)
   const [success, setSuccess] = useState<{ reference?: string }>()
+  const [isCompleting, setIsCompleting] = useState(false)
   const successRef = useRef<HTMLHeadingElement>(null)
 
   const nights =
@@ -103,8 +106,18 @@ export default function JourneyBriefScreen({
     : { opacity: 0, y: 24, filter: 'blur(9px)' }
 
   function handleSubmit() {
-    setSuccess({})
-    requestAnimationFrame(() => successRef.current?.focus())
+    if (isCompleting) return
+
+    setIsCompleting(true)
+    onSuccess?.()
+
+    window.setTimeout(
+      () => {
+        setSuccess({})
+        requestAnimationFrame(() => successRef.current?.focus())
+      },
+      prefersReducedMotion ? 0 : 1250,
+    )
   }
 
   if (success) {
@@ -322,10 +335,11 @@ export default function JourneyBriefScreen({
             <button
               type="button"
               onClick={handleSubmit}
-              className={`${journeyContinueButtonClassName} relative mx-auto mt-6 overflow-hidden`}
+              disabled={isCompleting}
+              className={`${journeyContinueButtonClassName} relative mx-auto mt-6 overflow-hidden disabled:cursor-wait disabled:opacity-80`}
             >
               <span className="relative z-10 inline-flex items-center gap-2">
-                Submit My Journey
+                {isCompleting ? 'Completing Your Journey…' : 'Submit My Journey'}
                 <Send className="h-3.5 w-3.5" aria-hidden="true" />
               </span>
             </button>

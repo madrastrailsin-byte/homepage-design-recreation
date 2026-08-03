@@ -430,26 +430,87 @@ export default function ExperiencesPage() {
               </div>
             </div>
 
-            <div className="absolute right-4 top-1/2 z-30 hidden -translate-y-1/2 flex-col gap-2 lg:flex">
-              {journeys.map((journey, index) => {
-                const isActive = journey.id === activeJourney.id
+            <div className="absolute right-5 top-1/2 z-30 hidden -translate-y-1/2 lg:block">
+              <div className="relative overflow-hidden rounded-[1.45rem] border border-white/10 bg-[linear-gradient(180deg,rgba(8,20,24,0.48),rgba(3,11,14,0.38))] px-2.5 py-3 shadow-[0_20px_60px_rgba(0,0,0,0.28),inset_0_1px_0_rgba(255,255,255,0.06)] backdrop-blur-xl">
+                <div className="pointer-events-none absolute inset-x-3 top-0 h-px bg-gradient-to-r from-transparent via-[#D4AF37]/45 to-transparent" />
+                <div className="pointer-events-none absolute -right-5 top-[22%] h-20 w-14 rounded-full bg-[#D4AF37]/8 blur-xl" />
 
-                return (
-                  <button
-                    key={journey.id}
-                    type="button"
-                    onClick={() => setActiveJourneyId(journey.id)}
-                    aria-label={`Show ${journey.title}`}
-                    className={`group flex items-center justify-end gap-3 transition-all duration-300 ${isActive ? 'text-white' : 'text-white/35 hover:text-white/75'}`}
-                  >
-                    <span className="mt-ui text-[9px] tracking-[0.14em] opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                      {journey.title.toUpperCase()}
-                    </span>
-                    <span className={`block rounded-full transition-all duration-300 ${isActive ? 'h-8 w-[2px] bg-[#D4AF37]' : 'h-3 w-px bg-white/28 group-hover:h-5 group-hover:bg-white/60'}`} />
-                    <span className="mt-ui w-5 text-right text-[8px]">0{index + 1}</span>
-                  </button>
-                )
-              })}
+                <div className="relative flex flex-col gap-1">
+                  {journeys.map((journey, index) => {
+                    const isActive = journey.id === activeJourney.id
+
+                    return (
+                      <button
+                        key={journey.id}
+                        type="button"
+                        onClick={() => setActiveJourneyId(journey.id)}
+                        aria-label={`Show ${journey.title}`}
+                        aria-current={isActive ? 'true' : undefined}
+                        className="group relative flex min-h-[2.55rem] items-center justify-end gap-2 rounded-full px-1.5 text-right outline-none transition-all duration-300 focus-visible:ring-2 focus-visible:ring-[#D4AF37]/70"
+                      >
+                        <span className="relative flex h-8 w-3 items-center justify-center">
+                          {isActive ? (
+                            <>
+                              <motion.span
+                                layoutId="experiences-active-scanner"
+                                aria-hidden="true"
+                                className="absolute h-8 w-[3px] rounded-full bg-[#D4AF37] shadow-[0_0_14px_rgba(212,175,55,0.95),0_0_34px_rgba(212,175,55,0.5)]"
+                                transition={{
+                                  duration: prefersReducedMotion ? 0 : 0.55,
+                                  ease,
+                                }}
+                              />
+                              {!prefersReducedMotion ? (
+                                <motion.span
+                                  aria-hidden="true"
+                                  className="absolute h-1.5 w-1.5 rounded-full bg-[#F4D675]"
+                                  animate={{
+                                    opacity: [0.25, 1, 0.25],
+                                    scale: [0.8, 1.4, 0.8],
+                                  }}
+                                  transition={{
+                                    duration: 2.2,
+                                    repeat: Infinity,
+                                    ease: 'easeInOut',
+                                  }}
+                                />
+                              ) : null}
+                            </>
+                          ) : (
+                            <span className="h-px w-2 bg-white/20 transition-all duration-300 group-hover:w-3 group-hover:bg-white/48" />
+                          )}
+                        </span>
+
+                        <motion.span
+                          key={`${activeJourney.id}-${journey.id}`}
+                          initial={
+                            prefersReducedMotion || !isActive
+                              ? false
+                              : { opacity: 0, y: 6, filter: 'blur(4px)' }
+                          }
+                          animate={{
+                            opacity: isActive ? 1 : 0.68,
+                            y: 0,
+                            filter: 'blur(0px)',
+                            scale: isActive ? 1.06 : 1,
+                          }}
+                          transition={{
+                            duration: prefersReducedMotion ? 0 : 0.38,
+                            ease,
+                          }}
+                          className={`mt-ui w-8 text-right text-[13px] font-semibold tracking-[0.08em] ${
+                            isActive
+                              ? 'text-[#F5D77A] drop-shadow-[0_0_12px_rgba(212,175,55,0.72)]'
+                              : 'text-white/68 drop-shadow-[0_2px_8px_rgba(0,0,0,0.75)] group-hover:text-white/92'
+                          }`}
+                        >
+                          0{index + 1}
+                        </motion.span>
+                      </button>
+                    )
+                  })}
+                </div>
+              </div>
             </div>
           </motion.div>
         </AnimatePresence>

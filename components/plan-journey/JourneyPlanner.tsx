@@ -4,6 +4,7 @@ import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
 import { Home } from 'lucide-react'
 import Link from 'next/link'
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { useRef, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { flushSync } from 'react-dom'
@@ -30,6 +31,7 @@ const journeyVideos: Record<number, string> = {
 
 export default function JourneyPlanner() {
   const searchParams = useSearchParams()
+  const prefersReducedMotion = useReducedMotion()
   const country = searchParams.get('country')
 
 const initialDestination: JourneyDestination | undefined = country
@@ -44,12 +46,13 @@ const initialDestination: JourneyDestination | undefined = country
   : undefined
 
 const [step, setStep] = useState(country ? 2 : 1)
+  const [journeyComplete, setJourneyComplete] = useState(false)
   const [outgoingStep, setOutgoingStep] = useState<number | null>(null)
   const [journey, setJourney] = useState<JourneyPlanData>({
   destination: initialDestination,
   experienceIds: [],
   travellers: {
-    adults: 1,
+    adults: 0,
     children: 0,
     infants: 0,
     seniors: 0,
@@ -81,6 +84,8 @@ const [step, setStep] = useState(country ? 2 : 1)
 
   function navigate(nextStep: number) {
     if (transitionLockedRef.current || nextStep === step) return
+
+    setJourneyComplete(false)
 
     const screenContent = screenContentRefs.current[step]
     const currentVideo = videoRefs.current[step - 1]
@@ -189,6 +194,13 @@ const [step, setStep] = useState(country ? 2 : 1)
   }
 
   const visibleSteps = outgoingStep === null ? [step] : [outgoingStep, step]
+  const stepProgress =
+    !journey.destination
+      ? 0
+      : step >= 7
+        ? 88
+        : Math.round((step / 8) * 100)
+  const displayedProgress = journeyComplete ? 100 : stepProgress
 
   return (
     <div className="relative min-h-[100svh] overflow-hidden bg-[#020f12]">
@@ -223,6 +235,177 @@ const [step, setStep] = useState(country ? 2 : 1)
         Home
       </Link>
 
+      <aside
+        aria-label="Journey progress"
+        className="pointer-events-none absolute left-5 top-1/2 z-[997] hidden -translate-y-1/2 lg:block"
+      >
+        <div className="relative overflow-hidden rounded-[2rem] border border-white/12 bg-[linear-gradient(180deg,rgba(4,12,16,0.72),rgba(2,8,11,0.58))] px-4 py-5 shadow-[0_24px_80px_rgba(0,0,0,0.42),inset_0_1px_0_rgba(255,255,255,0.07)] backdrop-blur-2xl">
+          <div className="pointer-events-none absolute inset-x-5 top-0 h-px bg-gradient-to-r from-transparent via-[#D4AF37]/55 to-transparent" />
+
+          <ol className="relative flex flex-col items-center gap-1">
+            {Array.from({ length: 8 }, (_, index) => {
+              const itemStep = index + 1
+              const isActive = itemStep === step
+              const isComplete = itemStep < step || journeyComplete
+
+              return (
+                <li
+                  key={itemStep}
+                  aria-current={isActive ? 'step' : undefined}
+                  className="relative flex min-h-[2.45rem] w-10 items-center justify-center"
+                >
+                  <span
+                    className={`absolute left-[2px] top-1/2 h-px w-2.5 -translate-y-1/2 ${
+                      isActive
+                        ? 'bg-[#D4AF37] shadow-[0_0_12px_rgba(212,175,55,0.8)]'
+                        : isComplete
+                          ? 'bg-[#D4AF37]/52'
+                          : 'bg-white/24'
+                    }`}
+                  />
+
+                  {isActive ? (
+                    <motion.span
+                      layoutId="journey-active-scanner"
+                      aria-hidden="true"
+                      className="absolute left-0 top-1/2 h-8 w-[3px] -translate-y-1/2 rounded-full bg-[#D4AF37] shadow-[0_0_12px_rgba(212,175,55,0.92),0_0_26px_rgba(212,175,55,0.42)]"
+                      transition={{
+                        duration: prefersReducedMotion ? 0 : 0.55,
+                        ease: [0.22, 1, 0.36, 1],
+                      }}
+                    />
+                  ) : null}
+
+                  <motion.span
+                    animate={{
+                      opacity: isActive ? 1 : isComplete ? 0.74 : 0.56,
+                      scale: isActive ? 1.08 : 1,
+                    }}
+                    transition={{ duration: prefersReducedMotion ? 0 : 0.35 }}
+                    className={`mt-ui ml-3 text-[0.68rem] tracking-[0.14em] ${
+                      isActive
+                        ? 'text-[#F5D77A] drop-shadow-[0_0_10px_rgba(212,175,55,0.58)]'
+                        : isComplete
+                          ? 'text-white/72'
+                          : 'text-white/56 drop-shadow-[0_2px_8px_rgba(0,0,0,0.82)]'
+                    }`}
+                  >
+                    {String(itemStep).padStart(2, '0')}
+                  </motion.span>
+                </li>
+              )
+            })}
+          </ol>
+
+          <div className="mt-3 border-t border-white/8 pt-4">
+            <div className="relative mx-auto grid h-[5.4rem] w-[5.4rem] place-items-center">
+              <svg
+                aria-hidden="true"
+                viewBox="0 0 100 100"
+                className="-rotate-90"
+              >
+                <circle
+                  cx="50"
+                  cy="50"
+                  r="43"
+                  fill="rgba(255,255,255,0.02)"
+                  stroke="rgba(255,255,255,0.12)"
+                  strokeWidth="4"
+                />
+                <motion.circle
+                  cx="50"
+                  cy="50"
+                  r="43"
+                  fill="none"
+                  stroke="#D4AF37"
+                  strokeLinecap="round"
+                  strokeWidth="4"
+                  pathLength="1"
+                  initial={false}
+                  animate={{ pathLength: displayedProgress / 100 }}
+                  transition={{
+                    duration: prefersReducedMotion ? 0 : journeyComplete ? 1.15 : 0.65,
+                    ease: [0.22, 1, 0.36, 1],
+                  }}
+                  style={{
+                    filter: journeyComplete
+                      ? 'drop-shadow(0 0 8px rgba(212,175,55,0.95))'
+                      : 'drop-shadow(0 0 4px rgba(212,175,55,0.5))',
+                  }}
+                />
+              </svg>
+
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={journeyComplete ? 'complete' : displayedProgress}
+                  initial={
+                    prefersReducedMotion
+                      ? false
+                      : { opacity: 0, scale: 0.82, filter: 'blur(4px)' }
+                  }
+                  animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
+                  exit={{ opacity: 0, scale: 1.12 }}
+                  transition={{ duration: prefersReducedMotion ? 0 : 0.36 }}
+                  className="absolute inset-0 flex flex-col items-center justify-center"
+                >
+                  {journeyComplete ? (
+                    <>
+                      <span className="text-lg text-[#F5D77A]">✓</span>
+                      <span className="mt-ui text-[0.46rem] tracking-[0.16em] text-[#F5D77A]">
+                        COMPLETE
+                      </span>
+                    </>
+                  ) : (
+                    <>
+                      <span className="mt-display text-[1.45rem] leading-none text-[#F5D77A]">
+                        {displayedProgress}%
+                      </span>
+                      <span className="mt-ui mt-1 text-[0.42rem] tracking-[0.18em] text-white/34">
+                        PROGRESS
+                      </span>
+                    </>
+                  )}
+                </motion.div>
+              </AnimatePresence>
+
+              <AnimatePresence>
+                {journeyComplete && !prefersReducedMotion ? (
+                  <>
+                    <motion.span
+                      aria-hidden="true"
+                      className="absolute inset-1 rounded-full border border-[#F5D77A]/60"
+                      initial={{ opacity: 0.9, scale: 0.7 }}
+                      animate={{ opacity: 0, scale: 1.65 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 1.1, ease: 'easeOut' }}
+                    />
+                    {Array.from({ length: 10 }, (_, index) => {
+                      const angle = (index / 10) * Math.PI * 2
+                      const x = Math.cos(angle) * 48
+                      const y = Math.sin(angle) * 48
+
+                      return (
+                        <motion.span
+                          key={index}
+                          aria-hidden="true"
+                          className="absolute left-1/2 top-1/2 h-1 w-1 rounded-full bg-[#F5D77A] shadow-[0_0_8px_rgba(245,215,122,0.95)]"
+                          initial={{ x: 0, y: 0, opacity: 1, scale: 1 }}
+                          animate={{ x, y, opacity: 0, scale: 0.4 }}
+                          transition={{
+                            duration: 0.9,
+                            delay: index * 0.025,
+                            ease: 'easeOut',
+                          }}
+                        />
+                      )
+                    })}
+                  </>
+                ) : null}
+              </AnimatePresence>
+            </div>
+          </div>
+        </div>
+      </aside>
 
       <div className="relative z-10">
         {visibleSteps.map((screenStep) => (
@@ -330,6 +513,7 @@ const [step, setStep] = useState(country ? 2 : 1)
                 journey={journey}
                 onBack={() => navigate(7)}
                 onEdit={navigate}
+                onSuccess={() => setJourneyComplete(true)}
               />
             ) : null}
           </div>

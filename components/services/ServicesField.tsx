@@ -45,6 +45,125 @@ interface ArchiveFragment {
 const ease = [0.22, 1, 0.36, 1] as const;
 type LightPhase = "off" | "flickering" | "on";
 
+type ServiceGuide = {
+  idealFor: string
+  promise: string
+  destinations: string[]
+  arrangements: string[]
+}
+
+const serviceGuides: ServiceGuide[] = [
+  {
+    idealFor: "Complex routes, premium cabins and travellers who want every connection handled.",
+    promise:
+      "We compare sensible flight paths—not only the cheapest fare—then coordinate timings, baggage, seats and airport assistance around the wider journey.",
+    destinations: ["Japan via Singapore", "Maldives", "Europe multi-city", "East Africa"],
+    arrangements: [
+      "Premium cabin and fare guidance",
+      "Multi-city and open-jaw routing",
+      "Seat, baggage and meal requests",
+      "Airport assistance and transfers",
+    ],
+  },
+  {
+    idealFor: "First-time international travellers, families and multi-country itineraries.",
+    promise:
+      "We turn visa preparation into a clear checklist, review the travel sequence and help organise the documents required for each application.",
+    destinations: ["Schengen Europe", "Japan", "United Kingdom", "United Arab Emirates"],
+    arrangements: [
+      "Country-specific document checklist",
+      "Appointment and timeline guidance",
+      "Application review support",
+      "Travel-document coordination",
+    ],
+  },
+  {
+    idealFor: "Couples, families and slow travellers who want to unpack once and explore several places.",
+    promise:
+      "We match the ship, cabin and sailing style to you, then build the pre-cruise and post-cruise journey so the voyage feels complete.",
+    destinations: ["Mediterranean", "Norwegian Fjords", "Alaska", "French Polynesia"],
+    arrangements: [
+      "Cruise line and cabin selection",
+      "Private shore experiences",
+      "Port transfers and hotel stays",
+      "Pre- and post-cruise extensions",
+    ],
+  },
+  {
+    idealFor: "International journeys, adventure travel, senior travellers and family holidays.",
+    promise:
+      "We help you understand suitable protection for the actual itinerary—from medical cover and cancellations to activities and baggage.",
+    destinations: ["Schengen Europe", "Japan", "New Zealand", "African safaris"],
+    arrangements: [
+      "Policy comparison and guidance",
+      "Medical and cancellation cover",
+      "Adventure-activity review",
+      "Claims-document support",
+    ],
+  },
+  {
+    idealFor: "Honeymoons, anniversaries, proposals and private celebrations.",
+    promise:
+      "We design the trip around how you want to feel—quiet, adventurous, indulgent or culturally immersive—rather than offering one standard romance package.",
+    destinations: ["Maldives", "Seychelles", "Mauritius", "Italy & Greece"],
+    arrangements: [
+      "Private villas and romantic stays",
+      "Sunset cruises and private dining",
+      "Couple-led cultural experiences",
+      "Surprises, proposals and celebrations",
+    ],
+  },
+  {
+    idealFor: "Founders, executives, incentive groups and teams travelling on tight schedules.",
+    promise:
+      "We coordinate the practical details behind business travel so guests can focus on the purpose of the trip, not the logistics.",
+    destinations: ["Dubai", "Singapore", "London", "Europe multi-city"],
+    arrangements: [
+      "Time-efficient flight planning",
+      "Executive hotels and meeting access",
+      "Airport and city transfers",
+      "Group movements and contingency plans",
+    ],
+  },
+  {
+    idealFor: "Families, friends, clubs and private groups who want shared experiences without rigid touring.",
+    promise:
+      "We balance group coordination with personal freedom, using private guides, comfortable transport and a pace that suits everyone.",
+    destinations: ["Japan", "Vietnam & Cambodia", "Central Europe", "Kenya & Tanzania"],
+    arrangements: [
+      "Private guides and group transport",
+      "Age-friendly daily pacing",
+      "Rooming and dining coordination",
+      "Optional activities within the group",
+    ],
+  },
+  {
+    idealFor: "Travellers seeking private access, local insight and memorable moments beyond standard sightseeing.",
+    promise:
+      "We connect the itinerary with trusted local hosts, specialists and guides who can make a destination feel personal.",
+    destinations: ["Kyoto", "Rome", "Marrakech", "Cape Town"],
+    arrangements: [
+      "Private cultural encounters",
+      "Local hosts and specialist guides",
+      "Restaurant and event access",
+      "Celebrations and special requests",
+    ],
+  },
+  {
+    idealFor: "Travellers who want one complete, personalised journey designed from the ground up.",
+    promise:
+      "We bring flights, stays, experiences, transfers and pacing into one coherent plan built around your interests and comfort.",
+    destinations: ["New Zealand", "Iceland", "Bhutan", "Portugal"],
+    arrangements: [
+      "End-to-end itinerary design",
+      "Handpicked stays and experiences",
+      "Daily pacing and route planning",
+      "One point of contact throughout",
+    ],
+  },
+]
+
+
 const boardPieces: BoardPiece[] = [
   {
     left: 5,
@@ -825,6 +944,15 @@ const [lightLevel, setLightLevel] = useState(0);
 const lightTimersRef = useRef<number[]>([]);
   const closeButtonRef = useRef<HTMLButtonElement | null>(null);
   const visibleServices = services.slice(0, 9);
+  const openServiceIndex = openService
+    ? Math.max(
+        0,
+        visibleServices.findIndex(
+          (service) => service.number === openService.number,
+        ),
+      )
+    : 0;
+  const openServiceGuide = serviceGuides[openServiceIndex] ?? serviceGuides[8];
   const clearLightTimers = () => {
   lightTimersRef.current.forEach((timer) => window.clearTimeout(timer));
   lightTimersRef.current = [];
@@ -1179,9 +1307,9 @@ const toggleLight = () => {
             <motion.div
               aria-hidden="true"
               className="absolute inset-0"
-              initial={prefersReducedMotion ? false : { scale: 1.08, opacity: 0 }}
+              initial={prefersReducedMotion ? false : { scale: 1.07, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 1.035, opacity: 0 }}
+              exit={{ scale: 1.03, opacity: 0 }}
               transition={{ duration: prefersReducedMotion ? 0 : 0.9, ease }}
             >
               <Image
@@ -1189,145 +1317,211 @@ const toggleLight = () => {
                 alt=""
                 fill
                 sizes="100vw"
-                className="object-cover brightness-[0.62] saturate-[0.72]"
+                className="object-cover brightness-[0.48] saturate-[0.62]"
                 style={{ objectPosition: openService.objectPosition }}
                 priority
               />
             </motion.div>
 
-            <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,
-rgba(2,8,11,0.98) 0%,
-rgba(2,8,11,0.92) 40%,
-rgba(2,8,11,0.55) 70%,
-rgba(2,8,11,0.82) 100%
-)]" />
-            <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(2,8,11,0.26),transparent_38%,rgba(2,8,11,0.92)_100%)]" />
-            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_76%_18%,rgba(212,175,55,0.18),transparent_30%)]" />
+            <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(2,8,11,0.985)_0%,rgba(2,8,11,0.94)_43%,rgba(2,8,11,0.58)_72%,rgba(2,8,11,0.84)_100%)]" />
+            <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(2,8,11,0.36),transparent_36%,rgba(2,8,11,0.94)_100%)]" />
+            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_77%_18%,rgba(212,175,55,0.16),transparent_30%)]" />
 
             <motion.div
               aria-hidden="true"
-              className="pointer-events-none absolute inset-y-0 z-10 w-[16%] bg-[linear-gradient(90deg,transparent,rgba(255,245,215,0.18),transparent)] mix-blend-screen"
-              initial={prefersReducedMotion ? false : { x: "-140%", opacity: 0 }}
+              className="pointer-events-none absolute inset-y-0 z-10 w-[14%] bg-[linear-gradient(90deg,transparent,rgba(255,245,215,0.15),transparent)] mix-blend-screen"
+              initial={prefersReducedMotion ? false : { x: "-160%", opacity: 0 }}
               animate={
                 prefersReducedMotion
                   ? { opacity: 0 }
-                  : { x: "620%", opacity: [0, 0.72, 0] }
+                  : { x: "720%", opacity: [0, 0.6, 0] }
               }
-              transition={{ duration: prefersReducedMotion ? 0 : 1.2, ease: "easeInOut" }}
+              transition={{
+                duration: prefersReducedMotion ? 0 : 1.15,
+                ease: "easeInOut",
+              }}
             />
 
             <button
               ref={closeButtonRef}
               type="button"
               onClick={() => setOpenService(null)}
-              className="mt-ui fixed right-5 top-5 z-30 grid h-12 w-12 place-items-center rounded-full border border-white/15 bg-black/30 text-[#F8F3E8] shadow-[0_12px_40px_rgba(0,0,0,0.32)] backdrop-blur-xl transition-all duration-300 hover:rotate-90 hover:border-[#D4AF37]/65 hover:bg-[#D4AF37] hover:text-[#07141A] md:right-8 md:top-8"
+              className="mt-ui fixed right-5 top-5 z-30 grid h-11 w-11 place-items-center rounded-full border border-white/15 bg-black/35 text-[#F8F3E8] shadow-[0_12px_40px_rgba(0,0,0,0.32)] backdrop-blur-xl transition-all duration-300 hover:rotate-90 hover:border-[#D4AF37]/65 hover:bg-[#D4AF37] hover:text-[#07141A] md:right-7 md:top-7"
               aria-label="Close service details"
             >
-              <X size={18} />
+              <X size={17} />
             </button>
 
             <motion.div
-              className="relative z-20 mx-auto flex min-h-[100svh] items-start pt-16 px-5 py-24 md:px-8 lg:px-12"
-              initial={prefersReducedMotion ? false : { opacity: 0, y: 28 }}
+              className="relative z-20 mx-auto flex min-h-[100svh] w-full max-w-[1500px] items-center px-5 py-20 md:px-8 lg:h-[100svh] lg:px-12 lg:py-8"
+              initial={prefersReducedMotion ? false : { opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 18 }}
+              exit={{ opacity: 0, y: 16 }}
               transition={{ duration: prefersReducedMotion ? 0 : 0.72, ease }}
             >
-              <div className="grid w-full items-center gap-8 lg:grid-cols-[0.92fr_1.08fr] lg:gap-12">
+              <div className="grid w-full items-center gap-7 lg:grid-cols-[0.98fr_1.02fr] lg:gap-10">
                 <motion.div
-                  initial={prefersReducedMotion ? false : { opacity: 0, x: -38 }}
+                  initial={
+                    prefersReducedMotion
+                      ? false
+                      : { opacity: 0, x: -34 }
+                  }
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: prefersReducedMotion ? 0 : 0.72, delay: 0.08, ease }}
-                  className="lg:pl-4"
+                  transition={{
+                    duration: prefersReducedMotion ? 0 : 0.72,
+                    delay: 0.08,
+                    ease,
+                  }}
+                  className="min-w-0 lg:pl-2"
                 >
                   <div className="flex items-center gap-4">
                     <Monogram compact />
-                    <p className="mt-eyebrow text-[0.58rem] text-[#D4AF37]">
+                    <p className="mt-eyebrow text-[0.55rem] text-[#D4AF37]">
                       {openService.number} / PRIVATE TRAVEL SERVICE
                     </p>
                   </div>
 
                   <h2
                     id="service-overlay-title"
-                    className="mt-display mt-6 max-w-3xl text-[clamp(3.6rem,7vw,7.6rem)] leading-[0.8] tracking-[-0.055em] text-white"
+                    className="mt-display mt-4 max-w-3xl text-[clamp(3.15rem,5.7vw,6.3rem)] leading-[0.82] tracking-[-0.052em] text-white"
                   >
                     {openService.title}
                   </h2>
 
-                  <p className="mt-body-copy mt-6 max-w-xl text-base leading-[1.7] text-white/72 md:text-lg">
+                  <p className="mt-body-copy mt-4 max-w-2xl text-sm leading-[1.65] text-white/68 md:text-base">
                     {openService.description}
                   </p>
 
-                  <div className="mt-6 max-w-xl rounded-[1.5rem] border border-white/12 bg-[linear-gradient(180deg,rgba(10,18,21,0.5),rgba(2,9,12,0.58))] p-5 shadow-[0_28px_90px_rgba(0,0,0,0.34),inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-2xl md:p-6">
-                    <p className="mt-body-copy text-sm leading-[1.75] text-white/58 md:text-base">
-                      {openService.overview}
-                    </p>
+                  <div className="mt-5 max-w-2xl rounded-[1.45rem] border border-white/12 bg-[linear-gradient(180deg,rgba(10,18,21,0.52),rgba(2,9,12,0.62))] p-4 shadow-[0_26px_84px_rgba(0,0,0,0.36),inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-2xl md:p-5">
+                    <div className="grid gap-4 sm:grid-cols-[0.9fr_1.1fr]">
+                      <div>
+                        <p className="mt-ui text-[0.5rem] tracking-[0.2em] text-[#D4AF37]">
+                          WHO THIS IS FOR
+                        </p>
+                        <p className="mt-body-copy mt-2 text-xs leading-5 text-white/64">
+                          {openServiceGuide.idealFor}
+                        </p>
+                      </div>
 
-                    <div className="mt-5 grid gap-2.5 sm:grid-cols-2">
-                      {openService.highlights.map((item, index) => (
-                        <motion.div
-                          key={item}
-                          initial={prefersReducedMotion ? false : { opacity: 0, y: 12 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{
-                            duration: prefersReducedMotion ? 0 : 0.4,
-                            delay: 0.22 + index * 0.045,
-                            ease,
-                          }}
-                          className="flex items-start gap-3 rounded-full border border-white/10 bg-white/[0.045] px-3 py-2 text-sm text-white/74"
-                        >
-                          <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full border border-[#D4AF37]/45 text-[#D4AF37]">
-                            <Check size={11} />
+                      <div className="border-white/10 sm:border-l sm:pl-4">
+                        <p className="mt-ui text-[0.5rem] tracking-[0.2em] text-[#D4AF37]">
+                          HOW WE HELP
+                        </p>
+                        <p className="mt-body-copy mt-2 text-xs leading-5 text-white/64">
+                          {openServiceGuide.promise}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="mt-4 border-t border-white/10 pt-4">
+                      <p className="mt-ui text-[0.5rem] tracking-[0.2em] text-white/40">
+                        WHAT WE CAN ARRANGE
+                      </p>
+
+                      <div className="mt-3 grid gap-2 sm:grid-cols-2">
+                        {openServiceGuide.arrangements.map((item, index) => (
+                          <motion.div
+                            key={item}
+                            initial={
+                              prefersReducedMotion
+                                ? false
+                                : { opacity: 0, y: 10 }
+                            }
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{
+                              duration: prefersReducedMotion ? 0 : 0.38,
+                              delay: 0.18 + index * 0.045,
+                              ease,
+                            }}
+                            className="flex items-center gap-2.5 rounded-full border border-white/9 bg-white/[0.04] px-3 py-1.5 text-[0.72rem] leading-5 text-white/72"
+                          >
+                            <span className="grid h-4 w-4 shrink-0 place-items-center rounded-full border border-[#D4AF37]/42 text-[#D4AF37]">
+                              <Check size={9} />
+                            </span>
+                            <span>{item}</span>
+                          </motion.div>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="mt-4 border-t border-white/10 pt-4">
+                      <p className="mt-ui text-[0.5rem] tracking-[0.2em] text-white/40">
+                        DESTINATION IDEAS
+                      </p>
+                      <div className="mt-3 flex flex-wrap gap-2">
+                        {openServiceGuide.destinations.map((destination) => (
+                          <span
+                            key={destination}
+                            className="rounded-full border border-[#D4AF37]/22 bg-[#D4AF37]/[0.055] px-3 py-1.5 text-[0.62rem] tracking-[0.08em] text-[#F2E7CC]/76"
+                          >
+                            {destination}
                           </span>
-                          <span className="mt-body-copy leading-relaxed">{item}</span>
-                        </motion.div>
-                      ))}
+                        ))}
+                      </div>
                     </div>
                   </div>
 
-                  <Link
-                    href="/plan"
-                    onClick={() => setOpenService(null)}
-                    className="mt-ui group mt-7 inline-flex items-center gap-6 rounded-full border border-[#D4AF37]/45 bg-[#D4AF37]/10 px-6 py-3 text-[0.64rem] tracking-[0.18em] text-[#F2E7CC] shadow-[0_16px_42px_rgba(0,0,0,0.26)] backdrop-blur-xl transition-all duration-300 hover:border-[#D4AF37] hover:bg-[#D4AF37] hover:text-[#07141A]"
-                  >
-                    START PLANNING THIS JOURNEY
-                    <ArrowRight
-                      size={17}
-                      className="transition-transform duration-300 group-hover:translate-x-1"
-                    />
-                  </Link>
+                  <div className="mt-5 flex flex-wrap items-center gap-3">
+                    <Link
+                      href="/plan"
+                      onClick={() => setOpenService(null)}
+                      className="mt-ui group relative inline-flex items-center gap-5 overflow-hidden rounded-full border border-[#D4AF37]/60 bg-[#D4AF37] px-6 py-3 text-[0.62rem] tracking-[0.18em] text-[#07141A] shadow-[0_16px_42px_rgba(212,175,55,0.22)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#E2C46F] hover:shadow-[0_22px_52px_rgba(212,175,55,0.3)]"
+                    >
+                      <span className="relative z-10">PLAN YOUR JOURNEY</span>
+                      <ArrowRight
+                        size={16}
+                        className="relative z-10 transition-transform duration-300 group-hover:translate-x-1"
+                      />
+                      <span className="pointer-events-none absolute inset-y-0 -left-1/3 w-1/3 skew-x-[-18deg] bg-white/34 opacity-0 blur-sm transition-all duration-700 group-hover:left-[115%] group-hover:opacity-100" />
+                    </Link>
+
+                    <p className="mt-body-copy text-xs text-white/38">
+                      Share your dates, travellers and preferences in a few steps.
+                    </p>
+                  </div>
                 </motion.div>
 
                 <motion.div
-                  initial={prefersReducedMotion ? false : { opacity: 0, x: 42, scale: 0.96 }}
+                  initial={
+                    prefersReducedMotion
+                      ? false
+                      : { opacity: 0, x: 38, scale: 0.97 }
+                  }
                   animate={{ opacity: 1, x: 0, scale: 1 }}
-                  transition={{ duration: prefersReducedMotion ? 0 : 0.78, delay: 0.12, ease }}
-                  className="relative min-h-[24rem] overflow-hidden rounded-[2rem] border border-white/12 bg-black/20 shadow-[0_42px_130px_rgba(0,0,0,0.48),inset_0_1px_0_rgba(255,255,255,0.06)] md:min-h-[32rem] lg:h-[70svh] lg:max-h-[46rem]"
+                  transition={{
+                    duration: prefersReducedMotion ? 0 : 0.78,
+                    delay: 0.12,
+                    ease,
+                  }}
+                  className="relative min-h-[22rem] overflow-hidden rounded-[2rem] border border-white/12 bg-black/20 shadow-[0_42px_130px_rgba(0,0,0,0.48),inset_0_1px_0_rgba(255,255,255,0.06)] md:min-h-[30rem] lg:h-[82svh] lg:max-h-[48rem]"
                 >
                   <Image
                     src={openService.image}
                     alt=""
                     fill
-                    sizes="(min-width: 1024px) 54vw, 100vw"
-                    className="object-cover saturate-[0.9]"
+                    sizes="(min-width: 1024px) 52vw, 100vw"
+                    className="object-cover saturate-[0.86] brightness-[0.9]"
                     style={{ objectPosition: openService.objectPosition }}
                     priority
                   />
 
-                  <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(2,8,11,0.02),rgba(2,8,11,0.2)_52%,rgba(2,8,11,0.84)_100%)]" />
-                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_76%_20%,rgba(212,175,55,0.16),transparent_34%)]" />
+                  <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(2,8,11,0.02),rgba(2,8,11,0.18)_48%,rgba(2,8,11,0.88)_100%)]" />
+                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_76%_20%,rgba(212,175,55,0.15),transparent_34%)]" />
 
-                  <div className="absolute inset-x-5 bottom-5 rounded-[1.4rem] border border-white/12 bg-black/30 px-5 py-4 shadow-[0_18px_54px_rgba(0,0,0,0.32),inset_0_1px_0_rgba(255,255,255,0.07)] backdrop-blur-2xl md:inset-x-7 md:bottom-7">
+                  <div className="absolute inset-x-5 bottom-5 rounded-[1.35rem] border border-white/12 bg-black/34 px-5 py-4 shadow-[0_18px_54px_rgba(0,0,0,0.34),inset_0_1px_0_rgba(255,255,255,0.07)] backdrop-blur-2xl md:inset-x-7 md:bottom-7">
                     <div className="flex items-center justify-between gap-6">
                       <div>
-                        <p className="mt-ui text-[0.52rem] tracking-[0.22em] text-[#D4AF37]">
-                          MADRAS TRAILS
+                        <p className="mt-ui text-[0.5rem] tracking-[0.22em] text-[#D4AF37]">
+                          MADRAS TRAILS APPROACH
                         </p>
-                        <p className="mt-body-copy mt-2 text-sm text-white/64">
-                          Designed around your pace, comfort and purpose.
+                        <p className="mt-body-copy mt-2 max-w-md text-sm leading-6 text-white/66">
+                          {openService.overview}
                         </p>
                       </div>
-                      <Sparkles size={17} className="shrink-0 text-[#D4AF37]" />
+                      <Sparkles
+                        size={17}
+                        className="shrink-0 text-[#D4AF37]"
+                      />
                     </div>
                   </div>
                 </motion.div>

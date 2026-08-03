@@ -71,10 +71,15 @@ export default function ServicesPage() {
           <p className="mt-body-copy mt-8 max-w-xl text-base leading-relaxed text-[#FAFAF9]/64 md:text-lg">
             Tell us what you have in mind, and we&rsquo;ll shape the right way forward.
           </p>
-          <Link href="/plan" className="btn-gold mt-gold-sheen mt-ui mt-10 inline-flex items-center gap-2 text-xs">
-            Start the Conversation
-            <ArrowRight size={14} />
-          </Link>
+          <Link
+  href="https://wa.me/917891876918?text=Hi%20MadrasTrails%2C%20I%27d%20like%20to%20start%20a%20conversation%20about%20planning%20a%20journey."
+  target="_blank"
+  rel="noopener noreferrer"
+  className="YOUR_EXISTING_CLASSES"
+>
+  Start the Conversation
+  <ArrowRight aria-hidden="true" />
+</Link>
         </div>
       </section>
 

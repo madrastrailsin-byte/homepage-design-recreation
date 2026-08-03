@@ -103,8 +103,7 @@ export default function TravellerSelectionScreen({
   })()
 
   function updateQuantity(id: TravellerKey, change: number) {
-    const minimum = id === 'adults' ? 1 : 0
-    const nextQuantity = Math.max(minimum, counts[id] + change)
+    const nextQuantity = Math.max(0, counts[id] + change)
 
     if (nextQuantity === counts[id]) return
     onChange({ ...counts, [id]: nextQuantity })
@@ -175,8 +174,7 @@ export default function TravellerSelectionScreen({
               const Icon = category.icon
               const quantity = counts[category.id]
               const selected = quantity > 0
-              const atMinimum =
-                category.id === 'adults' ? quantity <= 1 : quantity <= 0
+              const atMinimum = quantity <= 0
 
               return (
                 <motion.article
@@ -352,6 +350,14 @@ export default function TravellerSelectionScreen({
               </p>
             </div>
 
+            <p className={`absolute bottom-4 left-5 right-12 text-[8px] uppercase tracking-[0.12em] ${
+              counts.adults < 1 && counts.seniors < 1
+                ? 'text-[#D4AF37]/78'
+                : 'text-white/28'
+            }`}>
+              Select at least 1 adult or 1 senior citizen to continue.
+            </p>
+
             <button
               type="button"
               title="Adults and Senior Citizens are charged the same. The age distinction is only for journey planning and assistance, not pricing."
@@ -381,7 +387,7 @@ export default function TravellerSelectionScreen({
           </p>
           <button
             type="button"
-            disabled={counts.adults < 1}
+            disabled={counts.adults < 1 && counts.seniors < 1}
             onClick={onContinue}
             className={journeyContinueButtonClassName}
           >
