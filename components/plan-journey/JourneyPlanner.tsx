@@ -5,6 +5,7 @@ import gsap from 'gsap'
 import { Home } from 'lucide-react'
 import Link from 'next/link'
 import { useRef, useState } from 'react'
+import { useSearchParams } from 'next/navigation'
 import { flushSync } from 'react-dom'
 import BudgetSelectionScreen from './BudgetSelectionScreen'
 import ContactDetailsScreen from './ContactDetailsScreen'
@@ -28,17 +29,32 @@ const journeyVideos: Record<number, string> = {
 }
 
 export default function JourneyPlanner() {
-  const [step, setStep] = useState(1)
+  const searchParams = useSearchParams()
+  const country = searchParams.get('country')
+
+const initialDestination: JourneyDestination | undefined = country
+  ? {
+      id: country,
+      name: country
+        .split('-')
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' '),
+      type: 'curated',
+    }
+  : undefined
+
+const [step, setStep] = useState(country ? 2 : 1)
   const [outgoingStep, setOutgoingStep] = useState<number | null>(null)
   const [journey, setJourney] = useState<JourneyPlanData>({
-    experienceIds: [],
-    travellers: {
-      adults: 1,
-      children: 0,
-      infants: 0,
-      seniors: 0,
-    },
-  })
+  destination: initialDestination,
+  experienceIds: [],
+  travellers: {
+    adults: 1,
+    children: 0,
+    infants: 0,
+    seniors: 0,
+  },
+})
   const videoRefs = useRef<Array<HTMLVideoElement | null>>([])
   const screenContentRefs = useRef<Record<number, HTMLDivElement | null>>({})
   const transitionTimelineRef = useRef<gsap.core.Timeline | null>(null)
@@ -173,7 +189,6 @@ export default function JourneyPlanner() {
   }
 
   const visibleSteps = outgoingStep === null ? [step] : [outgoingStep, step]
-  const progress = (step / 8) * 100
 
   return (
     <div className="relative min-h-[100svh] overflow-hidden bg-[#020f12]">
@@ -208,18 +223,6 @@ export default function JourneyPlanner() {
         Home
       </Link>
 
-      <div className="absolute inset-x-6 top-20 z-[998] md:inset-x-10">
-        <div className="h-px overflow-hidden bg-white/10">
-          <div
-            className="h-full bg-gradient-to-r from-[#B9852E] via-[#D4AF37] to-[#F0D18A] shadow-[0_0_18px_rgba(212,175,55,0.45)] transition-[width] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]"
-            style={{ width: `${progress}%` }}
-          />
-        </div>
-        <div className="mt-2 flex items-center justify-between text-[9px] uppercase tracking-[0.22em] text-white/35">
-          <span>Journey {String(step).padStart(2, '0')}</span>
-          <span>08</span>
-        </div>
-      </div>
 
       <div className="relative z-10">
         {visibleSteps.map((screenStep) => (

@@ -273,7 +273,7 @@ export default function DestinationSelectionScreen({
         }}
       />
 
-      <section className="relative z-10 mx-auto flex min-h-[100svh] w-full max-w-[1180px] flex-col px-5 pb-24 pt-9 sm:px-8 lg:px-10 lg:pb-20 lg:pt-[5vh]">
+      <section className="relative z-10 mx-auto flex min-h-[100svh] w-full max-w-[1180px] flex-col px-5 pb-20 pt-20 sm:px-8 sm:pt-20 lg:px-10 lg:pb-16 lg:pt-[8vh]">
         <header className="text-center">
           <motion.p
             initial={reveal}

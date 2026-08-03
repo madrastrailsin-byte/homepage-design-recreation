@@ -135,7 +135,10 @@ export default function DiscoverSection({
             ))}
           </div>
 
-          <DidYouKnow facts={destination.didYouKnow ?? []} />
+          <DidYouKnow
+  facts={destination.didYouKnow ?? []}
+  destination={destination.name}
+/>
         </motion.div>
 
         <div className="absolute right-0 top-12 hidden w-[58%] lg:block">
@@ -205,7 +208,7 @@ export default function DiscoverSection({
                 delay: 0.2,
                 ease: [0.22, 1, 0.36, 1],
               }}
-              className="absolute left-[60px] top-25 z-20 w-[260px] rounded-[26px] border border-[#D6B06E]/18 bg-[linear-gradient(180deg,rgba(7,22,29,0.42),rgba(2,12,17,0.34))] p-6 shadow-[0_28px_86px_rgba(0,0,0,0.34),0_0_28px_rgba(214,176,110,0.06),inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-3xl"
+              className="absolute left-[60px] top-25 z-20 w-[300px] max-w-[calc(100%-3rem)] rounded-[26px] border border-[#D6B06E]/18 bg-[linear-gradient(180deg,rgba(7,22,29,0.42),rgba(2,12,17,0.34))] p-6 shadow-[0_28px_86px_rgba(0,0,0,0.34),0_0_28px_rgba(214,176,110,0.06),inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-3xl"
             >
               <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/35 to-transparent" />
 
@@ -217,7 +220,7 @@ export default function DiscoverSection({
                   <h4 className="mt-3 font-serif text-[28px] font-light leading-none tracking-[-0.025em] text-white">
                     {destination.name}
                   </h4>
-                  <p className="mt-2 whitespace-nowrap text-[9px] font-medium uppercase tracking-[0.18em] text-white/40">
+                  <p className="mt-2 break-words text-[9px] font-medium uppercase leading-5 tracking-[0.16em] text-white/40">
   {dossierRoute}
 </p>
                 </div>
@@ -265,9 +268,9 @@ export default function DiscoverSection({
               </div>
 
               <div className="mt-5 flex items-center justify-between border-t border-white/10 pt-4">
-                <p className="text-[8px] font-medium uppercase tracking-[0.26em] text-white/35">
-                  {discover.destinationDossier}
-                </p>
+                <p className="max-w-[220px] break-words text-[8px] font-medium uppercase leading-5 tracking-[0.22em] text-white/35">
+  {discover.destinationDossier}
+</p>
                 <span className="h-px w-8 bg-[#D6B06E]/60" />
               </div>
             </motion.div>

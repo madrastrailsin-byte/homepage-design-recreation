@@ -59,7 +59,38 @@ destinationDossier:
   },
 },
 
-experiences: [],
+experiences: [
+  {
+    eyebrow: "Private retreat",
+    title: "A Night Inside Old Japan",
+    location: "Hakone · Kiso Valley",
+    image: "https://images.unsplash.com/photo-1528164344705-47542687000d?q=85&w=1800&auto=format&fit=crop",
+    description: "Slip away to a secluded ryokan where cedar corridors, mineral-rich onsen and a seasonal kaiseki dinner turn one quiet evening into a complete immersion in Japanese hospitality.",
+    season: "Beautiful year-round",
+    idealFor: "Slow travellers, couples and first-time visitors",
+    recommendation: "We select intimate properties with a strong sense of place, then shape the stay around private bathing, local cuisine and the rhythm of the surrounding landscape.",
+  },
+  {
+    eyebrow: "Living tradition",
+    title: "Tea, Silence & Ceremony",
+    location: "Kyoto",
+    image: "https://images.unsplash.com/photo-1515823064-d6e0c04616a7?q=85&w=1400&auto=format&fit=crop",
+    description: "Enter a private machiya, meet a tea master and discover how every gesture—from folding the cloth to lifting the bowl—can become a form of quiet attention.",
+    season: "Best from March to May and October to November",
+    idealFor: "Culture seekers and design-minded travellers",
+    recommendation: "We favour private settings and hosts who reveal the philosophy behind the ritual rather than presenting a shortened performance.",
+  },
+  {
+    eyebrow: "Seasonal icon",
+    title: "Hanami After the Crowds",
+    location: "Kyoto · Tokyo · Kanazawa",
+    image: "https://images.unsplash.com/photo-1522383225653-ed111181a951?q=85&w=1400&auto=format&fit=crop",
+    description: "Experience cherry blossom season beyond the famous viewpoints through private gardens, early-morning walks and an intimate picnic prepared around the fleeting beauty of sakura.",
+    season: "Late March to mid-April",
+    idealFor: "Photographers, families and celebratory journeys",
+    recommendation: "Timing is everything. We combine bloom forecasts with quieter locations and flexible routing so the experience feels personal rather than crowded.",
+  },
+],
 
 didYouKnow: [
     {

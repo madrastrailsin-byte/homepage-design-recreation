@@ -7,6 +7,7 @@ import Link from "next/link"
 
 interface HeroSectionProps {
   destination: {
+    id: string
     name: string
     tagline: string
     description: string
@@ -162,7 +163,7 @@ export default function HeroSection({ destination }: HeroSectionProps) {
 
             <div className="mt-6 border-t border-white/10 pt-5">
               <Link
-                href="/plan"
+                href={`/plan?country=${destination.id}`}
                 className="group inline-flex items-center gap-5 rounded-full border border-[#D6B06E]/38 bg-[#D6B06E]/10 px-5 py-3 text-[10px] font-medium uppercase tracking-[0.18em] text-[#F2E7CC] transition-all duration-300 hover:border-[#D6B06E] hover:bg-[#D6B06E] hover:text-[#07161D]"
               >
                 Plan My Journey
