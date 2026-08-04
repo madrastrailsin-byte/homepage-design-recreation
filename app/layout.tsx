@@ -25,10 +25,51 @@ const signature = Satisfy({
 })
 
 export const metadata: Metadata = {
-  title: 'MadrasTrails - Beyond Boundaries',
+  metadataBase: new URL('https://www.madrastrails.in'),
+
+  title: {
+    default: 'MadrasTrails — Beyond Boundaries',
+    template: '%s | MadrasTrails',
+  },
+
   description:
     'Curated global journeys, crafted personally. Travel like a local with MadrasTrails.',
-  generator: 'v0.app',
+
+  applicationName: 'MadrasTrails',
+
+  openGraph: {
+    title: 'MadrasTrails — Beyond Boundaries',
+    description:
+      'Curated global journeys, crafted personally. Travel like a local with MadrasTrails.',
+    url: '/',
+    siteName: 'MadrasTrails',
+    images: [
+      {
+        url: '/opengraph-image.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'MadrasTrails — Curated global journeys, crafted personally',
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
+
+  twitter: {
+    card: 'summary_large_image',
+    title: 'MadrasTrails — Beyond Boundaries',
+    description:
+      'Curated global journeys, crafted personally. Travel like a local with MadrasTrails.',
+    images: ['/opengraph-image.jpg'],
+  },
+
+  icons: {
+    icon: [
+      { url: '/icon.png', type: 'image/png' },
+      { url: '/favicon.ico' },
+    ],
+    apple: '/apple-icon.png',
+  },
 }
 
 export const viewport: Viewport = {
