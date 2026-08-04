@@ -47,13 +47,13 @@ export const metadata: Metadata = {
     url: '/',
     siteName: 'MadrasTrails',
     images: [
-      {
-        url: '/images/madrastrails-og-v2.jpg',
-        width: 1200,
-        height: 630,
-        alt: 'MadrasTrails — Curated global journeys, crafted personally',
-      },
-    ],
+  {
+    url: 'https://www.madrastrails.in/images/madrastrails-og-v2.jpg',
+    width: 1200,
+    height: 630,
+    alt: 'MadrasTrails — Curated journeys for travellers who seek stories, not itineraries.',
+  },
+],
     locale: 'en_US',
     type: 'website',
   },
@@ -63,7 +63,9 @@ export const metadata: Metadata = {
     title: 'MadrasTrails — Beyond Boundaries',
     description:
       'Curated global journeys, crafted personally. Travel like a local with MadrasTrails.',
-    images: ['/images/madrastrails-og-v2.jpg'],
+    images: [
+  'https://www.madrastrails.in/images/madrastrails-og-v2.jpg',
+],
   },
 
   icons: {
