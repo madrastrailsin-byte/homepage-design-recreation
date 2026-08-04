@@ -27,6 +27,9 @@ const signature = Satisfy({
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.madrastrails.in'),
 
+  alternates: {
+    canonical: 'https://www.madrastrails.in',
+  },
   title: {
     default: 'MadrasTrails — Beyond Boundaries',
     template: '%s | MadrasTrails',
@@ -45,7 +48,7 @@ export const metadata: Metadata = {
     siteName: 'MadrasTrails',
     images: [
       {
-        url: '/opengraph-image.jpg',
+        url: '/images/madrastrails-og-v2.jpg',
         width: 1200,
         height: 630,
         alt: 'MadrasTrails — Curated global journeys, crafted personally',
@@ -60,7 +63,7 @@ export const metadata: Metadata = {
     title: 'MadrasTrails — Beyond Boundaries',
     description:
       'Curated global journeys, crafted personally. Travel like a local with MadrasTrails.',
-    images: ['/opengraph-image.jpg'],
+    images: ['/images/madrastrails-og-v2.jpg'],
   },
 
   icons: {
