@@ -48,7 +48,7 @@ export const metadata: Metadata = {
     siteName: 'MadrasTrails',
     images: [
   {
-    url: 'https://www.madrastrails.in/images/madrastrails-og-v2.jpg',
+    url: 'https://www.madrastrails.in/images/madrastrails-og-v3.jpg',
     width: 1200,
     height: 630,
     alt: 'MadrasTrails — Curated journeys for travellers who seek stories, not itineraries.',
@@ -64,7 +64,7 @@ export const metadata: Metadata = {
     description:
       'Curated global journeys, crafted personally. Travel like a local with MadrasTrails.',
     images: [
-  'https://www.madrastrails.in/images/madrastrails-og-v2.jpg',
+  'https://www.madrastrails.in/images/madrastrails-og-v3.jpg',
 ],
   },
 
