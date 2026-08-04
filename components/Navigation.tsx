@@ -92,7 +92,6 @@ export default function Navigation() {
                   />
                 )}
               </Link>
-              {index < navItems.length - 1 && <span className="mx-1 h-1 w-1 rounded-full bg-[#D4AF37]/38" />}
             </div>
           ))}
         </motion.div>

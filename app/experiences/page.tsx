@@ -356,7 +356,7 @@ export default function ExperiencesPage() {
             />
 
             <div className="relative z-20 mx-auto flex h-full w-full max-w-[1500px] items-center px-5 py-20 sm:px-7 md:px-10 md:py-24 lg:px-14">
-              <div className="grid w-full items-center gap-7 lg:grid-cols-[1.08fr_0.92fr] lg:gap-12">
+              <div className="grid w-full items-stretch gap-7 lg:grid-cols-[1.08fr_0.92fr] lg:gap-12">
                 <motion.div
                   initial={prefersReducedMotion ? undefined : { opacity: 0, x: -42 }}
                   animate={{ opacity: 1, x: 0 }}
@@ -430,12 +430,12 @@ export default function ExperiencesPage() {
               </div>
             </div>
 
-            <div className="absolute right-5 top-1/2 z-30 hidden -translate-y-1/2 lg:block">
-              <div className="relative overflow-hidden rounded-[1.45rem] border border-white/10 bg-[linear-gradient(180deg,rgba(8,20,24,0.48),rgba(3,11,14,0.38))] px-2.5 py-3 shadow-[0_20px_60px_rgba(0,0,0,0.28),inset_0_1px_0_rgba(255,255,255,0.06)] backdrop-blur-xl">
+            <div className="absolute right-5 top-1/2 z-30 hidden h-[22rem] -translate-y-1/2 lg:block">
+              <div className="relative h-full overflow-hidden rounded-[1.45rem] border border-white/10 bg-[linear-gradient(180deg,rgba(8,20,24,0.48),rgba(3,11,14,0.38))] px-2.5 py-3 shadow-[0_20px_60px_rgba(0,0,0,0.28),inset_0_1px_0_rgba(255,255,255,0.06)] backdrop-blur-xl">
                 <div className="pointer-events-none absolute inset-x-3 top-0 h-px bg-gradient-to-r from-transparent via-[#D4AF37]/45 to-transparent" />
                 <div className="pointer-events-none absolute -right-5 top-[22%] h-20 w-14 rounded-full bg-[#D4AF37]/8 blur-xl" />
 
-                <div className="relative flex flex-col gap-1">
+                <div className="relative flex h-full flex-col justify-between">
                   {journeys.map((journey, index) => {
                     const isActive = journey.id === activeJourney.id
 

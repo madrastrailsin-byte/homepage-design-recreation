@@ -350,7 +350,8 @@ export default function TravellerSelectionScreen({
               </p>
             </div>
 
-            <p className={`absolute bottom-4 left-5 right-12 text-[8px] uppercase tracking-[0.12em] ${
+            <p
+  className={`mt-6 text-[9px] uppercase leading-relaxed tracking-[0.12em]
               counts.adults < 1 && counts.seniors < 1
                 ? 'text-[#D4AF37]/78'
                 : 'text-white/28'
