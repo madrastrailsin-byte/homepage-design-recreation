@@ -48,7 +48,7 @@ export default function Navigation() {
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/16 to-transparent" />
       <div className={`pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-[#D4AF37]/35 to-transparent transition-opacity duration-500 ${isScrolled ? 'opacity-100' : 'opacity-35'}`} />
 
-      <div className="mx-auto grid w-full max-w-[92rem] grid-cols-[1fr_auto_1fr] items-center px-4 py-1.5 sm:px-5 md:px-8 md:py-3.5">
+      <div className="mx-auto flex w-full max-w-[92rem] items-center justify-between px-4 py-1.5 sm:px-5 md:grid md:grid-cols-[1fr_auto_1fr] md:px-8 md:py-3.5">
         <motion.a
           href="/"
           aria-label="MadrasTrails homepage"

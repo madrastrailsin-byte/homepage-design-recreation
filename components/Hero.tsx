@@ -117,7 +117,6 @@ export default function Hero() {
         <div className="mt-hero-grade absolute inset-0" />
         <div className="mt-hero-content-vignette absolute inset-0" />
         <div className="mt-hero-feather absolute inset-0" />
-        <div className="mt-hero-gold-highlight absolute inset-0" />
         <div className="mt-hero-top-vignette absolute inset-0" />
         <div className="mt-hero-bottom-vignette absolute inset-0" />
       </div>

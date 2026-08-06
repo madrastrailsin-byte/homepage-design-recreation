@@ -92,7 +92,7 @@ export default function ServicesStrip() {
             )}
           </AnimatePresence>
 
-          <div className="mt-premium-glass flex flex-wrap justify-center gap-x-2 gap-y-3 rounded-[22px] border border-[#C9A24A]/36 px-3 py-3 shadow-[0_28px_80px_rgba(0,0,0,0.3),inset_0_1px_0_rgba(255,255,255,0.05)] sm:gap-x-3 sm:px-5 md:gap-x-4 md:gap-y-4 md:px-7 md:py-4">
+          <div className="mt-premium-glass flex flex-col gap-3 rounded-[22px] border border-[#C9A24A]/36 px-4 py-4 shadow-[0_28px_80px_rgba(0,0,0,0.3),inset_0_1px_0_rgba(255,255,255,0.05)] md:flex-row md:flex-wrap md:justify-center md:gap-x-4 md:gap-y-4 md:px-7 md:py-4">
             {services.map((service, idx) => {
               const Icon = service.icon
               const active = activeIndex === idx
@@ -104,31 +104,42 @@ export default function ServicesStrip() {
                   onMouseEnter={() => setActiveIndex(idx)}
                   onFocus={() => setActiveIndex(idx)}
                   onClick={() => setActiveIndex(active ? null : idx)}
-                  className={`group relative inline-flex items-center gap-2.5 whitespace-nowrap rounded-full border px-3.5 py-2 transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] md:px-4 ${
+                  className={`group relative flex w-full items-center justify-between rounded-2xl border px-5 py-4 transition-all duration-300 md:inline-flex md:w-auto md:justify-center md:rounded-full md:px-4 md:py-2 ${
                     active
                       ? 'border-[#C9A24A]/65 bg-[#C9A24A]/13 text-white shadow-[0_8px_28px_rgba(201,162,74,0.16)]'
                       : 'border-transparent text-[#C9A24A] hover:border-[#C9A24A]/28 hover:bg-white/[0.035] hover:text-white'
                   }`}
                   aria-expanded={active}
                 >
-                  <Icon
-                    size={18}
-                    className={`flex-shrink-0 transition-all duration-300 ${
-                      active
-                        ? 'scale-110 text-white'
-                        : 'text-[#C9A24A] group-hover:scale-105 group-hover:text-white'
-                    }`}
-                  />
-                  <span className="mt-ui text-[10px] font-medium tracking-[0.16em] md:text-[11px]">
-                    {service.label}
-                  </span>
+                  <div className="flex items-center gap-3">
+  <Icon
+    size={18}
+    className={`flex-shrink-0 transition-all duration-300 ${
+      active
+        ? 'scale-110 text-white'
+        : 'text-[#C9A24A] group-hover:scale-105 group-hover:text-white'
+    }`}
+  />
 
-                  {active && (
-                    <motion.span
-                      layoutId="service-active-dot"
-                      className="absolute -bottom-1 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full bg-[#D4AF37] shadow-[0_0_12px_rgba(212,175,55,0.85)]"
-                    />
-                  )}
+  <div className="text-left">
+    <span className="mt-ui block text-[10px] font-medium tracking-[0.16em] md:text-[11px]">
+      {service.label}
+    </span>
+
+    <span className="mt-body-copy mt-1 block max-w-[15rem] text-[0.78rem] leading-[1.45] text-white/60 md:hidden">
+      {service.description}
+    </span>
+  </div>
+</div>
+
+<span className="text-[#C9A24A] md:hidden">→</span>
+
+{active && (
+  <motion.span
+    layoutId="service-active-dot"
+    className="absolute -bottom-1 left-1/2 hidden h-1 w-1 -translate-x-1/2 rounded-full bg-[#D4AF37] shadow-[0_0_12px_rgba(212,175,55,0.85)] md:block"
+  />
+)}
                 </button>
               )
             })}

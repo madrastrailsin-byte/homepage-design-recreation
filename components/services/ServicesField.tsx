@@ -1150,7 +1150,7 @@ const toggleLight = () => {
       ? "Turn off investigation lamp"
       : "Turn on investigation lamp"
   }
-  className="absolute right-10 top-0 z-[70] flex flex-col items-center disabled:pointer-events-none"
+  className="absolute right-4 top-0 z-[70] flex flex-col items-center disabled:pointer-events-none md:right-10"
 >
   {/* Fixed ceiling mount */}
   <div className="h-2 w-2 rounded-full bg-[#3b2b18]" />
@@ -1183,7 +1183,7 @@ const toggleLight = () => {
         {/* Carved wall instruction beside the pull chain */}
         <motion.div
           aria-hidden="true"
-          className="pointer-events-none absolute right-[4.8rem] top-[8.6rem] z-[70] hidden select-none md:block"
+          className="pointer-events-none absolute right-[4.2rem] top-[8.4rem] z-[70] select-none md:right-[4.8rem] md:top-[8.6rem]"
           animate={
             prefersReducedMotion
               ? undefined
@@ -1207,7 +1207,7 @@ const toggleLight = () => {
           }}
         >
           <p className="whitespace-nowrap font-['Crimes_Times_Six'] text-[1.3rem] tracking-[0.08em]">
-  PULL THE CHAIN
+  PULL TO LIGHT THE BOARD
 </p>
           <div className="mt-1 flex items-center justify-end gap-2">
             <span className="h-px w-10 bg-gradient-to-r from-transparent to-[#caa56a]/55" />
@@ -1264,31 +1264,47 @@ const toggleLight = () => {
             ))}
           </div>
 
-          <div className="relative mx-auto mt-12 flex max-w-[34rem] flex-col gap-0 pb-8 md:hidden">
-            {visibleServices.map((service, index) => (
-              <motion.button
-                key={service.number}
-                type="button"
-                onClick={() => setOpenService(service)}
-                aria-label={`Open ${service.title}`}
-                className={`relative min-h-[11.8rem] w-full overflow-hidden p-4 text-left outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37]/70 ${boardPieces[index].tone}`}
-                style={{
-                  zIndex: 20 + index,
-                  marginTop: index === 0 ? 0 : "-1.1rem",
-                  transform: `rotate(${index % 2 === 0 ? -1.4 : 1.2}deg)`,
-                  clipPath: boardPieces[index].shape,
-                  boxShadow: boardPieces[index].shadow,
-                }}
-                initial={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 14 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                whileHover={prefersReducedMotion ? undefined : { y: -5, rotate: 0 }}
-                transition={{ duration: 0.55, delay: index * 0.035, ease }}
-                viewport={{ once: true, amount: 0.18 }}
-              >
-                <ServiceDocument service={service} index={index} />
-              </motion.button>
-            ))}
-          </div>
+          <div className="relative mx-auto mt-16 grid max-w-md gap-5 pb-12 md:hidden">
+  <div className="absolute inset-0 rounded-[1.8rem] border-[10px] border-[#5b321d] bg-[#6f452b] shadow-[inset_0_0_45px_rgba(0,0,0,0.45),0_30px_80px_rgba(0,0,0,0.4)]" />
+
+  <div className="relative space-y-4 p-5">
+    {visibleServices.map((service, index) => (
+      <motion.button
+        key={service.number}
+        type="button"
+        onClick={() => setOpenService(service)}
+        aria-label={`Open ${service.title}`}
+        className={`relative w-full overflow-hidden rounded-sm border border-[#d7c29d]/45 p-5 text-left shadow-[0_14px_28px_rgba(0,0,0,0.28)] ${
+          index === 2
+            ? "bg-[#101827] text-[#faf3e2]"
+            : "bg-[#f4ead7] text-[#21170f]"
+        }`}
+        initial={prefersReducedMotion ? false : { opacity: 0, y: 18 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.45, delay: index * 0.035, ease }}
+        viewport={{ once: true, amount: 0.18 }}
+      >
+        <span className="absolute left-1/2 top-0 h-5 w-20 -translate-x-1/2 -translate-y-1/2 rotate-[-2deg] bg-[#d8c39b]/75 shadow-sm" />
+
+        <p className="mt-ui text-[0.55rem] tracking-[0.2em] text-[#b7893e]">
+          {service.number}
+        </p>
+
+        <h3 className="mt-display mt-2 text-[2rem] leading-none">
+          {service.title}
+        </h3>
+
+        <p className="mt-body-copy mt-3 text-sm leading-relaxed opacity-70">
+          {service.description}
+        </p>
+
+        <span className="mt-ui mt-5 inline-flex items-center gap-2 text-[0.58rem] tracking-[0.16em] text-[#b7893e]">
+          VIEW DETAILS <ArrowRight size={13} />
+        </span>
+      </motion.button>
+    ))}
+  </div>
+</div>
         </div>
       </section>
 
