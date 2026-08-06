@@ -1184,19 +1184,18 @@ const toggleLight = () => {
         {/* Pull-chain instruction */}
 <motion.div
   aria-hidden="true"
-  className="pointer-events-none absolute left-8 top-[10.8rem] z-[70] select-none md:left-auto md:right-[4.8rem] md:top-[8.6rem]"
+  className="pointer-events-none absolute right-[3.7rem] top-[6.6rem] z-[70] select-none md:right-[4.8rem] md:top-[8.6rem]"
   animate={{ opacity: lightPhase === "off" ? 1 : 0 }}
   transition={{ duration: 0.35 }}
 >
-  <div className="flex flex-col items-start md:items-end">
-    <span className="mt-display-soft whitespace-nowrap text-[1rem] italic tracking-[0.04em] text-[#D9B76A]/92">
+  <div className="flex items-center">
+    <span className="font-['Crimes_Times_Six'] whitespace-nowrap text-[0.82rem] tracking-[0.08em] text-[#d8b873]/82 md:text-[1rem]">
       Pull the chain
     </span>
 
-    <div className="mt-1 flex items-center">
-      <div className="h-px w-24 bg-[#D9B76A]/65" />
-      <span className="ml-1 text-[0.82rem] text-[#D9B76A]/72">►</span>
-    </div>
+    <span className="ml-3 h-px w-12 bg-[#d8b873]/55 md:w-16" />
+
+    <span className="ml-1 text-[0.72rem] text-[#d8b873]/72">►</span>
   </div>
 </motion.div>
 

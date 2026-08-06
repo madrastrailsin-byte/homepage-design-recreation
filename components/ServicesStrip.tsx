@@ -81,11 +81,11 @@ export default function ServicesStrip() {
                     borderRadius: '38%',
                   }
             }
-            className={`relative flex min-h-[6.5rem] w-full flex-col items-center justify-center gap-3 overflow-hidden rounded-[1.35rem] border px-3 py-4 text-center backdrop-blur-[22px] transition-all duration-300 md:min-h-0 md:w-auto md:flex-row md:rounded-full md:px-5 md:py-3 ${
-              active
-                ? 'border-[#D4AF37]/65 bg-white/[0.12] text-white shadow-[0_14px_36px_rgba(201,162,74,0.18),inset_0_1px_0_rgba(255,255,255,0.18)]'
-                : 'border-white/14 bg-white/[0.055] text-[#C9A24A] shadow-[0_12px_34px_rgba(0,0,0,0.22),inset_0_1px_0_rgba(255,255,255,0.08)] hover:border-[#C9A24A]/38 hover:bg-white/[0.085] hover:text-white'
-            }`}
+            className={`relative flex min-h-[6.5rem] w-full flex-col items-center justify-center gap-3 overflow-hidden rounded-[1.35rem] border px-3 py-4 text-center backdrop-blur-[28px] transition-all duration-300 before:pointer-events-none before:absolute before:inset-x-3 before:top-0 before:h-px before:bg-gradient-to-r before:from-transparent before:via-white/45 before:to-transparent after:pointer-events-none after:absolute after:inset-0 after:bg-[radial-gradient(circle_at_25%_0%,rgba(255,255,255,0.18),transparent_48%)] md:min-h-0 md:w-auto md:flex-row md:rounded-full md:px-5 md:py-3 ${
+  active
+    ? 'border-[#D4AF37]/75 bg-white/[0.18] text-white shadow-[0_16px_42px_rgba(201,162,74,0.24),inset_0_1px_0_rgba(255,255,255,0.28),inset_0_-1px_0_rgba(212,175,55,0.12)]'
+    : 'border-white/22 bg-white/[0.09] text-[#D4AF37] shadow-[0_14px_38px_rgba(0,0,0,0.28),inset_0_1px_0_rgba(255,255,255,0.18),inset_0_-1px_0_rgba(255,255,255,0.04)] hover:border-[#C9A24A]/45 hover:bg-white/[0.13] hover:text-white'
+}`}
             aria-expanded={active}
           >
             <motion.span
@@ -123,7 +123,7 @@ export default function ServicesStrip() {
                 animate={{ opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }}
                 exit={{ opacity: 0, y: 6, scale: 0.96, filter: 'blur(6px)' }}
                 transition={{ duration: reduceMotion ? 0 : 0.36, ease: [0.22, 1, 0.36, 1] }}
-                className="absolute left-1/2 top-[calc(100%+0.65rem)] z-40 w-[min(17rem,78vw)] -translate-x-1/2 md:bottom-[calc(100%+0.8rem)] md:top-auto"
+                className="pointer-events-none absolute left-1/2 top-[calc(100%+0.65rem)] z-40 w-[min(17rem,78vw)] -translate-x-1/2 md:bottom-[calc(100%+0.8rem)] md:top-auto"
               >
                 <div className="relative overflow-hidden rounded-[1.15rem] border border-white/16 bg-[linear-gradient(180deg,rgba(14,24,28,0.9),rgba(5,12,15,0.86))] px-4 py-3.5 shadow-[0_22px_60px_rgba(0,0,0,0.42),inset_0_1px_0_rgba(255,255,255,0.12)] backdrop-blur-[24px]">
                   <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_0%,rgba(255,255,255,0.1),transparent_42%)]" />
