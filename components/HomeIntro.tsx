@@ -191,13 +191,16 @@ animate={{ left: 'calc(100% - 56px)' }}
   }
 >
     <Image
-      src="/images/intro-train.webp"
-      alt=""
-      width={52}
-      height={28}
-      className="h-auto w-14 -scale-x-100"
-      draggable={false}
-    />
+  src="/images/intro-train-small.webp"
+  sizes="56px"
+  quality={75}
+  unoptimized
+  alt=""
+  width={52}
+  height={28}
+  className="h-auto w-14 -scale-x-100"
+  draggable={false}
+/>
 
     {/* Continuous thick steam */}
     <AnimatePresence>
