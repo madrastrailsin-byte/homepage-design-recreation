@@ -1184,7 +1184,7 @@ const toggleLight = () => {
         {/* Carved wall instruction beside the pull chain */}
         <motion.div
           aria-hidden="true"
-          className="pointer-events-none absolute right-[4.2rem] top-[8.4rem] z-[70] select-none md:right-[4.8rem] md:top-[8.6rem]"
+          className="pointer-events-none absolute right-[4.6rem] top-[5.8rem] z-[70] select-none md:right-[4.8rem] md:top-[8.6rem]"
           animate={
             prefersReducedMotion
               ? undefined
@@ -1207,16 +1207,15 @@ const toggleLight = () => {
             filter: "drop-shadow(0 2px 2px rgba(0,0,0,.32))",
           }}
         >
-          <p className="whitespace-nowrap font-['Crimes_Times_Six'] text-[0.72rem] tracking-[0.14em] text-[#d8b873]/78 md:text-[0.9rem]">
-  PULL TO ILLUMINATE
-</p>
+          <div className="relative rounded-full border border-[#d8b873]/22 bg-black/25 px-3.5 py-2 shadow-[0_12px_30px_rgba(0,0,0,0.28)] backdrop-blur-md">
+  <p className="mt-display-soft whitespace-nowrap text-[0.88rem] italic tracking-[0.04em] text-[#e1c582]/85 md:text-[1rem]">
+    Pull the chain
+  </p>
 
-<div className="mt-1 flex items-center justify-end gap-1.5">
-  <span className="h-px w-6 bg-gradient-to-r from-transparent to-[#caa56a]/50" />
   <motion.span
-    animate={prefersReducedMotion ? undefined : { x: [0, 3, 0], y: [0, -2, 0] }}
-    transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
-    className="inline-block rotate-[18deg] text-[0.72rem] text-[#caa56a]/65"
+    animate={prefersReducedMotion ? undefined : { x: [0, 5, 0], rotate: [8, 16, 8] }}
+    transition={{ duration: 1.7, repeat: Infinity, ease: 'easeInOut' }}
+    className="absolute -right-5 top-1/2 -translate-y-1/2 text-[1rem] text-[#d8b873]/75"
   >
     ↗
   </motion.span>

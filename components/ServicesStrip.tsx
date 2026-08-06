@@ -66,7 +66,9 @@ export default function ServicesStrip() {
         <div key={service.label} className="relative">
           <motion.button
             type="button"
-            onMouseEnter={() => setActiveIndex(idx)}
+            onPointerEnter={(event) => {
+  if (event.pointerType === 'mouse') setActiveIndex(idx)
+}}
             onFocus={() => setActiveIndex(idx)}
             onClick={() => setActiveIndex(active ? null : idx)}
             whileTap={
