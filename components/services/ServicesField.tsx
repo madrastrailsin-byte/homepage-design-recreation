@@ -366,6 +366,7 @@ function ServiceDocument({ service, index }: { service: TravelService; index: nu
               <h3 className="mt-display mt-2 text-[clamp(1.45rem,2.25vw,2.85rem)] leading-[.84] tracking-[-.035em]">
                 {service.title}
               </h3>
+              <div className="mt-2 h-px w-16 bg-gradient-to-r from-[#b7893e]/60 to-transparent" />
             </div>
             <Plane size={20} strokeWidth={1.15} className="text-[#8a6323]" />
           </div>
@@ -1206,13 +1207,20 @@ const toggleLight = () => {
             filter: "drop-shadow(0 2px 2px rgba(0,0,0,.32))",
           }}
         >
-          <p className="whitespace-nowrap font-['Crimes_Times_Six'] text-[1.3rem] tracking-[0.08em]">
-  PULL TO LIGHT THE BOARD
+          <p className="whitespace-nowrap font-['Crimes_Times_Six'] text-[0.72rem] tracking-[0.14em] text-[#d8b873]/78 md:text-[0.9rem]">
+  PULL TO ILLUMINATE
 </p>
-          <div className="mt-1 flex items-center justify-end gap-2">
-            <span className="h-px w-10 bg-gradient-to-r from-transparent to-[#caa56a]/55" />
-            <span className="inline-block rotate-[18deg] text-[1rem] text-[#caa56a]/62">↗</span>
-          </div>
+
+<div className="mt-1 flex items-center justify-end gap-1.5">
+  <span className="h-px w-6 bg-gradient-to-r from-transparent to-[#caa56a]/50" />
+  <motion.span
+    animate={prefersReducedMotion ? undefined : { x: [0, 3, 0], y: [0, -2, 0] }}
+    transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
+    className="inline-block rotate-[18deg] text-[0.72rem] text-[#caa56a]/65"
+  >
+    ↗
+  </motion.span>
+</div>
         </motion.div>
 
         <h2 id="services-board-title" className="sr-only">
@@ -1269,40 +1277,57 @@ const toggleLight = () => {
 
   <div className="relative space-y-4 p-5">
     {visibleServices.map((service, index) => (
-      <motion.button
-        key={service.number}
-        type="button"
-        onClick={() => setOpenService(service)}
-        aria-label={`Open ${service.title}`}
-        className={`relative w-full overflow-hidden rounded-sm border border-[#d7c29d]/45 p-5 text-left shadow-[0_14px_28px_rgba(0,0,0,0.28)] ${
-          index === 2
-            ? "bg-[#101827] text-[#faf3e2]"
-            : "bg-[#f4ead7] text-[#21170f]"
-        }`}
-        initial={prefersReducedMotion ? false : { opacity: 0, y: 18 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.45, delay: index * 0.035, ease }}
-        viewport={{ once: true, amount: 0.18 }}
-      >
-        <span className="absolute left-1/2 top-0 h-5 w-20 -translate-x-1/2 -translate-y-1/2 rotate-[-2deg] bg-[#d8c39b]/75 shadow-sm" />
+  <motion.button
+    key={service.number}
+    type="button"
+    onClick={() => setOpenService(service)}
+    aria-label={`Open ${service.title}`}
+    className={`relative w-full overflow-hidden rounded-sm border border-[#d7c29d]/45 p-5 text-left shadow-[0_14px_28px_rgba(0,0,0,0.28)] ${
+      index === 2
+        ? "bg-[#101827] text-[#faf3e2]"
+        : "bg-[#f4ead7] text-[#21170f]"
+    }`}
+    style={{
+      transform: `rotate(${index % 3 === 0 ? -0.7 : index % 3 === 1 ? 0.8 : -0.25}deg)`,
+    }}
+    initial={prefersReducedMotion ? false : { opacity: 0, y: 18 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.45, delay: index * 0.035, ease }}
+    viewport={{ once: true, amount: 0.18 }}
+  >
+    {index % 3 === 0 ? (
+      <span className="absolute left-1/2 top-0 h-5 w-20 -translate-x-1/2 -translate-y-1/2 rotate-[-2deg] bg-[#d8c39b]/75 shadow-sm" />
+    ) : null}
 
-        <p className="mt-ui text-[0.55rem] tracking-[0.2em] text-[#b7893e]">
-          {service.number}
-        </p>
+    {index % 3 === 1 ? (
+      <span className="absolute right-5 top-4 h-3 w-3 rounded-full bg-[#b98b3a] shadow-[0_3px_8px_rgba(0,0,0,0.35)]" />
+    ) : null}
 
-        <h3 className="mt-display mt-2 text-[2rem] leading-none">
-          {service.title}
-        </h3>
+    {index % 3 === 2 ? (
+      <span className="absolute left-5 top-4 h-3 w-3 rounded-full bg-[#8f2f2b] shadow-[0_3px_8px_rgba(0,0,0,0.35)]" />
+    ) : null}
 
-        <p className="mt-body-copy mt-3 text-sm leading-relaxed opacity-70">
-          {service.description}
-        </p>
+    {index % 4 === 3 ? (
+      <span className="absolute right-[-0.15rem] top-7 h-5 w-16 rotate-[82deg] bg-[#d8c39b]/70 shadow-sm" />
+    ) : null}
 
-        <span className="mt-ui mt-5 inline-flex items-center gap-2 text-[0.58rem] tracking-[0.16em] text-[#b7893e]">
-          VIEW DETAILS <ArrowRight size={13} />
-        </span>
-      </motion.button>
-    ))}
+    <p className="mt-ui text-[0.55rem] tracking-[0.2em] text-[#b7893e]">
+      {service.number}
+    </p>
+
+    <h3 className="mt-display mt-2 text-[2rem] leading-none">
+      {service.title}
+    </h3>
+
+    <p className="mt-body-copy mt-4 text-[0.92rem] leading-[1.65] opacity-72">
+      {service.description}
+    </p>
+
+    <span className="mt-ui mt-5 inline-flex items-center gap-2 text-[0.58rem] tracking-[0.16em] text-[#b7893e]">
+      LEARN MORE <ArrowRight size={12} />
+    </span>
+  </motion.button>
+))}
   </div>
 </div>
         </div>
@@ -1369,13 +1394,13 @@ const toggleLight = () => {
             </button>
 
             <motion.div
-              className="relative z-20 mx-auto flex min-h-[100svh] w-full max-w-[1500px] items-center px-5 py-20 md:px-8 lg:h-[100svh] lg:px-12 lg:py-8"
+              className="relative z-20 mx-auto flex min-h-[100svh] w-full max-w-[1500px] items-start px-5 pb-12 pt-24 md:items-center md:px-8 md:py-20 lg:h-[100svh] lg:px-12 lg:py-8"
               initial={prefersReducedMotion ? false : { opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 16 }}
               transition={{ duration: prefersReducedMotion ? 0 : 0.72, ease }}
             >
-              <div className="grid w-full items-center gap-7 lg:grid-cols-[0.98fr_1.02fr] lg:gap-10">
+              <div className="grid w-full items-start gap-7 lg:grid-cols-[0.98fr_1.02fr] lg:items-center lg:gap-10">
                 <motion.div
                   initial={
                     prefersReducedMotion
@@ -1399,7 +1424,7 @@ const toggleLight = () => {
 
                   <h2
                     id="service-overlay-title"
-                    className="mt-display mt-4 max-w-3xl text-[clamp(3.15rem,5.7vw,6.3rem)] leading-[0.82] tracking-[-0.052em] text-white"
+                    className="mt-display mt-4 max-w-3xl text-[clamp(2.7rem,12vw,4.2rem)] leading-[0.9] tracking-[-0.045em] text-white md:text-[clamp(3.15rem,5.7vw,6.3rem)] md:leading-[0.82]"
                   >
                     {openService.title}
                   </h2>
@@ -1408,7 +1433,7 @@ const toggleLight = () => {
                     {openService.description}
                   </p>
 
-                  <div className="mt-5 max-w-2xl rounded-[1.45rem] border border-white/12 bg-[linear-gradient(180deg,rgba(10,18,21,0.52),rgba(2,9,12,0.62))] p-4 shadow-[0_26px_84px_rgba(0,0,0,0.36),inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-2xl md:p-5">
+                  <div className="mt-5 max-w-2xl rounded-[1.35rem] border border-white/12 bg-[linear-gradient(180deg,rgba(10,18,21,0.72),rgba(2,9,12,0.82))] p-4 shadow-[0_26px_84px_rgba(0,0,0,0.36),inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-2xl md:rounded-[1.45rem] md:p-5">
                     <div className="grid gap-4 sm:grid-cols-[0.9fr_1.1fr]">
                       <div>
                         <p className="mt-ui text-[0.5rem] tracking-[0.2em] text-[#D4AF37]">
@@ -1477,7 +1502,7 @@ const toggleLight = () => {
                     </div>
                   </div>
 
-                  <div className="mt-5 flex flex-wrap items-center gap-3">
+                  <div className="mt-5 flex flex-col items-start gap-3 sm:flex-row sm:flex-wrap sm:items-center">
                     <Link
                       href="/plan"
                       onClick={() => setOpenService(null)}

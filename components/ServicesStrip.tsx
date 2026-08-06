@@ -56,95 +56,86 @@ export default function ServicesStrip() {
       <div className="pointer-events-none absolute inset-x-0 -top-16 z-0 h-32 bg-gradient-to-b from-transparent via-[#03191D]/18 to-[#041D22]" />
 
       <div className="mt-services-scene mt-story-service-panel relative z-10 mx-auto max-w-7xl px-6 md:px-8">
-        <div className="relative flex justify-center">
-          <AnimatePresence mode="wait">
-            {activeService && (
+        <div className="relative">
+  <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:flex md:flex-wrap md:justify-center md:gap-4">
+    {services.map((service, idx) => {
+      const Icon = service.icon
+      const active = activeIndex === idx
+
+      return (
+        <div key={service.label} className="relative">
+          <motion.button
+            type="button"
+            onMouseEnter={() => setActiveIndex(idx)}
+            onFocus={() => setActiveIndex(idx)}
+            onClick={() => setActiveIndex(active ? null : idx)}
+            whileTap={
+              reduceMotion
+                ? undefined
+                : {
+                    scale: 0.94,
+                    borderRadius: '38%',
+                  }
+            }
+            className={`relative flex min-h-[6.5rem] w-full flex-col items-center justify-center gap-3 overflow-hidden rounded-[1.35rem] border px-3 py-4 text-center backdrop-blur-[22px] transition-all duration-300 md:min-h-0 md:w-auto md:flex-row md:rounded-full md:px-5 md:py-3 ${
+              active
+                ? 'border-[#D4AF37]/65 bg-white/[0.12] text-white shadow-[0_14px_36px_rgba(201,162,74,0.18),inset_0_1px_0_rgba(255,255,255,0.18)]'
+                : 'border-white/14 bg-white/[0.055] text-[#C9A24A] shadow-[0_12px_34px_rgba(0,0,0,0.22),inset_0_1px_0_rgba(255,255,255,0.08)] hover:border-[#C9A24A]/38 hover:bg-white/[0.085] hover:text-white'
+            }`}
+            aria-expanded={active}
+          >
+            <motion.span
+              aria-hidden="true"
+              initial={false}
+              animate={
+                active
+                  ? { scale: 1.8, opacity: 0 }
+                  : { scale: 0.2, opacity: 0 }
+              }
+              transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+              className="pointer-events-none absolute h-16 w-16 rounded-full border border-white/18 bg-white/10"
+            />
+
+            <Icon
+              size={20}
+              className={`relative z-10 transition-all duration-300 ${
+                active ? 'scale-110 text-white' : 'text-[#C9A24A]'
+              }`}
+            />
+
+            <span className="mt-ui relative z-10 text-[9px] font-medium tracking-[0.15em] md:text-[11px]">
+              {service.label}
+            </span>
+          </motion.button>
+
+          <AnimatePresence>
+            {active && (
               <motion.div
-                key={activeService.label}
                 initial={
                   reduceMotion
                     ? { opacity: 1 }
-                    : { opacity: 0, y: 18, scale: 0.96 }
+                    : { opacity: 0, y: 8, scale: 0.94, filter: 'blur(8px)' }
                 }
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={
-                  reduceMotion
-                    ? { opacity: 0 }
-                    : { opacity: 0, y: 10, scale: 0.98 }
-                }
-                transition={{
-                  duration: reduceMotion ? 0 : 0.34,
-                  ease: [0.22, 1, 0.36, 1],
-                }}
-                className="absolute bottom-[calc(100%+0.9rem)] left-1/2 z-30 w-[min(25rem,88vw)] -translate-x-1/2"
+                animate={{ opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }}
+                exit={{ opacity: 0, y: 6, scale: 0.96, filter: 'blur(6px)' }}
+                transition={{ duration: reduceMotion ? 0 : 0.36, ease: [0.22, 1, 0.36, 1] }}
+                className="absolute left-1/2 top-[calc(100%+0.65rem)] z-40 w-[min(17rem,78vw)] -translate-x-1/2 md:bottom-[calc(100%+0.8rem)] md:top-auto"
               >
-                <div className="relative overflow-hidden rounded-[1.05rem] border border-white/16 bg-[linear-gradient(180deg,rgba(15,20,24,0.66),rgba(5,8,11,0.58))] px-4.5 py-3.5 shadow-[0_20px_60px_rgba(0,0,0,0.36),inset_0_1px_0_rgba(255,255,255,0.11),inset_0_-1px_0_rgba(201,162,74,0.05)] backdrop-blur-[22px] backdrop-saturate-125">
-                  <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.075),transparent_38%),radial-gradient(circle_at_18%_0%,rgba(201,162,74,0.08),transparent_44%)]" />
-                  <div className="pointer-events-none absolute inset-x-4 top-0 h-px bg-gradient-to-r from-transparent via-white/28 to-transparent" />
-                  <div className="relative">
-                    <p className="mt-body-copy text-[0.9rem] leading-[1.45] text-white/82">
-                      {activeService.description}
-                    </p>
-                  </div>
+                <div className="relative overflow-hidden rounded-[1.15rem] border border-white/16 bg-[linear-gradient(180deg,rgba(14,24,28,0.9),rgba(5,12,15,0.86))] px-4 py-3.5 shadow-[0_22px_60px_rgba(0,0,0,0.42),inset_0_1px_0_rgba(255,255,255,0.12)] backdrop-blur-[24px]">
+                  <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_0%,rgba(255,255,255,0.1),transparent_42%)]" />
+
+                  <p className="mt-body-copy relative text-[0.82rem] leading-[1.5] text-white/80">
+                    {service.description}
+                  </p>
                 </div>
-                <div className="mx-auto h-2.5 w-2.5 -translate-y-1.5 rotate-45 border-b border-r border-white/16 bg-[rgba(9,13,16,0.68)] backdrop-blur-[22px]" />
               </motion.div>
             )}
           </AnimatePresence>
-
-          <div className="mt-premium-glass flex flex-col gap-3 rounded-[22px] border border-[#C9A24A]/36 px-4 py-4 shadow-[0_28px_80px_rgba(0,0,0,0.3),inset_0_1px_0_rgba(255,255,255,0.05)] md:flex-row md:flex-wrap md:justify-center md:gap-x-4 md:gap-y-4 md:px-7 md:py-4">
-            {services.map((service, idx) => {
-              const Icon = service.icon
-              const active = activeIndex === idx
-
-              return (
-                <button
-                  key={service.label}
-                  type="button"
-                  onMouseEnter={() => setActiveIndex(idx)}
-                  onFocus={() => setActiveIndex(idx)}
-                  onClick={() => setActiveIndex(active ? null : idx)}
-                  className={`group relative flex w-full items-center justify-between rounded-2xl border px-5 py-4 transition-all duration-300 md:inline-flex md:w-auto md:justify-center md:rounded-full md:px-4 md:py-2 ${
-                    active
-                      ? 'border-[#C9A24A]/65 bg-[#C9A24A]/13 text-white shadow-[0_8px_28px_rgba(201,162,74,0.16)]'
-                      : 'border-transparent text-[#C9A24A] hover:border-[#C9A24A]/28 hover:bg-white/[0.035] hover:text-white'
-                  }`}
-                  aria-expanded={active}
-                >
-                  <div className="flex items-center gap-3">
-  <Icon
-    size={18}
-    className={`flex-shrink-0 transition-all duration-300 ${
-      active
-        ? 'scale-110 text-white'
-        : 'text-[#C9A24A] group-hover:scale-105 group-hover:text-white'
-    }`}
-  />
-
-  <div className="text-left">
-    <span className="mt-ui block text-[10px] font-medium tracking-[0.16em] md:text-[11px]">
-      {service.label}
-    </span>
-
-    <span className="mt-body-copy mt-1 block max-w-[15rem] text-[0.78rem] leading-[1.45] text-white/60 md:hidden">
-      {service.description}
-    </span>
+        </div>
+      )
+    })}
   </div>
 </div>
-
-<span className="text-[#C9A24A] md:hidden">→</span>
-
-{active && (
-  <motion.span
-    layoutId="service-active-dot"
-    className="absolute -bottom-1 left-1/2 hidden h-1 w-1 -translate-x-1/2 rounded-full bg-[#D4AF37] shadow-[0_0_12px_rgba(212,175,55,0.85)] md:block"
-  />
-)}
-                </button>
-              )
-            })}
-          </div>
-        </div>
       </div>
 
       <div className="pointer-events-none absolute inset-x-0 bottom-0 z-0 h-28 bg-gradient-to-b from-transparent via-[#03191D]/28 to-[#03191D]" />
