@@ -57,6 +57,35 @@ export default function ServicesStrip() {
 
       <div className="mt-services-scene mt-story-service-panel relative z-10 mx-auto max-w-7xl px-6 md:px-8">
         <div className="relative">
+  <div className="relative mb-3 min-h-[5.6rem] md:hidden">
+  <AnimatePresence mode="wait">
+    {activeService && (
+      <motion.div
+        key={activeService.label}
+        initial={
+          reduceMotion
+            ? { opacity: 1 }
+            : { opacity: 0, y: 8, scale: 0.96, filter: 'blur(7px)' }
+        }
+        animate={{ opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }}
+        exit={{ opacity: 0, y: 5, scale: 0.97, filter: 'blur(5px)' }}
+        transition={{
+          duration: reduceMotion ? 0 : 0.34,
+          ease: [0.22, 1, 0.36, 1],
+        }}
+        className="pointer-events-none absolute inset-x-0 top-0 z-40 mx-auto w-full"
+      >
+        <div className="relative overflow-hidden rounded-[1rem] border border-white/14 bg-[linear-gradient(180deg,rgba(10,25,29,0.88),rgba(4,15,18,0.84))] px-4 py-3 shadow-[0_18px_45px_rgba(0,0,0,0.34),inset_0_1px_0_rgba(255,255,255,0.1)] backdrop-blur-[22px]">
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_0%,rgba(255,255,255,0.09),transparent_45%)]" />
+
+          <p className="mt-body-copy relative text-[0.8rem] leading-[1.5] text-white/78">
+            {activeService.description}
+          </p>
+        </div>
+      </motion.div>
+    )}
+  </AnimatePresence>
+</div>
   <div className="grid grid-cols-3 gap-2 md:flex md:flex-wrap md:justify-center md:gap-4">
     {services.map((service, idx) => {
       const Icon = service.icon
@@ -122,7 +151,7 @@ export default function ServicesStrip() {
                 animate={{ opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }}
                 exit={{ opacity: 0, y: 6, scale: 0.96, filter: 'blur(6px)' }}
                 transition={{ duration: reduceMotion ? 0 : 0.36, ease: [0.22, 1, 0.36, 1] }}
-                className="pointer-events-none absolute left-1/2 top-[calc(100%+0.65rem)] z-40 w-[min(17rem,78vw)] -translate-x-1/2 md:bottom-[calc(100%+0.8rem)] md:top-auto"
+                className="pointer-events-none absolute left-1/2 hidden w-[min(17rem,78vw)] -translate-x-1/2 md:bottom-[calc(100%+0.8rem)] md:z-40 md:block"
               >
                 <div className="relative overflow-hidden rounded-[1.15rem] border border-white/16 bg-[linear-gradient(180deg,rgba(14,24,28,0.9),rgba(5,12,15,0.86))] px-4 py-3.5 shadow-[0_22px_60px_rgba(0,0,0,0.42),inset_0_1px_0_rgba(255,255,255,0.12)] backdrop-blur-[24px]">
                   <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_0%,rgba(255,255,255,0.1),transparent_42%)]" />
