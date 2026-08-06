@@ -1181,46 +1181,24 @@ const toggleLight = () => {
 />
 </button>
 
-        {/* Carved wall instruction beside the pull chain */}
-        <motion.div
-          aria-hidden="true"
-          className="pointer-events-none absolute right-[4.6rem] top-[5.8rem] z-[70] select-none md:right-[4.8rem] md:top-[8.6rem]"
-          animate={
-            prefersReducedMotion
-              ? undefined
-              : lightPhase === "off"
-                ? { opacity: [0.5, 0.82, 0.5] }
-                : { opacity: 0.0 }
-          }
-          transition={
-            prefersReducedMotion
-              ? undefined
-              : lightPhase === "off"
-                ? { duration: 2.8, repeat: Infinity, ease: "easeInOut" }
-                : { duration: 0.35 }
-          }
-          style={{
-            transform: "rotate(-5deg)",
-            color: "rgba(210, 183, 142, 0.64)",
-            textShadow:
-              "0 1px 0 rgba(255,235,198,.08), 0 -1px 0 rgba(0,0,0,.72), 1px 0 0 rgba(0,0,0,.42)",
-            filter: "drop-shadow(0 2px 2px rgba(0,0,0,.32))",
-          }}
-        >
-          <div className="relative rounded-full border border-[#d8b873]/22 bg-black/25 px-3.5 py-2 shadow-[0_12px_30px_rgba(0,0,0,0.28)] backdrop-blur-md">
-  <p className="mt-display-soft whitespace-nowrap text-[0.88rem] italic tracking-[0.04em] text-[#e1c582]/85 md:text-[1rem]">
-    Pull the chain
-  </p>
+        {/* Pull-chain instruction */}
+<motion.div
+  aria-hidden="true"
+  className="pointer-events-none absolute left-8 top-[10.8rem] z-[70] select-none md:left-auto md:right-[4.8rem] md:top-[8.6rem]"
+  animate={{ opacity: lightPhase === "off" ? 1 : 0 }}
+  transition={{ duration: 0.35 }}
+>
+  <div className="flex flex-col items-start md:items-end">
+    <span className="mt-display-soft whitespace-nowrap text-[1rem] italic tracking-[0.04em] text-[#D9B76A]/92">
+      Pull the chain
+    </span>
 
-  <motion.span
-    animate={prefersReducedMotion ? undefined : { x: [0, 5, 0], rotate: [8, 16, 8] }}
-    transition={{ duration: 1.7, repeat: Infinity, ease: 'easeInOut' }}
-    className="absolute -right-5 top-1/2 -translate-y-1/2 text-[1rem] text-[#d8b873]/75"
-  >
-    ↗
-  </motion.span>
-</div>
-        </motion.div>
+    <div className="mt-1 flex items-center">
+      <div className="h-px w-24 bg-[#D9B76A]/65" />
+      <span className="ml-1 text-[0.82rem] text-[#D9B76A]/72">►</span>
+    </div>
+  </div>
+</motion.div>
 
         <h2 id="services-board-title" className="sr-only">
           MadrasTrails services inspiration board

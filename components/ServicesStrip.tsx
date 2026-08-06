@@ -70,7 +70,9 @@ export default function ServicesStrip() {
   if (event.pointerType === 'mouse') setActiveIndex(idx)
 }}
             onFocus={() => setActiveIndex(idx)}
-            onClick={() => setActiveIndex(active ? null : idx)}
+            onClick={() => {
+  setActiveIndex((current) => (current === idx ? null : idx))
+}}
             whileTap={
               reduceMotion
                 ? undefined
