@@ -80,7 +80,7 @@ export default function ServicesStrip() {
                     borderRadius: '38%',
                   }
             }
-            className={`relative flex min-h-[3.35rem] w-full items-center justify-center gap-2 overflow-hidden rounded-[0.9rem] border px-3 py-2 text-center backdrop-blur-[10px] transition-all duration-300 before:pointer-events-none before:absolute before:inset-x-3 before:top-0 before:h-px before:bg-gradient-to-r before:from-transparent before:via-white/35 before:to-transparent after:pointer-events-none after:absolute after:inset-0 after:bg-[linear-gradient(112deg,transparent_28%,rgba(255,255,255,0.07)_50%,transparent_72%)] md:min-h-0 md:w-auto md:rounded-full md:px-5 md:py-2.5 ${
+            className={`relative flex min-h-[2.8rem] w-full items-center justify-center gap-2 overflow-hidden rounded-[0.8rem] border px-3 py-1.5 text-center backdrop-blur-[10px] transition-all duration-300 before:pointer-events-none before:absolute before:inset-x-3 before:top-0 before:h-px before:bg-gradient-to-r before:from-transparent before:via-white/35 before:to-transparent after:pointer-events-none after:absolute after:inset-0 after:bg-[linear-gradient(112deg,transparent_28%,rgba(255,255,255,0.07)_50%,transparent_72%)] md:min-h-0 md:w-auto md:rounded-full md:px-5 md:py-2.5 ${
   active
     ? 'border-[#D4AF37]/58 bg-[#D4AF37]/[0.045] text-white shadow-[0_8px_24px_rgba(201,162,74,0.12),inset_0_1px_0_rgba(255,255,255,0.14)]'
     : 'border-white/12 bg-white/[0.015] text-[#D4AF37] shadow-[0_6px_20px_rgba(0,0,0,0.15),inset_0_1px_0_rgba(255,255,255,0.07)] hover:border-[#D4AF37]/32 hover:bg-white/[0.035] hover:text-white'
@@ -100,13 +100,13 @@ export default function ServicesStrip() {
             />
 
             <Icon
-              size={17}
+              size={19}
               className={`relative z-10 transition-all duration-300 ${
                 active ? 'scale-110 text-white' : 'text-[#C9A24A]'
               }`}
             />
 
-            <span className="mt-ui relative z-10 text-[8px] font-medium tracking-[0.13em] md:text-[11px]">
+            <span className="mt-ui relative z-10 text-[10px] font-semibold tracking-[0.12em] md:text-[11px]">
               {service.label}
             </span>
           </motion.button>

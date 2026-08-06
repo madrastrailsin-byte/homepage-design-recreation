@@ -1189,7 +1189,7 @@ const toggleLight = () => {
   transition={{ duration: 0.35 }}
 >
   <div className="flex items-center">
-  <span className="whitespace-nowrap font-['Crimes_Times_Six'] text-[1rem] tracking-[0.08em] text-[#d8b873]/88 md:text-[1.15rem]">
+  <span className="whitespace-nowrap font-[var(--font-crimes-times-six)] text-[1rem] tracking-[0.08em] text-[#d8b873]/88 md:text-[1.15rem]">
     Pull the chain
   </span>
 

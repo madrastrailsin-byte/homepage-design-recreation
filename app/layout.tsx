@@ -1,6 +1,7 @@
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
 import { Catamaran, Cormorant_Garamond, Satisfy } from 'next/font/google'
+import localFont from 'next/font/local'
 import './globals.css'
 
 const catamaran = Catamaran({
@@ -21,6 +22,12 @@ const signature = Satisfy({
   variable: '--font-signature',
   subsets: ['latin'],
   weight: ['400'],
+  display: 'swap',
+})
+
+const crimesTimesSix = localFont({
+  src: '../public/fonts/CrimesTimesSix.ttf',
+  variable: '--font-crimes-times-six',
   display: 'swap',
 })
 
@@ -90,7 +97,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${catamaran.variable} ${cormorantGaramond.variable} ${signature.variable} min-h-full w-full max-w-none overflow-x-hidden rounded-none border-0 bg-[#071B24] shadow-none`}
+      className={`${catamaran.variable} ${cormorantGaramond.variable} ${signature.variable} ${crimesTimesSix.variable} min-h-full w-full max-w-none overflow-x-hidden rounded-none border-0 bg-[#071B24] shadow-none`}
     >
       <body className="m-0 min-h-full w-full max-w-none overflow-x-hidden rounded-none border-0 bg-[#071B24] p-0 font-sans antialiased shadow-none">
         {children}
