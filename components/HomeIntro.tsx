@@ -21,38 +21,41 @@ export default function HomeIntro() {
   const [messageIndex, setMessageIndex] = useState(0)
   const [hasArrived, setHasArrived] = useState(false)
 
-  useEffect(() => {
+    useEffect(() => {
     const seen = window.sessionStorage.getItem(SESSION_KEY)
+    const isMobile = window.matchMedia('(max-width: 767px)').matches
 
-    if (prefersReducedMotion || seen) {
+    if (isMobile || prefersReducedMotion || seen) {
       const skipTimer = window.setTimeout(() => setVisible(false), 0)
       return () => window.clearTimeout(skipTimer)
     }
 
     window.sessionStorage.setItem(SESSION_KEY, 'true')
-const messageTimer = window.setInterval(() => {
-  setMessageIndex((current) => {
-    if (current >= loadingMessages.length - 1) {
-      window.clearInterval(messageTimer)
-      return current
-    }
 
-    return current + 1
-  })
-}, 2000)
+    const messageTimer = window.setInterval(() => {
+      setMessageIndex((current) => {
+        if (current >= loadingMessages.length - 1) {
+          window.clearInterval(messageTimer)
+          return current
+        }
+
+        return current + 1
+      })
+    }, 2000)
+
     const arrivalTimer = window.setTimeout(() => {
-  setHasArrived(true)
-}, 8000)
+      setHasArrived(true)
+    }, 8000)
+
     const hideTimer = window.setTimeout(() => {
-  setVisible(false)
-}, 9500)
-    
+      setVisible(false)
+    }, 9500)
 
     return () => {
-  window.clearTimeout(arrivalTimer)
-  window.clearTimeout(hideTimer)
-  window.clearInterval(messageTimer)
-}
+      window.clearTimeout(arrivalTimer)
+      window.clearTimeout(hideTimer)
+      window.clearInterval(messageTimer)
+    }
   }, [prefersReducedMotion])
 
   return (
@@ -68,7 +71,7 @@ const messageTimer = window.setInterval(() => {
             duration: 1.4,
             ease: [0.22, 1, 0.36, 1],
           }}
-          className="fixed inset-0 z-[9999] overflow-hidden bg-[#010607]"
+          className="fixed inset-0 z-[9999] hidden overflow-hidden bg-[#010607] md:block"
         >
           <IntroBackground />
 
