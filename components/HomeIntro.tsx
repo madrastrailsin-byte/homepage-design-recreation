@@ -40,15 +40,12 @@ const messageTimer = window.setInterval(() => {
     return current + 1
   })
 }, 2000)
-    const isMobile = window.matchMedia('(max-width: 767px)').matches
-
-const arrivalTimer = window.setTimeout(() => {
+    const arrivalTimer = window.setTimeout(() => {
   setHasArrived(true)
-}, isMobile ? 2600 : 8000)
-
-const hideTimer = window.setTimeout(() => {
+}, 8000)
+    const hideTimer = window.setTimeout(() => {
   setVisible(false)
-}, isMobile ? 3200 : 9500)
+}, 9500)
     
 
     return () => {
@@ -123,7 +120,7 @@ animate={{ opacity: 1, y: 0 }}
   initial={{ width: '0%' }}
   animate={{ width: '100%' }}
   transition={{
-    duration: typeof window !== 'undefined' && window.matchMedia('(max-width: 767px)').matches ? 2.6 : 8,
+    duration: 8,
     ease: 'linear',
   }}
 >
