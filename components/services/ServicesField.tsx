@@ -1184,19 +1184,19 @@ const toggleLight = () => {
         {/* Pull-chain instruction */}
 <motion.div
   aria-hidden="true"
-  className="pointer-events-none absolute right-[3.7rem] top-[6.6rem] z-[70] select-none md:right-[4.8rem] md:top-[8.6rem]"
+  className="pointer-events-none absolute right-[3.3rem] top-[2.8rem] z-[70] select-none md:right-[4.8rem] md:top-[8.6rem]"
   animate={{ opacity: lightPhase === "off" ? 1 : 0 }}
   transition={{ duration: 0.35 }}
 >
   <div className="flex items-center">
-    <span className="font-['Crimes_Times_Six'] whitespace-nowrap text-[0.82rem] tracking-[0.08em] text-[#d8b873]/82 md:text-[1rem]">
-      Pull the chain
-    </span>
+  <span className="whitespace-nowrap font-['Crimes_Times_Six'] text-[1rem] tracking-[0.08em] text-[#d8b873]/88 md:text-[1.15rem]">
+    Pull the chain
+  </span>
 
-    <span className="ml-3 h-px w-12 bg-[#d8b873]/55 md:w-16" />
+  <span className="ml-3 h-px w-12 bg-gradient-to-r from-[#d8b873]/55 to-transparent md:w-16" />
 
-    <span className="ml-1 text-[0.72rem] text-[#d8b873]/72">►</span>
-  </div>
+  <span className="ml-1 h-2 w-2 rotate-45 border-r border-t border-[#d8b873]/70" />
+</div>
 </motion.div>
 
         <h2 id="services-board-title" className="sr-only">
