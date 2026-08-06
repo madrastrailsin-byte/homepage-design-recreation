@@ -101,7 +101,7 @@ export default function Hero() {
           <video
             ref={videoRef}
             className="mt-hero-video h-[calc(100%+2rem)] w-[calc(100%+2.5rem)] object-cover object-[58%_center] md:object-center"
-            src="/videos/hero.mp4"
+            src="/videos/hero-optimized-720p.mp4"
             autoPlay
             muted
             loop
