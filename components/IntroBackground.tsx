@@ -4,7 +4,7 @@ export default function IntroBackground() {
   return (
     <>
       <img
-        src="/images/intro-madras-central.png"
+        src="/images/intro-madras-central.webp"
         alt=""
         className="absolute inset-0 h-full w-full object-cover scale-100 animate-[introZoom_5s_ease-out_forwards]"
       />

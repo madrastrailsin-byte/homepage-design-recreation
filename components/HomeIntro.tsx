@@ -191,7 +191,7 @@ animate={{ left: 'calc(100% - 56px)' }}
   }
 >
     <Image
-      src="/images/intro-train.png"
+      src="/images/intro-train.webp"
       alt=""
       width={52}
       height={28}
