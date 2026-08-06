@@ -30,7 +30,7 @@ const Globe3D = dynamic(loadGlobe3D, {
   ssr: false,
   loading: () => (
     <div
-      className="h-full w-full bg-[#020810] bg-[url('/backgrounds/stars.1fd005ddd6d5.jpg')] bg-cover bg-center"
+      className="h-full w-full bg-[#020810] bg-[url('/backgrounds/stars-optimized.webp')] bg-cover bg-center"
       aria-label="Loading globe"
     />
   ),

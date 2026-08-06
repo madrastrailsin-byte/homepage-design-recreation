@@ -10,7 +10,7 @@ const destinations = [
     name: 'Italy',
     slug: 'italy',
     label: 'Discover',
-    image: '/images/destinations/italy/italy-amalfi-coast.webp',
+    image: '/images/destinations/italy/italy-amalfi-coast-optimized.webp',
     objectPosition: 'center 45%',
   },
   {

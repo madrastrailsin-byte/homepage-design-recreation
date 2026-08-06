@@ -24,7 +24,7 @@ const destination: Destination = {
   timeDifference: "3h 30m behind India",
   currency: "EUR",
   flag: "🇮🇹",
-  image: "/images/destinations/italy/italy-amalfi-coast.webp",
+  image: "/images/destinations/italy/italy-amalfi-coast-optimized.webp",
 
   discover: {
     intro:

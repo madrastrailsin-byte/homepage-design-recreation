@@ -122,7 +122,7 @@ export const destinationMetadata: DestinationMetadata[] = [
     markerColor: GOLD_MARKER,
     flag: "🇮🇹",
     tagline: "Where beauty is not preserved—it is lived.",
-    image: "/images/destinations/italy/italy-amalfi-coast.webp",
+    image: "/images/destinations/italy/italy-amalfi-coast-optimized.webp",
     bestSeason: "Apr–Jun · Sep–Oct",
   },
   {

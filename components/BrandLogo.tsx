@@ -9,7 +9,7 @@ export default function BrandLogo({ priority = false, imageClassName = 'h-11 w-a
   return (
     <span className="inline-flex items-start">
       <Image
-        src="/images/madras-trails-logo.png"
+        src="/images/madras-trails-logo-small.webp"
         alt="MadrasTrails"
         width={188}
         height={37}

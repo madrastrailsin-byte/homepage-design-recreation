@@ -36,7 +36,7 @@ const budgetOptions: BudgetOption[] = [
     description: 'Distinctive journeys with elevated inclusions.',
     selectedLine:
       'A considered balance of distinctive stays and memorable experiences.',
-    image: '/images/home/hotels/soneva-fushi.jpg',
+    image: '/images/home/hotels/soneva-fushi-optimized.webp',
   },
   {
     id: 'prestige',

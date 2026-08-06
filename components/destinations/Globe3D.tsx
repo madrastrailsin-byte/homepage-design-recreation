@@ -184,7 +184,7 @@ function SceneSetup() {
 
 function StarBackground() {
   const { scene } = useThree()
-  const sourceTexture = useLoader(THREE.TextureLoader, '/backgrounds/stars.1fd005ddd6d5.jpg')
+  const sourceTexture = useLoader(THREE.TextureLoader, '/backgrounds/stars-optimized.webp')
   const texture = useMemo(() => {
     const configuredTexture = sourceTexture.clone()
     configuredTexture.mapping = THREE.EquirectangularReflectionMapping
@@ -887,7 +887,7 @@ function NasaEarth({
 
   const daySource = useLoader(
     THREE.TextureLoader,
-    '/textures/earth_day_8k.012cce75a3f8.png',
+    '/textures/earth-day-4k.webp',
   )
   const dayTex = useMemo(() => {
     const configuredTexture = daySource.clone()

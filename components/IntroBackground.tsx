@@ -3,21 +3,17 @@
 export default function IntroBackground() {
   return (
     <>
-      <img
-        src="/images/intro-madras-central.webp"
-        alt=""
-        className="absolute inset-0 h-full w-full object-cover scale-100 animate-[introZoom_5s_ease-out_forwards]"
-      />
-
-      <div className="absolute inset-0 bg-black/18" />
-
-      <div
-        className="absolute inset-0 opacity-[0.05] mix-blend-soft-light"
-        style={{
-          backgroundImage:
-            "url('https://www.transparenttextures.com/patterns/asfalt-dark.png')",
-        }}
-      />
+      <picture>
+  <source
+    media="(min-width: 768px)"
+    srcSet="/images/intro-madras-central.webp"
+  />
+  <img
+    src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs="
+    alt=""
+    className="absolute inset-0 h-full w-full scale-100 object-cover animate-[introZoom_5s_ease-out_forwards]"
+  />
+</picture>
 
       <style jsx global>{`
         @keyframes introZoom {

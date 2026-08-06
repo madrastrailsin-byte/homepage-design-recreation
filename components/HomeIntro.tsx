@@ -86,7 +86,7 @@ animate={{ opacity: 1, y: 0 }}
   className="absolute bottom-14 right-6 z-20 flex flex-col items-end sm:bottom-16 sm:right-10"
 >
   <Image
-    src="/images/logo.png"
+    src="/images/logo-small.webp"
     alt="MadrasTrails"
     width={180}
     height={70}

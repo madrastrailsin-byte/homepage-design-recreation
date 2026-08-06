@@ -5,8 +5,8 @@ import Navigation from '@/components/Navigation'
 import DestinationsPage from '@/components/DestinationsPage'
 
 const INITIAL_GLOBE_TEXTURES = [
-  '/backgrounds/stars.1fd005ddd6d5.jpg',
-  '/textures/earth_day_8k.012cce75a3f8.png',
+  '/backgrounds/stars-optimized.webp',
+'/textures/earth-day-4k.webp',
 ] as const
 
 export const metadata: Metadata = {
