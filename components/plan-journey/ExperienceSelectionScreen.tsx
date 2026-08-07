@@ -510,7 +510,7 @@ export default function ExperienceSelectionScreen({
                   animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
                   exit={{ opacity: 0, y: -5 }}
                   transition={{ duration: 0.42, ease: easing }}
-                  className="line-clamp-2 font-serif text-xl italic leading-snug text-white/78"
+                  className="font-serif text-[1.05rem] italic leading-[1.45] text-white/78 sm:text-xl sm:leading-snug"
                 >
                   {summaryLine}
                 </motion.p>
@@ -518,7 +518,7 @@ export default function ExperienceSelectionScreen({
             </div>
 
             {panelFooter ? (
-              <p className="mt-3 text-[10px] font-light leading-relaxed tracking-[0.025em] text-white/36">
+              <p className="mt-5 text-[10px] font-light leading-relaxed tracking-[0.025em] text-white/36 sm:mt-3">
                 {panelFooter}
               </p>
             ) : null}

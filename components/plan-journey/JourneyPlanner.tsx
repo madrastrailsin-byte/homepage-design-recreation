@@ -161,11 +161,19 @@ const [step, setStep] = useState(country ? 2 : 1)
       .call(
         () => {
           flushSync(() => {
-            setOutgoingStep(step)
-            setStep(nextStep)
-          })
+  setOutgoingStep(step)
+  setStep(nextStep)
+})
 
-          const incomingContent = screenContentRefs.current[nextStep]
+if (window.matchMedia('(max-width: 767px)').matches) {
+  window.scrollTo({
+    top: 0,
+    left: 0,
+    behavior: 'instant',
+  })
+}
+
+const incomingContent = screenContentRefs.current[nextStep]
           if (!incomingContent) return
 
           gsap.set(incomingContent, {

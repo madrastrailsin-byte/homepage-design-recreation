@@ -136,7 +136,7 @@ export default function DestinationsPage() {
           {selectedDestinationDetails ? (
             <motion.div
               key={selectedDestinationDetails.id}
-              className="absolute inset-x-[clamp(1rem,5vw,1.5rem)] bottom-[128px] h-[clamp(15.5rem,34vh,20rem)] max-w-[430px] md:bottom-[140px] md:mx-auto md:h-[clamp(18rem,36vh,22rem)] lg:bottom-5 lg:left-auto lg:right-6 lg:top-[112px] lg:mx-0 lg:h-auto lg:w-[320px] lg:max-w-none"
+              className="absolute inset-x-[clamp(1rem,5vw,1.5rem)] bottom-[4.75rem] h-[clamp(13.75rem,29svh,16.5rem)] max-w-[430px] md:bottom-[140px] md:mx-auto md:h-[clamp(18rem,36vh,22rem)] lg:bottom-5 lg:left-auto lg:right-6 lg:top-[112px] lg:mx-0 lg:h-auto lg:w-[320px] lg:max-w-none"
               style={{ zIndex: 30 }}
               initial={
                 prefersReducedMotion

@@ -54,7 +54,7 @@ export default function OurStoryPage() {
 
   return (
     <div ref={pageRef} className="relative overflow-hidden bg-[#03191D] text-[#FAFAF9]">
-      <section className="relative flex min-h-screen items-end overflow-hidden px-6 pb-16 pt-28 md:px-8 md:pb-20">
+      <section className="relative flex min-h-screen items-end overflow-hidden px-6 pb-28 pt-24 md:px-8 md:pb-20 md:pt-28">
         <video
           className="absolute inset-0 h-full w-full object-cover"
           src="/videos/our-story-hero.mp4"
