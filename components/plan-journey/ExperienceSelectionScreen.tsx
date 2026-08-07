@@ -498,7 +498,7 @@ export default function ExperienceSelectionScreen({
               </AnimatePresence>
             </div>
 
-            <div className="border-t border-[#D4AF37]/18 pt-5">
+            <div className={`border-t border-[#D4AF37]/18 pt-5 ${atLimit ? 'pb-8 sm:pb-0' : ''}`}>
               <AnimatePresence mode="wait">
                 <motion.p
                   key={summaryLine}
@@ -529,7 +529,7 @@ export default function ExperienceSelectionScreen({
                   initial={{ opacity: 0, y: 5 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 5 }}
-                  className="absolute bottom-5 left-5 right-5 text-[9px] uppercase tracking-[0.14em] text-[#D4AF37]/65"
+                  className="absolute bottom-4 left-5 right-5 text-[8px] uppercase leading-relaxed tracking-[0.12em] text-[#D4AF37]/65 sm:bottom-5 sm:text-[9px] sm:tracking-[0.14em]"
                 >
                   {limitMessage}
                 </motion.p>
