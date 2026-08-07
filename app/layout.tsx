@@ -31,6 +31,18 @@ const crimesTimesSix = localFont({
   display: 'swap',
 })
 
+const ruthligos = localFont({
+  src: '../public/fonts/ruthligos.ttf',
+  variable: '--font-ruthligos',
+  display: 'swap',
+})
+
+const amalfiCoast = localFont({
+  src: '../public/fonts/amalfi-coast.ttf',
+  variable: '--font-amalfi-coast',
+  display: 'swap',
+})
+
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.madrastrails.in'),
 
@@ -97,7 +109,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${catamaran.variable} ${cormorantGaramond.variable} ${signature.variable} ${crimesTimesSix.variable} min-h-full w-full max-w-none overflow-x-hidden rounded-none border-0 bg-[#071B24] shadow-none`}
+      className={`${catamaran.variable} ${cormorantGaramond.variable} ${signature.variable} ${crimesTimesSix.variable} ${ruthligos.variable} ${amalfiCoast.variable} min-h-full w-full max-w-none overflow-x-hidden rounded-none border-0 bg-[#071B24] shadow-none`}
     >
       <body className="m-0 min-h-full w-full max-w-none overflow-x-hidden rounded-none border-0 bg-[#071B24] p-0 font-sans antialiased shadow-none">
         {children}

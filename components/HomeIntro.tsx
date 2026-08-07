@@ -41,15 +41,15 @@ export default function HomeIntro() {
 
         return current + 1
       })
-    }, 2000)
+    }, 1100)
 
     const arrivalTimer = window.setTimeout(() => {
-      setHasArrived(true)
-    }, 8000)
+  setHasArrived(true)
+}, 7000)
 
     const hideTimer = window.setTimeout(() => {
       setVisible(false)
-    }, 9500)
+    }, 8000)
 
     return () => {
       window.clearTimeout(arrivalTimer)
@@ -68,13 +68,50 @@ export default function HomeIntro() {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{
-            duration: 1.4,
-            ease: [0.22, 1, 0.36, 1],
-          }}
+  duration: 0.65,
+  ease: [0.22, 1, 0.36, 1],
+}}
           className="fixed inset-0 z-[9999] hidden overflow-hidden bg-[#010607] md:block"
         >
           <IntroBackground />
 
+{/* Quiet editorial moment in the main image */}
+<motion.div
+  className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center"
+  initial={{
+  opacity: 0,
+  y: 14,
+  scale: 0.99,
+  filter: 'blur(8px)',
+}}
+animate={{
+  opacity: [0, 1, 1, 0],
+  y: [14, 0, 0, -4],
+  scale: [0.99, 1, 1, 1.01],
+  filter: [
+    'blur(8px)',
+    'blur(0px)',
+    'blur(0px)',
+    'blur(8px)',
+  ],
+}}
+transition={{
+  delay: 1,
+  duration: 14,
+  times: [0, 0.2857, 0.8571, 1],
+  ease: [0.22, 1, 0.36, 1],
+}}
+>
+  <div className="text-center">
+    <p className="mt-eyebrow text-[10px] tracking-[0.38em] text-[#D4AF37]/80">
+      MADRASTRAILS
+    </p>
+
+    <p className="mt-display mt-3 text-[clamp(2rem,4vw,4.25rem)] italic leading-none text-[#F6E8C3]/90">
+      Every journey begins somewhere.
+    </p>
+  </div>
+</motion.div>
 <motion.div
   initial={{ opacity: 0, y: 12 }}
 animate={{ opacity: 1, y: 0 }}
@@ -123,7 +160,7 @@ animate={{ opacity: 1, y: 0 }}
   initial={{ width: '0%' }}
   animate={{ width: '100%' }}
   transition={{
-    duration: 8,
+    duration: 7,
     ease: 'linear',
   }}
 >
@@ -163,7 +200,7 @@ animate={{ opacity: 1, y: 0 }}
   initial={{ left: '0%' }}
 animate={{ left: 'calc(100% - 56px)' }}
   transition={{
-  duration: 8,
+  duration: 7,
   ease: 'linear',
 }}
 >

@@ -5,12 +5,7 @@ import Image from 'next/image'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useReducedMotion } from 'framer-motion'
-import { Qwigley } from "next/font/google";
 
-export const qwigley = Qwigley({
-  subsets: ["latin"],
-  weight: "400",
-});
 
 export default function OurStoryPage() {
   const pageRef = useRef<HTMLDivElement>(null)
@@ -96,8 +91,8 @@ aria-hidden="true"
         <div className="relative mx-auto grid max-w-7xl items-center gap-10 lg:grid-cols-[1.08fr_0.92fr] lg:gap-16">
           <div data-reveal className="relative min-h-[32rem] overflow-hidden rounded-[2rem]">
             <Image
-              src="/images/archive/not-used/founder-route-table.png"
-              alt="MadrasTrails founders shaping a journey"
+              src="/images/our-story/philosophy-local-connection.webp"
+              alt="Local artisan shaping clay on a traditional pottery wheel"
               fill
               sizes="(min-width: 1024px) 56vw, 100vw"
               className="object-cover"
@@ -170,7 +165,7 @@ aria-hidden="true"
                 </div>
 
                 <div className="mt-7 text-center">
-                  <h3 className={`${qwigley.className} text-[3.5rem] leading-none text-[#FAFAF9] md:text-[5rem]`}>
+                  <h3 className="font-[family-name:var(--font-ruthligos)] text-[3.5rem] leading-none text-[#FAFAF9] md:text-[5rem]">
   Geetha Solomon
 </h3>
                   <p className="mt-ui mt-3 text-[10px] font-medium tracking-[0.22em] text-[#D8C08A]">
@@ -202,8 +197,8 @@ aria-hidden="true"
                 </div>
 
                 <div className="mt-7 text-center">
-                  <h3 className={`${qwigley.className} text-[3.5rem] leading-none text-[#FAFAF9] md:text-[5rem]`}>
-  Gideon Solomon
+                  <h3 className="font-[family-name:var(--font-amalfi-coast)] text-[3.5rem] leading-none text-[#FAFAF9] md:text-[5rem]">
+  Gideon R. Solomon
 </h3>
                   <p className="mt-ui mt-3 text-[10px] font-medium tracking-[0.22em] text-[#D8C08A]">
                     FOUNDER &amp; CHIEF JOURNEY ARCHITECT
