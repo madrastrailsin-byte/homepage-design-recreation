@@ -165,13 +165,11 @@ export default function DestinationHero({ children }: DestinationHeroProps) {
         initial="hidden"
         animate="visible"
 >
-  The World
-  <br />
-  Awaits
+  The World Awaits
 </motion.h1>
 
         <motion.div
-          className="flex items-center gap-3 mb-5"
+          className="flex items-center justify-center gap-3 mb-3 md:justify-start md:mb-5"
           custom={2}
           variants={LINE}
           initial="hidden"

@@ -134,7 +134,7 @@ export default function DestinationsPage() {
       `}</style>
       <DestinationHero>
         <div
-          className="absolute inset-x-0 bottom-[clamp(20.5rem,37svh,22rem)] top-[8.4rem] sm:inset-x-[-8vw] sm:bottom-[clamp(21rem,37svh,24rem)] sm:top-[clamp(10.7rem,18svh,11.5rem)] md:inset-x-[-6vw] md:bottom-[clamp(23rem,38svh,26rem)] md:top-[clamp(11rem,17svh,11.9rem)] lg:inset-0"
+          className="absolute inset-x-[-4vw] bottom-[clamp(20.5rem,37svh,22rem)] top-[8.2rem] sm:inset-x-[-8vw] sm:bottom-[clamp(21rem,37svh,24rem)] sm:top-[clamp(10.7rem,18svh,11.5rem)] md:inset-x-[-6vw] md:bottom-[clamp(23rem,38svh,26rem)] md:top-[clamp(11rem,17svh,11.9rem)] lg:inset-0"
           style={{ zIndex: 10 }}
         >
           <Globe3D
@@ -148,7 +148,7 @@ export default function DestinationsPage() {
           {selectedDestinationDetails ? (
             <motion.div
               key={selectedDestinationDetails.id}
-              className="absolute inset-x-[clamp(0.85rem,4vw,1.25rem)] bottom-[8.2rem] h-[15.75rem] max-w-[430px] md:bottom-[140px] md:mx-auto md:h-[clamp(18rem,36vh,22rem)] lg:bottom-5 lg:left-auto lg:right-6 lg:top-[112px] lg:mx-0 lg:h-auto lg:w-[320px] lg:max-w-none"
+              className="absolute inset-x-[clamp(0.85rem,4vw,1.25rem)] bottom-[8.6rem] h-[15.75rem] max-w-[430px] md:bottom-[140px] md:mx-auto md:h-[clamp(18rem,36vh,22rem)] lg:bottom-5 lg:left-auto lg:right-6 lg:top-[112px] lg:mx-0 lg:h-auto lg:w-[320px] lg:max-w-none"
               style={{ zIndex: 30 }}
               initial={
                 prefersReducedMotion
