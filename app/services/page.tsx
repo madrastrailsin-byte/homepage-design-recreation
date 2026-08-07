@@ -27,19 +27,16 @@ export default function ServicesPage() {
 
       <section className="relative flex min-h-[100svh] items-center overflow-hidden px-6 pb-12 pt-28 md:px-8 md:pb-14 lg:px-10">
         <video
-          className="mt-services-hero-video absolute inset-0 h-full w-full object-cover opacity-[0.8] saturate-[1.05]"
-          style={{ objectPosition: 'center center' }}
-          src="/videos/services/hero.058e56fde19b.mp4"
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="auto"
-onCanPlay={(event) => {
-  void event.currentTarget.play().catch(() => undefined)
-}}
-aria-hidden="true"
-        />
+  className="mt-services-hero-video absolute inset-0 h-full w-full object-cover opacity-[0.8] saturate-[1.05]"
+  style={{ objectPosition: 'center center' }}
+  src="/videos/services/hero.058e56fde19b.mp4"
+  autoPlay
+  muted
+  loop
+  playsInline
+  preload="auto"
+  aria-hidden="true"
+/>
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_22%_72%,rgba(13,76,92,0.34),transparent_38%),radial-gradient(ellipse_at_76%_22%,rgba(212,175,55,0.1),transparent_30%),radial-gradient(ellipse_at_center,transparent_34%,rgba(2,15,18,0.58)_100%),linear-gradient(180deg,rgba(2,15,18,0.22),rgba(2,15,18,0.58))]" />
 
         <div className="relative z-10 mx-auto w-full max-w-7xl">
