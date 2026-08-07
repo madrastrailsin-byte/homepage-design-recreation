@@ -123,7 +123,7 @@ export default function Hero() {
   <div className="mt-hero-kenburns relative h-full w-full">
     {videoFailed && (
       <Image
-        src="/images/homepage/experiences/experience-mountain-landscape.jpg"
+        src="/images/homepage/experiences/experience-mountain-landscape-optimized.webp"
         alt=""
         fill
         priority
