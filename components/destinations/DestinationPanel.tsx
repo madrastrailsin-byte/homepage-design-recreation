@@ -196,7 +196,7 @@ export default function DestinationPanel({
       </motion.header>
 
       <motion.div
-        className="relative z-10 mt-4 overflow-hidden rounded-[18px] border border-[#D4AF37]/20"
+        className="relative z-10 mt-4 hidden overflow-hidden rounded-[18px] border border-[#D4AF37]/20 md:block"
         initial={prefersReducedMotion ? false : { opacity: 0, y: 22, scale: 0.98 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ duration: 0.68, delay: 0.16, ease: [0.22, 1, 0.36, 1] }}
@@ -274,7 +274,7 @@ export default function DestinationPanel({
         </motion.div>
       </motion.div>
 
-      <div className="relative z-10 mt-3 grid grid-cols-4 gap-1.5 md:mt-4 md:gap-2">
+      <div className="relative z-10 mt-4 grid grid-cols-4 gap-1.5 md:gap-2">
         {info.map((item, index) => (
           <motion.div
             key={item.label}
@@ -298,7 +298,7 @@ export default function DestinationPanel({
       </div>
 
       <motion.div
-        className="relative z-10 mx-auto mt-3 w-[88%] md:mt-4 md:w-[86%]"
+        className="relative z-10 mx-auto mt-3 w-full md:mt-4 md:w-[86%]"
         initial={prefersReducedMotion ? false : { opacity: 0, y: 18 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.52, delay: 0.54, ease: [0.22, 1, 0.36, 1] }}

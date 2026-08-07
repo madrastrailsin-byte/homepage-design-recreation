@@ -88,41 +88,47 @@ export default function DestinationsPage() {
       <style>{`
         @media (max-width: 1023px) {
           .mt-destinations-page > section {
-            min-height: clamp(52rem, 134svh, 60rem);
+            min-height: 100svh;
           }
 
           .mt-destinations-page [class*="top-[24%]"][class*="left-8"] {
-            top: clamp(5.1rem, 9.2svh, 5.85rem) !important;
-            left: clamp(1.25rem, 5.8vw, 2rem) !important;
-            max-width: min(21rem, calc(100vw - 2.5rem)) !important;
-          }
+  top: clamp(4.8rem, 8.5svh, 5.4rem) !important;
+  left: 1rem !important;
+  right: 1rem !important;
+  max-width: none !important;
+  text-align: center;
+}
 
-          .mt-destinations-page [class*="top-[24%]"][class*="left-8"] h1 {
-            margin-bottom: clamp(0.18rem, 0.8svh, 0.42rem);
-            font-size: clamp(1.82rem, 6.1vw, 2.6rem);
-          }
+.mt-destinations-page [class*="top-[24%]"][class*="left-8"] h1 {
+  margin-bottom: 0.2rem;
+  font-size: clamp(1.65rem, 6vw, 2rem);
+  line-height: 1;
+  white-space: nowrap;
+}
 
-          .mt-destinations-page [class*="top-[24%]"][class*="left-8"] h1 + div {
-            margin-bottom: clamp(0.24rem, 0.9svh, 0.45rem);
-            gap: 0.45rem;
-          }
+.mt-destinations-page [class*="top-[24%]"][class*="left-8"] h1 + div {
+  justify-content: center;
+  margin-bottom: 0.25rem;
+  gap: 0.4rem;
+}
 
-          .mt-destinations-page [class*="top-[24%]"][class*="left-8"] p {
-            max-width: min(20rem, calc(100vw - 2.5rem)) !important;
-            font-size: 0;
-            line-height: 1.22;
-            white-space: nowrap;
-          }
+.mt-destinations-page [class*="top-[24%]"][class*="left-8"] p {
+  max-width: none !important;
+  font-size: 0;
+  line-height: 1.2;
+  white-space: nowrap;
+  text-align: center;
+}
 
-          .mt-destinations-page [class*="top-[24%]"][class*="left-8"] p::after {
-            content: 'Your journey begins beyond the clouds.';
-            font-size: clamp(0.7rem, 2.35vw, 0.84rem);
-          }
+.mt-destinations-page [class*="top-[24%]"][class*="left-8"] p::after {
+  content: 'Your journey begins beyond the clouds.';
+  font-size: clamp(0.65rem, 2.3vw, 0.78rem);
+}
         }
       `}</style>
       <DestinationHero>
         <div
-          className="absolute inset-x-[-5vw] bottom-[clamp(19rem,34svh,21rem)] top-[clamp(11rem,18svh,11.5rem)] sm:inset-x-[-8vw] sm:bottom-[clamp(21rem,37svh,24rem)] sm:top-[clamp(10.7rem,18svh,11.5rem)] md:inset-x-[-6vw] md:bottom-[clamp(23rem,38svh,26rem)] md:top-[clamp(11rem,17svh,11.9rem)] lg:inset-0"
+          className="absolute inset-x-[1vw] bottom-[clamp(20rem,37svh,22rem)] top-[clamp(8.8rem,15svh,9.6rem)] sm:inset-x-[-8vw] sm:bottom-[clamp(21rem,37svh,24rem)] sm:top-[clamp(10.7rem,18svh,11.5rem)] md:inset-x-[-6vw] md:bottom-[clamp(23rem,38svh,26rem)] md:top-[clamp(11rem,17svh,11.9rem)] lg:inset-0"
           style={{ zIndex: 10 }}
         >
           <Globe3D
@@ -136,7 +142,7 @@ export default function DestinationsPage() {
           {selectedDestinationDetails ? (
             <motion.div
               key={selectedDestinationDetails.id}
-              className="absolute inset-x-[clamp(0.85rem,4vw,1.25rem)] bottom-[4.5rem] h-[clamp(11.9rem,25svh,14rem)] max-w-[430px] md:bottom-[140px] md:mx-auto md:h-[clamp(18rem,36vh,22rem)] lg:bottom-5 lg:left-auto lg:right-6 lg:top-[112px] lg:mx-0 lg:h-auto lg:w-[320px] lg:max-w-none"
+              className="absolute inset-x-[clamp(0.85rem,4vw,1.25rem)] bottom-[5.6rem] h-[clamp(14.5rem,29svh,16rem)] max-w-[430px] md:bottom-[140px] md:mx-auto md:h-[clamp(18rem,36vh,22rem)] lg:bottom-5 lg:left-auto lg:right-6 lg:top-[112px] lg:mx-0 lg:h-auto lg:w-[320px] lg:max-w-none"
               style={{ zIndex: 30 }}
               initial={
                 prefersReducedMotion
