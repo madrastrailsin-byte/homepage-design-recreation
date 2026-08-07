@@ -179,18 +179,18 @@ export default function DestinationPanel({
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.58, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
       >
-        <div className="mb-2 flex items-center gap-3">
-          <span className="text-2xl leading-none">{destination.flag || '✦'}</span>
+        <div className="mb-1 flex items-center gap-2 md:mb-2 md:gap-3">
+          <span className="text-xl leading-none md:text-2xl">{destination.flag || '✦'}</span>
           <span className="text-[9px] uppercase tracking-[0.28em] text-[#D4AF37]/85">
             Curated Destination
           </span>
         </div>
 
-        <h2 className="mt-display text-[34px] leading-[0.95] tracking-[-0.02em] text-[#F6EBD3]">
+        <h2 className="mt-display text-[30px] leading-[0.95] tracking-[-0.02em] text-[#F6EBD3] md:text-[34px]">
           {destination.name || 'Curated Destination'}
         </h2>
 
-        <p className="mt-2 max-w-[250px] text-[13px] leading-5 text-[#D6E0E2]/82">
+        <p className="mt-1.5 max-w-[280px] text-[12px] leading-[1.35] text-[#D6E0E2]/82 md:mt-2 md:max-w-[250px] md:text-[13px] md:leading-5">
           {destination.tagline || 'Curated journeys, shaped around you.'}
         </p>
       </motion.header>
@@ -274,7 +274,7 @@ export default function DestinationPanel({
         </motion.div>
       </motion.div>
 
-      <div className="relative z-10 mt-4 grid grid-cols-4 gap-1.5 md:gap-2">
+      <div className="relative z-10 mt-3 grid grid-cols-4 gap-1.5 md:mt-4 md:gap-2">
         {info.map((item, index) => (
           <motion.div
             key={item.label}
@@ -298,7 +298,7 @@ export default function DestinationPanel({
       </div>
 
       <motion.div
-        className="relative z-10 mx-auto mt-3 w-full md:mt-4 md:w-[86%]"
+        className="relative z-10 mx-auto mt-2.5 w-full md:mt-4 md:w-[86%]"
         initial={prefersReducedMotion ? false : { opacity: 0, y: 18 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.52, delay: 0.54, ease: [0.22, 1, 0.36, 1] }}
