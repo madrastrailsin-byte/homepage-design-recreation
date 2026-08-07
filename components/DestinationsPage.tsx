@@ -92,7 +92,7 @@ export default function DestinationsPage() {
           }
 
           .mt-destinations-page [class*="top-[24%]"][class*="left-8"] {
-  top: 3.65rem !important;
+  top: 4.05rem !important;
   left: 0.75rem !important;
   right: 0.75rem !important;
   width: auto !important;

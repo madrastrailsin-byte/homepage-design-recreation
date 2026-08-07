@@ -257,12 +257,42 @@ export default function ExperiencesPage() {
           .mt-experiences-page .mt-premium-nav a[aria-label="MadrasTrails homepage"] img { height: clamp(1.75rem, 7.8vw, 2.45rem); }
           .mt-experiences-page .mt-premium-nav button[aria-label="Menu"] { height: 2.5rem; width: 2.5rem; }
         }
+          @media (max-width: 393px) and (max-height: 860px) {
+  .mt-iphone-experience-frame {
+    height: auto !important;
+    min-height: 100svh;
+  }
+
+  .mt-iphone-experience-content {
+    height: auto !important;
+    min-height: 100svh;
+    align-items: flex-start !important;
+    padding-top: 3.75rem !important;
+    padding-bottom: 3.75rem !important;
+  }
+
+  .mt-iphone-experience-panel {
+    max-height: none !important;
+  }
+}
       `}</style>
 
       <Navigation />
 
       <section className="relative flex min-h-[100svh] items-end overflow-hidden px-6 pb-[5.5rem] pt-28 md:px-8 md:pb-[7rem] lg:min-h-screen lg:pb-24 lg:pt-32">
-        <video className="absolute inset-0 h-full w-full object-cover" src="/videos/hero_experiences.mp4" autoPlay muted loop playsInline preload="metadata" aria-hidden="true" />
+        <video
+  className="absolute inset-0 h-full w-full object-cover"
+  src="/videos/hero_experiences.mp4"
+  autoPlay
+  muted
+  loop
+  playsInline
+  preload="auto"
+  onCanPlay={(event) => {
+    void event.currentTarget.play().catch(() => undefined)
+  }}
+  aria-hidden="true"
+/>
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_28%_56%,rgba(2,15,18,0.72),transparent_48%),radial-gradient(ellipse_at_72%_24%,rgba(212,175,55,0.16),transparent_34%),linear-gradient(180deg,rgba(2,15,18,0.32),rgba(2,15,18,0.68))]" />
 
         <div className="relative z-10 mx-auto w-full max-w-7xl">
@@ -323,7 +353,7 @@ export default function ExperiencesPage() {
             animate={{ opacity: 1, scale: 1 }}
             exit={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, scale: 1.015 }}
             transition={{ duration: prefersReducedMotion ? 0 : 0.8, ease }}
-            className="relative h-[clamp(42rem,88svh,52rem)] overflow-hidden"
+            className="mt-iphone-experience-frame relative h-[clamp(42rem,88svh,52rem)] overflow-hidden"
           >
             <motion.video
               key={activeJourney.video}
@@ -355,7 +385,7 @@ export default function ExperiencesPage() {
               className="pointer-events-none absolute inset-y-0 z-10 w-[16%] bg-[linear-gradient(90deg,transparent,rgba(255,248,221,0.18),transparent)] mix-blend-screen"
             />
 
-            <div className="relative z-20 mx-auto flex h-full w-full max-w-[1500px] items-center px-5 py-20 sm:px-7 md:px-10 md:py-24 lg:px-14">
+            <div className="mt-iphone-experience-content relative z-20 mx-auto flex h-full w-full max-w-[1500px] items-center px-5 py-20 sm:px-7 md:px-10 md:py-24 lg:px-14">
               <div className="grid w-full items-stretch gap-7 lg:grid-cols-[1.08fr_0.92fr] lg:gap-12">
                 <motion.div
                   initial={prefersReducedMotion ? undefined : { opacity: 0, x: -42 }}
@@ -390,7 +420,7 @@ export default function ExperiencesPage() {
                   initial={prefersReducedMotion ? undefined : { opacity: 0, y: 46, scale: 0.96 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   transition={{ duration: 0.8, delay: 0.2, ease }}
-                  className="max-h-[34rem] overflow-y-auto rounded-[1.6rem] border border-white/14 bg-[linear-gradient(180deg,rgba(8,18,22,0.5),rgba(2,10,13,0.62))] p-5 shadow-[0_30px_90px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-2xl sm:p-6"
+                  className="mt-iphone-experience-panel max-h-[34rem] overflow-y-auto rounded-[1.6rem] border border-white/14 bg-[linear-gradient(180deg,rgba(8,18,22,0.5),rgba(2,10,13,0.62))] p-5 shadow-[0_30px_90px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-2xl sm:p-6"
                 >
                   <p className="mt-eyebrow mb-4 text-[9px] text-[#D4AF37]">SIGNATURE MOMENTS</p>
 

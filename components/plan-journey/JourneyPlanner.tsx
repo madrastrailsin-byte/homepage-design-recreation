@@ -211,8 +211,21 @@ const incomingContent = screenContentRefs.current[nextStep]
   const displayedProgress = journeyComplete ? 100 : stepProgress
 
   return (
-    <div className="relative min-h-[100svh] overflow-hidden bg-[#020f12]">
-      {Object.entries(journeyVideos).map(([videoStep, source], index) => (
+  <div className="relative min-h-[100svh] overflow-hidden bg-[#020f12]">
+    <style>{`
+      @media (max-width: 393px) and (max-height: 860px) {
+        .mt-iphone-journey-home {
+          top: 1rem !important;
+          left: 1rem !important;
+        }
+
+        .mt-iphone-journey-screens {
+          padding-top: 3.25rem;
+        }
+      }
+    `}</style>
+
+    {Object.entries(journeyVideos).map(([videoStep, source], index) => (
         <video
           key={videoStep}
           ref={(video) => {
@@ -237,7 +250,7 @@ const incomingContent = screenContentRefs.current[nextStep]
 
       <Link
         href="/"
-        className="absolute left-6 top-6 z-[999] inline-flex items-center gap-2 rounded-full border border-white/20 bg-black/20 px-4 py-2 text-xs uppercase tracking-[0.25em] text-white backdrop-blur-md transition-all duration-500 hover:border-white/40 hover:bg-white hover:text-black"
+        className="mt-iphone-journey-home absolute left-6 top-6 z-[999] inline-flex items-center gap-2 rounded-full border border-white/20 bg-black/20 px-4 py-2 text-xs uppercase tracking-[0.25em] text-white backdrop-blur-md transition-all duration-500 hover:border-white/40 hover:bg-white hover:text-black"
       >
         <Home aria-hidden="true" className="h-3.5 w-3.5" />
         Home
@@ -415,7 +428,7 @@ const incomingContent = screenContentRefs.current[nextStep]
         </div>
       </aside>
 
-      <div className="relative z-10">
+      <div className="mt-iphone-journey-screens relative z-10">
         {visibleSteps.map((screenStep) => (
           <div
             key={screenStep}
@@ -526,7 +539,7 @@ const incomingContent = screenContentRefs.current[nextStep]
             ) : null}
           </div>
         ))}
-      </div>
+                  </div>
     </div>
   )
 }

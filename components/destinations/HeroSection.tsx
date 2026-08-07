@@ -42,6 +42,7 @@ export default function HeroSection({ destination }: HeroSectionProps) {
       : requestedImage
 
   return (
+    
     <section className="relative min-h-[100svh] overflow-hidden bg-[#020A0E]">
       <MotionImage
         src={imageSrc}
@@ -74,14 +75,24 @@ export default function HeroSection({ destination }: HeroSectionProps) {
         }}
         className="object-cover"
       />
+      <style>{`
+  @media (max-width: 393px) and (max-height: 860px) {
+    .mt-iphone-destination-back {
+      top: 5.25rem !important;
+    }
 
+    .mt-iphone-destination-hero-content {
+      padding-top: 9rem !important;
+    }
+  }
+`}</style>
       <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(2,10,14,0.94)_0%,rgba(2,10,14,0.72)_38%,rgba(2,10,14,0.22)_72%,rgba(2,10,14,0.42)_100%)]" />
       <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(2,10,14,0.24),transparent_36%,rgba(2,10,14,0.92)_100%)]" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_74%_20%,rgba(214,176,110,0.16),transparent_32%)]" />
 
       <Link
         href="/destinations"
-        className="group absolute left-5 top-24 z-30 inline-flex items-center gap-3 rounded-full border border-white/15 bg-black/24 px-5 py-3 text-[9px] font-medium uppercase tracking-[0.26em] text-white/75 shadow-[0_14px_40px_rgba(0,0,0,0.24)] backdrop-blur-xl transition-all duration-300 hover:border-[#D6B06E]/45 hover:bg-black/36 hover:text-white sm:left-8 lg:left-12"
+        className="mt-iphone-destination-back group absolute left-5 top-24 z-30 inline-flex items-center gap-3 rounded-full border border-white/15 bg-black/24 px-5 py-3 text-[9px] font-medium uppercase tracking-[0.26em] text-white/75 shadow-[0_14px_40px_rgba(0,0,0,0.24)] backdrop-blur-xl transition-all duration-300 hover:border-[#D6B06E]/45 hover:bg-black/36 hover:text-white sm:left-8 lg:left-12"
       >
         <span className="transition-transform duration-300 group-hover:-translate-x-1">
           ←
@@ -89,7 +100,7 @@ export default function HeroSection({ destination }: HeroSectionProps) {
         <span>Destinations</span>
       </Link>
 
-      <div className="relative z-10 mx-auto flex min-h-[100svh] w-full max-w-[1500px] items-end px-5 pb-8 pt-28 sm:px-8 sm:pb-10 lg:px-12 lg:pb-14">
+      <div className="mt-iphone-destination-hero-content relative z-10 mx-auto flex min-h-[100svh] w-full max-w-[1500px] items-end px-5 pb-8 pt-28 sm:px-8 sm:pb-10 lg:px-12 lg:pb-14">
         <div className="grid w-full items-end gap-8 lg:grid-cols-[1.08fr_0.92fr] lg:gap-14">
           <motion.div
             initial={

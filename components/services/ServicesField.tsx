@@ -1316,10 +1316,20 @@ const toggleLight = () => {
         </div>
       </section>
 
-      <AnimatePresence>
-        {openService ? (
+      <style>{`
+  @media (max-width: 393px) and (max-height: 860px) {
+    .mt-iphone-service-overlay {
+      overflow-x: hidden !important;
+      overscroll-behavior-x: none;
+      touch-action: pan-y;
+    }
+  }
+`}</style>
+
+<AnimatePresence>
+  {openService ? (
           <motion.div
-            className="fixed inset-0 z-[100] h-[100svh] overflow-y-auto overscroll-contain bg-[#02080B] text-[#F8F3E8] lg:overflow-hidden"
+            className="mt-iphone-service-overlay fixed inset-0 z-[100] h-[100svh] overflow-y-auto overscroll-contain bg-[#02080B] text-[#F8F3E8] lg:overflow-hidden"
             role="dialog"
             aria-modal="true"
             aria-labelledby="service-overlay-title"

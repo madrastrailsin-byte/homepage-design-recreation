@@ -34,8 +34,11 @@ export default function ServicesPage() {
           muted
           loop
           playsInline
-          preload="metadata"
-          aria-hidden="true"
+          preload="auto"
+onCanPlay={(event) => {
+  void event.currentTarget.play().catch(() => undefined)
+}}
+aria-hidden="true"
         />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_22%_72%,rgba(13,76,92,0.34),transparent_38%),radial-gradient(ellipse_at_76%_22%,rgba(212,175,55,0.1),transparent_30%),radial-gradient(ellipse_at_center,transparent_34%,rgba(2,15,18,0.58)_100%),linear-gradient(180deg,rgba(2,15,18,0.22),rgba(2,15,18,0.58))]" />
 

@@ -4,14 +4,37 @@ import { Play } from 'lucide-react'
 import gsap from 'gsap'
 import { motion, useReducedMotion } from 'framer-motion'
 import Image from 'next/image'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 
 export default function Hero() {
   const sectionRef = useRef<HTMLElement>(null)
   const router = useRouter()
   const videoRef = useRef<HTMLVideoElement>(null)
+  const [videoFailed, setVideoFailed] = useState(false)
   const prefersReducedMotion = useReducedMotion()
+  useEffect(() => {
+  const video = videoRef.current
+  if (!video) return
+
+  video.muted = true
+  video.defaultMuted = true
+  video.playsInline = true
+
+  const tryPlay = () => {
+    video.play().catch(() => {
+      setVideoFailed(true)
+    })
+  }
+
+  tryPlay()
+
+  video.addEventListener('canplay', tryPlay)
+
+  return () => {
+    video.removeEventListener('canplay', tryPlay)
+  }
+}, [])
   useEffect(() => {
     const section = sectionRef.current
     const videoEl = videoRef.current
@@ -96,21 +119,36 @@ export default function Hero() {
         height: '100svh',
       }}
     >
-      <div className="mt-hero-video-shell absolute -inset-x-5 -inset-y-4">
-        <div className="mt-hero-kenburns h-full w-full">
-          <video
-            ref={videoRef}
-            className="mt-hero-video h-[calc(100%+2rem)] w-[calc(100%+2.5rem)] object-cover object-[58%_center] md:object-center"
-            src="/videos/hero-optimized-720p.mp4"
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="metadata"
-            aria-hidden="true"
-          />
-        </div>
-      </div>
+    <div className="mt-hero-video-shell absolute -inset-x-5 -inset-y-4">
+  <div className="mt-hero-kenburns relative h-full w-full">
+    {videoFailed && (
+      <Image
+        src="/images/homepage/experiences/experience-mountain-landscape.jpg"
+        alt=""
+        fill
+        priority
+        className="object-cover object-[58%_center] md:object-center"
+        aria-hidden="true"
+      />
+    )}
+
+    <video
+      ref={videoRef}
+      className={`mt-hero-video h-[calc(100%+2rem)] w-[calc(100%+2.5rem)] object-cover object-[58%_center] md:object-center ${
+        videoFailed ? 'opacity-0' : ''
+      }`}
+      src="/videos/hero-optimized-720p.mp4"
+      autoPlay
+      muted
+      loop
+      playsInline
+      preload="auto"
+      onPlaying={() => setVideoFailed(false)}
+      onError={() => setVideoFailed(true)}
+      aria-hidden="true"
+    />
+  </div>
+</div>
 
       {/* Layered vignettes keep the copy readable without creating a visible panel edge. */}
       <div className="mt-hero-depth-overlay absolute inset-0">

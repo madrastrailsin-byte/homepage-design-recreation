@@ -33,7 +33,10 @@ export default function ContactHero() {
         muted
         loop
         playsInline
-        preload="metadata"
+        preload="auto"
+onCanPlay={(event) => {
+  void event.currentTarget.play().catch(() => undefined)
+}}
       >
         <source src="/videos/contact/hero.mp4" type="video/mp4" />
       </motion.video>

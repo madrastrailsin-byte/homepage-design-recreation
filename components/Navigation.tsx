@@ -56,9 +56,9 @@ export default function Navigation() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: prefersReducedMotion ? 0 : 0.72, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
           whileHover={prefersReducedMotion ? undefined : { scale: 1.018, y: -1 }}
-          className={`group relative inline-flex justify-self-start items-center overflow-hidden rounded-[15px] border border-white/25 bg-black/[0.25] px-[0.6rem] py-[0.36rem] shadow-[0_12px_34px_rgba(0,0,0,0.2),inset_0_1px_0_rgba(255,255,255,0.06)] backdrop-blur-xl transition-all duration-500 hover:border-[#D4AF37]/30 hover:shadow-[0_18px_48px_rgba(0,0,0,0.28),0_0_28px_rgba(212,175,55,0.08)] md:px-[0.72rem] md:py-[0.42rem] ${logoPulse ? 'mt-logo-receipt' : ''}`}
+          className={`group relative inline-flex items-center justify-self-start transition-all duration-500 ${logoPulse ? 'mt-logo-receipt' : ''}`}
         >
-          <span className="pointer-events-none absolute inset-y-0 -left-1/3 w-1/3 skew-x-[-18deg] bg-white/10 opacity-0 blur-sm transition-all duration-700 group-hover:left-[115%] group-hover:opacity-100" />
+  
           <BrandLogo priority imageClassName="relative z-10 h-8 w-auto object-contain sm:h-9 md:h-11" />
         </motion.a>
 

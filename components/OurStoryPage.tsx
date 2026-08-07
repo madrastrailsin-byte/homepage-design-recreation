@@ -62,8 +62,11 @@ export default function OurStoryPage() {
           muted
           loop
           playsInline
-          preload="metadata"
-          aria-hidden="true"
+          preload="auto"
+onCanPlay={(event) => {
+  void event.currentTarget.play().catch(() => undefined)
+}}
+aria-hidden="true"
         />
         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(2,15,18,0.14)_0%,rgba(2,15,18,0.28)_42%,rgba(2,15,18,0.86)_100%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_72%_22%,rgba(212,175,55,0.13),transparent_30%),linear-gradient(90deg,rgba(2,15,18,0.72),rgba(2,15,18,0.08)_68%)]" />
