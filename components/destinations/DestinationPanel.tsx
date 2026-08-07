@@ -190,7 +190,7 @@ export default function DestinationPanel({
           {destination.name || 'Curated Destination'}
         </h2>
 
-        <p className="mt-1.5 max-w-[280px] text-[12px] leading-[1.35] text-[#D6E0E2]/82 md:mt-2 md:max-w-[250px] md:text-[13px] md:leading-5">
+        <p className="mt-1.5 max-w-none whitespace-nowrap text-[10.5px] leading-[1.25] text-[#D6E0E2]/82 md:mt-2 md:max-w-[250px] md:whitespace-normal md:text-[13px] md:leading-5">
           {destination.tagline || 'Curated journeys, shaped around you.'}
         </p>
       </motion.header>
@@ -274,7 +274,7 @@ export default function DestinationPanel({
         </motion.div>
       </motion.div>
 
-      <div className="relative z-10 mt-3 grid grid-cols-4 gap-1.5 md:mt-4 md:gap-2">
+      <div className="relative z-10 mt-2.5 grid grid-cols-4 gap-1.5 md:mt-4 md:gap-2">
         {info.map((item, index) => (
           <motion.div
             key={item.label}
@@ -298,7 +298,7 @@ export default function DestinationPanel({
       </div>
 
       <motion.div
-        className="relative z-10 mx-auto mt-2.5 w-full md:mt-4 md:w-[86%]"
+        className="relative z-10 mx-auto mt-2 w-full md:mt-4 md:w-[86%]"
         initial={prefersReducedMotion ? false : { opacity: 0, y: 18 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.52, delay: 0.54, ease: [0.22, 1, 0.36, 1] }}

@@ -92,7 +92,7 @@ export default function DestinationsPage() {
           }
 
           .mt-destinations-page [class*="top-[24%]"][class*="left-8"] {
-  top: 3.95rem !important;
+  top: 3.65rem !important;
   left: 0.75rem !important;
   right: 0.75rem !important;
   width: auto !important;
@@ -101,7 +101,7 @@ export default function DestinationsPage() {
 }
 
 .mt-destinations-page [class*="top-[24%]"][class*="left-8"] h1 {
-  margin: 0 auto 0.3rem !important;
+  margin: 0 auto 0.18rem !important;
   width: 100% !important;
   max-width: none !important;
   font-size: clamp(1.25rem, 4.9vw, 1.55rem) !important;
@@ -116,17 +116,18 @@ export default function DestinationsPage() {
 
 .mt-destinations-page [class*="top-[24%]"][class*="left-8"] p {
   margin: 0 auto !important;
+  width: max-content !important;
   max-width: none !important;
-  font-size: clamp(0.65rem, 2.3vw, 0.76rem) !important;
-  line-height: 1.25 !important;
-  white-space: nowrap;
+  font-size: clamp(0.64rem, 2.25vw, 0.74rem) !important;
+  line-height: 1.15 !important;
+  white-space: nowrap !important;
   text-align: center;
 }
         }
       `}</style>
       <DestinationHero>
         <div
-          className="absolute inset-x-[-4vw] bottom-[clamp(18.5rem,34svh,20rem)] top-[7.25rem] sm:inset-x-[-8vw] sm:bottom-[clamp(21rem,37svh,24rem)] sm:top-[clamp(10.7rem,18svh,11.5rem)] md:inset-x-[-6vw] md:bottom-[clamp(23rem,38svh,26rem)] md:top-[clamp(11rem,17svh,11.9rem)] lg:inset-0"
+          className="absolute inset-x-[-4vw] bottom-[clamp(17rem,31svh,18.5rem)] top-[6.65rem] sm:inset-x-[-8vw] sm:bottom-[clamp(21rem,37svh,24rem)] sm:top-[clamp(10.7rem,18svh,11.5rem)] md:inset-x-[-6vw] md:bottom-[clamp(23rem,38svh,26rem)] md:top-[clamp(11rem,17svh,11.9rem)] lg:inset-0"
           style={{ zIndex: 10 }}
         >
           <Globe3D
@@ -140,7 +141,7 @@ export default function DestinationsPage() {
           {selectedDestinationDetails ? (
             <motion.div
               key={selectedDestinationDetails.id}
-              className="absolute inset-x-[clamp(0.85rem,4vw,1.25rem)] bottom-[10.4rem] h-[15.75rem] max-w-[430px] md:bottom-[140px] md:mx-auto md:h-[clamp(18rem,36vh,22rem)] lg:bottom-5 lg:left-auto lg:right-6 lg:top-[112px] lg:mx-0 lg:h-auto lg:w-[320px] lg:max-w-none"
+              className="absolute inset-x-[clamp(0.85rem,4vw,1.25rem)] bottom-[10.4rem] h-[17rem] max-w-[430px] md:bottom-[140px] md:mx-auto md:h-[clamp(18rem,36vh,22rem)] lg:bottom-5 lg:left-auto lg:right-6 lg:top-[112px] lg:mx-0 lg:h-auto lg:w-[320px] lg:max-w-none"
               style={{ zIndex: 30 }}
               initial={
                 prefersReducedMotion

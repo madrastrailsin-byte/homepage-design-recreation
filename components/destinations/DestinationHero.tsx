@@ -183,14 +183,13 @@ export default function DestinationHero({ children }: DestinationHeroProps) {
         </motion.div>
 
         <motion.p
-          className="mt-body-copy mx-auto text-center text-[#7E9BAB] text-[12px] leading-[1.35] md:mx-0 md:text-left md:text-[15px] md:leading-[1.72]"
-          style={{ maxWidth: 210 }}
+          className="mt-body-copy mx-auto whitespace-nowrap text-center text-[12px] leading-[1.25] text-[#D4AF37]/80 md:mx-0 md:text-left md:text-[15px] md:leading-[1.4]"
           custom={3}
           variants={LINE}
           initial="hidden"
           animate="visible"
         >
-          Your journey begins<br />beyond the clouds.
+          Your journey begins beyond the clouds.
         </motion.p>
       </div>
 
