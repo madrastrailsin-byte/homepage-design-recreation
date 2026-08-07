@@ -171,7 +171,7 @@ export default function Hero() {
   className="mb-[clamp(1rem,4.6vw,1.35rem)] w-[clamp(12.5rem,63vw,15rem)] md:mb-6 md:w-[320px] lg:w-[400px]"
 >
             <Image
-  src="/images/homepage/hero-travel-like-local.svg"
+  src="/images/homepage/hero-travel-like-local.webp"
   alt="Travel Like A Local"
   width={1024}
   height={576}
