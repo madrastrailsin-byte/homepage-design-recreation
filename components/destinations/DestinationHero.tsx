@@ -169,7 +169,7 @@ export default function DestinationHero({ children }: DestinationHeroProps) {
 </motion.h1>
 
         <motion.div
-          className="flex items-center justify-center gap-3 mb-3 md:justify-start md:mb-5"
+          className="hidden md:flex md:items-center md:justify-start md:gap-3 md:mb-5"
           custom={2}
           variants={LINE}
           initial="hidden"
@@ -183,7 +183,7 @@ export default function DestinationHero({ children }: DestinationHeroProps) {
         </motion.div>
 
         <motion.p
-          className="mt-body-copy text-[#7E9BAB] text-[14px] md:text-[15px] leading-[1.72]"
+          className="mt-body-copy mx-auto text-center text-[#7E9BAB] text-[12px] leading-[1.35] md:mx-0 md:text-left md:text-[15px] md:leading-[1.72]"
           style={{ maxWidth: 210 }}
           custom={3}
           variants={LINE}
