@@ -165,10 +165,10 @@ aria-hidden="true"
                 </div>
 
                 <div className="mt-7 text-center">
-                  <h3 className="font-[family-name:var(--font-ruthligos)] text-[3.5rem] leading-none text-[#FAFAF9] md:text-[5rem]">
+                  <h3 className="whitespace-nowrap font-[family-name:var(--font-ruthligos)] text-[1.8rem] leading-none text-[#FAFAF9] md:text-[2.45rem]">
   Geetha Solomon
 </h3>
-                  <p className="mt-ui mt-3 text-[10px] font-medium tracking-[0.22em] text-[#D8C08A]">
+                  <p className="mt-ui mt-5 text-[10px] font-medium tracking-[0.22em] text-[#D8C08A]">
                     MANAGING DIRECTOR
                   </p>
 
@@ -196,11 +196,11 @@ aria-hidden="true"
                   </p>
                 </div>
 
-                <div className="mt-7 text-center">
-                  <h3 className="font-[family-name:var(--font-amalfi-coast)] text-[3.5rem] leading-none text-[#FAFAF9] md:text-[5rem]">
+                <div className="mt-8 text-center">
+                  <h3 className="whitespace-nowrap font-[family-name:var(--font-amalfi-coast)] text-[1.6rem] leading-none text-[#FAFAF9] md:text-[1.8rem]">
   Gideon R. Solomon
 </h3>
-                  <p className="mt-ui mt-3 text-[10px] font-medium tracking-[0.22em] text-[#D8C08A]">
+                  <p className="mt-ui mt-7 text-[10px] font-medium tracking-[0.22em] text-[#D8C08A]">
                     FOUNDER &amp; CHIEF JOURNEY ARCHITECT
                   </p>
 
