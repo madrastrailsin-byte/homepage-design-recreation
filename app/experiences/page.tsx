@@ -441,7 +441,11 @@ export default function ExperiencesPage() {
 
                   <div className="mt-5 border-t border-white/10 pt-4">
                     <p className="mt-eyebrow mb-3 text-[9px] text-white/42">POPULAR DESTINATIONS</p>
-                    <div className="flex flex-wrap gap-2">
+                    <div
+  className={`flex flex-wrap gap-2 ${
+    activeJourney.id === 'luxury-escapes' ? 'lg:pr-[9rem]' : ''
+  }`}
+>
                       {activeJourney.destinations.map((destination, index) => (
                         <motion.a
                           key={destination}
