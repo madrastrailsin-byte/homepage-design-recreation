@@ -125,14 +125,16 @@ export default function Navigation() {
     className="absolute inset-0"
   >
     <img
-      src={
-        theme === 'signature'
-          ? '/images/theme/signature-mode.webp'
-          : '/images/theme/classic-mode.webp'
-      }
-      alt=""
-      className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.06]"
-    />
+  src={
+    theme === 'signature'
+      ? '/images/theme/signature-mode.webp'
+      : '/images/theme/classic-mode.webp'
+  }
+  alt=""
+  loading="eager"
+  fetchPriority="high"
+  className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.06]"
+/>
 
     <div className="absolute inset-0 bg-black/45" />
   </motion.div>

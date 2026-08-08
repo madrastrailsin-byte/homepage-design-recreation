@@ -1166,7 +1166,7 @@ const toggleLight = () => {
       
         <div className="relative z-[70] mx-auto h-auto min-h-[42rem] w-full max-w-[1500px] px-4 py-5 sm:px-6 md:h-full md:min-h-0 md:px-8 md:py-6 lg:px-10">
           <div
-  className={`pointer-events-none absolute right-48 top-8 z-[90] text-right transition-opacity duration-700 ${
+  className={`pointer-events-none absolute right-40 top-14 z-[90] text-right transition-opacity duration-700 ${
     lightPhase === "on" ? "opacity-0" : "opacity-100"
   }`}
 >
@@ -1174,7 +1174,7 @@ const toggleLight = () => {
     style={{ fontFamily: "KaThuli" }}
     className="whitespace-nowrap text-xl text-[#d8af58]"
   >
-    மணி ஒலிக்கட்டும்... பயணம் தொடங்கட்டும்.
+    'மணி ஒலிக்கட்டும்... பயணம் தொடங்கட்டும்.'
   </p>
 
   <p
