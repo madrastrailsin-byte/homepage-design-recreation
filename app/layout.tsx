@@ -1,4 +1,4 @@
-import { Analytics } from '@Vercel/analytics/next'
+import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
 import { Catamaran, Cormorant_Garamond, Satisfy } from 'next/font/google'
 import localFont from 'next/font/local'
