@@ -1,9 +1,10 @@
-import { Analytics } from '@vercel/analytics/next'
+import { Analytics } from '@Vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
 import { Catamaran, Cormorant_Garamond, Satisfy } from 'next/font/google'
 import localFont from 'next/font/local'
 import './globals.css'
 import { organizationSchema } from './schema'
+import { ThemeProvider } from '@/components/theme/ThemeProvider'
 
 const catamaran = Catamaran({
   variable: '--font-catamaran',
@@ -109,21 +110,14 @@ export default function RootLayout({
 }>) {
   return (
   <html
-    lang="en"
-    className={`${catamaran.variable} ${cormorantGaramond.variable} ${signature.variable} ${crimesTimesSix.variable} ${ruthligos.variable} ${amalfiCoast.variable} min-h-full w-full max-w-none overflow-x-hidden rounded-none border-0 bg-[#071B24] shadow-none`}
-  >
-    <body>
+  lang="en"
+  className={`${catamaran.variable} ${cormorantGaramond.variable} ${signature.variable} ${crimesTimesSix.variable} ${ruthligos.variable} ${amalfiCoast.variable} min-h-full w-full max-w-none overflow-x-hidden rounded-none border-0 bg-[#071B24] shadow-none`}
+>
+  <body>
+    <ThemeProvider>
       {children}
-
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(organizationSchema),
-        }}
-      />
-
-      {process.env.VERCEL === '1' && <Analytics />}
-    </body>
-  </html>
+    </ThemeProvider>
+  </body>
+</html>
 )
 }

@@ -1,3 +1,16 @@
+@font-face {
+  font-family: "KaThuli";
+  src: url("/fonts/ka-thuli.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Ringbearer";
+  src: url("/fonts/ringbearer.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
 @import 'tailwindcss';
 
 @theme inline {
@@ -166,7 +179,7 @@
     font-weight: 700;
     letter-spacing: 0;
   }
-
+  
   .mt-display-soft {
     font-family: var(--font-cormorant-garamond), Georgia, serif;
     font-weight: 600;
