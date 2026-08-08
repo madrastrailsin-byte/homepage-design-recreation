@@ -199,7 +199,7 @@ export const travelServices: TravelService[] = [
     'Dedicated on-ground coordination',
   ],
 
-  image: '/images/services/concierge/italian-outdoor-dinner.jpg',
+  image: '/images/services/concierge/italian-outdoor-dinner.webp',
   objectPosition: 'center 50%',
   editorialFormat: 'photographic editorial clipping',
 },

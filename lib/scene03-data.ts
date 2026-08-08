@@ -62,7 +62,7 @@ export const scene03Content: Scene03Content = {
     id: 'marina-bay-sands',
     destinationTitle: 'Singapore',
     name: 'Marina Bay Sands',
-    image: '/images/home/hotels/marina-bay-sands.jpg',
+    image: '/images/home/hotels/marina-bay-sands.webp',
     imagePosition: 'center',
     rating: 4.8,
     reviewLabel: '18,000+ guest reviews',

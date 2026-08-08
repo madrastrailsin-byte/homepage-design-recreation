@@ -296,7 +296,7 @@ const archiveFragments: ArchiveFragment[] = [
   { left: 49, top: -2, width: 12, height: 16, rotate: 6, z: 9, variant: "paper", label: "customs copy" },
   { left: 58, top: 10, width: 9, height: 18, rotate: -11, z: 12, variant: "note", label: "We handle the paperwork." },
   { left: 64, top: 1, width: 11, height: 17, rotate: 9, z: 7, variant: "ticket", label: "deck access" },
-  { left: 79, top: 0, width: 14, height: 17, rotate: 5, z: 9, variant: "photo", label: "deck light", image: "/images/services/luxury-resort.jpg" },
+  { left: 79, top: 0, width: 14, height: 17, rotate: 5, z: 9, variant: "photo", label: "deck light", image: "/images/services/luxury-resort.webp" },
   { left: 92, top: 3, width: 11, height: 22, rotate: -9, z: 6, variant: "paper", label: "cabin brief" },
   { left: 0, top: 30, width: 11, height: 24, rotate: 8, z: 10, variant: "map", label: "region map" },
   { left: 17, top: 30, width: 16, height: 20, rotate: -6, z: 13, variant: "paper", label: "travel notes" },
@@ -477,7 +477,7 @@ function ServiceDocument({ service, index }: { service: TravelService; index: nu
         <div className="relative z-10 flex h-full gap-5">
           <div className="relative h-full w-[48%] overflow-hidden bg-[#160f0a]">
             <Image
-              src="/images/services/beach-sunset.jpg"
+              src="/images/services/beach-sunset.webp"
               alt=""
               fill
               sizes="(min-width: 1024px) 13vw, 70vw"
@@ -529,7 +529,7 @@ function ServiceDocument({ service, index }: { service: TravelService; index: nu
         <div className="relative z-10 h-full overflow-hidden">
           <div className="absolute right-4 top-4 h-24 w-32 overflow-hidden bg-[#160f0a]">
             <Image
-              src="/images/services/concierge/local-guide-tour.jpg"
+              src="/images/services/concierge/local-guide-tour.webp"
               alt=""
               fill
               sizes="12vw"
@@ -561,7 +561,7 @@ function ServiceDocument({ service, index }: { service: TravelService; index: nu
         <div className="relative z-10 flex h-full gap-4">
           <div className="relative h-full w-[56%] overflow-hidden bg-[#160f0a]">
             <Image
-              src="/images/services/concierge/italian-outdoor-dinner.jpg"
+              src="/images/services/concierge/italian-outdoor-dinner.webp"
               alt=""
               fill
               sizes="(min-width: 1024px) 15vw, 80vw"

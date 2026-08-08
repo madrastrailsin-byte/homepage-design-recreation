@@ -44,7 +44,7 @@ const experiences: Experience[] = [
     id: 'food',
     icon: '🍷',
     title: 'Food & Culinary',
-    image: '/images/services/concierge/italian-outdoor-dinner.jpg',
+    image: '/images/services/concierge/italian-outdoor-dinner.webp',
   },
   {
     id: 'nature',
@@ -56,7 +56,7 @@ const experiences: Experience[] = [
     id: 'wellness',
     icon: '🧘',
     title: 'Wellness',
-    image: '/images/services/luxury-resort.jpg',
+    image: '/images/services/luxury-resort.webp',
   },
   {
     id: 'luxury',
