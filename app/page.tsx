@@ -10,7 +10,6 @@ import HomeIntro from '@/components/HomeIntro'
 export default function Home() {
   return (
     <main className="min-h-screen w-full overflow-x-hidden rounded-none border-0 bg-[#0D1117] shadow-none">
-      <HomeIntro />
       <Navigation />
       <Hero />
       <ServicesStrip />
