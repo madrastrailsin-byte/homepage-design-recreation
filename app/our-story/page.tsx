@@ -1,7 +1,13 @@
+import type { Metadata } from 'next'
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
 import OurStoryPage from '@/components/OurStoryPage'
 
+export const metadata: Metadata = {
+  title: 'Our Story | The Journey Behind MadrasTrails',
+  description:
+    'Discover the story behind MadrasTrails — a travel company built around authentic experiences, local connections and journeys beyond ordinary itineraries.',
+}
 export default function OurStory() {
   return (
     <main className="min-h-screen w-full max-w-none overflow-x-hidden rounded-none border-0 bg-[#03191D] p-0 m-0 shadow-none">

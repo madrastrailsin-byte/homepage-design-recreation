@@ -10,9 +10,9 @@ const INITIAL_GLOBE_TEXTURES = [
 ] as const
 
 export const metadata: Metadata = {
-  title: 'Destinations | MadrasTrails - Beyond Boundaries',
+  title: 'Luxury Travel Destinations Around the World | MadrasTrails',
   description:
-    'Explore curated global destinations with MadrasTrails. From Japan to the Maldives, discover premium travel experiences tailored just for you.',
+    'Explore handpicked luxury travel destinations with MadrasTrails. Discover authentic cultures, hidden gems, premium stays and unforgettable experiences crafted around your journey.',
 }
 
 export default function Destinations() {

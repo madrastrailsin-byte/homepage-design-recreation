@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import Navigation from '@/components/Navigation'
@@ -6,6 +7,11 @@ import ServicesField from '@/components/services/ServicesField'
 import LazyCtaVideo from '@/components/services/LazyCtaVideo'
 import { travelServices } from '@/lib/services-data'
 
+export const metadata: Metadata = {
+  title: 'Luxury Travel Planning Services | MadrasTrails',
+  description:
+    'Experience personalised travel planning, concierge services and seamless luxury journeys with MadrasTrails. Every detail is crafted around your preferences.',
+}
 export default function ServicesPage() {
   return (
     <main className="min-h-screen overflow-x-hidden bg-[#020F12] text-[#FAFAF9]">
