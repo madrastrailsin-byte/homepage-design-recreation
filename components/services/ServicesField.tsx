@@ -288,7 +288,7 @@ const deskScraps = [
 const archiveFragments: ArchiveFragment[] = [
   { left: -4, top: 18, width: 23, height: 34, rotate: 3, z: 3, variant: "map", label: "terminal plan" },
   { left: -1, top: 4, width: 15, height: 22, rotate: -7, z: 5, variant: "paper", label: "old fare list" },
-  { left: 9, top: 0, width: 13, height: 15, rotate: 5, z: 10, variant: "photo", label: "runway", image: "/images/services/luxury-flight.jpg" },
+  { left: 11, top: 6, width: 13, height: 15, rotate: 5, z: 10, variant: "photo", label: "runway", image: "/images/services/luxury-flight.jpg" },
   { left: 18, top: 18, width: 9, height: 18, rotate: -4, z: 12, variant: "ticket", label: "private transfer" },
   { left: 19, top: -3, width: 17, height: 22, rotate: -3, z: 4, variant: "paper", label: "airline timetable" },
   { left: 31, top: 0, width: 13, height: 24, rotate: -8, z: 6, variant: "map", label: "coastal route" },
@@ -666,7 +666,7 @@ function BoardServicePiece({
   type="button"
   onClick={onOpen}
         aria-label={`Open ${service.title}`}
-        className={`group absolute flex min-w-0 flex-col overflow-hidden text-left outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37]/70 ${
+        className={`group absolute flex min-w-0 flex-col overflow-visible text-left outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37]/70 ${
   index === 2 ? "p-1.5 md:p-2" : "p-4 md:p-5"
 } ${piece.tone}`}
         style={{
@@ -1076,7 +1076,7 @@ const toggleLight = () => {
         {/* Complete room darkness */}
 <div
   aria-hidden="true"
-  className="pointer-events-none absolute inset-0 z-[65] bg-black"
+  className="pointer-events-none absolute inset-0 z-[20] bg-black"
   style={{
     opacity: 0.92 - lightLevel * 0.72,
     transition:
@@ -1089,7 +1089,7 @@ const toggleLight = () => {
 {/* Overhead room illumination */}
 <div
   aria-hidden="true"
-  className="pointer-events-none absolute inset-0 z-[66]"
+  className="pointer-events-none absolute inset-0 z-[25]"
   style={{
     opacity: lightLevel,
     transition:
@@ -1141,76 +1141,55 @@ const toggleLight = () => {
   />
 </div>
 
-{/* Antique brass master switch */}
+{/* Antique brass pull chain */}
 <button
   type="button"
   onClick={toggleLight}
-  disabled={lightPhase === "flickering" || isPulling}
+  disabled={false}
   aria-label={
     lightPhase === "on"
-      ? "Turn off MadrasTrails experience light"
-      : "Turn on MadrasTrails experience light"
+      ? "Turn off investigation lamp"
+      : "Turn on investigation lamp"
   }
-  className="absolute right-4 top-8 z-[70] flex flex-col items-center disabled:pointer-events-none md:right-10"
+  className="absolute right-0 top-4 z-[100] flex flex-col items-center disabled:pointer-events-none cursor-pointer"
 >
-  {/* Antique brass wall plate */}
-<motion.div
-  animate={{
-    rotateX: isPulling ? 8 : 0,
-  }}
-  transition={{ duration: 0.2 }}
-  className="relative flex h-[4.2rem] w-[2.8rem] flex-col items-center justify-center rounded-lg border border-[#5c421b] bg-gradient-to-b from-[#5a431f] via-[#80602b] to-[#382510] shadow-[0_10px_25px_rgba(0,0,0,.8)]"
->
-
-  {/* Weathered ceramic centre */}
-  <div className="absolute inset-1.5 rounded-md border border-[#c5b28a]/30 bg-[#d8ccb0] shadow-inner">
-    
-    {/* State label */}
-    <span className="absolute left-1/2 top-1 -translate-x-1/2 text-[0.45rem] tracking-[0.3em] text-[#3a2812]">
-      {lightPhase === "on" ? "ON" : ""}
-    </span>
-
-    <span className="absolute bottom-1 left-1/2 -translate-x-1/2 text-[0.45rem] tracking-[0.3em] text-[#5b4420]">
-      {lightPhase === "off" ? "OFF" : ""}
-    </span>
-
-  </div>
-
-  {/* Old brass toggle */}
-  <motion.div
-    animate={{
-      y: lightPhase === "on" ? 12 : -12,
-    }}
-    transition={{
-      type: "spring",
-      stiffness: 260,
-      damping: 20,
-    }}
-    className="relative z-10 h-7 w-4 rounded-full border border-[#765522] bg-gradient-to-b from-[#8c6a32] to-[#4a3215] shadow-[0_4px_12px_rgba(0,0,0,.55)]"
+  <img
+    src="/images/services/services-bell-new.webp"
+    alt="Antique concierge bell"
+    className="h-44 w-32 object-contain"
+    draggable={false}
   />
-
-</motion.div>
-
 </button>
-
         <h2 id="services-board-title" className="sr-only">
           MadrasTrails services inspiration board
         </h2>
+      
+        <div className="relative z-[70] mx-auto h-auto min-h-[42rem] w-full max-w-[1500px] px-4 py-5 sm:px-6 md:h-full md:min-h-0 md:px-8 md:py-6 lg:px-10">
+          <div
+  className={`pointer-events-none absolute right-48 top-8 z-[90] text-right transition-opacity duration-700 ${
+    lightPhase === "on" ? "opacity-0" : "opacity-100"
+  }`}
+>
+  <p
+    style={{ fontFamily: "KaThuli" }}
+    className="whitespace-nowrap text-xl text-[#d8af58]"
+  >
+    மணி ஒலிக்கட்டும்... பயணம் தொடங்கட்டும்.
+  </p>
 
-        <div className="relative z-10 mx-auto h-auto min-h-[42rem] w-full max-w-[1500px] px-4 py-5 sm:px-6 md:h-full md:min-h-0 md:px-8 md:py-6 lg:px-10">
-          <div className="absolute inset-x-4 top-4 z-[60] flex items-start justify-between gap-6 text-[#f8f3e8]/62 md:inset-x-8 lg:inset-x-10">
-            <div>
-              <p className="mt-eyebrow text-[.58rem] text-[#d8af58]">THE ART OF THE JOURNEY</p>
-              <p className="mt-body-copy mt-1 max-w-xs text-xs leading-relaxed text-[#f8f3e8]/55">
-                Nine ways we shape extraordinary travel.
-              </p>
-            </div>
-            <p className="mt-ui hidden text-[.5rem] tracking-[.22em] text-[#f8f3e8]/46 sm:block">
-              PRIVATE TRAVEL CURATOR / MADRAS TRAILS
-            </p>
+  <p
+  style={{ fontFamily: "Ringbearer" }}
+  className="mt-3 whitespace-nowrap text-lg tracking-[0.08em] text-[#f8f3e8]/85"
+>
+  <span className="font-bold text-[#d8af58] drop-shadow-[0_0_12px_rgba(216,175,88,0.9)]">
+    RING THE BELL
+  </span>{" "}
+  and discover what we have curated for your journey.
+</p>
+</div>
           </div>
 
-          <div className="relative mx-auto mt-12 hidden h-[calc(100%_-_3.25rem)] w-full md:block">
+          <div className="relative z-[60] mx-auto mt-12 hidden h-[calc(100%_-_3.25rem)] w-full md:block">
             <DetectiveScrapbookLayer />
             {archiveFragments.map((fragment, index) => (
               <ArchiveFragmentPiece
@@ -1304,7 +1283,6 @@ const toggleLight = () => {
 ))}
   </div>
 </div>
-        </div>
       </section>
 
       <style>{`
