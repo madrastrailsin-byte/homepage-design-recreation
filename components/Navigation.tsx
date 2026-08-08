@@ -1,13 +1,12 @@
 'use client'
 
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
-import { Compass, Crown, Menu, X } from 'lucide-react'
+import { Menu, X } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import BrandLogo from './BrandLogo'
 import JourneyTransitionLink from './JourneyTransitionLink'
-import { useTheme } from '@/components/theme/ThemeProvider'
 
 const navItems = [
   { label: 'Destinations', href: '/destinations' },
@@ -19,7 +18,6 @@ const navItems = [
 
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false)
-  const { theme, toggleTheme } = useTheme()
   const [isScrolled, setIsScrolled] = useState(false)
   const [logoPulse, setLogoPulse] = useState(false)
   const pathname = usePathname()
@@ -68,13 +66,13 @@ export default function Navigation() {
           initial={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: -8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: prefersReducedMotion ? 0 : 0.72, delay: 0.18, ease: [0.22, 1, 0.36, 1] }}
-          className="hidden items-center justify-center gap-5 xl:gap-6 lg:flex"
+          className="hidden items-center gap-12 xl:gap-16 lg:flex"
         >
           {navItems.map((item, index) => (
             <div key={item.href} className="flex items-center">
               <Link
                 href={item.href}
-                className={`mt-ui relative isolate px-2 py-0 text-[12px] font-medium tracking-[0.16em] transition-colors duration-300 ${
+                className={`mt-ui relative isolate px-2 py-2 text-[12px] tracking-[0.12em] transition-colors duration-300 ${
                   active(item.href)
                     ? 'text-[#D4AF37]'
                     : 'text-white/78 hover:text-white'
@@ -94,60 +92,18 @@ export default function Navigation() {
                   />
                 )}
               </Link>
-
-{index < navItems.length - 1 && (
-  <span className="mx-4 inline-block h-4 w-px bg-[#D4AF37]/45" />
-)}
-
-</div>
-))}
+            </div>
+          ))}
         </motion.div>
 
-        <div className="flex items-center gap-3 self-center justify-self-end">
-          <motion.button
-  type="button"
-  onClick={toggleTheme}
-  aria-label="Switch between Signature and Classic modes"
-  title="Change MadrasTrails viewing mode"
-  whileHover={{ y: -1 }}
-  whileTap={{ scale: 0.98 }}
-  className={`group relative hidden h-[32px] w-[112px] overflow-hidden rounded-full border backdrop-blur-xl transition-all duration-700 md:flex ${
-    theme === 'signature'
-      ? 'border-[#D4AF37]/35'
-      : 'border-[#B08D57]/50'
-  }`}
->
-  <motion.div
-    key={theme}
-    initial={{ opacity: 0, scale: 1.08 }}
-    animate={{ opacity: 1, scale: 1 }}
-    transition={{ duration: 0.6 }}
-    className="absolute inset-0"
-  >
-    <img
-      src={
-        theme === 'signature'
-          ? '/images/theme/signature-mode.webp'
-          : '/images/theme/classic-mode.webp'
-      }
-      alt=""
-      className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.06]"
-    />
-
-    <div className="absolute inset-0 bg-black/45" />
-  </motion.div>
-
-  <span className="relative z-10 flex h-full w-full items-center justify-center pt-[1px] text-[9px] tracking-[0.26em] leading-none text-white">
-    {theme === 'signature' ? 'SIGNATURE' : 'CLASSIC'}
-  </span>
-</motion.button>
+        <div className="flex items-center gap-3 justify-self-end">
           <JourneyTransitionLink
             href="/plan"
             className="group mt-ui relative hidden items-center gap-3 overflow-hidden rounded-full border border-[#D4AF37]/40 bg-[#D4AF37] px-5 py-2 text-[11px] tracking-[0.12em] text-[#07141A] shadow-[0_12px_30px_rgba(212,175,55,0.18)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_18px_40px_rgba(212,175,55,0.28)] md:inline-flex"
           >
             <span className="pointer-events-none absolute inset-y-0 -left-1/3 w-1/3 skew-x-[-18deg] bg-white/34 opacity-0 blur-sm transition-all duration-700 group-hover:left-[115%] group-hover:opacity-100" />
-            <span className="relative z-10 leading-none">Plan Your Journey</span>
-            <span className="relative z-10 leading-none transition-transform duration-300 group-hover:translate-x-1.5">→</span>
+            <span className="relative z-10">Plan Your Journey</span>
+            <span className="relative z-10 transition-transform duration-300 group-hover:translate-x-1.5">→</span>
           </JourneyTransitionLink>
 
           <button
