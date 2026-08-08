@@ -232,7 +232,7 @@ export default function ExperiencesPage() {
 }, 0)
 
     const timer = window.setTimeout(() => {
-      showcaseRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      showcaseRef.current?.scrollIntoView({ behavior: 'auto', block: 'start' })
     }, 450)
 
     return () => {

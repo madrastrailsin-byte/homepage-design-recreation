@@ -663,8 +663,8 @@ function BoardServicePiece({
         />
       ) : null}
       <motion.button
-        type="button"
-        onClick={onOpen}
+  type="button"
+  onClick={onOpen}
         aria-label={`Open ${service.title}`}
         className={`group absolute flex min-w-0 flex-col overflow-hidden text-left outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37]/70 ${
   index === 2 ? "p-1.5 md:p-2" : "p-4 md:p-5"
@@ -1263,7 +1263,9 @@ const toggleLight = () => {
   <motion.button
     key={service.number}
     type="button"
-    onClick={() => setOpenService(service)}
+    onClick={() => {
+  if (lightPhase === "on") setOpenService(service)
+}}
     aria-label={`Open ${service.title}`}
     className={`relative w-full overflow-hidden rounded-sm border border-[#d7c29d]/45 p-5 text-left shadow-[0_14px_28px_rgba(0,0,0,0.28)] ${
       index === 2
@@ -1329,7 +1331,7 @@ const toggleLight = () => {
 <AnimatePresence>
   {openService ? (
           <motion.div
-            className="mt-iphone-service-overlay fixed inset-0 z-[100] h-[100svh] overflow-y-auto overscroll-contain bg-[#02080B] text-[#F8F3E8] lg:overflow-hidden"
+            className="mt-iphone-service-overlay fixed inset-0 z-[100] h-[100svh] overflow-y-auto overflow-x-hidden overscroll-contain bg-[#02080B] text-[#F8F3E8] lg:overflow-hidden"
             role="dialog"
             aria-modal="true"
             aria-labelledby="service-overlay-title"

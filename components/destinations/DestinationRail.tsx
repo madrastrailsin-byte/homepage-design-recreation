@@ -136,7 +136,7 @@ export default function DestinationRail({
 
     rail.scrollTo({
       left: Math.max(0, targetLeft),
-      behavior: prefersReducedMotion ? 'auto' : 'smooth',
+      behavior: 'auto',
     })
   }, [selectedId, prefersReducedMotion])
 

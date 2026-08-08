@@ -87,7 +87,7 @@ export default function Scene03InfoPanel({
   onClick={() => {
     document
       .getElementById('callback-request')
-      ?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      ?.scrollIntoView({ behavior: 'auto', block: 'center' })
   }}
   className="btn-gold mt-ui shrink-0 rounded-xl px-4 py-2.5 text-[10px] tracking-[0.14em] transition-transform duration-300 hover:-translate-y-px"
 >
