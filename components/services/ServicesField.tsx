@@ -1141,70 +1141,57 @@ const toggleLight = () => {
   />
 </div>
 
-{/* Antique brass pull chain */}
+{/* Antique brass master switch */}
 <button
   type="button"
   onClick={toggleLight}
   disabled={lightPhase === "flickering" || isPulling}
   aria-label={
     lightPhase === "on"
-      ? "Turn off investigation lamp"
-      : "Turn on investigation lamp"
+      ? "Turn off MadrasTrails experience light"
+      : "Turn on MadrasTrails experience light"
   }
-  className="absolute right-4 top-0 z-[70] flex flex-col items-center disabled:pointer-events-none md:right-10"
+  className="absolute right-4 top-8 z-[70] flex flex-col items-center disabled:pointer-events-none md:right-10"
 >
-  {/* Fixed ceiling mount */}
-  <div className="h-2 w-2 rounded-full bg-[#3b2b18]" />
-
-  {/* Continuous brass chain */}
-<div
-  className="mt-1 flex origin-top flex-col items-center gap-[2px] transition-transform duration-100 ease-out"
-  style={{
-    filter: "drop-shadow(0 2px 2px rgba(0,0,0,.45))",
-    transform: isPulling ? "scaleY(1.14)" : "scaleY(1)",
-  }}
->
-  {Array.from({ length: 18 }).map((_, i) => (
-    <div
-      key={`chain-${i}`}
-      className="h-[8px] w-[4px] rounded-full border border-[#b7893e] bg-[#8c672c]"
-    />
-  ))}
-</div>
-
-    {/* Porcelain handle */}
-<div
-  className="mt-1 h-10 w-6 rounded-b-full rounded-t-[40%] border border-[#c8b89d] bg-gradient-to-b from-[#faf6ef] to-[#ddd1bd] shadow-[0_4px_12px_rgba(0,0,0,.45)] transition-transform duration-100 ease-out"
-  style={{
-    transform: isPulling ? "translateY(20px)" : "translateY(0)",
-  }}
-/>
-</button>
-
-        {/* Pull-chain instruction */}
+  {/* Antique brass wall plate */}
 <motion.div
-  aria-hidden="true"
-  className="pointer-events-none absolute right-[3.3rem] top-[2.8rem] z-[70] select-none md:right-[4.8rem] md:top-[8.6rem]"
-  animate={{ opacity: lightPhase === "off" ? 1 : 0 }}
-  transition={{ duration: 0.35 }}
+  animate={{
+    rotateX: isPulling ? 8 : 0,
+  }}
+  transition={{ duration: 0.2 }}
+  className="relative flex h-[4.2rem] w-[2.8rem] flex-col items-center justify-center rounded-lg border border-[#5c421b] bg-gradient-to-b from-[#5a431f] via-[#80602b] to-[#382510] shadow-[0_10px_25px_rgba(0,0,0,.8)]"
 >
-  <div className="flex items-center">
-  <span
-  className="whitespace-nowrap text-[1.05rem] tracking-[0.06em] text-[#d8b873]/88 md:hidden"
-  style={{ fontFamily: 'var(--font-crimes-times-six)' }}
->
-  PULL THE CHAIN
-</span>
 
-<span className="hidden whitespace-nowrap font-['Crimes_Times_Six'] text-[1.15rem] tracking-[0.08em] text-[#d8b873]/88 md:inline">
-  PULL THE CHAIN
-</span>
+  {/* Weathered ceramic centre */}
+  <div className="absolute inset-1.5 rounded-md border border-[#c5b28a]/30 bg-[#d8ccb0] shadow-inner">
+    
+    {/* State label */}
+    <span className="absolute left-1/2 top-1 -translate-x-1/2 text-[0.45rem] tracking-[0.3em] text-[#3a2812]">
+      {lightPhase === "on" ? "ON" : ""}
+    </span>
 
-  <span className="ml-3 h-px w-12 bg-gradient-to-r from-[#d8b873]/55 to-transparent md:w-16" />
+    <span className="absolute bottom-1 left-1/2 -translate-x-1/2 text-[0.45rem] tracking-[0.3em] text-[#5b4420]">
+      {lightPhase === "off" ? "OFF" : ""}
+    </span>
 
-  <span className="ml-1 h-2 w-2 rotate-45 border-r border-t border-[#d8b873]/70" />
-</div>
+  </div>
+
+  {/* Old brass toggle */}
+  <motion.div
+    animate={{
+      y: lightPhase === "on" ? 12 : -12,
+    }}
+    transition={{
+      type: "spring",
+      stiffness: 260,
+      damping: 20,
+    }}
+    className="relative z-10 h-7 w-4 rounded-full border border-[#765522] bg-gradient-to-b from-[#8c6a32] to-[#4a3215] shadow-[0_4px_12px_rgba(0,0,0,.55)]"
+  />
+
 </motion.div>
+
+</button>
 
         <h2 id="services-board-title" className="sr-only">
           MadrasTrails services inspiration board
