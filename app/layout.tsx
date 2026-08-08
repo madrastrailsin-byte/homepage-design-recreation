@@ -3,6 +3,7 @@ import type { Metadata, Viewport } from 'next'
 import { Catamaran, Cormorant_Garamond, Satisfy } from 'next/font/google'
 import localFont from 'next/font/local'
 import './globals.css'
+import { organizationSchema } from './schema'
 
 const catamaran = Catamaran({
   variable: '--font-catamaran',
@@ -107,14 +108,22 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${catamaran.variable} ${cormorantGaramond.variable} ${signature.variable} ${crimesTimesSix.variable} ${ruthligos.variable} ${amalfiCoast.variable} min-h-full w-full max-w-none overflow-x-hidden rounded-none border-0 bg-[#071B24] shadow-none`}
-    >
-      <body className="m-0 min-h-full w-full max-w-none overflow-x-hidden rounded-none border-0 bg-[#071B24] p-0 font-sans antialiased shadow-none">
-        {children}
-        {process.env.VERCEL === '1' && <Analytics />}
-      </body>
-    </html>
-  )
+  <html
+    lang="en"
+    className={`${catamaran.variable} ${cormorantGaramond.variable} ${signature.variable} ${crimesTimesSix.variable} ${ruthligos.variable} ${amalfiCoast.variable} min-h-full w-full max-w-none overflow-x-hidden rounded-none border-0 bg-[#071B24] shadow-none`}
+  >
+    <body>
+      {children}
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(organizationSchema),
+        }}
+      />
+
+      {process.env.VERCEL === '1' && <Analytics />}
+    </body>
+  </html>
+)
 }
