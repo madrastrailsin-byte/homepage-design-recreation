@@ -233,7 +233,7 @@ animate={{ left: 'calc(100% - 56px)' }}
   }
 >
     <Image
-  src="/images/intro-train-small.webp"
+  src="/images/intro-train.webp"
   sizes="56px"
   quality={75}
   unoptimized

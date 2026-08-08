@@ -1250,7 +1250,9 @@ const toggleLight = () => {
                 key={service.number}
                 service={service}
                 index={index}
-                onOpen={() => setOpenService(service)}
+                onOpen={() => {
+  if (lightPhase === "on") setOpenService(service)
+}}
               />
             ))}
           </div>
