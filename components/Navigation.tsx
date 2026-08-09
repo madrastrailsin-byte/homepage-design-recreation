@@ -151,7 +151,21 @@ export default function Navigation() {
             <span className="relative z-10 leading-none">Plan Your Journey</span>
             <span className="relative z-10 leading-none transition-transform duration-300 group-hover:translate-x-1.5">→</span>
           </JourneyTransitionLink>
-
+        {/* Preload both theme thumbnails */}
+<div className="pointer-events-none absolute h-0 w-0 overflow-hidden opacity-0" aria-hidden="true">
+  <img
+    src="/images/theme/signature-mode.webp"
+    alt=""
+    loading="eager"
+    fetchPriority="high"
+  />
+  <img
+    src="/images/theme/classic-mode.webp"
+    alt=""
+    loading="eager"
+    fetchPriority="high"
+  />
+</div>
           <button
             type="button"
             onClick={() => setIsOpen((v) => !v)}
