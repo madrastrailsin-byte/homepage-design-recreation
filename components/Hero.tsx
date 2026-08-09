@@ -184,12 +184,12 @@ export default function Hero() {
 
           {/* Decorative divider */}
           <div data-hero-reveal="divider" className="mb-[clamp(1rem,4.6vw,1.35rem)] flex w-[clamp(13.75rem,70vw,15.5rem)] items-center gap-0 md:mb-6 md:w-[248px]">
-            <div data-hero-divider-line="left" className="flex-1 h-px origin-right bg-gradient-to-r from-[#C9A24A]/75 to-[#C9A24A]/35" style={{ transform: 'scaleX(0)' }} />
+            <div data-hero-divider-line="left" className="flex-1 h-px origin-right bg-gradient-to-r from-[var(--mt-accent-soft)]/75 to-[var(--mt-accent-soft)]/35" style={{ transform: 'scaleX(0)' }} />
             <div className="relative mx-3 flex h-2.5 w-2.5 items-center justify-center">
-              <div data-hero-divider-diamond className="h-1.5 w-1.5 rotate-45 border border-[#C9A24A]/80" style={{ opacity: 0, transform: 'rotate(45deg) scale(0.82)' }} />
-              <div data-hero-divider-diamond className="absolute h-1 w-1 rotate-45 bg-[#C9A24A]" style={{ opacity: 0, transform: 'rotate(45deg) scale(0.82)' }} />
+              <div data-hero-divider-diamond className="h-1.5 w-1.5 rotate-45 border border-[var(--mt-accent-soft)]/80" style={{ opacity: 0, transform: 'rotate(45deg) scale(0.82)' }} />
+              <div data-hero-divider-diamond className="absolute h-1 w-1 rotate-45 bg-[var(--mt-accent)]" style={{ opacity: 0, transform: 'rotate(45deg) scale(0.82)' }} />
             </div>
-            <div data-hero-divider-line="right" className="flex-1 h-px origin-left bg-gradient-to-l from-[#C9A24A]/75 to-[#C9A24A]/35" style={{ transform: 'scaleX(0)' }} />
+            <div data-hero-divider-line="right" className="flex-1 h-px origin-left bg-gradient-to-l from-[var(--mt-accent-soft)]/75 to-[var(--mt-accent-soft)]/35" style={{ transform: 'scaleX(0)' }} />
           </div>
 
           {/* Description */}
@@ -202,7 +202,7 @@ export default function Hero() {
             <button
               type="button"
               onClick={() => router.push('/services')}
-              className="mt-gold-sheen mt-ui group inline-flex items-center justify-center gap-2 rounded-[4px] bg-[#C9A24A] px-[clamp(1.35rem,6vw,1.75rem)] py-[clamp(0.72rem,3.2vw,0.86rem)] text-[clamp(0.72rem,3vw,0.78rem)] text-[#071B24] shadow-[0_12px_28px_rgba(201,162,74,0.18)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#D4B860] hover:shadow-[0_17px_38px_rgba(201,162,74,0.24)] md:px-8 md:py-3 md:text-xs"
+              className="mt-gold-sheen mt-ui group inline-flex items-center justify-center gap-2 rounded-[4px] bg-[var(--mt-accent-soft)] px-[clamp(1.35rem,6vw,1.75rem)] py-[clamp(0.72rem,3.2vw,0.86rem)] text-[clamp(0.72rem,3vw,0.78rem)] text-[var(--mt-accent-contrast)] shadow-[0_12px_28px_rgba(201,162,74,0.18)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#D4B860] hover:shadow-[0_17px_38px_rgba(201,162,74,0.24)] md:px-8 md:py-3 md:text-xs"
             >
               <Play size={13} className="fill-current" />
               <span>Explore Our Services</span>
@@ -213,15 +213,15 @@ export default function Hero() {
       </div>
 
       {/* Scroll Indicator */}
-      <div className="absolute right-6 top-1/2 z-20 hidden translate-y-10 flex-col items-center gap-4 text-[10px] text-[#C9A24A] md:flex lg:right-8">
-        <div className="relative h-24 w-px overflow-hidden bg-[#C9A24A]/18">
+      <div className="absolute right-6 top-1/2 z-20 hidden translate-y-10 flex-col items-center gap-4 text-[10px] text-[var(--mt-accent-soft)] md:flex lg:right-8">
+        <div className="relative h-24 w-px overflow-hidden bg-[var(--mt-accent-soft)]/18">
           <motion.div
             animate={prefersReducedMotion ? undefined : { y: ['-100%', '125%'] }}
             transition={prefersReducedMotion ? undefined : { duration: 3.8, repeat: Infinity, ease: [0.45, 0, 0.2, 1], repeatDelay: 0.6 }}
-            className="absolute left-0 top-0 h-10 w-px bg-gradient-to-b from-transparent via-[#D4AF37]/75 to-transparent"
+            className="absolute left-0 top-0 h-10 w-px bg-gradient-to-b from-transparent via-[var(--mt-accent)]/75 to-transparent"
           />
         </div>
-        <span className="mt-ui origin-center rotate-[-90deg] whitespace-nowrap tracking-[0.3em] text-[#C9A24A]/78">SCROLL</span>
+        <span className="mt-ui origin-center rotate-[-90deg] whitespace-nowrap tracking-[0.3em] text-[var(--mt-accent-soft)]/78">SCROLL</span>
       </div>
     </section>
   )

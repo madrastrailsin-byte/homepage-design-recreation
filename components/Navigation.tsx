@@ -46,7 +46,7 @@ export default function Navigation() {
     pathname === href || pathname.startsWith(`${href}/`)
 
   return (
-    <nav className={`mt-premium-nav fixed inset-x-0 top-0 z-50 border-b backdrop-blur-2xl transition-all duration-500 ${isScrolled ? 'mt-nav-scrolled border-[#D4AF37]/22 bg-[#020F12]/76 shadow-[0_18px_56px_rgba(0,0,0,0.28)]' : 'border-white/[0.055] bg-[#020F12]/34'}`}>
+    <nav className={`mt-premium-nav fixed inset-x-0 top-0 z-50 border-b backdrop-blur-2xl transition-all duration-500 ${isScrolled ? 'mt-nav-scrolled border-[#D4AF37]/22 bg-[var(--mt-nav-bg)] shadow-[0_18px_56px_rgba(0,0,0,0.28)]' : 'border-white/[0.055] bg-[var(--mt-nav-bg-rest)]'}`}>
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/16 to-transparent" />
       <div className={`pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-[#D4AF37]/35 to-transparent transition-opacity duration-500 ${isScrolled ? 'opacity-100' : 'opacity-35'}`} />
 
@@ -76,8 +76,8 @@ export default function Navigation() {
                 href={item.href}
                 className={`mt-ui relative isolate px-2 py-0 text-[12px] font-medium tracking-[0.16em] transition-colors duration-300 ${
                   active(item.href)
-                    ? 'text-[#D4AF37]'
-                    : 'text-white/78 hover:text-white'
+                    ? 'text-[var(--mt-nav-text-active)]'
+                    : 'text-[var(--mt-nav-text)] hover:text-[var(--mt-text-primary)]'
                 }`}
               >
                 {item.label}
@@ -85,7 +85,7 @@ export default function Navigation() {
                 {active(item.href) && (
                   <motion.span
                     layoutId="nav-active-underline"
-                    className="absolute inset-x-0 -bottom-0.5 h-px bg-[#D4AF37]"
+                    className="absolute inset-x-0 -bottom-0.5 h-px bg-[var(--mt-nav-text-active)]"
                     transition={{
                       type: 'spring',
                       stiffness: 420,
@@ -96,7 +96,7 @@ export default function Navigation() {
               </Link>
 
 {index < navItems.length - 1 && (
-  <span className="mx-4 inline-block h-4 w-px bg-[#D4AF37]/45" />
+  <span className="mx-4 inline-block h-4 w-px bg-[var(--mt-border-strong)]" />
 )}
 
 </div>
@@ -113,8 +113,8 @@ export default function Navigation() {
   whileTap={{ scale: 0.98 }}
   className={`group relative hidden h-[32px] w-[112px] overflow-hidden rounded-full border backdrop-blur-xl transition-all duration-700 md:flex ${
     theme === 'signature'
-      ? 'border-[#D4AF37]/35'
-      : 'border-[#B08D57]/50'
+      ? 'border-[var(--mt-border-strong)]'
+      : 'border-[var(--mt-border-strong)]'
   }`}
 >
   <motion.div
@@ -145,7 +145,7 @@ export default function Navigation() {
 </motion.button>
           <JourneyTransitionLink
             href="/plan"
-            className="group mt-ui relative hidden items-center gap-3 overflow-hidden rounded-full border border-[#D4AF37]/40 bg-[#D4AF37] px-5 py-2 text-[11px] tracking-[0.12em] text-[#07141A] shadow-[0_12px_30px_rgba(212,175,55,0.18)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_18px_40px_rgba(212,175,55,0.28)] md:inline-flex"
+            className="group mt-ui relative hidden items-center gap-3 overflow-hidden rounded-full border border-[var(--mt-border-strong)] bg-[var(--mt-accent)] px-5 py-2 text-[11px] tracking-[0.12em] text-[var(--mt-accent-contrast)] shadow-[var(--mt-shadow-soft)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[var(--mt-shadow-elevated)] md:inline-flex"
           >
             <span className="pointer-events-none absolute inset-y-0 -left-1/3 w-1/3 skew-x-[-18deg] bg-white/34 opacity-0 blur-sm transition-all duration-700 group-hover:left-[115%] group-hover:opacity-100" />
             <span className="relative z-10 leading-none">Plan Your Journey</span>
@@ -185,7 +185,7 @@ export default function Navigation() {
             animate={{ opacity: 1, y: 0 }}
             exit={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: -10 }}
             transition={{ duration: prefersReducedMotion ? 0 : 0.35, ease: [0.22, 1, 0.36, 1] }}
-            className="border-t border-white/[0.07] bg-[#020F12]/92 backdrop-blur-2xl md:hidden"
+            className="border-t border-white/[0.07] bg-[var(--mt-nav-bg)] backdrop-blur-2xl md:hidden"
           >
             <div className="flex flex-col gap-1 px-5 py-5">
               {navItems.map((item) => (
@@ -193,17 +193,17 @@ export default function Navigation() {
     key={item.href}
     href={item.href}
     onClick={() => setIsOpen(false)}
-    className={`mt-ui flex items-center justify-between rounded-xl border px-4 py-3 text-sm tracking-[0.08em] transition-all duration-300 ${active(item.href) ? 'border-[#D4AF37]/30 bg-[#D4AF37]/10 text-[#D4AF37]' : 'border-transparent text-white/82 hover:border-white/10 hover:bg-white/[0.035] hover:text-white'}`}
+    className={`mt-ui flex items-center justify-between rounded-xl border px-4 py-3 text-sm tracking-[0.08em] transition-all duration-300 ${active(item.href) ? 'border-[var(--mt-border-strong)] bg-[color:var(--mt-accent)/0.10] text-[var(--mt-nav-text-active)]' : 'border-transparent text-[var(--mt-nav-text)] hover:border-[var(--mt-border)] hover:bg-white/[0.035] hover:text-[var(--mt-text-primary)]'}`}
                 >
                   {item.label}
-                  <span className="text-[#D4AF37]/65">→</span>
+                  <span className="text-[var(--mt-nav-text-active)] opacity-65">→</span>
                 </Link>
               ))}
 
               <JourneyTransitionLink
                 href="/plan"
                 onNavigate={() => setIsOpen(false)}
-                className="mt-ui mt-3 flex w-full items-center justify-between rounded-xl bg-[#D4AF37] px-4 py-3 text-xs tracking-[0.1em] text-[#07141A]"
+                className="mt-ui mt-3 flex w-full items-center justify-between rounded-xl border border-[var(--mt-border-strong)] bg-[var(--mt-accent)] px-4 py-3 text-xs tracking-[0.1em] text-[var(--mt-accent-contrast)] shadow-[var(--mt-shadow-soft)]"
               >
                 Plan Your Journey <span>→</span>
               </JourneyTransitionLink>
