@@ -1425,3 +1425,162 @@ main.bg-\[\#0D1117\] {
   }
 }
 
+/* ==========================================================================
+   CLASSIC ARTWORK — PREMIUM ENGRAVED PASS
+   Replaces simple line-icons with denser archival cartography / expedition art.
+   Approved Classic palette and placements remain frozen.
+   Visibility intentionally reduced to ~50% of the previous artwork pass.
+   ========================================================================== */
+
+[data-theme="classic"] .mt-scroll-services,
+[data-theme="classic"] .mt-destinations-bg,
+[data-theme="classic"] .mt-scene03-copy-column,
+[data-theme="classic"] .mt-scroll-experiences,
+[data-theme="classic"] .mt-scroll-footer {
+  isolation: isolate;
+}
+
+[data-theme="classic"] .mt-scroll-services::after,
+[data-theme="classic"] .mt-destinations-contour::after,
+[data-theme="classic"] .mt-scene03-copy-column::before,
+[data-theme="classic"] .mt-scroll-experiences::before,
+[data-theme="classic"] .mt-scroll-footer::before {
+  z-index: 1 !important;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+  filter: saturate(.88) contrast(.96);
+}
+
+[data-theme="classic"] .mt-story-service-panel,
+[data-theme="classic"] .mt-destinations-bg > .relative,
+[data-theme="classic"] .mt-scene03-copy,
+[data-theme="classic"] .mt-scroll-experiences > .relative,
+[data-theme="classic"] .mt-scroll-footer > section,
+[data-theme="classic"] .mt-scroll-footer > div.relative {
+  position: relative;
+  z-index: 2 !important;
+}
+
+/* SERVICES — archival route chart + compass rose */
+[data-theme="classic"] .mt-scroll-services::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.36;
+  background-image: url("data:image/svg+xml,%3Csvg%20xmlns='http:%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox='0%200%201300%20360'%3E%0A%3Cg%20fill='none'%20stroke='%238E6428'%20stroke-linecap='round'%3E%0A%3Cpath%20stroke-width='1.25'%20stroke-dasharray='3%209'%20d='M45%20294C193%2074%20391%2062%20535%20181c154%20127%20319%20111%20478-45%2074-73%20147-101%20239-88'%2F%3E%0A%3Cpath%20stroke-width='.55'%20opacity='.5'%20d='M45%20294C205%20100%20397%2091%20533%20195c150%20115%20316%20104%20475-34%2080-69%20157-95%20244-79'%2F%3E%0A%3Ccircle%20cx='45'%20cy='294'%20r='5'%20stroke-width='1.2'%2F%3E%3Ccircle%20cx='1252'%20cy='48'%20r='5'%20stroke-width='1.2'%2F%3E%0A%3C%2Fg%3E%0A%3Cg%20transform='translate(626%20158)%20rotate(-15)'%20fill='none'%20stroke='%238E6428'%20stroke-width='1.55'%20stroke-linecap='round'%20stroke-linejoin='round'%3E%0A%3Cpath%20d='M-42%200h84M7%200l-24-25M7%200l-24%2025M30%200l14-11M30%200l14%2011'%2F%3E%0A%3Cpath%20stroke-width='.7'%20d='M-25-4h28M-25%204h28'%2F%3E%0A%3C%2Fg%3E%3C%2Fsvg%3E"), url("data:image/svg+xml,%3Csvg%20xmlns='http:%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox='0%200%20420%20420'%3E%0A%3Cg%20fill='none'%20stroke='%238E6428'%20stroke-linecap='round'%20stroke-linejoin='round'%3E%0A%3Ccircle%20cx='210'%20cy='210'%20r='166'%20stroke-width='1.4'%2F%3E%0A%3Ccircle%20cx='210'%20cy='210'%20r='143'%20stroke-width='.85'%2F%3E%0A%3Ccircle%20cx='210'%20cy='210'%20r='119'%20stroke-width='.65'%2F%3E%0A%3Ccircle%20cx='210'%20cy='210'%20r='18'%20stroke-width='1.1'%2F%3E%0A%3Cpath%20stroke-width='.7'%20d='M210%2044v18M210%20358v18M44%20210h18M358%20210h18M93%2093l13%2013M314%20314l13%2013M327%2093l-13%2013M106%20314l-13%2013'%2F%3E%0A%3Cpath%20stroke-width='1.35'%20d='M210%2067l19%20124%20124%2019-124%2019-19%20124-19-124-124-19%20124-19z'%2F%3E%0A%3Cpath%20stroke-width='.9'%20d='M210%2067l-19%20124%2019%2019%2019-19zM353%20210l-124-19-19%2019%2019%2019zM210%20353l19-124-19-19-19%2019zM67%20210l124%2019%2019-19-19-19z'%2F%3E%0A%3Cpath%20stroke-width='.55'%20d='M210%2093l12%2091M327%20210l-91%2012M210%20327l-12-91M93%20210l91-12'%2F%3E%0A%3Cpath%20stroke-width='.45'%20d='M210%2044v332M44%20210h332M92%2092l236%20236M328%2092L92%20328'%2F%3E%0A%3Cg%20stroke-width='.6'%3E%0A%3Cpath%20d='M210%2032v10M210%20378v10M32%20210h10M378%20210h10'%2F%3E%0A%3Cpath%20d='M129%2051l5%209M286%20360l5%209M51%20129l9%205M360%20286l9%205M291%2051l-5%209M134%20360l-5%209M369%20129l-9%205M60%20286l-9%205'%2F%3E%0A%3C%2Fg%3E%0A%3C%2Fg%3E%0A%3Cg%20fill='%238E6428'%20font-family='Georgia,serif'%20font-size='15'%20text-anchor='middle'%3E%0A%3Ctext%20x='210'%20y='28'%3EN%3C%2Ftext%3E%3Ctext%20x='396'%20y='215'%3EE%3C%2Ftext%3E%3Ctext%20x='210'%20y='407'%3ES%3C%2Ftext%3E%3Ctext%20x='24'%20y='215'%3EW%3C%2Ftext%3E%0A%3C%2Fg%3E%3C%2Fsvg%3E");
+  background-repeat: no-repeat, no-repeat;
+  background-position: 54% 48%, -24px 60%;
+  background-size: min(1280px,110vw) auto, 240px 240px;
+}
+
+/* DESTINATIONS — atlas map field + expedition embellishments */
+[data-theme="classic"] .mt-destinations-bg {
+  background-image:
+    radial-gradient(circle at 72% 24%, rgba(4,29,34,0.055), transparent 30%),
+    radial-gradient(circle at 19% 30%, rgba(168,121,47,0.09), transparent 29%),
+    linear-gradient(180deg, #F7E9D2 0%, #F1DFC2 52%, #F5E6CD 100%),
+    url("data:image/svg+xml,%3Csvg%20xmlns='http:%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox='0%200%201500%20800'%3E%0A%3Cg%20fill='none'%20stroke='%238E6428'%20stroke-linecap='round'%20stroke-linejoin='round'%3E%0A%3Cg%20stroke-width='.48'%20opacity='.55'%3E%0A%3Cellipse%20cx='750'%20cy='400'%20rx='650'%20ry='275'%2F%3E%0A%3Cellipse%20cx='750'%20cy='400'%20rx='650'%20ry='190'%2F%3E%0A%3Cellipse%20cx='750'%20cy='400'%20rx='650'%20ry='105'%2F%3E%0A%3Cpath%20d='M100%20400h1300M750%20125v550M430%20150c-120%20160-120%20340%200%20500M1070%20150c120%20160%20120%20340%200%20500M240%20220c-70%20115-70%20245%200%20360M1260%20220c70%20115%2070%20245%200%20360'%2F%3E%0A%3C%2Fg%3E%0A%3Cg%20stroke-width='1.2'%3E%0A%3Cpath%20d='M142%20230l43-37%2055%205%2036-30%2055%209%2041-16%2031%2027%203%2038-30%2026-31%203-20%2033-41%208-19%2030-48%202-19-29-38-5-11-32z'%2F%3E%0A%3Cpath%20d='M307%20159l39-25%2051%201%2036%2025%208%2030-30%2026-42%205-27-18-26-4-9-20z'%2F%3E%0A%3Cpath%20d='M425%20306l31-31%2044-6%2035%2021%2025%2037%2043%208%2024%2031-10%2038%2031%2033-3%2042-30%2031-37-8-20-50-35-31-16-47-31-15z'%2F%3E%0A%3Cpath%20d='M631%20188l43-34%2055-5%2037-25%2059%207%2031%2028%2060%204%2034%2031%2059-3%2036%2027-19%2034-48%2016-22%2028-46-3-35%2025-59-3-41-31-50%207-38-27-45-19z'%2F%3E%0A%3Cpath%20d='M921%20334l43-25%2039%2012%2025%2028%2036%2016%2015%2032-18%2031-36%206-19%2031-41-2-26-34-33-16-1-36z'%2F%3E%0A%3Cpath%20d='M1131%20470l37-19%2051%208%2030%2030-8%2037-45%2019-48-12-25-27z'%2F%3E%0A%3C%2Fg%3E%0A%3Cg%20stroke-width='.55'%20opacity='.5'%3E%0A%3Cpath%20d='M184%20262c30-18%2062-21%2096-8M462%20346c42-19%2082-16%20121%2010M705%20220c42-17%2088-17%20137%201M965%20381c34-11%2069-9%20103%205M1162%20499c29-8%2056-7%2083%205'%2F%3E%0A%3Cpath%20d='M132%20294l36-10%2028%208M233%20213l27-7%2035%206M520%20385l22-8%2025%204M788%20245l31-6%2029%207M1000%20421l26-7%2025%205'%2F%3E%0A%3C%2Fg%3E%0A%3C%2Fg%3E%3C%2Fsvg%3E") !important;
+  background-size: auto, auto, auto, min(1500px,128vw) auto;
+  background-position: center, center, center, 50% 49%;
+  background-repeat: no-repeat;
+}
+
+[data-theme="classic"] .mt-journey-motif::before {
+  z-index: 1 !important;
+  opacity: 0.22;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg%20xmlns='http:%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox='0%200%201300%20360'%3E%0A%3Cg%20fill='none'%20stroke='%238E6428'%20stroke-linecap='round'%3E%0A%3Cpath%20stroke-width='1.25'%20stroke-dasharray='3%209'%20d='M45%20294C193%2074%20391%2062%20535%20181c154%20127%20319%20111%20478-45%2074-73%20147-101%20239-88'%2F%3E%0A%3Cpath%20stroke-width='.55'%20opacity='.5'%20d='M45%20294C205%20100%20397%2091%20533%20195c150%20115%20316%20104%20475-34%2080-69%20157-95%20244-79'%2F%3E%0A%3Ccircle%20cx='45'%20cy='294'%20r='5'%20stroke-width='1.2'%2F%3E%3Ccircle%20cx='1252'%20cy='48'%20r='5'%20stroke-width='1.2'%2F%3E%0A%3C%2Fg%3E%0A%3Cg%20transform='translate(626%20158)%20rotate(-15)'%20fill='none'%20stroke='%238E6428'%20stroke-width='1.55'%20stroke-linecap='round'%20stroke-linejoin='round'%3E%0A%3Cpath%20d='M-42%200h84M7%200l-24-25M7%200l-24%2025M30%200l14-11M30%200l14%2011'%2F%3E%0A%3Cpath%20stroke-width='.7'%20d='M-25-4h28M-25%204h28'%2F%3E%0A%3C%2Fg%3E%3C%2Fsvg%3E");
+  background-repeat: no-repeat;
+  background-position: 72% 17%;
+  background-size: min(1240px,108vw) auto;
+}
+
+[data-theme="classic"] .mt-destinations-contour::after {
+  content: '';
+  position: absolute;
+  inset: -8% -6%;
+  opacity: 0.29;
+  background-image: url("data:image/svg+xml,%3Csvg%20xmlns='http:%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox='0%200%20420%20420'%3E%0A%3Cg%20fill='none'%20stroke='%238E6428'%20stroke-linecap='round'%20stroke-linejoin='round'%3E%0A%3Ccircle%20cx='210'%20cy='210'%20r='166'%20stroke-width='1.4'%2F%3E%0A%3Ccircle%20cx='210'%20cy='210'%20r='143'%20stroke-width='.85'%2F%3E%0A%3Ccircle%20cx='210'%20cy='210'%20r='119'%20stroke-width='.65'%2F%3E%0A%3Ccircle%20cx='210'%20cy='210'%20r='18'%20stroke-width='1.1'%2F%3E%0A%3Cpath%20stroke-width='.7'%20d='M210%2044v18M210%20358v18M44%20210h18M358%20210h18M93%2093l13%2013M314%20314l13%2013M327%2093l-13%2013M106%20314l-13%2013'%2F%3E%0A%3Cpath%20stroke-width='1.35'%20d='M210%2067l19%20124%20124%2019-124%2019-19%20124-19-124-124-19%20124-19z'%2F%3E%0A%3Cpath%20stroke-width='.9'%20d='M210%2067l-19%20124%2019%2019%2019-19zM353%20210l-124-19-19%2019%2019%2019zM210%20353l19-124-19-19-19%2019zM67%20210l124%2019%2019-19-19-19z'%2F%3E%0A%3Cpath%20stroke-width='.55'%20d='M210%2093l12%2091M327%20210l-91%2012M210%20327l-12-91M93%20210l91-12'%2F%3E%0A%3Cpath%20stroke-width='.45'%20d='M210%2044v332M44%20210h332M92%2092l236%20236M328%2092L92%20328'%2F%3E%0A%3Cg%20stroke-width='.6'%3E%0A%3Cpath%20d='M210%2032v10M210%20378v10M32%20210h10M378%20210h10'%2F%3E%0A%3Cpath%20d='M129%2051l5%209M286%20360l5%209M51%20129l9%205M360%20286l9%205M291%2051l-5%209M134%20360l-5%209M369%20129l-9%205M60%20286l-9%205'%2F%3E%0A%3C%2Fg%3E%0A%3C%2Fg%3E%0A%3Cg%20fill='%238E6428'%20font-family='Georgia,serif'%20font-size='15'%20text-anchor='middle'%3E%0A%3Ctext%20x='210'%20y='28'%3EN%3C%2Ftext%3E%3Ctext%20x='396'%20y='215'%3EE%3C%2Ftext%3E%3Ctext%20x='210'%20y='407'%3ES%3C%2Ftext%3E%3Ctext%20x='24'%20y='215'%3EW%3C%2Ftext%3E%0A%3C%2Fg%3E%3C%2Fsvg%3E"), url("data:image/svg+xml,%3Csvg%20xmlns='http:%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox='0%200%20440%20360'%3E%0A%3Cg%20fill='none'%20stroke='%238E6428'%20stroke-linecap='round'%20stroke-linejoin='round'%3E%0A%3Cpath%20stroke-width='1.45'%20d='M100%20252h227l-31%2048H136z'%2F%3E%0A%3Cpath%20stroke-width='1.15'%20d='M216%2052v200M216%2067l-82%20117h82zM224%2089l88%2095h-88z'%2F%3E%0A%3Cpath%20stroke-width='.7'%20d='M216%2068l-61%2094M216%2089l70%2073M165%20186l-16%2066M275%20184l18%2068'%2F%3E%0A%3Cpath%20stroke-width='.8'%20d='M145%20252l12-39h84l15%2039M178%20252v-29M210%20252v-29M242%20252v-29'%2F%3E%0A%3Cpath%20stroke-width='1.1'%20d='M87%20306c33%2016%2065%2016%2098%200%2033%2016%2065%2016%2098%200%2029%2014%2058%2015%2087%203'%2F%3E%0A%3Cpath%20stroke-width='.52'%20opacity='.5'%20d='M108%20315c23%2010%2046%2010%2069%200M194%20315c23%2010%2046%2010%2069%200M278%20315c20%209%2040%209%2060%200'%2F%3E%0A%3Cpath%20stroke-width='.45'%20opacity='.42'%20d='M153%20135h54M236%20128h58M151%20153h56M241%20146h50'%2F%3E%0A%3C%2Fg%3E%3C%2Fsvg%3E");
+  background-repeat: no-repeat, no-repeat;
+  background-position: -30px 84%, calc(100% + 18px) 74%;
+  background-size: min(270px,21vw) auto, min(250px,20vw) auto;
+  animation: none !important;
+}
+
+/* STORY — etched mountain horizon + detailed balloon panels */
+[data-theme="classic"] .mt-scene03-copy-column::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.34;
+  background-image: url("data:image/svg+xml,%3Csvg%20xmlns='http:%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox='0%200%201400%20360'%3E%0A%3Cg%20fill='none'%20stroke='%238E6428'%20stroke-linecap='round'%20stroke-linejoin='round'%3E%0A%3Cpath%20stroke-width='1.25'%20d='M0%20311l138-154%2063%2067%20102-143%20116%20162%2091-104%2098%20137%20132-194%20139%20179%20109-119%20119%20159%20101-96%20192%20106'%2F%3E%0A%3Cpath%20stroke-width='.85'%20d='M84%20311l126-99%2066%2058%20106-95%20106%20111%20109-80%20102%2086%20133-115%20124%20110%20128-89%20146%20113'%2F%3E%0A%3Cpath%20stroke-width='.55'%20opacity='.55'%20d='M145%20241l60-42%2039%2034M294%20184l55-51%2041%2058M510%20215l47-39%2037%2043M708%20176l63-64%2050%2070M958%20218l52-52%2043%2052M1172%20231l52-45%2042%2046'%2F%3E%0A%3Cpath%20stroke-width='.48'%20opacity='.45'%20d='M135%20276l25-18%2018%2014M329%20220l29-20%2023%2022M744%20214l35-25%2028%2027M1018%20246l31-21%2027%2020'%2F%3E%0A%3C%2Fg%3E%3C%2Fsvg%3E"), url("data:image/svg+xml,%3Csvg%20xmlns='http:%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox='0%200%20500%20340'%3E%0A%3Cg%20fill='none'%20stroke='%238E6428'%20stroke-linecap='round'%20stroke-linejoin='round'%3E%0A%3Cpath%20stroke-width='1.3'%20d='M128%2042c-43%200-72%2036-65%2083%206%2039%2031%2069%2065%2096%2034-27%2059-57%2065-96%207-47-22-83-65-83z'%2F%3E%0A%3Cpath%20stroke-width='.7'%20d='M128%2042v179M82%2090h92M75%20121h106M91%2063c15%2046%2023%2095%2037%20158M165%2063c-15%2046-23%2095-37%20158'%2F%3E%0A%3Cpath%20stroke-width='1'%20d='M114%20221h28l-5%2028h-18z'%2F%3E%0A%3Cpath%20stroke-width='1.15'%20d='M340%20104c-31%200-52%2026-47%2060%204%2028%2022%2050%2047%2069%2025-19%2043-41%2047-69%205-34-16-60-47-60z'%2F%3E%0A%3Cpath%20stroke-width='.62'%20d='M340%20104v129M306%20136h68M303%20158h74M318%20121c10%2033%2016%2068%2022%20112M362%20121c-10%2033-16%2068-22%20112'%2F%3E%0A%3Cpath%20stroke-width='.9'%20d='M329%20233h22l-4%2021h-14z'%2F%3E%0A%3C%2Fg%3E%3C%2Fsvg%3E");
+  background-repeat: no-repeat, no-repeat;
+  background-position: 52% 98%, 94% 15%;
+  background-size: min(980px,92vw) auto, min(330px,29vw) auto;
+}
+
+/* EXPERIENCES — travel folio horizon + lighthouse + route */
+[data-theme="classic"] .mt-scroll-experiences::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.30;
+  background-image: url("data:image/svg+xml,%3Csvg%20xmlns='http:%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox='0%200%201400%20360'%3E%0A%3Cg%20fill='none'%20stroke='%238E6428'%20stroke-linecap='round'%20stroke-linejoin='round'%3E%0A%3Cpath%20stroke-width='1.25'%20d='M0%20311l138-154%2063%2067%20102-143%20116%20162%2091-104%2098%20137%20132-194%20139%20179%20109-119%20119%20159%20101-96%20192%20106'%2F%3E%0A%3Cpath%20stroke-width='.85'%20d='M84%20311l126-99%2066%2058%20106-95%20106%20111%20109-80%20102%2086%20133-115%20124%20110%20128-89%20146%20113'%2F%3E%0A%3Cpath%20stroke-width='.55'%20opacity='.55'%20d='M145%20241l60-42%2039%2034M294%20184l55-51%2041%2058M510%20215l47-39%2037%2043M708%20176l63-64%2050%2070M958%20218l52-52%2043%2052M1172%20231l52-45%2042%2046'%2F%3E%0A%3Cpath%20stroke-width='.48'%20opacity='.45'%20d='M135%20276l25-18%2018%2014M329%20220l29-20%2023%2022M744%20214l35-25%2028%2027M1018%20246l31-21%2027%2020'%2F%3E%0A%3C%2Fg%3E%3C%2Fsvg%3E"), url("data:image/svg+xml,%3Csvg%20xmlns='http:%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox='0%200%20320%20420'%3E%0A%3Cg%20fill='none'%20stroke='%238E6428'%20stroke-linecap='round'%20stroke-linejoin='round'%3E%0A%3Cpath%20stroke-width='1.35'%20d='M113%20347h101l-18-236h-65z'%2F%3E%0A%3Cpath%20stroke-width='1.05'%20d='M126%20111h75M133%2084h61l14%2027h-89zM145%2057h35l12%2027h-59z'%2F%3E%0A%3Cpath%20stroke-width='.85'%20d='M161%2057V23M82%2076L26%2045M239%2076l55-31M101%2050L65%2013M220%2050l38-37'%2F%3E%0A%3Cpath%20stroke-width='.7'%20d='M139%20157h49M143%20203h42M147%20251h35M151%20299h29'%2F%3E%0A%3Cpath%20stroke-width='.48'%20opacity='.5'%20d='M130%20137l69%2025M132%20179l72%2026M136%20224l70%2025M141%20272l67%2024'%2F%3E%0A%3Cpath%20stroke-width='1.05'%20d='M135%20347l-33%2031h126l-28-31'%2F%3E%0A%3Cpath%20stroke-width='.75'%20d='M75%20383c31%2012%2061%2012%2092%200%2029%2011%2059%2011%2088%200'%2F%3E%0A%3C%2Fg%3E%3C%2Fsvg%3E"), url("data:image/svg+xml,%3Csvg%20xmlns='http:%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox='0%200%201300%20360'%3E%0A%3Cg%20fill='none'%20stroke='%238E6428'%20stroke-linecap='round'%3E%0A%3Cpath%20stroke-width='1.25'%20stroke-dasharray='3%209'%20d='M45%20294C193%2074%20391%2062%20535%20181c154%20127%20319%20111%20478-45%2074-73%20147-101%20239-88'%2F%3E%0A%3Cpath%20stroke-width='.55'%20opacity='.5'%20d='M45%20294C205%20100%20397%2091%20533%20195c150%20115%20316%20104%20475-34%2080-69%20157-95%20244-79'%2F%3E%0A%3Ccircle%20cx='45'%20cy='294'%20r='5'%20stroke-width='1.2'%2F%3E%3Ccircle%20cx='1252'%20cy='48'%20r='5'%20stroke-width='1.2'%2F%3E%0A%3C%2Fg%3E%0A%3Cg%20transform='translate(626%20158)%20rotate(-15)'%20fill='none'%20stroke='%238E6428'%20stroke-width='1.55'%20stroke-linecap='round'%20stroke-linejoin='round'%3E%0A%3Cpath%20d='M-42%200h84M7%200l-24-25M7%200l-24%2025M30%200l14-11M30%200l14%2011'%2F%3E%0A%3Cpath%20stroke-width='.7'%20d='M-25-4h28M-25%204h28'%2F%3E%0A%3C%2Fg%3E%3C%2Fsvg%3E");
+  background-repeat: no-repeat, no-repeat, no-repeat;
+  background-position: 50% 4%, calc(100% + 10px) 84%, 23% 53%;
+  background-size: min(1360px,118vw) auto, min(240px,18vw) auto, min(1100px,96vw) auto;
+}
+
+/* FOOTER — atlas, compass, lighthouse and archival seal */
+[data-theme="classic"] .mt-scroll-footer::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.31;
+  background-image: url("data:image/svg+xml,%3Csvg%20xmlns='http:%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox='0%200%201500%20800'%3E%0A%3Cg%20fill='none'%20stroke='%238E6428'%20stroke-linecap='round'%20stroke-linejoin='round'%3E%0A%3Cg%20stroke-width='.48'%20opacity='.55'%3E%0A%3Cellipse%20cx='750'%20cy='400'%20rx='650'%20ry='275'%2F%3E%0A%3Cellipse%20cx='750'%20cy='400'%20rx='650'%20ry='190'%2F%3E%0A%3Cellipse%20cx='750'%20cy='400'%20rx='650'%20ry='105'%2F%3E%0A%3Cpath%20d='M100%20400h1300M750%20125v550M430%20150c-120%20160-120%20340%200%20500M1070%20150c120%20160%20120%20340%200%20500M240%20220c-70%20115-70%20245%200%20360M1260%20220c70%20115%2070%20245%200%20360'%2F%3E%0A%3C%2Fg%3E%0A%3Cg%20stroke-width='1.2'%3E%0A%3Cpath%20d='M142%20230l43-37%2055%205%2036-30%2055%209%2041-16%2031%2027%203%2038-30%2026-31%203-20%2033-41%208-19%2030-48%202-19-29-38-5-11-32z'%2F%3E%0A%3Cpath%20d='M307%20159l39-25%2051%201%2036%2025%208%2030-30%2026-42%205-27-18-26-4-9-20z'%2F%3E%0A%3Cpath%20d='M425%20306l31-31%2044-6%2035%2021%2025%2037%2043%208%2024%2031-10%2038%2031%2033-3%2042-30%2031-37-8-20-50-35-31-16-47-31-15z'%2F%3E%0A%3Cpath%20d='M631%20188l43-34%2055-5%2037-25%2059%207%2031%2028%2060%204%2034%2031%2059-3%2036%2027-19%2034-48%2016-22%2028-46-3-35%2025-59-3-41-31-50%207-38-27-45-19z'%2F%3E%0A%3Cpath%20d='M921%20334l43-25%2039%2012%2025%2028%2036%2016%2015%2032-18%2031-36%206-19%2031-41-2-26-34-33-16-1-36z'%2F%3E%0A%3Cpath%20d='M1131%20470l37-19%2051%208%2030%2030-8%2037-45%2019-48-12-25-27z'%2F%3E%0A%3C%2Fg%3E%0A%3Cg%20stroke-width='.55'%20opacity='.5'%3E%0A%3Cpath%20d='M184%20262c30-18%2062-21%2096-8M462%20346c42-19%2082-16%20121%2010M705%20220c42-17%2088-17%20137%201M965%20381c34-11%2069-9%20103%205M1162%20499c29-8%2056-7%2083%205'%2F%3E%0A%3Cpath%20d='M132%20294l36-10%2028%208M233%20213l27-7%2035%206M520%20385l22-8%2025%204M788%20245l31-6%2029%207M1000%20421l26-7%2025%205'%2F%3E%0A%3C%2Fg%3E%0A%3C%2Fg%3E%3C%2Fsvg%3E"), url("data:image/svg+xml,%3Csvg%20xmlns='http:%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox='0%200%20420%20420'%3E%0A%3Cg%20fill='none'%20stroke='%238E6428'%20stroke-linecap='round'%20stroke-linejoin='round'%3E%0A%3Ccircle%20cx='210'%20cy='210'%20r='166'%20stroke-width='1.4'%2F%3E%0A%3Ccircle%20cx='210'%20cy='210'%20r='143'%20stroke-width='.85'%2F%3E%0A%3Ccircle%20cx='210'%20cy='210'%20r='119'%20stroke-width='.65'%2F%3E%0A%3Ccircle%20cx='210'%20cy='210'%20r='18'%20stroke-width='1.1'%2F%3E%0A%3Cpath%20stroke-width='.7'%20d='M210%2044v18M210%20358v18M44%20210h18M358%20210h18M93%2093l13%2013M314%20314l13%2013M327%2093l-13%2013M106%20314l-13%2013'%2F%3E%0A%3Cpath%20stroke-width='1.35'%20d='M210%2067l19%20124%20124%2019-124%2019-19%20124-19-124-124-19%20124-19z'%2F%3E%0A%3Cpath%20stroke-width='.9'%20d='M210%2067l-19%20124%2019%2019%2019-19zM353%20210l-124-19-19%2019%2019%2019zM210%20353l19-124-19-19-19%2019zM67%20210l124%2019%2019-19-19-19z'%2F%3E%0A%3Cpath%20stroke-width='.55'%20d='M210%2093l12%2091M327%20210l-91%2012M210%20327l-12-91M93%20210l91-12'%2F%3E%0A%3Cpath%20stroke-width='.45'%20d='M210%2044v332M44%20210h332M92%2092l236%20236M328%2092L92%20328'%2F%3E%0A%3Cg%20stroke-width='.6'%3E%0A%3Cpath%20d='M210%2032v10M210%20378v10M32%20210h10M378%20210h10'%2F%3E%0A%3Cpath%20d='M129%2051l5%209M286%20360l5%209M51%20129l9%205M360%20286l9%205M291%2051l-5%209M134%20360l-5%209M369%20129l-9%205M60%20286l-9%205'%2F%3E%0A%3C%2Fg%3E%0A%3C%2Fg%3E%0A%3Cg%20fill='%238E6428'%20font-family='Georgia,serif'%20font-size='15'%20text-anchor='middle'%3E%0A%3Ctext%20x='210'%20y='28'%3EN%3C%2Ftext%3E%3Ctext%20x='396'%20y='215'%3EE%3C%2Ftext%3E%3Ctext%20x='210'%20y='407'%3ES%3C%2Ftext%3E%3Ctext%20x='24'%20y='215'%3EW%3C%2Ftext%3E%0A%3C%2Fg%3E%3C%2Fsvg%3E"), url("data:image/svg+xml,%3Csvg%20xmlns='http:%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox='0%200%20320%20420'%3E%0A%3Cg%20fill='none'%20stroke='%238E6428'%20stroke-linecap='round'%20stroke-linejoin='round'%3E%0A%3Cpath%20stroke-width='1.35'%20d='M113%20347h101l-18-236h-65z'%2F%3E%0A%3Cpath%20stroke-width='1.05'%20d='M126%20111h75M133%2084h61l14%2027h-89zM145%2057h35l12%2027h-59z'%2F%3E%0A%3Cpath%20stroke-width='.85'%20d='M161%2057V23M82%2076L26%2045M239%2076l55-31M101%2050L65%2013M220%2050l38-37'%2F%3E%0A%3Cpath%20stroke-width='.7'%20d='M139%20157h49M143%20203h42M147%20251h35M151%20299h29'%2F%3E%0A%3Cpath%20stroke-width='.48'%20opacity='.5'%20d='M130%20137l69%2025M132%20179l72%2026M136%20224l70%2025M141%20272l67%2024'%2F%3E%0A%3Cpath%20stroke-width='1.05'%20d='M135%20347l-33%2031h126l-28-31'%2F%3E%0A%3Cpath%20stroke-width='.75'%20d='M75%20383c31%2012%2061%2012%2092%200%2029%2011%2059%2011%2088%200'%2F%3E%0A%3C%2Fg%3E%3C%2Fsvg%3E"), url("data:image/svg+xml,%3Csvg%20xmlns='http:%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox='0%200%20260%20260'%3E%0A%3Cg%20fill='none'%20stroke='%238E6428'%20stroke-linecap='round'%20stroke-linejoin='round'%3E%0A%3Ccircle%20cx='130'%20cy='130'%20r='96'%20stroke-width='1.2'%2F%3E%0A%3Ccircle%20cx='130'%20cy='130'%20r='82'%20stroke-width='.55'%20stroke-dasharray='2%205'%2F%3E%0A%3Cpath%20stroke-width='.85'%20d='M78%20135c35-46%2070-46%20105%200M88%20153c28-28%2056-28%2084%200'%2F%3E%0A%3Cpath%20stroke-width='.65'%20d='M130%2062v45M110%2085h40'%2F%3E%0A%3C%2Fg%3E%0A%3Cg%20fill='%238E6428'%20font-family='Georgia,serif'%20font-size='13'%20text-anchor='middle'%3E%0A%3Ctext%20x='130'%20y='42'%3EMADRASTRAILS%3C%2Ftext%3E%3Ctext%20x='130'%20y='231'%3EBEYOND%20BOUNDARIES%3C%2Ftext%3E%0A%3C%2Fg%3E%3C%2Fsvg%3E");
+  background-repeat: no-repeat, no-repeat, no-repeat, no-repeat;
+  background-position: 50% 34%, -28px 77%, calc(100% + 12px) 72%, 77% 28%;
+  background-size: min(1280px,110vw) auto, min(225px,18vw) auto, min(195px,15vw) auto, min(150px,12vw) auto;
+}
+
+@media (max-width: 767px) {
+  [data-theme="classic"] .mt-scroll-services::after {
+    opacity: 0.28;
+    background-position: 56% 48%, -42px 72%;
+    background-size: 920px auto, 155px 155px;
+  }
+
+  [data-theme="classic"] .mt-destinations-bg {
+    background-size: auto, auto, auto, 1080px auto;
+  }
+
+  [data-theme="classic"] .mt-journey-motif::before {
+    opacity: 0.16;
+    background-size: 940px auto;
+  }
+
+  [data-theme="classic"] .mt-destinations-contour::after {
+    opacity: 0.20;
+    background-position: -44px 91%, calc(100% + 40px) 87%;
+    background-size: 172px auto, 158px auto;
+  }
+
+  [data-theme="classic"] .mt-scene03-copy-column::before {
+    opacity: 0.23;
+    background-position: 50% 100%, calc(100% + 24px) 13%;
+    background-size: 790px auto, 205px auto;
+  }
+
+  [data-theme="classic"] .mt-scroll-experiences::before {
+    opacity: 0.21;
+    background-position: 50% 3%, calc(100% + 38px) 88%, 35% 56%;
+    background-size: 950px auto, 155px auto, 840px auto;
+  }
+
+  [data-theme="classic"] .mt-scroll-footer::before {
+    opacity: 0.22;
+    background-position: 50% 30%, -40px 82%, calc(100% + 30px) 82%, 72% 20%;
+    background-size: 950px auto, 155px auto, 128px auto, 105px auto;
+  }
+}
+
