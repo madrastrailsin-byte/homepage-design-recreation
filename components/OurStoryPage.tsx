@@ -48,7 +48,7 @@ export default function OurStoryPage() {
   }, [prefersReducedMotion])
 
   return (
-    <div ref={pageRef} className="relative overflow-hidden bg-[#03191D] text-[#FAFAF9]">
+    <div ref={pageRef} className="relative overflow-hidden bg-[var(--mt-canvas)] text-[var(--mt-text-primary)]">
       <section className="relative flex min-h-screen items-end overflow-hidden px-6 pb-28 pt-24 md:px-8 md:pb-20 md:pt-28">
         <video
           className="absolute inset-0 h-full w-full object-cover"
@@ -86,7 +86,7 @@ aria-hidden="true"
       </section>
 
       <section className="relative overflow-hidden px-6 py-16 md:px-8 md:py-20">
-        <div className="pointer-events-none absolute left-[-12rem] top-1/2 h-[34rem] w-[34rem] -translate-y-1/2 rounded-full bg-[#0E3A43]/18 blur-[100px]" />
+        <div className="pointer-events-none absolute left-[-12rem] top-1/2 h-[34rem] w-[34rem] -translate-y-1/2 rounded-full bg-[var(--mt-surface-elevated)]/18 blur-[100px]" />
 
         <div className="relative mx-auto grid max-w-7xl items-center gap-10 lg:grid-cols-[1.08fr_0.92fr] lg:gap-16">
           <div data-reveal className="relative min-h-[32rem] overflow-hidden rounded-[2rem]">
@@ -116,11 +116,11 @@ aria-hidden="true"
               <span className="block text-[#D4AF37]">not packages.</span>
             </h2>
 
-            <p data-reveal className="mt-body-copy mt-7 text-base leading-relaxed text-[#FAFAF9]/72">
+            <p data-reveal className="mt-body-copy mt-7 text-base leading-relaxed text-[var(--mt-text-secondary)]">
               MadrasTrails began with a simple belief: meaningful travel starts by listening. Every journey is shaped around the traveller, then brought to life through local knowledge, thoughtful stays and moments that cannot be found in a standard itinerary.
             </p>
 
-            <p data-reveal className="mt-display-soft mt-7 border-l border-[#D4AF37]/60 pl-6 text-2xl leading-relaxed text-[#FAFAF9]">
+            <p data-reveal className="mt-display-soft mt-7 border-l border-[#D4AF37]/60 pl-6 text-2xl leading-relaxed text-[var(--mt-text-primary)]">
               “We do not sell holidays. We shape stories people carry home.”
             </p>
           </div>
@@ -128,7 +128,7 @@ aria-hidden="true"
       </section>
 
       <section className="relative overflow-hidden px-6 pb-16 pt-10 md:px-8 md:pb-20 md:pt-14">
-        <div className="pointer-events-none absolute left-1/2 top-10 h-[30rem] w-[30rem] -translate-x-1/2 rounded-full bg-[#0E3A43]/14 blur-[110px]" />
+        <div className="pointer-events-none absolute left-1/2 top-10 h-[30rem] w-[30rem] -translate-x-1/2 rounded-full bg-[var(--mt-surface-elevated)]/14 blur-[110px]" />
 
         <div className="relative mx-auto max-w-7xl">
           <div data-reveal className="mx-auto max-w-3xl text-center">
@@ -138,12 +138,12 @@ aria-hidden="true"
               <span className="h-px w-12 bg-gradient-to-l from-transparent to-[#D4AF37]" />
             </div>
 
-            <h2 className="mt-display text-5xl leading-[1.04] text-[#FAFAF9] md:text-7xl">
+            <h2 className="mt-display text-5xl leading-[1.04] text-[var(--mt-text-primary)] md:text-7xl">
               Meet the people
               <span className="block text-[#D4AF37]">behind every journey.</span>
             </h2>
 
-            <p className="mt-body-copy mx-auto mt-7 max-w-2xl text-base leading-[1.8] text-[#FAFAF9]/68">
+            <p className="mt-body-copy mx-auto mt-7 max-w-2xl text-base leading-[1.8] text-[var(--mt-text-secondary)]">
               Behind every itinerary is a conversation, a relationship, and two people who care deeply about getting every detail right.
             </p>
           </div>
@@ -153,26 +153,26 @@ aria-hidden="true"
 
             <article data-reveal className="relative">
               <div className="mx-auto flex h-full max-w-[34rem] flex-col">
-                <div className="relative mx-auto aspect-[4/5] w-full max-w-[24rem] overflow-hidden rounded-[2rem] border border-[#D4AF37]/38 bg-[radial-gradient(circle_at_70%_18%,rgba(212,175,55,0.16),transparent_32%),linear-gradient(145deg,#0A3038,#020F12)] shadow-[0_28px_80px_rgba(0,0,0,0.38),0_0_28px_rgba(212,175,55,0.14),inset_0_0_24px_rgba(212,175,55,0.06)]">
-                  <div className="pointer-events-none absolute inset-[1px] rounded-[calc(2rem-1px)] border border-white/[0.04]" />
+                <div className="relative mx-auto aspect-[4/5] w-full max-w-[24rem] overflow-hidden rounded-[2rem] border border-[#D4AF37]/38 bg-[radial-gradient(circle_at_70%_18%,rgba(212,175,55,0.16),transparent_32%),linear-gradient(145deg,var(--mt-surface-elevated),var(--mt-surface))] shadow-[0_28px_80px_rgba(0,0,0,0.38),0_0_28px_rgba(212,175,55,0.14),inset_0_0_24px_rgba(212,175,55,0.06)]">
+                  <div className="pointer-events-none absolute inset-[1px] rounded-[calc(2rem-1px)] border border-[var(--mt-border)]" />
                   <div className="absolute inset-0 flex items-center justify-center">
                     <span className="mt-display text-7xl text-[#D4AF37]/32">MD</span>
                   </div>
-                  <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-[#020F12] to-transparent" />
+                  <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-[var(--mt-surface)] to-transparent" />
                   <p className="mt-ui absolute bottom-6 left-6 text-[9px] tracking-[0.22em] text-[#D4AF37]/68">
                     PORTRAIT TO BE ADDED
                   </p>
                 </div>
 
                 <div className="mt-7 text-center">
-                  <h3 className="whitespace-nowrap font-[family-name:var(--font-ruthligos)] text-[1.8rem] leading-none text-[#FAFAF9] md:text-[2.45rem]">
+                  <h3 className="whitespace-nowrap font-[family-name:var(--font-ruthligos)] text-[1.8rem] leading-none text-[var(--mt-text-primary)] md:text-[2.45rem]">
   Geetha Solomon
 </h3>
                   <p className="mt-ui mt-5 text-[10px] font-medium tracking-[0.22em] text-[#D8C08A]">
                     MANAGING DIRECTOR
                   </p>
 
-                  <p className="mt-body-copy mx-auto mt-6 min-h-[10.5rem] max-w-[31rem] text-base leading-[1.9] text-[#FAFAF9]/70">
+                  <p className="mt-body-copy mx-auto mt-6 min-h-[10.5rem] max-w-[31rem] text-base leading-[1.9] text-[var(--mt-text-secondary)]">
                     As Managing Director and principal investor, she provides the strategic backing that powers MadrasTrails&rsquo; long-term vision. Through trusted relationships across business, industry, public life and entertainment, she brings the brand closer to discerning travellers and meaningful opportunities.
                   </p>
 
@@ -185,26 +185,26 @@ aria-hidden="true"
 
             <article data-reveal className="relative">
               <div className="mx-auto flex h-full max-w-[34rem] flex-col">
-                <div className="relative mx-auto aspect-[4/5] w-full max-w-[24rem] overflow-hidden rounded-[2rem] border border-[#D4AF37]/38 bg-[radial-gradient(circle_at_30%_16%,rgba(212,175,55,0.16),transparent_32%),linear-gradient(145deg,#0B343C,#020F12)] shadow-[0_28px_80px_rgba(0,0,0,0.38),0_0_28px_rgba(212,175,55,0.14),inset_0_0_24px_rgba(212,175,55,0.06)]">
-                  <div className="pointer-events-none absolute inset-[1px] rounded-[calc(2rem-1px)] border border-white/[0.04]" />
+                <div className="relative mx-auto aspect-[4/5] w-full max-w-[24rem] overflow-hidden rounded-[2rem] border border-[#D4AF37]/38 bg-[radial-gradient(circle_at_30%_16%,rgba(212,175,55,0.16),transparent_32%),linear-gradient(145deg,var(--mt-surface-elevated),var(--mt-surface))] shadow-[0_28px_80px_rgba(0,0,0,0.38),0_0_28px_rgba(212,175,55,0.14),inset_0_0_24px_rgba(212,175,55,0.06)]">
+                  <div className="pointer-events-none absolute inset-[1px] rounded-[calc(2rem-1px)] border border-[var(--mt-border)]" />
                   <div className="absolute inset-0 flex items-center justify-center">
                     <span className="mt-display text-7xl text-[#D4AF37]/32">GS</span>
                   </div>
-                  <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-[#020F12] to-transparent" />
+                  <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-[var(--mt-surface)] to-transparent" />
                   <p className="mt-ui absolute bottom-6 left-6 text-[9px] tracking-[0.22em] text-[#D4AF37]/68">
                     PORTRAIT TO BE ADDED
                   </p>
                 </div>
 
                 <div className="mt-8 text-center">
-                  <h3 className="whitespace-nowrap font-[family-name:var(--font-amalfi-coast)] text-[1.6rem] leading-none text-[#FAFAF9] md:text-[1.8rem]">
+                  <h3 className="whitespace-nowrap font-[family-name:var(--font-amalfi-coast)] text-[1.6rem] leading-none text-[var(--mt-text-primary)] md:text-[1.8rem]">
   Gideon R. Solomon
 </h3>
                   <p className="mt-ui mt-7 text-[10px] font-medium tracking-[0.22em] text-[#D8C08A]">
                     FOUNDER &amp; CHIEF JOURNEY ARCHITECT
                   </p>
 
-                  <p className="mt-body-copy mx-auto mt-6 min-h-[10.5rem] max-w-[31rem] text-base leading-[1.9] text-[#FAFAF9]/70">
+                  <p className="mt-body-copy mx-auto mt-6 min-h-[10.5rem] max-w-[31rem] text-base leading-[1.9] text-[var(--mt-text-secondary)]">
                     Gideon leads the vision, destination curation, supplier partnerships, travel planning, client experience and creative direction of MadrasTrails. From the first conversation to the traveller’s return home, every journey is personally shaped to feel thoughtful, seamless and deeply individual. Crafted with care. Remembered for life.
                   </p>
 
@@ -221,12 +221,12 @@ aria-hidden="true"
               OUR SHARED PROMISE
             </p>
 
-            <p className="mt-display mt-5 text-[2.35rem] leading-[1.06] text-[#FAFAF9] md:text-[3.55rem]">
+            <p className="mt-display mt-5 text-[2.35rem] leading-[1.06] text-[var(--mt-text-primary)] md:text-[3.55rem]">
               Thoughtful journeys,
               <span className="block italic text-[#D4AF37]">personally imagined.</span>
             </p>
 
-            <p className="mt-display-soft mx-auto mt-5 max-w-3xl text-xl leading-[1.65] text-[#F2E7CC]/76 md:text-2xl">
+            <p className="mt-display-soft mx-auto mt-5 max-w-3xl text-xl leading-[1.65] text-[var(--mt-text-secondary)] md:text-2xl">
               From the first conversation to the moment you return home,
               <span className="text-[#D8C08A]"> every detail carries our attention.</span>
             </p>

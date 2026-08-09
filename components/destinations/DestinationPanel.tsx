@@ -105,7 +105,7 @@ export default function DestinationPanel({
       <button
         type="button"
         onClick={() => setIsOpen(true)}
-        className="rounded-full border border-[#D4AF37]/45 bg-[#03131A]/75 px-4 py-3 text-[10px] uppercase tracking-[0.24em] text-[#D4AF37] backdrop-blur-2xl"
+        className="rounded-full border border-[var(--mt-border-strong)] bg-[var(--mt-surface-elevated)] px-4 py-3 text-[10px] uppercase tracking-[0.24em] text-[var(--mt-accent)] backdrop-blur-2xl"
       >
         Open Details
       </button>
@@ -131,10 +131,8 @@ export default function DestinationPanel({
       initial={prefersReducedMotion ? false : { opacity: 0, x: 34, scale: 0.965, rotateY: -2 }}
       animate={{ opacity: 1, x: 0, scale: 1, rotateY: 0 }}
       transition={{ duration: 0.82, ease: [0.22, 1, 0.36, 1] }}
-      className="relative flex h-full max-h-[calc(100vh-132px)] w-full flex-col overflow-hidden rounded-[22px] border border-[#D4AF37]/35 p-3 backdrop-blur-2xl md:rounded-[28px] md:p-4"
+      className="relative flex h-full max-h-[calc(100vh-132px)] w-full flex-col overflow-hidden rounded-[22px] border border-[var(--mt-border-strong)] bg-[var(--mt-surface-elevated)] p-3 backdrop-blur-2xl md:rounded-[28px] md:p-4"
       style={{
-        background:
-          'linear-gradient(180deg, rgba(5,21,29,0.86) 0%, rgba(2,13,19,0.74) 100%)',
         boxShadow:
           'inset 0 1px 0 rgba(255,245,218,0.10), inset 0 -1px 0 rgba(212,175,55,0.08), 0 28px 90px rgba(0,0,0,0.48), 0 0 34px rgba(212,175,55,0.10)',
         transformPerspective: 1200,
@@ -168,7 +166,7 @@ export default function DestinationPanel({
         type="button"
         onClick={() => setIsOpen(false)}
         aria-label="Close destination details"
-        className="absolute right-3 top-3 z-30 flex h-7 w-7 items-center justify-center rounded-full border border-[#D4AF37]/45 bg-[#061820]/85 text-base text-[#F5E8CB] transition hover:border-[#D4AF37] hover:bg-[#0A202A] md:right-4 md:top-4 md:h-8 md:w-8 md:text-lg"
+        className="absolute right-3 top-3 z-30 flex h-7 w-7 items-center justify-center rounded-full border border-[var(--mt-border-strong)] bg-[var(--mt-surface)] text-base text-[var(--mt-text-primary)] transition hover:border-[var(--mt-accent)] hover:bg-[var(--mt-surface-elevated)] md:right-4 md:top-4 md:h-8 md:w-8 md:text-lg"
       >
         ×
       </button>
@@ -186,11 +184,11 @@ export default function DestinationPanel({
           </span>
         </div>
 
-        <h2 className="mt-display text-[30px] leading-[0.95] tracking-[-0.02em] text-[#F6EBD3] md:text-[34px]">
+        <h2 className="mt-display text-[30px] leading-[0.95] tracking-[-0.02em] text-[var(--mt-text-primary)] md:text-[34px]">
           {destination.name || 'Curated Destination'}
         </h2>
 
-        <p className="mt-1.5 max-w-none whitespace-nowrap text-[10.5px] leading-[1.25] text-[#D6E0E2]/82 md:mt-2 md:max-w-[250px] md:whitespace-normal md:text-[13px] md:leading-5">
+        <p className="mt-1.5 max-w-none whitespace-nowrap text-[10.5px] leading-[1.25] text-[var(--mt-text-secondary)] md:mt-2 md:max-w-[250px] md:whitespace-normal md:text-[13px] md:leading-5">
           {destination.tagline || 'Curated journeys, shaped around you.'}
         </p>
       </motion.header>
@@ -282,7 +280,7 @@ export default function DestinationPanel({
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 0.46, delay: 0.28 + index * 0.07, ease: [0.22, 1, 0.36, 1] }}
             whileHover={prefersReducedMotion ? undefined : { y: -4, scale: 1.02 }}
-            className="min-w-0 rounded-xl border border-[#D4AF37]/15 bg-white/[0.025] px-1.5 py-2 text-center transition-colors duration-300 hover:border-[#D4AF37]/38 hover:bg-white/[0.045] md:rounded-2xl md:px-2 md:py-3"
+            className="min-w-0 rounded-xl border border-[var(--mt-border)] bg-[var(--mt-surface)] px-1.5 py-2 text-center transition-colors duration-300 hover:border-[var(--mt-border-strong)] hover:bg-[var(--mt-surface-elevated)] md:rounded-2xl md:px-2 md:py-3"
           >
             <div className="mx-auto mb-1.5 flex h-6 w-6 items-center justify-center rounded-full border border-[#D4AF37]/35 text-[#D4AF37] shadow-[0_0_18px_rgba(212,175,55,0.10)] md:mb-2 md:h-8 md:w-8">
               {item.icon}
@@ -290,7 +288,7 @@ export default function DestinationPanel({
             <p className="text-[8px] uppercase tracking-[0.12em] text-[#D4AF37]/75">
               {item.label}
             </p>
-            <p className="mt-1 break-words text-[9px] leading-4 text-[#F2E7CC]/88">
+            <p className="mt-1 break-words text-[9px] leading-4 text-[var(--mt-text-primary)]">
               {item.value}
             </p>
           </motion.div>
@@ -305,7 +303,7 @@ export default function DestinationPanel({
       >
         <Link
           href={`/destinations/${destination.id}`}
-          className="group relative flex items-center justify-between overflow-hidden rounded-lg border border-[#F0D18A]/30 bg-gradient-to-r from-[#DDBD68]/85 via-[#D3AA4D]/78 to-[#B9852E]/82 px-3.5 py-2.5 text-[10px] font-semibold uppercase tracking-[0.12em] text-[#07141A] shadow-[0_10px_26px_rgba(212,175,55,0.18)] backdrop-blur-xl transition hover:brightness-110 md:rounded-xl md:px-4 md:py-3 md:text-[11px] md:tracking-[0.14em]"
+          className="group relative flex items-center justify-between overflow-hidden rounded-lg border border-[#F0D18A]/30 bg-gradient-to-r from-[#DDBD68]/85 via-[#D3AA4D]/78 to-[#B9852E]/82 px-3.5 py-2.5 text-[10px] font-semibold uppercase tracking-[0.12em] text-[var(--mt-accent-contrast)] shadow-[0_10px_26px_rgba(212,175,55,0.18)] backdrop-blur-xl transition hover:brightness-110 md:rounded-xl md:px-4 md:py-3 md:text-[11px] md:tracking-[0.14em]"
         >
           <span className="relative z-10">Explore {destination.name || 'Destination'}</span>
           <span className="relative z-10 text-lg leading-none transition-transform duration-300 group-hover:translate-x-1">→</span>

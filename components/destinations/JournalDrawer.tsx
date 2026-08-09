@@ -100,14 +100,14 @@ export default function JournalDrawer({
               duration: 0.72,
               ease: [0.22, 1, 0.36, 1],
             }}
-            className="relative z-10 h-dvh w-full overflow-y-auto border-l border-white/10 bg-[#07161D]/98 px-7 py-8 shadow-[-30px_0_100px_rgba(0,0,0,0.48)] backdrop-blur-3xl sm:max-w-[560px] sm:px-12 sm:py-10"
+            className="relative z-10 h-dvh w-full overflow-y-auto border-l border-[var(--mt-border)] bg-[var(--mt-canvas)] px-7 py-8 shadow-[-30px_0_100px_rgba(0,0,0,0.48)] backdrop-blur-3xl sm:max-w-[560px] sm:px-12 sm:py-10"
           >
-            <header className="sticky top-0 z-20 -mx-1 flex items-center justify-between border-b border-white/10 bg-[#07161D]/95 px-1 pb-7 backdrop-blur-2xl">
+            <header className="sticky top-0 z-20 -mx-1 flex items-center justify-between border-b border-[var(--mt-border)] bg-[var(--mt-canvas)] px-1 pb-7 backdrop-blur-2xl">
               <div>
                 <p className="text-[9px] font-medium uppercase tracking-[0.38em] text-[#D6B06E]">
                   MadrasTrails Journal
                 </p>
-                <p className="mt-2 text-[8px] font-medium uppercase tracking-[0.28em] text-white/25">
+                <p className="mt-2 text-[8px] font-medium uppercase tracking-[0.28em] text-[var(--mt-text-muted)]">
                   {destination} · Field Notes
                 </p>
               </div>
@@ -116,7 +116,7 @@ export default function JournalDrawer({
                 type="button"
                 onClick={closeDrawer}
                 aria-label="Close journal"
-                className="flex h-11 w-11 items-center justify-center rounded-full border border-white/15 text-xl font-light text-white/65 transition-colors duration-300 hover:border-white/30 hover:text-white"
+                className="flex h-11 w-11 items-center justify-center rounded-full border border-[var(--mt-border-strong)] text-xl font-light text-[var(--mt-text-secondary)] transition-colors duration-300 hover:border-[var(--mt-border-strong)] hover:text-[var(--mt-text-primary)]"
               >
                 ×
               </button>
@@ -143,21 +143,21 @@ export default function JournalDrawer({
                   }}
                   className="pb-10 pt-10"
                 >
-                  <p className="text-[9px] font-medium uppercase tracking-[0.3em] text-white/35">
+                  <p className="text-[9px] font-medium uppercase tracking-[0.3em] text-[var(--mt-text-muted)]">
                     Cultural insight
                   </p>
 
-                  <h2 className="mt-5 font-serif text-[46px] font-light leading-[0.98] tracking-[-0.04em] text-white sm:text-[54px]">
+                  <h2 className="mt-5 font-serif text-[46px] font-light leading-[0.98] tracking-[-0.04em] text-[var(--mt-text-primary)] sm:text-[54px]">
                     {fact.title}
                   </h2>
 
                   <div className="mt-8 h-px w-20 bg-[#D6B06E]/75" />
 
-                  <p className="mt-8 font-serif text-[24px] font-light leading-[1.42] text-white/70">
+                  <p className="mt-8 font-serif text-[24px] font-light leading-[1.42] text-[var(--mt-text-secondary)]">
                     {fact.description}
                   </p>
 
-                  <section className="mt-10 space-y-6 text-[15px] font-light leading-8 text-white/52">
+                  <section className="mt-10 space-y-6 text-[15px] font-light leading-8 text-[var(--mt-text-secondary)]">
                     {fact.story.map((paragraph, index) => (
                       <p key={`${index}-${paragraph}`}>{paragraph}</p>
                     ))}
@@ -168,7 +168,7 @@ export default function JournalDrawer({
                       <p className="text-[9px] font-medium uppercase tracking-[0.34em] text-[#D6B06E]">
                         Details to notice
                       </p>
-                      <span className="h-px flex-1 bg-white/10" />
+                      <span className="h-px flex-1 bg-[var(--mt-border)]" />
                     </div>
 
                     <div className="mt-7 space-y-7">
@@ -181,11 +181,11 @@ export default function JournalDrawer({
                             {String(index + 1).padStart(2, "0")}
                           </span>
 
-                          <div className="border-l border-white/15 pl-5">
-                            <h3 className="font-serif text-[22px] font-light text-white/78">
+                          <div className="border-l border-[var(--mt-border-strong)] pl-5">
+                            <h3 className="font-serif text-[22px] font-light text-[var(--mt-text-primary)]">
                               {detail.label}
                             </h3>
-                            <p className="mt-2 text-sm font-light leading-6 text-white/48">
+                            <p className="mt-2 text-sm font-light leading-6 text-[var(--mt-text-secondary)]">
                               {detail.text}
                             </p>
                           </div>
@@ -194,30 +194,30 @@ export default function JournalDrawer({
                     </div>
                   </section>
 
-                  <section className="mt-12 rounded-[26px] border border-white/10 bg-white/[0.025] p-6">
+                  <section className="mt-12 rounded-[26px] border border-[var(--mt-border)] bg-[var(--mt-surface)] p-6">
                     <p className="text-[8px] font-medium uppercase tracking-[0.32em] text-[#D6B06E]/85">
                       Cultural note
                     </p>
-                    <p className="mt-4 font-serif text-[20px] font-light leading-8 text-white/65">
+                    <p className="mt-4 font-serif text-[20px] font-light leading-8 text-[var(--mt-text-secondary)]">
                       {fact.culturalNote}
                     </p>
                   </section>
 
-                  <section className="mt-12 grid grid-cols-2 gap-6 border-y border-white/10 py-7">
+                  <section className="mt-12 grid grid-cols-2 gap-6 border-y border-[var(--mt-border)] py-7">
                     <div>
-                      <p className="text-[8px] font-medium uppercase tracking-[0.3em] text-white/30">
+                      <p className="text-[8px] font-medium uppercase tracking-[0.3em] text-[var(--mt-text-muted)]">
                         Where
                       </p>
-                      <p className="mt-3 text-sm font-light leading-6 text-white/70">
+                      <p className="mt-3 text-sm font-light leading-6 text-[var(--mt-text-secondary)]">
                         {fact.location}
                       </p>
                     </div>
 
                     <div>
-                      <p className="text-[8px] font-medium uppercase tracking-[0.3em] text-white/30">
+                      <p className="text-[8px] font-medium uppercase tracking-[0.3em] text-[var(--mt-text-muted)]">
                         Best experienced
                       </p>
-                      <p className="mt-3 text-sm font-light leading-6 text-white/70">
+                      <p className="mt-3 text-sm font-light leading-6 text-[var(--mt-text-secondary)]">
                         {fact.season}
                       </p>
                     </div>
@@ -230,9 +230,9 @@ export default function JournalDrawer({
                           Continue the journey
                         </p>
 
-                        <h3 className="mt-3 font-serif text-[30px] font-light leading-tight text-white/85">
+                        <h3 className="mt-3 font-serif text-[30px] font-light leading-tight text-[var(--mt-text-primary)]">
                           Experiences that bring
-                          <span className="block italic text-white/42">
+                          <span className="block italic text-[var(--mt-text-secondary)]">
                             this story to life.
                           </span>
                         </h3>
@@ -247,7 +247,7 @@ export default function JournalDrawer({
                           key={`${experience}-${index}`}
                           type="button"
                           onClick={() => setSelectedExperience(experience)}
-                          className="group relative w-full overflow-hidden rounded-[22px] border border-white/10 bg-white/[0.025] px-5 py-5 text-left transition-all duration-500 hover:border-[#D6B06E]/30 hover:bg-white/[0.045]"
+                          className="group relative w-full overflow-hidden rounded-[22px] border border-[var(--mt-border)] bg-[var(--mt-surface)] px-5 py-5 text-left transition-all duration-500 hover:border-[#D6B06E]/30 hover:bg-[var(--mt-surface-elevated)]"
                         >
                           <div className="absolute inset-y-0 left-0 w-px bg-[#D6B06E]/0 transition-colors duration-500 group-hover:bg-[#D6B06E]/70" />
 
@@ -258,7 +258,7 @@ export default function JournalDrawer({
                               </span>
 
                               <div className="min-w-0">
-                                <p className="font-serif text-[22px] font-light leading-tight text-white/72 transition-colors duration-300 group-hover:text-white">
+                                <p className="font-serif text-[22px] font-light leading-tight text-[var(--mt-text-primary)] transition-colors duration-300 group-hover:text-[var(--mt-text-primary)]">
                                   {experience}
                                 </p>
                                 <p className="mt-2 text-[8px] font-medium uppercase tracking-[0.24em] text-[#D6B06E]/55 transition-colors duration-300 group-hover:text-[#D6B06E]">
@@ -267,7 +267,7 @@ export default function JournalDrawer({
                               </div>
                             </div>
 
-                            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/10 text-sm text-[#D6B06E]/60 transition-all duration-300 group-hover:translate-x-1 group-hover:border-[#D6B06E]/35 group-hover:text-[#D6B06E]">
+                            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[var(--mt-border)] text-sm text-[#D6B06E]/60 transition-all duration-300 group-hover:translate-x-1 group-hover:border-[#D6B06E]/35 group-hover:text-[#D6B06E]">
                               →
                             </span>
                           </div>
@@ -276,13 +276,13 @@ export default function JournalDrawer({
                     </div>
                   </section>
 
-                  <footer className="mt-10 flex items-center justify-between border-t border-white/10 pt-6">
+                  <footer className="mt-10 flex items-center justify-between border-t border-[var(--mt-border)] pt-6">
                     <div>
-                      <p className="text-[8px] font-medium uppercase tracking-[0.28em] text-white/25">
+                      <p className="text-[8px] font-medium uppercase tracking-[0.28em] text-[var(--mt-text-muted)]">
                         MadrasTrails Edition
                       </p>
 
-                      <p className="mt-2 font-serif text-[17px] font-light italic text-white/38">
+                      <p className="mt-2 font-serif text-[17px] font-light italic text-[var(--mt-text-secondary)]">
                         Selected for the way it reveals {destination}.
                       </p>
                     </div>

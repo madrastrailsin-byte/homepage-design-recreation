@@ -46,9 +46,9 @@ export default function Navigation() {
     pathname === href || pathname.startsWith(`${href}/`)
 
   return (
-    <nav className={`mt-premium-nav fixed inset-x-0 top-0 z-50 border-b backdrop-blur-2xl transition-all duration-500 ${isScrolled ? 'mt-nav-scrolled border-[#D4AF37]/22 bg-[var(--mt-nav-bg)] shadow-[0_18px_56px_rgba(0,0,0,0.28)]' : 'border-white/[0.055] bg-[var(--mt-nav-bg-rest)]'}`}>
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/16 to-transparent" />
-      <div className={`pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-[#D4AF37]/35 to-transparent transition-opacity duration-500 ${isScrolled ? 'opacity-100' : 'opacity-35'}`} />
+    <nav className={`mt-premium-nav fixed inset-x-0 top-0 z-50 border-b backdrop-blur-2xl transition-all duration-500 ${isScrolled ? 'mt-nav-scrolled border-[var(--mt-border)] bg-[var(--mt-nav-bg)] shadow-[0_18px_56px_rgba(0,0,0,0.28)]' : 'border-[var(--mt-border)] bg-[var(--mt-nav-bg-rest)]'}`}>
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[var(--mt-border-strong)] to-transparent" />
+      <div className={`pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-[var(--mt-nav-text-active)]/35 to-transparent transition-opacity duration-500 ${isScrolled ? 'opacity-100' : 'opacity-35'}`} />
 
       <div className="mx-auto flex w-full max-w-[92rem] items-center justify-between px-4 py-1.5 sm:px-5 md:grid md:grid-cols-[1fr_auto_1fr] md:px-8 md:py-3.5">
         <motion.a
@@ -169,7 +169,7 @@ export default function Navigation() {
           <button
             type="button"
             onClick={() => setIsOpen((v) => !v)}
-            className="flex h-11 w-11 items-center justify-center rounded-full border border-white/12 bg-white/[0.04] text-white backdrop-blur-xl transition-all duration-300 hover:border-[#D4AF37]/40 hover:text-[#D4AF37] md:hidden"
+            className="flex h-11 w-11 items-center justify-center rounded-full border border-[var(--mt-border)] bg-[var(--mt-surface-elevated)] text-[var(--mt-text-primary)] backdrop-blur-xl transition-all duration-300 hover:border-[var(--mt-border-strong)] hover:text-[var(--mt-nav-text-active)] md:hidden"
             aria-label={isOpen ? 'Close menu' : 'Menu'}
             aria-expanded={isOpen}
           >
@@ -185,7 +185,7 @@ export default function Navigation() {
             animate={{ opacity: 1, y: 0 }}
             exit={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: -10 }}
             transition={{ duration: prefersReducedMotion ? 0 : 0.35, ease: [0.22, 1, 0.36, 1] }}
-            className="border-t border-white/[0.07] bg-[var(--mt-nav-bg)] backdrop-blur-2xl md:hidden"
+            className="border-t border-[var(--mt-border)] bg-[var(--mt-nav-bg)] backdrop-blur-2xl md:hidden"
           >
             <div className="flex flex-col gap-1 px-5 py-5">
               {navItems.map((item) => (
@@ -193,7 +193,7 @@ export default function Navigation() {
     key={item.href}
     href={item.href}
     onClick={() => setIsOpen(false)}
-    className={`mt-ui flex items-center justify-between rounded-xl border px-4 py-3 text-sm tracking-[0.08em] transition-all duration-300 ${active(item.href) ? 'border-[var(--mt-border-strong)] bg-[color:var(--mt-accent)/0.10] text-[var(--mt-nav-text-active)]' : 'border-transparent text-[var(--mt-nav-text)] hover:border-[var(--mt-border)] hover:bg-white/[0.035] hover:text-[var(--mt-text-primary)]'}`}
+    className={`mt-ui flex items-center justify-between rounded-xl border px-4 py-3 text-sm tracking-[0.08em] transition-all duration-300 ${active(item.href) ? 'border-[var(--mt-border-strong)] bg-[color:var(--mt-accent)/0.10] text-[var(--mt-nav-text-active)]' : 'border-transparent text-[var(--mt-nav-text)] hover:border-[var(--mt-border)] hover:bg-[var(--mt-surface-elevated)] hover:text-[var(--mt-text-primary)]'}`}
                 >
                   {item.label}
                   <span className="text-[var(--mt-nav-text-active)] opacity-65">→</span>

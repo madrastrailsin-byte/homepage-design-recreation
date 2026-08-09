@@ -62,12 +62,12 @@ export default function DiscoverSection({
           Beyond the familiar
         </p>
 
-        <h2 className="flex flex-wrap items-baseline gap-x-5 font-serif text-6xl font-light leading-[0.88] tracking-[-0.045em] text-white md:text-8xl lg:text-[124px]">
+        <h2 className="flex flex-wrap items-baseline gap-x-5 font-serif text-6xl font-light leading-[0.88] tracking-[-0.045em] text-[var(--mt-text-primary)] md:text-8xl lg:text-[124px]">
           <span>Discover</span>
-          <span className="text-white/45">{destination.name}</span>
+          <span className="text-[var(--mt-text-secondary)]">{destination.name}</span>
         </h2>
 
-        <p className="relative z-20 mt-5 max-w-4xl text-lg font-light leading-8 text-white/60 md:text-2xl md:leading-10">
+        <p className="relative z-20 mt-5 max-w-4xl text-lg font-light leading-8 text-[var(--mt-text-secondary)] md:text-2xl md:leading-10">
           {isJapan
             ? `Where ancient rituals meet restless modernity, every journey reveals another side of ${destination.name}.`
             : discover.intro}
@@ -86,9 +86,9 @@ export default function DiscoverSection({
             01 · Why visit
           </p>
 
-          <h3 className="font-serif text-4xl font-light leading-tight tracking-[-0.03em] text-white md:text-5xl">
+          <h3 className="font-serif text-4xl font-light leading-tight tracking-[-0.03em] text-[var(--mt-text-primary)] md:text-5xl">
             Why {destination.name} belongs
-            <span className="block italic text-white/45">on your journey.</span>
+            <span className="block italic text-[var(--mt-text-secondary)]">on your journey.</span>
           </h3>
 
           <div className="mt-7 h-px w-20 bg-[#D6B06E]/60" />
@@ -114,7 +114,7 @@ export default function DiscoverSection({
                 <motion.span
                   aria-hidden="true"
                   className={`absolute left-0 top-0 w-px ${
-                    index === 0 ? "bg-[#D6B06E]/70" : "bg-white/18"
+                    index === 0 ? "bg-[#D6B06E]/70" : "bg-[var(--mt-border-strong)]"
                   }`}
                   initial={prefersReducedMotion ? false : { height: 0 }}
                   whileInView={{ height: "100%" }}
@@ -125,10 +125,10 @@ export default function DiscoverSection({
                     ease: [0.22, 1, 0.36, 1],
                   }}
                 />
-                <p className="font-serif text-[20px] font-light leading-tight text-white/85">
+                <p className="font-serif text-[20px] font-light leading-tight text-[var(--mt-text-primary)]">
                   {item.title}
                 </p>
-                <p className="mt-2 text-sm font-light leading-6 text-white/50">
+                <p className="mt-2 text-sm font-light leading-6 text-[var(--mt-text-secondary)]">
                   {item.description}
                 </p>
               </motion.div>

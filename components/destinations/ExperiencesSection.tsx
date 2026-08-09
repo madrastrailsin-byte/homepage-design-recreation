@@ -66,7 +66,7 @@ export default function ExperiencesSection({
 
   return (
     <>
-      <section className="relative overflow-hidden bg-[#06161d] px-5 pb-8 pt-10 text-white sm:px-8 sm:pb-9 sm:pt-14 lg:px-12 lg:pb-10 lg:pt-16">
+      <section className="relative overflow-hidden bg-[var(--mt-canvas)] px-5 pb-8 pt-10 text-[var(--mt-text-primary)] sm:px-8 sm:pb-9 sm:pt-14 lg:px-12 lg:pb-10 lg:pt-16">
         <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#d6b06e]/45 to-transparent" />
 
         <div className="mx-auto max-w-[1500px]">
@@ -94,7 +94,7 @@ export default function ExperiencesSection({
                 className="mt-5 max-w-4xl font-serif text-[44px] font-light leading-[0.98] tracking-[-0.045em] sm:text-[58px] lg:text-[76px]"
               >
                 Journeys worth crossing
-                <span className="block italic text-white/40">
+                <span className="block italic text-[var(--mt-text-secondary)]">
                   the world for.
                 </span>
               </motion.h2>
@@ -105,7 +105,7 @@ export default function ExperiencesSection({
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.7 }}
               transition={{ duration: 0.8, delay: 0.16 }}
-              className="max-w-md text-sm font-light leading-7 text-white/48 lg:pb-2 lg:text-right"
+              className="max-w-md text-sm font-light leading-7 text-[var(--mt-text-secondary)] lg:pb-2 lg:text-right"
             >
               Privately curated, deeply local and shaped around the moments
               that cannot be mass-produced.
@@ -136,8 +136,8 @@ export default function ExperiencesSection({
             />
           </div>
 
-          <div className="mt-8 flex items-center justify-between border-t border-white/10 pt-6">
-            <p className="text-[8px] font-medium uppercase tracking-[0.3em] text-white/25">
+          <div className="mt-8 flex items-center justify-between border-t border-[var(--mt-border)] pt-6">
+            <p className="text-[8px] font-medium uppercase tracking-[0.3em] text-[var(--mt-text-muted)]">
               {`The MadrasTrails ${destination.name} edit`}
             </p>
 

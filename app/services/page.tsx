@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 }
 export default function ServicesPage() {
   return (
-    <main className="min-h-screen overflow-x-hidden bg-[#020F12] text-[#FAFAF9]">
+    <main className="min-h-screen overflow-x-hidden bg-[var(--mt-canvas)] text-[var(--mt-text-primary)]">
       <style>{`
         @media (prefers-reduced-motion: no-preference) {
         }

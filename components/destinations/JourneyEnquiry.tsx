@@ -130,22 +130,22 @@ useEffect(() => {
           Your journey begins here
         </p>
 
-        <h2 className="mt-5 font-serif text-[42px] font-light leading-[1.02] tracking-[-0.035em] text-white">
+        <h2 className="mt-5 font-serif text-[42px] font-light leading-[1.02] tracking-[-0.035em] text-[var(--mt-text-primary)]">
           Thank you,
-          <span className="block italic text-white/45">{name || "traveller"}.</span>
+          <span className="block italic text-[var(--mt-text-secondary)]">{name || "traveller"}.</span>
         </h2>
 
         <div className="mt-7 h-px w-16 bg-[#D6B06E]/60" />
 
-        <p className="mt-7 max-w-md text-sm font-light leading-7 text-white/60">
+        <p className="mt-7 max-w-md text-sm font-light leading-7 text-[var(--mt-text-secondary)]">
           Your enquiry has been prepared. One of our travel designers will personally review your interests and begin shaping recommendations around the way you want to experience {destination}.
         </p>
 
-        <div className="mt-8 rounded-[22px] border border-white/10 bg-white/[0.035] p-5">
-          <p className="text-[8px] font-medium uppercase tracking-[0.3em] text-white/35">
+        <div className="mt-8 rounded-[22px] border border-[var(--mt-border)] bg-[var(--mt-surface)] p-5">
+          <p className="text-[8px] font-medium uppercase tracking-[0.3em] text-[var(--mt-text-muted)]">
             Selected experience
           </p>
-          <p className="mt-3 font-serif text-[24px] font-light leading-tight text-white/85">
+          <p className="mt-3 font-serif text-[24px] font-light leading-tight text-[var(--mt-text-primary)]">
             {experience}
           </p>
         </div>
@@ -153,7 +153,7 @@ useEffect(() => {
         <button
           type="button"
           onClick={onBack}
-          className="mt-9 w-fit text-[9px] font-medium uppercase tracking-[0.28em] text-[#D6B06E] transition-colors duration-300 hover:text-white"
+          className="mt-9 w-fit text-[9px] font-medium uppercase tracking-[0.28em] text-[#D6B06E] transition-colors duration-300 hover:text-[var(--mt-text-primary)]"
         >
           ← Return to the journal
         </button>
@@ -173,7 +173,7 @@ useEffect(() => {
       <button
         type="button"
         onClick={onBack}
-        className="mb-8 text-[9px] font-medium uppercase tracking-[0.28em] text-white/40 transition-colors duration-300 hover:text-white"
+        className="mb-8 text-[9px] font-medium uppercase tracking-[0.28em] text-[var(--mt-text-muted)] transition-colors duration-300 hover:text-[var(--mt-text-primary)]"
       >
         ← Back to the journal
       </button>
@@ -182,25 +182,25 @@ useEffect(() => {
         Private journey enquiry
       </p>
 
-      <h2 className="mt-5 font-serif text-[42px] font-light leading-[1.02] tracking-[-0.035em] text-white">
+      <h2 className="mt-5 font-serif text-[42px] font-light leading-[1.02] tracking-[-0.035em] text-[var(--mt-text-primary)]">
         Let&apos;s craft
-        <span className="block italic text-white/45">your journey.</span>
+        <span className="block italic text-[var(--mt-text-secondary)]">your journey.</span>
       </h2>
 
-      <p className="mt-6 max-w-md text-sm font-light leading-7 text-white/55">
+      <p className="mt-6 max-w-md text-sm font-light leading-7 text-[var(--mt-text-secondary)]">
         Tell us a little about your plans and one of our travel designers will personally shape this experience around you.
       </p>
 
-      <div className="my-8 h-px bg-white/10" />
+      <div className="my-8 h-px bg-[var(--mt-border)]" />
 
       <div className="mb-8 rounded-[22px] border border-[#D6B06E]/20 bg-[#D6B06E]/[0.055] p-5">
         <p className="text-[8px] font-medium uppercase tracking-[0.3em] text-[#D6B06E]/70">
           Your selected experience
         </p>
-        <p className="mt-3 font-serif text-[25px] font-light leading-tight text-white/90">
+        <p className="mt-3 font-serif text-[25px] font-light leading-tight text-[var(--mt-text-primary)]">
           {experience}
         </p>
-        <p className="mt-2 text-xs font-light uppercase tracking-[0.2em] text-white/35">
+        <p className="mt-2 text-xs font-light uppercase tracking-[0.2em] text-[var(--mt-text-muted)]">
           {destination}
         </p>
       </div>
@@ -237,7 +237,7 @@ useEffect(() => {
         </Field>
 
         <fieldset>
-          <legend className="text-[8px] font-medium uppercase tracking-[0.3em] text-white/40">
+          <legend className="text-[8px] font-medium uppercase tracking-[0.3em] text-[var(--mt-text-muted)]">
             Continue with
           </legend>
 
@@ -260,12 +260,12 @@ useEffect(() => {
         </button>
       </form>
 
-      <div className="mt-9 border-t border-white/10 pt-7">
-        <p className="text-[8px] font-medium uppercase tracking-[0.3em] text-white/30">
+      <div className="mt-9 border-t border-[var(--mt-border)] pt-7">
+        <p className="text-[8px] font-medium uppercase tracking-[0.3em] text-[var(--mt-text-muted)]">
           Or contact us directly
         </p>
 
-        <div className="mt-4 space-y-2 text-sm font-light text-white/55">
+        <div className="mt-4 space-y-2 text-sm font-light text-[var(--mt-text-secondary)]">
           <a href={`mailto:${CONTACT_EMAIL}`} className="block transition-colors duration-300 hover:text-[#D6B06E]">
             {CONTACT_EMAIL}
           </a>
@@ -288,12 +288,12 @@ interface FieldProps {
 function Field({ label, required, optional, children }: FieldProps) {
   return (
     <label className="block">
-      <span className="flex items-center justify-between text-[8px] font-medium uppercase tracking-[0.3em] text-white/40">
+      <span className="flex items-center justify-between text-[8px] font-medium uppercase tracking-[0.3em] text-[var(--mt-text-muted)]">
         <span>
           {label}
           {required ? <span className="ml-1 text-[#D6B06E]">*</span> : null}
         </span>
-        {optional ? <span className="text-[7px] tracking-[0.22em] text-white/20">Optional</span> : null}
+        {optional ? <span className="text-[7px] tracking-[0.22em] text-[var(--mt-text-muted)]">Optional</span> : null}
       </span>
       <span className="mt-3 block">{children}</span>
     </label>
@@ -315,15 +315,15 @@ function ContactChoice({ label, value, selected, onSelect }: ContactChoiceProps)
       aria-pressed={selected}
       className={`flex min-h-12 items-center gap-3 rounded-full border px-4 text-left transition-all duration-300 ${
         selected
-          ? "border-[#D6B06E]/55 bg-[#D6B06E]/10 text-white"
-          : "border-white/10 bg-white/[0.025] text-white/45 hover:border-white/20 hover:text-white/70"
+          ? "border-[#D6B06E]/55 bg-[#D6B06E]/10 text-[var(--mt-text-primary)]"
+          : "border-[var(--mt-border)] bg-[var(--mt-surface)] text-[var(--mt-text-secondary)] hover:border-[var(--mt-border-strong)] hover:text-[var(--mt-text-primary)]"
       }`}
     >
-      <span className={`h-2 w-2 rounded-full transition-colors duration-300 ${selected ? "bg-[#D6B06E]" : "bg-white/20"}`} />
+      <span className={`h-2 w-2 rounded-full transition-colors duration-300 ${selected ? "bg-[#D6B06E]" : "bg-[var(--mt-border-strong)]"}`} />
       <span className="text-[8px] font-medium uppercase tracking-[0.22em]">{label}</span>
     </button>
   )
 }
 
 const inputClassName =
-  "w-full border-0 border-b border-white/15 bg-transparent px-0 py-3 text-sm font-light text-white outline-none transition-colors duration-300 placeholder:text-white/20 focus:border-[#D6B06E]/70"
+  "w-full border-0 border-b border-[var(--mt-border-strong)] bg-transparent px-0 py-3 text-sm font-light text-[var(--mt-text-primary)] outline-none transition-colors duration-300 placeholder:text-[var(--mt-text-muted)] focus:border-[#D6B06E]/70"

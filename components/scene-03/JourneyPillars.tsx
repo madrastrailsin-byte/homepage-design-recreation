@@ -181,7 +181,7 @@ export default function JourneyPillars({ words = fallbackWords }: JourneyPillars
       <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
         {sequence.map((word, index) => (
           <div key={word} className="flex items-center gap-3">
-            <span className="mt-display-soft text-xl italic text-[#F6E8C3] md:text-2xl">
+            <span className="mt-display-soft text-xl italic text-[var(--mt-text-primary)] md:text-2xl">
               {word}
             </span>
             {index < sequence.length - 1 ? (
@@ -206,7 +206,7 @@ export default function JourneyPillars({ words = fallbackWords }: JourneyPillars
               filter: index < visibleCount ? 'blur(0px)' : 'blur(4px)',
             }}
             transition={{ duration: 0.82, ease: [0.22, 1, 0.36, 1] }}
-            className="mt-display-soft text-center text-[1.12rem] italic text-[#F6E8C3] sm:text-[1.28rem]"
+            className="mt-display-soft text-center text-[1.12rem] italic text-[var(--mt-text-primary)] sm:text-[1.28rem]"
           >
             {word}
           </motion.span>

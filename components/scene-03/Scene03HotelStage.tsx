@@ -77,7 +77,7 @@ export default function Scene03HotelStage({ content }: Scene03HotelStageProps) {
       }
 
   return (
-    <div className="mt-scene03-visual relative min-h-[28rem] overflow-hidden bg-[#03191D] sm:min-h-[31rem] lg:h-full lg:min-h-[34rem]">
+    <div className="mt-scene03-visual relative min-h-[28rem] overflow-hidden bg-[var(--mt-canvas)] sm:min-h-[31rem] lg:h-full lg:min-h-[34rem]">
       <div className="absolute inset-y-0 right-0 w-full overflow-hidden rounded-l-[2rem] border-y border-l border-[#C9A24A]/12 bg-[#061820] shadow-[0_28px_90px_rgba(0,0,0,0.34)] lg:inset-y-0 lg:w-full">
         <AnimatePresence initial={false} custom={direction}>
           <motion.div

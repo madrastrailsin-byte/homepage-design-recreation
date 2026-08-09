@@ -35,10 +35,10 @@ const arrowButtonBase =
   'w-10 h-10 rounded-full flex items-center justify-center transition-all duration-[360ms] ease-[cubic-bezier(0.22,1,0.36,1)] group/btn'
 
 const outlineArrowButtonBase =
-  `${arrowButtonBase} border border-[#C9A24A]/55 bg-[#061f28]/34 text-[#C9A24A] shadow-[0_10px_24px_rgba(0,0,0,0.24)] hover:border-[#C9A24A]/85 hover:bg-[#C9A24A]/12`
+  `${arrowButtonBase} border border-[var(--mt-border-strong)] bg-[var(--mt-surface-elevated)] text-[var(--mt-accent-soft)] shadow-[0_10px_24px_rgba(0,0,0,0.24)] hover:border-[var(--mt-accent-soft)] hover:bg-[var(--mt-surface-elevated)]`
 
 const filledArrowButtonBase =
-  `${arrowButtonBase} border border-[#C9A24A]/70 bg-[#C9A24A] text-[#071B24] shadow-[0_12px_28px_rgba(0,0,0,0.28)] hover:bg-[#D4B860]`
+  `${arrowButtonBase} border border-[var(--mt-border-strong)] bg-[var(--mt-accent-soft)] text-[var(--mt-accent-contrast)] shadow-[0_12px_28px_rgba(0,0,0,0.28)] hover:bg-[var(--mt-accent)]`
 
 export default function DestinationsSection() {
   const prefersReducedMotion = useReducedMotion()
@@ -61,7 +61,7 @@ export default function DestinationsSection() {
 
   return (
     <section className="mt-scroll-destinations mt-destinations-bg mt-destinations-contour mt-journey-motif relative overflow-hidden pt-2 pb-12 md:pt-4 md:pb-16">
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-[#03191D] via-[#03191D]/46 to-transparent" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-[var(--mt-canvas)] via-[var(--mt-canvas)]/46 to-transparent" />
       <div className="mt-destinations-texture-reveal mt-story-destination-bg absolute inset-0 pointer-events-none" />
       <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-8">
         {/* Two-Column Layout: Text Left, Cards Right */}
@@ -76,11 +76,11 @@ export default function DestinationsSection() {
               viewport={{ once: true, amount: 0.24 }}
               className="flex flex-col items-center gap-2 flex-shrink-0"
             >
-              <div className="mt-eyebrow text-[#C9A24A] text-[10px]" style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}>
+              <div className="mt-eyebrow text-[var(--mt-accent-soft)] text-[10px]" style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}>
                 EXPLORE
               </div>
-              <div className="w-2.5 h-4 border border-[#C9A24A] rounded-full" />
-              <div className="w-px h-24 bg-gradient-to-b from-[#C9A24A] to-transparent" />
+              <div className="w-2.5 h-4 border border-[var(--mt-accent-soft)] rounded-full" />
+              <div className="w-px h-24 bg-gradient-to-b from-[var(--mt-accent-soft)] to-transparent" />
             </motion.div>
             {/* Main Text Block */}
             <div className="flex-1">
@@ -92,8 +92,8 @@ export default function DestinationsSection() {
                 viewport={{ once: true, amount: 0.24 }}
                 className="mb-1.5"
               >
-                <div className="mt-eyebrow text-[#C9A24A] text-xs leading-tight">CURATED GLOBALLY.</div>
-                <div className="mt-eyebrow text-[#C9A24A] text-xs leading-tight">CRAFTED PERSONALLY</div>
+                <div className="mt-eyebrow text-[var(--mt-accent-soft)] text-xs leading-tight">CURATED GLOBALLY.</div>
+                <div className="mt-eyebrow text-[var(--mt-accent-soft)] text-xs leading-tight">CRAFTED PERSONALLY</div>
               </motion.div>
 
               {/* Small Gap */}
@@ -105,7 +105,7 @@ export default function DestinationsSection() {
                 whileInView={textRevealInView}
                 transition={editorialTransition(0.14)}
                 viewport={{ once: true, amount: 0.24 }}
-                className="mt-display text-4xl md:text-5xl text-white mb-[18px] leading-tight"
+                className="mt-display text-4xl md:text-5xl text-[var(--mt-text-primary)] mb-[18px] leading-tight"
               >
                 Your Journey,
                 <br />
@@ -120,8 +120,8 @@ export default function DestinationsSection() {
                 viewport={{ once: true, amount: 0.24 }}
                 className="flex items-center gap-2 my-[22px]"
               >
-                <div className="flex-1 h-px bg-gradient-to-r from-[#C9A24A] to-transparent" />
-                <div className="w-2 h-2 rotate-45 bg-[#C9A24A]" />
+                <div className="flex-1 h-px bg-gradient-to-r from-[var(--mt-accent-soft)] to-transparent" />
+                <div className="w-2 h-2 rotate-45 bg-[var(--mt-accent-soft)]" />
               </motion.div>
 
               {/* Description */}
@@ -130,7 +130,7 @@ export default function DestinationsSection() {
                 whileInView={textRevealInView}
                 transition={editorialTransition(0.26)}
                 viewport={{ once: true, amount: 0.24 }}
-                className="mt-body-copy text-[#E8E8E8]/78 text-sm leading-relaxed mb-6"
+                className="mt-body-copy text-[var(--mt-text-secondary)] text-sm leading-relaxed mb-6"
               >
                 From the world&apos;s most iconic cities to hidden gems only locals know, we design journeys that are as unique as you are.
               </motion.p>
@@ -142,7 +142,7 @@ export default function DestinationsSection() {
                 transition={editorialTransition(0.34)}
                 viewport={{ once: true, amount: 0.24 }}
               >
-                <Link href="/destinations" className="mt-gold-sheen mt-ui text-[#C9A24A] text-xs hover:text-white inline-flex items-center gap-2 group tracking-widest">
+                <Link href="/destinations" className="mt-gold-sheen mt-ui text-[var(--mt-accent-soft)] text-xs hover:text-[var(--mt-text-primary)] inline-flex items-center gap-2 group tracking-widest">
                   Discover Destinations → 
                   <ArrowRight size={14} className={prefersReducedMotion ? '' : 'group-hover:translate-x-1 transition-transform'} />
                 </Link>
@@ -167,7 +167,7 @@ export default function DestinationsSection() {
                   viewport={{ once: true, amount: 0.24 }}
                   className="mt-story-destination-card group cursor-pointer"
                 >
-                    <div className="relative w-full h-72 rounded-3xl overflow-hidden border border-[#C9A24A]/24 shadow-[0_26px_70px_rgba(0,0,0,0.46),0_0_0_1px_rgba(201,162,74,0.08)] transition-[border-color,box-shadow] duration-[420ms] ease-[cubic-bezier(0.22,1,0.36,1)] hover:border-[#C9A24A]/48 hover:shadow-[0_38px_92px_rgba(0,0,0,0.58),0_0_38px_rgba(201,162,74,0.105),inset_0_1px_0_rgba(255,249,228,0.08)]">
+                    <div className="relative w-full h-72 rounded-3xl overflow-hidden border border-[var(--mt-accent-soft)]/24 shadow-[0_26px_70px_rgba(0,0,0,0.46),0_0_0_1px_rgba(201,162,74,0.08)] transition-[border-color,box-shadow] duration-[420ms] ease-[cubic-bezier(0.22,1,0.36,1)] hover:border-[#C9A24A]/48 hover:shadow-[0_38px_92px_rgba(0,0,0,0.58),0_0_38px_rgba(201,162,74,0.105),inset_0_1px_0_rgba(255,249,228,0.08)]">
                     <motion.div
                       initial={imageRevealInitial}
                       whileInView={imageRevealInView}
@@ -207,7 +207,7 @@ export default function DestinationsSection() {
                     viewport={{ once: true, amount: 0.24 }}
                     className="mt-story-destination-card group cursor-pointer"
                   >
-                    <div className="relative w-full h-80 rounded-3xl overflow-hidden border border-[#C9A24A]/34 shadow-[0_34px_96px_rgba(0,0,0,0.56),0_0_0_1px_rgba(201,162,74,0.12)] transition-[border-color,box-shadow] duration-[420ms] ease-[cubic-bezier(0.22,1,0.36,1)] hover:border-[#C9A24A]/54 hover:shadow-[0_46px_116px_rgba(0,0,0,0.66),0_0_42px_rgba(201,162,74,0.105),inset_0_1px_0_rgba(255,249,228,0.08)]">
+                    <div className="relative w-full h-80 rounded-3xl overflow-hidden border border-[var(--mt-accent-soft)]/34 shadow-[0_34px_96px_rgba(0,0,0,0.56),0_0_0_1px_rgba(201,162,74,0.12)] transition-[border-color,box-shadow] duration-[420ms] ease-[cubic-bezier(0.22,1,0.36,1)] hover:border-[#C9A24A]/54 hover:shadow-[0_46px_116px_rgba(0,0,0,0.66),0_0_42px_rgba(201,162,74,0.105),inset_0_1px_0_rgba(255,249,228,0.08)]">
                       <motion.div
                         initial={imageRevealInitial}
                         whileInView={imageRevealInView}
@@ -247,7 +247,7 @@ export default function DestinationsSection() {
                   viewport={{ once: true, amount: 0.24 }}
                   className="mt-story-destination-card group cursor-pointer"
                 >
-                    <div className="relative w-full h-72 rounded-3xl overflow-hidden border border-[#C9A24A]/24 shadow-[0_26px_70px_rgba(0,0,0,0.46),0_0_0_1px_rgba(201,162,74,0.08)] transition-[border-color,box-shadow] duration-[420ms] ease-[cubic-bezier(0.22,1,0.36,1)] hover:border-[#C9A24A]/48 hover:shadow-[0_38px_92px_rgba(0,0,0,0.58),0_0_38px_rgba(201,162,74,0.105),inset_0_1px_0_rgba(255,249,228,0.08)]">
+                    <div className="relative w-full h-72 rounded-3xl overflow-hidden border border-[var(--mt-accent-soft)]/24 shadow-[0_26px_70px_rgba(0,0,0,0.46),0_0_0_1px_rgba(201,162,74,0.08)] transition-[border-color,box-shadow] duration-[420ms] ease-[cubic-bezier(0.22,1,0.36,1)] hover:border-[#C9A24A]/48 hover:shadow-[0_38px_92px_rgba(0,0,0,0.58),0_0_38px_rgba(201,162,74,0.105),inset_0_1px_0_rgba(255,249,228,0.08)]">
                     <motion.div
                       initial={imageRevealInitial}
                       whileInView={imageRevealInView}
@@ -278,7 +278,7 @@ export default function DestinationsSection() {
           </div>
         </div>
       </div>
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-b from-transparent via-[rgba(8,45,52,0.12)] to-[rgba(242,231,204,0.1)]" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-b from-transparent via-[var(--mt-surface)]/12 to-[var(--mt-surface-elevated)]/10" />
     </section>
   )
 }

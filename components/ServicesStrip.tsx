@@ -50,10 +50,10 @@ export default function ServicesStrip() {
 
   return (
     <div
-      className="mt-scroll-services mt-services-flow mt-journey-motif relative isolate z-20 -mt-3 w-full bg-gradient-to-b from-transparent via-[#041D22] to-[#03191D] pt-10 pb-10 md:-mt-14 md:pt-10 md:pb-14"
+      className="mt-scroll-services mt-services-flow mt-journey-motif relative isolate z-20 -mt-3 w-full bg-gradient-to-b from-transparent via-[var(--mt-canvas)] to-[var(--mt-canvas)] pt-10 pb-10 md:-mt-14 md:pt-10 md:pb-14"
       onMouseLeave={() => setActiveIndex(null)}
     >
-      <div className="pointer-events-none absolute inset-x-0 -top-16 z-0 h-32 bg-gradient-to-b from-transparent via-[#03191D]/18 to-[#041D22]" />
+      <div className="pointer-events-none absolute inset-x-0 -top-16 z-0 h-32 bg-gradient-to-b from-transparent via-[var(--mt-canvas)]/18 to-[var(--mt-canvas)]" />
 
       <div className="mt-services-scene mt-story-service-panel relative z-10 mx-auto max-w-7xl px-6 md:px-8">
         <div className="relative">
@@ -170,7 +170,7 @@ export default function ServicesStrip() {
 </div>
       </div>
 
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-0 h-28 bg-gradient-to-b from-transparent via-[#03191D]/28 to-[#03191D]" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-0 h-28 bg-gradient-to-b from-transparent via-[var(--mt-canvas)]/28 to-[var(--mt-canvas)]" />
     </div>
   )
 }

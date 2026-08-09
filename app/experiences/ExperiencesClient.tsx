@@ -249,7 +249,7 @@ export default function ExperiencesPage() {
   }
 
   return (
-    <main className="mt-experiences-page min-h-screen w-full overflow-x-hidden bg-[#03191D] text-[#FAFAF9]">
+    <main className="mt-experiences-page min-h-screen w-full overflow-x-hidden bg-[var(--mt-canvas)] text-[var(--mt-text-primary)]">
       <style>{`
         @media (max-width: 1023px) {
           .mt-experiences-page .mt-premium-nav > div:first-child { padding-top: 0.2rem; padding-bottom: 0.2rem; }
@@ -309,17 +309,17 @@ export default function ExperiencesPage() {
       </section>
 
       <section id="journeys" className="relative overflow-hidden px-5 py-20 sm:px-6 md:px-8 md:py-28">
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_78%_12%,rgba(212,175,55,0.08),transparent_26%),radial-gradient(circle_at_18%_64%,rgba(16,70,78,0.28),transparent_38%),linear-gradient(180deg,#03191D,#020F12_58%,#03191D)]" />
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_78%_12%,rgba(212,175,55,0.08),transparent_26%),radial-gradient(circle_at_18%_64%,rgba(16,70,78,0.10),transparent_38%),linear-gradient(180deg,var(--mt-canvas),var(--mt-surface)_58%,var(--mt-canvas))]" />
         <div className="relative mx-auto max-w-7xl">
           <Reveal className="mb-12 max-w-4xl md:mb-16">
             <p className="mt-eyebrow mb-4 text-xs text-[#D4AF37]">CHOOSE YOUR JOURNEY</p>
-            <h2 className="mt-display text-[clamp(2.8rem,11vw,4rem)] leading-[0.98] text-white md:text-7xl">
+            <h2 className="mt-display text-[clamp(2.8rem,11vw,4rem)] leading-[0.98] text-[var(--mt-text-primary)] md:text-7xl">
   Choose the Story
   <br />
   <span className="text-[#D4AF37]">You Want to Live.</span>
 </h2>
 
-<p className="mt-body-copy mt-6 max-w-2xl text-base leading-relaxed text-white/62 md:text-lg">
+<p className="mt-body-copy mt-6 max-w-2xl text-base leading-relaxed text-[var(--mt-text-secondary)] md:text-lg">
   Every traveller is different. Begin with the way you want to feel, and discover
   experiences shaped around{' '}
   <span className="text-[#D4AF37]">your rhythm.</span>

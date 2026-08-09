@@ -88,8 +88,8 @@ export default function ExperiencesSection() {
   const reduceMotion = useReducedMotion()
 
   return (
-    <section className="mt-scroll-experiences relative overflow-hidden bg-[#071318] px-5 py-16 sm:px-6 md:px-8 md:py-20">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_86%_18%,rgba(201,162,74,0.07),transparent_24%),linear-gradient(180deg,#071318,#03191D)]" />
+    <section className="mt-scroll-experiences relative overflow-hidden bg-[var(--mt-canvas)] px-5 py-16 sm:px-6 md:px-8 md:py-20">
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_86%_18%,rgba(201,162,74,0.07),transparent_24%),linear-gradient(180deg,var(--mt-canvas),var(--mt-canvas))]" />
 
       <div className="relative mx-auto max-w-7xl">
         <motion.div
@@ -101,12 +101,12 @@ export default function ExperiencesSection() {
         >
           <div>
             <p className="mt-eyebrow mb-3 text-[10px] text-[#C9A24A]">WAYS TO TRAVEL</p>
-            <h2 className="mt-display max-w-3xl text-5xl leading-[0.98] text-white md:text-6xl">
+            <h2 className="mt-display max-w-3xl text-5xl leading-[0.98] text-[var(--mt-text-primary)] md:text-6xl">
               Begin with the feeling.
             </h2>
           </div>
 
-          <p className="mt-body-copy max-w-md text-sm leading-relaxed text-white/52 md:text-right md:text-base">
+          <p className="mt-body-copy max-w-md text-sm leading-relaxed text-[var(--mt-text-secondary)] md:text-right md:text-base">
             Choose a travel style and open its full experience story.
           </p>
         </motion.div>

@@ -12,7 +12,7 @@ export default function DestinationTemplate({
   destination,
 }: DestinationTemplateProps) {
   return (
-    <main className="bg-[#03131A] text-white">
+    <main className="bg-[var(--mt-canvas)] text-[var(--mt-text-primary)]">
       <HeroSection destination={destination} />
       <DiscoverSection destination={destination} />
       <ExperiencesSection destination={destination} />

@@ -187,7 +187,7 @@ export default function HeroSection({ destination }: HeroSectionProps) {
         </div>
       </div>
 
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-20 h-24 bg-gradient-to-t from-[#03131A] to-transparent" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-20 h-24 bg-gradient-to-t from-[var(--mt-canvas)] to-transparent" />
     </section>
   )
 }

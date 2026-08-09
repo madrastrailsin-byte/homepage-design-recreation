@@ -22,7 +22,7 @@ export default function Scene03CopyColumn({
     <div className="mt-scene03-copy mt-story-stat-promise relative z-10 flex h-full min-h-[34rem] flex-col justify-center px-6 py-9 sm:px-9 md:px-10 lg:px-12 xl:px-14">
       <p className="mt-eyebrow text-[10px] text-[#C9A24A] sm:text-[11px]">{eyebrow}</p>
 
-      <h2 className="mt-display mt-5 max-w-[31rem] text-[2.3rem] leading-[1.01] text-[#FAFAF9] sm:text-[2.7rem] md:text-[3rem] lg:text-[3.25rem]">
+      <h2 className="mt-display mt-5 max-w-[31rem] text-[2.3rem] leading-[1.01] text-[var(--mt-text-primary)] sm:text-[2.7rem] md:text-[3rem] lg:text-[3.25rem]">
         {headline}
         <br />
         <span className="text-[#C9A24A]">{headlineAccent}</span>
@@ -34,7 +34,7 @@ export default function Scene03CopyColumn({
         <div className="h-px flex-1 bg-gradient-to-l from-[#C9A24A]/80 to-[#C9A24A]/14" />
       </div>
 
-      <p className="mt-body-copy mt-5 max-w-[30rem] text-[0.95rem] leading-[1.75] text-[#E8E8E8]/86 md:text-base">
+      <p className="mt-body-copy mt-5 max-w-[30rem] text-[0.95rem] leading-[1.75] text-[var(--mt-text-secondary)] md:text-base">
         {body}
       </p>
 

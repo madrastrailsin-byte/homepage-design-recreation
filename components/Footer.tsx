@@ -25,7 +25,7 @@ export default function Footer() {
   const motionEase = [0.22, 1, 0.36, 1] as const
   const revealInitial = prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 14 }
   const revealInView = prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }
-  const socialLinkClass = 'mt-gold-sheen flex h-11 w-11 items-center justify-center rounded-full border border-[#D4AF37]/42 bg-[#D4AF37]/[0.025] text-[#D4AF37] shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-[#D4AF37]/70 hover:bg-[#D4AF37] hover:text-[#03191D] hover:shadow-[0_12px_30px_rgba(212,175,55,0.2)]'
+  const socialLinkClass = 'mt-gold-sheen flex h-11 w-11 items-center justify-center rounded-full border border-[#D4AF37]/42 bg-[#D4AF37]/[0.025] text-[#D4AF37] shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-[#D4AF37]/70 hover:bg-[#D4AF37] hover:text-[var(--mt-accent-contrast)] hover:shadow-[0_12px_30px_rgba(212,175,55,0.2)]'
 
   function handleCallbackRequest(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -41,10 +41,10 @@ export default function Footer() {
   }
 
   return (
-    <footer className="mt-scroll-footer relative overflow-hidden border-t border-[#D4AF37]/10 bg-[#03191D]">
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-[#03191D] via-[#03191D]/52 to-transparent" />
+    <footer className="mt-scroll-footer relative overflow-hidden border-t border-[var(--mt-border)] bg-[var(--mt-canvas)]">
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-[var(--mt-canvas)] via-[var(--mt-canvas)]/52 to-transparent" />
       {/* Top Band - Three Parts Side by Side */}
-      <section className="relative z-10 py-12 md:py-16 bg-[#020F12]/34">
+      <section className="relative z-10 py-12 md:py-16 bg-[var(--mt-surface)]/34">
         <div className="max-w-7xl mx-auto px-6 md:px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12 items-center">
             {/* Part A: Logo + Brand Text */}
@@ -66,7 +66,7 @@ export default function Footer() {
               viewport={{ once: true, amount: 0.24 }}
               className="mt-story-footer-newsletter"
             >
-              <h3 className="mt-display text-xl md:text-2xl text-[#FAFAF9] mb-3">Not ready to plan? Let&apos;s talk.</h3>
+              <h3 className="mt-display text-xl md:text-2xl text-[var(--mt-text-primary)] mb-3">Not ready to plan? Let&apos;s talk.</h3>
               <p className="mt-body-copy text-[#D4AF37]/62 text-xs md:text-sm mb-4">
                 Share your number and one of our travel designers will call you to discuss future ideas.
               </p>
@@ -76,7 +76,7 @@ export default function Footer() {
   onSubmit={handleCallbackRequest}
   className="w-full max-w-sm"
 >
-                <div className="flex items-stretch overflow-hidden rounded-[8px] border border-[#D4AF37]/28 bg-[#03191D]/72 shadow-[0_16px_44px_rgba(0,0,0,0.2)] transition focus-within:border-[#D4AF37]/60">
+                <div className="flex items-stretch overflow-hidden rounded-[8px] border border-[#D4AF37]/28 bg-[var(--mt-surface-elevated)] shadow-[0_16px_44px_rgba(0,0,0,0.2)] transition focus-within:border-[#D4AF37]/60">
                   <span className="mt-ui flex items-center border-r border-[#D4AF37]/18 px-3 text-xs text-[#D4AF37]">
                     +91
                   </span>
@@ -93,13 +93,13 @@ export default function Footer() {
                     }}
                     placeholder="Enter mobile number"
                     aria-label="Mobile number"
-                    className="mt-body-copy min-w-0 flex-1 bg-transparent px-3 py-3 text-sm text-[#FAFAF9] outline-none placeholder:text-[#FAFAF9]/34"
+                    className="mt-body-copy min-w-0 flex-1 bg-transparent px-3 py-3 text-sm text-[var(--mt-text-primary)] outline-none placeholder:text-[var(--mt-text-muted)]"
                   />
 
                   <button
                     type="submit"
                     aria-label="Request a callback"
-                    className="mt-gold-sheen flex w-12 shrink-0 items-center justify-center bg-[#D4AF37] text-[#03191D] transition hover:bg-[#E0BD4B]"
+                    className="mt-gold-sheen flex w-12 shrink-0 items-center justify-center bg-[#D4AF37] text-[var(--mt-accent-contrast)] transition hover:bg-[#E0BD4B]"
                   >
                     <ArrowRight size={16} />
                   </button>
@@ -110,7 +110,7 @@ export default function Footer() {
                     <motion.p
                       initial={{ opacity: 0, y: 4 }}
                       animate={{ opacity: 1, y: 0 }}
-                      className="mt-body-copy inline-flex items-center gap-2 rounded-full border border-[#D4AF37]/18 bg-[#D4AF37]/8 px-3 py-1.5 text-xs text-[#FAFAF9]/78"
+                      className="mt-body-copy inline-flex items-center gap-2 rounded-full border border-[#D4AF37]/18 bg-[#D4AF37]/8 px-3 py-1.5 text-xs text-[var(--mt-text-secondary)]"
                     >
                       <Check size={13} className="text-[#D4AF37]" />
                       Request received. We&apos;ll contact you shortly.
@@ -138,7 +138,7 @@ export default function Footer() {
               viewport={{ once: true, amount: 0.24 }}
               className="mt-story-footer-social text-center md:text-right"
             >
-              <h4 className="mt-eyebrow text-[#FAFAF9] mb-4 text-sm">Follow Us</h4>
+              <h4 className="mt-eyebrow text-[var(--mt-text-primary)] mb-4 text-sm">Follow Us</h4>
               <div className="flex gap-4 justify-center md:justify-end">
                 {/* Instagram */}
 <a
@@ -194,10 +194,10 @@ export default function Footer() {
         <div className="max-w-7xl mx-auto px-6 md:px-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 md:gap-8">
             {/* Copyright - Left Side */}
-            <p className="mt-body-copy text-[#999999] text-xs md:text-sm whitespace-nowrap">© MadrasTrails 2026. All Rights Reserved.</p>
+            <p className="mt-body-copy text-[var(--mt-text-muted)] text-xs md:text-sm whitespace-nowrap">© MadrasTrails 2026. All Rights Reserved.</p>
 
             {/* Contact Info - Right Side (Inline) */}
-            <div className="mt-body-copy flex flex-wrap gap-4 md:gap-6 text-[#999999] text-xs md:text-sm justify-center md:justify-end">
+            <div className="mt-body-copy flex flex-wrap gap-4 md:gap-6 text-[var(--mt-text-muted)] text-xs md:text-sm justify-center md:justify-end">
               {/* Location */}
               <a
                 href="https://www.google.com/maps/search/?api=1&query=%23362%2C%20Eden%20Avenue%2C%20Mogappair%2C%20Chennai%20%E2%80%93%20600%20037"

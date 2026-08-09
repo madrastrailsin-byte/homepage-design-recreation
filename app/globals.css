@@ -97,57 +97,53 @@
     --mt-eyebrow-tracking: 0.32em;
   }
   [data-theme="classic"] {
-    --mt-deep-teal: #142326;
-    --mt-bg-dark: #10191B;
-    --mt-bg-deeper: #0B1214;
-    --mt-bg-soft: #182326;
+    --mt-deep-teal: #FAFAF9;
+    --mt-bg-dark: #FAFAF9;
+    --mt-bg-deeper: #FAFAF9;
+    --mt-bg-soft: #FAFAF9;
 
-    --mt-gold: #B79A64;
-    --mt-antique-gold: #A98B59;
-    --mt-cream: #EEE8DC;
-    --mt-logo-white: #F7F5EF;
+    --mt-gold: #C9A24A;
+    --mt-antique-gold: #B99245;
+    --mt-cream: #FAFAF9;
+    --mt-logo-white: #041D22;
 
-    --mt-canvas: #10191B;
-    --mt-canvas-deep: #0B1214;
-    --mt-surface: #182326;
-    --mt-surface-elevated: #202C2F;
+    --mt-canvas: #FAFAF9;
+    --mt-canvas-deep: #FAFAF9;
+    --mt-surface: #FAFAF9;
+    --mt-surface-elevated: #F4F2ED;
 
-    --mt-text-primary: #F1EDE5;
-    --mt-text-secondary: rgba(241, 237, 229, 0.72);
-    --mt-text-muted: rgba(241, 237, 229, 0.50);
+    --mt-text-primary: #041D22;
+    --mt-text-secondary: rgba(4, 29, 34, 0.72);
+    --mt-text-muted: rgba(4, 29, 34, 0.52);
 
-    --mt-accent: #B79A64;
-    --mt-accent-soft: #9E8458;
-    --mt-accent-contrast: #10191B;
+    --mt-accent: #C9A24A;
+    --mt-accent-soft: #B99245;
+    --mt-accent-contrast: #041D22;
 
     --mt-border: rgba(238, 232, 220, 0.12);
     --mt-border-strong: rgba(183, 154, 100, 0.28);
 
-    --mt-nav-bg: rgba(11, 18, 20, 0.88);
-    --mt-nav-bg-rest: rgba(11, 18, 20, 0.58);
-    --mt-nav-text: rgba(241, 237, 229, 0.72);
-    --mt-nav-text-active: #B79A64;
+    --mt-nav-bg: rgba(250, 250, 249, 0.92);
+    --mt-nav-bg-rest: rgba(250, 250, 249, 0.82);
+    --mt-nav-text: rgba(4, 29, 34, 0.78);
+    --mt-nav-text-active: #C9A24A;
         --mt-shadow-soft: 0 12px 30px rgba(0, 0, 0, 0.16);
     --mt-shadow-elevated: 0 18px 40px rgba(0, 0, 0, 0.22);
-        /* Classic typography */
+            /* Classic typography — geometry locked to Signature */
     --mt-font-display: var(--font-cormorant-garamond), Georgia, serif;
     --mt-font-body: var(--font-catamaran), system-ui, sans-serif;
     --mt-font-ui: var(--font-catamaran), system-ui, sans-serif;
 
-    --mt-display-weight: 600;
-    --mt-display-tracking: 0.018em;
+    --mt-display-weight: 700;
+    --mt-display-tracking: 0em;
 
     --mt-body-weight: 300;
-    --mt-body-tracking: 0.018em;
+    --mt-body-tracking: 0.01em;
 
-    --mt-ui-weight: 500;
-    --mt-ui-tracking: 0.11em;
+    --mt-ui-weight: 600;
+    --mt-ui-tracking: 0.08em;
 
-    --mt-eyebrow-tracking: 0.38em;
-
-    --mt-light-x: 72%;
-    --mt-light-y: 8%;
-    --mt-light-warmth: 0.035;
+    --mt-eyebrow-tracking: 0.32em;
   }
   * {
     @apply border-border;
