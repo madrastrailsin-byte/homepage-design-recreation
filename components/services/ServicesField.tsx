@@ -1060,8 +1060,8 @@ const toggleLight = () => {
   }, 220);
 
   window.setTimeout(() => {
-    setIsPulling(false);
-  }, 650);
+  setIsPulling(false);
+}, 6200);
 };
 
 
@@ -1157,7 +1157,7 @@ const toggleLight = () => {
   animate={
   isPulling
     ? {
-        rotate: [0, -7.5, 5.8, -4.4, 3.1, -2.1, 1.3, -0.7, 0],
+        rotate: [0, -8, 6.5, -5.2, 4.1, -3.2, 2.4, -1.7, 1.1, -0.6, 0],
       }
     : {
         rotate: [-5.2, 5.2, -5.2],
@@ -1166,12 +1166,12 @@ const toggleLight = () => {
 transition={
   isPulling
     ? {
-        duration: 5.2,
-        times: [0, 0.12, 0.27, 0.41, 0.55, 0.68, 0.8, 0.91, 1],
+        duration: 6,
+        times: [0, 0.1, 0.2, 0.31, 0.42, 0.53, 0.64, 0.74, 0.84, 0.93, 1],
         ease: "easeInOut",
       }
     : {
-        duration: 8.5,
+        duration: 9.5,
         repeat: Infinity,
         ease: "easeInOut",
       }
@@ -1192,9 +1192,28 @@ transition={
     />
   </motion.div>
 </button>
-        <h2 id="services-board-title" className="sr-only">
-          MadrasTrails services inspiration board
-        </h2>
+{/* Lantern instruction — visible only when the light is off */}
+<AnimatePresence>
+  {lightPhase === "off" && (
+    <motion.p
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.45 }}
+      className="absolute right-[7rem] top-[1.5rem] z-[70] whitespace-nowrap text-center text-[1rem] leading-[1] tracking-[0.03em] text-[#f8f3e8]/75 md:right-[11rem]"
+    >
+      <span className="text-[1.1rem] font-semibold tracking-[0.12em] text-[#ffd76a] drop-shadow-[0_0_6px_rgba(255,215,106,.95)] [text-shadow:0_0_14px_rgba(212,175,55,.6)]">
+  TAP THE LANTERN
+</span>
+      <br />
+      to explore our services.
+    </motion.p>
+  )}
+</AnimatePresence>
+
+<h2 id="services-board-title" className="sr-only">
+  MadrasTrails services inspiration board
+</h2>
 
         <div className="relative z-10 mx-auto h-auto min-h-[42rem] w-full max-w-[1500px] px-4 py-5 sm:px-6 md:h-full md:min-h-0 md:px-8 md:py-6 lg:px-10">
           <div className="absolute inset-x-4 top-4 z-[60] flex items-start justify-between gap-6 text-[#f8f3e8]/62 md:inset-x-8 lg:inset-x-10">
