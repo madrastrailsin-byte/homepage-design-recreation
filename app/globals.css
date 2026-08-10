@@ -1584,3 +1584,261 @@ main.bg-\[\#0D1117\] {
   }
 }
 
+
+/* ==========================================================================
+   CLASSIC THEME — REFERENCE FIDELITY PASS
+   Goal: true heritage travel theme, not a light-mode recolour.
+   Keeps approved geometry and media intact; deepens parchment, artwork and
+   editorial hierarchy to match the supplied visual references.
+   ========================================================================== */
+
+[data-theme="classic"] {
+  --mt-deep-teal: #F1DFC0;
+  --mt-bg-dark: #F1DFC0;
+  --mt-bg-deeper: #E9D2AE;
+  --mt-bg-soft: #F5E7CF;
+
+  --mt-cream: #F3E3C8;
+  --mt-logo-white: #041D22;
+
+  --mt-canvas: #F3E3C8;
+  --mt-canvas-deep: #EBD6B4;
+  --mt-surface: #EEDABB;
+  --mt-surface-elevated: #F8EAD2;
+
+  --mt-text-primary: #0A282D;
+  --mt-text-secondary: rgba(10, 40, 45, 0.76);
+  --mt-text-muted: rgba(10, 40, 45, 0.56);
+
+  --mt-accent: #B98735;
+  --mt-accent-soft: #9A6A28;
+  --mt-accent-contrast: #071B20;
+
+  --mt-border: rgba(112, 76, 31, 0.18);
+  --mt-border-strong: rgba(112, 76, 31, 0.34);
+
+  --mt-nav-bg: rgba(243, 227, 200, 0.94);
+  --mt-nav-bg-rest: rgba(243, 227, 200, 0.90);
+  --mt-nav-text: rgba(10, 40, 45, 0.82);
+  --mt-nav-text-active: #9A6A28;
+}
+
+/* Make the entire Classic experience sit on parchment rather than browser-white. */
+[data-theme="classic"] body {
+  background-color: #F3E3C8 !important;
+  background-image:
+    radial-gradient(circle at 16% 14%, rgba(255,248,233,.52), transparent 31%),
+    radial-gradient(circle at 82% 24%, rgba(167,113,44,.055), transparent 29%),
+    linear-gradient(180deg, #F7E9D2 0%, #F1DFC2 48%, #EED8B7 100%),
+    url("data:image/svg+xml,%3Csvg%20xmlns='http:%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width='180'%20height='180'%20viewBox='0%200%20180%20180'%3E%0A%3Cfilter%20id='n'%3E%3CfeTurbulence%20type='fractalNoise'%20baseFrequency='.82'%20numOctaves='4'%20seed='8'%2F%3E%3CfeColorMatrix%20values='0%200%200%200%20.55%200%200%200%200%20.38%200%200%200%200%20.20%200%200%200%20.13%200'%2F%3E%3C%2Ffilter%3E%0A%3Crect%20width='180'%20height='180'%20fill='transparent'%20filter='url(%23n)'%2F%3E%0A%3C%2Fsvg%3E") !important;
+  background-blend-mode: normal, normal, normal, multiply;
+}
+
+/* Header becomes an archival folio header, not translucent white glass. */
+[data-theme="classic"] .mt-premium-nav,
+[data-theme="classic"] .mt-premium-nav.mt-nav-scrolled {
+  background-color: rgba(244, 228, 201, 0.96) !important;
+  background-image:
+    linear-gradient(180deg, rgba(255,250,238,.38), rgba(218,190,148,.14)),
+    url("data:image/svg+xml,%3Csvg%20xmlns='http:%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width='180'%20height='180'%20viewBox='0%200%20180%20180'%3E%0A%3Cfilter%20id='n'%3E%3CfeTurbulence%20type='fractalNoise'%20baseFrequency='.82'%20numOctaves='4'%20seed='8'%2F%3E%3CfeColorMatrix%20values='0%200%200%200%20.55%200%200%200%200%20.38%200%200%200%200%20.20%200%200%200%20.13%200'%2F%3E%3C%2Ffilter%3E%0A%3Crect%20width='180'%20height='180'%20fill='transparent'%20filter='url(%23n)'%2F%3E%0A%3C%2Fsvg%3E") !important;
+  border-bottom: 1px solid rgba(112,76,31,.24) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.66),
+    inset 0 -1px 0 rgba(112,76,31,.12),
+    0 10px 32px rgba(79,54,24,.08) !important;
+}
+
+/* SERVICES — framed editorial strip, parchment card feeling. */
+[data-theme="classic"] .mt-scroll-services {
+  --mt-canvas: #F0DDBC;
+  background:
+    linear-gradient(180deg, rgba(248,235,213,.97), rgba(235,212,177,.96)),
+    url("data:image/svg+xml,%3Csvg%20xmlns='http:%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width='180'%20height='180'%20viewBox='0%200%20180%20180'%3E%0A%3Cfilter%20id='n'%3E%3CfeTurbulence%20type='fractalNoise'%20baseFrequency='.82'%20numOctaves='4'%20seed='8'%2F%3E%3CfeColorMatrix%20values='0%200%200%200%20.55%200%200%200%200%20.38%200%200%200%200%20.20%200%200%200%20.13%200'%2F%3E%3C%2Ffilter%3E%0A%3Crect%20width='180'%20height='180'%20fill='transparent'%20filter='url(%23n)'%2F%3E%0A%3C%2Fsvg%3E") !important;
+  border-top: 1px solid rgba(112,76,31,.16);
+  border-bottom: 1px solid rgba(112,76,31,.22);
+}
+
+[data-theme="classic"] .mt-scroll-services::after {
+  opacity: .18 !important;
+  background-image: url("data:image/svg+xml,%3Csvg%20xmlns='http:%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox='0%200%20420%20420'%3E%0A%3Cdefs%3E%3Cfilter%20id='r'%3E%3CfeTurbulence%20type='fractalNoise'%20baseFrequency='.012'%20numOctaves='2'%20seed='4'%20result='n'%2F%3E%3CfeDisplacementMap%20in='SourceGraphic'%20in2='n'%20scale='1.6'%2F%3E%3C%2Ffilter%3E%3C%2Fdefs%3E%0A%3Cg%20filter='url(%23r)'%20fill='none'%20stroke='%23765020'%20stroke-linecap='round'%20stroke-linejoin='round'%3E%0A%3Ccircle%20cx='210'%20cy='210'%20r='166'%20stroke-width='1.3'%2F%3E%3Ccircle%20cx='210'%20cy='210'%20r='143'%20stroke-width='.8'%2F%3E%3Ccircle%20cx='210'%20cy='210'%20r='118'%20stroke-width='.55'%2F%3E%0A%3Cpath%20stroke-width='1.35'%20d='M210%2063l21%20126%20126%2021-126%2021-21%20126-21-126-126-21%20126-21z'%2F%3E%0A%3Cpath%20stroke-width='.8'%20d='M210%2063l-21%20126%2021%2021%2021-21zM357%20210l-126-21-21%2021%2021%2021zM210%20357l21-126-21-21-21%2021zM63%20210l126%2021%2021-21-21-21z'%2F%3E%0A%3Cpath%20stroke-width='.45'%20d='M210%2044v332M44%20210h332M92%2092l236%20236M328%2092L92%20328'%2F%3E%0A%3C%2Fg%3E%0A%3Cg%20fill='%23765020'%20opacity='.8'%20font-family='Georgia,serif'%20font-size='15'%20text-anchor='middle'%3E%3Ctext%20x='210'%20y='28'%3EN%3C%2Ftext%3E%3Ctext%20x='396'%20y='215'%3EE%3C%2Ftext%3E%3Ctext%20x='210'%20y='407'%3ES%3C%2Ftext%3E%3Ctext%20x='24'%20y='215'%3EW%3C%2Ftext%3E%3C%2Fg%3E%0A%3C%2Fsvg%3E"), url("data:image/svg+xml,%3Csvg%20xmlns='http:%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox='0%200%201500%20860'%3E%0A%3Cdefs%3E%0A%3Cfilter%20id='rough'%3E%3CfeTurbulence%20type='fractalNoise'%20baseFrequency='.006%20.018'%20numOctaves='2'%20seed='11'%20result='n'%2F%3E%3CfeDisplacementMap%20in='SourceGraphic'%20in2='n'%20scale='2.2'%2F%3E%3C%2Ffilter%3E%0A%3C%2Fdefs%3E%0A%3Cg%20filter='url(%23rough)'%20fill='none'%20stroke='%237D5726'%20stroke-linecap='round'%20stroke-linejoin='round'%3E%0A%3Cg%20opacity='.36'%20stroke-width='.75'%3E%0A%3Cellipse%20cx='750'%20cy='420'%20rx='655'%20ry='292'%2F%3E%3Cellipse%20cx='750'%20cy='420'%20rx='655'%20ry='205'%2F%3E%3Cellipse%20cx='750'%20cy='420'%20rx='655'%20ry='115'%2F%3E%0A%3Cpath%20d='M95%20420h1310M750%20128v584M430%20155c-128%20165-128%20365%200%20530M1070%20155c128%20165%20128%20365%200%20530M250%20225c-76%20120-76%20270%200%20390M1250%20225c76%20120%2076%20270%200%20390'%2F%3E%0A%3C%2Fg%3E%0A%3Cg%20opacity='.46'%20stroke-width='1.25'%3E%0A%3Cpath%20d='M145%20242l51-42%2064%208%2043-35%2062%2016%2048-13%2035%2034-12%2047-43%2016-22%2044-55%207-27%2039-55-5-14-34-46-7-23-42z'%2F%3E%0A%3Cpath%20d='M342%20159l49-24%2055%208%2028%2034-22%2031-47%207-33-18-31-8z'%2F%3E%0A%3Cpath%20d='M452%20323l37-36%2052-3%2040%2027%2026%2044%2048%2010%2027%2036-9%2043%2035%2039-2%2048-34%2036-43-7-24-59-39-35-19-55-38-17z'%2F%3E%0A%3Cpath%20d='M664%20197l50-39%2064-4%2041-27%2068%2011%2034%2034%2065%207%2038%2035%2067-1%2038%2033-24%2039-57%2015-25%2031-50-6-40%2029-66-6-45-36-56%206-41-32-51-21z'%2F%3E%0A%3Cpath%20d='M954%20355l50-27%2045%2017%2027%2034%2042%2018%2014%2038-21%2034-41%208-23%2035-46-4-28-39-36-17-3-40z'%2F%3E%0A%3Cpath%20d='M1168%20500l43-21%2056%2012%2033%2035-12%2043-52%2017-50-17-25-31z'%2F%3E%0A%3C%2Fg%3E%0A%3Cg%20opacity='.28'%20stroke-width='.55'%3E%0A%3Cpath%20d='M154%20282c35-18%2070-20%20106-6M480%20365c48-18%2092-13%20132%2013M721%20237c50-17%2099-15%20147%205M1002%20409c38-10%2076-7%20113%209M1197%20529c31-7%2061-4%2090%208'%2F%3E%0A%3Cpath%20d='M124%20309l49-15%2035%2011M259%20231l34-8%2042%207M546%20405l31-10%2029%205M820%20265l38-8%2035%2010M1041%20449l33-8%2030%207'%2F%3E%0A%3C%2Fg%3E%0A%3C%2Fg%3E%3C%2Fsvg%3E") !important;
+  background-repeat: no-repeat, no-repeat !important;
+  background-position: -40px 52%, 55% 52% !important;
+  background-size: 220px 220px, min(1180px,100vw) auto !important;
+}
+
+[data-theme="classic"] .mt-scroll-services button[aria-expanded] {
+  color: #5A3E1A !important;
+  border-color: rgba(123,83,31,.34) !important;
+  background: rgba(248,235,214,.66) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.72),
+    0 5px 14px rgba(74,48,18,.07) !important;
+}
+
+[data-theme="classic"] .mt-scroll-services button[aria-expanded]:hover,
+[data-theme="classic"] .mt-scroll-services button[aria-expanded="true"] {
+  color: #0A282D !important;
+  border-color: rgba(123,83,31,.65) !important;
+  background: linear-gradient(180deg,#F4DFC0,#DDBA7D) !important;
+}
+
+/* DESTINATIONS — dense atlas sheet with illustrations distributed in negative space. */
+[data-theme="classic"] .mt-destinations-bg {
+  --mt-canvas: #F3E3C8;
+  background-color: #F3E3C8 !important;
+  background-image:
+    radial-gradient(circle at 23% 31%, rgba(255,248,233,.42), transparent 28%),
+    radial-gradient(circle at 77% 28%, rgba(76,48,18,.045), transparent 34%),
+    linear-gradient(180deg,#F7E9D2 0%,#F1DFC2 55%,#EED9BA 100%),
+    url("data:image/svg+xml,%3Csvg%20xmlns='http:%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox='0%200%201500%20860'%3E%0A%3Cdefs%3E%0A%3Cfilter%20id='rough'%3E%3CfeTurbulence%20type='fractalNoise'%20baseFrequency='.006%20.018'%20numOctaves='2'%20seed='11'%20result='n'%2F%3E%3CfeDisplacementMap%20in='SourceGraphic'%20in2='n'%20scale='2.2'%2F%3E%3C%2Ffilter%3E%0A%3C%2Fdefs%3E%0A%3Cg%20filter='url(%23rough)'%20fill='none'%20stroke='%237D5726'%20stroke-linecap='round'%20stroke-linejoin='round'%3E%0A%3Cg%20opacity='.36'%20stroke-width='.75'%3E%0A%3Cellipse%20cx='750'%20cy='420'%20rx='655'%20ry='292'%2F%3E%3Cellipse%20cx='750'%20cy='420'%20rx='655'%20ry='205'%2F%3E%3Cellipse%20cx='750'%20cy='420'%20rx='655'%20ry='115'%2F%3E%0A%3Cpath%20d='M95%20420h1310M750%20128v584M430%20155c-128%20165-128%20365%200%20530M1070%20155c128%20165%20128%20365%200%20530M250%20225c-76%20120-76%20270%200%20390M1250%20225c76%20120%2076%20270%200%20390'%2F%3E%0A%3C%2Fg%3E%0A%3Cg%20opacity='.46'%20stroke-width='1.25'%3E%0A%3Cpath%20d='M145%20242l51-42%2064%208%2043-35%2062%2016%2048-13%2035%2034-12%2047-43%2016-22%2044-55%207-27%2039-55-5-14-34-46-7-23-42z'%2F%3E%0A%3Cpath%20d='M342%20159l49-24%2055%208%2028%2034-22%2031-47%207-33-18-31-8z'%2F%3E%0A%3Cpath%20d='M452%20323l37-36%2052-3%2040%2027%2026%2044%2048%2010%2027%2036-9%2043%2035%2039-2%2048-34%2036-43-7-24-59-39-35-19-55-38-17z'%2F%3E%0A%3Cpath%20d='M664%20197l50-39%2064-4%2041-27%2068%2011%2034%2034%2065%207%2038%2035%2067-1%2038%2033-24%2039-57%2015-25%2031-50-6-40%2029-66-6-45-36-56%206-41-32-51-21z'%2F%3E%0A%3Cpath%20d='M954%20355l50-27%2045%2017%2027%2034%2042%2018%2014%2038-21%2034-41%208-23%2035-46-4-28-39-36-17-3-40z'%2F%3E%0A%3Cpath%20d='M1168%20500l43-21%2056%2012%2033%2035-12%2043-52%2017-50-17-25-31z'%2F%3E%0A%3C%2Fg%3E%0A%3Cg%20opacity='.28'%20stroke-width='.55'%3E%0A%3Cpath%20d='M154%20282c35-18%2070-20%20106-6M480%20365c48-18%2092-13%20132%2013M721%20237c50-17%2099-15%20147%205M1002%20409c38-10%2076-7%20113%209M1197%20529c31-7%2061-4%2090%208'%2F%3E%0A%3Cpath%20d='M124%20309l49-15%2035%2011M259%20231l34-8%2042%207M546%20405l31-10%2029%205M820%20265l38-8%2035%2010M1041%20449l33-8%2030%207'%2F%3E%0A%3C%2Fg%3E%0A%3C%2Fg%3E%3C%2Fsvg%3E"),
+    url("data:image/svg+xml,%3Csvg%20xmlns='http:%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width='180'%20height='180'%20viewBox='0%200%20180%20180'%3E%0A%3Cfilter%20id='n'%3E%3CfeTurbulence%20type='fractalNoise'%20baseFrequency='.82'%20numOctaves='4'%20seed='8'%2F%3E%3CfeColorMatrix%20values='0%200%200%200%20.55%200%200%200%200%20.38%200%200%200%200%20.20%200%200%200%20.13%200'%2F%3E%3C%2Ffilter%3E%0A%3Crect%20width='180'%20height='180'%20fill='transparent'%20filter='url(%23n)'%2F%3E%0A%3C%2Fsvg%3E") !important;
+  background-size: auto, auto, auto, min(1540px,132vw) auto, 180px 180px !important;
+  background-position: center, center, center, 50% 48%, center !important;
+  background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, repeat !important;
+  background-blend-mode: normal, normal, normal, multiply, multiply;
+}
+
+[data-theme="classic"] .mt-destinations-texture-reveal {
+  background:
+    radial-gradient(circle at 21% 40%, rgba(255,248,233,.20), transparent 29%),
+    linear-gradient(115deg, rgba(255,255,255,.06), transparent 44%, rgba(119,78,28,.025)) !important;
+}
+
+[data-theme="classic"] .mt-journey-motif::before {
+  opacity: .16 !important;
+  mix-blend-mode: multiply !important;
+  background-image: url("data:image/svg+xml,%3Csvg%20xmlns='http:%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox='0%200%201400%20420'%3E%0A%3Cdefs%3E%3Cfilter%20id='r'%3E%3CfeTurbulence%20type='fractalNoise'%20baseFrequency='.01%20.026'%20numOctaves='2'%20seed='7'%20result='n'%2F%3E%3CfeDisplacementMap%20in='SourceGraphic'%20in2='n'%20scale='1.8'%2F%3E%3C%2Ffilter%3E%3C%2Fdefs%3E%0A%3Cg%20filter='url(%23r)'%20fill='none'%20stroke='%23765020'%20stroke-linecap='round'%20stroke-linejoin='round'%3E%0A%3Cpath%20opacity='.45'%20stroke-width='1.2'%20d='M0%20352l135-158%2062%2069%20108-149%20119%20169%2095-111%20102%20143%20137-201%20144%20185%20111-125%20124%20166%20104-99%20159%2091'%2F%3E%0A%3Cpath%20opacity='.32'%20stroke-width='.8'%20d='M74%20352l132-104%2069%2062%20109-100%20110%20116%20113-83%20107%2091%20139-121%20130%20115%20133-94%20150%20118'%2F%3E%0A%3Cpath%20opacity='.22'%20stroke-width='.48'%20d='M150%20279l62-45%2041%2037M302%20218l58-54%2043%2061M525%20249l50-43%2039%2048M733%20205l65-67%2052%2074M996%20251l55-56%2045%2057M1215%20269l55-47%2044%2048'%2F%3E%0A%3C%2Fg%3E%3C%2Fsvg%3E") !important;
+  background-repeat: no-repeat !important;
+  background-position: 50% 100% !important;
+  background-size: min(1450px,120vw) auto !important;
+}
+
+[data-theme="classic"] .mt-destinations-contour::after {
+  opacity: .26 !important;
+  mix-blend-mode: multiply !important;
+  background-image: url("data:image/svg+xml,%3Csvg%20xmlns='http:%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox='0%200%20420%20420'%3E%0A%3Cdefs%3E%3Cfilter%20id='r'%3E%3CfeTurbulence%20type='fractalNoise'%20baseFrequency='.012'%20numOctaves='2'%20seed='4'%20result='n'%2F%3E%3CfeDisplacementMap%20in='SourceGraphic'%20in2='n'%20scale='1.6'%2F%3E%3C%2Ffilter%3E%3C%2Fdefs%3E%0A%3Cg%20filter='url(%23r)'%20fill='none'%20stroke='%23765020'%20stroke-linecap='round'%20stroke-linejoin='round'%3E%0A%3Ccircle%20cx='210'%20cy='210'%20r='166'%20stroke-width='1.3'%2F%3E%3Ccircle%20cx='210'%20cy='210'%20r='143'%20stroke-width='.8'%2F%3E%3Ccircle%20cx='210'%20cy='210'%20r='118'%20stroke-width='.55'%2F%3E%0A%3Cpath%20stroke-width='1.35'%20d='M210%2063l21%20126%20126%2021-126%2021-21%20126-21-126-126-21%20126-21z'%2F%3E%0A%3Cpath%20stroke-width='.8'%20d='M210%2063l-21%20126%2021%2021%2021-21zM357%20210l-126-21-21%2021%2021%2021zM210%20357l21-126-21-21-21%2021zM63%20210l126%2021%2021-21-21-21z'%2F%3E%0A%3Cpath%20stroke-width='.45'%20d='M210%2044v332M44%20210h332M92%2092l236%20236M328%2092L92%20328'%2F%3E%0A%3C%2Fg%3E%0A%3Cg%20fill='%23765020'%20opacity='.8'%20font-family='Georgia,serif'%20font-size='15'%20text-anchor='middle'%3E%3Ctext%20x='210'%20y='28'%3EN%3C%2Ftext%3E%3Ctext%20x='396'%20y='215'%3EE%3C%2Ftext%3E%3Ctext%20x='210'%20y='407'%3ES%3C%2Ftext%3E%3Ctext%20x='24'%20y='215'%3EW%3C%2Ftext%3E%3C%2Fg%3E%0A%3C%2Fsvg%3E"), url("data:image/svg+xml,%3Csvg%20xmlns='http:%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox='0%200%20460%20370'%3E%0A%3Cdefs%3E%3Cfilter%20id='r'%3E%3CfeTurbulence%20type='fractalNoise'%20baseFrequency='.015'%20numOctaves='2'%20seed='5'%20result='n'%2F%3E%3CfeDisplacementMap%20in='SourceGraphic'%20in2='n'%20scale='1.5'%2F%3E%3C%2Ffilter%3E%3C%2Fdefs%3E%0A%3Cg%20filter='url(%23r)'%20fill='none'%20stroke='%23765020'%20stroke-linecap='round'%20stroke-linejoin='round'%3E%0A%3Cpath%20opacity='.48'%20stroke-width='1.4'%20d='M103%20258h236l-34%2050H140z'%2F%3E%0A%3Cpath%20opacity='.48'%20stroke-width='1.1'%20d='M224%2048v210M224%2065l-87%20121h87zM232%2088l92%2098h-92z'%2F%3E%0A%3Cpath%20opacity='.34'%20stroke-width='.72'%20d='M224%2066l-65%2097M224%2090l74%2075M170%20188l-18%2070M286%20186l19%2072'%2F%3E%0A%3Cpath%20opacity='.34'%20stroke-width='.75'%20d='M151%20258l13-41h88l16%2041M186%20258v-30M219%20258v-30M252%20258v-30'%2F%3E%0A%3Cpath%20opacity='.42'%20stroke-width='1.05'%20d='M91%20314c34%2017%2067%2017%20101%200%2034%2017%2067%2017%20101%200%2030%2014%2060%2015%2090%203'%2F%3E%0A%3C%2Fg%3E%3C%2Fsvg%3E") !important;
+  background-repeat: no-repeat, no-repeat !important;
+  background-position: -34px 78%, calc(100% + 14px) 69% !important;
+  background-size: min(260px,20vw) auto, min(245px,19vw) auto !important;
+  animation: none !important;
+}
+
+/* STORY — archival expedition spread on the editorial half. */
+[data-theme="classic"] .mt-scene03-section,
+[data-theme="classic"] .mt-scene03-copy-column {
+  --mt-canvas: #F0DDBD;
+  background-color: #F0DDBD !important;
+}
+
+[data-theme="classic"] .mt-scene03-copy-column {
+  background-image:
+    linear-gradient(180deg, rgba(248,235,213,.30), rgba(226,198,155,.08)),
+    url("data:image/svg+xml,%3Csvg%20xmlns='http:%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width='180'%20height='180'%20viewBox='0%200%20180%20180'%3E%0A%3Cfilter%20id='n'%3E%3CfeTurbulence%20type='fractalNoise'%20baseFrequency='.82'%20numOctaves='4'%20seed='8'%2F%3E%3CfeColorMatrix%20values='0%200%200%200%20.55%200%200%200%200%20.38%200%200%200%200%20.20%200%200%200%20.13%200'%2F%3E%3C%2Ffilter%3E%0A%3Crect%20width='180'%20height='180'%20fill='transparent'%20filter='url(%23n)'%2F%3E%0A%3C%2Fsvg%3E") !important;
+  box-shadow:
+    inset -1px 0 0 rgba(112,76,31,.20),
+    inset 0 1px 0 rgba(255,255,255,.46) !important;
+}
+
+[data-theme="classic"] .mt-scene03-copy-column::before {
+  opacity: .23 !important;
+  background-image: url("data:image/svg+xml,%3Csvg%20xmlns='http:%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox='0%200%201400%20420'%3E%0A%3Cdefs%3E%3Cfilter%20id='r'%3E%3CfeTurbulence%20type='fractalNoise'%20baseFrequency='.01%20.026'%20numOctaves='2'%20seed='7'%20result='n'%2F%3E%3CfeDisplacementMap%20in='SourceGraphic'%20in2='n'%20scale='1.8'%2F%3E%3C%2Ffilter%3E%3C%2Fdefs%3E%0A%3Cg%20filter='url(%23r)'%20fill='none'%20stroke='%23765020'%20stroke-linecap='round'%20stroke-linejoin='round'%3E%0A%3Cpath%20opacity='.45'%20stroke-width='1.2'%20d='M0%20352l135-158%2062%2069%20108-149%20119%20169%2095-111%20102%20143%20137-201%20144%20185%20111-125%20124%20166%20104-99%20159%2091'%2F%3E%0A%3Cpath%20opacity='.32'%20stroke-width='.8'%20d='M74%20352l132-104%2069%2062%20109-100%20110%20116%20113-83%20107%2091%20139-121%20130%20115%20133-94%20150%20118'%2F%3E%0A%3Cpath%20opacity='.22'%20stroke-width='.48'%20d='M150%20279l62-45%2041%2037M302%20218l58-54%2043%2061M525%20249l50-43%2039%2048M733%20205l65-67%2052%2074M996%20251l55-56%2045%2057M1215%20269l55-47%2044%2048'%2F%3E%0A%3C%2Fg%3E%3C%2Fsvg%3E"), url("data:image/svg+xml,%3Csvg%20xmlns='http:%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox='0%200%20280%20280'%3E%0A%3Cdefs%3E%3Cfilter%20id='r'%3E%3CfeTurbulence%20type='fractalNoise'%20baseFrequency='.02'%20numOctaves='2'%20seed='2'%20result='n'%2F%3E%3CfeDisplacementMap%20in='SourceGraphic'%20in2='n'%20scale='1.2'%2F%3E%3C%2Ffilter%3E%3C%2Fdefs%3E%0A%3Cg%20filter='url(%23r)'%20fill='none'%20stroke='%23765020'%3E%0A%3Ccircle%20cx='140'%20cy='140'%20r='104'%20stroke-width='1.1'%2F%3E%3Ccircle%20cx='140'%20cy='140'%20r='90'%20stroke-width='.5'%20stroke-dasharray='2%205'%2F%3E%0A%3Cpath%20stroke-width='.75'%20d='M83%20145c38-50%2076-50%20114%200M94%20165c31-31%2062-31%2092%200M140%2069v48M118%2094h44'%2F%3E%0A%3C%2Fg%3E%3C%2Fsvg%3E") !important;
+  background-repeat: no-repeat, no-repeat !important;
+  background-position: 48% 100%, 88% 17% !important;
+  background-size: min(900px,84vw) auto, min(170px,15vw) auto !important;
+}
+
+/* EXPERIENCES — cinematic cards mounted on an illustrated expedition page. */
+[data-theme="classic"] .mt-scroll-experiences {
+  --mt-canvas: #F3E3C8;
+  background:
+    linear-gradient(180deg,#F5E5CC 0%,#EED8B7 100%),
+    url("data:image/svg+xml,%3Csvg%20xmlns='http:%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width='180'%20height='180'%20viewBox='0%200%20180%20180'%3E%0A%3Cfilter%20id='n'%3E%3CfeTurbulence%20type='fractalNoise'%20baseFrequency='.82'%20numOctaves='4'%20seed='8'%2F%3E%3CfeColorMatrix%20values='0%200%200%200%20.55%200%200%200%200%20.38%200%200%200%200%20.20%200%200%200%20.13%200'%2F%3E%3C%2Ffilter%3E%0A%3Crect%20width='180'%20height='180'%20fill='transparent'%20filter='url(%23n)'%2F%3E%0A%3C%2Fsvg%3E") !important;
+  border-top: 1px solid rgba(112,76,31,.17) !important;
+  border-bottom: 1px solid rgba(112,76,31,.17) !important;
+}
+
+[data-theme="classic"] .mt-scroll-experiences::before {
+  opacity: .20 !important;
+  background-image: url("data:image/svg+xml,%3Csvg%20xmlns='http:%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox='0%200%201400%20420'%3E%0A%3Cdefs%3E%3Cfilter%20id='r'%3E%3CfeTurbulence%20type='fractalNoise'%20baseFrequency='.01%20.026'%20numOctaves='2'%20seed='7'%20result='n'%2F%3E%3CfeDisplacementMap%20in='SourceGraphic'%20in2='n'%20scale='1.8'%2F%3E%3C%2Ffilter%3E%3C%2Fdefs%3E%0A%3Cg%20filter='url(%23r)'%20fill='none'%20stroke='%23765020'%20stroke-linecap='round'%20stroke-linejoin='round'%3E%0A%3Cpath%20opacity='.45'%20stroke-width='1.2'%20d='M0%20352l135-158%2062%2069%20108-149%20119%20169%2095-111%20102%20143%20137-201%20144%20185%20111-125%20124%20166%20104-99%20159%2091'%2F%3E%0A%3Cpath%20opacity='.32'%20stroke-width='.8'%20d='M74%20352l132-104%2069%2062%20109-100%20110%20116%20113-83%20107%2091%20139-121%20130%20115%20133-94%20150%20118'%2F%3E%0A%3Cpath%20opacity='.22'%20stroke-width='.48'%20d='M150%20279l62-45%2041%2037M302%20218l58-54%2043%2061M525%20249l50-43%2039%2048M733%20205l65-67%2052%2074M996%20251l55-56%2045%2057M1215%20269l55-47%2044%2048'%2F%3E%0A%3C%2Fg%3E%3C%2Fsvg%3E"), url("data:image/svg+xml,%3Csvg%20xmlns='http:%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox='0%200%20330%20440'%3E%0A%3Cdefs%3E%3Cfilter%20id='r'%3E%3CfeTurbulence%20type='fractalNoise'%20baseFrequency='.014'%20numOctaves='2'%20seed='9'%20result='n'%2F%3E%3CfeDisplacementMap%20in='SourceGraphic'%20in2='n'%20scale='1.5'%2F%3E%3C%2Ffilter%3E%3C%2Fdefs%3E%0A%3Cg%20filter='url(%23r)'%20fill='none'%20stroke='%23765020'%20stroke-linecap='round'%20stroke-linejoin='round'%3E%0A%3Cpath%20opacity='.47'%20stroke-width='1.3'%20d='M117%20362h105l-19-245h-67z'%2F%3E%0A%3Cpath%20opacity='.47'%20stroke-width='1'%20d='M130%20117h78M137%2088h63l15%2029h-92zM149%2059h36l13%2029h-62z'%2F%3E%0A%3Cpath%20opacity='.35'%20stroke-width='.8'%20d='M165%2059V24M84%2079L26%2046M247%2079l57-33M104%2052L66%2014M227%2052l40-38'%2F%3E%0A%3Cpath%20opacity='.27'%20stroke-width='.5'%20d='M144%20164h51M148%20212h44M152%20262h36M156%20312h30M136%20145l72%2026M138%20188l75%2027M143%20234l73%2026M147%20283l70%2025'%2F%3E%0A%3Cpath%20opacity='.42'%20stroke-width='1'%20d='M140%20362l-34%2032h131l-29-32'%2F%3E%0A%3C%2Fg%3E%3C%2Fsvg%3E"), url("data:image/svg+xml,%3Csvg%20xmlns='http:%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox='0%200%201500%20860'%3E%0A%3Cdefs%3E%0A%3Cfilter%20id='rough'%3E%3CfeTurbulence%20type='fractalNoise'%20baseFrequency='.006%20.018'%20numOctaves='2'%20seed='11'%20result='n'%2F%3E%3CfeDisplacementMap%20in='SourceGraphic'%20in2='n'%20scale='2.2'%2F%3E%3C%2Ffilter%3E%0A%3C%2Fdefs%3E%0A%3Cg%20filter='url(%23rough)'%20fill='none'%20stroke='%237D5726'%20stroke-linecap='round'%20stroke-linejoin='round'%3E%0A%3Cg%20opacity='.36'%20stroke-width='.75'%3E%0A%3Cellipse%20cx='750'%20cy='420'%20rx='655'%20ry='292'%2F%3E%3Cellipse%20cx='750'%20cy='420'%20rx='655'%20ry='205'%2F%3E%3Cellipse%20cx='750'%20cy='420'%20rx='655'%20ry='115'%2F%3E%0A%3Cpath%20d='M95%20420h1310M750%20128v584M430%20155c-128%20165-128%20365%200%20530M1070%20155c128%20165%20128%20365%200%20530M250%20225c-76%20120-76%20270%200%20390M1250%20225c76%20120%2076%20270%200%20390'%2F%3E%0A%3C%2Fg%3E%0A%3Cg%20opacity='.46'%20stroke-width='1.25'%3E%0A%3Cpath%20d='M145%20242l51-42%2064%208%2043-35%2062%2016%2048-13%2035%2034-12%2047-43%2016-22%2044-55%207-27%2039-55-5-14-34-46-7-23-42z'%2F%3E%0A%3Cpath%20d='M342%20159l49-24%2055%208%2028%2034-22%2031-47%207-33-18-31-8z'%2F%3E%0A%3Cpath%20d='M452%20323l37-36%2052-3%2040%2027%2026%2044%2048%2010%2027%2036-9%2043%2035%2039-2%2048-34%2036-43-7-24-59-39-35-19-55-38-17z'%2F%3E%0A%3Cpath%20d='M664%20197l50-39%2064-4%2041-27%2068%2011%2034%2034%2065%207%2038%2035%2067-1%2038%2033-24%2039-57%2015-25%2031-50-6-40%2029-66-6-45-36-56%206-41-32-51-21z'%2F%3E%0A%3Cpath%20d='M954%20355l50-27%2045%2017%2027%2034%2042%2018%2014%2038-21%2034-41%208-23%2035-46-4-28-39-36-17-3-40z'%2F%3E%0A%3Cpath%20d='M1168%20500l43-21%2056%2012%2033%2035-12%2043-52%2017-50-17-25-31z'%2F%3E%0A%3C%2Fg%3E%0A%3Cg%20opacity='.28'%20stroke-width='.55'%3E%0A%3Cpath%20d='M154%20282c35-18%2070-20%20106-6M480%20365c48-18%2092-13%20132%2013M721%20237c50-17%2099-15%20147%205M1002%20409c38-10%2076-7%20113%209M1197%20529c31-7%2061-4%2090%208'%2F%3E%0A%3Cpath%20d='M124%20309l49-15%2035%2011M259%20231l34-8%2042%207M546%20405l31-10%2029%205M820%20265l38-8%2035%2010M1041%20449l33-8%2030%207'%2F%3E%0A%3C%2Fg%3E%0A%3C%2Fg%3E%3C%2Fsvg%3E") !important;
+  background-repeat: no-repeat, no-repeat, no-repeat !important;
+  background-position: 50% 2%, calc(100% + 12px) 83%, 50% 58% !important;
+  background-size: min(1350px,118vw) auto, min(220px,17vw) auto, min(1260px,106vw) auto !important;
+}
+
+/* FOOTER — illustrated closing plate rather than a flat pale block. */
+[data-theme="classic"] .mt-scroll-footer {
+  --mt-canvas: #ECD6B3;
+  --mt-surface: #E8D0AA;
+  --mt-surface-elevated: #F8E7CC;
+  background:
+    linear-gradient(180deg,#F1DFC0 0%,#E7CDA4 100%),
+    url("data:image/svg+xml,%3Csvg%20xmlns='http:%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width='180'%20height='180'%20viewBox='0%200%20180%20180'%3E%0A%3Cfilter%20id='n'%3E%3CfeTurbulence%20type='fractalNoise'%20baseFrequency='.82'%20numOctaves='4'%20seed='8'%2F%3E%3CfeColorMatrix%20values='0%200%200%200%20.55%200%200%200%200%20.38%200%200%200%200%20.20%200%200%200%20.13%200'%2F%3E%3C%2Ffilter%3E%0A%3Crect%20width='180'%20height='180'%20fill='transparent'%20filter='url(%23n)'%2F%3E%0A%3C%2Fsvg%3E") !important;
+  border-color: rgba(112,76,31,.22) !important;
+}
+
+[data-theme="classic"] .mt-scroll-footer::before {
+  opacity: .20 !important;
+  background-image: url("data:image/svg+xml,%3Csvg%20xmlns='http:%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox='0%200%201500%20860'%3E%0A%3Cdefs%3E%0A%3Cfilter%20id='rough'%3E%3CfeTurbulence%20type='fractalNoise'%20baseFrequency='.006%20.018'%20numOctaves='2'%20seed='11'%20result='n'%2F%3E%3CfeDisplacementMap%20in='SourceGraphic'%20in2='n'%20scale='2.2'%2F%3E%3C%2Ffilter%3E%0A%3C%2Fdefs%3E%0A%3Cg%20filter='url(%23rough)'%20fill='none'%20stroke='%237D5726'%20stroke-linecap='round'%20stroke-linejoin='round'%3E%0A%3Cg%20opacity='.36'%20stroke-width='.75'%3E%0A%3Cellipse%20cx='750'%20cy='420'%20rx='655'%20ry='292'%2F%3E%3Cellipse%20cx='750'%20cy='420'%20rx='655'%20ry='205'%2F%3E%3Cellipse%20cx='750'%20cy='420'%20rx='655'%20ry='115'%2F%3E%0A%3Cpath%20d='M95%20420h1310M750%20128v584M430%20155c-128%20165-128%20365%200%20530M1070%20155c128%20165%20128%20365%200%20530M250%20225c-76%20120-76%20270%200%20390M1250%20225c76%20120%2076%20270%200%20390'%2F%3E%0A%3C%2Fg%3E%0A%3Cg%20opacity='.46'%20stroke-width='1.25'%3E%0A%3Cpath%20d='M145%20242l51-42%2064%208%2043-35%2062%2016%2048-13%2035%2034-12%2047-43%2016-22%2044-55%207-27%2039-55-5-14-34-46-7-23-42z'%2F%3E%0A%3Cpath%20d='M342%20159l49-24%2055%208%2028%2034-22%2031-47%207-33-18-31-8z'%2F%3E%0A%3Cpath%20d='M452%20323l37-36%2052-3%2040%2027%2026%2044%2048%2010%2027%2036-9%2043%2035%2039-2%2048-34%2036-43-7-24-59-39-35-19-55-38-17z'%2F%3E%0A%3Cpath%20d='M664%20197l50-39%2064-4%2041-27%2068%2011%2034%2034%2065%207%2038%2035%2067-1%2038%2033-24%2039-57%2015-25%2031-50-6-40%2029-66-6-45-36-56%206-41-32-51-21z'%2F%3E%0A%3Cpath%20d='M954%20355l50-27%2045%2017%2027%2034%2042%2018%2014%2038-21%2034-41%208-23%2035-46-4-28-39-36-17-3-40z'%2F%3E%0A%3Cpath%20d='M1168%20500l43-21%2056%2012%2033%2035-12%2043-52%2017-50-17-25-31z'%2F%3E%0A%3C%2Fg%3E%0A%3Cg%20opacity='.28'%20stroke-width='.55'%3E%0A%3Cpath%20d='M154%20282c35-18%2070-20%20106-6M480%20365c48-18%2092-13%20132%2013M721%20237c50-17%2099-15%20147%205M1002%20409c38-10%2076-7%20113%209M1197%20529c31-7%2061-4%2090%208'%2F%3E%0A%3Cpath%20d='M124%20309l49-15%2035%2011M259%20231l34-8%2042%207M546%20405l31-10%2029%205M820%20265l38-8%2035%2010M1041%20449l33-8%2030%207'%2F%3E%0A%3C%2Fg%3E%0A%3C%2Fg%3E%3C%2Fsvg%3E"), url("data:image/svg+xml,%3Csvg%20xmlns='http:%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox='0%200%20420%20420'%3E%0A%3Cdefs%3E%3Cfilter%20id='r'%3E%3CfeTurbulence%20type='fractalNoise'%20baseFrequency='.012'%20numOctaves='2'%20seed='4'%20result='n'%2F%3E%3CfeDisplacementMap%20in='SourceGraphic'%20in2='n'%20scale='1.6'%2F%3E%3C%2Ffilter%3E%3C%2Fdefs%3E%0A%3Cg%20filter='url(%23r)'%20fill='none'%20stroke='%23765020'%20stroke-linecap='round'%20stroke-linejoin='round'%3E%0A%3Ccircle%20cx='210'%20cy='210'%20r='166'%20stroke-width='1.3'%2F%3E%3Ccircle%20cx='210'%20cy='210'%20r='143'%20stroke-width='.8'%2F%3E%3Ccircle%20cx='210'%20cy='210'%20r='118'%20stroke-width='.55'%2F%3E%0A%3Cpath%20stroke-width='1.35'%20d='M210%2063l21%20126%20126%2021-126%2021-21%20126-21-126-126-21%20126-21z'%2F%3E%0A%3Cpath%20stroke-width='.8'%20d='M210%2063l-21%20126%2021%2021%2021-21zM357%20210l-126-21-21%2021%2021%2021zM210%20357l21-126-21-21-21%2021zM63%20210l126%2021%2021-21-21-21z'%2F%3E%0A%3Cpath%20stroke-width='.45'%20d='M210%2044v332M44%20210h332M92%2092l236%20236M328%2092L92%20328'%2F%3E%0A%3C%2Fg%3E%0A%3Cg%20fill='%23765020'%20opacity='.8'%20font-family='Georgia,serif'%20font-size='15'%20text-anchor='middle'%3E%3Ctext%20x='210'%20y='28'%3EN%3C%2Ftext%3E%3Ctext%20x='396'%20y='215'%3EE%3C%2Ftext%3E%3Ctext%20x='210'%20y='407'%3ES%3C%2Ftext%3E%3Ctext%20x='24'%20y='215'%3EW%3C%2Ftext%3E%3C%2Fg%3E%0A%3C%2Fsvg%3E"), url("data:image/svg+xml,%3Csvg%20xmlns='http:%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox='0%200%20330%20440'%3E%0A%3Cdefs%3E%3Cfilter%20id='r'%3E%3CfeTurbulence%20type='fractalNoise'%20baseFrequency='.014'%20numOctaves='2'%20seed='9'%20result='n'%2F%3E%3CfeDisplacementMap%20in='SourceGraphic'%20in2='n'%20scale='1.5'%2F%3E%3C%2Ffilter%3E%3C%2Fdefs%3E%0A%3Cg%20filter='url(%23r)'%20fill='none'%20stroke='%23765020'%20stroke-linecap='round'%20stroke-linejoin='round'%3E%0A%3Cpath%20opacity='.47'%20stroke-width='1.3'%20d='M117%20362h105l-19-245h-67z'%2F%3E%0A%3Cpath%20opacity='.47'%20stroke-width='1'%20d='M130%20117h78M137%2088h63l15%2029h-92zM149%2059h36l13%2029h-62z'%2F%3E%0A%3Cpath%20opacity='.35'%20stroke-width='.8'%20d='M165%2059V24M84%2079L26%2046M247%2079l57-33M104%2052L66%2014M227%2052l40-38'%2F%3E%0A%3Cpath%20opacity='.27'%20stroke-width='.5'%20d='M144%20164h51M148%20212h44M152%20262h36M156%20312h30M136%20145l72%2026M138%20188l75%2027M143%20234l73%2026M147%20283l70%2025'%2F%3E%0A%3Cpath%20opacity='.42'%20stroke-width='1'%20d='M140%20362l-34%2032h131l-29-32'%2F%3E%0A%3C%2Fg%3E%3C%2Fsvg%3E"), url("data:image/svg+xml,%3Csvg%20xmlns='http:%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox='0%200%20460%20370'%3E%0A%3Cdefs%3E%3Cfilter%20id='r'%3E%3CfeTurbulence%20type='fractalNoise'%20baseFrequency='.015'%20numOctaves='2'%20seed='5'%20result='n'%2F%3E%3CfeDisplacementMap%20in='SourceGraphic'%20in2='n'%20scale='1.5'%2F%3E%3C%2Ffilter%3E%3C%2Fdefs%3E%0A%3Cg%20filter='url(%23r)'%20fill='none'%20stroke='%23765020'%20stroke-linecap='round'%20stroke-linejoin='round'%3E%0A%3Cpath%20opacity='.48'%20stroke-width='1.4'%20d='M103%20258h236l-34%2050H140z'%2F%3E%0A%3Cpath%20opacity='.48'%20stroke-width='1.1'%20d='M224%2048v210M224%2065l-87%20121h87zM232%2088l92%2098h-92z'%2F%3E%0A%3Cpath%20opacity='.34'%20stroke-width='.72'%20d='M224%2066l-65%2097M224%2090l74%2075M170%20188l-18%2070M286%20186l19%2072'%2F%3E%0A%3Cpath%20opacity='.34'%20stroke-width='.75'%20d='M151%20258l13-41h88l16%2041M186%20258v-30M219%20258v-30M252%20258v-30'%2F%3E%0A%3Cpath%20opacity='.42'%20stroke-width='1.05'%20d='M91%20314c34%2017%2067%2017%20101%200%2034%2017%2067%2017%20101%200%2030%2014%2060%2015%2090%203'%2F%3E%0A%3C%2Fg%3E%3C%2Fsvg%3E") !important;
+  background-repeat: no-repeat, no-repeat, no-repeat, no-repeat !important;
+  background-position: 50% 35%, -26px 75%, calc(100% + 10px) 70%, 14% 72% !important;
+  background-size: min(1280px,108vw) auto, min(210px,17vw) auto, min(175px,14vw) auto, min(180px,15vw) auto !important;
+}
+
+[data-theme="classic"] .mt-scroll-footer > section {
+  background: rgba(248,235,213,.24) !important;
+  border-bottom: 1px solid rgba(112,76,31,.17) !important;
+}
+
+[data-theme="classic"] .mt-story-footer-newsletter > p {
+  color: #5D421D !important;
+}
+
+[data-theme="classic"] .mt-story-footer-newsletter form > div:first-child {
+  background: rgba(248,233,209,.82) !important;
+  border-color: rgba(112,76,31,.32) !important;
+}
+
+/* Gold text in Classic is intentionally darker than Signature for legibility. */
+[data-theme="classic"] .mt-eyebrow,
+[data-theme="classic"] .mt-ui {
+  text-shadow: none;
+}
+
+[data-theme="classic"] .text-\[\#C9A24A\],
+[data-theme="classic"] .text-\[\#D4AF37\] {
+  color: #8B6024 !important;
+}
+
+@media (max-width: 767px) {
+  [data-theme="classic"] .mt-scroll-services::after {
+    opacity: .13 !important;
+    background-position: -52px 68%, 50% 50% !important;
+    background-size: 150px 150px, 930px auto !important;
+  }
+
+  [data-theme="classic"] .mt-destinations-bg {
+    background-size: auto, auto, auto, 1080px auto, 180px 180px !important;
+  }
+
+  [data-theme="classic"] .mt-journey-motif::before {
+    opacity: .11 !important;
+    background-size: 900px auto !important;
+  }
+
+  [data-theme="classic"] .mt-destinations-contour::after {
+    opacity: .18 !important;
+    background-position: -45px 90%, calc(100% + 42px) 86% !important;
+    background-size: 165px auto, 150px auto !important;
+  }
+
+  [data-theme="classic"] .mt-scene03-copy-column::before {
+    opacity: .16 !important;
+    background-size: 760px auto, 115px auto !important;
+  }
+
+  [data-theme="classic"] .mt-scroll-experiences::before,
+  [data-theme="classic"] .mt-scroll-footer::before {
+    opacity: .14 !important;
+  }
+}
+

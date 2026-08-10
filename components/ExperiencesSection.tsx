@@ -131,8 +131,8 @@ export default function ExperiencesSection() {
   src={experience.video}
   index={index}
 />
-                <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(2,15,18,0.94)_0%,rgba(2,15,18,0.78)_48%,rgba(2,15,18,0.4)_100%)]" />
-                <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(2,15,18,0.08),rgba(2,15,18,0.5))]" />
+                <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(2,15,18,0.564)_0%,rgba(2,15,18,0.468)_48%,rgba(2,15,18,0.24)_100%)]" />
+                <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(2,15,18,0.048),rgba(2,15,18,0.30))]" />
 
                 <div className="relative flex min-h-[10.5rem] items-center gap-4 p-5 sm:p-6">
                   <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-[#C9A24A]/28 bg-[#020F12]/52 text-[#C9A24A] transition-all duration-300 group-hover:border-[#C9A24A]/65">

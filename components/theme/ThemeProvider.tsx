@@ -25,16 +25,7 @@ export function ThemeProvider({
   const [theme, setTheme] = useState<ThemeMode>('signature')
 
   useEffect(() => {
-    const savedTheme = localStorage.getItem('mt-theme') as ThemeMode | null
-
-    if (savedTheme === 'classic' || savedTheme === 'signature') {
-      setTheme(savedTheme)
-    }
-  }, [])
-
-  useEffect(() => {
     document.documentElement.dataset.theme = theme
-    localStorage.setItem('mt-theme', theme)
   }, [theme])
 
   const toggleTheme = () => {

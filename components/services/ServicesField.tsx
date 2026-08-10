@@ -1078,7 +1078,7 @@ const toggleLight = () => {
   aria-hidden="true"
   className="pointer-events-none absolute inset-0 z-[65] bg-black"
   style={{
-    opacity: 0.92 - lightLevel * 0.72,
+    opacity: 0.98 - lightLevel * 0.78,
     transition:
       lightPhase === "on"
         ? "opacity 700ms cubic-bezier(0.22, 1, 0.36, 1)"

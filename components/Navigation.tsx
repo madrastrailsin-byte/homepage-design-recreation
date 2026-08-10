@@ -103,7 +103,7 @@ export default function Navigation() {
 ))}
         </motion.div>
 
-        <div className="flex items-center gap-3 self-center justify-self-end">
+        <div className="flex items-center gap-2 self-center justify-self-end sm:gap-3">
           <motion.button
   type="button"
   onClick={toggleTheme}
@@ -111,7 +111,7 @@ export default function Navigation() {
   title="Change MadrasTrails viewing mode"
   whileHover={{ y: -1 }}
   whileTap={{ scale: 0.98 }}
-  className={`group relative hidden h-[32px] w-[112px] overflow-hidden rounded-full border backdrop-blur-xl transition-all duration-700 md:flex ${
+  className={`group relative flex h-[30px] w-[86px] overflow-hidden rounded-full border backdrop-blur-xl transition-all duration-700 sm:h-[32px] sm:w-[98px] md:w-[112px] ${
     theme === 'signature'
       ? 'border-[var(--mt-border-strong)]'
       : 'border-[var(--mt-border-strong)]'
@@ -139,7 +139,7 @@ export default function Navigation() {
     <div className="absolute inset-0 bg-black/45" />
   </motion.div>
 
-  <span className="relative z-10 flex h-full w-full items-center justify-center pt-[1px] text-[9px] tracking-[0.26em] leading-none text-white">
+  <span className="relative z-10 flex h-full w-full items-center justify-center pt-[1px] text-[7px] tracking-[0.18em] leading-none text-white sm:text-[8px] sm:tracking-[0.22em] md:text-[9px] md:tracking-[0.26em]">
     {theme === 'signature' ? 'SIGNATURE' : 'CLASSIC'}
   </span>
 </motion.button>
@@ -169,7 +169,11 @@ export default function Navigation() {
           <button
             type="button"
             onClick={() => setIsOpen((v) => !v)}
-            className="flex h-11 w-11 items-center justify-center rounded-full border border-[var(--mt-border)] bg-[var(--mt-surface-elevated)] text-[var(--mt-text-primary)] backdrop-blur-xl transition-all duration-300 hover:border-[var(--mt-border-strong)] hover:text-[var(--mt-nav-text-active)] md:hidden"
+            className={`flex h-11 w-11 items-center justify-center rounded-full border backdrop-blur-xl transition-all duration-300 md:hidden ${
+              theme === 'classic'
+                ? 'border-[#0A282D]/18 bg-[#F5E7CF]/82 text-[#0A282D] hover:border-[#9A6A28]/55 hover:text-[#9A6A28]'
+                : 'border-white/12 bg-white/[0.04] text-white hover:border-[#D4AF37]/40 hover:text-[#D4AF37]'
+            }`}
             aria-label={isOpen ? 'Close menu' : 'Menu'}
             aria-expanded={isOpen}
           >
