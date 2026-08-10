@@ -61,7 +61,7 @@ export default function Navigation() {
           className={`group relative inline-flex items-center justify-self-start transition-all duration-500 ${logoPulse ? 'mt-logo-receipt' : ''}`}
         >
   
-          <BrandLogo priority imageClassName="relative z-10 h-8 w-auto object-contain sm:h-9 md:h-11" />
+          <BrandLogo theme={theme} priority imageClassName="relative z-10 h-8 w-auto object-contain sm:h-9 md:h-11" />
         </motion.a>
 
         <motion.div

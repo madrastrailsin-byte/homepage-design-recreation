@@ -1841,4 +1841,208 @@ main.bg-\[\#0D1117\] {
     opacity: .14 !important;
   }
 }
+/* ==========================================================================
+   OUR STORY — CLASSIC THEME FOUNDATION
+   Reuses the approved homepage parchment / heritage language.
+   Signature remains untouched.
+   ========================================================================== */
 
+[data-theme="classic"] .mt-ourstory-shell,
+[data-theme="classic"] .mt-ourstory-page {
+  background:
+    radial-gradient(circle at 18% 18%, rgba(255, 248, 233, 0.34), transparent 28%),
+    radial-gradient(circle at 82% 26%, rgba(168, 121, 47, 0.07), transparent 30%),
+    linear-gradient(180deg, #F7E9D2 0%, #F1DFC2 50%, #ECD5B2 100%) !important;
+  color: var(--mt-classic-ink);
+}
+
+/* Hero stays cinematic, but Classic receives a warmer archival grade */
+[data-theme="classic"] .mt-ourstory-hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background:
+    linear-gradient(180deg, rgba(92, 55, 18, 0.04), rgba(74, 44, 14, 0.13)),
+    radial-gradient(circle at 72% 20%, rgba(212, 170, 90, 0.10), transparent 32%);
+  mix-blend-mode: soft-light;
+}
+
+[data-theme="classic"] .mt-ourstory-hero > .relative {
+  z-index: 2;
+}
+
+/* Philosophy = antique editorial spread */
+[data-theme="classic"] .mt-ourstory-philosophy {
+  background:
+    radial-gradient(circle at 14% 46%, rgba(168, 121, 47, 0.08), transparent 28%),
+    linear-gradient(180deg, #F6E7CF 0%, #EFD9B8 100%);
+  border-top: 1px solid rgba(142, 100, 40, 0.17);
+  border-bottom: 1px solid rgba(142, 100, 40, 0.17);
+}
+
+[data-theme="classic"] .mt-ourstory-philosophy::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.20;
+  mix-blend-mode: multiply;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 620'%3E%3Cg fill='none' stroke='%238E6428' stroke-width='1' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M90 187l47-37 58 10 41-28 50 18 43-12 29 31-13 41-38 14-19 39-52 5-24 35-49-4-11-28-42-7-20-37z'/%3E%3Cpath d='M317 103l47-18 46 11 21 31-23 25-39 2-22-19-30-7z'/%3E%3Cpath d='M398 251l39-30 44 9 30 36 48 6 32 30-12 44 34 37-8 45-39 29-36-11-19-56-34-35-17-51-38-16z'/%3E%3Cpath d='M571 142l44-31 54 6 29-22 61 10 26 29 54 1 32 29 52-3 31 26-22 35-51 10-22 29-43-6-31 25-58-5-39-31-45 5-37-29-45-18z'/%3E%3C/g%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: 50% 58%;
+  background-size: min(1250px, 112vw) auto;
+}
+
+[data-theme="classic"] .mt-ourstory-philosophy > .relative {
+  z-index: 2;
+}
+
+/* People section = illustrated archival folio */
+[data-theme="classic"] .mt-ourstory-people {
+  background:
+    radial-gradient(circle at 22% 18%, rgba(255, 249, 235, 0.34), transparent 29%),
+    radial-gradient(circle at 80% 76%, rgba(168, 121, 47, 0.07), transparent 30%),
+    linear-gradient(180deg, #F3E3C8 0%, #ECD5B4 100%);
+}
+
+[data-theme="classic"] .mt-ourstory-people::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.18;
+  mix-blend-mode: multiply;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1100 280'%3E%3Cg fill='none' stroke='%238E6428' stroke-width='1.15' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M0 236l111-118 47 49 84-112 94 129 72-81 77 106 104-151 111 140 88-93 94 124 78-74 140 81'/%3E%3Cpath d='M75 236l104-79 52 44 84-74 84 88 86-62 79 66 105-90 98 86 101-69 116 90'/%3E%3C/g%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: 50% 100%;
+  background-size: min(1160px, 108vw) auto;
+}
+
+[data-theme="classic"] .mt-ourstory-people > .relative {
+  z-index: 2;
+}
+
+/* Founder cards become parchment portrait mounts rather than dark luxury cards */
+[data-theme="classic"] .mt-ourstory-person > div > div:first-child {
+  border-color: rgba(142, 100, 40, 0.34) !important;
+  background:
+    radial-gradient(circle at 70% 18%, rgba(168, 121, 47, 0.12), transparent 34%),
+    linear-gradient(145deg, #F8EAD2, #E7CFAB) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.76),
+    0 24px 64px rgba(94, 62, 27, 0.15),
+    0 0 0 1px rgba(142, 100, 40, 0.06) !important;
+}
+
+/* Improve Classic legibility of hard-coded golds/text */
+[data-theme="classic"] .mt-ourstory-page .text-\[\#D4AF37\],
+[data-theme="classic"] .mt-ourstory-page .text-\[\#D8C08A\] {
+  color: #82591E !important;
+}
+
+[data-theme="classic"] .mt-ourstory-page .border-\[\#D4AF37\]\/60,
+[data-theme="classic"] .mt-ourstory-page .border-\[\#D4AF37\]\/38 {
+  border-color: rgba(142, 100, 40, 0.42) !important;
+}
+
+[data-theme="classic"] .mt-ourstory-philosophy .mt-display,
+[data-theme="classic"] .mt-ourstory-people .mt-display,
+[data-theme="classic"] .mt-ourstory-people .mt-display-soft,
+[data-theme="classic"] .mt-ourstory-philosophy .mt-display-soft {
+  color: #08282D;
+}
+
+[data-theme="classic"] .mt-ourstory-philosophy .mt-body-copy,
+[data-theme="classic"] .mt-ourstory-people .mt-body-copy {
+  color: rgba(8, 40, 45, 0.72);
+}
+
+@media (max-width: 767px) {
+  [data-theme="classic"] .mt-ourstory-philosophy::before,
+  [data-theme="classic"] .mt-ourstory-people::before {
+    opacity: 0.12;
+  }
+}
+/* ==========================================================================
+   CLASSIC — PREMIUM GOLD HIERARCHY
+   Classic carries equal visual authority to Signature.
+   ========================================================================== */
+
+[data-theme="classic"] {
+  --mt-classic-display-gold: #C99A3B;
+  --mt-classic-cta-gold: #C89436;
+  --mt-classic-cta-highlight: #DDB55D;
+  --mt-classic-ink-gold: #9A6A28;
+  --mt-classic-map-sepia: #8E6428;
+
+  --mt-gold: var(--mt-classic-display-gold);
+  --mt-accent: var(--mt-classic-cta-gold);
+  --mt-accent-soft: var(--mt-classic-display-gold);
+  --mt-nav-text-active: var(--mt-classic-ink-gold);
+}
+
+/* Large highlighted words must retain presence */
+[data-theme="classic"] .mt-display.text-\[\#D4AF37\],
+[data-theme="classic"] .mt-display-soft.text-\[\#D4AF37\],
+[data-theme="classic"] .mt-display .text-\[\#D4AF37\],
+[data-theme="classic"] .mt-display-soft .text-\[\#D4AF37\],
+[data-theme="classic"] .mt-ourstory-page .mt-display .text-\[\#D4AF37\],
+[data-theme="classic"] .mt-ourstory-page .mt-display-soft .text-\[\#D4AF37\] {
+  color: var(--mt-classic-display-gold) !important;
+}
+
+/* Small editorial gold stays antique but clearly readable */
+[data-theme="classic"] .mt-eyebrow.text-\[\#D4AF37\],
+[data-theme="classic"] .mt-ui.text-\[\#D4AF37\],
+[data-theme="classic"] .mt-ourstory-page .mt-eyebrow.text-\[\#D4AF37\],
+[data-theme="classic"] .mt-ourstory-page .mt-ui.text-\[\#D4AF37\],
+[data-theme="classic"] .mt-ourstory-page .text-\[\#D8C08A\] {
+  color: var(--mt-classic-ink-gold) !important;
+}
+
+/* Primary Classic CTAs — burnished metal, not brown mustard */
+[data-theme="classic"] .btn-gold,
+[data-theme="classic"] .mt-gold-sheen {
+  background:
+    linear-gradient(
+      180deg,
+      var(--mt-classic-cta-highlight) 0%,
+      #CEA045 42%,
+      var(--mt-classic-cta-gold) 100%
+    ) !important;
+
+  color: #08282D !important;
+
+  border: 1px solid rgba(121, 77, 24, 0.36);
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 244, 205, 0.72),
+    inset 0 -1px 0 rgba(105, 65, 18, 0.18),
+    0 12px 28px rgba(111, 73, 25, 0.17),
+    0 2px 5px rgba(91, 57, 15, 0.12) !important;
+}
+
+[data-theme="classic"] .btn-gold:hover,
+[data-theme="classic"] .mt-gold-sheen:hover {
+  background:
+    linear-gradient(
+      180deg,
+      #E6C26B 0%,
+      #D4AA4F 45%,
+      #C89436 100%
+    ) !important;
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 247, 217, 0.84),
+    0 16px 36px rgba(111, 73, 25, 0.23),
+    0 0 22px rgba(201, 154, 59, 0.13) !important;
+}
+
+/* Remove the overly-dark Our Story override */
+[data-theme="classic"] .mt-ourstory-page .text-\[\#D4AF37\] {
+  color: var(--mt-classic-display-gold) !important;
+}

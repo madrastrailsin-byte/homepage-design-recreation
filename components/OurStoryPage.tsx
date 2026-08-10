@@ -48,8 +48,8 @@ export default function OurStoryPage() {
   }, [prefersReducedMotion])
 
   return (
-    <div ref={pageRef} className="relative overflow-hidden bg-[var(--mt-canvas)] text-[var(--mt-text-primary)]">
-      <section className="relative flex min-h-screen items-end overflow-hidden px-6 pb-28 pt-24 md:px-8 md:pb-20 md:pt-28">
+    <div ref={pageRef} className="mt-ourstory-page relative overflow-hidden bg-[var(--mt-canvas)] text-[var(--mt-text-primary)]">
+      <section className="mt-ourstory-hero relative flex min-h-screen items-end overflow-hidden px-6 pb-28 pt-24 md:px-8 md:pb-20 md:pt-28">
         <video
           className="absolute inset-0 h-full w-full object-cover"
           src="/videos/our-story-hero.mp4"
@@ -85,7 +85,7 @@ aria-hidden="true"
         </div>
       </section>
 
-      <section className="relative overflow-hidden px-6 py-16 md:px-8 md:py-20">
+      <section className="mt-ourstory-philosophy relative overflow-hidden px-6 py-16 md:px-8 md:py-20">
         <div className="pointer-events-none absolute left-[-12rem] top-1/2 h-[34rem] w-[34rem] -translate-y-1/2 rounded-full bg-[var(--mt-surface-elevated)]/18 blur-[100px]" />
 
         <div className="relative mx-auto grid max-w-7xl items-center gap-10 lg:grid-cols-[1.08fr_0.92fr] lg:gap-16">
@@ -127,7 +127,7 @@ aria-hidden="true"
         </div>
       </section>
 
-      <section className="relative overflow-hidden px-6 pb-16 pt-10 md:px-8 md:pb-20 md:pt-14">
+      <section className="mt-ourstory-people relative overflow-hidden px-6 pb-16 pt-10 md:px-8 md:pb-20 md:pt-14">
         <div className="pointer-events-none absolute left-1/2 top-10 h-[30rem] w-[30rem] -translate-x-1/2 rounded-full bg-[var(--mt-surface-elevated)]/14 blur-[110px]" />
 
         <div className="relative mx-auto max-w-7xl">
@@ -151,7 +151,7 @@ aria-hidden="true"
           <div className="relative mt-14 grid items-start gap-14 lg:mt-20 lg:grid-cols-2 lg:gap-20">
             <div className="pointer-events-none absolute bottom-16 left-1/2 top-20 hidden w-px -translate-x-1/2 bg-gradient-to-b from-transparent via-[#D4AF37]/30 to-transparent lg:block" />
 
-            <article data-reveal className="relative">
+            <article data-reveal className="mt-ourstory-person relative">
               <div className="mx-auto flex h-full max-w-[34rem] flex-col">
                 <div className="relative mx-auto aspect-[4/5] w-full max-w-[24rem] overflow-hidden rounded-[2rem] border border-[#D4AF37]/38 bg-[radial-gradient(circle_at_70%_18%,rgba(212,175,55,0.16),transparent_32%),linear-gradient(145deg,var(--mt-surface-elevated),var(--mt-surface))] shadow-[0_28px_80px_rgba(0,0,0,0.38),0_0_28px_rgba(212,175,55,0.14),inset_0_0_24px_rgba(212,175,55,0.06)]">
                   <div className="pointer-events-none absolute inset-[1px] rounded-[calc(2rem-1px)] border border-[var(--mt-border)]" />
@@ -183,7 +183,7 @@ aria-hidden="true"
               </div>
             </article>
 
-            <article data-reveal className="relative">
+            <article data-reveal className="mt-ourstory-person relative">
               <div className="mx-auto flex h-full max-w-[34rem] flex-col">
                 <div className="relative mx-auto aspect-[4/5] w-full max-w-[24rem] overflow-hidden rounded-[2rem] border border-[#D4AF37]/38 bg-[radial-gradient(circle_at_30%_16%,rgba(212,175,55,0.16),transparent_32%),linear-gradient(145deg,var(--mt-surface-elevated),var(--mt-surface))] shadow-[0_28px_80px_rgba(0,0,0,0.38),0_0_28px_rgba(212,175,55,0.14),inset_0_0_24px_rgba(212,175,55,0.06)]">
                   <div className="pointer-events-none absolute inset-[1px] rounded-[calc(2rem-1px)] border border-[var(--mt-border)]" />
