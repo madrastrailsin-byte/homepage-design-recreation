@@ -202,7 +202,7 @@ export default function Hero() {
             <button
               type="button"
               onClick={() => router.push('/services')}
-              className="mt-gold-sheen mt-ui group inline-flex items-center justify-center gap-2 rounded-[4px] bg-[var(--mt-accent-soft)] px-[clamp(1.35rem,6vw,1.75rem)] py-[clamp(0.72rem,3.2vw,0.86rem)] text-[clamp(0.72rem,3vw,0.78rem)] text-[var(--mt-accent-contrast)] shadow-[0_12px_28px_rgba(201,162,74,0.18)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#D4B860] hover:shadow-[0_17px_38px_rgba(201,162,74,0.24)] md:px-8 md:py-3 md:text-xs"
+              className="mt-hero-primary-cta mt-gold-sheen mt-ui group inline-flex h-12 w-64 items-center justify-center gap-2 rounded-[4px] bg-[var(--mt-accent-soft)] px-0 py-0 text-xs font-medium text-[var(--mt-accent-contrast)] shadow-[0_12px_28px_rgba(201,162,74,0.18)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#D4B860] hover:shadow-[0_17px_38px_rgba(201,162,74,0.24)]"
             >
               <Play size={13} className="fill-current" />
               <span>Explore Our Services</span>

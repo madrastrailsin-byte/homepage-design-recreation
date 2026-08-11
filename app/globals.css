@@ -1974,42 +1974,23 @@ main.bg-\[\#0D1117\] {
   --mt-nav-text-active: var(--mt-classic-ink-gold);
 }
 
-/* Primary Classic CTAs — burnished metal, not brown mustard */
-[data-theme="classic"] .btn-gold,
-[data-theme="classic"] .mt-gold-sheen {
-  background:
-    linear-gradient(
-      180deg,
-      var(--mt-classic-cta-highlight) 0%,
-      #CEA045 42%,
-      var(--mt-classic-cta-gold) 100%
-    ) !important;
-
+/* Classic changes CTA surfaces only; Signature remains the geometry master. */
+[data-theme="classic"] .btn-gold {
+  background: linear-gradient(180deg, #E0C56D 0%, #D4AF37 48%, #B9892E 100%) !important;
   color: #08282D !important;
-
-  border: 1px solid rgba(121, 77, 24, 0.36);
-
+  border-color: rgba(126, 83, 31, 0.48) !important;
   box-shadow:
-    inset 0 1px 0 rgba(255, 244, 205, 0.72),
-    inset 0 -1px 0 rgba(105, 65, 18, 0.18),
-    0 12px 28px rgba(111, 73, 25, 0.17),
-    0 2px 5px rgba(91, 57, 15, 0.12) !important;
+    inset 0 1px 0 rgba(255, 248, 218, 0.64),
+    inset 0 -1px 0 rgba(105, 65, 18, 0.16),
+    0 12px 28px rgba(111, 73, 25, 0.18) !important;
 }
 
-[data-theme="classic"] .btn-gold:hover,
-[data-theme="classic"] .mt-gold-sheen:hover {
-  background:
-    linear-gradient(
-      180deg,
-      #E6C26B 0%,
-      #D4AA4F 45%,
-      #C89436 100%
-    ) !important;
-
+[data-theme="classic"] .btn-gold:hover {
+  background: linear-gradient(180deg, #E8CF7B 0%, #DDB84C 48%, #C99A3B 100%) !important;
   box-shadow:
-    inset 0 1px 0 rgba(255, 247, 217, 0.84),
-    0 16px 36px rgba(111, 73, 25, 0.23),
-    0 0 22px rgba(201, 154, 59, 0.13) !important;
+    inset 0 1px 0 rgba(255, 249, 220, 0.72),
+    0 16px 36px rgba(111, 73, 25, 0.22),
+    0 0 20px rgba(201, 154, 59, 0.13) !important;
 }
 
 /* Remove the overly-dark Our Story override */
@@ -2046,11 +2027,6 @@ main.bg-\[\#0D1117\] {
   background-repeat: repeat-y;
   background-position: center top;
   background-size: min(1500px, 128vw) auto;
-}
-
-[data-theme="classic"] .mt-experiences-page > * {
-  position: relative;
-  z-index: 1;
 }
 
 /* --------------------------------------------------------------------------
@@ -2233,14 +2209,9 @@ main.bg-\[\#0D1117\] {
 
 [data-theme="classic"] .mt-classic-text-link {
   background: transparent !important;
-  border: 0 !important;
+  border-color: transparent !important;
   box-shadow: none !important;
-  padding: 0 !important;
-
   color: #0A282D !important;
-  font-weight: 650 !important;
-  font-size: 0.82rem !important;
-  letter-spacing: 0.10em !important;
 }
 
 [data-theme="classic"] .mt-classic-text-link:hover {
@@ -2249,35 +2220,6 @@ main.bg-\[\#0D1117\] {
   box-shadow: none !important;
 }
 
-/* Real primary CTAs remain prominent, but brighter/cleaner */
-[data-theme="classic"] .mt-premium-nav a[href="/plan"] {
-  background:
-    linear-gradient(
-      180deg,
-      #E0B653 0%,
-      #D3A23D 52%,
-      #C89436 100%
-    ) !important;
-
-  color: #061F25 !important;
-  border-color: rgba(128, 82, 24, 0.38) !important;
-
-  box-shadow:
-    inset 0 1px 0 rgba(255, 247, 215, 0.78),
-    0 10px 24px rgba(109, 72, 27, 0.14) !important;
-}
-
-[data-theme="classic"] .mt-premium-nav a[href="/plan"]:hover {
-  background:
-    linear-gradient(
-      180deg,
-      #E8C66D 0%,
-      #DDB04F 52%,
-      #CFA044 100%
-    ) !important;
-
-  color: #061F25 !important;
-}
 /* ==========================================================================
    CLASSIC — TEXT LEGIBILITY SYSTEM
    Dark editorial ink for readable content.
@@ -2291,19 +2233,11 @@ main.bg-\[\#0D1117\] {
 }
 
 /* Keep Classic's editorial sizing without assigning a surface colour globally. */
-[data-theme="classic"] .mt-eyebrow,
-[data-theme="classic"] .mt-ui {
-  font-weight: 700 !important;
-}
 
-[data-theme="classic"] .mt-eyebrow {
-  font-size: max(11px, 0.72rem) !important;
-  letter-spacing: 0.22em !important;
-}
 
-[data-theme="classic"] .mt-ui {
-  font-size: max(10px, 0.68rem);
-}
+
+
+
 
 /* Inside light Classic cards/panels, force titles to ink */
 [data-theme="classic"] .mt-story-destination-card .mt-display,
@@ -2362,13 +2296,6 @@ main.bg-\[\#0D1117\] {
   text-shadow: 0 2px 16px rgba(0, 0, 0, 0.26);
 }
 
-/* Preserve gold on genuine CTA/button surfaces */
-[data-theme="classic"] button,
-[data-theme="classic"] a[href="/plan"],
-[data-theme="classic"] .btn-gold,
-[data-theme="classic"] .mt-gold-sheen {
-  --mt-local-cta-text: #08282D;
-}
 /* ==========================================================================
    CLASSIC — SOFT SECTION TRANSITIONS
    Remove Signature-style heavy gradient veils from the parchment experience.
@@ -2566,12 +2493,6 @@ main.bg-\[\#0D1117\] {
    Dark ink typography with warm gold interaction states.
    ========================================================================== */
 
-[data-theme="classic"] a:not(.btn-gold):not(.mt-gold-sheen),
-[data-theme="classic"] button:not(.btn-gold):not(.mt-gold-sheen) {
-  --mt-classic-link-ink: #08282D;
-  --mt-classic-link-gold: #D6AA4E;
-}
-
 /* Standard editorial links become ink only on known light surfaces. */
 [data-theme="classic"] :where(
   .mt-premium-nav,
@@ -2580,7 +2501,7 @@ main.bg-\[\#0D1117\] {
   .mt-ourstory-philosophy,
   .mt-ourstory-people
 ) a:not(.btn-gold):not(.mt-gold-sheen) {
-  color: var(--mt-classic-link-ink);
+  color: #08282D;
 }
 
 /* Light-surface hover/focus stays ink. */
@@ -2591,7 +2512,7 @@ main.bg-\[\#0D1117\] {
   .mt-ourstory-philosophy,
   .mt-ourstory-people
 ) a:not(.btn-gold):not(.mt-gold-sheen):is(:hover, :focus-visible) {
-  color: var(--mt-classic-link-ink) !important;
+  color: #08282D !important;
 }
 
 /* Premium navigation links */
@@ -2612,12 +2533,6 @@ main.bg-\[\#0D1117\] {
   background-color: rgba(214, 170, 78, 0.18);
 }
 
-/* Keep genuine gold CTA buttons unchanged */
-[data-theme="classic"] .btn-gold,
-[data-theme="classic"] .mt-gold-sheen,
-[data-theme="classic"] a[href="/plan"] {
-  color: #08282D !important;
-}
 /* ==========================================================================
    PLAN YOUR JOURNEY — CLASSIC LEGIBILITY CLEANUP
    Final pass for parchment UI typography.
@@ -2737,14 +2652,7 @@ main.bg-\[\#0D1117\] {
 }
 
 [data-theme="classic"] .mt-story-destination-card .mt-body-copy {
-  display: inline-block;
   color: #F2E7CC !important;
-  background: rgba(3, 18, 22, 0.48);
-  border: 1px solid rgba(212, 175, 55, 0.16);
-  border-radius: 999px;
-  padding: 0.12rem 0.38rem;
-  -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px);
   text-shadow: 0 2px 14px rgba(0, 0, 0, 0.32);
 }
 
@@ -2863,17 +2771,67 @@ main.bg-\[\#0D1117\] {
   background: rgba(212, 175, 55, 0.16);
 }
 
-/* Experiences page: media labels retain gold only on local dark backing. */
-[data-theme="classic"] .mt-experiences-tile .mt-ui,
-[data-theme="classic"] .mt-experiences-showcase .mt-eyebrow,
-[data-theme="classic"] .mt-experiences-showcase .mt-ui {
-  display: inline-block;
-  color: #DDB55D !important;
-  background: rgba(3, 18, 22, 0.48);
-  border: 1px solid rgba(212, 175, 55, 0.16);
-  border-radius: 999px;
-  padding: 0.14rem 0.4rem;
-  -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px);
-  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.32);
+
+
+/* ==========================================================================
+   CLASSIC HEADER — FINAL GEOMETRY / CTA LOCK
+   Signature owns geometry. Classic changes surface only.
+   ========================================================================== */
+
+[data-theme="classic"] .mt-premium-nav .mt-nav-plan-cta {
+  background:
+    linear-gradient(
+      135deg,
+      #E0C56D 0%,
+      #D4AF37 52%,
+      #B9892E 100%
+    ) !important;
+
+  color: #08282D !important;
+  border-color: rgba(126, 83, 31, 0.48) !important;
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 248, 214, 0.58),
+    0 8px 24px rgba(105, 72, 26, 0.18) !important;
+}
+
+[data-theme="classic"] .mt-premium-nav .mt-nav-plan-cta:hover {
+  background:
+    linear-gradient(
+      135deg,
+      #E8CF7B 0%,
+      #DDB84C 52%,
+      #C99A3B 100%
+    ) !important;
+
+  color: #08282D !important;
+}
+
+/* ==========================================================================
+   CLASSIC HOMEPAGE — SERVICE STRIP TRANSITION
+   Keep the strip in the same position, but shorten the parchment handoff so
+   more of the hero/video remains visible. Signature remains untouched.
+   ========================================================================== */
+
+[data-theme="classic"] .mt-scroll-services > div.pointer-events-none.absolute.inset-x-0.-top-16 {
+  top: -1.5rem !important;
+  height: 2.5rem !important;
+  background:
+    linear-gradient(
+      to bottom,
+      transparent 0%,
+      rgba(243, 227, 200, 0.18) 52%,
+      var(--mt-canvas) 100%
+    ) !important;
+}
+
+[data-theme="classic"] .mt-scroll-services > div.pointer-events-none.absolute.inset-x-0.bottom-0 {
+  height: 2rem !important;
+  background:
+    linear-gradient(
+      to bottom,
+      transparent 0%,
+      rgba(243, 227, 200, 0.12) 55%,
+      var(--mt-canvas) 100%
+    ) !important;
 }

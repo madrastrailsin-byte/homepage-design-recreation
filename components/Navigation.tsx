@@ -5,7 +5,6 @@ import { Compass, Crown, Menu, X } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import BrandLogo from './BrandLogo'
 import JourneyTransitionLink from './JourneyTransitionLink'
 import { useTheme } from '@/components/theme/ThemeProvider'
 
@@ -22,6 +21,7 @@ export default function Navigation() {
   const { theme, toggleTheme } = useTheme()
   const [isScrolled, setIsScrolled] = useState(false)
   const [logoPulse, setLogoPulse] = useState(false)
+  const [themeChangeCount, setThemeChangeCount] = useState(0)
   const pathname = usePathname()
   const prefersReducedMotion = useReducedMotion()
 
@@ -45,6 +45,11 @@ export default function Navigation() {
   const active = (href: string) =>
     pathname === href || pathname.startsWith(`${href}/`)
 
+  const handleThemeToggle = () => {
+    setThemeChangeCount((count) => count + 1)
+    toggleTheme()
+  }
+
   return (
     <nav className={`mt-premium-nav fixed inset-x-0 top-0 z-50 border-b backdrop-blur-2xl transition-all duration-500 ${isScrolled ? 'mt-nav-scrolled border-[var(--mt-border)] bg-[var(--mt-nav-bg)] shadow-[0_18px_56px_rgba(0,0,0,0.28)]' : 'border-[var(--mt-border)] bg-[var(--mt-nav-bg-rest)]'}`}>
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[var(--mt-border-strong)] to-transparent" />
@@ -54,14 +59,16 @@ export default function Navigation() {
         <motion.a
           href="/"
           aria-label="MadrasTrails homepage"
-          initial={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: -8 }}
+          initial={false}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: prefersReducedMotion ? 0 : 0.72, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
           whileHover={prefersReducedMotion ? undefined : { scale: 1.018, y: -1 }}
           className={`group relative inline-flex items-center justify-self-start transition-all duration-500 ${logoPulse ? 'mt-logo-receipt' : ''}`}
         >
   
-          <BrandLogo theme={theme} priority imageClassName="relative z-10 h-8 w-auto object-contain sm:h-9 md:h-11" />
+          <span
+            aria-hidden="true"
+            className="inline-flex h-9 w-[168px] shrink-0 sm:h-10 sm:w-[188px] md:h-11 md:w-[210px]"
+          />
         </motion.a>
 
         <motion.div
@@ -74,7 +81,7 @@ export default function Navigation() {
             <div key={item.href} className="flex items-center">
               <Link
                 href={item.href}
-                className={`mt-ui relative isolate px-2 py-0 text-[12px] font-medium tracking-[0.16em] transition-colors duration-300 ${
+                className={`mt-nav-link mt-ui relative isolate px-2 py-0 text-[12px] font-medium tracking-[0.16em] transition-colors duration-300 ${
                   active(item.href)
                     ? 'text-[var(--mt-nav-text-active)]'
                     : 'text-[var(--mt-nav-text)] hover:text-[var(--mt-text-primary)]'
@@ -106,7 +113,7 @@ export default function Navigation() {
         <div className="flex items-center gap-2 self-center justify-self-end sm:gap-3">
           <motion.button
   type="button"
-  onClick={toggleTheme}
+  onClick={handleThemeToggle}
   aria-label="Switch between Signature and Classic modes"
   title="Change MadrasTrails viewing mode"
   whileHover={{ y: -1 }}
@@ -118,11 +125,11 @@ export default function Navigation() {
   }`}
 >
   <motion.div
-    key={theme}
-    initial={{ opacity: 0, scale: 1.08 }}
+    key={`${theme}-${themeChangeCount}`}
+    initial={themeChangeCount > 0 ? { opacity: 0, scale: 1.08 } : false}
     animate={{ opacity: 1, scale: 1 }}
     transition={{ duration: 0.6 }}
-    className="absolute inset-0"
+    className={`absolute inset-0`}
   >
     <img
   src={
@@ -139,13 +146,13 @@ export default function Navigation() {
     <div className="absolute inset-0 bg-black/45" />
   </motion.div>
 
-  <span className="relative z-10 flex h-full w-full items-center justify-center pt-[1px] text-[7px] tracking-[0.18em] leading-none text-white sm:text-[8px] sm:tracking-[0.22em] md:text-[9px] md:tracking-[0.26em]">
+  <span className={`relative z-10 flex h-full w-full items-center justify-center pt-[1px] text-[7px] tracking-[0.18em] leading-none text-white sm:text-[8px] sm:tracking-[0.22em] md:text-[9px] md:tracking-[0.26em]`}>
     {theme === 'signature' ? 'SIGNATURE' : 'CLASSIC'}
   </span>
 </motion.button>
           <JourneyTransitionLink
             href="/plan"
-            className="group mt-ui relative hidden items-center gap-3 overflow-hidden rounded-full border border-[var(--mt-border-strong)] bg-[var(--mt-accent)] px-5 py-2 text-[11px] tracking-[0.12em] text-[var(--mt-accent-contrast)] shadow-[var(--mt-shadow-soft)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[var(--mt-shadow-elevated)] md:inline-flex"
+            className="mt-nav-plan-cta group mt-ui relative hidden items-center gap-3 overflow-hidden rounded-full border border-[var(--mt-border-strong)] bg-[var(--mt-accent)] px-5 py-2 text-[11px] tracking-[0.12em] text-[var(--mt-accent-contrast)] shadow-[var(--mt-shadow-soft)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[var(--mt-shadow-elevated)] md:inline-flex"
           >
             <span className="pointer-events-none absolute inset-y-0 -left-1/3 w-1/3 skew-x-[-18deg] bg-white/34 opacity-0 blur-sm transition-all duration-700 group-hover:left-[115%] group-hover:opacity-100" />
             <span className="relative z-10 leading-none">Plan Your Journey</span>
@@ -197,7 +204,7 @@ export default function Navigation() {
     key={item.href}
     href={item.href}
     onClick={() => setIsOpen(false)}
-    className={`mt-ui flex items-center justify-between rounded-xl border px-4 py-3 text-sm tracking-[0.08em] transition-all duration-300 ${active(item.href) ? 'border-[var(--mt-border-strong)] bg-[color:var(--mt-accent)/0.10] text-[var(--mt-nav-text-active)]' : 'border-transparent text-[var(--mt-nav-text)] hover:border-[var(--mt-border)] hover:bg-[var(--mt-surface-elevated)] hover:text-[var(--mt-text-primary)]'}`}
+    className={`mt-nav-link mt-ui flex items-center justify-between rounded-xl border px-4 py-3 text-sm tracking-[0.08em] transition-all duration-300 ${active(item.href) ? 'border-[var(--mt-border-strong)] bg-[color:var(--mt-accent)/0.10] text-[var(--mt-nav-text-active)]' : 'border-transparent text-[var(--mt-nav-text)] hover:border-[var(--mt-border)] hover:bg-[var(--mt-surface-elevated)] hover:text-[var(--mt-text-primary)]'}`}
                 >
                   {item.label}
                   <span className="text-[var(--mt-nav-text-active)] opacity-65">→</span>
@@ -207,7 +214,7 @@ export default function Navigation() {
               <JourneyTransitionLink
                 href="/plan"
                 onNavigate={() => setIsOpen(false)}
-                className="mt-ui mt-3 flex w-full items-center justify-between rounded-xl border border-[var(--mt-border-strong)] bg-[var(--mt-accent)] px-4 py-3 text-xs tracking-[0.1em] text-[var(--mt-accent-contrast)] shadow-[var(--mt-shadow-soft)]"
+                className="mt-nav-plan-cta mt-ui mt-3 flex w-full items-center justify-between rounded-xl border border-[var(--mt-border-strong)] bg-[var(--mt-accent)] px-4 py-3 text-xs tracking-[0.1em] text-[var(--mt-accent-contrast)] shadow-[var(--mt-shadow-soft)]"
               >
                 Plan Your Journey <span>→</span>
               </JourneyTransitionLink>
