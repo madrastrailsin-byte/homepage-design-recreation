@@ -66,7 +66,7 @@ export default function ExperiencesSection({
 
   return (
     <>
-      <section className="relative overflow-hidden bg-[var(--mt-canvas)] px-5 pb-8 pt-10 text-[var(--mt-text-primary)] sm:px-8 sm:pb-9 sm:pt-14 lg:px-12 lg:pb-10 lg:pt-16">
+      <section className="mt-destination-experiences relative overflow-hidden bg-[var(--mt-canvas)] px-5 pb-8 pt-10 text-[var(--mt-text-primary)] sm:px-8 sm:pb-9 sm:pt-14 lg:px-12 lg:pb-10 lg:pt-16">
         <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#d6b06e]/45 to-transparent" />
 
         <div className="mx-auto max-w-[1500px]">
@@ -185,7 +185,7 @@ function ExperienceCard({
         ease: [0.22, 1, 0.36, 1],
       }}
       whileHover={prefersReducedMotion ? undefined : { y: -8, scale: 1.008 }}
-      className={`group relative isolate min-h-[440px] overflow-hidden rounded-[30px] border border-white/10 bg-white/[0.025] text-left shadow-[0_28px_90px_rgba(0,0,0,0.28)] transition-[border-color,box-shadow] duration-500 hover:border-[#D6B06E]/28 hover:shadow-[0_40px_120px_rgba(0,0,0,0.42),0_0_34px_rgba(214,176,110,0.08)] ${
+      className={`mt-destination-experience-card group relative isolate min-h-[440px] overflow-hidden rounded-[30px] border border-white/10 bg-white/[0.025] text-left shadow-[0_28px_90px_rgba(0,0,0,0.28)] transition-[border-color,box-shadow] duration-500 hover:border-[#D6B06E]/28 hover:shadow-[0_40px_120px_rgba(0,0,0,0.42),0_0_34px_rgba(214,176,110,0.08)] ${
         featured
           ? "lg:row-span-2 lg:min-h-[900px]"
           : "lg:min-h-[438px]"
@@ -207,7 +207,7 @@ function ExperienceCard({
         className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1600ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.075]"
       />
 
-      <div className="absolute inset-0 bg-gradient-to-t from-[#020a0e] via-[#020a0e]/24 to-transparent" />
+      <div className="mt-classic-media-overlay absolute inset-0 bg-gradient-to-t from-[#020a0e] via-[#020a0e]/24 to-transparent" />
       <div className="absolute inset-0 bg-gradient-to-r from-[#020a0e]/35 via-transparent to-transparent opacity-60" />
       <div className="absolute inset-0 bg-[#06161d]/0 transition-colors duration-700 group-hover:bg-[#06161d]/18" />
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/24 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
@@ -326,7 +326,7 @@ function ExperienceDrawer({
                 sizes="(min-width: 640px) 620px, 100vw"
                 className="h-full w-full object-cover scale-[1.03]"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#07161d] via-[#07161d]/8 to-black/28" />
+              <div className="mt-classic-media-overlay absolute inset-0 bg-gradient-to-t from-[#07161d] via-[#07161d]/8 to-black/28" />
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_76%_18%,rgba(214,176,110,0.14),transparent_34%)]" />
 
               <button

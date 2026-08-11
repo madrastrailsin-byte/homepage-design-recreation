@@ -50,7 +50,7 @@ export default function DiscoverSection({
     discover.facts.find((fact) => fact.label === "Ideal duration")?.value ?? "—"
 
   return (
-    <section className="mx-auto max-w-7xl px-6 pb-24 pt-10 lg:pt-14">
+    <section className="mt-destination-discover mx-auto max-w-7xl px-6 pb-24 pt-10 lg:pt-14">
       <motion.div
         initial={{ opacity: 0, y: 24 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -144,7 +144,7 @@ export default function DiscoverSection({
         <div className="absolute right-0 top-12 hidden w-[58%] lg:block">
           <div className="pointer-events-none absolute -inset-12 -z-10 rounded-[60px] bg-[#2C7A82]/10 blur-[90px]" />
 
-          <div className="relative overflow-hidden rounded-[42px] border border-white/5 shadow-[0_40px_120px_rgba(0,0,0,0.45)]">
+          <div className="mt-destination-dossier-media relative overflow-hidden rounded-[42px] border border-white/5 shadow-[0_40px_120px_rgba(0,0,0,0.45)]">
             <motion.img
               src={destination.image}
               alt={destination.name}
@@ -163,12 +163,12 @@ export default function DiscoverSection({
                   ? undefined
                   : { duration: 28, repeat: Infinity, ease: "easeInOut" }
               }
-              className="h-[820px] w-full object-cover object-center opacity-52 saturate-[0.74] contrast-[1.1] brightness-[0.78] sepia-[0.08]"
+              className="mt-destination-dossier-image h-[820px] w-full object-cover object-center opacity-52 saturate-[0.74] contrast-[1.1] brightness-[0.78] sepia-[0.08]"
             />
 
             <motion.div
               aria-hidden="true"
-              className="pointer-events-none absolute inset-y-0 z-10 w-[18%] bg-[linear-gradient(90deg,transparent,rgba(255,241,202,0.14),transparent)] mix-blend-screen"
+              className="mt-destination-dossier-sheen pointer-events-none absolute inset-y-0 z-10 w-[18%] bg-[linear-gradient(90deg,transparent,rgba(255,241,202,0.14),transparent)] mix-blend-screen"
               initial={prefersReducedMotion ? false : { x: "-180%", opacity: 0 }}
               animate={
                 prefersReducedMotion
@@ -188,8 +188,8 @@ export default function DiscoverSection({
               }
             />
 
-            <div className="absolute inset-0 bg-gradient-to-l from-[#07161D]/5 via-[#07161D]/35 to-[#07161D]/95" />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#07161D]/95 via-[#07161D]/15 to-[#07161D]/20" />
+            <div className="mt-classic-media-overlay absolute inset-0 bg-gradient-to-l from-[#07161D]/5 via-[#07161D]/35 to-[#07161D]/95" />
+            <div className="mt-classic-media-overlay absolute inset-0 bg-gradient-to-t from-[#07161D]/95 via-[#07161D]/15 to-[#07161D]/20" />
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_28%_24%,rgba(214,176,110,0.10),transparent_32%)]" />
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_82%_46%,rgba(44,122,130,0.10),transparent_38%)]" />
 

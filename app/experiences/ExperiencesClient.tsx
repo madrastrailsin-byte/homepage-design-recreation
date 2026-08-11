@@ -168,7 +168,7 @@ function JourneyTile({ journey, index, active, onSelect }: { journey: (typeof jo
       viewport={{ once: true, amount: 0.16 }}
       whileHover={reduceMotion ? undefined : { y: -10, scale: 1.01, rotateX: 0.7, rotateY: index % 2 === 0 ? -0.35 : 0.35, transformPerspective: 1100, zIndex: 20 }}
       transition={{ duration: 0.86, delay: index * 0.055, ease }}
-      className={`group relative isolate w-full overflow-hidden rounded-[1.7rem] bg-[#020F12] text-left shadow-[0_30px_90px_rgba(0,0,0,0.34)] transition-[border-color,box-shadow] duration-500 hover:shadow-[0_42px_120px_rgba(0,0,0,0.48),0_0_42px_rgba(212,175,55,0.08)] ${active ? 'border border-[#D4AF37]/70 ring-1 ring-[#D4AF37]/25' : 'border border-white/10 hover:border-[#D4AF37]/42'} ${journey.gridClass}`}
+      className={`mt-experiences-tile group relative isolate w-full overflow-hidden rounded-[1.7rem] bg-[#020F12] text-left shadow-[0_30px_90px_rgba(0,0,0,0.34)] transition-[border-color,box-shadow] duration-500 hover:shadow-[0_42px_120px_rgba(0,0,0,0.48),0_0_42px_rgba(212,175,55,0.08)] ${active ? 'border border-[#D4AF37]/70 ring-1 ring-[#D4AF37]/25' : 'border border-white/10 hover:border-[#D4AF37]/42'} ${journey.gridClass}`}
     >
       <video
         ref={videoRef}
@@ -181,7 +181,7 @@ function JourneyTile({ journey, index, active, onSelect }: { journey: (typeof jo
         aria-hidden="true"
       />
 
-      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(2,15,18,0.06),rgba(2,15,18,0.3)_44%,rgba(2,15,18,0.9)_100%)]" />
+      <div className="mt-classic-media-overlay absolute inset-0 bg-[linear-gradient(180deg,rgba(2,15,18,0.06),rgba(2,15,18,0.3)_44%,rgba(2,15,18,0.9)_100%)]" />
       <div className="absolute inset-0 opacity-50 transition-opacity duration-500 group-hover:opacity-75" style={{ background: `radial-gradient(circle at 78% 18%, ${journey.accent}33, transparent 34%)` }} />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_26%_100%,rgba(212,175,55,0.09),transparent_42%)]" />
 
@@ -293,7 +293,7 @@ export default function ExperiencesPage() {
   }}
   aria-hidden="true"
 />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_28%_56%,rgba(2,15,18,0.72),transparent_48%),radial-gradient(ellipse_at_72%_24%,rgba(212,175,55,0.16),transparent_34%),linear-gradient(180deg,rgba(2,15,18,0.32),rgba(2,15,18,0.68))]" />
+        <div className="mt-classic-media-overlay absolute inset-0 bg-[radial-gradient(ellipse_at_28%_56%,rgba(2,15,18,0.72),transparent_48%),radial-gradient(ellipse_at_72%_24%,rgba(212,175,55,0.16),transparent_34%),linear-gradient(180deg,rgba(2,15,18,0.32),rgba(2,15,18,0.68))]" />
 
         <div className="relative z-10 mx-auto w-full max-w-7xl">
           <Reveal className="max-w-4xl">
@@ -344,7 +344,7 @@ export default function ExperiencesPage() {
       <section
         id="showcase"
         ref={showcaseRef}
-        className="relative scroll-mt-20 overflow-hidden bg-[#020F12]"
+        className="mt-experiences-showcase relative scroll-mt-20 overflow-hidden bg-[#020F12]"
       >
         <AnimatePresence mode="wait">
           <motion.div
@@ -370,8 +370,8 @@ export default function ExperiencesPage() {
               aria-hidden="true"
             />
 
-            <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(2,15,18,0.94)_0%,rgba(2,15,18,0.78)_32%,rgba(2,15,18,0.24)_68%,rgba(2,15,18,0.46)_100%)]" />
-            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(2,15,18,0.18),transparent_42%,rgba(2,15,18,0.92)_100%)]" />
+            <div className="mt-classic-media-overlay absolute inset-0 bg-[linear-gradient(90deg,rgba(2,15,18,0.94)_0%,rgba(2,15,18,0.78)_32%,rgba(2,15,18,0.24)_68%,rgba(2,15,18,0.46)_100%)]" />
+            <div className="mt-classic-media-overlay absolute inset-0 bg-[linear-gradient(180deg,rgba(2,15,18,0.18),transparent_42%,rgba(2,15,18,0.92)_100%)]" />
             <div
               className="absolute inset-0"
               style={{ background: `radial-gradient(circle at 78% 24%, ${activeJourney.accent}38, transparent 34%)` }}
@@ -420,7 +420,7 @@ export default function ExperiencesPage() {
                   initial={prefersReducedMotion ? undefined : { opacity: 0, y: 46, scale: 0.96 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   transition={{ duration: 0.8, delay: 0.2, ease }}
-                  className="mt-iphone-experience-panel max-h-[34rem] overflow-y-auto rounded-[1.6rem] border border-white/14 bg-[linear-gradient(180deg,rgba(8,18,22,0.5),rgba(2,10,13,0.62))] p-5 shadow-[0_30px_90px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-2xl sm:p-6"
+                  className="mt-experiences-showcase-panel mt-iphone-experience-panel max-h-[34rem] overflow-y-auto rounded-[1.6rem] border border-white/14 bg-[linear-gradient(180deg,rgba(8,18,22,0.5),rgba(2,10,13,0.62))] p-5 shadow-[0_30px_90px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-2xl sm:p-6"
                 >
                   <p className="mt-eyebrow mb-4 text-[9px] text-[#D4AF37]">SIGNATURE MOMENTS</p>
 
@@ -464,7 +464,7 @@ export default function ExperiencesPage() {
               </div>
             </div>
 
-            <div className="absolute right-5 top-1/2 z-30 hidden h-[22rem] -translate-y-1/2 lg:block">
+            <div className="mt-experiences-rail absolute right-5 top-1/2 z-30 hidden h-[22rem] -translate-y-1/2 lg:block">
               <div className="relative h-full overflow-hidden rounded-[1.45rem] border border-white/10 bg-[linear-gradient(180deg,rgba(8,20,24,0.48),rgba(3,11,14,0.38))] px-2.5 py-3 shadow-[0_20px_60px_rgba(0,0,0,0.28),inset_0_1px_0_rgba(255,255,255,0.06)] backdrop-blur-xl">
                 <div className="pointer-events-none absolute inset-x-3 top-0 h-px bg-gradient-to-r from-transparent via-[#D4AF37]/45 to-transparent" />
                 <div className="pointer-events-none absolute -right-5 top-[22%] h-20 w-14 rounded-full bg-[#D4AF37]/8 blur-xl" />

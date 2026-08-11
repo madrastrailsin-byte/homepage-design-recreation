@@ -142,7 +142,10 @@ export default function DestinationsSection() {
                 transition={editorialTransition(0.34)}
                 viewport={{ once: true, amount: 0.24 }}
               >
-                <Link href="/destinations" className="mt-gold-sheen mt-ui text-[var(--mt-accent-soft)] text-xs hover:text-[var(--mt-text-primary)] inline-flex items-center gap-2 group tracking-widest">
+                <Link
+  href="/destinations"
+  className="mt-classic-text-link mt-ui text-[var(--mt-accent-soft)] text-xs hover:text-[var(--mt-text-primary)] inline-flex items-center gap-2 group tracking-widest"
+>
                   Discover Destinations → 
                   <ArrowRight size={14} className={prefersReducedMotion ? '' : 'group-hover:translate-x-1 transition-transform'} />
                 </Link>

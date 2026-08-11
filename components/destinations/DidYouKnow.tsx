@@ -35,7 +35,7 @@ export default function DidYouKnow({
 
   return (
     <>
-      <div className="mt-10 max-w-[430px] border-t border-white/10 pt-6">
+      <div className="mt-did-you-know mt-10 max-w-[430px] border-t border-white/10 pt-6">
         <div className="flex items-center gap-4">
           <p className="text-[9px] font-medium uppercase tracking-[0.34em] text-[#D6B06E]">
             Did You Know?

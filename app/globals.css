@@ -1798,17 +1798,6 @@ main.bg-\[\#0D1117\] {
   border-color: rgba(112,76,31,.32) !important;
 }
 
-/* Gold text in Classic is intentionally darker than Signature for legibility. */
-[data-theme="classic"] .mt-eyebrow,
-[data-theme="classic"] .mt-ui {
-  text-shadow: none;
-}
-
-[data-theme="classic"] .text-\[\#C9A24A\],
-[data-theme="classic"] .text-\[\#D4AF37\] {
-  color: #8B6024 !important;
-}
-
 @media (max-width: 767px) {
   [data-theme="classic"] .mt-scroll-services::after {
     opacity: .13 !important;
@@ -1985,25 +1974,6 @@ main.bg-\[\#0D1117\] {
   --mt-nav-text-active: var(--mt-classic-ink-gold);
 }
 
-/* Large highlighted words must retain presence */
-[data-theme="classic"] .mt-display.text-\[\#D4AF37\],
-[data-theme="classic"] .mt-display-soft.text-\[\#D4AF37\],
-[data-theme="classic"] .mt-display .text-\[\#D4AF37\],
-[data-theme="classic"] .mt-display-soft .text-\[\#D4AF37\],
-[data-theme="classic"] .mt-ourstory-page .mt-display .text-\[\#D4AF37\],
-[data-theme="classic"] .mt-ourstory-page .mt-display-soft .text-\[\#D4AF37\] {
-  color: var(--mt-classic-display-gold) !important;
-}
-
-/* Small editorial gold stays antique but clearly readable */
-[data-theme="classic"] .mt-eyebrow.text-\[\#D4AF37\],
-[data-theme="classic"] .mt-ui.text-\[\#D4AF37\],
-[data-theme="classic"] .mt-ourstory-page .mt-eyebrow.text-\[\#D4AF37\],
-[data-theme="classic"] .mt-ourstory-page .mt-ui.text-\[\#D4AF37\],
-[data-theme="classic"] .mt-ourstory-page .text-\[\#D8C08A\] {
-  color: var(--mt-classic-ink-gold) !important;
-}
-
 /* Primary Classic CTAs — burnished metal, not brown mustard */
 [data-theme="classic"] .btn-gold,
 [data-theme="classic"] .mt-gold-sheen {
@@ -2045,4 +2015,865 @@ main.bg-\[\#0D1117\] {
 /* Remove the overly-dark Our Story override */
 [data-theme="classic"] .mt-ourstory-page .text-\[\#D4AF37\] {
   color: var(--mt-classic-display-gold) !important;
+}
+/* ==========================================================================
+   EXPERIENCES PAGE — CLASSIC THEME
+   Heritage expedition folio + cinematic journey plates.
+   Signature remains untouched.
+   ========================================================================== */
+
+[data-theme="classic"] .mt-experiences-page {
+  position: relative;
+  background:
+    radial-gradient(circle at 16% 18%, rgba(255, 249, 235, 0.42), transparent 28%),
+    radial-gradient(circle at 84% 26%, rgba(168, 121, 47, 0.08), transparent 30%),
+    linear-gradient(180deg, #F7E9D2 0%, #F1DFC2 46%, #ECD5B2 100%) !important;
+  color: #08282D;
+}
+
+/* Old travel-map layer across the page */
+[data-theme="classic"] .mt-experiences-page::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.16;
+  mix-blend-mode: multiply;
+
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1400 760'%3E%3Cg fill='none' stroke='%238E6428' stroke-linecap='round' stroke-linejoin='round'%3E%3Cellipse cx='700' cy='380' rx='600' ry='255' stroke-width='.7'/%3E%3Cellipse cx='700' cy='380' rx='600' ry='170' stroke-width='.5'/%3E%3Cpath d='M100 380h1200M700 125v510M398 150c-115 145-115 315 0 460M1002 150c115 145 115 315 0 460' stroke-width='.5'/%3E%3Cpath d='M140 230l48-39 60 8 40-31 58 15 44-12 32 31-11 44-40 15-21 41-53 6-24 36-50-4-13-31-43-7-21-39zM600 180l48-35 58 5 35-24 64 10 31 31 58 5 34 31 58-2 34 29-22 37-53 14-23 30-46-5-36 27-61-6-42-34-50 6-39-30-48-20zM965 400l45-24 41 15 25 31 39 17 13 35-20 31-38 8-21 31-43-3-27-36-33-16-2-38z' stroke-width='1.05'/%3E%3C/g%3E%3C/svg%3E");
+  background-repeat: repeat-y;
+  background-position: center top;
+  background-size: min(1500px, 128vw) auto;
+}
+
+[data-theme="classic"] .mt-experiences-page > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* --------------------------------------------------------------------------
+   JOURNEY TILES
+   Keep photography cinematic; mount cards like dark archival travel plates.
+   -------------------------------------------------------------------------- */
+
+[data-theme="classic"] .mt-experiences-tile {
+  border-color: rgba(142, 100, 40, 0.46) !important;
+
+  box-shadow:
+    0 24px 58px rgba(78, 51, 22, 0.18),
+    0 0 0 1px rgba(142, 100, 40, 0.07),
+    inset 0 1px 0 rgba(255, 245, 219, 0.06) !important;
+}
+
+[data-theme="classic"] .mt-experiences-tile:hover {
+  border-color: rgba(201, 154, 59, 0.80) !important;
+
+  box-shadow:
+    0 34px 78px rgba(78, 51, 22, 0.24),
+    0 0 28px rgba(201, 154, 59, 0.13),
+    inset 0 1px 0 rgba(255, 245, 219, 0.08) !important;
+}
+
+/* Fine engraved frame line */
+[data-theme="classic"] .mt-experiences-tile::after {
+  content: '';
+  position: absolute;
+  inset: 7px;
+  z-index: 20;
+  pointer-events: none;
+  border: 1px solid rgba(222, 181, 93, 0.11);
+  border-radius: calc(1.7rem - 7px);
+}
+
+/* Gold details must remain strong */
+[data-theme="classic"] .mt-experiences-tile .text-\[\#D4AF37\] {
+  color: var(--mt-classic-display-gold) !important;
+}
+
+/* --------------------------------------------------------------------------
+   FULL EXPERIENCE SHOWCASE
+   Still cinematic — Classic becomes an old expedition theatre.
+   -------------------------------------------------------------------------- */
+
+[data-theme="classic"] .mt-experiences-showcase {
+  background:
+    radial-gradient(circle at 80% 18%, rgba(201, 154, 59, 0.07), transparent 28%),
+    linear-gradient(180deg, #071B20 0%, #031216 100%) !important;
+
+  border-top: 1px solid rgba(201, 154, 59, 0.24);
+  border-bottom: 1px solid rgba(201, 154, 59, 0.20);
+}
+
+[data-theme="classic"] .mt-experiences-showcase::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.10;
+
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1100 280'%3E%3Cg fill='none' stroke='%23D0A34A' stroke-width='1' stroke-linecap='round'%3E%3Cpath d='M0 236l111-118 47 49 84-112 94 129 72-81 77 106 104-151 111 140 88-93 94 124 78-74 140 81'/%3E%3Cpath d='M75 236l104-79 52 44 84-74 84 88 86-62 79 66 105-90 98 86 101-69 116 90'/%3E%3C/g%3E%3C/svg%3E");
+
+  background-repeat: no-repeat;
+  background-position: 50% 100%;
+  background-size: min(1300px, 116vw) auto;
+}
+
+[data-theme="classic"] .mt-experiences-showcase > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* Heritage glass information panel */
+[data-theme="classic"] .mt-experiences-showcase-panel {
+  border-color: rgba(201, 154, 59, 0.34) !important;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(20, 37, 38, 0.74),
+      rgba(5, 20, 24, 0.82)
+    ) !important;
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 239, 198, 0.10),
+    0 28px 84px rgba(0, 0, 0, 0.35),
+    0 0 28px rgba(201, 154, 59, 0.05) !important;
+}
+
+/* --------------------------------------------------------------------------
+   JOURNEY RAIL
+   Give the navigation rail a precise antique-gold identity.
+   -------------------------------------------------------------------------- */
+
+[data-theme="classic"] .mt-experiences-rail {
+  color: #E0B55E;
+}
+
+[data-theme="classic"] .mt-experiences-rail::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 1rem;
+  bottom: 1rem;
+  width: 1px;
+  transform: translateX(-50%);
+
+  background:
+    linear-gradient(
+      180deg,
+      transparent,
+      rgba(201, 154, 59, 0.28) 16%,
+      rgba(201, 154, 59, 0.28) 84%,
+      transparent
+    );
+}
+
+/* Classic body text / labels on parchment */
+[data-theme="classic"] .mt-experiences-page .mt-eyebrow.text-\[\#D4AF37\],
+[data-theme="classic"] .mt-experiences-page .mt-ui.text-\[\#D4AF37\] {
+  color: var(--mt-classic-ink-gold) !important;
+}
+
+[data-theme="classic"] .mt-experiences-page .mt-display .text-\[\#D4AF37\],
+[data-theme="classic"] .mt-experiences-page .mt-display-soft .text-\[\#D4AF37\] {
+  color: var(--mt-classic-display-gold) !important;
+}
+
+@media (max-width: 767px) {
+  [data-theme="classic"] .mt-experiences-page::before {
+    opacity: 0.10;
+    background-size: 980px auto;
+  }
+
+  [data-theme="classic"] .mt-experiences-tile::after {
+    inset: 5px;
+  }
+}
+/* ==========================================================================
+   CLASSIC — MEDIA LIGHTING SYSTEM
+   Signature keeps its cinematic grading.
+   Classic reveals substantially more photography/video.
+   ========================================================================== */
+
+/* ==========================================================================
+   CLASSIC — ORIGINAL MEDIA
+   No dark Signature grading over photos/videos.
+   ========================================================================== */
+
+[data-theme="classic"] .mt-classic-media-overlay {
+  opacity: 0 !important;
+}
+
+/* Remove the additional Classic-only archival wash over Our Story hero */
+[data-theme="classic"] .mt-ourstory-hero::after {
+  opacity: 0 !important;
+}
+/* ==========================================================================
+   CLASSIC — ORIGINAL MEDIA STRENGTH
+   Videos/photos show at full visual intensity in Classic.
+   Signature remains unchanged.
+   ========================================================================== */
+
+[data-theme="classic"] .mt-scroll-experiences video,
+[data-theme="classic"] .mt-experiences-page video,
+[data-theme="classic"] .mt-ourstory-page video,
+[data-theme="classic"] .mt-destination-page video,
+[data-theme="classic"] .mt-services-page video {
+  opacity: 1 !important;
+  filter: none !important;
+}
+/* ==========================================================================
+   CLASSIC — TEXT LINKS VS PRIMARY CTAs
+   Text links stay editorial; real CTAs keep burnished gold treatment.
+   ========================================================================== */
+
+[data-theme="classic"] .mt-classic-text-link {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+
+  color: #0A282D !important;
+  font-weight: 650 !important;
+  font-size: 0.82rem !important;
+  letter-spacing: 0.10em !important;
+}
+
+[data-theme="classic"] .mt-classic-text-link:hover {
+  color: #0A282D !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* Real primary CTAs remain prominent, but brighter/cleaner */
+[data-theme="classic"] .mt-premium-nav a[href="/plan"] {
+  background:
+    linear-gradient(
+      180deg,
+      #E0B653 0%,
+      #D3A23D 52%,
+      #C89436 100%
+    ) !important;
+
+  color: #061F25 !important;
+  border-color: rgba(128, 82, 24, 0.38) !important;
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 247, 215, 0.78),
+    0 10px 24px rgba(109, 72, 27, 0.14) !important;
+}
+
+[data-theme="classic"] .mt-premium-nav a[href="/plan"]:hover {
+  background:
+    linear-gradient(
+      180deg,
+      #E8C66D 0%,
+      #DDB04F 52%,
+      #CFA044 100%
+    ) !important;
+
+  color: #061F25 !important;
+}
+/* ==========================================================================
+   CLASSIC — TEXT LEGIBILITY SYSTEM
+   Dark editorial ink for readable content.
+   Gold reserved for accents, buttons and deliberate emphasis.
+   ========================================================================== */
+
+[data-theme="classic"] {
+  --mt-classic-ink-strong: #08282D;
+  --mt-classic-ink-body: #17383C;
+  --mt-classic-label-gold: #7E531C;
+}
+
+/* Keep Classic's editorial sizing without assigning a surface colour globally. */
+[data-theme="classic"] .mt-eyebrow,
+[data-theme="classic"] .mt-ui {
+  font-weight: 700 !important;
+}
+
+[data-theme="classic"] .mt-eyebrow {
+  font-size: max(11px, 0.72rem) !important;
+  letter-spacing: 0.22em !important;
+}
+
+[data-theme="classic"] .mt-ui {
+  font-size: max(10px, 0.68rem);
+}
+
+/* Inside light Classic cards/panels, force titles to ink */
+[data-theme="classic"] .mt-story-destination-card .mt-display,
+[data-theme="classic"] .mt-story-destination-card .mt-display-soft,
+[data-theme="classic"] .mt-ourstory-person .mt-display,
+[data-theme="classic"] .mt-ourstory-person .mt-display-soft {
+  color: var(--mt-classic-ink-strong) !important;
+}
+
+/* Typography is ink only on named light/parchment surfaces. */
+[data-theme="classic"] :where(
+  .mt-scene03-copy,
+  .mt-story-destination-copy,
+  .mt-ourstory-philosophy,
+  .mt-ourstory-people
+) :where(.mt-display, .mt-display-soft, .text-white, .text-\[\#FAFAF9\]) {
+  color: var(--mt-classic-ink-strong);
+}
+
+[data-theme="classic"] :where(
+  .mt-scene03-copy,
+  .mt-story-destination-copy,
+  .mt-ourstory-philosophy,
+  .mt-ourstory-people
+) .mt-body-copy {
+  color: rgba(8, 40, 45, 0.78);
+}
+
+[data-theme="classic"] :where(
+  .mt-scene03-copy,
+  .mt-story-destination-copy,
+  .mt-ourstory-philosophy,
+  .mt-ourstory-people
+) :where(.mt-eyebrow, .mt-ui, .text-\[\#C9A24A\], .text-\[\#D4AF37\], .text-\[\#D8C08A\]) {
+  color: var(--mt-classic-label-gold) !important;
+}
+
+/* Copy placed directly over photography/video remains light in Classic. */
+[data-theme="classic"] :where(
+  .mt-hero-typography,
+  .mt-experiences-tile,
+  .mt-experiences-showcase,
+  .mt-experiences-page > section:first-of-type
+) :where(.mt-display, .mt-display-soft, .text-white, .text-\[\#FAFAF9\]) {
+  color: #FFFDF7 !important;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.28);
+}
+
+[data-theme="classic"] :where(
+  .mt-hero-typography,
+  .mt-experiences-tile,
+  .mt-experiences-showcase,
+  .mt-experiences-page > section:first-of-type
+) .mt-body-copy {
+  color: rgba(255, 255, 255, 0.84) !important;
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.26);
+}
+
+/* Preserve gold on genuine CTA/button surfaces */
+[data-theme="classic"] button,
+[data-theme="classic"] a[href="/plan"],
+[data-theme="classic"] .btn-gold,
+[data-theme="classic"] .mt-gold-sheen {
+  --mt-local-cta-text: #08282D;
+}
+/* ==========================================================================
+   CLASSIC — SOFT SECTION TRANSITIONS
+   Remove Signature-style heavy gradient veils from the parchment experience.
+   ========================================================================== */
+
+/* Any remaining full-bleed gradient wash should be very restrained in Classic */
+[data-theme="classic"]
+[class*="absolute"][class*="inset-0"][class*="bg-gradient"]:not(.mt-classic-media-overlay),
+[data-theme="classic"]
+[class*="absolute"][class*="inset-0"][class*="bg-[linear-gradient"]:not(.mt-classic-media-overlay) {
+  opacity: 0.22 !important;
+}
+
+/* Bottom/top cinematic fades are especially harsh against parchment */
+[data-theme="classic"]
+[class*="absolute"][class*="inset-x-0"][class*="bottom-0"][class*="bg-gradient"],
+[data-theme="classic"]
+[class*="absolute"][class*="inset-x-0"][class*="top-0"][class*="bg-gradient"] {
+  opacity: 0.18 !important;
+}
+
+/* Classic section boundaries should feel like one continuous parchment sheet */
+[data-theme="classic"] section {
+  border-top-color: rgba(112, 76, 31, 0.10);
+  border-bottom-color: rgba(112, 76, 31, 0.10);
+}
+
+/* Remove overly cinematic shadowing between major Classic sections */
+[data-theme="classic"] .mt-scroll-services,
+[data-theme="classic"] .mt-destinations-bg,
+[data-theme="classic"] .mt-scroll-experiences,
+[data-theme="classic"] .mt-ourstory-philosophy,
+[data-theme="classic"] .mt-ourstory-people,
+[data-theme="classic"] .mt-experiences-page {
+  box-shadow: none !important;
+}
+/* ==========================================================================
+   PLAN YOUR JOURNEY — CLASSIC LIGHTING
+   Classic shows the journey films at their original strength.
+   Signature remains untouched.
+   ========================================================================== */
+
+[data-theme="classic"] .mt-journey-planner {
+  background: #F3E3C8 !important;
+}
+
+/* Background journey films: original image/video strength */
+[data-theme="classic"] .mt-journey-planner > video {
+  filter: none !important;
+}
+
+/*
+   Each journey screen adds its own dark Signature wash.
+   Remove those full-screen washes in Classic.
+*/
+[data-theme="classic"] .mt-journey-planner main > div.absolute.inset-0:not([class*="z-"]) {
+  opacity: 0 !important;
+}
+
+/* The planner itself also carries a full-screen dark film grade */
+[data-theme="classic"] .mt-journey-planner > div.pointer-events-none.absolute.inset-0 {
+  opacity: 0 !important;
+}
+
+/* Journey screen copy sits over full-bleed films, so it remains light. */
+[data-theme="classic"] .mt-journey-planner main {
+  color: #FFFDF7 !important;
+}
+
+[data-theme="classic"] .mt-journey-planner main header h1 {
+  color: #FFFDF7 !important;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.28);
+}
+
+[data-theme="classic"] .mt-journey-planner main header > p:not(.mt-eyebrow) {
+  color: rgba(255, 255, 255, 0.82) !important;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.24);
+}
+
+/* Deliberate eyebrow accents remain gold over the journey films. */
+[data-theme="classic"] .mt-journey-planner .mt-eyebrow {
+  color: #D4AF37 !important;
+  font-weight: 750 !important;
+}
+
+/* Bottom step navigation becomes parchment glass */
+[data-theme="classic"] .mt-journey-planner nav[aria-label="Journey progress"] {
+  background: rgba(244, 226, 197, 0.88) !important;
+  border-color: rgba(116, 76, 28, 0.20) !important;
+  box-shadow: 0 -10px 30px rgba(76, 51, 24, 0.08) !important;
+}
+
+[data-theme="classic"] .mt-journey-planner nav[aria-label="Journey progress"] p,
+[data-theme="classic"] .mt-journey-planner nav[aria-label="Journey progress"] button:not(:disabled) {
+  color: #08282D;
+}
+/* ==========================================================================
+   PLAN YOUR JOURNEY — CLASSIC UI SURFACES
+   Parchment glass for interface panels; photographic cards stay photographic.
+   ========================================================================== */
+
+/* Desktop progress rail */
+[data-theme="classic"] .mt-journey-planner aside[aria-label="Journey progress"] > div {
+  background: rgba(243, 227, 200, 0.54) !important;
+  border-color: rgba(126, 83, 31, 0.24) !important;
+
+  -webkit-backdrop-filter: blur(22px);
+  backdrop-filter: blur(22px);
+
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.56),
+    0 18px 48px rgba(83, 55, 24, 0.14) !important;
+}
+
+/* Home control */
+[data-theme="classic"] .mt-journey-planner .mt-iphone-journey-home {
+  background: rgba(247, 232, 207, 0.90) !important;
+  border-color: rgba(112, 73, 26, 0.28) !important;
+  color: #08282D !important;
+}
+
+[data-theme="classic"] .mt-journey-planner .mt-iphone-journey-home:hover {
+  background: #D9AD53 !important;
+  color: #08282D !important;
+}
+
+/* Non-photographic information cards */
+[data-theme="classic"] .mt-journey-planner article {
+  background:
+    linear-gradient(
+      145deg,
+      rgba(249, 237, 216, 0.92),
+      rgba(233, 211, 176, 0.88)
+    ) !important;
+
+  border-color: rgba(126, 83, 31, 0.25) !important;
+
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.72),
+    0 16px 42px rgba(78, 51, 22, 0.12) !important;
+
+  color: #08282D !important;
+}
+
+/* Summary / guidance panels */
+[data-theme="classic"] .mt-journey-planner aside:not([aria-label="Journey progress"]) {
+  background:
+    linear-gradient(
+      145deg,
+      rgba(249, 237, 216, 0.92),
+      rgba(235, 216, 185, 0.90)
+    ) !important;
+
+  border-color: rgba(126, 83, 31, 0.25) !important;
+  color: #08282D !important;
+
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.72),
+    0 18px 48px rgba(77, 51, 22, 0.12) !important;
+}
+
+/* Inputs / textareas / selects */
+[data-theme="classic"] .mt-journey-planner input,
+[data-theme="classic"] .mt-journey-planner textarea,
+[data-theme="classic"] .mt-journey-planner select {
+  background: rgba(250, 239, 219, 0.90) !important;
+  border-color: rgba(115, 75, 27, 0.30) !important;
+  color: #08282D !important;
+
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.72),
+    0 8px 20px rgba(72, 47, 20, 0.06) !important;
+}
+
+[data-theme="classic"] .mt-journey-planner input::placeholder,
+[data-theme="classic"] .mt-journey-planner textarea::placeholder {
+  color: rgba(8, 40, 45, 0.46) !important;
+}
+
+/* White typography inside the parchment UI becomes ink */
+[data-theme="classic"] .mt-journey-planner article .text-white,
+[data-theme="classic"] .mt-journey-planner aside:not([aria-label="Journey progress"]) .text-white,
+[data-theme="classic"] .mt-journey-planner article [class*="text-white/"],
+[data-theme="classic"] .mt-journey-planner aside:not([aria-label="Journey progress"]) [class*="text-white/"] {
+  color: #17383C !important;
+}
+
+/* Selected controls retain the premium gold language */
+[data-theme="classic"] .mt-journey-planner button[aria-pressed="true"] {
+  border-color: #C89436 !important;
+}
+
+/* ==========================================================================
+   CLASSIC — LINK / ACTIVE STATE SYSTEM
+   Dark ink typography with warm gold interaction states.
+   ========================================================================== */
+
+[data-theme="classic"] a:not(.btn-gold):not(.mt-gold-sheen),
+[data-theme="classic"] button:not(.btn-gold):not(.mt-gold-sheen) {
+  --mt-classic-link-ink: #08282D;
+  --mt-classic-link-gold: #D6AA4E;
+}
+
+/* Standard editorial links become ink only on known light surfaces. */
+[data-theme="classic"] :where(
+  .mt-premium-nav,
+  .mt-scene03-copy,
+  .mt-story-destination-copy,
+  .mt-ourstory-philosophy,
+  .mt-ourstory-people
+) a:not(.btn-gold):not(.mt-gold-sheen) {
+  color: var(--mt-classic-link-ink);
+}
+
+/* Light-surface hover/focus stays ink. */
+[data-theme="classic"] :where(
+  .mt-premium-nav,
+  .mt-scene03-copy,
+  .mt-story-destination-copy,
+  .mt-ourstory-philosophy,
+  .mt-ourstory-people
+) a:not(.btn-gold):not(.mt-gold-sheen):is(:hover, :focus-visible) {
+  color: var(--mt-classic-link-ink) !important;
+}
+
+/* Premium navigation links */
+[data-theme="classic"] .mt-premium-nav a:not([href="/plan"]) {
+  color: #08282D !important;
+}
+
+[data-theme="classic"] .mt-premium-nav a:not([href="/plan"]):hover,
+[data-theme="classic"] .mt-premium-nav a:not([href="/plan"]):focus-visible,
+[data-theme="classic"] .mt-premium-nav a[aria-current="page"]:not([href="/plan"]) {
+  color: #08282D !important;
+  background: rgba(214, 170, 78, 0.18) !important;
+}
+
+/* Gold highlight instead of white flash */
+[data-theme="classic"] [aria-current="page"]:not(.btn-gold):not(.mt-gold-sheen),
+[data-theme="classic"] [aria-selected="true"]:not(.btn-gold):not(.mt-gold-sheen) {
+  background-color: rgba(214, 170, 78, 0.18);
+}
+
+/* Keep genuine gold CTA buttons unchanged */
+[data-theme="classic"] .btn-gold,
+[data-theme="classic"] .mt-gold-sheen,
+[data-theme="classic"] a[href="/plan"] {
+  color: #08282D !important;
+}
+/* ==========================================================================
+   PLAN YOUR JOURNEY — CLASSIC LEGIBILITY CLEANUP
+   Final pass for parchment UI typography.
+   Photographic destination/experience card copy remains untouched.
+   ========================================================================== */
+
+/* Journey progress rail */
+[data-theme="classic"] .mt-journey-planner aside[aria-label="Journey progress"] {
+  color: #08282D;
+}
+
+[data-theme="classic"] .mt-journey-planner aside[aria-label="Journey progress"] [class*="text-white/"] {
+  color: rgba(8, 40, 45, 0.58) !important;
+}
+
+/* Active progress remains premium gold but readable */
+[data-theme="classic"] .mt-journey-planner aside[aria-label="Journey progress"] .text-\[\#F5D77A\] {
+  color: #9A681F !important;
+  text-shadow: none !important;
+}
+
+/* Bottom navigation */
+[data-theme="classic"] .mt-journey-planner nav[aria-label="Journey progress"] {
+  color: #08282D !important;
+}
+
+[data-theme="classic"] .mt-journey-planner nav[aria-label="Journey progress"] [class*="text-white/"] {
+  color: rgba(8, 40, 45, 0.58) !important;
+}
+
+[data-theme="classic"] .mt-journey-planner nav[aria-label="Journey progress"] button:hover {
+  color: #08282D !important;
+}
+
+/* Traveller cards */
+[data-theme="classic"] .mt-journey-planner article h2,
+[data-theme="classic"] .mt-journey-planner article p,
+[data-theme="classic"] .mt-journey-planner article span[class*="text-white"] {
+  color: #17383C !important;
+}
+
+/* Strong numeric values */
+[data-theme="classic"] .mt-journey-planner article .font-serif.text-5xl {
+  color: #08282D !important;
+}
+
+/* Brief / contact / dream-journey informational panels */
+[data-theme="classic"] .mt-journey-planner aside:not([aria-label="Journey progress"]) p,
+[data-theme="classic"] .mt-journey-planner aside:not([aria-label="Journey progress"]) h2,
+[data-theme="classic"] .mt-journey-planner aside:not([aria-label="Journey progress"]) span {
+  color: #17383C;
+}
+
+/* Tiny metadata keeps its gold accent over the journey films. */
+[data-theme="classic"] .mt-journey-planner .mt-eyebrow,
+[data-theme="classic"] .mt-journey-planner .mt-ui {
+  color: #D4AF37 !important;
+  font-weight: 700 !important;
+}
+
+[data-theme="classic"] .mt-journey-planner .mt-eyebrow {
+  font-size: max(11px, 0.72rem) !important;
+}
+
+[data-theme="classic"] .mt-journey-planner .mt-ui {
+  font-size: max(10px, 0.66rem);
+}
+
+/* Preserve titles/copy sitting directly over photographic selection cards */
+[data-theme="classic"] .mt-journey-planner button[aria-pressed] span.absolute[class*="bottom-"] {
+  color: #FFFDF7 !important;
+}
+
+/* Selected photographic cards retain gold selection language */
+[data-theme="classic"] .mt-journey-planner button[aria-pressed="true"] {
+  border-color: #C89436 !important;
+}
+
+/* Disabled primary CTA must still be visible on parchment */
+[data-theme="classic"] .mt-journey-planner nav .justify-self-end:disabled {
+  background: rgba(8, 40, 45, 0.08) !important;
+  border-color: rgba(8, 40, 45, 0.12) !important;
+  color: rgba(8, 40, 45, 0.34) !important;
+}
+
+/* ==========================================================================
+   CLASSIC — SEMANTIC SURFACE CONTRAST
+   Colour follows the local surface; Signature remains untouched.
+   ========================================================================== */
+
+/* Services: parchment controls and isolated dark-glass descriptions. */
+[data-theme="classic"] .mt-services-pill {
+  color: #08282D !important;
+  border-color: rgba(126, 83, 31, 0.25) !important;
+}
+
+[data-theme="classic"] .mt-services-pill:hover,
+[data-theme="classic"] .mt-services-pill[aria-expanded="true"] {
+  color: #08282D !important;
+  border-color: rgba(126, 83, 31, 0.48) !important;
+  background: rgba(212, 175, 55, 0.14) !important;
+}
+
+[data-theme="classic"] .mt-services-pill svg {
+  color: currentColor !important;
+}
+
+[data-theme="classic"] .mt-services-tooltip,
+[data-theme="classic"] .mt-services-tooltip .mt-body-copy {
+  color: rgba(255, 255, 255, 0.86) !important;
+}
+
+/* Homepage destination photography. */
+[data-theme="classic"] .mt-story-destination-card .mt-display {
+  color: #FFFDF7 !important;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.32);
+}
+
+[data-theme="classic"] .mt-story-destination-card .mt-body-copy {
+  display: inline-block;
+  color: #F2E7CC !important;
+  background: rgba(3, 18, 22, 0.48);
+  border: 1px solid rgba(212, 175, 55, 0.16);
+  border-radius: 999px;
+  padding: 0.12rem 0.38rem;
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.32);
+}
+
+/* Destination rail and destination experience photography. */
+[data-theme="classic"] .mt-destination-rail-card .mt-display,
+[data-theme="classic"] .mt-destination-experience-card h3 {
+  color: #FFFDF7 !important;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.32);
+}
+
+[data-theme="classic"] .mt-destination-experience-card :where(
+  [class*="text-white"],
+  [class*="text-[#FAFAF9]"]
+) {
+  color: rgba(255, 255, 255, 0.86) !important;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.32);
+}
+
+[data-theme="classic"] .mt-destination-experience-card [class*="text-[#d6b06e]"] {
+  display: inline-block;
+  min-width: 0;
+  color: #DDB55D !important;
+  background: rgba(3, 18, 22, 0.50);
+  border: 1px solid rgba(212, 175, 55, 0.16);
+  border-radius: 999px;
+  padding: 0.14rem 0.4rem;
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.32);
+}
+
+[data-theme="classic"] .mt-destination-rail-card h3 {
+  color: #FFFDF7 !important;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.32);
+}
+
+[data-theme="classic"] .mt-destination-rail-card div > span:nth-child(2) {
+  color: #F2E7CC !important;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.32);
+}
+
+/* Main dossier image stays crisp; its local information glass remains intact. */
+[data-theme="classic"] .mt-destination-dossier-image {
+  opacity: 1 !important;
+  filter: none !important;
+}
+
+[data-theme="classic"] .mt-destination-dossier-media > .absolute.inset-0 {
+  opacity: 0 !important;
+}
+
+[data-theme="classic"] .mt-destination-dossier-sheen {
+  display: none;
+}
+
+[data-theme="classic"] .mt-destination-panel-media img {
+  opacity: 1 !important;
+  filter: none !important;
+}
+
+/* Parchment destination copy uses ink, including small metadata. */
+[data-theme="classic"] :where(
+  .mt-destination-discover,
+  .mt-destination-experiences,
+  .mt-destination-panel
+) [class*="text-[#D6B06E]"],
+[data-theme="classic"] :where(
+  .mt-destination-discover,
+  .mt-destination-experiences,
+  .mt-destination-panel
+) [class*="text-[#d6b06e]"],
+[data-theme="classic"] .mt-destination-panel [class*="text-[#D4AF37]"] {
+  color: #08282D !important;
+  font-size: max(10px, 0.625rem);
+  font-weight: 650;
+}
+
+/* Dark dossier glass restores its deliberate media accents and light copy. */
+[data-theme="classic"] .mt-destination-dossier-media [class*="text-[#D6B06E]"] {
+  color: #DDB55D !important;
+}
+
+[data-theme="classic"] .mt-destination-dossier-media [class*="text-white"] {
+  color: rgba(255, 255, 255, 0.86) !important;
+}
+
+/* Did You Know is a light editorial surface in Classic. */
+[data-theme="classic"] .mt-did-you-know {
+  border-color: rgba(8, 40, 45, 0.16) !important;
+}
+
+[data-theme="classic"] .mt-did-you-know > div:first-child > p,
+[data-theme="classic"] .mt-did-you-know h4,
+[data-theme="classic"] .mt-did-you-know button:last-child {
+  color: #08282D !important;
+}
+
+[data-theme="classic"] .mt-did-you-know > div:first-child > span {
+  background: rgba(8, 40, 45, 0.16) !important;
+}
+
+[data-theme="classic"] .mt-did-you-know h4 + p {
+  color: rgba(8, 40, 45, 0.76) !important;
+}
+
+[data-theme="classic"] .mt-did-you-know button[aria-label^="Show fact"] {
+  background: rgba(8, 40, 45, 0.24) !important;
+}
+
+[data-theme="classic"] .mt-did-you-know button[aria-current="true"] {
+  background: #9A681F !important;
+}
+
+[data-theme="classic"] .mt-did-you-know button:last-child:hover {
+  color: #08282D !important;
+  background: rgba(212, 175, 55, 0.16);
+}
+
+/* Experiences page: media labels retain gold only on local dark backing. */
+[data-theme="classic"] .mt-experiences-tile .mt-ui,
+[data-theme="classic"] .mt-experiences-showcase .mt-eyebrow,
+[data-theme="classic"] .mt-experiences-showcase .mt-ui {
+  display: inline-block;
+  color: #DDB55D !important;
+  background: rgba(3, 18, 22, 0.48);
+  border: 1px solid rgba(212, 175, 55, 0.16);
+  border-radius: 999px;
+  padding: 0.14rem 0.4rem;
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.32);
 }

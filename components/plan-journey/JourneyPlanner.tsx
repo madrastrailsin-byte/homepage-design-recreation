@@ -211,7 +211,7 @@ const incomingContent = screenContentRefs.current[nextStep]
   const displayedProgress = journeyComplete ? 100 : stepProgress
 
   return (
-  <div className="relative min-h-[100svh] overflow-hidden bg-[#020f12]">
+  <div className="mt-journey-planner relative min-h-[100svh] overflow-hidden bg-[#020f12]">
     <style>{`
       @media (max-width: 393px) and (max-height: 860px) {
         .mt-iphone-journey-home {

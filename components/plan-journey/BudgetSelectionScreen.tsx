@@ -110,8 +110,8 @@ function BudgetCard({
             : 'brightness-[0.54] contrast-[1.12] saturate-[0.78] group-hover:brightness-[0.6] group-hover:saturate-[0.86]'
         }`}
       />
-      <span className="absolute inset-0 bg-gradient-to-r from-[#01090b]/92 via-[#021316]/62 to-transparent" />
-      <span className="absolute inset-0 bg-gradient-to-t from-[#01090b]/92 via-transparent to-black/22" />
+      <span className="mt-classic-media-overlay absolute inset-0 bg-gradient-to-r from-[#01090b]/92 via-[#021316]/62 to-transparent" />
+      <span className="mt-classic-media-overlay absolute inset-0 bg-gradient-to-t from-[#01090b]/92 via-transparent to-black/22" />
       {selected ? (
         <span className="absolute inset-0 shadow-[inset_0_0_30px_rgba(255,225,138,0.2)]" />
       ) : null}

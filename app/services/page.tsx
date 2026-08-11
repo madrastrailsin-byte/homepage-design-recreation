@@ -43,7 +43,7 @@ export default function ServicesPage() {
   preload="auto"
   aria-hidden="true"
 />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_22%_72%,rgba(13,76,92,0.34),transparent_38%),radial-gradient(ellipse_at_76%_22%,rgba(212,175,55,0.1),transparent_30%),radial-gradient(ellipse_at_center,transparent_34%,rgba(2,15,18,0.58)_100%),linear-gradient(180deg,rgba(2,15,18,0.22),rgba(2,15,18,0.58))]" />
+        <div className="mt-classic-media-overlay absolute inset-0 bg-[radial-gradient(ellipse_at_22%_72%,rgba(13,76,92,0.34),transparent_38%),radial-gradient(ellipse_at_76%_22%,rgba(212,175,55,0.1),transparent_30%),radial-gradient(ellipse_at_center,transparent_34%,rgba(2,15,18,0.58)_100%),linear-gradient(180deg,rgba(2,15,18,0.22),rgba(2,15,18,0.58))]" />
 
         <div className="relative z-10 mx-auto w-full max-w-7xl">
           <p className="mt-eyebrow mb-6 text-xs text-[#D4AF37]/90">MADRASTRAILS / SERVICES</p>
@@ -68,7 +68,7 @@ export default function ServicesPage() {
 
       <section className="relative flex min-h-[88svh] items-start overflow-hidden px-6 pt-20 pb-20 md:px-8 lg:px-10">
         <LazyCtaVideo />
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(2,15,18,0.12),rgba(2,15,18,0.32))]" />
+        <div className="mt-classic-media-overlay absolute inset-0 bg-[linear-gradient(180deg,rgba(2,15,18,0.12),rgba(2,15,18,0.32))]" />
         <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-col items-start">
           <p className="mt-eyebrow mb-7 text-xs text-[#D4AF37]/86">BEGIN</p>
           <h2 className="mt-display max-w-5xl text-[clamp(4.6rem,10vw,7.7rem)] leading-[0.82] tracking-[-0.052em] text-[#FAFAF9]">

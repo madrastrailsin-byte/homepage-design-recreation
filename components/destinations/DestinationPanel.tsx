@@ -131,7 +131,7 @@ export default function DestinationPanel({
       initial={prefersReducedMotion ? false : { opacity: 0, x: 34, scale: 0.965, rotateY: -2 }}
       animate={{ opacity: 1, x: 0, scale: 1, rotateY: 0 }}
       transition={{ duration: 0.82, ease: [0.22, 1, 0.36, 1] }}
-      className="relative flex h-full max-h-[calc(100vh-132px)] w-full flex-col overflow-hidden rounded-[22px] border border-[var(--mt-border-strong)] bg-[var(--mt-surface-elevated)] p-3 backdrop-blur-2xl md:rounded-[28px] md:p-4"
+      className="mt-destination-panel relative flex h-full max-h-[calc(100vh-132px)] w-full flex-col overflow-hidden rounded-[22px] border border-[var(--mt-border-strong)] bg-[var(--mt-surface-elevated)] p-3 backdrop-blur-2xl md:rounded-[28px] md:p-4"
       style={{
         boxShadow:
           'inset 0 1px 0 rgba(255,245,218,0.10), inset 0 -1px 0 rgba(212,175,55,0.08), 0 28px 90px rgba(0,0,0,0.48), 0 0 34px rgba(212,175,55,0.10)',
@@ -194,7 +194,7 @@ export default function DestinationPanel({
       </motion.header>
 
       <motion.div
-        className="relative z-10 mt-4 hidden overflow-hidden rounded-[18px] border border-[#D4AF37]/20 md:block"
+        className="mt-destination-panel-media relative z-10 mt-4 hidden overflow-hidden rounded-[18px] border border-[#D4AF37]/20 md:block"
         initial={prefersReducedMotion ? false : { opacity: 0, y: 22, scale: 0.98 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ duration: 0.68, delay: 0.16, ease: [0.22, 1, 0.36, 1] }}
@@ -255,7 +255,7 @@ export default function DestinationPanel({
             transition={{ duration: prefersReducedMotion ? 0 : 1.05, ease: 'easeInOut' }}
           />
 
-          <div className="absolute inset-0 bg-gradient-to-t from-[#020B10]/82 via-transparent to-[#020B10]/8" />
+          <div className="mt-classic-media-overlay absolute inset-0 bg-gradient-to-t from-[#020B10]/82 via-transparent to-[#020B10]/8" />
         </div>
 
         <motion.div

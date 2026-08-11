@@ -63,8 +63,8 @@ onCanPlay={(event) => {
 }}
 aria-hidden="true"
         />
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(2,15,18,0.14)_0%,rgba(2,15,18,0.28)_42%,rgba(2,15,18,0.86)_100%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_72%_22%,rgba(212,175,55,0.13),transparent_30%),linear-gradient(90deg,rgba(2,15,18,0.72),rgba(2,15,18,0.08)_68%)]" />
+        <div className="mt-classic-media-overlay absolute inset-0 bg-[linear-gradient(180deg,rgba(2,15,18,0.14)_0%,rgba(2,15,18,0.28)_42%,rgba(2,15,18,0.86)_100%)]" />
+        <div className="mt-classic-media-overlay absolute inset-0 bg-[radial-gradient(circle_at_72%_22%,rgba(212,175,55,0.13),transparent_30%),linear-gradient(90deg,rgba(2,15,18,0.72),rgba(2,15,18,0.08)_68%)]" />
 
         <div className="relative z-10 mx-auto w-full max-w-7xl">
           <div className="max-w-4xl">
@@ -98,7 +98,7 @@ aria-hidden="true"
               className="object-cover"
               style={{ objectPosition: 'center 50%' }}
             />
-            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(2,15,18,0.02),rgba(2,15,18,0.56))]" />
+            <div className="mt-classic-media-overlay absolute inset-0 bg-[linear-gradient(180deg,rgba(2,15,18,0.02),rgba(2,15,18,0.56))]" />
             <div className="absolute bottom-6 left-6 right-6">
               <p className="mt-eyebrow text-[10px] text-[#D4AF37]">ROUTES BEGIN WITH A CONVERSATION</p>
             </div>

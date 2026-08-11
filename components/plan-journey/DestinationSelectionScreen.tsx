@@ -117,7 +117,7 @@ function DestinationCard({
           sizes="(max-width: 639px) 50vw, 25vw"
           className="object-cover brightness-[0.68] contrast-[1.14] saturate-[0.82] transition duration-1000 ease-out group-hover:scale-[1.045] group-hover:brightness-[0.72]"
         />
-        <span className="absolute inset-0 bg-gradient-to-b from-black/55 via-transparent to-transparent" />
+        <span className="mt-classic-media-overlay absolute inset-0 bg-gradient-to-b from-black/55 via-transparent to-transparent" />
         <span
           className="absolute inset-0"
           style={{
@@ -126,7 +126,7 @@ function DestinationCard({
           }}
         />
         <span className="absolute inset-x-[-12%] bottom-[-48%] h-[118%] bg-[radial-gradient(ellipse_at_center,rgba(212,175,55,0.2),rgba(212,175,55,0.045)_38%,transparent_70%)] opacity-75" />
-        <span className="absolute inset-0 shadow-[inset_0_0_34px_12px_rgba(0,0,0,0.52)]" />
+        <span className="mt-classic-media-overlay absolute inset-0 shadow-[inset_0_0_34px_12px_rgba(0,0,0,0.52)]" />
       </motion.div>
 
       <motion.span

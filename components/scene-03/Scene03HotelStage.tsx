@@ -123,8 +123,8 @@ export default function Scene03HotelStage({ content }: Scene03HotelStageProps) {
           />
         </AnimatePresence>
 
-        <div className="pointer-events-none absolute inset-0 z-[4] bg-[linear-gradient(90deg,rgba(3,25,29,0.76)_0%,rgba(3,25,29,0.54)_12%,rgba(3,25,29,0.24)_28%,rgba(3,25,29,0.08)_44%,transparent_62%)]" />
-        <div className="pointer-events-none absolute inset-0 z-[4] bg-[linear-gradient(180deg,rgba(2,15,18,0.02),rgba(2,15,18,0.08)_62%,rgba(2,15,18,0.25))]" />
+        <div className="mt-classic-media-overlay pointer-events-none absolute inset-0 z-[4] bg-[linear-gradient(90deg,rgba(3,25,29,0.76)_0%,rgba(3,25,29,0.54)_12%,rgba(3,25,29,0.24)_28%,rgba(3,25,29,0.08)_44%,transparent_62%)]" />
+        <div className="mt-classic-media-overlay pointer-events-none absolute inset-0 z-[4] bg-[linear-gradient(180deg,rgba(2,15,18,0.02),rgba(2,15,18,0.08)_62%,rgba(2,15,18,0.25))]" />
         <div className="pointer-events-none absolute inset-0 z-[4] bg-[radial-gradient(circle_at_76%_48%,rgba(212,175,55,0.11),transparent_38%)]" />
       </div>
 

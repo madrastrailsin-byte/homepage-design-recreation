@@ -1366,8 +1366,8 @@ transition={
               />
             </motion.div>
 
-            <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(2,8,11,0.985)_0%,rgba(2,8,11,0.94)_43%,rgba(2,8,11,0.58)_72%,rgba(2,8,11,0.84)_100%)]" />
-            <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(2,8,11,0.36),transparent_36%,rgba(2,8,11,0.94)_100%)]" />
+            <div className="mt-classic-media-overlay pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(2,8,11,0.985)_0%,rgba(2,8,11,0.94)_43%,rgba(2,8,11,0.58)_72%,rgba(2,8,11,0.84)_100%)]" />
+            <div className="mt-classic-media-overlay pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(2,8,11,0.36),transparent_36%,rgba(2,8,11,0.94)_100%)]" />
             <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_77%_18%,rgba(212,175,55,0.16),transparent_30%)]" />
 
             <motion.div
@@ -1548,7 +1548,7 @@ transition={
                     priority
                   />
 
-                  <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(2,8,11,0.02),rgba(2,8,11,0.18)_48%,rgba(2,8,11,0.88)_100%)]" />
+                  <div className="mt-classic-media-overlay absolute inset-0 bg-[linear-gradient(180deg,rgba(2,8,11,0.02),rgba(2,8,11,0.18)_48%,rgba(2,8,11,0.88)_100%)]" />
                   <div className="absolute inset-0 bg-[radial-gradient(circle_at_76%_20%,rgba(212,175,55,0.15),transparent_34%)]" />
 
                   <div className="absolute inset-x-5 bottom-5 rounded-[1.35rem] border border-white/12 bg-black/34 px-5 py-4 shadow-[0_18px_54px_rgba(0,0,0,0.34),inset_0_1px_0_rgba(255,255,255,0.07)] backdrop-blur-2xl md:inset-x-7 md:bottom-7">

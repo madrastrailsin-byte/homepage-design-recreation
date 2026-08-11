@@ -86,8 +86,8 @@ export default function HeroSection({ destination }: HeroSectionProps) {
     }
   }
 `}</style>
-      <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(2,10,14,0.94)_0%,rgba(2,10,14,0.72)_38%,rgba(2,10,14,0.22)_72%,rgba(2,10,14,0.42)_100%)]" />
-      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(2,10,14,0.24),transparent_36%,rgba(2,10,14,0.92)_100%)]" />
+      <div className="mt-classic-media-overlay absolute inset-0 bg-[linear-gradient(90deg,rgba(2,10,14,0.94)_0%,rgba(2,10,14,0.72)_38%,rgba(2,10,14,0.22)_72%,rgba(2,10,14,0.42)_100%)]" />
+      <div className="mt-classic-media-overlay absolute inset-0 bg-[linear-gradient(180deg,rgba(2,10,14,0.24),transparent_36%,rgba(2,10,14,0.92)_100%)]" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_74%_20%,rgba(214,176,110,0.16),transparent_32%)]" />
 
       <Link

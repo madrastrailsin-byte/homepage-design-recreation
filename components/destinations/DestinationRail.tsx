@@ -151,7 +151,7 @@ export default function DestinationRail({
 
   return (
     <div
-      className="relative w-full overflow-hidden rounded-[22px] border border-[#D4AF37]/24 backdrop-blur-2xl"
+      className="mt-destination-rail relative w-full overflow-hidden rounded-[22px] border border-[#D4AF37]/24 backdrop-blur-2xl"
       style={{
         background:
           'linear-gradient(180deg, rgba(3,16,23,0.84), rgba(2,11,16,0.72))',
@@ -201,7 +201,7 @@ export default function DestinationRail({
               }}
               type="button"
               onClick={() => onSelect(destination.id)}
-              className="group relative h-[96px] w-[172px] shrink-0 overflow-hidden rounded-[16px] bg-[#021017] text-left md:h-[104px] md:w-[188px]"
+              className="mt-destination-rail-card group relative h-[96px] w-[172px] shrink-0 overflow-hidden rounded-[16px] bg-[#021017] text-left md:h-[104px] md:w-[188px]"
               animate={{
                 scale: isSelected ? 1.045 : 0.985,
                 y: isSelected ? -2 : 0,
@@ -221,7 +221,7 @@ export default function DestinationRail({
 
               <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_70%_24%,rgba(212,175,55,0.18),transparent_30%),linear-gradient(145deg,#0A2A33,#021017)]" />
 
-              <div className="absolute inset-0 bg-gradient-to-t from-[#020B10]/95 via-[#020B10]/35 to-[#020B10]/10" />
+              <div className="mt-classic-media-overlay absolute inset-0 bg-gradient-to-t from-[#020B10]/95 via-[#020B10]/35 to-[#020B10]/10" />
 
               <div
                 className={`absolute inset-0 rounded-[16px] border transition duration-500 ${

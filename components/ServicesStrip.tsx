@@ -75,7 +75,7 @@ export default function ServicesStrip() {
         }}
         className="pointer-events-none absolute inset-x-0 top-0 z-40 mx-auto w-full"
       >
-        <div className="relative overflow-hidden rounded-[1rem] border border-white/14 bg-[linear-gradient(180deg,rgba(10,25,29,0.88),rgba(4,15,18,0.84))] px-4 py-3 shadow-[0_18px_45px_rgba(0,0,0,0.34),inset_0_1px_0_rgba(255,255,255,0.1)] backdrop-blur-[22px]">
+        <div className="mt-services-tooltip relative overflow-hidden rounded-[1rem] border border-white/14 bg-[linear-gradient(180deg,rgba(10,25,29,0.88),rgba(4,15,18,0.84))] px-4 py-3 shadow-[0_18px_45px_rgba(0,0,0,0.34),inset_0_1px_0_rgba(255,255,255,0.1)] backdrop-blur-[22px]">
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_0%,rgba(255,255,255,0.09),transparent_45%)]" />
 
           <p className="mt-body-copy relative text-[0.8rem] leading-[1.5] text-white/78">
@@ -109,7 +109,7 @@ export default function ServicesStrip() {
                     borderRadius: '38%',
                   }
             }
-            className={`relative flex min-h-[2.5rem] w-full items-center justify-center gap-1.5 overflow-hidden rounded-[0.7rem] border px-1.5 py-1.5 text-center backdrop-blur-[10px] transition-all duration-300 before:pointer-events-none before:absolute before:inset-x-2 before:top-0 before:h-px before:bg-gradient-to-r before:from-transparent before:via-white/35 before:to-transparent after:pointer-events-none after:absolute after:inset-0 after:bg-[linear-gradient(112deg,transparent_28%,rgba(255,255,255,0.07)_50%,transparent_72%)] md:min-h-0 md:w-auto md:rounded-full md:border-[#D4AF37]/30 md:bg-transparent md:px-5 md:py-2.5 md:backdrop-blur-none md:shadow-none md:before:hidden md:after:hidden ${
+            className={`mt-services-pill relative flex min-h-[2.5rem] w-full items-center justify-center gap-1.5 overflow-hidden rounded-[0.7rem] border px-1.5 py-1.5 text-center backdrop-blur-[10px] transition-all duration-300 before:pointer-events-none before:absolute before:inset-x-2 before:top-0 before:h-px before:bg-gradient-to-r before:from-transparent before:via-white/35 before:to-transparent after:pointer-events-none after:absolute after:inset-0 after:bg-[linear-gradient(112deg,transparent_28%,rgba(255,255,255,0.07)_50%,transparent_72%)] md:min-h-0 md:w-auto md:rounded-full md:border-[#D4AF37]/30 md:bg-transparent md:px-5 md:py-2.5 md:backdrop-blur-none md:shadow-none md:before:hidden md:after:hidden ${
   active
     ? 'border-[#D4AF37]/58 bg-[#D4AF37]/[0.045] text-white shadow-[0_8px_24px_rgba(201,162,74,0.12),inset_0_1px_0_rgba(255,255,255,0.14)] md:border-[#D4AF37]/65 md:bg-[#D4AF37]/10'
     : 'border-white/12 bg-white/[0.015] text-[#D4AF37] shadow-[0_6px_20px_rgba(0,0,0,0.15),inset_0_1px_0_rgba(255,255,255,0.07)] hover:border-[#D4AF37]/32 hover:bg-white/[0.035] hover:text-white md:border-[#D4AF37]/25 md:bg-transparent md:hover:border-[#D4AF37]/55 md:hover:bg-[#D4AF37]/5'
@@ -153,7 +153,7 @@ export default function ServicesStrip() {
                 transition={{ duration: reduceMotion ? 0 : 0.36, ease: [0.22, 1, 0.36, 1] }}
                 className="pointer-events-none absolute left-1/2 hidden w-[min(17rem,78vw)] -translate-x-1/2 md:bottom-[calc(100%+0.8rem)] md:z-40 md:block"
               >
-                <div className="relative overflow-hidden rounded-[1.15rem] border border-white/16 bg-[linear-gradient(180deg,rgba(14,24,28,0.9),rgba(5,12,15,0.86))] px-4 py-3.5 shadow-[0_22px_60px_rgba(0,0,0,0.42),inset_0_1px_0_rgba(255,255,255,0.12)] backdrop-blur-[24px]">
+                <div className="mt-services-tooltip relative overflow-hidden rounded-[1.15rem] border border-white/16 bg-[linear-gradient(180deg,rgba(14,24,28,0.9),rgba(5,12,15,0.86))] px-4 py-3.5 shadow-[0_22px_60px_rgba(0,0,0,0.42),inset_0_1px_0_rgba(255,255,255,0.12)] backdrop-blur-[24px]">
                   <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_0%,rgba(255,255,255,0.1),transparent_42%)]" />
 
                   <p className="mt-body-copy relative text-[0.82rem] leading-[1.5] text-white/80">

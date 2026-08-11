@@ -42,9 +42,9 @@ onCanPlay={(event) => {
       </motion.video>
 
       {/* Cinematic grading */}
-      <div className="absolute inset-0 bg-black/10" />
-      <div className="absolute inset-0 bg-gradient-to-r from-black/45 via-transparent to-black/20" />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-black/20" />
+      <div className="mt-classic-media-overlay absolute inset-0 bg-black/10" />
+      <div className="mt-classic-media-overlay absolute inset-0 bg-gradient-to-r from-black/45 via-transparent to-black/20" />
+      <div className="mt-classic-media-overlay absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-black/20" />
 
       {/* Fine film texture */}
       <div
