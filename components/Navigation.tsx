@@ -65,10 +65,15 @@ export default function Navigation() {
           className={`group relative inline-flex items-center justify-self-start transition-all duration-500 ${logoPulse ? 'mt-logo-receipt' : ''}`}
         >
   
-          <span
-            aria-hidden="true"
-            className="inline-flex h-9 w-[168px] shrink-0 sm:h-10 sm:w-[188px] md:h-11 md:w-[210px]"
-          />
+          <span className="relative inline-flex h-9 w-[168px] shrink-0 items-center overflow-visible sm:h-10 sm:w-[188px] md:h-11 md:w-[210px]">
+  {theme === 'signature' ? (
+    <img
+      src="/images/brand/madrastrails-signature-logo.png"
+      alt="MadrasTrails"
+      className="absolute left-0 top-[calc(50%+2px)] w-[205px] max-w-none -translate-y-1/2 object-contain sm:w-[225px] md:w-[245px]"
+    />
+  ) : null}
+</span>
         </motion.a>
 
         <motion.div

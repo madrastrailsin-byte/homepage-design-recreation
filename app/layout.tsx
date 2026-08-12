@@ -1,3 +1,4 @@
+import { cookies } from 'next/headers'
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
 import { Catamaran, Cormorant_Garamond, Satisfy } from 'next/font/google'
@@ -103,20 +104,28 @@ export const viewport: Viewport = {
   themeColor: '#0D4C5C',
 }
 
-export default function RootLayout({
+export default async function RootLayout({
+
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const cookieStore = await cookies()
+const storedTheme = cookieStore.get('madrastrails-theme')?.value
+
+const initialTheme =
+  storedTheme === 'classic' ? 'classic' : 'signature'
   return (
   <html
-  lang="en"
-  className={`${catamaran.variable} ${cormorantGaramond.variable} ${signature.variable} ${crimesTimesSix.variable} ${ruthligos.variable} ${amalfiCoast.variable} min-h-full w-full max-w-none overflow-x-hidden rounded-none border-0 bg-[#071B24] shadow-none`}
->
+    lang="en"
+    data-theme={initialTheme}
+    suppressHydrationWarning
+    className={`${catamaran.variable} ${cormorantGaramond.variable} ${signature.variable} ${crimesTimesSix.variable} ${ruthligos.variable} ${amalfiCoast.variable} min-h-full w-full max-w-none overflow-x-hidden rounded-none border-0 bg-[#071B24] shadow-none`}
+  >
   <body>
-    <ThemeProvider>
-      {children}
-    </ThemeProvider>
+    <ThemeProvider initialTheme={initialTheme}>
+  {children}
+</ThemeProvider>
   </body>
 </html>
 )

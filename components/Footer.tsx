@@ -55,7 +55,16 @@ export default function Footer() {
               viewport={{ once: true, amount: 0.24 }}
               className="relative flex items-center gap-3"
             >
-              <BrandLogo />
+              <div className="relative inline-flex">
+  <BrandLogo />
+
+  <span
+    aria-hidden="true"
+    className="mt-ui absolute -right-2 top-[5px] text-[6px] font-semibold leading-none tracking-normal text-[#D4AF37]"
+  >
+    TM
+  </span>
+</div>
             </motion.div>
 
             {/* Part B: Newsletter Section */}
