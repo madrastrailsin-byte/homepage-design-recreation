@@ -109,10 +109,10 @@ export default function ServicesStrip() {
                     borderRadius: '38%',
                   }
             }
-            className={`mt-services-pill relative flex min-h-[2.5rem] w-full items-center justify-center gap-1.5 overflow-hidden rounded-[0.7rem] border px-1.5 py-1.5 text-center backdrop-blur-[10px] transition-all duration-300 before:pointer-events-none before:absolute before:inset-x-2 before:top-0 before:h-px before:bg-gradient-to-r before:from-transparent before:via-white/35 before:to-transparent after:pointer-events-none after:absolute after:inset-0 after:bg-[linear-gradient(112deg,transparent_28%,rgba(255,255,255,0.07)_50%,transparent_72%)] md:min-h-0 md:w-auto md:rounded-full md:border-[#D4AF37]/30 md:bg-transparent md:px-5 md:py-2.5 md:backdrop-blur-none md:shadow-none md:before:hidden md:after:hidden ${
+            className={`mt-services-pill group relative flex min-h-[2.5rem] w-full items-center justify-center gap-1.5 overflow-hidden rounded-[0.7rem] border px-1.5 py-1.5 text-center backdrop-blur-[10px] transition-all duration-300 before:pointer-events-none before:absolute before:inset-x-2 before:top-0 before:h-px before:bg-gradient-to-r before:from-transparent before:via-white/35 before:to-transparent after:pointer-events-none after:absolute after:inset-0 after:bg-[linear-gradient(112deg,transparent_28%,rgba(255,255,255,0.07)_50%,transparent_72%)] md:min-h-0 md:w-auto md:rounded-full md:border-[#D4AF37]/30 md:bg-transparent md:px-5 md:py-2.5 md:backdrop-blur-none md:shadow-none md:before:hidden md:after:hidden ${
   active
-    ? 'border-[#D4AF37]/58 bg-[#D4AF37]/[0.045] text-white shadow-[0_8px_24px_rgba(201,162,74,0.12),inset_0_1px_0_rgba(255,255,255,0.14)] md:border-[#D4AF37]/65 md:bg-[#D4AF37]/10'
-    : 'border-white/12 bg-white/[0.015] text-[#D4AF37] shadow-[0_6px_20px_rgba(0,0,0,0.15),inset_0_1px_0_rgba(255,255,255,0.07)] hover:border-[#D4AF37]/32 hover:bg-white/[0.035] hover:text-white md:border-[#D4AF37]/25 md:bg-transparent md:hover:border-[#D4AF37]/55 md:hover:bg-[#D4AF37]/5'
+  ? 'border-[#D4AF37] bg-[#D4AF37] text-[#07171A] shadow-[0_8px_24px_rgba(201,162,74,0.18)]'
+  : 'border-[#D4AF37]/45 bg-[#111719] text-[#D4AF37] shadow-[0_6px_20px_rgba(0,0,0,0.18)] hover:border-[#D4AF37] hover:bg-[#D4AF37] hover:text-[#07171A]'
 }`}
             aria-expanded={active}
           >
@@ -131,7 +131,7 @@ export default function ServicesStrip() {
             <Icon
               size={16}
               className={`relative z-10 transition-all duration-300 ${
-                active ? 'scale-110 text-white' : 'text-[#C9A24A]'
+                active ? 'scale-110 text-[#07171A]' : 'text-[#D4AF37] group-hover:text-[#07171A]'
               }`}
             />
 

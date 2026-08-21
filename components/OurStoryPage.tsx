@@ -149,72 +149,90 @@ aria-hidden="true"
           </div>
 
           <div className="relative mt-14 grid items-start gap-14 lg:mt-20 lg:grid-cols-2 lg:gap-20">
-            <div className="pointer-events-none absolute bottom-16 left-1/2 top-20 hidden w-px -translate-x-1/2 bg-gradient-to-b from-transparent via-[#D4AF37]/30 to-transparent lg:block" />
+  <div className="pointer-events-none absolute bottom-16 left-1/2 top-20 hidden w-px -translate-x-1/2 bg-gradient-to-b from-transparent via-[#D4AF37]/30 to-transparent lg:block" />
 
-            <article data-reveal className="mt-ourstory-person relative">
-              <div className="mx-auto flex h-full max-w-[34rem] flex-col">
-                <div className="relative mx-auto aspect-[4/5] w-full max-w-[24rem] overflow-hidden rounded-[2rem] border border-[#D4AF37]/38 bg-[radial-gradient(circle_at_70%_18%,rgba(212,175,55,0.16),transparent_32%),linear-gradient(145deg,var(--mt-surface-elevated),var(--mt-surface))] shadow-[0_28px_80px_rgba(0,0,0,0.38),0_0_28px_rgba(212,175,55,0.14),inset_0_0_24px_rgba(212,175,55,0.06)]">
-                  <div className="pointer-events-none absolute inset-[1px] rounded-[calc(2rem-1px)] border border-[var(--mt-border)]" />
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <span className="mt-display text-7xl text-[#D4AF37]/32">MD</span>
-                  </div>
-                  <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-[var(--mt-surface)] to-transparent" />
-                  <p className="mt-ui absolute bottom-6 left-6 text-[9px] tracking-[0.22em] text-[#D4AF37]/68">
-                    PORTRAIT TO BE ADDED
-                  </p>
-                </div>
+  {/* GIDEON — LEFT */}
+  <article data-reveal className="mt-ourstory-person relative">
+    <div className="mx-auto flex h-full max-w-[34rem] flex-col">
+      <div className="relative mx-auto aspect-[4/5] w-full max-w-[24rem] overflow-hidden rounded-[2rem] border border-[#D4AF37]/38 shadow-[0_28px_80px_rgba(0,0,0,0.38),0_0_28px_rgba(212,175,55,0.14)]">
+        <Image
+          src="/images/our-story/gideon-solomon-founder.png"
+          alt="Gideon R. Solomon, Founder and Chief Journey Architect of MadrasTrails"
+          fill
+          sizes="(min-width: 1024px) 24rem, 90vw"
+          className="object-cover"
+          style={{ objectPosition: 'center 18%' }}
+        />
 
-                <div className="mt-7 text-center">
-                  <h3 className="whitespace-nowrap font-[family-name:var(--font-ruthligos)] text-[1.8rem] leading-none text-[var(--mt-text-primary)] md:text-[2.45rem]">
-  Geetha Solomon
-</h3>
-                  <p className="mt-ui mt-5 text-[10px] font-medium tracking-[0.22em] text-[#D8C08A]">
-                    MANAGING DIRECTOR
-                  </p>
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/22 via-transparent to-transparent" />
+        <div className="pointer-events-none absolute inset-[1px] rounded-[calc(2rem-1px)] border border-[var(--mt-border)]" />
+      </div>
 
-                  <p className="mt-body-copy mx-auto mt-6 min-h-[10.5rem] max-w-[31rem] text-base leading-[1.9] text-[var(--mt-text-secondary)]">
-                    As Managing Director and principal investor, she provides the strategic backing that powers MadrasTrails&rsquo; long-term vision. Through trusted relationships across business, industry, public life and entertainment, she brings the brand closer to discerning travellers and meaningful opportunities.
-                  </p>
+      <div className="mt-8 text-center">
+        <h3 className="whitespace-nowrap font-[family-name:var(--font-amalfi-coast)] text-[1.6rem] leading-none text-[var(--mt-text-primary)] md:text-[1.8rem]">
+          Gideon R. Solomon
+        </h3>
 
-                  <p className="mt-ui mx-auto mt-7 whitespace-nowrap text-center text-[9px] tracking-[0.16em] text-[#D4AF37]/82">
-                    LEADERSHIP <span className="px-2 text-[#D4AF37]/38">|</span> PARTNERSHIPS <span className="px-2 text-[#D4AF37]/38">|</span> CLIENT RELATIONS
-                  </p>
-                </div>
-              </div>
-            </article>
+        <p className="mt-ui mt-7 text-[10px] font-medium tracking-[0.22em] text-[#D8C08A]">
+          FOUNDER &amp; CHIEF JOURNEY ARCHITECT
+        </p>
 
-            <article data-reveal className="mt-ourstory-person relative">
-              <div className="mx-auto flex h-full max-w-[34rem] flex-col">
-                <div className="relative mx-auto aspect-[4/5] w-full max-w-[24rem] overflow-hidden rounded-[2rem] border border-[#D4AF37]/38 bg-[radial-gradient(circle_at_30%_16%,rgba(212,175,55,0.16),transparent_32%),linear-gradient(145deg,var(--mt-surface-elevated),var(--mt-surface))] shadow-[0_28px_80px_rgba(0,0,0,0.38),0_0_28px_rgba(212,175,55,0.14),inset_0_0_24px_rgba(212,175,55,0.06)]">
-                  <div className="pointer-events-none absolute inset-[1px] rounded-[calc(2rem-1px)] border border-[var(--mt-border)]" />
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <span className="mt-display text-7xl text-[#D4AF37]/32">GS</span>
-                  </div>
-                  <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-[var(--mt-surface)] to-transparent" />
-                  <p className="mt-ui absolute bottom-6 left-6 text-[9px] tracking-[0.22em] text-[#D4AF37]/68">
-                    PORTRAIT TO BE ADDED
-                  </p>
-                </div>
+        <p className="mt-body-copy mx-auto mt-6 min-h-[10.5rem] max-w-[31rem] text-base leading-[1.9] text-[var(--mt-text-secondary)]">
+          Gideon leads the vision, destination curation, supplier partnerships, travel planning, client experience and creative direction of MadrasTrails. From the first conversation to the traveller’s return home, every journey is personally shaped to feel thoughtful, seamless and deeply individual. Crafted with care. Remembered for life.
+        </p>
 
-                <div className="mt-8 text-center">
-                  <h3 className="whitespace-nowrap font-[family-name:var(--font-amalfi-coast)] text-[1.6rem] leading-none text-[var(--mt-text-primary)] md:text-[1.8rem]">
-  Gideon R. Solomon
-</h3>
-                  <p className="mt-ui mt-7 text-[10px] font-medium tracking-[0.22em] text-[#D8C08A]">
-                    FOUNDER &amp; CHIEF JOURNEY ARCHITECT
-                  </p>
+        <p className="mt-ui mx-auto mt-7 whitespace-nowrap text-center text-[9px] tracking-[0.16em] text-[#D4AF37]/82">
+          STRATEGIC VISION
+          <span className="px-2 text-[#D4AF37]/38">|</span>
+          JOURNEY DESIGN
+          <span className="px-2 text-[#D4AF37]/38">|</span>
+          CREATIVE DIRECTION
+        </p>
+      </div>
+    </div>
+  </article>
 
-                  <p className="mt-body-copy mx-auto mt-6 min-h-[10.5rem] max-w-[31rem] text-base leading-[1.9] text-[var(--mt-text-secondary)]">
-                    Gideon leads the vision, destination curation, supplier partnerships, travel planning, client experience and creative direction of MadrasTrails. From the first conversation to the traveller’s return home, every journey is personally shaped to feel thoughtful, seamless and deeply individual. Crafted with care. Remembered for life.
-                  </p>
+  {/* GEETHA — RIGHT */}
+  <article data-reveal className="mt-ourstory-person relative">
+    <div className="mx-auto flex h-full max-w-[34rem] flex-col">
+      <div className="relative mx-auto aspect-[4/5] w-full max-w-[24rem] overflow-hidden rounded-[2rem] border border-[#D4AF37]/38 shadow-[0_28px_80px_rgba(0,0,0,0.38),0_0_28px_rgba(212,175,55,0.14)]">
+  <Image
+    src="/images/our-story/geetha-solomon-managing-director.png"
+    alt="Geetha Solomon, Managing Director of MadrasTrails"
+    fill
+    sizes="(min-width: 1024px) 24rem, 90vw"
+    className="object-cover"
+    style={{ objectPosition: 'center 35%' }}
+  />
 
-                  <p className=" mt-ui mx-auto mt-7 whitespace-nowrap text-center text-[9px] tracking-[0.16em] text-[#D4AF37]/82">
-                    STRATEGIC VISION <span className="px-2 text-[#D4AF37]/38">|</span> JOURNEY DESIGN <span className="px-2 text-[#D4AF37]/38">|</span> CREATIVE DIRECTION
-                  </p>
-                </div>
-              </div>
-            </article>
-          </div>
+  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/22 via-transparent to-transparent" />
+  <div className="pointer-events-none absolute inset-[1px] rounded-[calc(2rem-1px)] border border-[var(--mt-border)]" />
+</div>
+
+      <div className="mt-7 text-center">
+        <h3 className="whitespace-nowrap font-[family-name:var(--font-ruthligos)] text-[1.8rem] leading-none text-[var(--mt-text-primary)] md:text-[2.45rem]">
+          Geetha Solomon
+        </h3>
+
+        <p className="mt-ui mt-5 text-[10px] font-medium tracking-[0.22em] text-[#D8C08A]">
+          MANAGING DIRECTOR
+        </p>
+
+        <p className="mt-body-copy mx-auto mt-6 min-h-[10.5rem] max-w-[31rem] text-base leading-[1.9] text-[var(--mt-text-secondary)]">
+          As Managing Director and principal investor, she provides the strategic backing that powers MadrasTrails&rsquo; long-term vision. Through trusted relationships across business, industry, public life and entertainment, she brings the brand closer to discerning travellers and meaningful opportunities.
+        </p>
+
+        <p className="mt-ui mx-auto mt-7 whitespace-nowrap text-center text-[9px] tracking-[0.16em] text-[#D4AF37]/82">
+          LEADERSHIP
+          <span className="px-2 text-[#D4AF37]/38">|</span>
+          PARTNERSHIPS
+          <span className="px-2 text-[#D4AF37]/38">|</span>
+          CLIENT RELATIONS
+        </p>
+      </div>
+    </div>
+  </article>
+</div>
 
           <div data-reveal className="mx-auto mt-16 max-w-5xl text-center md:mt-20">
             <p className="mt-ui text-[10px] tracking-[0.24em] text-[#D4AF37]/68">

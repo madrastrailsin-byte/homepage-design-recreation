@@ -193,7 +193,7 @@ function JourneyTile({ journey, index, active, onSelect }: { journey: (typeof jo
       </div>
 
       <div className="absolute inset-x-5 bottom-5 md:inset-x-6 md:bottom-6">
-        <p className="mt-ui mb-2 text-[9px] tracking-[0.2em]" style={{ color: journey.accent }}>
+        <p className="mt-ui mb-2 inline-flex rounded-full border border-white/20 bg-black/55 px-2.5 py-1 text-[9px] tracking-[0.2em] text-white/90 backdrop-blur-md">
           {journey.descriptor.toUpperCase()}
         </p>
         <div className="flex items-end justify-between gap-5">
@@ -297,11 +297,13 @@ export default function ExperiencesPage() {
 
         <div className="relative z-10 mx-auto w-full max-w-7xl">
           <Reveal className="max-w-4xl">
-            <p className="mt-eyebrow mb-4 text-[10px] text-[#D4AF37] md:mb-5 md:text-xs">EXPERIENCES</p>
+            <p className="mt-eyebrow mb-4 inline-flex rounded-full border border-white/20 bg-black/55 px-3 py-1.5 text-[10px] !text-white backdrop-blur-md md:mb-5 md:text-xs">
+  EXPERIENCES
+</p>
             <h1 className="mt-display max-w-4xl text-[clamp(3.1rem,9vw,4.7rem)] leading-[0.98] text-[#FAFAF9] lg:text-[5.6rem]">
               Experiences That Stay With You
             </h1>
-            <p className="mt-display-soft mt-4 max-w-2xl text-[clamp(1.45rem,5vw,2.2rem)] leading-[1.08] text-[#D4AF37] md:mt-5 lg:text-[3rem]">
+            <p className="mt-display-soft mt-4 max-w-2xl text-[clamp(1.45rem,5vw,2.2rem)] leading-[1.08] !text-[#D4AF37] md:mt-5 lg:text-[3rem]">
               Not just places to see. Stories to step into.
             </p>
           </Reveal>
@@ -322,7 +324,7 @@ export default function ExperiencesPage() {
 <p className="mt-body-copy mt-6 max-w-2xl text-base leading-relaxed text-[var(--mt-text-secondary)] md:text-lg">
   Every traveller is different. Begin with the way you want to feel, and discover
   experiences shaped around{' '}
-  <span className="text-[#D4AF37]">your rhythm.</span>
+  <span className="!text-[#D4AF37]">your rhythm.</span>
 </p>
           </Reveal>
 
@@ -400,8 +402,11 @@ export default function ExperiencesPage() {
                       <ActiveJourneyIcon size={21} strokeWidth={1.35} />
                     </span>
                     <div>
-                      <p className="mt-eyebrow text-[9px] text-white/42">CURATED EXPERIENCE</p>
-                      <p className="mt-ui mt-1 text-[10px] tracking-[0.2em]" style={{ color: activeJourney.accent }}>
+                      <p className="mt-eyebrow inline-flex rounded-full border border-white/20 bg-black/55 px-2.5 py-1 text-[9px] !text-white backdrop-blur-md">
+  CURATED EXPERIENCE
+</p>
+
+<p className="mt-ui mt-2 inline-flex rounded-full border border-white/20 bg-black/55 px-2.5 py-1 text-[10px] tracking-[0.2em] !text-white backdrop-blur-md">
                         {activeJourney.descriptor.toUpperCase()}
                       </p>
                     </div>
@@ -422,7 +427,7 @@ export default function ExperiencesPage() {
                   transition={{ duration: 0.8, delay: 0.2, ease }}
                   className="mt-experiences-showcase-panel mt-iphone-experience-panel max-h-[34rem] overflow-y-auto rounded-[1.6rem] border border-white/14 bg-[linear-gradient(180deg,rgba(8,18,22,0.5),rgba(2,10,13,0.62))] p-5 shadow-[0_30px_90px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-2xl sm:p-6"
                 >
-                  <p className="mt-eyebrow mb-4 text-[9px] text-[#D4AF37]">SIGNATURE MOMENTS</p>
+                  <p className="mt-eyebrow mb-4 text-[9px] !text-white">SIGNATURE MOMENTS</p>
 
                   <div className="grid gap-1.5 sm:grid-cols-2">
                     {activeJourney.experiences.map((experience, index) => (

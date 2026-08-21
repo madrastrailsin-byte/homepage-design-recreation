@@ -1149,32 +1149,26 @@ main.bg-\[\#0D1117\] {
 }
 
 [data-theme="classic"] .mt-scroll-services button[aria-expanded] {
-  color: #5B421E !important;
-  border-color: rgba(142,100,40,0.42) !important;
-  background: linear-gradient(180deg, rgba(255,249,237,0.92), rgba(236,216,184,0.88)) !important;
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,0.94),
-    0 7px 18px rgba(83,58,23,0.12) !important;
+  color: #D4AF37 !important;
+  border-color: rgba(212,175,55,0.45) !important;
+  background: #111719 !important;
+  box-shadow: 0 7px 18px rgba(0,0,0,0.16) !important;
 }
 
 [data-theme="classic"] .mt-scroll-services button[aria-expanded]:hover,
 [data-theme="classic"] .mt-scroll-services button[aria-expanded="true"] {
-  color: #041D22 !important;
-  border-color: rgba(142,100,40,0.76) !important;
-  background: linear-gradient(180deg, #FFF3DE, #DFC08A) !important;
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,0.96),
-    0 11px 26px rgba(126,86,28,0.18),
-    0 0 0 1px rgba(168,121,47,0.08) !important;
+  color: #07171A !important;
+  border-color: #D4AF37 !important;
+  background: #D4AF37 !important;
 }
 
 [data-theme="classic"] .mt-scroll-services button[aria-expanded] svg {
-  color: #8E6428 !important;
+  color: #D4AF37 !important;
 }
 
 [data-theme="classic"] .mt-scroll-services button[aria-expanded]:hover svg,
 [data-theme="classic"] .mt-scroll-services button[aria-expanded="true"] svg {
-  color: #6F4B16 !important;
+  color: #07171A !important;
 }
 
 /* Destinations: large atlas, compass, route and expedition drawings */
@@ -2303,9 +2297,9 @@ main.bg-\[\#0D1117\] {
 
 /* Any remaining full-bleed gradient wash should be very restrained in Classic */
 [data-theme="classic"]
-[class*="absolute"][class*="inset-0"][class*="bg-gradient"]:not(.mt-classic-media-overlay),
+[class*="absolute"][class*="inset-0"][class*="bg-gradient"]:not(.mt-classic-media-overlay):not(.mt-services-pill),
 [data-theme="classic"]
-[class*="absolute"][class*="inset-0"][class*="bg-[linear-gradient"]:not(.mt-classic-media-overlay) {
+[class*="absolute"][class*="inset-0"][class*="bg-[linear-gradient"]:not(.mt-classic-media-overlay):not(.mt-services-pill) {
   opacity: 0.22 !important;
 }
 
@@ -2625,15 +2619,16 @@ main.bg-\[\#0D1117\] {
 
 /* Services: parchment controls and isolated dark-glass descriptions. */
 [data-theme="classic"] .mt-services-pill {
-  color: #08282D !important;
-  border-color: rgba(126, 83, 31, 0.25) !important;
+  color: #D4AF37 !important;
+  border-color: rgba(212, 175, 55, 0.45) !important;
+  background: #111719 !important;
 }
 
 [data-theme="classic"] .mt-services-pill:hover,
 [data-theme="classic"] .mt-services-pill[aria-expanded="true"] {
-  color: #08282D !important;
-  border-color: rgba(126, 83, 31, 0.48) !important;
-  background: rgba(212, 175, 55, 0.14) !important;
+  color: #07171A !important;
+  border-color: #D4AF37 !important;
+  background: #D4AF37 !important;
 }
 
 [data-theme="classic"] .mt-services-pill svg {
