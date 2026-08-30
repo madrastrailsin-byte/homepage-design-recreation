@@ -21,6 +21,12 @@ export default function Hero() {
   video.defaultMuted = true
   video.playsInline = true
 
+  if (prefersReducedMotion) {
+    video.pause()
+    video.currentTime = 0
+    return
+  }
+
   const tryPlay = () => {
     video.play().catch(() => {
       setVideoFailed(true)
@@ -34,7 +40,7 @@ export default function Hero() {
   return () => {
     video.removeEventListener('canplay', tryPlay)
   }
-}, [])
+}, [prefersReducedMotion])
   useEffect(() => {
     const section = sectionRef.current
     const videoEl = videoRef.current
@@ -138,12 +144,18 @@ export default function Hero() {
         videoFailed ? 'opacity-0' : ''
       }`}
       src="/videos/hero-optimized-720p.mp4"
-      autoPlay
+      autoPlay={!prefersReducedMotion}
       muted
       loop
       playsInline
       preload="auto"
       onPlaying={() => setVideoFailed(false)}
+      onCanPlay={(event) => {
+        if (prefersReducedMotion) {
+          event.currentTarget.pause()
+          event.currentTarget.currentTime = 0
+        }
+      }}
       onError={() => setVideoFailed(true)}
       aria-hidden="true"
     />
@@ -166,7 +178,7 @@ export default function Hero() {
         <div className="mt-hero-exit-group relative max-w-[43rem]">
           <div className="mt-hero-camera-copy mt-hero-typography relative flex flex-col">
           {/* Main Headline Artwork */}
-          <div
+          <h1
   data-hero-reveal="heading"
   className="mb-[clamp(1rem,4.6vw,1.35rem)] w-[clamp(12.5rem,63vw,15rem)] md:mb-6 md:w-[320px] lg:w-[400px]"
 >
@@ -180,7 +192,7 @@ export default function Hero() {
   fetchPriority="high"
   className="h-auto w-full object-contain"
 />
-          </div>
+          </h1>
 
           {/* Decorative divider */}
           <div data-hero-reveal="divider" className="mb-[clamp(1rem,4.6vw,1.35rem)] flex w-[clamp(13.75rem,70vw,15.5rem)] items-center gap-0 md:mb-6 md:w-[248px]">

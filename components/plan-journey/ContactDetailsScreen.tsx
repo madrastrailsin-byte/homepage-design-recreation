@@ -147,7 +147,7 @@ export default function ContactDetailsScreen({
     : { opacity: 0, y: 24, filter: 'blur(9px)' }
 
   return (
-    <main className="relative min-h-[100svh] overflow-x-hidden bg-transparent text-[#FAFAF9] lg:overflow-hidden">
+    <section className="relative min-h-[100svh] overflow-x-hidden bg-transparent text-[#FAFAF9] lg:overflow-hidden">
       <div className="absolute inset-0 bg-[#021316]/82" />
       <div className="absolute inset-0 bg-gradient-to-b from-black/5 via-[#03191d]/5 to-[#020f12]/12" />
 
@@ -242,12 +242,17 @@ export default function ContactDetailsScreen({
                 ) : null}
               </label>
 
-              <label className="block">
-                <span className="mb-1.5 block text-[9px] uppercase tracking-[0.14em] text-white/44">
+              <div className="block">
+                <label
+                  htmlFor="journey-mobile"
+                  id="journey-mobile-label"
+                  className="mb-1.5 block text-[9px] uppercase tracking-[0.14em] text-white/44"
+                >
                   Mobile number *
-                </span>
+                </label>
                 <span className="flex">
                   <select
+                    id="journey-country-code"
                     aria-label="Country code"
                     value={values.countryCode}
                     onChange={(event) =>
@@ -266,6 +271,8 @@ export default function ContactDetailsScreen({
                     <option value="+61">+61</option>
                   </select>
                   <input
+                    id="journey-mobile"
+                    aria-labelledby="journey-mobile-label"
                     inputMode="numeric"
                     value={values.mobile}
                     onChange={(event) =>
@@ -290,7 +297,7 @@ export default function ContactDetailsScreen({
                     Enter a valid mobile number.
                   </span>
                 ) : null}
-              </label>
+              </div>
 
               <label className="block">
                 <span className="mb-1.5 block text-[9px] uppercase tracking-[0.14em] text-white/44">
@@ -480,6 +487,6 @@ export default function ContactDetailsScreen({
           </motion.button>
         </div>
       </nav>
-    </main>
+    </section>
   )
 }

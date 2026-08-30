@@ -40,15 +40,6 @@ const nextConfig = {
         ],
       },
       {
-        source: '/textures/earth_day_8k.012cce75a3f8.png',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
-          },
-        ],
-      },
-      {
         source: '/textures/earth_normal_8k.40053a14fef6.png',
         headers: [
           {
@@ -87,7 +78,6 @@ const nextConfig = {
     ]
   },
   images: {
-    unoptimized: true,
     qualities: [70, 75, 78],
     remotePatterns: [
       {

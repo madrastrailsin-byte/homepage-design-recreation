@@ -1,8 +1,9 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { Phone, Mail, MapPin, MessageCircle } from "lucide-react";
 import Link from "next/link";
+import { useEffect, useRef } from "react";
 
 const reveal = {
   hidden: { opacity: 0, y: 28, filter: "blur(10px)" },
@@ -15,6 +16,21 @@ const reveal = {
 
 
 export default function ContactHero() {
+  const prefersReducedMotion = useReducedMotion();
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    if (prefersReducedMotion) {
+      video.pause();
+      video.currentTime = 0;
+    } else {
+      void video.play().catch(() => undefined);
+    }
+  }, [prefersReducedMotion]);
+
   return (
     <section className="relative h-[100svh] overflow-hidden bg-black text-white">
       <Link
@@ -25,17 +41,23 @@ export default function ContactHero() {
 </Link>
       {/* Cinematic video */}
       <motion.video
-        initial={{ opacity: 0, scale: 1.08 }}
+        ref={videoRef}
+        initial={prefersReducedMotion ? false : { opacity: 0, scale: 1.08 }}
         animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 2.4, ease: [0.22, 1, 0.36, 1] }}
+        transition={{ duration: prefersReducedMotion ? 0 : 2.4, ease: [0.22, 1, 0.36, 1] }}
         className="absolute inset-0 h-full w-full object-cover"
-        autoPlay
+        autoPlay={!prefersReducedMotion}
         muted
         loop
         playsInline
         preload="auto"
 onCanPlay={(event) => {
-  void event.currentTarget.play().catch(() => undefined)
+  if (prefersReducedMotion) {
+    event.currentTarget.pause()
+    event.currentTarget.currentTime = 0
+  } else {
+    void event.currentTarget.play().catch(() => undefined)
+  }
 }}
       >
         <source src="/videos/contact/hero.mp4" type="video/mp4" />

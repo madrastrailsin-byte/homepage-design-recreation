@@ -17,7 +17,7 @@ export default function AnimatedLantern() {
 
           <Image
             src="/assets/props/antique-lantern.png"
-            alt="Antique Lantern"
+            alt=""
             width={600}
             height={600}
             priority

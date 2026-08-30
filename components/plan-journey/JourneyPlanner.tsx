@@ -70,17 +70,18 @@ const [step, setStep] = useState(country ? 2 : 1)
 
     videos.forEach((video, index) => {
       gsap.set(video, { opacity: index === 0 ? 1 : 0, scale: 1.04 })
-      if (index === 0) {
+      if (index === 0 && !prefersReducedMotion) {
         video.play().catch(() => undefined)
       } else {
         video.pause()
+        if (prefersReducedMotion) video.currentTime = 0
       }
     })
 
     return () => {
       transitionTimelineRef.current?.kill()
     }
-  }, [])
+  }, [prefersReducedMotion])
 
   function navigate(nextStep: number) {
     if (transitionLockedRef.current || nextStep === step) return
@@ -94,12 +95,40 @@ const [step, setStep] = useState(country ? 2 : 1)
 
     const direction = nextStep > step ? 1 : -1
 
-    transitionLockedRef.current = true
-    nextVideo.play().catch(() => undefined)
-
     const videos = videoRefs.current.filter(
       (video): video is HTMLVideoElement => video !== null,
     )
+
+    if (prefersReducedMotion) {
+      gsap.killTweensOf([screenContent, ...videos])
+      videos.forEach((video, index) => {
+        const isActive = index === nextStep - 1
+        video.pause()
+        if (isActive) video.currentTime = 0
+        gsap.set(video, {
+          opacity: isActive ? 1 : 0,
+          scale: 1.04,
+          xPercent: 0,
+        })
+      })
+      gsap.set(screenContent, {
+        opacity: 1,
+        x: 0,
+        scale: 1,
+        filter: 'blur(0px)',
+      })
+      flushSync(() => {
+        setOutgoingStep(null)
+        setStep(nextStep)
+      })
+      if (window.matchMedia('(max-width: 767px)').matches) {
+        window.scrollTo({ top: 0, left: 0, behavior: 'instant' })
+      }
+      return
+    }
+
+    transitionLockedRef.current = true
+    nextVideo.play().catch(() => undefined)
 
     gsap.killTweensOf([screenContent, ...videos])
     gsap.set(nextVideo, {
@@ -211,7 +240,8 @@ const incomingContent = screenContentRefs.current[nextStep]
   const displayedProgress = journeyComplete ? 100 : stepProgress
 
   return (
-  <div className="mt-journey-planner relative min-h-[100svh] overflow-hidden bg-[#020f12]">
+  <main className="mt-journey-planner relative min-h-[100svh] overflow-hidden bg-[#020f12]">
+    <h1 className="sr-only">Plan Your Journey</h1>
     <style>{`
       @media (max-width: 393px) and (max-height: 860px) {
         .mt-iphone-journey-home {
@@ -235,12 +265,18 @@ const incomingContent = screenContentRefs.current[nextStep]
           className={`pointer-events-none absolute inset-0 h-full w-full object-cover will-change-transform ${
             index === 0 ? 'opacity-100' : 'opacity-0'
           }`}
-          autoPlay
+          autoPlay={!prefersReducedMotion}
           muted
           loop
           playsInline
           preload="auto"
           src={source}
+          onCanPlay={(event) => {
+            if (prefersReducedMotion) {
+              event.currentTarget.pause()
+              event.currentTarget.currentTime = 0
+            }
+          }}
         />
       ))}
 
@@ -423,7 +459,7 @@ const incomingContent = screenContentRefs.current[nextStep]
                   </>
                 ) : null}
               </AnimatePresence>
-            </div>
+              </div>
           </div>
         </div>
       </aside>
@@ -540,6 +576,6 @@ const incomingContent = screenContentRefs.current[nextStep]
           </div>
         ))}
                   </div>
-    </div>
+    </main>
   )
 }

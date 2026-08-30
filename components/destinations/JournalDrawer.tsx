@@ -1,9 +1,12 @@
 "use client"
 
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import { AnimatePresence, motion } from "framer-motion"
 import { createPortal } from "react-dom"
 import JourneyEnquiry from "./JourneyEnquiry"
+
+const focusableSelector =
+  'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
 
 type Detail = {
   label: string
@@ -37,6 +40,8 @@ export default function JournalDrawer({
   const [selectedExperience, setSelectedExperience] = useState<string | null>(
     null,
   )
+  const drawerRef = useRef<HTMLElement | null>(null)
+  const openerRef = useRef<HTMLElement | null>(null)
 
   const closeDrawer = useCallback(() => {
     setSelectedExperience(null)
@@ -47,8 +52,55 @@ export default function JournalDrawer({
     if (!isOpen) return
 
     const previousOverflow = document.body.style.overflow
+    openerRef.current =
+      document.activeElement instanceof HTMLElement
+        ? document.activeElement
+        : null
 
-    function handleEscape(event: KeyboardEvent) {
+    document.body.style.overflow = "hidden"
+    requestAnimationFrame(() => {
+      drawerRef.current
+        ?.querySelector<HTMLElement>(focusableSelector)
+        ?.focus()
+    })
+
+    return () => {
+      document.body.style.overflow = previousOverflow
+      openerRef.current?.focus()
+    }
+  }, [isOpen])
+
+  useEffect(() => {
+    if (!isOpen) return
+
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === "Tab") {
+        const focusableElements = Array.from(
+          drawerRef.current?.querySelectorAll<HTMLElement>(focusableSelector) ??
+            [],
+        )
+        const firstElement = focusableElements[0]
+        const lastElement = focusableElements.at(-1)
+
+        if (!firstElement || !lastElement) {
+          event.preventDefault()
+          drawerRef.current?.focus()
+          return
+        }
+
+        if (!drawerRef.current?.contains(document.activeElement)) {
+          event.preventDefault()
+          ;(event.shiftKey ? lastElement : firstElement).focus()
+        } else if (event.shiftKey && document.activeElement === firstElement) {
+          event.preventDefault()
+          lastElement.focus()
+        } else if (!event.shiftKey && document.activeElement === lastElement) {
+          event.preventDefault()
+          firstElement.focus()
+        }
+        return
+      }
+
       if (event.key !== "Escape") return
 
       if (selectedExperience) {
@@ -58,12 +110,10 @@ export default function JournalDrawer({
       }
     }
 
-    document.body.style.overflow = "hidden"
-    window.addEventListener("keydown", handleEscape)
+    window.addEventListener("keydown", handleKeyDown)
 
     return () => {
-      document.body.style.overflow = previousOverflow
-      window.removeEventListener("keydown", handleEscape)
+      window.removeEventListener("keydown", handleKeyDown)
     }
   }, [closeDrawer, isOpen, selectedExperience])
 
@@ -90,9 +140,11 @@ export default function JournalDrawer({
           />
 
           <motion.aside
+            ref={drawerRef}
             role="dialog"
             aria-modal="true"
-            aria-labelledby="journal-drawer-title"
+            aria-labelledby="journal-dialog-title"
+            tabIndex={-1}
             initial={{ x: "100%" }}
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
@@ -102,6 +154,9 @@ export default function JournalDrawer({
             }}
             className="relative z-10 h-dvh w-full overflow-y-auto border-l border-[var(--mt-border)] bg-[var(--mt-canvas)] px-7 py-8 shadow-[-30px_0_100px_rgba(0,0,0,0.48)] backdrop-blur-3xl sm:max-w-[560px] sm:px-12 sm:py-10"
           >
+            <h2 id="journal-dialog-title" className="sr-only">
+              MadrasTrails journal: {fact.title}
+            </h2>
             <header className="sticky top-0 z-20 -mx-1 flex items-center justify-between border-b border-[var(--mt-border)] bg-[var(--mt-canvas)] px-1 pb-7 backdrop-blur-2xl">
               <div>
                 <p className="text-[9px] font-medium uppercase tracking-[0.38em] text-[#D6B06E]">
@@ -133,7 +188,6 @@ export default function JournalDrawer({
               ) : (
                 <motion.article
                   key={`story-${fact.title}`}
-                  id="journal-drawer-title"
                   initial={{ opacity: 0, x: -18 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -18 }}

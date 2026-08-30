@@ -5,11 +5,14 @@ import { motion, useReducedMotion } from 'framer-motion'
 import { ArrowRight, Check, MapPin } from 'lucide-react'
 import BrandLogo from './BrandLogo'
 import { FaInstagram, FaFacebookF, FaYoutube, FaWhatsapp } from 'react-icons/fa'
+import { submitEnquiry } from '@/lib/enquiries'
 
 export default function Footer() {
   const [phone, setPhone] = useState('')
   const [submitted, setSubmitted] = useState(false)
   const [showError, setShowError] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitError, setSubmitError] = useState('')
   const prefersReducedMotion = useReducedMotion()
 
   useEffect(() => {
@@ -27,7 +30,7 @@ export default function Footer() {
   const revealInView = prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }
   const socialLinkClass = 'mt-gold-sheen flex h-11 w-11 items-center justify-center rounded-full border border-[#D4AF37]/42 bg-[#D4AF37]/[0.025] text-[#D4AF37] shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-[#D4AF37]/70 hover:bg-[#D4AF37] hover:text-[var(--mt-accent-contrast)] hover:shadow-[0_12px_30px_rgba(212,175,55,0.2)]'
 
-  function handleCallbackRequest(event: FormEvent<HTMLFormElement>) {
+  async function handleCallbackRequest(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
 
     if (!/^\d{10}$/.test(phone)) {
@@ -37,7 +40,16 @@ export default function Footer() {
     }
 
     setShowError(false)
-    setSubmitted(true)
+    setSubmitError('')
+    setIsSubmitting(true)
+    try {
+      await submitEnquiry({ type: 'callback', phone: `+91${phone}` })
+      setSubmitted(true)
+    } catch (error) {
+      setSubmitError(error instanceof Error ? error.message : 'We could not send your request. Please try again.')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
@@ -99,6 +111,7 @@ export default function Footer() {
                       setPhone(event.target.value.replace(/\D/g, '').slice(0, 10))
                       setShowError(false)
                       setSubmitted(false)
+                      setSubmitError('')
                     }}
                     placeholder="Enter mobile number"
                     aria-label="Mobile number"
@@ -107,8 +120,9 @@ export default function Footer() {
 
                   <button
                     type="submit"
+                    disabled={isSubmitting}
                     aria-label="Request a callback"
-                    className="mt-gold-sheen flex w-12 shrink-0 items-center justify-center bg-[#D4AF37] text-[var(--mt-accent-contrast)] transition hover:bg-[#E0BD4B]"
+                    className="mt-gold-sheen flex w-12 shrink-0 items-center justify-center bg-[#D4AF37] text-[var(--mt-accent-contrast)] transition hover:bg-[#E0BD4B] disabled:cursor-wait disabled:opacity-70"
                   >
                     <ArrowRight size={16} />
                   </button>
@@ -134,6 +148,11 @@ export default function Footer() {
                     >
                       Please enter a valid 10-digit mobile number.
                     </motion.p>
+                  )}
+                  {submitError && (
+                    <p role="alert" className="mt-body-copy text-xs text-[#D4AF37]/82">
+                      {submitError}
+                    </p>
                   )}
                 </div>
               </form>

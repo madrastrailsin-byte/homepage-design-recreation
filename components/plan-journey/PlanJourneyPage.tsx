@@ -171,7 +171,7 @@ export default function PlanJourneyPage() {
         >
           <Image
             src="/assets/props/wax-seal-red.png"
-            alt="Seal Thy Letter"
+            alt=""
             width={98}
             height={98}
             priority
@@ -458,7 +458,7 @@ export default function PlanJourneyPage() {
           >
             <Image
               src="/assets/props/wax-seal-red.png"
-              alt="Seal Thy Letter"
+              alt=""
               width={98}
               height={98}
               priority

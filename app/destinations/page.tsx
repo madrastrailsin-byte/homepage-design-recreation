@@ -27,16 +27,18 @@ export default function Destinations() {
     <>
       <Navigation />
 
-      <Suspense
-        fallback={
-          <main
-            className="min-h-screen bg-[#071B24]"
-            aria-label="Loading destinations"
-          />
-        }
-      >
-        <DestinationsPage />
-      </Suspense>
+      <main>
+        <Suspense
+          fallback={
+            <div
+              className="min-h-screen bg-[#071B24]"
+              aria-label="Loading destinations"
+            />
+          }
+        >
+          <DestinationsPage />
+        </Suspense>
+      </main>
     </>
   )
 }

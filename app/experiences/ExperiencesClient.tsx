@@ -142,6 +142,12 @@ function JourneyTile({ journey, index, active, onSelect }: { journey: (typeof jo
     const video = videoRef.current
     if (!video) return
 
+    if (reduceMotion) {
+      video.pause()
+      video.currentTime = 0
+      return
+    }
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -155,7 +161,7 @@ function JourneyTile({ journey, index, active, onSelect }: { journey: (typeof jo
 
     observer.observe(video)
     return () => observer.disconnect()
-  }, [])
+  }, [reduceMotion])
 
   return (
     <motion.button
@@ -179,6 +185,12 @@ function JourneyTile({ journey, index, active, onSelect }: { journey: (typeof jo
         playsInline
         preload="none"
         aria-hidden="true"
+        onCanPlay={(event) => {
+          if (reduceMotion) {
+            event.currentTarget.pause()
+            event.currentTarget.currentTime = 0
+          }
+        }}
       />
 
       <div className="mt-classic-media-overlay absolute inset-0 bg-[linear-gradient(180deg,rgba(2,15,18,0.06),rgba(2,15,18,0.3)_44%,rgba(2,15,18,0.9)_100%)]" />
@@ -214,10 +226,25 @@ function JourneyTile({ journey, index, active, onSelect }: { journey: (typeof jo
 
 export default function ExperiencesPage() {
   const prefersReducedMotion = useReducedMotion()
+  const heroVideoRef = useRef<HTMLVideoElement>(null)
+  const detailVideoRef = useRef<HTMLVideoElement>(null)
   const [activeJourneyId, setActiveJourneyId] = useState(journeys[0].id)
   const showcaseRef = useRef<HTMLElement>(null)
   const activeJourney = journeys.find((journey) => journey.id === activeJourneyId) ?? journeys[0]
   const ActiveJourneyIcon = activeJourney.icon
+
+  useEffect(() => {
+    const videos = [heroVideoRef.current, detailVideoRef.current]
+    videos.forEach((video) => {
+      if (!video) return
+      if (prefersReducedMotion) {
+        video.pause()
+        video.currentTime = 0
+      } else {
+        void video.play().catch(() => undefined)
+      }
+    })
+  }, [activeJourneyId, prefersReducedMotion])
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search)
@@ -281,15 +308,21 @@ export default function ExperiencesPage() {
 
       <section className="relative flex min-h-[100svh] items-end overflow-hidden px-6 pb-[5.5rem] pt-28 md:px-8 md:pb-[7rem] lg:min-h-screen lg:pb-24 lg:pt-32">
         <video
+  ref={heroVideoRef}
   className="absolute inset-0 h-full w-full object-cover"
   src="/videos/hero_experiences.mp4"
-  autoPlay
+  autoPlay={!prefersReducedMotion}
   muted
   loop
   playsInline
   preload="auto"
   onCanPlay={(event) => {
-    void event.currentTarget.play().catch(() => undefined)
+    if (prefersReducedMotion) {
+      event.currentTarget.pause()
+      event.currentTarget.currentTime = 0
+    } else {
+      void event.currentTarget.play().catch(() => undefined)
+    }
   }}
   aria-hidden="true"
 />
@@ -358,18 +391,25 @@ export default function ExperiencesPage() {
             className="mt-iphone-experience-frame relative h-[clamp(42rem,88svh,52rem)] overflow-hidden"
           >
             <motion.video
+              ref={detailVideoRef}
               key={activeJourney.video}
               initial={prefersReducedMotion ? undefined : { scale: 1.16 }}
               animate={{ scale: 1 }}
               transition={{ duration: prefersReducedMotion ? 0 : 1.6, ease }}
               className="absolute inset-0 h-full w-full object-cover"
               src={activeJourney.video}
-              autoPlay
+              autoPlay={!prefersReducedMotion}
               muted
               loop
               playsInline
               preload="metadata"
               aria-hidden="true"
+              onCanPlay={(event) => {
+                if (prefersReducedMotion) {
+                  event.currentTarget.pause()
+                  event.currentTarget.currentTime = 0
+                }
+              }}
             />
 
             <div className="mt-classic-media-overlay absolute inset-0 bg-[linear-gradient(90deg,rgba(2,15,18,0.94)_0%,rgba(2,15,18,0.78)_32%,rgba(2,15,18,0.24)_68%,rgba(2,15,18,0.46)_100%)]" />

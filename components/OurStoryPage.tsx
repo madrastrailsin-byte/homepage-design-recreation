@@ -9,7 +9,20 @@ import { useReducedMotion } from 'framer-motion'
 
 export default function OurStoryPage() {
   const pageRef = useRef<HTMLDivElement>(null)
+  const heroVideoRef = useRef<HTMLVideoElement>(null)
   const prefersReducedMotion = useReducedMotion()
+
+  useEffect(() => {
+    const video = heroVideoRef.current
+    if (!video) return
+
+    if (prefersReducedMotion) {
+      video.pause()
+      video.currentTime = 0
+    } else {
+      void video.play().catch(() => undefined)
+    }
+  }, [prefersReducedMotion])
 
   useEffect(() => {
     const page = pageRef.current
@@ -51,15 +64,21 @@ export default function OurStoryPage() {
     <div ref={pageRef} className="mt-ourstory-page relative overflow-hidden bg-[var(--mt-canvas)] text-[var(--mt-text-primary)]">
       <section className="mt-ourstory-hero relative flex min-h-screen items-end overflow-hidden px-6 pb-28 pt-24 md:px-8 md:pb-20 md:pt-28">
         <video
+          ref={heroVideoRef}
           className="absolute inset-0 h-full w-full object-cover"
           src="/videos/our-story-hero.mp4"
-          autoPlay
+          autoPlay={!prefersReducedMotion}
           muted
           loop
           playsInline
           preload="auto"
 onCanPlay={(event) => {
-  void event.currentTarget.play().catch(() => undefined)
+  if (prefersReducedMotion) {
+    event.currentTarget.pause()
+    event.currentTarget.currentTime = 0
+  } else {
+    void event.currentTarget.play().catch(() => undefined)
+  }
 }}
 aria-hidden="true"
         />

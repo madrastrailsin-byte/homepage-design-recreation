@@ -168,7 +168,7 @@ export default function BudgetSelectionScreen({
     : { opacity: 0, y: 24, filter: 'blur(9px)' }
 
   return (
-    <main className="relative min-h-[100svh] overflow-x-hidden bg-transparent text-[#FAFAF9] lg:overflow-hidden">
+    <section className="relative min-h-[100svh] overflow-x-hidden bg-transparent text-[#FAFAF9] lg:overflow-hidden">
       <div className="absolute inset-0 bg-[#021316]/80" />
       <div className="absolute inset-0 bg-gradient-to-b from-black/5 via-[#03191d]/5 to-[#020f12]/12" />
 
@@ -311,6 +311,6 @@ export default function BudgetSelectionScreen({
           </motion.button>
         </div>
       </nav>
-    </main>
+    </section>
   )
 }

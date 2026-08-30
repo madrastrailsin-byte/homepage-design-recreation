@@ -8,6 +8,7 @@ import {
   useState,
 } from "react"
 import { motion } from "framer-motion"
+import { submitEnquiry } from "@/lib/enquiries"
 
 type ContactMethod = "whatsapp" | "email" | "call"
 
@@ -54,6 +55,8 @@ function JourneyEnquiryForm({
   const [message, setMessage] = useState(initialMessage)
   const [contactMethod, setContactMethod] = useState<ContactMethod>("whatsapp")
   const [submitted, setSubmitted] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitError, setSubmitError] = useState("")
   const enquiryTopRef = useRef<HTMLDivElement>(null)
   const messageRef = useRef<HTMLTextAreaElement>(null)
 
@@ -97,13 +100,33 @@ useEffect(() => {
     [contactMethod, destination, email, experience, message, name, phone, travelMonth],
   )
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
 
     const subject = encodeURIComponent(`${experience} — ${destination} journey enquiry`)
     const encodedBody = encodeURIComponent(enquiryText)
 
-    setSubmitted(true)
+    if (isSubmitting) return
+    setIsSubmitting(true)
+    setSubmitError("")
+    try {
+      await submitEnquiry({
+        type: "destination",
+        name,
+        email,
+        phone,
+        destination,
+        experience,
+        travelMonth,
+        message,
+        preferredContact: contactMethod,
+      })
+      setSubmitted(true)
+    } catch (error) {
+      setSubmitError(error instanceof Error ? error.message : "We could not send your enquiry. Please try again.")
+      setIsSubmitting(false)
+      return
+    }
 
     if (contactMethod === "whatsapp") {
       window.open(
@@ -114,7 +137,9 @@ useEffect(() => {
       return
     }
 
-    window.location.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${encodedBody}`
+    if (contactMethod === "email") {
+      window.location.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${encodedBody}`
+    }
   }
 
   if (submitted) {
@@ -138,7 +163,9 @@ useEffect(() => {
         <div className="mt-7 h-px w-16 bg-[#D6B06E]/60" />
 
         <p className="mt-7 max-w-md text-sm font-light leading-7 text-[var(--mt-text-secondary)]">
-          Your enquiry has been prepared. One of our travel designers will personally review your interests and begin shaping recommendations around the way you want to experience {destination}.
+          {contactMethod === "call"
+            ? `Your callback request has been received. One of our travel designers will contact you to discuss your ${destination} journey.`
+            : `Your enquiry has been received. One of our travel designers will personally review your interests and begin shaping recommendations around the way you want to experience ${destination}.`}
         </p>
 
         <div className="mt-8 rounded-[22px] border border-[var(--mt-border)] bg-[var(--mt-surface)] p-5">
@@ -248,9 +275,10 @@ useEffect(() => {
           </div>
         </fieldset>
 
-        <button type="submit" className="group flex w-full items-center justify-between rounded-full border border-[#D6B06E]/45 bg-[#D6B06E] px-6 py-4 text-left transition-all duration-500 hover:bg-[#E1C184]">
+        {submitError ? <p role="alert" className="text-sm text-[#D6B06E]">{submitError}</p> : null}
+        <button type="submit" disabled={isSubmitting} className="group flex w-full items-center justify-between rounded-full border border-[#D6B06E]/45 bg-[#D6B06E] px-6 py-4 text-left transition-all duration-500 hover:bg-[#E1C184] disabled:cursor-wait disabled:opacity-70">
           <span className="text-[10px] font-medium uppercase tracking-[0.26em] text-[#07161D]">
-            {contactMethod === "whatsapp"
+            {isSubmitting ? "Sending your enquiry…" : contactMethod === "whatsapp"
               ? "Continue on WhatsApp"
               : contactMethod === "email"
                 ? "Send enquiry by email"

@@ -29,12 +29,27 @@ const experiences = [
 function ExperienceVideo({
   src,
   index,
+  reduceMotion,
 }: {
   src: string
   index: number
+  reduceMotion: boolean
 }) {
   const containerRef = useRef<HTMLDivElement>(null)
+  const videoRef = useRef<HTMLVideoElement>(null)
   const [shouldLoad, setShouldLoad] = useState(false)
+
+  useEffect(() => {
+    const video = videoRef.current
+    if (!video) return
+
+    if (reduceMotion) {
+      video.pause()
+      video.currentTime = 0
+    } else if (shouldLoad) {
+      void video.play().catch(() => undefined)
+    }
+  }, [reduceMotion, shouldLoad])
 
   useEffect(() => {
     const container = containerRef.current
@@ -72,13 +87,20 @@ function ExperienceVideo({
 
       {shouldLoad && (
         <video
+          ref={videoRef}
           className="absolute inset-0 h-full w-full object-cover opacity-50 saturate-[0.85] transition-transform duration-[1000ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.025]"
           src={src}
-          autoPlay
+          autoPlay={!reduceMotion}
           muted
           loop
           playsInline
           preload="none"
+          onCanPlay={(event) => {
+            if (reduceMotion) {
+              event.currentTarget.pause()
+              event.currentTarget.currentTime = 0
+            }
+          }}
         />
       )}
     </div>
@@ -130,6 +152,7 @@ export default function ExperiencesSection() {
                 <ExperienceVideo
   src={experience.video}
   index={index}
+  reduceMotion={Boolean(reduceMotion)}
 />
                 <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(2,15,18,0.564)_0%,rgba(2,15,18,0.468)_48%,rgba(2,15,18,0.24)_100%)]" />
                 <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(2,15,18,0.048),rgba(2,15,18,0.30))]" />

@@ -260,7 +260,7 @@ export default function DestinationSelectionScreen({
     : { opacity: 0, y: 24, filter: 'blur(9px)' }
 
   return (
-    <main className="relative min-h-[100svh] overflow-hidden bg-transparent text-[#FAFAF9]">
+    <section className="relative min-h-[100svh] overflow-hidden bg-transparent text-[#FAFAF9]">
 
       <div className="absolute inset-0 bg-[#021316]/70" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_24%,rgba(20,72,76,0.18),transparent_38%)]" />
@@ -437,6 +437,6 @@ export default function DestinationSelectionScreen({
           </button>
         </div>
       </nav>
-    </main>
+    </section>
   )
 }

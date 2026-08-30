@@ -1,7 +1,8 @@
 'use client'
 
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
-import { Compass, Crown, Menu, X } from 'lucide-react'
+import { Menu, X } from 'lucide-react'
+import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
@@ -67,9 +68,12 @@ export default function Navigation() {
   
           <span className="relative inline-flex h-9 w-[168px] shrink-0 items-center overflow-visible sm:h-10 sm:w-[188px] md:h-11 md:w-[210px]">
   {theme === 'signature' ? (
-    <img
+    <Image
       src="/images/brand/madrastrails-signature-logo.png"
       alt="MadrasTrails"
+      width={245}
+      height={44}
+      priority
       className="absolute left-0 top-[calc(50%+2px)] w-[205px] max-w-none -translate-y-1/2 object-contain sm:w-[225px] md:w-[245px]"
     />
   ) : null}
@@ -136,15 +140,16 @@ export default function Navigation() {
     transition={{ duration: 0.6 }}
     className={`absolute inset-0`}
   >
-    <img
+    <Image
   src={
     theme === 'signature'
       ? '/images/theme/signature-mode.webp'
       : '/images/theme/classic-mode.webp'
   }
   alt=""
-  loading="eager"
-  fetchPriority="high"
+  fill
+  sizes="(max-width: 639px) 86px, (max-width: 767px) 98px, 112px"
+  priority
   className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.06]"
 />
 
@@ -165,15 +170,19 @@ export default function Navigation() {
           </JourneyTransitionLink>
         {/* Preload both theme thumbnails */}
 <div className="pointer-events-none absolute h-0 w-0 overflow-hidden opacity-0" aria-hidden="true">
-  <img
+  <Image
     src="/images/theme/signature-mode.webp"
     alt=""
+    width={112}
+    height={32}
     loading="eager"
     fetchPriority="high"
   />
-  <img
+  <Image
     src="/images/theme/classic-mode.webp"
     alt=""
+    width={112}
+    height={32}
     loading="eager"
     fetchPriority="high"
   />

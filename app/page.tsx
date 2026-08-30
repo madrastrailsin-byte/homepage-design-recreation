@@ -5,7 +5,6 @@ import DestinationsSection from '@/components/DestinationsSection'
 import StatisticsSection from '@/components/StatisticsSection'
 import ExperiencesSection from '@/components/ExperiencesSection'
 import Footer from '@/components/Footer'
-import HomeIntro from '@/components/HomeIntro'
 
 export default function Home() {
   return (

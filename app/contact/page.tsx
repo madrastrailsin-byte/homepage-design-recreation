@@ -8,5 +8,9 @@ export const metadata: Metadata = {
 }
 
 export default function ContactPage() {
-  return <ContactHero />;
+  return (
+    <main>
+      <ContactHero />
+    </main>
+  );
 }

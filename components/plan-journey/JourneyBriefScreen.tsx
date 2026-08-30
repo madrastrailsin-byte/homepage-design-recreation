@@ -4,6 +4,7 @@ import { motion, useReducedMotion } from 'framer-motion'
 import { Check, Edit3, Send } from 'lucide-react'
 import Link from 'next/link'
 import { useRef, useState } from 'react'
+import { submitEnquiry } from '@/lib/enquiries'
 import {
   BUDGET_DETAILS,
   EXPERIENCE_LABELS,
@@ -74,6 +75,7 @@ export default function JourneyBriefScreen({
   const [expandedNotes, setExpandedNotes] = useState(false)
   const [success, setSuccess] = useState<{ reference?: string }>()
   const [isCompleting, setIsCompleting] = useState(false)
+  const [submitError, setSubmitError] = useState('')
   const successRef = useRef<HTMLHeadingElement>(null)
 
   const nights =
@@ -105,24 +107,40 @@ export default function JourneyBriefScreen({
     ? {}
     : { opacity: 0, y: 24, filter: 'blur(9px)' }
 
-  function handleSubmit() {
+  async function handleSubmit() {
     if (isCompleting) return
 
     setIsCompleting(true)
-    onSuccess?.()
+    setSubmitError('')
+    try {
+      if (!journey.contactDetails) throw new Error('Please review your contact details and try again.')
+      const result = await submitEnquiry({
+        type: 'journey-plan',
+        journey: {
+          ...journey,
+          departure: journey.departure?.toISOString(),
+          returnDate: journey.returnDate?.toISOString(),
+          contactDetails: journey.contactDetails,
+        },
+      })
+      onSuccess?.()
 
-    window.setTimeout(
-      () => {
-        setSuccess({})
-        requestAnimationFrame(() => successRef.current?.focus())
-      },
-      prefersReducedMotion ? 0 : 1250,
-    )
+      window.setTimeout(
+        () => {
+          setSuccess({ reference: result.reference })
+          requestAnimationFrame(() => successRef.current?.focus())
+        },
+        prefersReducedMotion ? 0 : 1250,
+      )
+    } catch (error) {
+      setSubmitError(error instanceof Error ? error.message : 'We could not send your journey. Please try again.')
+      setIsCompleting(false)
+    }
   }
 
   if (success) {
     return (
-      <main className="relative grid min-h-[100svh] place-items-center overflow-hidden bg-transparent px-6 text-center text-white">
+      <section className="relative grid min-h-[100svh] place-items-center overflow-hidden bg-transparent px-6 text-center text-white">
         <div className="absolute inset-0 bg-[#021316]/84" />
         <motion.div
           initial={reveal}
@@ -174,12 +192,12 @@ export default function JourneyBriefScreen({
             </Link>
           </div>
         </motion.div>
-      </main>
+      </section>
     )
   }
 
   return (
-    <main className="relative min-h-[100svh] overflow-x-hidden bg-transparent text-[#FAFAF9] lg:overflow-hidden">
+    <section className="relative min-h-[100svh] overflow-x-hidden bg-transparent text-[#FAFAF9] lg:overflow-hidden">
       <div className="absolute inset-0 bg-[#021316]/84" />
       <div className="absolute inset-0 bg-gradient-to-b from-black/5 via-[#03191d]/5 to-[#020f12]/12" />
 
@@ -343,6 +361,11 @@ export default function JourneyBriefScreen({
                 <Send className="h-3.5 w-3.5" aria-hidden="true" />
               </span>
             </button>
+            {submitError ? (
+              <p role="alert" className="mx-auto mt-3 max-w-xs text-[10px] leading-relaxed text-[#e4c861]">
+                {submitError}
+              </p>
+            ) : null}
             <p className="mx-auto mt-3 max-w-xs text-[8px] leading-relaxed text-white/28">
               By submitting, you confirm that the information in this journey
               brief is accurate.
@@ -369,6 +392,6 @@ export default function JourneyBriefScreen({
           <span />
         </div>
       </nav>
-    </main>
+    </section>
   )
 }

@@ -72,7 +72,7 @@ export default function DreamJourneyScreen({
   }
 
   return (
-    <main className="relative min-h-[100svh] overflow-x-hidden bg-transparent text-[#FAFAF9] lg:overflow-hidden">
+    <section className="relative min-h-[100svh] overflow-x-hidden bg-transparent text-[#FAFAF9] lg:overflow-hidden">
       <div className="absolute inset-0 bg-[#021316]/82" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_38%_35%,rgba(20,72,76,0.2),transparent_42%)]" />
       <div className="absolute inset-0 bg-gradient-to-b from-black/5 via-[#03191d]/5 to-[#020f12]/12" />
@@ -228,6 +228,6 @@ export default function DreamJourneyScreen({
           </motion.button>
         </div>
       </nav>
-    </main>
+    </section>
   )
 }

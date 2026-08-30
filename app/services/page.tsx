@@ -5,6 +5,7 @@ import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
 import ServicesField from '@/components/services/ServicesField'
 import LazyCtaVideo from '@/components/services/LazyCtaVideo'
+import ServicesHeroVideo from '@/components/services/ServicesHeroVideo'
 import { travelServices } from '@/lib/services-data'
 
 export const metadata: Metadata = {
@@ -32,17 +33,7 @@ export default function ServicesPage() {
       <Navigation />
 
       <section className="relative flex min-h-[100svh] items-center overflow-hidden px-6 pb-12 pt-28 md:px-8 md:pb-14 lg:px-10">
-        <video
-  className="mt-services-hero-video absolute inset-0 h-full w-full object-cover opacity-[0.8] saturate-[1.05]"
-  style={{ objectPosition: 'center center' }}
-  src="/videos/services/hero.058e56fde19b.mp4"
-  autoPlay
-  muted
-  loop
-  playsInline
-  preload="auto"
-  aria-hidden="true"
-/>
+        <ServicesHeroVideo />
         <div className="mt-classic-media-overlay absolute inset-0 bg-[radial-gradient(ellipse_at_22%_72%,rgba(13,76,92,0.34),transparent_38%),radial-gradient(ellipse_at_76%_22%,rgba(212,175,55,0.1),transparent_30%),radial-gradient(ellipse_at_center,transparent_34%,rgba(2,15,18,0.58)_100%),linear-gradient(180deg,rgba(2,15,18,0.22),rgba(2,15,18,0.58))]" />
 
         <div className="relative z-10 mx-auto w-full max-w-7xl">
@@ -81,7 +72,7 @@ export default function ServicesPage() {
   href="https://wa.me/917891876918?text=Hi%20MadrasTrails%2C%20I%27d%20like%20to%20start%20a%20conversation%20about%20planning%20a%20journey."
   target="_blank"
   rel="noopener noreferrer"
-  className="YOUR_EXISTING_CLASSES"
+  className="mt-gold-sheen mt-ui group mt-10 inline-flex items-center gap-3 rounded-full border border-[#D4AF37]/70 bg-[#D4AF37] px-7 py-3.5 text-xs font-bold uppercase tracking-[0.14em] text-[#03191D] shadow-[0_8px_28px_rgba(212,175,55,0.2)] transition-[background-color,border-color,box-shadow,transform] duration-[400ms] hover:-translate-y-0.5 hover:bg-[#e2c45c] hover:shadow-[0_10px_34px_rgba(212,175,55,0.34)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37] focus-visible:ring-offset-2 focus-visible:ring-offset-[#03191D] [&_svg]:h-4 [&_svg]:w-4 [&_svg]:transition-transform [&_svg]:duration-300 hover:[&_svg]:translate-x-1"
 >
   Start the Conversation
   <ArrowRight aria-hidden="true" />

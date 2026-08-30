@@ -1,10 +1,8 @@
 import { cookies } from 'next/headers'
-import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
 import { Catamaran, Cormorant_Garamond, Satisfy } from 'next/font/google'
 import localFont from 'next/font/local'
 import './globals.css'
-import { organizationSchema } from './schema'
 import { ThemeProvider } from '@/components/theme/ThemeProvider'
 
 const catamaran = Catamaran({

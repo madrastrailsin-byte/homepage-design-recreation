@@ -2,8 +2,11 @@
 
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion"
 import Image from "next/image"
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import { createPortal } from "react-dom"
+
+const focusableSelector =
+  'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
 
 type Experience = {
   eyebrow: string
@@ -46,7 +49,11 @@ export default function ExperiencesSection({
     const previousOverflow = document.body.style.overflow
 
     function handleEscape(event: KeyboardEvent) {
-      if (event.key === "Escape") {
+      if (event.key !== "Escape") return
+
+      if (showConcierge) {
+        setShowConcierge(false)
+      } else {
         closeExperience()
       }
     }
@@ -58,7 +65,7 @@ export default function ExperiencesSection({
       document.body.style.overflow = previousOverflow
       window.removeEventListener("keydown", handleEscape)
     }
-  }, [closeExperience, selectedExperience])
+  }, [closeExperience, selectedExperience, showConcierge])
 
   if (experiences.length === 0) {
     return null
@@ -280,6 +287,79 @@ function ExperienceDrawer({
   onClose: () => void
   prefersReducedMotion: boolean
 }) {
+  const drawerRef = useRef<HTMLElement | null>(null)
+  const conciergeRef = useRef<HTMLDivElement | null>(null)
+  const experienceOpenerRef = useRef<HTMLElement | null>(null)
+  const conciergeOpenerRef = useRef<HTMLElement | null>(null)
+
+  useEffect(() => {
+    if (!experience) return
+
+    experienceOpenerRef.current =
+      document.activeElement instanceof HTMLElement
+        ? document.activeElement
+        : null
+
+    requestAnimationFrame(() => {
+      drawerRef.current
+        ?.querySelector<HTMLElement>(focusableSelector)
+        ?.focus()
+    })
+
+    return () => experienceOpenerRef.current?.focus()
+  }, [experience])
+
+  useEffect(() => {
+    if (!showConcierge) return
+
+    conciergeOpenerRef.current =
+      document.activeElement instanceof HTMLElement
+        ? document.activeElement
+        : null
+
+    requestAnimationFrame(() => {
+      conciergeRef.current
+        ?.querySelector<HTMLElement>(focusableSelector)
+        ?.focus()
+    })
+
+    return () => conciergeOpenerRef.current?.focus()
+  }, [showConcierge])
+
+  useEffect(() => {
+    if (!experience) return
+
+    function handleTab(event: KeyboardEvent) {
+      if (event.key !== "Tab") return
+
+      const activeDialog = showConcierge
+        ? conciergeRef.current
+        : drawerRef.current
+      const focusableElements = Array.from(
+        activeDialog?.querySelectorAll<HTMLElement>(focusableSelector) ?? [],
+      )
+      const firstElement = focusableElements[0]
+      const lastElement = focusableElements.at(-1)
+
+      if (!firstElement || !lastElement) {
+        event.preventDefault()
+        activeDialog?.focus()
+      } else if (!activeDialog?.contains(document.activeElement)) {
+        event.preventDefault()
+        ;(event.shiftKey ? lastElement : firstElement).focus()
+      } else if (event.shiftKey && document.activeElement === firstElement) {
+        event.preventDefault()
+        lastElement.focus()
+      } else if (!event.shiftKey && document.activeElement === lastElement) {
+        event.preventDefault()
+        firstElement.focus()
+      }
+    }
+
+    window.addEventListener("keydown", handleTab)
+    return () => window.removeEventListener("keydown", handleTab)
+  }, [experience, showConcierge])
+
   if (typeof document === "undefined") return null
 
   return createPortal(
@@ -302,9 +382,11 @@ function ExperienceDrawer({
           />
 
           <motion.aside
+            ref={drawerRef}
             role="dialog"
             aria-modal="true"
             aria-labelledby="experience-title"
+            tabIndex={-1}
             initial={prefersReducedMotion ? { opacity: 1 } : { x: "100%", opacity: 0.85 }}
             animate={{ x: 0, opacity: 1 }}
             exit={prefersReducedMotion ? { opacity: 0 } : { x: "100%", opacity: 0.85 }}
@@ -418,9 +500,11 @@ function ExperienceDrawer({
                 />
 
                 <motion.div
+                  ref={conciergeRef}
                   role="dialog"
                   aria-modal="true"
                   aria-labelledby="concierge-title"
+                  tabIndex={-1}
                   initial={{ opacity: 0, y: 40, scale: 0.97 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 28, scale: 0.98 }}

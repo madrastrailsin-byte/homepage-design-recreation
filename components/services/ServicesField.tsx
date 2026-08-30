@@ -43,6 +43,8 @@ interface ArchiveFragment {
 }
 
 const ease = [0.22, 1, 0.36, 1] as const;
+const focusableSelector =
+  'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
 type LightPhase = "off" | "flickering" | "on";
 
 type ServiceGuide = {
@@ -898,41 +900,7 @@ function DetectiveConnections() {
 
 function DetectiveScrapbookLayer() {
   return (
-    <div aria-hidden="true" className="pointer-events-none absolute inset-0 hidden md:block">
-      {/*<div className="absolute -left-[7%] top-[2%] z-[4] h-[43%] w-[29%] rotate-[-7deg] opacity-48">
-        <Image src="/images/scrapbook/optimized/old-map-fragment.webp" alt="" fill sizes="29vw" loading="lazy" quality={55} className="object-contain" />
-      </div>*/}
-      {/*<div className="absolute left-[16%] top-[-8%] z-[9] h-[31%] w-[19%] rotate-[5deg] opacity-55">
-        <Image src="/images/scrapbook/optimized/news-article-1.webp" alt="" fill sizes="19vw" loading="lazy" quality={55} className="object-contain" />
-      </div>*/}
-      {/*<div className="absolute right-[17%] top-[-10%] z-[8] h-[32%] w-[16%] rotate-[-68deg] opacity-52">
-        <Image src="/images/scrapbook/optimized/news-article-2.webp" alt="" fill sizes="16vw" loading="lazy" quality={55} className="object-contain" />
-      </div>*/}
-      {/*<div className="absolute right-[-5%] top-[23%] z-[6] h-[34%] w-[20%] rotate-[7deg] opacity-46">
-        <Image src="/images/scrapbook/optimized/news-article-3.webp" alt="" fill sizes="20vw" loading="lazy" quality={55} className="object-contain" />
-      </div>*/}
-      {/*<div className="absolute bottom-[-11%] left-[8%] z-[5] h-[35%] w-[23%] rotate-[4deg] opacity-48">
-        <Image src="/images/scrapbook/optimized/news-article-4.webp" alt="" fill sizes="23vw" loading="lazy" quality={55} className="object-contain" />
-      </div>*/}
-      {/*<div className="absolute left-[2%] top-[45%] z-[26] h-[17%] w-[13%] rotate-[-10deg] opacity-76">
-        <Image src="/images/scrapbook/optimized/magnifying-glass.webp" alt="" fill sizes="13vw" loading="lazy" quality={55} className="object-contain" />
-      </div>*/}
-      {/*<div className="absolute bottom-[4%] left-[35%] z-[24] h-[11%] w-[18%] rotate-[-8deg] opacity-68">
-        <Image src="/images/scrapbook/optimized/pencil.webp" alt="" fill sizes="18vw" loading="lazy" quality={55} className="object-contain" />
-      </div>*/}
-      {/*<div className="absolute left-[31%] top-[1%] z-[20] h-[9%] w-[14%] rotate-[-5deg] opacity-66">
-        <Image src="/images/scrapbook/optimized/vecteezy_beige-washi-tape_67165582.webp" alt="" fill sizes="14vw" loading="lazy" quality={55} className="object-contain" />
-      </div>*/}
-      {/*<div className="absolute right-[7%] top-[14%] z-[25] h-[14%] w-[8%] rotate-[12deg] opacity-72">
-        <Image src="/images/scrapbook/optimized/vecteezy_silver-paperclip-perfect-for-office-and-stationery-designs_66969764.webp" alt="" fill sizes="8vw" loading="lazy" quality={55} className="object-contain" />
-      </div>*/}
-      {/*<div className="absolute bottom-[17%] left-[1%] z-[23] h-[12%] w-[8%] rotate-[-8deg] opacity-70">
-        <Image src="/images/scrapbook/optimized/vecteezy_yellow-binder-clip-isolated-design-element_70808748.webp" alt="" fill sizes="8vw" loading="lazy" quality={55} className="object-contain" />
-      </div>*/}
-      {/*<div className="absolute bottom-[10%] right-[43%] z-[26] h-[12%] w-[8%] rotate-[7deg] opacity-72">
-        <Image src="/images/scrapbook/optimized/vecteezy_3d-black-metal-binder-clip_73076346.webp" alt="" fill sizes="8vw" loading="lazy" quality={55} className="object-contain" />
-      </div>*/}
-    </div>
+    <div aria-hidden="true" className="pointer-events-none absolute inset-0 hidden md:block" />
   );
 }
 
@@ -944,6 +912,8 @@ export default function ServicesField({ services }: ServicesFieldProps) {
 const [lightLevel, setLightLevel] = useState(0);
 const lightTimersRef = useRef<number[]>([]);
   const closeButtonRef = useRef<HTMLButtonElement | null>(null);
+  const overlayRef = useRef<HTMLDivElement | null>(null);
+  const serviceOpenerRef = useRef<HTMLElement | null>(null);
   const visibleServices = services.slice(0, 9);
   const openServiceIndex = openService
     ? Math.max(
@@ -1014,9 +984,38 @@ const startLightSequence = () => {
 useEffect(() => {
   if (!openService) return;
 
+  serviceOpenerRef.current =
+    document.activeElement instanceof HTMLElement
+      ? document.activeElement
+      : null;
+
   const onKeyDown = (event: KeyboardEvent) => {
     if (event.key === "Escape") {
       setOpenService(null);
+      return;
+    }
+
+    if (event.key === "Tab") {
+      const focusableElements = Array.from(
+        overlayRef.current?.querySelectorAll<HTMLElement>(focusableSelector) ??
+          [],
+      );
+      const firstElement = focusableElements[0];
+      const lastElement = focusableElements.at(-1);
+
+      if (!firstElement || !lastElement) {
+        event.preventDefault();
+        overlayRef.current?.focus();
+      } else if (!overlayRef.current?.contains(document.activeElement)) {
+        event.preventDefault();
+        (event.shiftKey ? lastElement : firstElement).focus();
+      } else if (event.shiftKey && document.activeElement === firstElement) {
+        event.preventDefault();
+        lastElement.focus();
+      } else if (!event.shiftKey && document.activeElement === lastElement) {
+        event.preventDefault();
+        firstElement.focus();
+      }
     }
   };
 
@@ -1040,6 +1039,7 @@ useEffect(() => {
 
     window.scrollTo(0, scrollY);
     window.removeEventListener("keydown", onKeyDown);
+    serviceOpenerRef.current?.focus();
   };
 }, [openService]);
 const toggleLight = () => {
@@ -1184,9 +1184,11 @@ transition={
     {/* Hanging connector */}
     <div className="h-10 w-[3px] rounded-full bg-gradient-to-b from-[#5a4027] via-[#8a6843] to-[#3e2a18] shadow-[0_0_5px_rgba(0,0,0,.5)]" />
 
-    <img
+    <Image
       src="/images/services/services-lantern.png"
-      alt="Antique hanging lantern"
+      alt=""
+      width={208}
+      height={208}
       draggable={false}
       className="h-52 w-auto object-contain drop-shadow-[0_14px_22px_rgba(0,0,0,.55)]"
     />
@@ -1338,10 +1340,12 @@ transition={
 <AnimatePresence>
   {openService ? (
           <motion.div
+            ref={overlayRef}
             className="mt-iphone-service-overlay fixed inset-0 z-[100] h-[100svh] overflow-y-auto overflow-x-hidden overscroll-contain bg-[#02080B] text-[#F8F3E8] lg:overflow-hidden"
             role="dialog"
             aria-modal="true"
             aria-labelledby="service-overlay-title"
+            tabIndex={-1}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
