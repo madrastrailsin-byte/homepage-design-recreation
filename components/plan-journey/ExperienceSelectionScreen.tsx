@@ -10,6 +10,7 @@ import {
 import { Check } from 'lucide-react'
 import Image from 'next/image'
 import { type MouseEvent, type ReactNode } from 'react'
+import { EXPERIENCE_LABELS } from '@/lib/enquiry-options'
 import {
   journeyContinueButtonClassName,
   journeyInteractiveContentClassName,
@@ -31,73 +32,73 @@ const experiences: Experience[] = [
   {
     id: 'culture',
     icon: '🏛️',
-    title: 'Culture & Heritage',
+    title: EXPERIENCE_LABELS.culture,
     image: '/images/homepage/experiences/experience-japan-lantern-alley.jpg',
   },
   {
     id: 'adventure',
     icon: '🥾',
-    title: 'Adventure',
+    title: EXPERIENCE_LABELS.adventure,
     image: '/images/homepage/experiences/experience-mountain-landscape.jpg',
   },
   {
     id: 'food',
     icon: '🍷',
-    title: 'Food & Culinary',
+    title: EXPERIENCE_LABELS.food,
     image: '/images/services/concierge/italian-outdoor-dinner.webp',
   },
   {
     id: 'nature',
     icon: '🌿',
-    title: 'Nature',
+    title: EXPERIENCE_LABELS.nature,
     image: '/images/homepage/experiences/experience-beach-aerial.jpg',
   },
   {
     id: 'wellness',
     icon: '🧘',
-    title: 'Wellness',
+    title: EXPERIENCE_LABELS.wellness,
     image: '/images/services/luxury-resort.webp',
   },
   {
     id: 'luxury',
     icon: '🏖️',
-    title: 'Luxury Escapes',
+    title: EXPERIENCE_LABELS.luxury,
     image: '/images/services/accommodation/maldives-overwater-villa.jpg',
   },
   {
     id: 'wildlife',
     icon: '🦁',
-    title: 'Wildlife',
+    title: EXPERIENCE_LABELS.wildlife,
     image: '/images/destinations/africa/kenya.webp',
   },
   {
     id: 'scenic',
     icon: '🚆',
-    title: 'Scenic Journeys',
+    title: EXPERIENCE_LABELS.scenic,
     image: '/images/destinations/canada/canada-moraine-lake.webp',
   },
   {
     id: 'hidden-gems',
     icon: '💎',
-    title: 'Hidden Gems',
+    title: EXPERIENCE_LABELS['hidden-gems'],
     image: '/images/destinations/bhutan/bhutan-tigers-nest.webp',
   },
   {
     id: 'festivals',
     icon: '🎉',
-    title: 'Festivals & Events',
+    title: EXPERIENCE_LABELS.festivals,
     image: '/images/services/guides/temple-ceremony.jpg',
   },
   {
     id: 'active',
     icon: '🚲',
-    title: 'Active Exploration',
+    title: EXPERIENCE_LABELS.active,
     image: '/images/destinations/canada/canada-glacier-hike.webp',
   },
   {
     id: 'family',
     icon: '👨‍👩‍👧',
-    title: 'Family Experiences',
+    title: EXPERIENCE_LABELS.family,
     image: '/images/services/concierge/family-picnic.jpg',
   },
 ]

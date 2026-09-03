@@ -8,6 +8,7 @@ import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import JourneyTransitionLink from './JourneyTransitionLink'
 import { useTheme } from '@/components/theme/ThemeProvider'
+import { THEME_SWITCHING_ENABLED } from '@/lib/theme-config'
 
 const navItems = [
   { label: 'Destinations', href: '/destinations' },
@@ -120,6 +121,7 @@ export default function Navigation() {
         </motion.div>
 
         <div className="flex items-center gap-2 self-center justify-self-end sm:gap-3">
+          {THEME_SWITCHING_ENABLED ? (
           <motion.button
   type="button"
   onClick={handleThemeToggle}
@@ -160,6 +162,7 @@ export default function Navigation() {
     {theme === 'signature' ? 'SIGNATURE' : 'CLASSIC'}
   </span>
 </motion.button>
+          ) : null}
           <JourneyTransitionLink
             href="/plan"
             className="mt-nav-plan-cta group mt-ui relative hidden items-center gap-3 overflow-hidden rounded-full border border-[var(--mt-border-strong)] bg-[var(--mt-accent)] px-5 py-2 text-[11px] tracking-[0.12em] text-[var(--mt-accent-contrast)] shadow-[var(--mt-shadow-soft)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[var(--mt-shadow-elevated)] md:inline-flex"
@@ -168,7 +171,8 @@ export default function Navigation() {
             <span className="relative z-10 leading-none">Plan Your Journey</span>
             <span className="relative z-10 leading-none transition-transform duration-300 group-hover:translate-x-1.5">→</span>
           </JourneyTransitionLink>
-        {/* Preload both theme thumbnails */}
+        {THEME_SWITCHING_ENABLED ? (
+        /* Preload both theme thumbnails */
 <div className="pointer-events-none absolute h-0 w-0 overflow-hidden opacity-0" aria-hidden="true">
   <Image
     src="/images/theme/signature-mode.webp"
@@ -187,6 +191,7 @@ export default function Navigation() {
     fetchPriority="high"
   />
 </div>
+        ) : null}
           <button
             type="button"
             onClick={() => setIsOpen((v) => !v)}

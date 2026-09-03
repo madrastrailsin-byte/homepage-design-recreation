@@ -7,6 +7,7 @@ import {
   useState,
   type ReactNode,
 } from 'react'
+import { THEME_SWITCHING_ENABLED } from '@/lib/theme-config'
 
 export type ThemeMode = 'signature' | 'classic'
 
@@ -41,16 +42,24 @@ export function ThemeProvider({
   children: ReactNode
   initialTheme: ThemeMode
 }) {
-  const [theme, setTheme] = useState<ThemeMode>(initialTheme)
+  const [theme, setTheme] = useState<ThemeMode>(
+    THEME_SWITCHING_ENABLED ? initialTheme : 'signature',
+  )
 
   useEffect(() => {
-    document.documentElement.dataset.theme = theme
+    const activeTheme = THEME_SWITCHING_ENABLED ? theme : 'signature'
+    document.documentElement.dataset.theme = activeTheme
 
     try {
-      window.localStorage.setItem(THEME_STORAGE_KEY, theme)
+      window.localStorage.setItem(THEME_STORAGE_KEY, activeTheme)
     } catch {
       // Cookie remains the authoritative server-readable preference.
     }
+
+    document.cookie =
+      `${THEME_COOKIE_KEY}=${activeTheme}; Path=/; Max-Age=31536000; SameSite=Lax`
+
+    if (!THEME_SWITCHING_ENABLED) return
 
     const handleStorage = (event: StorageEvent) => {
       if (event.key !== THEME_STORAGE_KEY) return
@@ -73,6 +82,11 @@ export function ThemeProvider({
   }, [theme])
 
   const toggleTheme = () => {
+    if (!THEME_SWITCHING_ENABLED) {
+      persistTheme('signature')
+      return
+    }
+
     setTheme((current) => {
       const nextTheme: ThemeMode =
         current === 'signature' ? 'classic' : 'signature'

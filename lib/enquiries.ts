@@ -59,7 +59,7 @@ export async function submitEnquiry(payload: EnquiryPayload) {
   })
 
   const result = (await response.json().catch(() => null)) as
-    | { ok?: boolean; reference?: string; error?: string }
+    | { ok?: boolean; reference?: string; emailDelivered?: boolean; error?: string }
     | null
 
   if (!response.ok || !result?.ok) {

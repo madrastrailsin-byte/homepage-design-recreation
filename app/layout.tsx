@@ -4,6 +4,7 @@ import { Catamaran, Cormorant_Garamond, Satisfy } from 'next/font/google'
 import localFont from 'next/font/local'
 import './globals.css'
 import { ThemeProvider } from '@/components/theme/ThemeProvider'
+import { THEME_SWITCHING_ENABLED } from '@/lib/theme-config'
 
 const catamaran = Catamaran({
   variable: '--font-catamaran',
@@ -112,7 +113,7 @@ export default async function RootLayout({
 const storedTheme = cookieStore.get('madrastrails-theme')?.value
 
 const initialTheme =
-  storedTheme === 'classic' ? 'classic' : 'signature'
+  THEME_SWITCHING_ENABLED && storedTheme === 'classic' ? 'classic' : 'signature'
   return (
   <html
     lang="en"

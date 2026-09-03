@@ -3,6 +3,7 @@
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { Check, Info } from 'lucide-react'
 import Image from 'next/image'
+import { BUDGET_DETAILS } from '@/lib/enquiry-options'
 import {
   journeyContinueButtonClassName,
   journeyStepSectionClassName,
@@ -22,8 +23,8 @@ interface BudgetOption {
 const budgetOptions: BudgetOption[] = [
   {
     id: 'luxury',
-    title: 'Luxury',
-    range: '₹1–3 Lakhs',
+    title: BUDGET_DETAILS.luxury.title,
+    range: BUDGET_DETAILS.luxury.range,
     description: 'Refined stays. Thoughtful experiences.',
     selectedLine:
       'A refined foundation for comfort, discovery and thoughtful service.',
@@ -31,8 +32,8 @@ const budgetOptions: BudgetOption[] = [
   },
   {
     id: 'signature',
-    title: 'Signature',
-    range: '₹3–5 Lakhs',
+    title: BUDGET_DETAILS.signature.title,
+    range: BUDGET_DETAILS.signature.range,
     description: 'Distinctive journeys with elevated inclusions.',
     selectedLine:
       'A considered balance of distinctive stays and memorable experiences.',
@@ -40,8 +41,8 @@ const budgetOptions: BudgetOption[] = [
   },
   {
     id: 'prestige',
-    title: 'Prestige',
-    range: '₹5–10 Lakhs',
+    title: BUDGET_DETAILS.prestige.title,
+    range: BUDGET_DETAILS.prestige.range,
     description: 'Deeper access and highly personalised travel.',
     selectedLine:
       'Designed for deeper access, elevated comfort and greater personalisation.',
@@ -49,8 +50,8 @@ const budgetOptions: BudgetOption[] = [
   },
   {
     id: 'ultra-luxury',
-    title: 'Ultra Luxury',
-    range: '₹10 Lakhs+',
+    title: BUDGET_DETAILS['ultra-luxury'].title,
+    range: BUDGET_DETAILS['ultra-luxury'].range,
     description: 'Rare experiences crafted without compromise.',
     selectedLine:
       'An uncompromising journey shaped around rare and exceptional moments.',
@@ -58,8 +59,8 @@ const budgetOptions: BudgetOption[] = [
   },
   {
     id: 'flexible',
-    title: 'Flexible',
-    range: 'Recommend the best fit',
+    title: BUDGET_DETAILS.flexible.title,
+    range: BUDGET_DETAILS.flexible.range,
     description:
       'Let our travel designers recommend the strongest journey.',
     selectedLine:
