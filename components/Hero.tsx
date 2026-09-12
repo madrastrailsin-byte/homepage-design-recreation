@@ -1,6 +1,7 @@
 'use client'
 
 import { Play } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 import gsap from 'gsap'
 import { motion, useReducedMotion } from 'framer-motion'
 import Image from 'next/image'
@@ -206,20 +207,35 @@ export default function Hero() {
 
           {/* Description */}
           <p data-hero-reveal="description" className="mt-body-copy mb-[clamp(1.35rem,5.4vw,1.85rem)] max-w-[min(22rem,88vw)] text-[clamp(0.875rem,3.5vw,0.95rem)] leading-[1.68] text-[#E8E8E8] md:mb-8 md:max-w-[22rem] md:text-base md:leading-relaxed" style={{textShadow: '0 10px 26px rgba(0, 0, 0, 0.34)' }}>
-            Travel has become faster. We believe it should become more meaningful.
+            Bespoke holidays, thoughtfully designed around how you want to travel.
           </p>
 
           {/* CTA Buttons */}
-          <div data-hero-reveal="ctas" className="mt-hero-actions flex flex-col items-start gap-[clamp(0.85rem,3.8vw,1rem)] sm:flex-row sm:items-center sm:gap-4" style={{ opacity: 0 }}>
-            <button
-              type="button"
-              onClick={() => router.push('/services')}
-              className="mt-hero-primary-cta mt-gold-sheen mt-ui group inline-flex h-12 w-64 items-center justify-center gap-2 rounded-[4px] bg-[var(--mt-accent-soft)] px-0 py-0 text-xs font-medium text-[var(--mt-accent-contrast)] shadow-[0_12px_28px_rgba(201,162,74,0.18)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#D4B860] hover:shadow-[0_17px_38px_rgba(201,162,74,0.24)]"
-            >
-              <Play size={13} className="fill-current" />
-              <span>Explore Our Services</span>
-            </button>
-          </div>
+          <div
+  data-hero-reveal="ctas"
+  className="mt-hero-actions flex flex-col items-start gap-2"
+  style={{ opacity: 0 }}
+>
+  <button
+    type="button"
+    onClick={() => router.push('/journeys')}
+    className="mt-nav-plan-cta group mt-ui relative inline-flex items-center gap-3 overflow-hidden rounded-full border border-[var(--mt-border-strong)] bg-[var(--mt-accent)] px-5 py-2 text-[11px] tracking-[0.12em] text-[var(--mt-accent-contrast)] shadow-[var(--mt-shadow-soft)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[var(--mt-shadow-elevated)]"
+  >
+    <span className="pointer-events-none absolute inset-y-0 -left-1/3 w-1/3 skew-x-[-18deg] bg-white/34 opacity-0 blur-sm transition-all duration-700 group-hover:left-[115%] group-hover:opacity-100" />
+
+    <span className="relative z-10 leading-none">
+      Explore Curated Holidays
+    </span>
+
+    <span className="relative z-10 leading-none transition-transform duration-300 group-hover:translate-x-1.5">
+      →
+    </span>
+  </button>
+
+  <p className="mt-ui pl-1 text-[10px] tracking-[0.08em] text-white/60">
+    Itineraries · Inclusions · Starting prices
+  </p>
+</div>
           </div>
         </div>
       </div>
