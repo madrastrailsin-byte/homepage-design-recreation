@@ -217,9 +217,10 @@ export default function Hero() {
   style={{ opacity: 0 }}
 >
   <button
-    type="button"
-    onClick={() => router.push('/journeys')}
-    className="mt-nav-plan-cta group mt-ui relative inline-flex items-center gap-3 overflow-hidden rounded-full border border-[var(--mt-border-strong)] bg-[var(--mt-accent)] px-5 py-2 text-[11px] tracking-[0.12em] text-[var(--mt-accent-contrast)] shadow-[var(--mt-shadow-soft)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[var(--mt-shadow-elevated)]"
+  type="button"
+  onClick={() => router.push('/journeys')}
+  style={{ cursor: 'pointer' }}
+    className="mt-nav-plan-cta group mt-ui relative inline-flex cursor-pointer items-center gap-3 overflow-hidden rounded-full border border-[var(--mt-border-strong)] bg-[var(--mt-accent)] px-5 py-2 text-[11px] tracking-[0.12em] text-[var(--mt-accent-contrast)] shadow-[var(--mt-shadow-soft)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[var(--mt-shadow-elevated)]"
   >
     <span className="pointer-events-none absolute inset-y-0 -left-1/3 w-1/3 skew-x-[-18deg] bg-white/34 opacity-0 blur-sm transition-all duration-700 group-hover:left-[115%] group-hover:opacity-100" />
 

@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import type { Metadata } from 'next'
+import Link from 'next/link'
 
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
@@ -269,10 +270,13 @@ export default function JourneysPage() {
 
     <div className="grid grid-cols-1 justify-items-center gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-4">
       {journeys.map((journey) => (
-        <article
-          key={journey.destination}
-          className="group w-full max-w-[302px] overflow-hidden rounded-[16px] border border-white/10 bg-white/[0.035]"
-        >
+        <Link
+  key={journey.destination}
+  href={journey.destination === 'Sri Lanka' ? '/journeys/sri-lanka' : '#'}
+  className={`group w-full max-w-[302px] overflow-hidden rounded-[16px] border border-white/10 bg-white/[0.035] ${
+    journey.destination === 'Sri Lanka' ? 'cursor-pointer' : 'cursor-default'
+  }`}
+>
           <div className="relative h-[250px] overflow-hidden">
             <Image
               src={journey.image}
@@ -316,7 +320,7 @@ export default function JourneysPage() {
               </span>
             </div>
           </div>
-        </article>
+        </Link>
       ))}
     </div>
   </div>

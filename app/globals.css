@@ -85,16 +85,16 @@
     --mt-font-body: var(--font-catamaran), system-ui, sans-serif;
     --mt-font-ui: var(--font-catamaran), system-ui, sans-serif;
 
-    --mt-display-weight: 700;
-    --mt-display-tracking: 0em;
+    --mt-display-weight: 500;
+    --mt-display-tracking: -0.025em;
 
-    --mt-body-weight: 300;
-    --mt-body-tracking: 0.01em;
+    --mt-body-weight: 400;
+    --mt-body-tracking: 0em;
 
-    --mt-ui-weight: 600;
-    --mt-ui-tracking: 0.08em;
+    --mt-ui-weight: 500;
+    --mt-ui-tracking: 0.06em;
 
-    --mt-eyebrow-tracking: 0.32em;
+    --mt-eyebrow-tracking: 0.22em;
   }
   [data-theme="classic"] {
     --mt-deep-teal: #FAFAF9;

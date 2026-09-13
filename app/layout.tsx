@@ -1,19 +1,19 @@
 import { cookies } from 'next/headers'
 import type { Metadata, Viewport } from 'next'
-import { Catamaran, Cormorant_Garamond, Satisfy } from 'next/font/google'
+import { Bodoni_Moda, Manrope, Satisfy } from 'next/font/google'
 import localFont from 'next/font/local'
 import './globals.css'
 import { ThemeProvider } from '@/components/theme/ThemeProvider'
 import { THEME_SWITCHING_ENABLED } from '@/lib/theme-config'
 
-const catamaran = Catamaran({
+const catamaran = Manrope({
   variable: '--font-catamaran',
   subsets: ['latin'],
   weight: ['300', '400', '500', '600', '700'],
   display: 'swap',
 })
 
-const cormorantGaramond = Cormorant_Garamond({
+const cormorantGaramond = Bodoni_Moda({
   variable: '--font-cormorant-garamond',
   subsets: ['latin'],
   weight: ['400', '500', '600', '700'],
