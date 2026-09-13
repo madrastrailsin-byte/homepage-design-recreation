@@ -109,10 +109,10 @@ export default function ServicesStrip() {
                     borderRadius: '38%',
                   }
             }
-            className={`mt-services-pill group relative flex min-h-[2.5rem] w-full items-center justify-center gap-1.5 overflow-hidden rounded-[0.7rem] border px-1.5 py-1.5 text-center backdrop-blur-[10px] transition-all duration-300 before:pointer-events-none before:absolute before:inset-x-2 before:top-0 before:h-px before:bg-gradient-to-r before:from-transparent before:via-white/35 before:to-transparent after:pointer-events-none after:absolute after:inset-0 after:bg-[linear-gradient(112deg,transparent_28%,rgba(255,255,255,0.07)_50%,transparent_72%)] md:min-h-0 md:w-auto md:rounded-full md:border-[#D4AF37]/30 md:bg-transparent md:px-5 md:py-2.5 md:backdrop-blur-none md:shadow-none md:before:hidden md:after:hidden ${
+            className={`mt-services-pill group relative flex min-h-[2.5rem] w-full items-center justify-center gap-1.5 overflow-hidden rounded-[0.7rem] border px-1.5 py-1.5 text-center backdrop-blur-[10px] transition-all duration-300 before:pointer-events-none before:absolute before:inset-x-2 before:top-0 before:h-px before:bg-gradient-to-r before:from-transparent before:via-white/35 before:to-transparent after:pointer-events-none after:absolute after:inset-0 after:bg-[linear-gradient(112deg,transparent_28%,rgba(255,255,255,0.07)_50%,transparent_72%)] md:min-h-0 md:w-auto md:rounded-full md:px-5 md:py-2.5 md:backdrop-blur-none md:before:hidden md:after:hidden ${
   active
-  ? 'border-[#D4AF37] bg-[#D4AF37] text-[#07171A] shadow-[0_8px_24px_rgba(201,162,74,0.18)]'
-  : 'border-[#D4AF37]/45 bg-[#111719] text-[#D4AF37] shadow-[0_6px_20px_rgba(0,0,0,0.18)] hover:border-[#D4AF37] hover:bg-[#D4AF37] hover:text-[#07171A]'
+    ? 'border-[#D4AF37] bg-[#D4AF37] text-[#07171A] shadow-[0_8px_24px_rgba(201,162,74,0.18)] md:border-[#D4AF37] md:bg-[#D4AF37] md:shadow-[0_8px_24px_rgba(201,162,74,0.18)]'
+    : 'border-[#D4AF37]/45 bg-[#111719] text-[#D4AF37] shadow-[0_6px_20px_rgba(0,0,0,0.18)] hover:border-[#D4AF37] hover:bg-[#D4AF37] hover:text-[#07171A] md:border-[#D4AF37]/30 md:bg-transparent md:shadow-none'
 }`}
             aria-expanded={active}
           >

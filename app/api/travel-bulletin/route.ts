@@ -1,0 +1,62 @@
+import { NextResponse } from 'next/server'
+
+export const dynamic = 'force-dynamic'
+
+const seasonalByMonth: Record<number, string> = {
+  0: 'JANUARY TRAVEL — MALDIVES, THAILAND, DUBAI AND SRI LANKA ARE GREAT WINTER ESCAPES.',
+  1: 'FEBRUARY TRAVEL — MALDIVES, THAILAND, SRI LANKA AND DUBAI ARE IN SEASON.',
+  2: 'MARCH TRAVEL — JAPAN SPRING TRIPS, VIETNAM, SRI LANKA AND MAURITIUS ARE WORTH PLANNING.',
+  3: 'APRIL TRAVEL — JAPAN, TÜRKIYE, GREECE AND ITALY ARE STRONG SPRING PICKS.',
+  4: 'MAY TRAVEL — EUROPE, TÜRKIYE, BALI AND MAURITIUS ARE GREAT EARLY-SUMMER OPTIONS.',
+  5: 'JUNE TRAVEL — BALI, SWITZERLAND, BRITAIN AND MAURITIUS ARE GOOD SEASONAL PICKS.',
+  6: 'JULY TRAVEL — BALI, KENYA, SWITZERLAND AND BRITAIN ARE IN A STRONG TRAVEL WINDOW.',
+  7: 'AUGUST TRAVEL — BALI, KENYA, MAURITIUS AND EUROPE REMAIN POPULAR SEASONAL CHOICES.',
+  8: 'SEPTEMBER TRAVEL — BALI DRY SEASON, KENYA SAFARI SEASON AND JAPAN AUTUMN TRIPS ARE WORTH PLANNING.',
+  9: 'OCTOBER TRAVEL — JAPAN AUTUMN, DUBAI, TÜRKIYE AND GREECE ARE STRONG SEASONAL PICKS.',
+  10: 'NOVEMBER TRAVEL — JAPAN AUTUMN, DUBAI, THAILAND AND MALDIVES ARE GREAT OPTIONS.',
+  11: 'DECEMBER TRAVEL — DUBAI, THAILAND, MALDIVES AND SRI LANKA ARE POPULAR FESTIVE ESCAPES.',
+}
+
+export async function GET() {
+  const now = new Date()
+  const month = now.getMonth()
+
+  const bulletins = [
+    seasonalByMonth[month],
+
+    'QUICK ESCAPES — BALI FROM ₹39,999 · SRI LANKA 8 DAYS FROM ₹49,999 · THAILAND FROM ₹49,999.',
+
+    'ASIA PICKS — VIETNAM FROM ₹54,999 · SINGAPORE + MALAYSIA FROM ₹74,999 · JAPAN FROM ₹1,09,999.',
+
+    'ISLAND BREAKS — MALDIVES FROM ₹74,999 · MAURITIUS FROM ₹64,999 · ANDAMAN ISLANDS FROM ₹29,999.',
+
+    'MIDDLE EAST — DUBAI + ABU DHABI FROM ₹54,999 · EGYPT FROM ₹84,999.',
+
+    'EUROPE JOURNEYS — TÜRKIYE FROM ₹74,999 · ITALY FROM ₹1,49,999 · GREECE FROM ₹1,59,999.',
+
+    'SAFARI JOURNEYS — KENYA FROM ₹1,79,999 · SOUTH AFRICA FROM ₹1,69,999.',
+
+    'LONGER JOURNEYS — BRITAIN FROM ₹1,69,999 · AUSTRALIA + NEW ZEALAND FROM ₹2,49,999.',
+  ]
+
+  // Change the starting bulletin every 6 hours without random repetition.
+  const sixHourSlot = Math.floor(now.getTime() / (6 * 60 * 60 * 1000))
+  const start = sixHourSlot % bulletins.length
+
+  const rotated = [
+    ...bulletins.slice(start),
+    ...bulletins.slice(0, start),
+  ]
+
+  return NextResponse.json(
+    {
+      updatedAt: now.toISOString(),
+      items: rotated,
+    },
+    {
+      headers: {
+        'Cache-Control': 'public, s-maxage=21600, stale-while-revalidate=86400',
+      },
+    }
+  )
+}

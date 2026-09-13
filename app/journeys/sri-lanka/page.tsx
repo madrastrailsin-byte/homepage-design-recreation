@@ -3,6 +3,7 @@ import Link from 'next/link'
 
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
+import JourneyGlassPanel from '@/components/journeys/JourneyGlassPanel'
 
 import {
   CalendarRange,
@@ -128,89 +129,102 @@ export default function SriLankaJourneyPage() {
               one relaxed introduction to Sri Lanka.
             </p>
 
-    <div className="mt-7 overflow-hidden rounded-[20px] border border-white/20 bg-[#03191D]/62 shadow-[0_18px_50px_rgba(0,0,0,0.24)] backdrop-blur-xl">
-  <div className="grid lg:grid-cols-[0.85fr_1.35fr_1.05fr_0.9fr_1.3fr_1.15fr]">
+    <div className="mt-7 overflow-hidden rounded-[20px] border border-white/25 bg-[linear-gradient(135deg,rgba(255,255,255,0.07),rgba(3,25,29,0.50))] shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_18px_50px_rgba(0,0,0,0.24)] backdrop-blur-2xl">
+  <div className="grid sm:grid-cols-2 lg:grid-cols-6">
 
-    <div className="flex min-h-[118px] items-center gap-4 px-6 py-5 lg:border-r lg:border-white/20">
-      <CalendarRange className="h-[28px] w-[28px] shrink-0 stroke-[1.1] text-[#D8B85B]" />
-      <div>
-        <p className="mt-ui text-[15px] font-semibold tracking-[0.03em] text-white">
-          8 Days
-        </p>
-        <p className="mt-body-copy mt-1 text-[14px] text-white/60">
-          7 Nights
-        </p>
-      </div>
+  <div className="flex min-h-[142px] flex-col items-center justify-center gap-3 border-b border-white/20 px-4 py-5 text-center sm:border-r lg:border-b-0 lg:border-r">
+    <CalendarRange className="h-[27px] w-[27px] shrink-0 stroke-[1.1] text-[#D8B85B]" />
+
+    <div>
+      <p className="mt-ui text-[14px] font-semibold tracking-[0.03em] text-white">
+        8 Days
+      </p>
+
+      <p className="mt-body-copy mt-1 text-[13px] text-white/60">
+        7 Nights
+      </p>
     </div>
-
-    <div className="flex min-h-[118px] items-center gap-4 px-6 py-5 lg:border-r lg:border-white/20">
-      <Map className="h-[28px] w-[28px] shrink-0 stroke-[1.1] text-[#D8B85B]" />
-      <div>
-        <p className="mt-ui text-[15px] font-semibold tracking-[0.03em] text-white">
-          4 Stops
-        </p>
-        <p className="mt-body-copy mt-1 max-w-[210px] text-[14px] leading-[1.45] text-white/60">
-          Colombo, Kandy,<br />
-          Nuwara Eliya, Bentota
-        </p>
-      </div>
-    </div>
-
-    <div className="flex min-h-[118px] items-center gap-4 px-6 py-5 lg:border-r lg:border-white/20">
-      <Bed className="h-[28px] w-[28px] shrink-0 stroke-[1.1] text-[#D8B85B]" />
-      <div>
-        <p className="mt-ui text-[15px] font-semibold tracking-[0.03em] text-white">
-          4★ Hotels
-        </p>
-        <p className="mt-body-copy mt-1 text-[14px] text-white/60">
-          Handpicked stays
-        </p>
-      </div>
-    </div>
-
-    <div className="flex min-h-[118px] items-center gap-4 px-6 py-5 lg:border-r lg:border-white/20">
-      <Coffee className="h-[28px] w-[28px] shrink-0 stroke-[1.1] text-[#D8B85B]" />
-      <div>
-        <p className="mt-ui text-[15px] font-semibold tracking-[0.03em] text-white">
-          Breakfast
-        </p>
-        <p className="mt-body-copy mt-1 text-[14px] text-white/60">
-          Daily
-        </p>
-      </div>
-    </div>
-
-    <div className="flex min-h-[118px] items-center gap-4 px-6 py-5 lg:border-r lg:border-white/20">
-      <CarFront className="h-[28px] w-[28px] shrink-0 stroke-[1.1] text-[#D8B85B]" />
-      <div>
-        <p className="mt-ui text-[15px] font-semibold tracking-[0.03em] text-white">
-          Private Transfers
-        </p>
-        <p className="mt-body-copy mt-1 text-[14px] leading-[1.45] text-white/60">
-          Comfortable &amp; hassle-free
-        </p>
-      </div>
-    </div>
-
-    <div className="flex min-h-[118px] items-center justify-between gap-4 px-7 py-5">
-      <div>
-        <p className="mt-ui text-[11px] tracking-[0.15em] text-white/60">
-          STARTING FROM
-        </p>
-
-        <p className="mt-2 font-sans text-[2.55rem] font-medium leading-none tracking-[-0.035em] text-[#E3B63A]">
-          ₹49,999
-        </p>
-
-        <p className="mt-body-copy mt-2 text-[14px] text-white/60">
-          per person
-        </p>
-      </div>
-
-      <ArrowRight className="h-6 w-6 stroke-[1.1] text-[#D8B85B]" />
-    </div>
-
   </div>
+
+  <div className="flex min-h-[142px] flex-col items-center justify-center gap-3 border-b border-white/20 px-4 py-5 text-center lg:border-b-0 lg:border-r">
+    <Map className="h-[27px] w-[27px] shrink-0 stroke-[1.1] text-[#D8B85B]" />
+
+    <div>
+      <p className="mt-ui text-[14px] font-semibold tracking-[0.03em] text-white">
+        4 Stops
+      </p>
+
+      <p className="mt-body-copy mt-1 text-[13px] leading-[1.45] text-white/60">
+        Colombo, Kandy,
+        <br />
+        Nuwara Eliya, Bentota
+      </p>
+    </div>
+  </div>
+
+  <div className="flex min-h-[142px] flex-col items-center justify-center gap-3 border-b border-white/20 px-4 py-5 text-center sm:border-r lg:border-b-0 lg:border-r">
+    <Bed className="h-[27px] w-[27px] shrink-0 stroke-[1.1] text-[#D8B85B]" />
+
+    <div>
+      <p className="mt-ui text-[14px] font-semibold tracking-[0.03em] text-white">
+        4★ Hotels
+      </p>
+
+      <p className="mt-body-copy mt-1 text-[13px] text-white/60">
+        Handpicked stays
+      </p>
+    </div>
+  </div>
+
+  <div className="flex min-h-[142px] flex-col items-center justify-center gap-3 border-b border-white/20 px-4 py-5 text-center lg:border-b-0 lg:border-r">
+    <Coffee className="h-[27px] w-[27px] shrink-0 stroke-[1.1] text-[#D8B85B]" />
+
+    <div>
+      <p className="mt-ui text-[14px] font-semibold tracking-[0.03em] text-white">
+        Breakfast
+      </p>
+
+      <p className="mt-body-copy mt-1 text-[13px] text-white/60">
+        Daily
+      </p>
+    </div>
+  </div>
+
+  <div className="flex min-h-[142px] flex-col items-center justify-center gap-3 border-b border-white/20 px-4 py-5 text-center sm:border-r sm:border-b-0 lg:border-r">
+    <CarFront className="h-[27px] w-[27px] shrink-0 stroke-[1.1] text-[#D8B85B]" />
+
+    <div>
+      <p className="mt-ui text-[14px] font-semibold tracking-[0.03em] text-white">
+        Private Transfers
+      </p>
+
+      <p className="mt-body-copy mt-1 text-[13px] leading-[1.45] text-white/60">
+        Comfortable &amp;
+        <br />
+        hassle-free
+      </p>
+    </div>
+  </div>
+
+  <div className="flex min-h-[142px] flex-col items-center justify-center px-4 py-5 text-center">
+    <p className="mt-ui text-[9px] tracking-[0.16em] text-white/55">
+      STARTING FROM
+    </p>
+
+    <div className="mt-2 flex items-center justify-center gap-2">
+      <p className="font-sans text-[2rem] font-medium leading-none tracking-[-0.035em] text-[#E3B63A]">
+        ₹49,999
+      </p>
+
+      <ArrowRight className="h-5 w-5 stroke-[1.1] text-[#D8B85B]" />
+    </div>
+
+    <p className="mt-body-copy mt-2 text-[13px] text-white/60">
+      per person
+    </p>
+  </div>
+
+</div>
 </div>
     </div>
   </div>
@@ -228,16 +242,34 @@ export default function SriLankaJourneyPage() {
           <div className="grid items-start gap-8 lg:grid-cols-[minmax(0,1.65fr)_minmax(320px,0.8fr)]">
             <div className="space-y-3">
               {itinerary.map((item) => (
-                <article
+                <JourneyGlassPanel
                   key={item.day}
-                  className="grid overflow-hidden rounded-[16px] border border-white/10 bg-white/[0.025] md:grid-cols-[82px_1fr]"
+                  className="rounded-[16px]"
+                  contentClassName="grid md:grid-cols-[82px_1fr]"
                 >
-                  <div className="flex items-center justify-center border-b border-white/10 bg-[#071f24] px-4 py-5 md:border-b-0 md:border-r">
-                    <div className="flex h-12 w-12 flex-col items-center justify-center rounded-full border border-[#D4AF37]/55 bg-[#03191D]">
-                      <span className="mt-ui text-[7px] tracking-[0.1em] text-white/45">DAY</span>
-                      <span className="mt-ui mt-0.5 text-[13px] text-[#FAFAF9]">{item.day}</span>
-                    </div>
-                  </div>
+                  <div className="flex items-center justify-center border-b border-white/10 bg-white/[0.035] px-4 py-5 backdrop-blur-xl md:border-b-0 md:border-r md:border-white/10">
+  <div
+  className="flex flex-none aspect-square items-center justify-center rounded-[50%] border-[0.75px] border-[#D4AF37]/65 bg-white/[0.025] backdrop-blur-md"
+  style={{
+    width: '58px',
+    height: '58px',
+    minWidth: '58px',
+    minHeight: '58px',
+    maxWidth: '58px',
+    maxHeight: '58px',
+  }}
+>
+  <div className="flex flex-col items-center justify-center">
+    <span className="mt-ui text-[7px] font-normal tracking-[0.14em] text-white/45">
+      DAY
+    </span>
+
+    <span className="mt-ui mt-[2px] text-[16px] font-medium leading-none text-[#FAFAF9]">
+      {item.day}
+    </span>
+  </div>
+</div>
+</div>
 
                   <div className="px-5 py-4">
                     <h3 className="mt-display text-[1.55rem] leading-tight text-[#FAFAF9]">
@@ -264,12 +296,12 @@ export default function SriLankaJourneyPage() {
                       </p>
                     )}
                   </div>
-                </article>
+                </JourneyGlassPanel>
               ))}
             </div>
 
             <aside className="space-y-3 lg:sticky lg:top-28">
-              <div className="rounded-[18px] border border-[#D4AF37]/22 bg-[#071f24] p-5">
+              <JourneyGlassPanel className="rounded-[18px]" contentClassName="p-5">
                 <h3 className="mt-display text-2xl text-[#FAFAF9]">What&apos;s Included</h3>
                 <div className="mt-4 space-y-3">
                   {included.map((item) => (
@@ -281,9 +313,9 @@ export default function SriLankaJourneyPage() {
                     </div>
                   ))}
                 </div>
-              </div>
+              </JourneyGlassPanel>
 
-              <div className="rounded-[18px] border border-white/10 bg-[#071f24] p-5">
+              <JourneyGlassPanel className="rounded-[18px]" contentClassName="p-5">
                 <h3 className="mt-display text-2xl text-[#FAFAF9]">What&apos;s Not Included</h3>
                 <div className="mt-4 space-y-3">
                   {excluded.map((item) => (
@@ -295,9 +327,9 @@ export default function SriLankaJourneyPage() {
                     </div>
                   ))}
                 </div>
-              </div>
+              </JourneyGlassPanel>
 
-              <div className="rounded-[18px] border border-white/10 bg-[#071f24] p-5">
+              <JourneyGlassPanel className="rounded-[18px]" contentClassName="p-5">
                 <h3 className="mt-display text-2xl text-[#FAFAF9]">Important Notes</h3>
                 <div className="mt-4 space-y-3">
                   {importantNotes.map((item) => (
@@ -309,7 +341,7 @@ export default function SriLankaJourneyPage() {
                     </div>
                   ))}
                 </div>
-              </div>
+              </JourneyGlassPanel>
 
               <div className="overflow-hidden rounded-[18px] border border-[#D4AF37]/30 bg-[linear-gradient(145deg,#08242a,#03191d)] p-5">
                 <p className="mt-eyebrow text-[9px] text-[#D4AF37]">LIKE THIS ITINERARY?</p>
@@ -334,7 +366,7 @@ export default function SriLankaJourneyPage() {
                     href="tel:+917891876918"
                     className="mt-ui inline-flex cursor-pointer items-center rounded-full border border-[#D4AF37]/45 px-4 py-2.5 text-[10px] tracking-[0.1em] text-[#FAFAF9] transition-colors hover:bg-white/[0.05]"
                   >
-                    Call MadrasTrails
+                    Call Us
                   </Link>
                 </div>
               </div>

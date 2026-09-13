@@ -223,7 +223,7 @@ export default function JourneysPage() {
             Journeys worth taking.
           </h1>
 
-          <p className="mt-display-soft mt-4 max-w-4xl text-[clamp(1.7rem,4vw,3.8rem)] leading-[0.98] text-[#D4AF37]">
+          <p className="mt-display-soft relative top-[9px] mt-4 max-w-4xl text-[clamp(1.6rem,3.6vw,3.4rem)] leading-[0.96] text-[#D4AF37]">
             Made unmistakably yours.
           </p>
 
@@ -247,7 +247,7 @@ export default function JourneysPage() {
     ].map((item) => (
       <span
         key={item}
-        className="mt-ui inline-flex items-center rounded-full border border-[#D4AF37]/45 px-5 py-2.5 text-[10px] font-medium uppercase tracking-[0.12em] text-[#E8E2D5]/85"
+        className="mt-ui relative inline-flex items-center overflow-hidden rounded-full border border-[#D4AF37]/35 bg-white/[0.035] px-5 py-2.5 text-[10px] font-medium uppercase tracking-[0.12em] text-[#E8E2D5]/90 shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_0_14px_rgba(212,175,55,0.06)] backdrop-blur-xl transition-all duration-300 hover:-translate-y-[2px] hover:border-[#D4AF37]/65 hover:bg-white/[0.065] hover:text-[#FFF8E8] hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.14),0_0_18px_rgba(212,175,55,0.18),0_8px_24px_rgba(0,0,0,0.18)]"
       >
         {item}
       </span>

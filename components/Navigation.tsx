@@ -24,6 +24,7 @@ export default function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [logoPulse, setLogoPulse] = useState(false)
   const [themeChangeCount, setThemeChangeCount] = useState(0)
+  const [navFrostPulse, setNavFrostPulse] = useState(0)
   const pathname = usePathname()
   const prefersReducedMotion = useReducedMotion()
 
@@ -53,11 +54,65 @@ export default function Navigation() {
   }
 
   return (
-    <nav className={`mt-premium-nav fixed inset-x-0 top-0 z-50 border-b backdrop-blur-2xl transition-all duration-500 ${isScrolled ? 'mt-nav-scrolled border-[var(--mt-border)] bg-[var(--mt-nav-bg)] shadow-[0_18px_56px_rgba(0,0,0,0.28)]' : 'border-[var(--mt-border)] bg-[var(--mt-nav-bg-rest)]'}`}>
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[var(--mt-border-strong)] to-transparent" />
-      <div className={`pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-[var(--mt-nav-text-active)]/35 to-transparent transition-opacity duration-500 ${isScrolled ? 'opacity-100' : 'opacity-35'}`} />
+    <nav
+      onPointerMove={(event) => {
+        const rect = event.currentTarget.getBoundingClientRect()
+        event.currentTarget.style.setProperty('--nav-glow-x', `${event.clientX - rect.left}px`)
+        event.currentTarget.style.setProperty('--nav-glow-y', `${event.clientY - rect.top}px`)
+      }}
+      onPointerDown={(event) => {
+        const rect = event.currentTarget.getBoundingClientRect()
+        event.currentTarget.style.setProperty('--nav-frost-x', `${event.clientX - rect.left}px`)
+        event.currentTarget.style.setProperty('--nav-frost-y', `${event.clientY - rect.top}px`)
+        setNavFrostPulse((pulse) => pulse + 1)
+      }}
+      className={`mt-premium-nav group/nav fixed inset-x-0 top-0 z-50 overflow-hidden border-b backdrop-blur-2xl transition-all duration-500 ${
+        isScrolled
+          ? 'mt-nav-scrolled border-white/10 bg-[#061519]/95 shadow-[0_18px_56px_rgba(0,0,0,0.34)]'
+          : 'border-white/10 bg-[#061519]/88'
+      }`}
+    >
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 z-0 hidden opacity-0 transition-opacity duration-500 md:block md:group-hover/nav:opacity-100"
+        style={{
+          background:
+            'radial-gradient(160px circle at var(--nav-glow-x, 50%) var(--nav-glow-y, 50%), rgba(255,255,255,0.13) 0%, rgba(255,255,255,0.055) 34%, transparent 72%)',
+        }}
+      />
 
-      <div className="mx-auto flex w-full max-w-[92rem] items-center justify-between px-4 py-1.5 sm:px-5 md:grid md:grid-cols-[1fr_auto_1fr] md:px-8 md:py-3.5">
+      {navFrostPulse > 0 && (
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute z-[1] -translate-x-1/2 -translate-y-1/2"
+          style={{
+            left: 'var(--nav-frost-x, 50%)',
+            top: 'var(--nav-frost-y, 50%)',
+          }}
+        >
+          <motion.div
+            key={navFrostPulse}
+            initial={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, scale: 0.62 }}
+            animate={
+              prefersReducedMotion
+                ? { opacity: 0 }
+                : { opacity: [0, 0.72, 0], scale: [0.62, 1.18, 1.55] }
+            }
+            transition={{ duration: prefersReducedMotion ? 0 : 0.7, ease: [0.22, 1, 0.36, 1] }}
+            className="h-44 w-44 rounded-full"
+            style={{
+              background:
+                'radial-gradient(circle, rgba(255,255,255,0.28) 0%, rgba(255,255,255,0.15) 30%, rgba(255,255,255,0.055) 54%, transparent 75%)',
+              filter: 'blur(8px)',
+            }}
+          />
+        </div>
+      )}
+
+      <div className="pointer-events-none absolute inset-x-0 top-0 z-[2] h-px bg-gradient-to-r from-transparent via-[var(--mt-border-strong)] to-transparent" />
+      <div className={`pointer-events-none absolute inset-x-0 bottom-0 z-[2] h-px bg-gradient-to-r from-transparent via-[var(--mt-nav-text-active)]/35 to-transparent transition-opacity duration-500 ${isScrolled ? 'opacity-100' : 'opacity-35'}`} />
+
+      <div className="relative z-10 mx-auto flex w-full max-w-[92rem] items-center justify-between px-4 py-1.5 sm:px-5 md:grid md:grid-cols-[1fr_auto_1fr] md:px-8 md:py-[11px]">
         <motion.a
           href="/"
           aria-label="MadrasTrails homepage"

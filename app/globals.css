@@ -11,12 +11,22 @@
   font-weight: normal;
   font-style: normal;
 }
+
+@font-face {
+  font-family: 'LED Counter 7';
+  src: url('/fonts/led-counter-7.ttf') format('truetype');
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+}
+
 @import 'tailwindcss';
 
 @theme inline {
   --font-serif: var(--font-cormorant-garamond), Georgia, serif;
   --font-sans: var(--font-catamaran), system-ui, sans-serif;
   --font-mono: ui-monospace, 'SFMono-Regular', Menlo, Monaco, Consolas, monospace;
+
   
   --color-background: #071B24;
   --color-foreground: #E8E8E8;

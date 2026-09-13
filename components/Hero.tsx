@@ -13,8 +13,43 @@ export default function Hero() {
   const router = useRouter()
   const videoRef = useRef<HTMLVideoElement>(null)
   const [videoFailed, setVideoFailed] = useState(false)
-  const prefersReducedMotion = useReducedMotion()
+
+const [travelBulletins, setTravelBulletins] = useState<string[]>([])
+
+const prefersReducedMotion = useReducedMotion()
+
+const bulletinText =
+  travelBulletins.length > 0
+    ? travelBulletins.join('\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0')
+    : 'CURRENT TRAVEL UPDATES ARE BEING PREPARED.'
   useEffect(() => {
+  const controller = new AbortController()
+
+  const loadTravelBulletins = async () => {
+    try {
+      const response = await fetch('/api/travel-bulletin', {
+        signal: controller.signal,
+      })
+
+      if (!response.ok) return
+
+      const data = await response.json()
+
+      if (Array.isArray(data.items)) {
+        setTravelBulletins(data.items)
+      }
+    } catch (error) {
+      if ((error as Error).name !== 'AbortError') {
+        console.error('Travel bulletin failed to load:', error)
+      }
+    }
+  }
+
+  loadTravelBulletins()
+
+  return () => controller.abort()
+}, [])
+    useEffect(() => {
   const video = videoRef.current
   if (!video) return
 
@@ -141,7 +176,7 @@ export default function Hero() {
 
     <video
       ref={videoRef}
-      className={`mt-hero-video h-[calc(100%+2rem)] w-[calc(100%+2.5rem)] object-cover object-[58%_center] md:object-center ${
+      className={`mt-hero-video h-[calc(100%+2rem)] w-[calc(100%+2.5rem)] object-cover object-[58%_center] brightness-[1.12] md:object-center ${
         videoFailed ? 'opacity-0' : ''
       }`}
       src="/videos/hero-optimized-720p.mp4"
@@ -164,14 +199,15 @@ export default function Hero() {
 </div>
 
       {/* Layered vignettes keep the copy readable without creating a visible panel edge. */}
-      <div className="mt-hero-depth-overlay absolute inset-0">
+      <div className="mt-hero-depth-overlay absolute inset-0 opacity-50">
         <div className="mt-hero-grade absolute inset-0" />
         <div className="mt-hero-content-vignette absolute inset-0" />
         <div className="mt-hero-feather absolute inset-0" />
         <div className="mt-hero-top-vignette absolute inset-0" />
         <div className="mt-hero-bottom-vignette absolute inset-0" />
       </div>
-
+{/* Left-side readability vignette — keeps the scenic right side bright */}
+<div className="pointer-events-none absolute inset-y-0 left-0 z-[5] hidden w-[58%] bg-[linear-gradient(90deg,rgba(3,18,22,0.82)_0%,rgba(3,18,22,0.68)_42%,rgba(3,18,22,0.30)_72%,transparent_100%)] md:block" />
       {/* Content */}
       <div
         className="mt-hero-content relative z-10 mx-auto w-full max-w-7xl px-[clamp(1.25rem,6vw,1.75rem)] -translate-y-[clamp(0.75rem,3vh,1.75rem)] md:px-8 md:-translate-y-3 lg:-translate-y-5"
@@ -220,12 +256,12 @@ export default function Hero() {
   type="button"
   onClick={() => router.push('/journeys')}
   style={{ cursor: 'pointer' }}
-    className="mt-nav-plan-cta group mt-ui relative inline-flex cursor-pointer items-center gap-3 overflow-hidden rounded-full border border-[var(--mt-border-strong)] bg-[var(--mt-accent)] px-5 py-2 text-[11px] tracking-[0.12em] text-[var(--mt-accent-contrast)] shadow-[var(--mt-shadow-soft)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[var(--mt-shadow-elevated)]"
+    className="mt-nav-plan-cta group mt-ui relative inline-flex cursor-pointer items-center gap-3 overflow-hidden rounded-full border border-[#F0D660]/60 bg-[linear-gradient(135deg,#E3C348_0%,#D4AF37_55%,#C79F25_100%)] px-5 py-2 text-[11px] tracking-[0.12em] text-[#071D21] shadow-[0_0_10px_rgba(212,175,55,0.25),0_0_22px_rgba(212,175,55,0.10),inset_0_1px_0_rgba(255,255,255,0.26)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_0_14px_rgba(212,175,55,0.36),0_0_32px_rgba(212,175,55,0.15),inset_0_1px_0_rgba(255,255,255,0.30)]"
   >
     <span className="pointer-events-none absolute inset-y-0 -left-1/3 w-1/3 skew-x-[-18deg] bg-white/34 opacity-0 blur-sm transition-all duration-700 group-hover:left-[115%] group-hover:opacity-100" />
 
     <span className="relative z-10 leading-none">
-      Explore Curated Holidays
+      Discover Journeys
     </span>
 
     <span className="relative z-10 leading-none transition-transform duration-300 group-hover:translate-x-1.5">
@@ -233,14 +269,80 @@ export default function Hero() {
     </span>
   </button>
 
-  <p className="mt-ui pl-1 text-[10px] tracking-[0.08em] text-white/60">
-    Itineraries · Inclusions · Starting prices
-  </p>
+<div className="relative mt-4 h-[30px] w-[340px] max-w-[48vw] overflow-hidden rounded-[2px] border border-[#D4AF37]/24 bg-[#020504] shadow-[0_6px_16px_rgba(0,0,0,0.38),inset_0_1px_0_rgba(255,255,255,0.09),inset_0_-2px_4px_rgba(0,0,0,0.9),inset_0_0_12px_rgba(0,0,0,0.95)]">
+
+  {/* recessed LED display surface */}
+<div className="pointer-events-none absolute inset-[3px] rounded-[1px] border border-[#6f5414]/20 bg-[#070805] shadow-[inset_0_2px_5px_rgba(0,0,0,0.95),inset_0_-1px_0_rgba(255,190,30,0.06)]" />
+
+{/* visible unlit LED matrix */}
+<div
+  className="pointer-events-none absolute inset-[4px] z-10 rounded-[1px] opacity-[0.48]"
+  style={{
+    backgroundImage:
+      'radial-gradient(circle, rgba(134,91,13,0.55) 0.75px, rgba(45,34,10,0.32) 0.9px, transparent 1.2px)',
+    backgroundSize: '4px 4px',
+  }}
+/>
+
+{/* faint amber illumination inside the screen */}
+<div className="pointer-events-none absolute inset-[4px] z-10 bg-[radial-gradient(ellipse_at_center,rgba(255,174,20,0.045),transparent_70%)]" />
+
+{/* protective glass reflection */}
+<div className="pointer-events-none absolute inset-x-[4px] top-[4px] z-20 h-[40%] rounded-t-[1px] bg-gradient-to-b from-white/[0.07] to-transparent" />
+
+{/* subtle horizontal scan texture */}
+<div
+  className="pointer-events-none absolute inset-[4px] z-10 opacity-[0.10]"
+  style={{
+    backgroundImage:
+      'repeating-linear-gradient(0deg, transparent 0px, transparent 2px, rgba(255,190,35,0.18) 3px)',
+  }}
+/>
+{/* moving illuminated LED message */}
+<motion.div
+  className="relative z-20 flex h-full w-max items-center whitespace-nowrap"
+  animate={
+    prefersReducedMotion
+      ? undefined
+      : { x: ['0%', '-50%'] }
+  }
+  transition={
+    prefersReducedMotion
+      ? undefined
+      : {
+          duration: 120,
+          repeat: Infinity,
+          ease: 'linear',
+        }
+  }
+>
+  {[0, 1].map((copy) => (
+    <div
+      key={copy}
+      className="flex shrink-0 items-center pr-16"
+    >
+      <span
+        className="text-[12px] uppercase tracking-[0.08em] text-[#FFC62E] md:text-[13px]"
+        style={{
+          fontFamily: "'LED Counter 7', monospace",
+          textShadow:
+            '0 0 2px rgba(255,198,46,1), 0 0 6px rgba(255,174,20,0.72), 0 0 12px rgba(255,159,10,0.28)',
+        }}
+      >
+        {bulletinText}
+      </span>
+    </div>
+  ))}
+</motion.div>
+  {/* subtle edge falloff like a real enclosed LED panel */}
+  <div className="pointer-events-none absolute inset-y-0 left-0 z-30 w-8 bg-gradient-to-r from-[#030706] to-transparent" />
+  <div className="pointer-events-none absolute inset-y-0 right-0 z-30 w-8 bg-gradient-to-l from-[#030706] to-transparent" />
+</div>
 </div>
           </div>
         </div>
       </div>
-
+            
       {/* Scroll Indicator */}
       <div className="absolute right-6 top-1/2 z-20 hidden translate-y-10 flex-col items-center gap-4 text-[10px] text-[var(--mt-accent-soft)] md:flex lg:right-8">
         <div className="relative h-24 w-px overflow-hidden bg-[var(--mt-accent-soft)]/18">
