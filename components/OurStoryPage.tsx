@@ -2,6 +2,8 @@
 
 import { useEffect, useRef } from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
+import { ArrowDown, ArrowUpRight } from 'lucide-react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useReducedMotion } from 'framer-motion'
@@ -61,256 +63,76 @@ export default function OurStoryPage() {
   }, [prefersReducedMotion])
 
   return (
-    <div ref={pageRef} className="mt-ourstory-page relative overflow-hidden bg-[var(--mt-canvas)] text-[var(--mt-text-primary)]">
-      <section className="mt-ourstory-hero relative flex min-h-screen items-end overflow-hidden px-6 pb-28 pt-24 md:px-8 md:pb-20 md:pt-28">
-        <video
-          ref={heroVideoRef}
-          className="absolute inset-0 h-full w-full object-cover"
-          src="/videos/our-story-hero.mp4"
-          autoPlay={!prefersReducedMotion}
-          muted
-          loop
-          playsInline
-          preload="auto"
-onCanPlay={(event) => {
-  if (prefersReducedMotion) {
-    event.currentTarget.pause()
-    event.currentTarget.currentTime = 0
-  } else {
-    void event.currentTarget.play().catch(() => undefined)
-  }
-}}
-aria-hidden="true"
-        />
-        <div className="mt-classic-media-overlay absolute inset-0 bg-[linear-gradient(180deg,rgba(2,15,18,0.14)_0%,rgba(2,15,18,0.28)_42%,rgba(2,15,18,0.86)_100%)]" />
-        <div className="mt-classic-media-overlay absolute inset-0 bg-[radial-gradient(circle_at_72%_22%,rgba(212,175,55,0.13),transparent_30%),linear-gradient(90deg,rgba(2,15,18,0.72),rgba(2,15,18,0.08)_68%)]" />
-
-        <div className="relative z-10 mx-auto w-full max-w-7xl">
-          <div className="max-w-4xl">
-            <div data-reveal className="mb-6 flex items-center gap-3">
-              <span className="h-px w-14 bg-[#D4AF37]" />
-              <span className="mt-eyebrow text-[10px] text-[#D4AF37]">OUR STORY</span>
-            </div>
-
-            <h1 data-reveal className="mt-display max-w-4xl text-5xl leading-[0.96] text-[#FAFAF9] md:text-7xl lg:text-[6.2rem]">
-              Travel should feel
-              <span className="block text-[#D4AF37]">personal again.</span>
-            </h1>
-
-            <p data-reveal className="mt-body-copy mt-6 max-w-xl text-base leading-relaxed text-[#FAFAF9]/74 md:text-lg">
-              MadrasTrails was created for travellers who want to experience places through people, culture and stories—not checklists.
-            </p>
+    <div ref={pageRef} className="relative overflow-hidden bg-[var(--mt-canvas)] text-[var(--mt-text-primary)]" style={{ fontFamily: 'var(--font-catamaran), sans-serif' }}>
+      <section className="relative flex min-h-[90svh] items-end overflow-hidden px-6 pb-16 pt-40 md:px-12 md:pb-20 lg:px-20" aria-labelledby="story-heading">
+        <Image src="/images/services/hero-maldives.jpg" alt="" fill priority sizes="100vw" className="object-cover" />
+        <video ref={heroVideoRef} className="absolute inset-0 h-full w-full object-cover" src="/videos/our-story-hero.mp4" autoPlay={!prefersReducedMotion} muted loop playsInline preload="metadata" aria-hidden="true" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#03191D] via-black/25 to-black/20" />
+        <div className="relative mx-auto w-full max-w-7xl">
+          <p data-reveal className="mb-7 text-[11px] font-medium uppercase tracking-[0.3em] text-white/75">MadrasTrails / Our story</p>
+          <h1 id="story-heading" data-reveal className="max-w-4xl text-[clamp(3.2rem,7.5vw,7.5rem)] font-normal leading-[1.02] tracking-[-0.065em] text-white">
+            A world of places.<br /><span className="text-[#E5D5AE]">A journey that’s you.</span>
+          </h1>
+          <div data-reveal className="mt-9 flex flex-col justify-between gap-9 md:flex-row md:items-end">
+            <p className="max-w-sm text-base leading-7 text-white/75">Born in Chennai. Inspired by the world.<br />Travel made personal, from the very beginning.</p>
+            <a href="#the-story" className="flex w-fit items-center gap-4 rounded-full border border-white/25 bg-white/10 px-6 py-4 text-xs text-white backdrop-blur-xl transition hover:bg-white/20 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white">Discover our story <ArrowDown size={16} aria-hidden="true" /></a>
           </div>
         </div>
       </section>
 
-      <section className="mt-ourstory-philosophy relative overflow-hidden px-6 py-16 md:px-8 md:py-20">
-        <div className="pointer-events-none absolute left-[-12rem] top-1/2 h-[34rem] w-[34rem] -translate-y-1/2 rounded-full bg-[var(--mt-surface-elevated)]/18 blur-[100px]" />
-
-        <div className="relative mx-auto grid max-w-7xl items-center gap-10 lg:grid-cols-[1.08fr_0.92fr] lg:gap-16">
-          <div data-reveal className="relative min-h-[32rem] overflow-hidden rounded-[2rem]">
-            <Image
-              src="/images/our-story/philosophy-local-connection.webp"
-              alt="Local artisan shaping clay on a traditional pottery wheel"
-              fill
-              sizes="(min-width: 1024px) 56vw, 100vw"
-              className="object-cover"
-              style={{ objectPosition: 'center 50%' }}
-            />
-            <div className="mt-classic-media-overlay absolute inset-0 bg-[linear-gradient(180deg,rgba(2,15,18,0.02),rgba(2,15,18,0.56))]" />
-            <div className="absolute bottom-6 left-6 right-6">
-              <p className="mt-eyebrow text-[10px] text-[#D4AF37]">ROUTES BEGIN WITH A CONVERSATION</p>
-            </div>
+      <section id="the-story" className="scroll-mt-24 px-6 py-24 md:px-12 md:py-36 lg:px-20" aria-labelledby="origin-heading">
+        <div className="mx-auto grid max-w-7xl items-center gap-14 lg:grid-cols-2 lg:gap-24">
+          <div data-reveal>
+            <p className="text-[10px] font-medium uppercase tracking-[0.28em] text-[var(--mt-accent)]">A shared instinct</p>
+            <h2 id="origin-heading" className="mt-6 max-w-lg text-[clamp(2.5rem,4.2vw,4.5rem)] font-normal leading-[1.1] tracking-[-0.055em]">Less itinerary.<br />More possibility.</h2>
+            <p className="mt-8 max-w-md text-base leading-8 text-[var(--mt-text-secondary)]">We started MadrasTrails with a shared love of travel and one simple idea: the best journeys feel like they were made for you.</p>
+            <p className="mt-5 max-w-md text-base leading-8 text-[var(--mt-text-secondary)]">Two perspectives, one personal approach. We bring together thoughtful planning, local connections and space for the unexpected.</p>
+            <div className="mt-10 h-px w-16 bg-[var(--mt-accent)]/60" />
           </div>
+          <figure data-reveal className="relative aspect-[4/5] overflow-hidden rounded-[2rem] lg:aspect-[5/6]">
+            <Image src="/images/our-story/philosophy-local-connection.webp" alt="An artisan shaping clay on a traditional pottery wheel" fill sizes="(min-width: 1024px) 45vw, 100vw" className="object-cover" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+            <figcaption className="absolute bottom-6 left-6 right-6 rounded-2xl border border-white/20 bg-white/10 px-6 py-5 text-sm text-white backdrop-blur-xl">The people you meet become part of the story.</figcaption>
+          </figure>
+        </div>
+      </section>
 
-          <div className="max-w-xl">
-            <div data-reveal className="mb-6 flex items-center gap-3">
-              <span className="mt-ui text-[11px] text-[#D4AF37]/80">02</span>
-              <span className="h-px w-14 bg-gradient-to-r from-[#D4AF37] to-transparent" />
-              <span className="mt-eyebrow text-[10px] text-[#D4AF37]">OUR PHILOSOPHY</span>
+      <section className="px-6 pb-24 md:px-12 md:pb-36 lg:px-20" aria-labelledby="approach-heading">
+        <div className="mx-auto max-w-7xl">
+          <div data-reveal className="mb-12 flex flex-col justify-between gap-6 md:flex-row md:items-end">
+            <div>
+              <p className="text-[10px] font-medium uppercase tracking-[0.28em] text-[var(--mt-accent)]">The way we travel</p>
+              <h2 id="approach-heading" className="mt-5 text-[clamp(2.4rem,4vw,4rem)] font-normal leading-[1.1] tracking-[-0.055em]">Thoughtfully, always.</h2>
             </div>
-
-            <h2 data-reveal className="mt-display text-5xl leading-[1.02] md:text-7xl">
-              Built around people,
-              <span className="block text-[#D4AF37]">not packages.</span>
-            </h2>
-
-            <p data-reveal className="mt-body-copy mt-7 text-base leading-relaxed text-[var(--mt-text-secondary)]">
-              MadrasTrails began with a simple belief: meaningful travel starts by listening. Every journey is shaped around the traveller, then brought to life through local knowledge, thoughtful stays and moments that cannot be found in a standard itinerary.
-            </p>
-
-            <p data-reveal className="mt-display-soft mt-7 border-l border-[#D4AF37]/60 pl-6 text-2xl leading-relaxed text-[var(--mt-text-primary)]">
-              “We do not sell holidays. We shape stories people carry home.”
-            </p>
+            <p className="max-w-xs text-sm leading-7 text-[var(--mt-text-secondary)]">A few things we believe make all the difference.</p>
+          </div>
+          <div className="grid gap-5 md:grid-cols-3">
+            {[
+              { number: '01', title: 'Your kind of escape.', copy: 'Your pace. Your passions. We listen first.', image: '/images/services/accommodation/maldives-overwater-villa.jpg', alt: 'An alpine village surrounded by mountains' },
+              { number: '02', title: 'Closer to the place.', copy: 'Local people. Real connections. Lasting memories.', image: '/images/destinations/japan/japan-tea-ceremony.webp', alt: 'A traditional Japanese tea ceremony' },
+              { number: '03', title: 'Room to just be.', copy: 'The details, considered. The moment, yours.', image: '/images/services/accommodation/bali-jungle-infinity-pool.jpg', alt: 'An infinity pool overlooking a lush Bali landscape' },
+            ].map((card) => (
+              <article key={card.number} data-reveal className="relative min-h-[29rem] overflow-hidden rounded-[1.75rem] md:min-h-[32rem]">
+                <Image src={card.image} alt={card.alt} fill sizes="(min-width: 768px) 33vw, 100vw" className="object-cover" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/10 to-black/15" />
+                <span className="absolute left-6 top-6 flex h-10 w-10 items-center justify-center rounded-full border border-white/30 bg-white/10 text-xs text-white backdrop-blur-md">{card.number}</span>
+                <div className="absolute bottom-0 p-7 text-white">
+                  <h3 className="text-2xl font-medium tracking-[-0.04em]">{card.title}</h3>
+                  <p className="mt-3 max-w-xs text-sm leading-6 text-white/80">{card.copy}</p>
+                </div>
+              </article>
+            ))}
           </div>
         </div>
       </section>
 
-      <section className="relative overflow-hidden px-6 py-16 md:px-8 md:py-20" aria-labelledby="ourstory-origin-heading">
-        <div className="pointer-events-none absolute left-[-12rem] top-1/2 h-[34rem] w-[34rem] -translate-y-1/2 rounded-full bg-[var(--mt-surface-elevated)]/18 blur-[100px]" />
-
-        <div className="relative mx-auto max-w-7xl">
-          <div data-reveal className="mb-6 flex items-center gap-3">
-            <span className="mt-ui text-[11px] text-[#D4AF37]/80">03</span>
-            <span className="h-px w-14 shrink-0 bg-gradient-to-r from-[#D4AF37] to-transparent" />
-            <span className="mt-eyebrow text-[10px] text-[#D4AF37]">WHERE IT BEGAN</span>
-          </div>
-
-          <h2 id="ourstory-origin-heading" data-reveal className="mt-display max-w-4xl text-5xl leading-[1.04] text-[var(--mt-text-primary)] md:text-7xl">
-            It started with
-            <span className="block text-[#D4AF37]">a simple question.</span>
-          </h2>
-
-          <div className="mt-14 grid items-start gap-10 border-t border-[#D4AF37]/20 pt-10 lg:mt-20 lg:grid-cols-[1.08fr_0.92fr] lg:gap-16 lg:pt-14">
-            <p data-reveal className="mt-display-soft max-w-xl text-4xl leading-[1.2] text-[#D4AF37] md:text-5xl">
-              Why should extraordinary travel feel ordinary?
-            </p>
-
-            <div data-reveal className="max-w-xl space-y-6">
-              <p className="mt-body-copy text-base leading-[1.8] text-[var(--mt-text-secondary)]">
-                MadrasTrails began from a shared love of travel — and a frustration with how easily a journey could become a checklist.
-              </p>
-              <p className="mt-body-copy text-base leading-[1.8] text-[var(--mt-text-secondary)]">
-                The same itineraries. The same recommendations. Days packed simply because there was space to fill.
-              </p>
-              <p className="mt-display-soft text-2xl leading-relaxed text-[var(--mt-text-primary)]">
-                We wanted to approach travel differently.
-              </p>
-              <p className="mt-body-copy text-base leading-[1.8] text-[var(--mt-text-secondary)]">
-                To listen first. To understand the traveller. To choose experiences for a reason. To leave room for discovery. And to create journeys that felt personal from beginning to end.
-              </p>
-              <p className="mt-display-soft border-l border-[#D4AF37]/60 pl-6 text-2xl leading-relaxed text-[var(--mt-text-primary)]">
-                That idea became MadrasTrails.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="relative overflow-hidden px-6 py-16 md:px-8 md:py-20" aria-labelledby="ourstory-perspectives-heading">
-        <div className="relative mx-auto max-w-7xl">
-          <div data-reveal className="max-w-4xl">
-            <div className="mb-6 flex items-center gap-3">
-              <span className="mt-ui text-[11px] text-[#D4AF37]/80">04</span>
-              <span className="h-px w-8 shrink-0 bg-gradient-to-r from-[#D4AF37] to-transparent md:w-14" />
-              <span className="mt-eyebrow text-[10px] text-[#D4AF37]">THE PEOPLE BEHIND MADRASTRAILS</span>
-            </div>
-
-            <h2 id="ourstory-perspectives-heading" className="mt-display text-5xl leading-[1.04] text-[var(--mt-text-primary)] md:text-7xl">
-              Two perspectives.
-              <span className="block text-[#D4AF37]">One shared idea of travel.</span>
-            </h2>
-
-            <p className="mt-body-copy mt-7 max-w-2xl text-base leading-[1.8] text-[var(--mt-text-secondary)]">
-              MadrasTrails is shaped by two people whose strengths come together in very different ways.
-            </p>
-          </div>
-
-          <div className="mt-14 grid gap-10 border-y border-[#D4AF37]/20 py-10 lg:mt-20 lg:grid-cols-2 lg:gap-0 lg:py-14">
-            <div data-reveal className="lg:pr-16">
-              <p className="mt-eyebrow text-[10px] text-[#D4AF37]">THE JOURNEY</p>
-              <h3 className="mt-display-soft mt-6 text-3xl leading-[1.2] text-[var(--mt-text-primary)] md:text-4xl">
-                Shaping the experience.
-              </h3>
-              <p className="mt-body-copy mt-5 max-w-xl text-base leading-[1.8] text-[var(--mt-text-secondary)]">
-                One is deeply involved in the journeys themselves — researching destinations, questioning the obvious choices, shaping itineraries, working with partners and obsessing over the details that make travel feel personal.
-              </p>
-            </div>
-
-            <div data-reveal className="border-t border-[#D4AF37]/20 pt-10 lg:border-l lg:border-t-0 lg:pl-16 lg:pt-0">
-              <p className="mt-eyebrow text-[10px] text-[#D4AF37]">THE DIRECTION</p>
-              <h3 className="mt-display-soft mt-6 text-3xl leading-[1.2] text-[var(--mt-text-primary)] md:text-4xl">
-                Building with purpose.
-              </h3>
-              <p className="mt-body-copy mt-5 max-w-xl text-base leading-[1.8] text-[var(--mt-text-secondary)]">
-                The other brings perspective, relationships and a long-term view — helping MadrasTrails grow thoughtfully while keeping the experience personal, considered and true to what the brand was created to be.
-              </p>
-            </div>
-          </div>
-
-          <div data-reveal className="mx-auto mt-10 max-w-3xl text-center md:mt-14">
-            <p className="mt-display-soft text-2xl leading-relaxed text-[var(--mt-text-primary)] md:text-3xl">
-              Different strengths. A shared standard.
-            </p>
-            <p className="mt-body-copy mt-5 text-base leading-[1.8] text-[var(--mt-text-secondary)]">
-              And behind every journey is the same simple intention: to create something we would be proud to experience ourselves.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <section className="mt-ourstory-people relative overflow-hidden px-6 pb-16 pt-10 md:px-8 md:pb-20 md:pt-14">
-        <div className="pointer-events-none absolute left-1/2 top-10 h-[30rem] w-[30rem] -translate-x-1/2 rounded-full bg-[var(--mt-surface-elevated)]/14 blur-[110px]" />
-
-        <div className="relative mx-auto max-w-7xl">
-          <div data-reveal className="mx-auto max-w-3xl text-center">
-            <div className="mb-6 flex items-center justify-center gap-3">
-              <span className="mt-ui text-[11px] text-[#D4AF37]/80">05</span>
-              <span className="h-px w-8 shrink-0 bg-gradient-to-r from-[#D4AF37] to-transparent md:w-14" />
-              <span className="mt-eyebrow text-[10px] text-[#D4AF37]">THE MADRASTRAILS APPROACH</span>
-            </div>
-
-            <h2 className="mt-display text-5xl leading-[1.04] text-[var(--mt-text-primary)] md:text-7xl">
-              Journeys shaped
-              <span className="block text-[#D4AF37]">with intention.</span>
-            </h2>
-
-            <p className="mt-body-copy mx-auto mt-7 max-w-2xl text-base leading-[1.8] text-[var(--mt-text-secondary)]">
-              Every MadrasTrails journey begins with understanding the traveller — not selecting a package.
-            </p>
-
-            <p className="mt-body-copy mx-auto mt-5 max-w-2xl text-base leading-[1.8] text-[var(--mt-text-secondary)]">
-              We research destinations, question the obvious choices, work with trusted people on the ground and refine every detail until the journey feels genuinely personal.
-            </p>
-          </div>
-
-          <div className="mt-14 grid gap-10 border-y border-[#D4AF37]/20 py-10 lg:mt-20 lg:grid-cols-3 lg:gap-0 lg:py-14">
-            <article data-reveal className="lg:pr-10">
-              <p className="mt-ui text-[10px] tracking-[0.2em] text-[#D4AF37]">01 — LISTEN</p>
-              <h3 className="mt-display-soft mt-6 text-3xl leading-[1.2] text-[var(--mt-text-primary)]">
-                It starts with you.
-              </h3>
-              <p className="mt-body-copy mt-5 text-base leading-[1.8] text-[var(--mt-text-secondary)]">
-                Every journey begins with a conversation. We take the time to understand how you like to travel, what matters to you and how you want the experience to feel.
-              </p>
-            </article>
-
-            <article data-reveal className="border-t border-[#D4AF37]/20 pt-10 lg:border-l lg:border-t-0 lg:px-10 lg:pt-0">
-              <p className="mt-ui text-[10px] tracking-[0.2em] text-[#D4AF37]">02 — CURATE</p>
-              <h3 className="mt-display-soft mt-6 text-3xl leading-[1.2] text-[var(--mt-text-primary)]">
-                Only what belongs.
-              </h3>
-              <p className="mt-body-copy mt-5 text-base leading-[1.8] text-[var(--mt-text-secondary)]">
-                Stays, places and experiences are chosen because they belong in your journey — not simply because they appear on a standard itinerary.
-              </p>
-            </article>
-
-            <article data-reveal className="border-t border-[#D4AF37]/20 pt-10 lg:border-l lg:border-t-0 lg:pl-10 lg:pt-0">
-              <p className="mt-ui text-[10px] tracking-[0.2em] text-[#D4AF37]">03 — REFINE</p>
-              <h3 className="mt-display-soft mt-6 text-3xl leading-[1.2] text-[var(--mt-text-primary)]">
-                The details matter.
-              </h3>
-              <p className="mt-body-copy mt-5 text-base leading-[1.8] text-[var(--mt-text-secondary)]">
-                From the rhythm of each day to the smallest logistical detail, we refine the journey until the entire experience feels considered and effortless.
-              </p>
-            </article>
-          </div>
-
-          <div data-reveal className="mx-auto mt-16 max-w-5xl text-center md:mt-20">
-            <p className="mt-ui text-[10px] tracking-[0.24em] text-[#D4AF37]/68">
-              OUR PROMISE
-            </p>
-
-            <p className="mt-display mt-5 text-[2.35rem] leading-[1.06] text-[var(--mt-text-primary)] md:text-[3.55rem]">
-              Thoughtful journeys,
-              <span className="block italic text-[#D4AF37]">personally imagined.</span>
-            </p>
-
-            <p className="mt-display-soft mx-auto mt-5 max-w-3xl text-xl leading-[1.65] text-[var(--mt-text-secondary)] md:text-2xl">
-              From the first conversation to the moment you return home,
-              <span className="text-[#D8C08A]"> every detail carries our attention.</span>
-            </p>
-          </div>
+      <section className="relative mx-4 mb-10 overflow-hidden rounded-[2rem] px-6 py-24 text-center md:mx-8 md:mb-16 md:py-32" aria-labelledby="invitation-heading">
+        <Image src="/images/destinations/japan/japan-mount-fuji-sunrise.webp" alt="Mount Fuji at sunrise" fill sizes="100vw" className="object-cover" />
+        <div className="absolute inset-0 bg-[#03191D]/55" />
+        <div data-reveal className="relative mx-auto max-w-2xl text-white">
+          <p className="text-[10px] uppercase tracking-[0.28em] text-white/80">Your story starts here</p>
+          <h2 id="invitation-heading" className="mt-6 text-[clamp(2.8rem,5vw,5rem)] font-normal leading-[1.08] tracking-[-0.055em]">Where do you<br />want to feel alive?</h2>
+          <Link href="/plan" className="mt-10 inline-flex items-center gap-8 rounded-full border border-white/60 bg-white/85 px-8 py-5 text-sm font-semibold text-[#03191D] shadow-xl backdrop-blur-xl transition hover:bg-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white">Let’s plan your journey <ArrowUpRight size={18} aria-hidden="true" /></Link>
         </div>
       </section>
     </div>
