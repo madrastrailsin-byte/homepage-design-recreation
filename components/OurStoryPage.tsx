@@ -74,7 +74,51 @@ const team = [
       'Journey Support',
     ],
   },
+
 ]
+
+const journeyProcess = [
+  {
+    name: 'YOUR DREAM',
+    title: 'Tell us where you want to go.',
+    description: 'You tell us your wishes, pace and priorities.',
+    image: '/images/our-story/kingdom-cards/your-dream.png',
+  },
+  {
+    name: 'THE PATHFINDER',
+    title: 'Designs the Journey',
+    description: 'Shapes the route, stays and experiences around you.',
+    image: '/images/our-story/kingdom-cards/pathfinder.png',
+  },
+  {
+    name: 'THE REGENT',
+    title: 'Secures the Foundation',
+    description: 'Secures trusted partners, value and the right approvals.',
+    image: '/images/our-story/kingdom-cards/regent.png',
+  },
+  {
+    name: 'THE CURATOR',
+    title: 'Personalises the Experience',
+    description: 'Adds the thoughtful details that make the journey yours.',
+    image: '/images/our-story/kingdom-cards/curator.png',
+  },
+  {
+    name: 'THE CASTELLAN',
+    title: 'Delivers the Journey',
+    description: 'Coordinates bookings, transfers, documents and support.',
+    image: '/images/our-story/kingdom-cards/castellan.png',
+  },
+  {
+    name: 'YOUR JOURNEY',
+    title: 'Travel. We Stay Behind.',
+    description: 'You travel. We quietly keep everything moving.',
+    image: '/images/our-story/kingdom-cards/your-journey.png',
+  },
+]
+
+const cardBackImage = '/images/our-story/kingdom-cards/card-back.png'
+const journeyPlaneImage = '/images/our-story/kingdom-cards/journey-plane-side.png'
+const journeyPlaneAudio = '/audio/our-story/journey-plane-pass.mp3'
 
 export default function OurStoryPage() {
   const pageRef = useRef<HTMLDivElement>(null)
@@ -149,8 +193,8 @@ export default function OurStoryPage() {
     })
 
     return () => {
-  tl.kill()
-}
+      tl.kill()
+    }
   }, [prefersReducedMotion])
 
   useEffect(() => {
@@ -162,6 +206,145 @@ export default function OurStoryPage() {
     const ctx = gsap.context(() => {
       const cards = gsap.utils.toArray<HTMLElement>('[data-team-card]')
       const reveals = gsap.utils.toArray<HTMLElement>('[data-reveal]')
+      const flowStage = page.querySelector<HTMLElement>('[data-flow-stage]')
+      const flowCards = gsap.utils.toArray<HTMLElement>('[data-flow-card]')
+      const flowInners = gsap.utils.toArray<HTMLElement>('[data-flow-inner]')
+      const flowHalos = gsap.utils.toArray<HTMLElement>('[data-flow-halo]')
+      const flowDescriptions = gsap.utils.toArray<HTMLElement>('[data-flow-description]')
+      const plane = page.querySelector<HTMLElement>('[data-flight-plane]')
+      const planeAudio = page.querySelector<HTMLAudioElement>('[data-flight-audio]')
+
+      const flightState = { progress: 0 }
+      let startX = 0
+      let endX = 0
+      let cruiseY = 0
+      let cardStops: number[] = []
+      let sectionIsActive = false
+      let audioUnlocked = false
+
+      const syncAudioVolume = () => {
+        if (!planeAudio) return
+        planeAudio.volume = 0.18
+      }
+
+      const startFlightAudio = async (restart = false) => {
+        if (!planeAudio || !sectionIsActive || document.hidden) return
+
+        syncAudioVolume()
+
+        if (restart) {
+          try {
+            planeAudio.currentTime = 0
+          } catch {
+            // Ignore browsers that briefly reject seeking before metadata is ready.
+          }
+        }
+
+        try {
+          await planeAudio.play()
+          audioUnlocked = true
+        } catch {
+          // Browser autoplay policy: the first user gesture below unlocks playback.
+        }
+      }
+
+      const pauseFlightAudio = (reset = false) => {
+        if (!planeAudio) return
+        planeAudio.pause()
+
+        if (reset) {
+          try {
+            planeAudio.currentTime = 0
+          } catch {
+            // Safe no-op if media metadata is not ready yet.
+          }
+        }
+      }
+
+      const unlockAudio = () => {
+        if (!planeAudio || audioUnlocked || !sectionIsActive) return
+        void startFlightAudio(false)
+      }
+
+      const handleVisibilityChange = () => {
+        if (document.hidden) {
+          pauseFlightAudio(false)
+        } else if (sectionIsActive) {
+          void startFlightAudio(false)
+        }
+      }
+
+      const buildCruise = () => {
+        if (
+          !flowStage ||
+          !plane ||
+          flowInners.length !== journeyProcess.length
+        ) {
+          return
+        }
+
+        const stageRect = flowStage.getBoundingClientRect()
+        const innerRects = flowInners.map((inner) => inner.getBoundingClientRect())
+
+        // The aircraft is intentionally large, so its centre begins/ends well
+        // outside the section to let the whole plane enter and leave naturally.
+        const planeWidth = plane.getBoundingClientRect().width || 760
+        startX = -planeWidth * 0.58
+        endX = flowStage.clientWidth + planeWidth * 0.58
+
+        // Cruise through the middle of the card field. This keeps the plane
+        // behind the cards and lets it appear naturally through the gaps.
+        const overlapTop = Math.max(
+          ...innerRects.map((rect) => rect.top - stageRect.top)
+        )
+        const overlapBottom = Math.min(
+          ...innerRects.map((rect) => rect.bottom - stageRect.top)
+        )
+
+        cruiseY =
+          overlapTop +
+          Math.max(80, overlapBottom - overlapTop) * 0.54
+
+        cardStops = innerRects.map((rect) => {
+          const centerX = rect.left - stageRect.left + rect.width / 2
+          return Math.max(
+            0,
+            Math.min(1, (centerX - startX) / (endX - startX))
+          )
+        })
+      }
+
+      const renderFlight = () => {
+        if (!plane) return
+
+        const p = Math.max(0, Math.min(1, flightState.progress))
+        const x = startX + (endX - startX) * p
+
+        // Very small, slow vertical drift only — enough to feel alive without
+        // turning the aircraft into a zig-zag animation.
+        const y =
+          cruiseY +
+          Math.sin(p * Math.PI * 1.35) * 7 +
+          Math.sin(p * Math.PI * 3.1) * 2.5
+
+        gsap.set(plane, {
+          x,
+          y,
+          rotation: 0,
+        })
+      }
+
+      buildCruise()
+
+      const onResize = () => {
+        buildCruise()
+        renderFlight()
+      }
+
+      window.addEventListener('resize', onResize)
+      window.addEventListener('pointerdown', unlockAudio, { passive: true })
+      window.addEventListener('keydown', unlockAudio)
+      document.addEventListener('visibilitychange', handleVisibilityChange)
 
       if (prefersReducedMotion) {
         gsap.set([...cards, ...reveals], {
@@ -169,7 +352,18 @@ export default function OurStoryPage() {
           y: 0,
           clearProps: 'transform',
         })
-        return
+        gsap.set(flowInners, { rotateY: 180 })
+        gsap.set(flowHalos, { opacity: 0.13, scale: 1 })
+        gsap.set(flowDescriptions, { opacity: 1, y: 0 })
+        if (plane) gsap.set(plane, { opacity: 0 })
+
+        return () => {
+          pauseFlightAudio(true)
+          window.removeEventListener('resize', onResize)
+          window.removeEventListener('pointerdown', unlockAudio)
+          window.removeEventListener('keydown', unlockAudio)
+          document.removeEventListener('visibilitychange', handleVisibilityChange)
+        }
       }
 
       gsap.fromTo(
@@ -197,6 +391,261 @@ export default function OurStoryPage() {
         }
       )
 
+      gsap.set(flowInners, {
+        rotateY: 0,
+        transformPerspective: 1200,
+        transformOrigin: '50% 50%',
+      })
+
+      gsap.set(flowHalos, {
+        opacity: 0,
+        scale: 0.78,
+        transformOrigin: '50% 50%',
+      })
+
+      gsap.set(flowDescriptions, {
+        opacity: 0,
+        y: 8,
+      })
+
+      let flowTl: gsap.core.Timeline | null = null
+
+      if (
+        flowStage &&
+        plane &&
+        cardStops.length === journeyProcess.length &&
+        flowCards.length === journeyProcess.length &&
+        flowInners.length === journeyProcess.length &&
+        flowHalos.length === journeyProcess.length &&
+        flowDescriptions.length === journeyProcess.length
+      ) {
+        const flightDuration = 16.5
+
+        gsap.set(plane, {
+          xPercent: -50,
+          yPercent: -50,
+          scale: 1,
+          opacity: 0,
+          rotation: 0,
+          transformOrigin: '50% 50%',
+          willChange: 'transform, opacity',
+        })
+
+        flightState.progress = 0
+        renderFlight()
+
+        flowTl = gsap.timeline({
+          paused: true,
+          repeat: -1,
+          repeatDelay: 0,
+        })
+
+        flowTl.set(flowInners, { rotateY: 0 }, 0)
+        flowTl.set(flowHalos, { opacity: 0, scale: 0.78 }, 0)
+        flowTl.set(flowDescriptions, { opacity: 0, y: 8 }, 0)
+        flowTl.set(flowCards, { filter: 'none' }, 0)
+
+        flowTl.call(() => {
+          flightState.progress = 0
+          renderFlight()
+          void startFlightAudio(true)
+        }, [], 0)
+
+        flowTl.set(
+          plane,
+          {
+            opacity: 0,
+            rotation: 0,
+          },
+          0
+        )
+
+        // Fade the aircraft in while it is still entering from the left edge.
+        flowTl.to(
+          plane,
+          {
+            opacity: 0.32,
+            duration: 0.9,
+            ease: 'power2.out',
+          },
+          0.15
+        )
+
+        // ONE uninterrupted cruise from left to right.
+        flowTl.to(
+          flightState,
+          {
+            progress: 1,
+            duration: flightDuration,
+            ease: 'none',
+            onUpdate: renderFlight,
+          },
+          0
+        )
+
+        journeyProcess.forEach((_, index) => {
+          const arrival = flightDuration * cardStops[index]
+          const openStart = Math.max(0, arrival - 0.58)
+
+          flowTl?.to(
+            flowHalos[index],
+            {
+              opacity: 0.3,
+              scale: 1.06,
+              duration: 0.38,
+              ease: 'power2.out',
+            },
+            openStart
+          )
+
+          flowTl?.to(
+            flowCards[index],
+            {
+              filter: 'drop-shadow(0 0 20px rgba(212,175,55,0.22))',
+              duration: 0.38,
+            },
+            openStart
+          )
+
+          // Slower card turn so the opening feels coordinated with the
+          // aircraft cruising behind rather than happening as a sudden event.
+          flowTl?.to(
+            flowInners[index],
+            {
+              rotateY: 180,
+              duration: 1.18,
+              ease: 'power3.inOut',
+            },
+            openStart + 0.08
+          )
+
+          flowTl?.to(
+            flowDescriptions[index],
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.65,
+              ease: 'power2.out',
+            },
+            arrival + 0.42
+          )
+
+          flowTl?.to(
+            flowHalos[index],
+            {
+              opacity: 0.13,
+              scale: 1,
+              duration: 0.5,
+              ease: 'power2.out',
+            },
+            arrival + 0.5
+          )
+        })
+
+        // The whole aircraft leaves the screen; there is no endpoint effect.
+        flowTl.to(
+          plane,
+          {
+            opacity: 0,
+            duration: 0.8,
+            ease: 'power2.in',
+          },
+          flightDuration - 0.55
+        )
+
+        // Finished journey stays readable before the loop resets.
+        const resetStart = flightDuration + 3.6
+
+        flowTl.to(
+          flowDescriptions,
+          {
+            opacity: 0,
+            y: -5,
+            duration: 0.58,
+            stagger: {
+              each: 0.035,
+              from: 'end',
+            },
+            ease: 'power2.inOut',
+          },
+          resetStart
+        )
+
+        flowTl.to(
+          flowHalos,
+          {
+            opacity: 0,
+            scale: 0.84,
+            duration: 0.6,
+            stagger: {
+              each: 0.04,
+              from: 'end',
+            },
+            ease: 'power2.inOut',
+          },
+          resetStart + 0.08
+        )
+
+        flowTl.to(
+          flowInners,
+          {
+            rotateY: 0,
+            duration: 0.82,
+            stagger: {
+              each: 0.07,
+              from: 'end',
+            },
+            ease: 'power3.inOut',
+          },
+          resetStart + 0.2
+        )
+
+        flowTl.to(
+          flowCards,
+          {
+            filter: 'none',
+            duration: 0.35,
+          },
+          resetStart + 0.45
+        )
+
+        const loopEnd = resetStart + 1.55
+
+        flowTl.call(() => {
+          flightState.progress = 0
+          renderFlight()
+        }, [], loopEnd)
+
+        flowTl.set(plane, { opacity: 0, rotation: 0 }, loopEnd)
+        flowTl.to({}, { duration: 1.0 }, loopEnd)
+
+        ScrollTrigger.create({
+          trigger: flowStage,
+          start: 'top 78%',
+          end: 'bottom 15%',
+          onEnter: () => {
+            sectionIsActive = true
+            flowTl?.play()
+            void startFlightAudio(false)
+          },
+          onEnterBack: () => {
+            sectionIsActive = true
+            flowTl?.play()
+            void startFlightAudio(false)
+          },
+          onLeave: () => {
+            sectionIsActive = false
+            flowTl?.pause()
+            pauseFlightAudio(false)
+          },
+          onLeaveBack: () => {
+            sectionIsActive = false
+            flowTl?.pause()
+            pauseFlightAudio(false)
+          },
+        })
+      }
+
       reveals.forEach((item) => {
         gsap.fromTo(
           item,
@@ -214,6 +663,16 @@ export default function OurStoryPage() {
           }
         )
       })
+
+      return () => {
+        sectionIsActive = false
+        pauseFlightAudio(true)
+        window.removeEventListener('resize', onResize)
+        window.removeEventListener('pointerdown', unlockAudio)
+        window.removeEventListener('keydown', unlockAudio)
+        document.removeEventListener('visibilitychange', handleVisibilityChange)
+        flowTl?.kill()
+      }
     }, page)
 
     return () => ctx.revert()
@@ -331,111 +790,216 @@ export default function OurStoryPage() {
         </div>
       </section>
 
-      {/* WHAT THEY DO */}
-      <section className="relative px-6 py-16 md:px-10 md:py-20 lg:px-16">
-        <div className="pointer-events-none absolute left-1/2 top-0 h-[26rem] w-[50rem] -translate-x-1/2 rounded-full bg-[#D4AF37]/[0.04] blur-[110px]" />
-
-        <div className="relative mx-auto max-w-[96rem]">
+      {/* HOW THE FOUR WORK AS ONE */}
+      <section className="relative border-t border-[#D4AF37]/18 px-6 pb-6 pt-10 md:px-10 md:pb-7 md:pt-12 lg:px-16">
+        <div className="relative mx-auto max-w-[108rem]">
           <div
             data-reveal
-            className="mb-10 grid gap-6 border-b border-[#D4AF37]/20 pb-8 lg:grid-cols-[1fr_32rem] lg:items-end"
+            className="flex flex-col gap-4 border-b border-[#D4AF37]/16 pb-6 md:flex-row md:items-end md:justify-between"
           >
             <div>
-              <p className="mt-eyebrow text-[9px] text-[#D4AF37]">
-                FOUR ROLES. ONE STANDARD.
-              </p>
+              <div className="mb-3 flex items-center gap-4">
+                <span className="h-px w-14 bg-[#D4AF37]/75" />
+                <p className="mt-eyebrow text-[9px] tracking-[0.24em] text-[#D4AF37]">
+                  HOW WE WORK
+                </p>
+              </div>
 
-              <h2 className="mt-display mt-3 text-[2.7rem] leading-[0.96] md:text-[3.7rem]">
-                What each of us
-                <span className="italic text-[#D4AF37]"> brings.</span>
+              <h2 className="mt-display text-[2.35rem] leading-[1] md:text-[3.1rem] lg:text-[3.6rem]">
+                Passed from hand
+                <span className="italic text-[#D4AF37]"> to hand.</span>
               </h2>
             </div>
 
-            <p className="mt-body-copy text-sm leading-[1.75] text-[#AAA18F]">
-              Four distinct responsibilities working together so every journey
-              feels personal, secure and professionally managed.
+            <p className="mt-body-copy max-w-md text-sm leading-[1.7] text-[#AAA18F]">
+              Your idea moves through four distinct roles and returns as a journey ready to live.
             </p>
           </div>
 
-          <div className="grid overflow-hidden rounded-[1.5rem] border border-[#D4AF37]/20 md:grid-cols-2">
-            {team.map((member, index) => (
-              <article
-                key={member.name}
-                data-reveal
-                className="relative border-b border-[#D4AF37]/15 bg-[#051B22] p-7 last:border-b-0 md:border-r md:p-9"
-              >
-                <div className="flex items-start justify-between gap-5">
-                  <div>
-                    <p className="mt-ui text-[7px] tracking-[0.2em] text-[#D4AF37]/55">
-                      0{index + 1}
-                    </p>
+          {/* DESKTOP KINGDOM CARD FLOW */}
+          <div
+            data-flow-stage
+            className="relative mx-auto mt-6 hidden min-h-[31.5rem] w-full lg:block"
+          >
+            <audio
+              data-flight-audio
+              src={journeyPlaneAudio}
+              preload="auto"
+              playsInline
+            />
 
-                    <h3 className="mt-display mt-2 text-3xl md:text-[2.5rem]">
-                      {member.name}
-                    </h3>
+            {/* LARGE SIDE-PROFILE CRUISE — behind all six tarot cards */}
+            <div
+              data-flight-plane
+              aria-hidden="true"
+              className="pointer-events-none absolute left-0 top-0 z-[2] w-[1400px] opacity-0 xl:w-[2000px] 2xl:w-[2600px]"
+              style={{ willChange: 'transform, opacity' }}
+            >
+              <Image
+                src={journeyPlaneImage}
+                alt=""
+                width={2048}
+                height={704}
+                sizes="(min-width: 1536px) 820px, (min-width: 1280px) 740px, 620px"
+                priority={false}
+                className="h-auto w-full object-contain drop-shadow-[0_8px_18px_rgba(0,0,0,0.28)]"
+              />
+            </div>
 
-                    <p className="mt-display-soft mt-1 text-lg italic text-[#D4AF37]">
-                      {member.role}
-                    </p>
+            <div className="relative z-10 grid grid-cols-6 gap-5 px-1">
+              {journeyProcess.map((step, index) => (
+                <div
+                  key={step.name}
+                  data-flow-card
+                  className={`relative min-w-0 ${
+                    index % 2 === 1 ? 'mt-[6.5rem]' : 'mt-2'
+                  }`}
+                  style={{ perspective: '1400px' }}
+                >
+                  <div
+                    data-flow-halo
+                    aria-hidden="true"
+                    className="pointer-events-none absolute -inset-6 rounded-[2rem] bg-[radial-gradient(circle,rgba(212,175,55,0.30)_0%,rgba(212,175,55,0.10)_36%,rgba(212,175,55,0)_72%)] blur-xl"
+                  />
+
+                  <div
+                    data-flow-inner
+                    className="relative aspect-[2/3] w-full"
+                    style={{
+                      transformStyle: 'preserve-3d',
+                      willChange: 'transform',
+                    }}
+                  >
+                    {/* BACK */}
+                    <div
+                      className="absolute inset-0 overflow-hidden rounded-[1.2rem]"
+                      style={{
+                        backfaceVisibility: 'hidden',
+                        WebkitBackfaceVisibility: 'hidden',
+                      }}
+                    >
+                      <Image
+                        src={cardBackImage}
+                        alt=""
+                        fill
+                        sizes="16vw"
+                        className="object-cover"
+                      />
+                    </div>
+
+                    {/* FRONT */}
+                    <div
+                      className="absolute inset-0 overflow-hidden rounded-[1.2rem]"
+                      style={{
+                        transform: 'rotateY(180deg)',
+                        backfaceVisibility: 'hidden',
+                        WebkitBackfaceVisibility: 'hidden',
+                      }}
+                    >
+                      <Image
+                        src={step.image}
+                        alt={`${step.name} — ${step.title}`}
+                        fill
+                        sizes="16vw"
+                        className="object-cover"
+                      />
+                    </div>
                   </div>
 
-                  <span className="mt-ui hidden text-right text-[7px] tracking-[0.15em] text-[#D4AF37]/65 sm:block">
-                    {member.line.toUpperCase()}
-                  </span>
+                  <p
+                    data-flow-description
+                    className="mx-auto mt-4 max-w-[13rem] text-center text-[0.76rem] leading-[1.55] text-[#D4AF37]/82 opacity-0"
+                  >
+                    {step.description}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* QUIET CLOSING MESSAGE — outside the animation stage */}
+          <div
+            data-reveal
+            className="mx-auto mt-1 hidden max-w-[50rem] px-8 text-center lg:block"
+          >
+            <div className="mx-auto mb-3 flex max-w-[13rem] items-center gap-3">
+              <span className="h-px flex-1 bg-gradient-to-r from-transparent to-[#D4AF37]/26" />
+              <span
+                aria-hidden="true"
+                className="text-[0.55rem] text-[#D4AF37]/68"
+              >
+                ✦
+              </span>
+              <span className="h-px flex-1 bg-gradient-to-l from-transparent to-[#D4AF37]/26" />
+            </div>
+
+            <p className="mt-eyebrow mb-2 text-[7px] tracking-[0.25em] text-[#D4AF37]/68">
+              ONE CONVERSATION IS ENOUGH
+            </p>
+
+            <h3 className="mt-display text-[1.62rem] leading-[1.08] text-[#EEE5D4] xl:text-[1.82rem]">
+              Your journey starts with
+              <span className="italic text-[#D4AF37]"> a conversation.</span>
+            </h3>
+
+            <p className="mt-body-copy mx-auto mt-3 max-w-[41rem] text-[0.78rem] leading-[1.68] text-[#AAA18F]">
+              You don&apos;t need a finished plan. Tell us what you&apos;re dreaming of — we&apos;re only a phone call away.
+              From there, our team shapes the journey, coordinates the details and stays quietly behind it, so you can simply enjoy where it takes you.
+            </p>
+          </div>
+
+          {/* MOBILE / TABLET */}
+          <div className="mt-7 grid grid-cols-2 gap-4 lg:hidden">
+            {journeyProcess.map((step) => (
+              <article
+                key={step.name}
+                className="overflow-hidden rounded-[1rem] border border-[#D4AF37]/16 bg-[#051B22]"
+              >
+                <div className="relative aspect-[2/3]">
+                  <Image
+                    src={step.image}
+                    alt={`${step.name} — ${step.title}`}
+                    fill
+                    sizes="(min-width: 768px) 50vw, 50vw"
+                    className="object-cover"
+                  />
                 </div>
 
-                <p className="mt-body-copy mt-6 max-w-2xl text-sm leading-[1.75] text-[#AAA18F]">
-                  {member.description}
+                <p className="px-4 py-3 text-center text-[0.78rem] leading-[1.5] text-[#D4AF37]/82">
+                  {step.description}
                 </p>
-
-                <div className="mt-7 flex flex-wrap gap-2">
-                  {member.responsibilities.map((item) => (
-                    <span
-                      key={item}
-                      className="mt-ui rounded-full border border-[#D4AF37]/18 bg-[#D4AF37]/[0.035] px-3 py-2 text-[7px] tracking-[0.14em] text-[#D3C7A6]"
-                    >
-                      {item.toUpperCase()}
-                    </span>
-                  ))}
-                </div>
               </article>
             ))}
           </div>
 
-          {/* TRUST STRIP */}
           <div
             data-reveal
-            className="mt-8 grid overflow-hidden rounded-[1.35rem] border border-[#D4AF37]/20 bg-[#071f27] sm:grid-cols-2 lg:grid-cols-4"
+            className="mx-auto mt-9 max-w-[42rem] text-center lg:hidden"
           >
-            {[
-              ['THE PATHFINDER', 'Designed with intent.'],
-              ['THE REGENT', 'Strengthened with judgement.'],
-              ['THE CURATOR', 'Curated with care.'],
-              ['THE CASTELLAN', 'Delivered with precision.'],
-            ].map(([name, promise]) => (
-              <div
-                key={name}
-                className="border-b border-[#D4AF37]/15 px-6 py-7 sm:border-r lg:border-b-0"
-              >
-                <p className="mt-ui text-[7px] tracking-[0.18em] text-[#D4AF37]">
-                  {name}
-                </p>
+            <p className="mt-eyebrow mb-3 text-[8px] tracking-[0.25em] text-[#D4AF37]/76">
+              ONE CONVERSATION IS ENOUGH
+            </p>
 
-                <p className="mt-display-soft mt-3 text-xl italic text-[#F5F0E7]">
-                  {promise}
-                </p>
-              </div>
-            ))}
+            <h3 className="mt-display text-[1.9rem] leading-[1.08] text-[#EEE5D4]">
+              Your journey starts with
+              <span className="italic text-[#D4AF37]"> a conversation.</span>
+            </h3>
+
+            <p className="mt-body-copy mx-auto mt-4 max-w-[36rem] text-[0.86rem] leading-[1.7] text-[#AAA18F]">
+              You don&apos;t need a finished plan. Tell us what you&apos;re dreaming of — we&apos;re only a phone call away.
+              From there, our team shapes the journey, coordinates the details and stays quietly behind it.
+            </p>
           </div>
 
-          <div data-reveal className="pb-2 pt-12 text-center">
-            <p className="mt-display text-[2.4rem] leading-none md:text-[3.4rem]">
-              Four people.
-              <span className="italic text-[#D4AF37]">
-                {' '}
-                One MadrasTrails.
-              </span>
+          <div
+            data-reveal
+            className="mt-6 flex items-center gap-5 border-t border-[#D4AF37]/16 pt-4"
+          >
+            <span className="h-px flex-1 bg-gradient-to-r from-transparent to-[#D4AF37]/34" />
+            <p className="mt-ui shrink-0 text-center text-[8px] tracking-[0.22em] text-[#D4AF37]">
+              YOUR DREAM · FOUR HANDS · YOUR JOURNEY
             </p>
+            <span className="h-px flex-1 bg-gradient-to-l from-transparent to-[#D4AF37]/34" />
           </div>
         </div>
       </section>
