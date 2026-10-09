@@ -110,7 +110,7 @@ export default function ExperiencesSection() {
   const reduceMotion = useReducedMotion()
 
   return (
-    <section className="mt-scroll-experiences relative overflow-hidden bg-[var(--mt-canvas)] px-5 py-16 sm:px-6 md:px-8 md:py-20">
+    <section className="mt-scroll-experiences relative overflow-hidden bg-[var(--mt-canvas)] px-5 pb-16 pt-6 sm:px-6 md:px-8 md:pb-20 md:pt-8">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_86%_18%,rgba(201,162,74,0.07),transparent_24%),linear-gradient(180deg,var(--mt-canvas),var(--mt-canvas))]" />
 
       <div className="relative mx-auto max-w-7xl">

@@ -221,10 +221,33 @@ export default function OurStoryPage() {
       let cardStops: number[] = []
       let sectionIsActive = false
       let audioUnlocked = false
+      const baseAudioVolume = 0.18
+      const audioFadeWindow = 1.8
 
       const syncAudioVolume = () => {
         if (!planeAudio) return
-        planeAudio.volume = 0.18
+        planeAudio.volume = baseAudioVolume
+      }
+
+      const handleAudioTimeUpdate = () => {
+        if (!planeAudio) return
+
+        const duration = planeAudio.duration
+        if (!Number.isFinite(duration) || duration <= 0) return
+
+        const remaining = duration - planeAudio.currentTime
+
+        if (remaining <= audioFadeWindow) {
+          const fade = Math.max(0, Math.min(1, remaining / audioFadeWindow))
+          planeAudio.volume = baseAudioVolume * fade
+        } else {
+          planeAudio.volume = baseAudioVolume
+        }
+      }
+
+      const handleAudioEnded = () => {
+        if (!planeAudio) return
+        planeAudio.volume = baseAudioVolume
       }
 
       const startFlightAudio = async (restart = false) => {
@@ -235,6 +258,7 @@ export default function OurStoryPage() {
         if (restart) {
           try {
             planeAudio.currentTime = 0
+            planeAudio.volume = baseAudioVolume
           } catch {
             // Ignore browsers that briefly reject seeking before metadata is ready.
           }
@@ -345,6 +369,8 @@ export default function OurStoryPage() {
       window.addEventListener('pointerdown', unlockAudio, { passive: true })
       window.addEventListener('keydown', unlockAudio)
       document.addEventListener('visibilitychange', handleVisibilityChange)
+      planeAudio?.addEventListener('timeupdate', handleAudioTimeUpdate)
+      planeAudio?.addEventListener('ended', handleAudioEnded)
 
       if (prefersReducedMotion) {
         gsap.set([...cards, ...reveals], {
@@ -363,6 +389,8 @@ export default function OurStoryPage() {
           window.removeEventListener('pointerdown', unlockAudio)
           window.removeEventListener('keydown', unlockAudio)
           document.removeEventListener('visibilitychange', handleVisibilityChange)
+          planeAudio?.removeEventListener('timeupdate', handleAudioTimeUpdate)
+          planeAudio?.removeEventListener('ended', handleAudioEnded)
         }
       }
 
@@ -622,7 +650,7 @@ export default function OurStoryPage() {
         ScrollTrigger.create({
           trigger: flowStage,
           start: 'top 78%',
-          end: 'bottom 15%',
+          end: 'bottom top',
           onEnter: () => {
             sectionIsActive = true
             flowTl?.play()
@@ -671,6 +699,8 @@ export default function OurStoryPage() {
         window.removeEventListener('pointerdown', unlockAudio)
         window.removeEventListener('keydown', unlockAudio)
         document.removeEventListener('visibilitychange', handleVisibilityChange)
+        planeAudio?.removeEventListener('timeupdate', handleAudioTimeUpdate)
+        planeAudio?.removeEventListener('ended', handleAudioEnded)
         flowTl?.kill()
       }
     }, page)
@@ -832,7 +862,7 @@ export default function OurStoryPage() {
             <div
               data-flight-plane
               aria-hidden="true"
-              className="pointer-events-none absolute left-0 top-0 z-[2] w-[1400px] opacity-0 xl:w-[2000px] 2xl:w-[2600px]"
+              className="pointer-events-none absolute left-0 top-0 z-[2] w-[1200px] opacity-0 xl:w-[1700px] 2xl:w-[2300px]"
               style={{ willChange: 'transform, opacity' }}
             >
               <Image

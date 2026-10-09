@@ -60,7 +60,7 @@ export default function DestinationsSection() {
   const editorialTransition = (delay = 0) => ({ duration: 0.82, delay, ease: motionEase })
 
   return (
-    <section className="mt-scroll-destinations mt-destinations-bg mt-destinations-contour mt-journey-motif relative overflow-hidden pt-2 pb-12 md:pt-4 md:pb-16">
+    <section className="mt-scroll-destinations mt-destinations-bg mt-destinations-contour mt-journey-motif relative overflow-hidden pt-2 pb-4 md:pt-4 md:pb-6">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-[var(--mt-canvas)] via-[var(--mt-canvas)]/46 to-transparent" />
       <div className="mt-destinations-texture-reveal mt-story-destination-bg absolute inset-0 pointer-events-none" />
       <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-8">
