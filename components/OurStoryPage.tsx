@@ -148,7 +148,9 @@ export default function OurStoryPage() {
       ease: 'power2.in',
     })
 
-    return () => tl.kill()
+    return () => {
+  tl.kill()
+}
   }, [prefersReducedMotion])
 
   useEffect(() => {
