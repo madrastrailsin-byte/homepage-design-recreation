@@ -240,8 +240,10 @@ export default function JourneyBriefScreen({
             <div className="space-y-3">
               <BriefSection title="Destination" onEdit={() => onEdit(1)}>
                 <p className="font-serif text-lg text-white/82">
-                  {journey.destination?.name}
-                </p>
+  {journey.destinations.length > 0
+    ? journey.destinations.map((d) => d.name).join(', ')
+    : 'Not selected'}
+</p>
               </BriefSection>
               <BriefSection title="Travel dates" onEdit={() => onEdit(2)}>
                 <p>

@@ -2,8 +2,7 @@
 
 import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
-import { Home } from 'lucide-react'
-import Link from 'next/link'
+import { ArrowLeft, Home } from 'lucide-react'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { useRef, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
@@ -17,6 +16,7 @@ import ExperienceSelectionScreen from './ExperienceSelectionScreen'
 import JourneyBriefScreen from './JourneyBriefScreen'
 import type { JourneyDestination, JourneyPlanData } from './journeyModel'
 import TravellerSelectionScreen from './TravellerSelectionScreen'
+import { useRouter } from "next/navigation"
 
 const journeyVideos: Record<number, string> = {
   1: '/videos/plan-journey/optimized/screen-1-destination.mp4',
@@ -29,10 +29,13 @@ const journeyVideos: Record<number, string> = {
   8: '/videos/plan-journey/optimized/screen-8-journey-brief.mp4',
 }
 
+
 export default function JourneyPlanner() {
   const searchParams = useSearchParams()
   const prefersReducedMotion = useReducedMotion()
   const country = searchParams.get('country')
+
+  const router = useRouter()
 
 const initialDestination: JourneyDestination | undefined = country
   ? {
@@ -49,7 +52,7 @@ const [step, setStep] = useState(country ? 2 : 1)
   const [journeyComplete, setJourneyComplete] = useState(false)
   const [outgoingStep, setOutgoingStep] = useState<number | null>(null)
   const [journey, setJourney] = useState<JourneyPlanData>({
-  destination: initialDestination,
+  destinations: initialDestination ? [initialDestination] : [],
   experienceIds: [],
   travellers: {
     adults: 0,
@@ -232,7 +235,7 @@ const incomingContent = screenContentRefs.current[nextStep]
 
   const visibleSteps = outgoingStep === null ? [step] : [outgoingStep, step]
   const stepProgress =
-    !journey.destination
+    journey.destinations.length === 0
       ? 0
       : step >= 7
         ? 88
@@ -284,17 +287,34 @@ const incomingContent = screenContentRefs.current[nextStep]
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/5 via-[#03191d]/5 to-[#020f12]/12" />
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_18%,rgba(212,175,55,0.08),transparent_34%)]" />
 
-      <Link
-        href="/"
-        className="mt-iphone-journey-home absolute left-6 top-6 z-[999] inline-flex items-center gap-2 rounded-full border border-white/20 bg-black/20 px-4 py-2 text-xs uppercase tracking-[0.25em] text-white backdrop-blur-md transition-all duration-500 hover:border-white/40 hover:bg-white hover:text-black"
-      >
-        <Home aria-hidden="true" className="h-3.5 w-3.5" />
-        Home
-      </Link>
+      <button
+  type="button"
+  onClick={() => {
+    if (step === 1) {
+      router.push("/")
+      return
+    }
+
+    navigate(step - 1)
+  }}
+  className="mt-iphone-journey-home absolute left-6 top-6 z-[999] inline-flex items-center gap-2 rounded-full border border-white/20 bg-black/20 px-4 py-2 text-xs uppercase tracking-[0.25em] text-white backdrop-blur-md transition-all duration-500 hover:border-white/40 hover:bg-white hover:text-black"
+>
+  <ArrowLeft aria-hidden="true" className="h-3.5 w-3.5" />
+  Back
+</button>
+
+<button
+  type="button"
+  onClick={() => router.push("/")}
+  className="absolute right-6 top-6 z-[999] inline-flex items-center gap-2 rounded-full border border-white/20 bg-black/20 px-4 py-2 text-xs uppercase tracking-[0.25em] text-white backdrop-blur-md transition-all duration-500 hover:border-white/40 hover:bg-white hover:text-black"
+>
+  <Home aria-hidden="true" className="h-3.5 w-3.5" />
+  Home
+</button>
 
       <aside
         aria-label="Journey progress"
-        className="pointer-events-none absolute left-5 top-1/2 z-[997] hidden -translate-y-1/2 lg:block"
+        className="absolute left-5 top-1/2 z-[997] hidden -translate-y-1/2 lg:block"
       >
         <div className="relative overflow-hidden rounded-[2rem] border border-white/12 bg-[linear-gradient(180deg,rgba(4,12,16,0.72),rgba(2,8,11,0.58))] px-4 py-5 shadow-[0_24px_80px_rgba(0,0,0,0.42),inset_0_1px_0_rgba(255,255,255,0.07)] backdrop-blur-2xl">
           <div className="pointer-events-none absolute inset-x-5 top-0 h-px bg-gradient-to-r from-transparent via-[#D4AF37]/55 to-transparent" />
@@ -304,6 +324,7 @@ const incomingContent = screenContentRefs.current[nextStep]
               const itemStep = index + 1
               const isActive = itemStep === step
               const isComplete = itemStep < step || journeyComplete
+              const canNavigate = itemStep <= step
 
               return (
                 <li
@@ -322,7 +343,14 @@ const incomingContent = screenContentRefs.current[nextStep]
                   />
 
                   {isActive ? (
-                    <motion.span
+                    <motion.button
+  type="button"
+  disabled={!canNavigate}
+  onClick={() => {
+    if (canNavigate) {
+    navigate(itemStep)
+}
+  }}
                       layoutId="journey-active-scanner"
                       aria-hidden="true"
                       className="absolute left-0 top-1/2 h-8 w-[3px] -translate-y-1/2 rounded-full bg-[#D4AF37] shadow-[0_0_12px_rgba(212,175,55,0.92),0_0_26px_rgba(212,175,55,0.42)]"
@@ -330,25 +358,48 @@ const incomingContent = screenContentRefs.current[nextStep]
                         duration: prefersReducedMotion ? 0 : 0.55,
                         ease: [0.22, 1, 0.36, 1],
                       }}
-                    />
-                  ) : null}
+  />
+) : null}
 
-                  <motion.span
-                    animate={{
-                      opacity: isActive ? 1 : isComplete ? 0.74 : 0.56,
-                      scale: isActive ? 1.08 : 1,
-                    }}
-                    transition={{ duration: prefersReducedMotion ? 0 : 0.35 }}
-                    className={`mt-ui ml-3 text-[0.68rem] tracking-[0.14em] ${
-                      isActive
-                        ? 'text-[#F5D77A] drop-shadow-[0_0_10px_rgba(212,175,55,0.58)]'
-                        : isComplete
-                          ? 'text-white/72'
-                          : 'text-white/56 drop-shadow-[0_2px_8px_rgba(0,0,0,0.82)]'
-                    }`}
-                  >
-                    {String(itemStep).padStart(2, '0')}
-                  </motion.span>
+<button
+  type="button"
+  disabled={!isComplete && !isActive}
+  onClick={() => {
+    if (isComplete || isActive) {
+      navigate(itemStep)
+    }
+  }}
+  className="relative flex h-full w-full items-center justify-center"
+>
+  {isActive ? (
+    <motion.span
+      layoutId="journey-active-scanner"
+      aria-hidden="true"
+      className="absolute left-0 top-1/2 h-8 w-[3px] -translate-y-1/2 rounded-full bg-[#D4AF37] shadow-[0_0_12px_rgba(212,175,55,0.92),0_0_26px_rgba(212,175,55,0.42)]"
+      transition={{
+        duration: prefersReducedMotion ? 0 : 0.55,
+        ease: [0.22, 1, 0.36, 1],
+      }}
+    />
+  ) : null}
+
+  <motion.span
+    animate={{
+      opacity: isActive ? 1 : isComplete ? 0.74 : 0.56,
+      scale: isActive ? 1.08 : 1,
+    }}
+    transition={{ duration: prefersReducedMotion ? 0 : 0.35 }}
+    className={`mt-ui ml-3 text-[0.68rem] tracking-[0.14em] ${
+      isActive
+        ? 'text-[#F5D77A] drop-shadow-[0_0_10px_rgba(212,175,55,0.58)]'
+        : isComplete
+          ? 'text-white/72'
+          : 'text-white/56 drop-shadow-[0_2px_8px_rgba(0,0,0,0.82)]'
+    }`}
+  >
+    {String(itemStep).padStart(2, '0')}
+  </motion.span>
+</button>
                 </li>
               )
             })}
@@ -479,10 +530,13 @@ const incomingContent = screenContentRefs.current[nextStep]
           >
             {screenStep === 1 ? (
               <DestinationSelectionScreen
-                initialDestination={journey.destination}
-                onSelectionChange={(destination: JourneyDestination) =>
-                  setJourney((current) => ({ ...current, destination }))
-                }
+                initialDestinations={journey.destinations}
+                onSelectionChange={(destinations: JourneyDestination[]) =>
+  setJourney((current) => ({
+    ...current,
+    destinations,
+  }))
+}
                 onContinue={() => navigate(2)}
               />
             ) : null}

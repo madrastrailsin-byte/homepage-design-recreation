@@ -25,9 +25,9 @@ const popularDestinations = destinationMetadata
   .slice(0, 8)
 
 interface DestinationSelectionScreenProps {
-  initialDestination?: JourneyDestination
-  onContinue?: (destination: JourneyDestination) => void
-  onSelectionChange?: (destination: JourneyDestination) => void
+  initialDestinations?: JourneyDestination[]
+  onContinue?: (destinations: JourneyDestination[]) => void
+  onSelectionChange?: (destinations: JourneyDestination[]) => void
 }
 
 const destinationAliases: Record<string, string> = {
@@ -214,18 +214,51 @@ function DestinationCard({
 }
 
 export default function DestinationSelectionScreen({
-  initialDestination,
+  initialDestinations,
   onContinue,
   onSelectionChange,
 }: DestinationSelectionScreenProps) {
   const [query, setQuery] = useState(
-    initialDestination?.type === 'custom' ? initialDestination.name : '',
-  )
-  const [selectedDestination, setSelectedDestination] = useState<
-    JourneyDestination | undefined
-  >(initialDestination)
-  const prefersReducedMotion = useReducedMotion()
+  initialDestinations?.find((d) => d.type === 'custom')?.name ?? '',
+)
 
+const [selectedDestinations, setSelectedDestinations] = useState<
+  JourneyDestination[]
+>(initialDestinations ?? [])
+  const prefersReducedMotion = useReducedMotion()
+function toggleDestination(destination: JourneyDestination) {
+  let updated: JourneyDestination[] = []
+
+  setSelectedDestinations((current) => {
+    const exists = current.some(
+      (item) =>
+        item.type === destination.type &&
+        item.id === destination.id &&
+        item.name === destination.name,
+    )
+
+    if (exists) {
+      updated = current.filter(
+        (item) =>
+          !(
+            item.type === destination.type &&
+            item.id === destination.id &&
+            item.name === destination.name
+          ),
+      )
+    } else if (current.length >= 3) {
+      updated = current
+    } else {
+      updated = [...current, destination]
+    }
+
+    return updated
+  })
+
+  queueMicrotask(() => {
+    onSelectionChange?.(updated)
+  })
+}
   const visibleDestinations = useMemo(() => {
     const normalizedQuery = normalizeSearchValue(query)
 
@@ -317,9 +350,8 @@ export default function DestinationSelectionScreen({
             type="search"
             value={query}
             onChange={(event) => {
-              setQuery(event.target.value)
-              setSelectedDestination(undefined)
-            }}
+  setQuery(event.target.value)
+}}
             placeholder="Search countries, cities or destinations..."
             aria-label="Search destinations"
             className="h-14 w-full rounded-2xl border border-white/18 bg-white/[0.09] pl-14 pr-5 text-sm text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.12),0_16px_50px_rgba(0,0,0,0.28)] outline-none backdrop-blur-xl transition placeholder:text-white/42 focus:border-[#D4AF37]/70 focus:bg-white/[0.12] focus:ring-2 focus:ring-[#D4AF37]/15 sm:h-16 sm:text-base"
@@ -332,16 +364,19 @@ export default function DestinationSelectionScreen({
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -6 }}
                 onClick={() => {
-                  const destination: JourneyDestination = {
-                    name: normalizedQuery,
-                    type: 'custom',
-                  }
-                  setSelectedDestination(destination)
-                  onSelectionChange?.(destination)
-                }}
+  const destination: JourneyDestination = {
+    name: normalizedQuery,
+    type: 'custom',
+  }
+
+  toggleDestination(destination)
+}}
                 className={`mt-2 w-full rounded-xl border px-4 py-3 text-left backdrop-blur-xl transition ${
-                  selectedDestination?.type === 'custom' &&
-                  selectedDestination.name === normalizedQuery
+                  selectedDestinations.some(
+  (item) =>
+    item.type === 'custom' &&
+    item.name === normalizedQuery,
+)
                     ? 'border-[#D4AF37] bg-[#D4AF37]/12 shadow-[0_0_24px_rgba(212,175,55,0.16)]'
                     : 'border-white/12 bg-[#021316]/88 hover:border-[#D4AF37]/55 hover:bg-white/[0.08]'
                 }`}
@@ -386,24 +421,19 @@ export default function DestinationSelectionScreen({
               key={destination.id}
               destination={destination}
               index={index}
-              selected={
-                selectedDestination?.type === 'curated' &&
-                selectedDestination.id === destination.id
-              }
+              selected={selectedDestinations.some(
+  (item) =>
+    item.type === 'curated' &&
+    item.id === destination.id,
+)}
               prefersReducedMotion={Boolean(prefersReducedMotion)}
-              onSelect={(destinationId) => {
-                const metadata = destinationMetadata.find(
-                  (destination) => destination.id === destinationId,
-                )
-                if (!metadata) return
-                const destination: JourneyDestination = {
-                  id: metadata.id,
-                  name: metadata.name,
-                  type: 'curated',
-                }
-                setSelectedDestination(destination)
-                onSelectionChange?.(destination)
-              }}
+              onSelect={() => {
+  toggleDestination({
+    id: destination.id,
+    name: destination.name,
+    type: 'curated',
+  })
+}}
             />
           ))}
         </motion.div>
@@ -427,10 +457,13 @@ export default function DestinationSelectionScreen({
           </p>
           <button
             type="button"
-            disabled={!selectedDestination}
-            onClick={() => {
-              if (selectedDestination) onContinue?.(selectedDestination)
-            }}
+            disabled={selectedDestinations.length === 0}
+
+onClick={() => {
+  if (selectedDestinations.length > 0) {
+    onContinue?.(selectedDestinations)
+  }
+}}
             className={journeyContinueButtonClassName}
           >
             Continue →

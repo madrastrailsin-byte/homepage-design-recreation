@@ -58,7 +58,7 @@ export interface JourneyPlanData {
   budgetId?: string
   contactDetails?: ContactDetails
   departure?: Date
-  destination?: JourneyDestination
+  destinations: JourneyDestination[]
   dreamJourney?: DreamJourneyDetails
   experienceIds: string[]
   returnDate?: Date
@@ -68,7 +68,7 @@ export interface JourneyPlanData {
 export function createJourneyBrief(journey: JourneyPlanData) {
   const contact = journey.contactDetails
   return {
-    destination: journey.destination,
+    destinations: journey.destinations,
     departure: journey.departure,
     returnDate: journey.returnDate,
     travellers: journey.travellers,

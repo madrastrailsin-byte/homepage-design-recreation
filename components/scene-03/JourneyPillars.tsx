@@ -95,11 +95,13 @@ const detailCards = [
 
 export default function JourneyPillars(_props: JourneyPillarsProps) {
   const reduceMotion = useReducedMotion()
-  const [animatedPhase, setPhase] = useState(0)
-  const phase = reduceMotion ? 4 : animatedPhase
+  const [phase, setPhase] = useState(0)
 
   useEffect(() => {
-    if (reduceMotion) return
+    if (reduceMotion) {
+      setPhase(4)
+      return
+    }
 
     const timer = window.setInterval(() => {
       setPhase((current) => (current + 1) % story.length)
@@ -119,7 +121,7 @@ export default function JourneyPillars(_props: JourneyPillarsProps) {
 
       <div className="relative overflow-visible">
         {/* Story copy */}
-        <div className="relative z-30 min-h-[12rem] max-w-[32rem] sm:min-h-[10rem]">
+        <div className="relative z-30 max-w-[32rem]">
           <AnimatePresence mode="wait">
             <motion.div
               key={phase}
@@ -140,11 +142,11 @@ export default function JourneyPillars(_props: JourneyPillarsProps) {
                 {story[phase].eyebrow}
               </p>
 
-              <h3 className="mt-body-copy mt-5 max-w-[29rem] text-[clamp(1.25rem,2.2vw,1.625rem)] font-medium leading-[1.3] tracking-[-0.025em] text-[var(--mt-text-primary)]">
+              <h3 className="mt-display-soft mt-2 max-w-[31rem] text-[clamp(1.45rem,3.15vw,2.08rem)] italic leading-[1.08] tracking-[-0.01em] text-[var(--mt-text-primary)]">
                 {story[phase].title}
               </h3>
 
-              <p className="mt-body-copy mt-4 max-w-[30rem] text-[11px] font-normal leading-[1.65] tracking-[0.005em] text-[var(--mt-text-secondary)] sm:text-[12px]">
+              <p className="mt-body-copy mt-3 max-w-[30rem] text-[11px] font-normal leading-[1.65] tracking-[0.005em] text-[var(--mt-text-secondary)] sm:text-[12px]">
                 {story[phase].body}
               </p>
             </motion.div>

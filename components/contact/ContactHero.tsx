@@ -142,7 +142,7 @@ onCanPlay={(event) => {
     </div>
 
     <a
-      href="https://www.google.com/maps/search/?api=1&query=%23362%2C%20Eden%20Avenue%2C%20Mogappair%2C%20Chennai%20%E2%80%93%20600%20037"
+      href="https://www.google.co.in/search?trk=https://c.gle/AAuDWvmOccVuvtSflYLs9tXgH-XWv4IlZ55Q5pIwzVkKWID3yVNoeZSXg5TaUKL9siJ-B90oq0FQBKMOFOJooia38Jr4AIvfwJa7X9M2qmSGF5yw-HTpx7500Xtw67dbj9lb&q=MadrasTrails&ludocid=4093933813598320408&lsig=AB86z5Xgkv0jQ7-YqnPg4WYWvZiY"
       target="_blank"
       rel="noopener noreferrer"
       aria-label="View the MadrasTrails office on Google Maps"

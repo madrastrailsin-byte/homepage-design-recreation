@@ -135,14 +135,18 @@ function normalize(body: Record<string, unknown>): NormalizedEnquiry | null {
     const contact = journey.contactDetails as Record<string, unknown> | undefined
     const travellers = journey.travellers as Record<string, unknown> | undefined
     const dream = journey.dreamJourney as Record<string, unknown> | undefined
-    const destination = journey.destination as Record<string, unknown> | undefined
+    const destinations = Array.isArray(journey.destinations)
+  ? (journey.destinations as Record<string, unknown>[])
+  : []
     const name = text(contact?.fullName, 120)
     const email = text(contact?.email, 254).toLowerCase()
     const mobile = `${text(contact?.countryCode, 8)} ${text(contact?.mobile, 20)}`.trim()
     const preferredContact = text(contact?.preferredContact, 20)
-    const destinationName = text(destination?.name, 120)
-    const destinationId = text(destination?.id, 120)
-    const destinationType = text(destination?.type, 20)
+    const destinationNames = destinations
+  .map((d) => text(d?.name, 120))
+  .filter(Boolean)
+
+const destinationName = destinationNames.join(', ')
     const experienceIds = safeLines(journey.experienceIds)
     const budgetId = text(journey.budgetId, 40)
 
@@ -152,8 +156,7 @@ function normalize(body: Record<string, unknown>): NormalizedEnquiry | null {
       !/^\+?[\d ]{7,24}$/u.test(mobile) ||
       contact?.consentToContact !== true ||
       !['phone', 'whatsapp', 'email'].includes(preferredContact) ||
-      !destinationName ||
-      !['curated', 'custom'].includes(destinationType) ||
+      !destinationNames.length ||
       experienceIds.some((id) => !isExperienceId(id)) ||
       (budgetId && !isBudgetId(budgetId))
     ) return null
@@ -201,11 +204,11 @@ function normalize(body: Record<string, unknown>): NormalizedEnquiry | null {
       replyTo: email,
       subject: `Journey plan — ${destinationName} — ${name}`,
       payload: {
-        destination: {
-          id: destinationId || null,
-          name: destinationName,
-          type: destinationType,
-        },
+  destinations: destinations.map((d) => ({
+    id: text(d?.id, 120) || null,
+    name: text(d?.name, 120),
+    type: text(d?.type, 20),
+  })),
         departure: text(journey.departure, 40) || null,
         returnDate: text(journey.returnDate, 40) || null,
         travellers: normalizedTravellers,
@@ -227,7 +230,6 @@ function normalize(body: Record<string, unknown>): NormalizedEnquiry | null {
         line('Marketing consent', normalizedContact.marketingConsent),
         '',
         line('Destination', destinationName),
-        line('Destination type', destinationType),
         line('Departure', journey.departure),
         line('Return', journey.returnDate),
         line('Adults', normalizedTravellers.adults),
@@ -251,15 +253,44 @@ function normalize(body: Record<string, unknown>): NormalizedEnquiry | null {
 }
 
 function databaseRow(enquiry: NormalizedEnquiry, reference: string) {
+  const payload = enquiry.payload as Record<string, unknown> | undefined
+
+  const departure = payload?.departure as string | undefined
+  const returnDate = payload?.returnDate as string | undefined
+
+  const travellers = payload?.travellers as
+    | {
+        adults?: number
+        children?: number
+        infants?: number
+        seniors?: number
+      }
+    | undefined
+
+  const travelDates =
+    departure && returnDate
+      ? `${departure.slice(0, 10)} → ${returnDate.slice(0, 10)}`
+      : null
+
+  const travellerSummary = [
+    travellers?.adults ? `${travellers.adults} Adult${travellers.adults > 1 ? 's' : ''}` : null,
+    travellers?.children ? `${travellers.children} Child${travellers.children > 1 ? 'ren' : ''}` : null,
+    travellers?.infants ? `${travellers.infants} Infant${travellers.infants > 1 ? 's' : ''}` : null,
+    travellers?.seniors ? `${travellers.seniors} Senior${travellers.seniors > 1 ? 's' : ''}` : null,
+  ]
+    .filter(Boolean)
+    .join(', ')
+
   return {
     reference,
-    enquiry_type: enquiry.type,
-    name: enquiry.name ?? null,
+    full_name: enquiry.name ?? null,
     email: enquiry.email ?? null,
     phone: enquiry.phone ?? null,
     preferred_contact: enquiry.preferredContact ?? null,
     destination: enquiry.destination ?? null,
-    experience_labels: enquiry.experienceLabels ?? null,
+    travel_dates: travelDates,
+    travellers: travellerSummary || null,
+    experiences: enquiry.experienceLabels ?? null,
     budget_label: enquiry.budgetLabel ?? null,
     payload: enquiry.payload,
   }
@@ -295,16 +326,31 @@ export async function POST(request: Request) {
   let reference = createReference()
   let insertError: { code?: string } | null = null
   for (let attempt = 0; attempt < 2; attempt += 1) {
-    const result = await supabase.from('enquiries').insert(databaseRow(enquiry, reference))
-    insertError = result.error
-    if (!insertError) break
-    if (insertError.code !== '23505') break
-    reference = createReference()
-  }
+  const row = databaseRow(enquiry, reference)
+
+  const result = await supabase
+    .from('enquiries')
+    .insert(row)
+
+  insertError = result.error
+
+  if (!insertError) break
+  if (insertError.code !== '23505') break
+
+  reference = createReference()
+}
 
   if (insertError) {
-    return NextResponse.json({ error: 'We could not save your enquiry. Please try again.' }, { status: 503 })
-  }
+  console.error('SUPABASE INSERT ERROR:', insertError)
+
+  return NextResponse.json(
+    {
+      error: 'We could not save your enquiry.',
+      details: insertError,
+    },
+    { status: 503 }
+  )
+}
 
   const attemptedAt = new Date().toISOString()
   const apiKey = process.env.RESEND_API_KEY
