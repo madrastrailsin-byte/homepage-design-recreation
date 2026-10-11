@@ -1,0 +1,24 @@
+.section { position: relative; display: flex; justify-content: center; align-items: center; min-height: 100svh; padding: 7rem 1.5rem; overflow: hidden; background: #020f12; }
+.overlay { position: absolute; inset: 0; background: linear-gradient(180deg,#020f12,rgba(2,15,18,.15) 24%,rgba(2,15,18,.35) 75%,#020f12); }
+.panel { position: relative; width: 100%; max-width: 38rem; padding: clamp(1.5rem,4vw,3.5rem); border: 1px solid rgba(222,202,154,.25); border-radius: 1.5rem; background: rgba(3,25,29,.78); backdrop-filter: blur(16px); box-shadow: 0 24px 80px rgba(0,0,0,.25); color: #fafaf9; }
+.eyebrow { font-size: .6rem; letter-spacing: .25em; color: #d4af37; text-align: center; }
+.heading { font-size: clamp(2.5rem,4vw,3.8rem); line-height: 1.1; letter-spacing: -.025em; text-align: center; margin-top: 1rem; }
+.timeline { list-style: none; padding: 2rem 0; margin: 1.75rem 0 0; border-top: 1px solid rgba(222,202,154,.2); }
+.milestone { position: relative; display: flex; gap: 1.25rem; align-items: center; min-height: 3rem; font-size: clamp(1rem,2vw,1.15rem); color: #d8d5c9; }
+.milestone:not(:last-child)::after { content: ''; position: absolute; width: 1px; left: 10px; top: calc(50% + 11px); height: calc(100% - 22px); background: rgba(212,175,55,.3); transform-origin: top; }
+.marker { position: relative; z-index: 1; display: grid; place-items: center; width: 21px; height: 21px; flex-shrink: 0; border: 1px solid rgba(212,175,55,.45); border-radius: 50%; color: #d4af37; background: #09262b; }
+.ending { padding-top: 1.75rem; border-top: 1px solid rgba(222,202,154,.2); text-align: center; }
+.lead { font-size: .95rem; color: rgba(250,250,249,.7); }
+.enjoy { margin-top: .5rem; font-size: clamp(2rem,3vw,2.75rem); line-height: 1.1; font-style: italic; color: #eadfc7; }
+.cta { display: flex; justify-content: center; align-items: center; gap: .75rem; margin-top: 2rem; border: 1px solid rgba(212,175,55,.65); border-radius: 999px; padding: 1rem 1.25rem; background: #d4af37; color: #03191d; font-size: .65rem; font-weight: 700; text-transform: uppercase; letter-spacing: .13em; transition: background .3s; }
+.cta:hover { background: #e2c45c; }
+.cta:focus-visible { outline: 2px solid #eadfc7; outline-offset: 5px; }
+@media (prefers-reduced-motion: no-preference) {
+  .ready .milestone { animation: illuminate 1.4s ease-out both; }
+  .ready .marker { animation: beacon 1.4s ease-out both; animation-delay: inherit; }
+  .ready .milestone::after { animation: connect .7s ease-out both; animation-delay: inherit; }
+}
+@keyframes illuminate { from { color: #d8d5c9; } to { color: #eadfc7; } }
+@keyframes beacon { from { border-color: rgba(212,175,55,.3); color: rgba(212,175,55,.35); box-shadow: none; } to { border-color: #d4af37; color: #eadfc7; box-shadow: 0 0 16px rgba(212,175,55,.3); } }
+@keyframes connect { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+@media (max-width: 480px) { .section { padding: 4rem 1rem; } .panel { border-radius: 1rem; } .cta { letter-spacing: .08em; font-size: .6rem; } }
