@@ -1,0 +1,48 @@
+'use client'
+
+import { useRef } from 'react'
+import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion'
+import { ArrowDown } from 'lucide-react'
+import ServicesHeroVideo from './ServicesHeroVideo'
+import styles from './ServicesIntro.module.css'
+
+export default function ServicesIntro() {
+  const sectionRef = useRef<HTMLElement>(null)
+  const reducedMotion = useReducedMotion()
+  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ['start start', 'end start'] })
+  const firstY = useTransform(scrollYProgress, [0, 1], [0, -70])
+  const secondY = useTransform(scrollYProgress, [0, 1], [0, -110])
+  const entrance = (delay: number) => ({
+    initial: { clipPath: 'inset(0 0 100% 0)', y: 16 },
+    animate: { clipPath: 'inset(0 0 0% 0)', y: 0 },
+    transition: { duration: reducedMotion ? 0 : 1.3, delay: reducedMotion ? 0 : delay, ease: [0.22, 1, 0.36, 1] as const },
+  })
+
+  return (
+    <section ref={sectionRef} aria-labelledby="services-heading" className={styles.hero}>
+      <ServicesHeroVideo />
+      <div className={styles.overlay} />
+      <div className={styles.content}>
+        <motion.p {...entrance(0.1)} className="mt-eyebrow mb-8 text-[0.65rem] tracking-[0.3em] text-[#D4AF37]">
+          MADRASTRAILS / SERVICES
+        </motion.p>
+        <h1 id="services-heading" className={`mt-display ${styles.heading}`}>
+          <motion.span style={{ y: reducedMotion ? 0 : firstY }} className={styles.line}>
+            <motion.span {...entrance(0.3)} className={styles.line}>Before the journey begins,</motion.span>
+          </motion.span>
+          <motion.span style={{ y: reducedMotion ? 0 : secondY }} className={styles.line}>
+            <motion.span {...entrance(0.55)} className={`${styles.line} ${styles.second}`}>everything already has.</motion.span>
+          </motion.span>
+        </h1>
+        <motion.p {...entrance(0.85)} className={`mt-body-copy ${styles.copy}`}>
+          From your first conversation to your return home, every reservation, transfer and detail is quietly orchestrated behind the scenes—so your only responsibility is to enjoy the experience.
+        </motion.p>
+        <motion.div {...entrance(1.1)}>
+          <a href="#services-experience" className={`mt-ui ${styles.discover}`}>
+            Discover the experience <ArrowDown size={15} aria-hidden="true" />
+          </a>
+        </motion.div>
+      </div>
+    </section>
+  )
+}
