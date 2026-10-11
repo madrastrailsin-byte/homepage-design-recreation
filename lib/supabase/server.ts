@@ -3,23 +3,26 @@ import 'server-only'
 import { createClient, type SupabaseClient } from '@supabase/supabase-js'
 
 type EnquiryRow = {
-  budget_label: string | null
-  created_at: string
-  destination: string | null
-  email: string | null
-  email_attempted_at: string | null
-  email_error: string | null
-  email_provider_id: string | null
-  email_sent_at: string | null
-  email_status: 'pending' | 'sent' | 'failed'
-  enquiry_type: 'callback' | 'destination' | 'journey-plan'
-  experience_labels: string[] | null
   id: string
-  name: string | null
-  payload: Record<string, unknown>
-  phone: string | null
-  preferred_contact: string | null
   reference: string
+  full_name: string | null
+  email: string | null
+  phone: string | null
+  destination: string | null
+  travel_dates: string | null
+  travellers: string | null
+  experiences: string[] | null
+  budget_label: string | null
+  preferred_contact: string | null
+  subject: string | null
+  content: string | null
+  payload: Record<string, unknown>
+  email_status: 'pending' | 'sent' | 'failed'
+  email_provider_id: string | null
+  email_error: string | null
+  email_attempted_at: string | null
+  email_sent_at: string | null
+  created_at: string
   updated_at: string
 }
 
@@ -28,7 +31,7 @@ interface Database {
     Tables: {
       enquiries: {
         Row: EnquiryRow
-        Insert: Pick<EnquiryRow, 'reference' | 'enquiry_type' | 'payload'> & Partial<EnquiryRow>
+        Insert: Pick<EnquiryRow, 'reference' | 'payload'> & Partial<EnquiryRow>
         Update: Partial<EnquiryRow>
         Relationships: []
       }
