@@ -11,5 +11,5 @@
 .discover:focus-visible { outline: 2px solid #d4af37; outline-offset: 8px; }
 @media (min-width: 768px) { .hero { padding-inline: 3rem; } }
 @media (max-width: 480px) { .hero { padding-top: 8rem; padding-bottom: 5rem; } .heading { font-size: clamp(2.6rem,10vw,3rem); } .copy { margin-top: 1.75rem; } }
-@media (prefers-reduced-motion: no-preference) { .hero video { animation: camera-drift 24s ease-in-out infinite alternate; } .discover { scroll-behavior: smooth; } }
+@media (prefers-reduced-motion: no-preference) { .hero video { animation: camera-drift 24s ease-in-out infinite alternate; } }
 @keyframes camera-drift { from { transform: scale(1.05) translateX(-.5%); } to { transform: scale(1.09) translateX(.5%); } }
