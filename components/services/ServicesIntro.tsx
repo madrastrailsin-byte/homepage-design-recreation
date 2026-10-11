@@ -10,11 +10,11 @@ export default function ServicesIntro() {
   const sectionRef = useRef<HTMLElement>(null)
   const reducedMotion = useReducedMotion()
   const { scrollYProgress } = useScroll({ target: sectionRef, offset: ['start start', 'end start'] })
-  const firstY = useTransform(scrollYProgress, [0, 1], [0, -70])
-  const secondY = useTransform(scrollYProgress, [0, 1], [0, -110])
+  const firstY = useTransform(scrollYProgress, [0, 1], [0, -24])
+  const secondY = useTransform(scrollYProgress, [0, 1], [0, -24])
   const entrance = (delay: number) => ({
-    initial: reducedMotion ? false as const : { clipPath: 'inset(0 0 100% 0)', y: 16 },
-    animate: { clipPath: 'inset(0 0 0% 0)', y: 0 },
+    initial: reducedMotion ? false as const : { opacity: 0, y: 8 },
+    animate: { opacity: 1, y: 0 },
     transition: { duration: reducedMotion ? 0 : 1.3, delay: reducedMotion ? 0 : delay, ease: [0.22, 1, 0.36, 1] as const },
   })
 
@@ -23,21 +23,21 @@ export default function ServicesIntro() {
       <ServicesHeroVideo />
       <div className={styles.overlay} />
       <div className={styles.content}>
-        <motion.p {...entrance(0.1)} className="mt-eyebrow mb-8 text-[0.65rem] tracking-[0.3em] text-[#D4AF37]">
+        <motion.p {...entrance(0.1)} className={`mt-eyebrow ${styles.eyebrow}`}>
           MADRASTRAILS / SERVICES
         </motion.p>
         <h1 id="services-heading" className={`mt-display ${styles.heading}`}>
           <motion.span style={{ y: reducedMotion ? 0 : firstY }} className={styles.line}>
-            <motion.span {...entrance(0.3)} className={styles.line}>Before the journey begins,</motion.span>
+            <motion.span {...entrance(0.3)} className={styles.line}>While you imagine…</motion.span>
           </motion.span>
           <motion.span style={{ y: reducedMotion ? 0 : secondY }} className={styles.line}>
-            <motion.span {...entrance(0.55)} className={`${styles.line} ${styles.second}`}>everything already has.</motion.span>
+            <motion.span {...entrance(0.55)} className={`${styles.line} ${styles.second}`}>we prepare.</motion.span>
           </motion.span>
         </h1>
-        <motion.p {...entrance(0.85)} className={`mt-body-copy ${styles.copy}`}>
-          From your first conversation to your return home, every reservation, transfer and detail is quietly orchestrated behind the scenes—so your only responsibility is to enjoy the experience.
+        <motion.p {...entrance(2)} className={`mt-body-copy ${styles.copy}`}>
+          Every detail. Quietly in motion.
         </motion.p>
-        <motion.div {...entrance(1.1)}>
+        <motion.div {...entrance(2.6)}>
           <a href="#services-experience" onClick={(event) => {
             const experience = document.getElementById('services-experience')
             if (!experience) return
@@ -45,7 +45,7 @@ export default function ServicesIntro() {
             experience.scrollIntoView({ behavior: reducedMotion ? 'instant' : 'smooth', block: 'start' })
             window.history.replaceState(null, '', '#services-experience')
           }} className={`mt-ui ${styles.discover}`}>
-            Discover the experience <ArrowDown size={15} aria-hidden="true" />
+            <span>Discover</span> <ArrowDown size={15} aria-hidden="true" />
           </a>
         </motion.div>
       </div>

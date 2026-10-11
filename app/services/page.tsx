@@ -2,7 +2,6 @@ import type { Metadata } from 'next'
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
 import ServicesField from '@/components/services/ServicesField'
-import ServicesConcierge from '@/components/services/ServicesConcierge'
 import ServicesIntro from '@/components/services/ServicesIntro'
 import { travelServices } from '@/lib/services-data'
 
@@ -20,8 +19,6 @@ export default function ServicesPage() {
       <div id="services-experience" className="scroll-mt-24">
         <ServicesField services={travelServices} />
       </div>
-
-      <ServicesConcierge />
 
       <Footer />
     </main>
