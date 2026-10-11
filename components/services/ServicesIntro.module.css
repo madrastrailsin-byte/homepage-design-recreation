@@ -1,96 +1,135 @@
-.hero { position: relative; isolation: isolate; overflow: hidden; min-height: 100svh; padding: 9rem 5vw 5rem; background: #020f12; color: #fafaf9; }
-.hero::before { content: ''; position: absolute; z-index: -2; inset: 0; background: radial-gradient(ellipse at 75% 40%, #163b35 0%, #091b1d 42%, #020f12 80%); }
-.hero::after { content: ''; position: absolute; pointer-events: none; inset: auto 0 0; height: 8rem; background: linear-gradient(transparent, #020f12); }
-.light { position: absolute; z-index: -1; inset: 0; pointer-events: none; background-image: radial-gradient(ellipse, rgba(215,188,130,.09), transparent 62%); background-size: 125% 125%; }
-.layout { max-width: 1440px; margin: auto; display: grid; grid-template-columns: .9fr 1.1fr; align-items: center; min-height: calc(100svh - 16rem); gap: 1rem; }
-.content { position: relative; z-index: 2; }
-.eyebrow { font-size: .6rem; letter-spacing: .28em; color: #c6aa70; margin-bottom: 2.5rem; }
-.heading { font-family: var(--font-cormorant-garamond), Georgia, serif; font-weight: 400; font-size: clamp(2.9rem, 4.6vw, 5rem); line-height: 1.08; letter-spacing: -.035em; }
-.heading em { display: inline-block; margin-top: .15em; color: #e6d8bb; font-weight: 400; }
-.copy { margin-top: 2rem; font-size: .85rem; letter-spacing: .035em; color: #afb9b4; }
-.scene { position: relative; width: 100%; height: 560px; }
-.backLayer, .frontLayer { position: absolute; inset: 0; pointer-events: none; }
-.frontLayer { z-index: 2; }
-.map, .ticket, .note { position: absolute; background: #daceb5; color: #3d4c43; box-shadow: 0 18px 32px #0006, 0 2px 3px #0005; }
-.map { width: 64%; height: 285px; left: 8%; top: 68px; padding: 20px; background-image: linear-gradient(90deg, transparent 32%, #81785b25 33%, #fff2 34%, transparent 35%, transparent 65%, #81785b25 66%, #fff2 67%, transparent 68%), repeating-linear-gradient(0deg, #ffffff05 0 1px, transparent 1px 3px); }
-.paperLabel { display: block; font-size: 7px; letter-spacing: .17em; font-weight: 500; }
-.mapDrawing { width: 100%; height: 200px; }
-.mapCaption { font-family: var(--font-cormorant-garamond), serif; font-style: italic; font-size: 15px; }
-.notebook { position: absolute; width: 65%; right: -4%; top: 64px; filter: brightness(.65) saturate(.65) drop-shadow(0 25px 15px #0009); }
-.notebook img { width: 100%; height: auto; }
-.passport { position: absolute; width: 180px; height: 252px; left: 19%; top: 172px; border-radius: 5px 13px 13px 5px; padding: 28px 12px; text-align: center; color: #c1a366; border: 1px solid #526052; background: repeating-radial-gradient(ellipse at 30% 40%, #ffffff05 0 1px, transparent 1px 3px), linear-gradient(105deg, #091411, #213b2d 9%, #152b23 75%, #304133); box-shadow: inset 5px 0 6px #0008, inset -2px 0 2px #8b916533, 9px 20px 30px #0009; }
-.passport::after { content: ''; position: absolute; inset: 9px; border: 1px solid #bda06c40; border-radius: 2px 8px 8px 2px; }
-.passport > span { font-size: 7px; letter-spacing: .18em; }
-.emblem { font-size: 58px; line-height: 1.4; margin-top: 16px; text-shadow: 0 1px 1px #000; }
-.passport strong { display: block; font-family: var(--font-cormorant-garamond), serif; font-size: 19px; font-weight: 500; letter-spacing: .16em; }
-.passport .passportBrand { display: block; margin-top: 32px; font-size: 6px; }
-.ticket { width: 300px; left: 4%; top: 300px; padding: 17px 20px; background: #e2d9c5; border-right: 1px dashed #8a826d; }
-.ticketRoute { display: flex; justify-content: space-between; gap: 14px; align-items: center; margin: 12px 0; font-size: 23px; font-weight: 300; letter-spacing: .08em; }
-.routeLine { font-size: 18px; color: #977b47; }
-.ticketDetails { display: flex; justify-content: space-between; font-size: 6px; letter-spacing: .1em; line-height: 1.7; }
-.ticketDetails strong { font-size: 8px; font-weight: 400; }
-.barcode { margin-top: 12px; height: 15px; width: 100px; background: repeating-linear-gradient(90deg, #344338 0 1px, transparent 1px 3px, #344338 3px 5px, transparent 5px 6px); }
-.pen { position: absolute; width: 13px; height: 235px; top: 126px; right: 24%; border-radius: 8px; background: linear-gradient(90deg, #030605, #39473c 32%, #0b110e 60%, #020504); box-shadow: 5px 7px 7px #0009; }
-.pen i { position: absolute; top: 12px; right: 1px; width: 3px; height: 63px; background: linear-gradient(90deg,#826636,#ddc58d,#8d713e); border-radius: 2px; }
-.pen span { position: absolute; top: 82px; height: 6px; width: 100%; background: linear-gradient(90deg,#826636,#ddc58d,#8d713e); }
-.pen b { position: absolute; bottom: -19px; left: 2px; width: 9px; height: 22px; background: linear-gradient(90deg,#826636,#ddc58d,#8d713e); clip-path: polygon(0 0,100% 0,50% 100%); }
-.note { right: 3%; top: 369px; width: 188px; padding: 23px 18px 18px; background: #c9c0a9; }
-.note p { font-family: var(--font-cormorant-garamond), serif; font-style: italic; font-size: 24px; line-height: 1.1; margin-top: 15px; }
-.noteSignature { display: block; font-family: var(--font-signature), cursive; color: #8b7042; font-size: 15px; margin-top: 12px; }
-.clip { position: absolute; top: -16px; right: 14px; width: 55px; height: auto; filter: sepia(.5) brightness(.8); }
-.sceneCaption { position: absolute; bottom: 5px; left: 12%; font-size: 7px; letter-spacing: .22em; color: #9d9e8e; }
-.sceneCaption span { margin: 0 8px; color: #bfa46a; }
-.discover { position: relative; z-index: 3; display: flex; align-items: center; justify-content: center; gap: 16px; width: fit-content; margin: 1.5rem auto 0; padding: 14px; color: #c6b58e; text-transform: uppercase; font-size: .58rem; letter-spacing: .2em; transition: color .3s; }
-.discover:hover { color: #fff3d5; }
-.discover:focus-visible { outline: 2px solid #c6aa70; outline-offset: 5px; }
-@media (min-width: 768px) and (max-width: 1100px) {
-  .hero { padding-top: 8rem; }
-  .layout { grid-template-columns: 1fr; gap: 0; }
-  .content { text-align: center; }
-  .heading { font-size: 4rem; }
-  .desktopBreak { display: none; }
-  .eyebrow { margin-bottom: 1.5rem; }
-  .copy { margin-top: 1.25rem; }
-  .scene { width: 620px; max-width: 100%; margin: 1rem auto 0; height: 535px; }
-  .map { top: 35px; left: 6%; }
-  .notebook { top: 20px; right: 0; }
-  .passport { top: 140px; left: 22%; }
-  .ticket { top: 275px; }
-  .pen { top: 95px; }
-  .note { top: 340px; }
+.hero { position: relative; isolation: isolate; overflow: hidden; background: #020f12; color: #fafaf9; }
+.desk { position: absolute; inset: 0; z-index: -3; background: linear-gradient(180deg,#020f12a6,#04151496 35%,#120d07a8 75%,#020f12),url('/images/services/walnut-desk.jpg') center/cover; }
+.hero::after { content:''; position:absolute; z-index:0; pointer-events:none; inset:0; background:radial-gradient(ellipse at 50% 50%,transparent 45%,#020f1270 100%),linear-gradient(0deg,#020f12,transparent 15%); }
+.warmLight { position: absolute; inset: 0; z-index: -1; pointer-events:none; }
+.workspace { position:relative; z-index:1; max-width:1800px; height: min(980px, max(800px, 100svh)); margin:auto; perspective:1200px; }
+.objects { position:absolute; inset:0; pointer-events:none; }
+.object { width:100%; height:100%; transform-style:preserve-3d; }
+.content { position:absolute; z-index:4; top:15%; left:27%; width:46%; text-align:center; }
+.eyebrow { font-size:.65rem; letter-spacing:.32em; color:#d3ad65; margin-bottom:1.25rem; }
+.heading { font-family:var(--font-cormorant-garamond),Georgia,serif; font-size:clamp(3.8rem,5.4vw,6.3rem); line-height:.98; font-weight:400; letter-spacing:-.025em; text-shadow:0 3px 25px #0008; }
+.heading em { font-weight:400; color:#ecddc3; }
+.copy { margin:1.5rem auto 0; max-width:33rem; font-size:clamp(.8rem,1vw,1rem); color:#e4dfd6; line-height:1.6; }
+.notebook { position:absolute; z-index:4; left:24%; top:54%; width:54%; height:38%; transform-style:preserve-3d; }
+.bookCover { position:relative; display:grid; grid-template-columns:1fr 1fr; height:100%; padding:12px 20px 20px; border-radius:18px 22px 20px 18px; background:linear-gradient(100deg,#24150c,#68452b 5%,#2b190e 48%,#110b07 50%,#463020 95%,#1a100a); border:1px solid #9b693b70; transform:rotateX(14deg); }
+.bookCover::before { content:''; position:absolute; inset:5px; border:1px dashed #b6885066; border-radius:15px; }
+.pageLeft,.pageRight { position:relative; padding:24px 24px 28px; color:#483c2c; background:linear-gradient(110deg,#ffffff15,transparent 50%,#57412940),url('/images/services/parchment-paper.jpg') center/cover; box-shadow:0 5px 0 #b0a18a,0 7px 0 #796b58,0 9px 0 #3b2c1a; }
+.pageLeft { border-radius:12px 5px 4px 8px; transform:skewY(-2deg); background-blend-mode:multiply; }
+.pageRight { border-radius:5px 18px 12px 4px; transform:skewY(2deg); background-image:linear-gradient(90deg,#30201255,transparent 13%,#f1b66220 80%,#6c3d1320),url('/images/services/parchment-paper.jpg'); }
+.pageRight::before { content:''; position:absolute; inset:0 auto 0 -5px; width:10px; background:linear-gradient(90deg,transparent,#281c16a6,transparent); }
+.pageEyebrow { display:block; font-size:6px; letter-spacing:.2em; color:#706046; }
+.sketch { width:100%; height:55%; margin-top:12px; stroke:#4d493c; stroke-width:1; opacity:.6; }
+.handwritten,.ready { font-family:var(--font-signature),cursive; font-size:clamp(17px,1.6vw,28px); line-height:1.3; }
+.handwritten { margin-top:8px; color:#66543b; }
+.pageNumber { position:absolute; bottom:13px; font-size:6px; letter-spacing:.16em; color:#897450; }
+.checklist { list-style:none; margin-top:18px; font-family:var(--font-signature),cursive; font-size:clamp(16px,1.5vw,25px); line-height:1.3; width:75%; }
+.checklist li { border-bottom:1px solid #71543633; padding:2px 0; }
+.checklist span { display:inline-block; font-family:Georgia,serif; font-size:14px; margin-right:12px; }
+.ready { margin-top:18px; margin-left:3%; }
+.seal { position:absolute; right:6%; bottom:13%; display:flex; flex-direction:column; justify-content:center; align-items:center; width:100px; height:100px; border:3px double #b57a30; outline:1px solid #b57a3077; outline-offset:3px; border-radius:50%; color:#aa6f27; transform:rotate(-13deg); opacity:.85; }
+.seal span { font-size:6px; letter-spacing:.15em; }
+.seal b { font-family:var(--font-cormorant-garamond),serif; font-size:36px; font-weight:400; }
+.passport { position:absolute; z-index:3; top:37%; left:68%; width:140px; height:193px; }
+.passportCover { height:100%; border-radius:5px 10px 10px 5px; padding:23px 12px; text-align:center; color:#bd995a; border:1px solid #435043; background:repeating-radial-gradient(ellipse at 30% 40%,#ffffff05 0 1px,transparent 1px 3px),linear-gradient(105deg,#060f10,#1b2924 9%,#0c1919 80%,#22332c); box-shadow:inset 5px 0 6px #0008,8px 14px 22px #000a; }
+.passportCover span { display:block; font-size:5px; letter-spacing:.16em; }
+.passportCover b { display:block; font-size:47px; line-height:1.7; font-weight:400; }
+.passportCover strong { font-family:var(--font-cormorant-garamond),serif; font-size:18px; font-weight:500; letter-spacing:.1em; }
+.passportCover small { display:block; margin-top:17px; font-size:5px; letter-spacing:.2em; }
+.boardingPass { position:absolute; z-index:2; top:35%; left:72%; width:125px; height:220px; }
+.ticket { height:100%; padding:12px; color:#4b4b40; background:linear-gradient(120deg,#e5deca,#b5af99); box-shadow:5px 12px 15px #0007; }
+.ticket > span { font-size:5px; letter-spacing:.1em; }
+.ticket strong { display:block; margin:20px 0; font-size:20px; font-weight:400; }
+.ticket i { color:#a08149; font-style:normal; }
+.ticket > div { font-size:5px; letter-spacing:.12em; }
+.ticket b { display:block; font-size:7px; font-weight:400; margin-top:6px; }
+.barcode { height:22px; margin-top:20px; background:repeating-linear-gradient(90deg,#344338 0 1px,transparent 1px 3px,#344338 3px 5px,transparent 5px 6px); }
+.pen { position:absolute; z-index:7; left:71%; top:57%; width:14px; height:230px; }
+.penBody { height:100%; position:relative; border-radius:8px; background:linear-gradient(90deg,#020303,#3b3a30 32%,#080e0c 60%,#010302); box-shadow:6px 8px 7px #0009; }
+.penBody i { position:absolute; top:12px; right:1px; width:3px; height:63px; background:linear-gradient(90deg,#826636,#ddc58d,#8d713e); border-radius:2px; }
+.penBody span { position:absolute; top:82px; height:6px; width:100%; background:linear-gradient(90deg,#826636,#ddc58d,#8d713e); }
+.penBody b { position:absolute; bottom:-21px; left:2px; width:10px; height:25px; background:linear-gradient(90deg,#826636,#ddc58d,#8d713e); clip-path:polygon(0 0,100% 0,50% 100%); }
+.photograph { position:absolute; z-index:5; width:14%; }
+.photoPaper { padding:7px 7px 18px; background:linear-gradient(130deg,#e4dac8,#b8aa91); border-radius:3px; box-shadow:5px 15px 22px #0009; }
+.photoPaper img { display:block; width:100%; height:auto; aspect-ratio:1.4; object-fit:cover; filter:saturate(.65) sepia(.18) brightness(.8); }
+.photoPaper span { display:block; padding-top:7px; text-align:center; font-family:var(--font-signature),cursive; font-size:11px; color:#73634c; }
+.photoItaly { left:7%; top:56%; }
+.photoVilla { left:31%; top:50%; width:11%; z-index:6; }
+.photoJapan { right:5%; top:52%; }
+.map { position:absolute; z-index:1; right:0; top:64%; width:30%; height:30%; }
+.mapPaper { height:100%; background:linear-gradient(110deg,#a99b7d,#d1c4a5); box-shadow:4px 10px 20px #0006; }
+.mapPaper svg { width:100%; height:100%; stroke:#5b6453; stroke-width:1; opacity:.45; }
+.compass { position:absolute; z-index:6; right:5%; top:79%; width:115px; height:115px; }
+.compassRing { position:relative; height:100%; border-radius:50%; border:9px ridge #9c7744; outline:2px solid #392813; background:repeating-conic-gradient(#bd995a 0deg 1deg,transparent 1deg 15deg),radial-gradient(circle,#1b2922 55%,#060d0c); box-shadow:7px 16px 18px #000a,inset 0 0 0 7px #151b14; color:#dfbe7b; font:10px Georgia,serif; }
+.compassRing::before { content:''; position:absolute; top:-27px; left:33px; width:24px; height:19px; border:4px solid #b58d53; border-radius:50%; }
+.north,.south,.east,.west { position:absolute; z-index:1; }
+.north { top:7px; left:44%; }.south { bottom:7px; left:44%; }.east { right:7px; top:43%; }.west { left:7px; top:43%; }
+.compassNeedle { position:absolute; width:20px; height:72%; left:calc(50% - 10px); top:14%; background:linear-gradient(#e0c895 50%,#69583e 50%); clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%); transform:rotate(30deg); }
+.compassPin { position:absolute; width:9px; height:9px; border-radius:50%; background:#d7b970; left:calc(50% - 4.5px); top:calc(50% - 4.5px); }
+.globe { position:absolute; z-index:2; left:-5%; top:5%; width:205px; height:230px; opacity:.65; }
+.globeSphere { height:170px; width:170px; border-radius:50%; background:repeating-linear-gradient(0deg,transparent 0 21px,#3f301e55 22px 23px),repeating-linear-gradient(90deg,transparent 0 25px,#3f301e55 26px 27px),radial-gradient(circle at 70% 25%,#c99d60,#756044 65%,#312b1b); box-shadow:inset -20px -10px 25px #0008; }
+.globeStand { width:140px; height:30px; margin-left:20px; margin-top:20px; border-radius:50%; background:linear-gradient(#806134,#201a10); box-shadow:0 12px 12px #0009; }
+.lamp { position:absolute; z-index:1; top:0; left:16%; width:160px; height:155px; }
+.lampStem { height:105px; width:15px; margin:auto; background:linear-gradient(90deg,#594022,#d8ae65,#403320); }
+.lampBase { height:35px; border-radius:50%; background:radial-gradient(ellipse at 50% 20%,#e0b56b,#75542c 45%,#1d170f 80%); box-shadow:0 10px 15px #0009; }
+.journey { position:absolute; z-index:8; left:4%; top:35%; width:92%; height:24%; }
+.journeyPath { position:absolute; inset:0; width:100%; height:100%; overflow:visible; filter:drop-shadow(0 0 4px #d6a05b66); }
+.milestone { position:absolute; width:18%; display:flex; align-items:flex-start; gap:10px; text-shadow:0 2px 8px #000; }
+.milestoneIcon { position:relative; flex-shrink:0; width:44px; height:44px; display:grid; place-items:center; border:1px solid #cfa36670; border-radius:50%; background:#101b18c9; color:#e0c79c; box-shadow:0 0 22px #c49b4920; }
+.milestoneIcon::before { content:''; position:absolute; left:-7px; top:19px; width:5px; height:5px; border-radius:50%; background:#ffdf9d; box-shadow:0 0 9px 3px #e7a25599; }
+.stepNumber { font-size:9px; letter-spacing:.12em; color:#d1bd99; }
+.milestone h2 { margin-top:1px; text-transform:uppercase; font-size:10px; font-weight:400; letter-spacing:.2em; }
+.milestone p { font-size:11px; line-height:1.5; color:#d8d6cb; margin-top:5px; max-width:145px; }
+.pathTablet,.pathMobile { display:none; }
+.step1 { left:1%; top:-42%; }.step2 { left:19%; top:5%; }.step3 { left:42%; top:57%; }.step4 { left:65%; top:41%; }.step5 { left:83%; top:12%; }
+.discover { position:absolute; z-index:9; bottom:1.8%; left:36%; width:28%; display:flex; flex-direction:column; align-items:center; gap:14px; padding:12px; color:#fff4d9; background:radial-gradient(ellipse,#041514d9,transparent 72%); text-transform:uppercase; font-size:10px; letter-spacing:.2em; text-shadow:0 2px 5px #000,0 0 14px #000,0 0 24px #000; }
+.discover span { display:block; width:75%; height:1px; background:#c9ad78; }
+.discover:hover { color:#e8c58a; }
+.discover:focus-visible { outline:2px solid #d0ac69; outline-offset:4px; }
+@media (min-width:768px) and (max-width:1100px) {
+  .workspace { height:1100px; }
+  .pathDesktop { display:none; }.pathTablet { display:block; }
+  .content { top:13%; left:16%; width:68%; }
+  .heading { font-size:5.4rem; }
+  .notebook { left:17%; top:61%; width:68%; height:28%; }
+  .passport { top:47%; left:71%; width:120px; height:170px; }
+  .boardingPass { top:45%; left:75%; width:105px; height:185px; }
+  .photograph { width:18%; }.photoItaly { top:56%; left:3%; }.photoVilla { top:57%; left:28%; width:14%; }.photoJapan { right:0; top:28%; width:14%; }
+  .pen { left:74%; top:66%; height:195px; }
+  .compass { top:82%; right:2%; width:90px; height:90px; }
+  .compassRing::before { left:24px; }
+  .globe { top:4%; width:150px; }.lamp { left:15%; opacity:.7; }
+  .journey { top:34%; height:26%; left:6%; width:88%; }
+  .step1 { left:0; top:5%; }.step2 { left:24%; top:25%; }.step3 { left:47%; top:58%; }.step4 { left:68%; top:68%; }.step5 { left:78%; top:18%; }
+  .milestone { width:22%; gap:6px; }.milestoneIcon { width:35px; height:35px; }.milestoneIcon::before { top:15px; }.milestone p { font-size:10px; }
+  .discover { bottom:3%; }
 }
-@media (max-width: 767px) {
-  .hero { padding: 7.5rem 1.25rem 3rem; }
-  .layout { display: flex; flex-direction: column; min-height: auto; gap: 0; }
-  .content { width: 100%; text-align: center; }
-  .eyebrow { font-size: .53rem; letter-spacing: .22em; margin-bottom: 1.5rem; }
-  .heading { font-size: clamp(2.5rem, 8.7vw, 3.6rem); }
-  .desktopBreak { display: none; }
-  .copy { font-size: .76rem; margin-top: 1.25rem; }
-  .scene { height: 425px; max-width: 440px; margin-top: 1.5rem; }
-  .map { width: 75%; height: 190px; left: 0; top: 30px; padding: 14px; }
-  .mapDrawing { height: 125px; }
-  .mapCaption { font-size: 12px; }
-  .paperLabel { font-size: 5px; }
-  .notebook { width: 68%; right: -5%; top: 14px; }
-  .passport { width: 126px; height: 181px; top: 112px; left: 17%; padding: 18px 8px; }
-  .passport > span { font-size: 5px; }
-  .emblem { font-size: 40px; margin-top: 8px; }
-  .passport strong { font-size: 14px; }
-  .passport .passportBrand { font-size: 4px; margin-top: 22px; }
-  .ticket { width: 205px; top: 215px; left: 1%; padding: 12px; }
-  .ticketRoute { font-size: 16px; gap: 8px; margin: 8px 0; }
-  .ticketDetails { font-size: 5px; }
-  .ticketDetails strong { font-size: 6px; }
-  .barcode { height: 10px; margin-top: 7px; }
-  .pen { height: 165px; width: 10px; right: 20%; top: 77px; }
-  .pen span { top: 65px; }
-  .pen i { height: 45px; }
-  .pen b { width: 6px; height: 15px; bottom: -13px; }
-  .note { width: 133px; padding: 18px 12px 12px; right: 0; top: 266px; }
-  .note p { font-size: 19px; margin-top: 10px; }
-  .noteSignature { font-size: 12px; margin-top: 8px; }
-  .clip { width: 40px; top: -11px; right: 8px; }
-  .sceneCaption { left: 0; width: 100%; text-align: center; bottom: 0; font-size: 5.5px; letter-spacing: .15em; }
-  .discover { margin-top: .75rem; }
+@media (max-width:767px) {
+  .workspace { height:1060px; }
+  .pathDesktop,.pathTablet { display:none; }.pathMobile { display:block; }
+  .desk { background-position:40% center; }
+  .content { top:12%; left:7%; width:86%; }
+  .eyebrow { font-size:.52rem; letter-spacing:.23em; margin-bottom:1.3rem; }
+  .heading { font-size:clamp(3.5rem,14vw,5rem); line-height:1; }
+  .copy { font-size:.8rem; max-width:280px; margin-top:1.3rem; }
+  .globe { width:130px; left:-14%; top:1%; opacity:.35; }.globeSphere { width:130px; height:130px; }.globeStand { width:110px; margin-left:5px; }
+  .lamp { left:65%; width:90px; height:90px; opacity:.5; }.lampStem { height:65px; width:9px; }.lampBase { height:20px; }
+  .notebook { left:7%; width:86%; top:66%; height:22%; }
+  .bookCover { padding:7px 10px 12px; border-radius:10px; transform:rotateX(8deg); }
+  .pageLeft,.pageRight { padding:15px 12px 22px; }
+  .pageEyebrow { font-size:4px; letter-spacing:.1em; }.pageNumber { font-size:4px; bottom:10px; }
+  .sketch { margin-top:7px; height:48%; }.handwritten { font-size:14px; }.ready { font-size:21px; margin-top:13px; }
+  .checklist { font-size:15px; margin-top:12px; width:85%; }.checklist li { padding:0; }.checklist span { font-size:10px; margin-right:6px; }
+  .seal { width:54px; height:54px; bottom:14%; right:7%; }.seal span { font-size:3px; }.seal b { font-size:22px; }
+  .passport { top:56%; left:65%; width:89px; height:127px; }.passportCover { padding:15px 7px; }.passportCover span { font-size:3.5px; }.passportCover b { font-size:28px; }.passportCover strong { font-size:12px; }.passportCover small { font-size:3px; margin-top:12px; }
+  .boardingPass { top:55%; left:73%; width:77px; height:143px; }.ticket { padding:8px; }.ticket > span { font-size:3px; }.ticket strong { font-size:13px; margin:15px 0; }.ticket > div { font-size:4px; }.ticket b { font-size:5px; }.barcode { margin-top:13px; height:13px; }
+  .pen { left:77%; top:69%; width:9px; height:137px; }.penBody i { height:38px; width:2px; }.penBody span { top:52px; height:4px; }.penBody b { width:6px; height:16px; bottom:-14px; left:1px; }
+  .photograph { width:26%; }.photoItaly { top:58%; left:2%; }.photoVilla { top:63%; left:27%; width:23%; }.photoJapan { top:31%; right:-3%; width:25%; opacity:.7; }
+  .photoPaper { padding:4px 4px 8px; }.photoPaper span { font-size:7px; padding-top:4px; }
+  .map { top:80%; right:-10%; width:65%; height:15%; }.compass { width:65px; height:65px; top:87%; right:5%; }.compassRing { border-width:6px; font-size:6px; }.compassRing::before { width:15px; height:12px; left:17px; top:-19px; border-width:3px; }.compassNeedle { width:12px; left:calc(50% - 6px); }.compassPin { width:5px; height:5px; left:calc(50% - 2.5px); top:calc(50% - 2.5px); }.north { top:4px; }.south { bottom:4px; }.east { right:4px; }.west { left:4px; }
+  .journey { top:35%; left:10%; width:80%; height:23%; }
+  .journeyPath { height:100%; width:100%; opacity:.65; }
+  .milestone { width:48%; gap:8px; }.milestoneIcon { width:34px; height:34px; }.milestoneIcon svg { width:17px; }.milestoneIcon::before { top:14px; }.stepNumber { font-size:7px; }.milestone h2 { font-size:8px; letter-spacing:.14em; }.milestone p { font-size:9px; line-height:1.4; margin-top:3px; }
+  .step1 { left:0; top:0; }.step2 { left:54%; top:17%; }.step3 { left:0; top:40%; }.step4 { left:54%; top:57%; }.step5 { left:0; top:79%; }
+  .discover { bottom:3%; width:60%; left:20%; font-size:8px; gap:12px; }
 }
+@media (prefers-reduced-motion:reduce) { .hero * { scroll-behavior:auto; } }
