@@ -1,0 +1,61 @@
+{
+  "generation": "Built-in image_gen tool; photographic transparent cutouts, warm upper-left tungsten light, elevated near-overhead camera. PNG originals retained in chat outputs/hero-assets. Only transparent padding cropped; proportions and alpha preserved.",
+  "assets": [
+    {
+      "name": "notebook",
+      "file": "public/images/services/hero-realistic/notebook.webp",
+      "width": 1536,
+      "height": 805,
+      "bytes": 261142,
+      "hasAlpha": true
+    },
+    {
+      "name": "passport",
+      "file": "public/images/services/hero-realistic/passport.webp",
+      "width": 653,
+      "height": 900,
+      "bytes": 221758,
+      "hasAlpha": true
+    },
+    {
+      "name": "pen",
+      "file": "public/images/services/hero-realistic/pen.webp",
+      "width": 125,
+      "height": 900,
+      "bytes": 22720,
+      "hasAlpha": true
+    },
+    {
+      "name": "compass",
+      "file": "public/images/services/hero-realistic/compass.webp",
+      "width": 700,
+      "height": 811,
+      "bytes": 171536,
+      "hasAlpha": true
+    },
+    {
+      "name": "globe",
+      "file": "public/images/services/hero-realistic/globe.webp",
+      "width": 691,
+      "height": 900,
+      "bytes": 207360,
+      "hasAlpha": true
+    },
+    {
+      "name": "lamp",
+      "file": "public/images/services/hero-realistic/lamp.webp",
+      "width": 700,
+      "height": 825,
+      "bytes": 95750,
+      "hasAlpha": true
+    },
+    {
+      "name": "map",
+      "file": "public/images/services/hero-realistic/map.webp",
+      "width": 1200,
+      "height": 722,
+      "bytes": 320510,
+      "hasAlpha": true
+    }
+  ]
+}
