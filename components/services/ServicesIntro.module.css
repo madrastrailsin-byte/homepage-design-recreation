@@ -105,3 +105,41 @@
   .photoItaly { top:61%; left:10%; }.photoVilla { top:57%; left:28%; width:10%; }.pen { top:61%; left:65%; }.compass { top:72%; right:9%; }
   .discover { font-size:8px; gap:4px; padding:4px; bottom:6px; }
 }
+
+/* Composition polish: keep the editorial heading anchored while the desk closes around it. */
+@media (min-width:1101px) {
+ .notebook { left:16%; top:calc(49% - 130px); width:68%; height:50%; }
+ .passport { left:69%; top:calc(32% - 60px); }
+ .boardingPass { left:73%; top:calc(30% - 60px); }
+ .pen { top:calc(55% - 130px); left:66%; }
+ .photoItaly { top:calc(56% - 130px); }.photoVilla { top:calc(50% - 130px); left:27%; }.photoJapan { top:calc(52% - 130px); }
+ .map { top:calc(61% - 130px); }.compass { top:calc(75% - 130px); }
+ .journey { top:32%; }.step1 { top:-35%; }.step2 { left:16%; top:22%; }.step3 { left:40%; top:72%; }.step4 { left:65%; top:52%; }.step5 { left:83%; top:5%; }
+}
+.photoVilla .photoPaper { box-shadow:1px 3px 2px #0006,5px 9px 8px #0008,10px 20px 22px #0006; }
+.pageDetails { position:absolute; width:100%; height:100%; inset:0; font-family:var(--font-signature),cursive; color:#514631; pointer-events:none; }
+.leftPage { position:absolute; left:10%; top:22%; width:35%; height:62%; }
+.watermark { position:absolute; top:3%; left:8%; font-family:var(--font-cormorant-garamond),serif; font-size:clamp(7px,1.1vw,17px); letter-spacing:.12em; opacity:.24; }
+.leftPage svg { position:absolute; inset:0; width:100%; height:100%; fill:#9c783f; }
+.leftPage path { fill:none; stroke:#a68146; stroke-width:1; stroke-dasharray:3 4; opacity:.65; }
+.routeNote { position:absolute; bottom:1%; left:10%; font-size:clamp(7px,1.1vw,17px); }
+.rightPage { position:absolute; left:55%; top:18%; width:34%; height:66%; }
+.planningTitle { display:block; font-size:clamp(8px,1.4vw,21px); }
+.rightPage p { font-size:clamp(7px,1.05vw,16px); line-height:1.5; margin:4% 0; }
+.planningNote { display:block; width:70%; font-size:clamp(6px,.9vw,14px); line-height:1.3; }
+.waxSeal { position:absolute; right:3%; bottom:0; width:24%; aspect-ratio:1; border-radius:46% 51% 45% 49%; display:flex; align-items:center; justify-content:center; flex-direction:column; color:#664613; background:radial-gradient(circle at 33% 23%,#efd48b,#bc8a35 58%,#7c5119); box-shadow:inset 1px 2px 2px #ffefb6aa,inset -2px -3px 3px #64400aaa,2px 4px 4px #38220966; transform:rotate(-9deg); font-family:var(--font-cormorant-garamond),serif; }
+.waxSeal::before { content:''; position:absolute; inset:10%; border:1px solid #75501c80; border-radius:50%; box-shadow:0 1px 1px #ffe2a0aa; }
+.waxSeal span { font-size:clamp(13px,2vw,30px); text-shadow:0 1px #ffe3a0; line-height:1; }.waxSeal small { font-size:clamp(3px,.32vw,5px); letter-spacing:.1em; margin-top:4%; }
+@media (min-width:768px) and (max-width:1100px) { .notebook { left:8%; width:84%; top:49%; height:39%; }.passport { top:40%; left:78%; }.boardingPass { top:39%; left:83%; }.pen { top:56%; }.photoItaly { top:48%; }.photoVilla { top:47%; left:23%; }.map { top:53%; }.compass { top:73%; }.step3 { top:52%; }.step4 { top:63%; } }
+@media (max-width:767px) { .notebook { left:-4%; width:108%; top:62%; height:30%; }.passport { top:55%; left:64%; }.boardingPass { top:54%; left:72%; }.photoVilla { top:63%; }.photoItaly { top:63%; }.pen { top:68%; }.watermark { font-size:7px; }.planningTitle { font-size:9px; }.rightPage p { font-size:7px; }.planningNote { font-size:6px; }.routeNote { font-size:7px; } }
+/* Printed notes occupy the lower page, beneath the notebook's original handwriting. */
+.rightPage { top:51%; height:35%; }
+.planningTitle { font-size:clamp(8px,1.15vw,17px); }
+.rightPage p { font-size:clamp(7px,.85vw,13px); line-height:1.35; margin:2% 0; }
+.planningNote { font-size:clamp(6px,.75vw,11px); }
+.waxSeal { right:0; bottom:0; width:23%; }
+.watermark { top:83%; left:37%; font-size:clamp(6px,.7vw,11px); }
+.step3 > div:last-child,.step4 > div:last-child { padding:4px 7px; border-radius:3px; background:#071411a8; backdrop-filter:blur(5px); }
+@media (min-width:1101px) { .notebook { top:calc(49% - 120px); } }
+@media (max-width:767px) { .rightPage p { font-size:6px; }.planningTitle { font-size:7px; }.planningNote { font-size:5px; }.step3 > div:last-child,.step4 > div:last-child { padding:0; background:transparent; backdrop-filter:none; } }
+@media (max-width:767px) { .waxSeal { right:20%; bottom:0; } }
