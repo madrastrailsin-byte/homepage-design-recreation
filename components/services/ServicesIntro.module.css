@@ -1,79 +1,96 @@
-.hero {
-  position: relative;
-  display: grid;
-  place-items: center;
-  min-height: 100svh;
-  overflow: hidden;
-  padding: clamp(8rem, 18svh, 12rem) 1.5rem 7rem;
-  background: #020f12;
-}
-.hero video {
-  filter: blur(4px) brightness(.5) saturate(.55);
-  transform: scale(1.06);
-}
-.overlay {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: linear-gradient(180deg, rgba(2,15,18,.45), rgba(2,15,18,.3) 45%, #020f12 100%),
-    radial-gradient(ellipse at 50% 42%, transparent, rgba(2,15,18,.55));
-}
-.content {
-  position: relative;
-  z-index: 1;
-  width: 100%;
-  max-width: 86rem;
-  text-align: center;
-}
-.eyebrow {
-  margin-bottom: clamp(2.5rem, 6svh, 4.5rem);
-  font-size: .625rem;
-  letter-spacing: .3em;
-  color: #d4af37;
-}
-.heading {
-  font-size: clamp(3rem, 7.5vw, 8rem);
-  line-height: 1.15;
-  letter-spacing: -.035em;
-  color: #fafaf9;
-}
-.line { display: block; }
-.second {
-  margin-top: .12em;
-  font-style: italic;
-  color: #eadfc7;
-}
-.copy {
-  margin: clamp(2rem, 5svh, 3.5rem) auto 0;
-  font-size: clamp(.8rem, 1.1vw, .95rem);
-  line-height: 1.75;
-  letter-spacing: .08em;
-  color: rgba(250,250,249,.75);
-}
-.discover {
-  display: inline-flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-  margin-top: clamp(2rem, 5svh, 3.5rem);
-  padding: .75rem 1rem;
-  text-transform: uppercase;
-  letter-spacing: .24em;
-  font-size: .6rem;
-  color: #eadfc7;
-  transition: color .3s;
-}
-.discover:hover { color: #d4af37; }
-.discover:focus-visible { outline: 2px solid #d4af37; outline-offset: 6px; }
-@media (min-width: 768px) { .hero { padding-inline: 3rem; } }
-@media (max-width: 480px) {
-  .hero { padding-inline: 1.25rem; padding-bottom: 4rem; }
-  .heading { font-size: clamp(2.25rem, 10vw, 3rem); }
-  .eyebrow { font-size: .55rem; letter-spacing: .24em; }
-}
-@media (max-height: 600px) and (min-width: 481px) {
-  .hero { padding-top: 7rem; padding-bottom: 2rem; }
+.hero { position: relative; isolation: isolate; overflow: hidden; min-height: 100svh; padding: 9rem 5vw 5rem; background: #020f12; color: #fafaf9; }
+.hero::before { content: ''; position: absolute; z-index: -2; inset: 0; background: radial-gradient(ellipse at 75% 40%, #163b35 0%, #091b1d 42%, #020f12 80%); }
+.hero::after { content: ''; position: absolute; pointer-events: none; inset: auto 0 0; height: 8rem; background: linear-gradient(transparent, #020f12); }
+.light { position: absolute; z-index: -1; inset: 0; pointer-events: none; background-image: radial-gradient(ellipse, rgba(215,188,130,.09), transparent 62%); background-size: 125% 125%; }
+.layout { max-width: 1440px; margin: auto; display: grid; grid-template-columns: .9fr 1.1fr; align-items: center; min-height: calc(100svh - 16rem); gap: 1rem; }
+.content { position: relative; z-index: 2; }
+.eyebrow { font-size: .6rem; letter-spacing: .28em; color: #c6aa70; margin-bottom: 2.5rem; }
+.heading { font-family: var(--font-cormorant-garamond), Georgia, serif; font-weight: 400; font-size: clamp(2.9rem, 4.6vw, 5rem); line-height: 1.08; letter-spacing: -.035em; }
+.heading em { display: inline-block; margin-top: .15em; color: #e6d8bb; font-weight: 400; }
+.copy { margin-top: 2rem; font-size: .85rem; letter-spacing: .035em; color: #afb9b4; }
+.scene { position: relative; width: 100%; height: 560px; }
+.backLayer, .frontLayer { position: absolute; inset: 0; pointer-events: none; }
+.frontLayer { z-index: 2; }
+.map, .ticket, .note { position: absolute; background: #daceb5; color: #3d4c43; box-shadow: 0 18px 32px #0006, 0 2px 3px #0005; }
+.map { width: 64%; height: 285px; left: 8%; top: 68px; padding: 20px; background-image: linear-gradient(90deg, transparent 32%, #81785b25 33%, #fff2 34%, transparent 35%, transparent 65%, #81785b25 66%, #fff2 67%, transparent 68%), repeating-linear-gradient(0deg, #ffffff05 0 1px, transparent 1px 3px); }
+.paperLabel { display: block; font-size: 7px; letter-spacing: .17em; font-weight: 500; }
+.mapDrawing { width: 100%; height: 200px; }
+.mapCaption { font-family: var(--font-cormorant-garamond), serif; font-style: italic; font-size: 15px; }
+.notebook { position: absolute; width: 65%; right: -4%; top: 64px; filter: brightness(.65) saturate(.65) drop-shadow(0 25px 15px #0009); }
+.notebook img { width: 100%; height: auto; }
+.passport { position: absolute; width: 180px; height: 252px; left: 19%; top: 172px; border-radius: 5px 13px 13px 5px; padding: 28px 12px; text-align: center; color: #c1a366; border: 1px solid #526052; background: repeating-radial-gradient(ellipse at 30% 40%, #ffffff05 0 1px, transparent 1px 3px), linear-gradient(105deg, #091411, #213b2d 9%, #152b23 75%, #304133); box-shadow: inset 5px 0 6px #0008, inset -2px 0 2px #8b916533, 9px 20px 30px #0009; }
+.passport::after { content: ''; position: absolute; inset: 9px; border: 1px solid #bda06c40; border-radius: 2px 8px 8px 2px; }
+.passport > span { font-size: 7px; letter-spacing: .18em; }
+.emblem { font-size: 58px; line-height: 1.4; margin-top: 16px; text-shadow: 0 1px 1px #000; }
+.passport strong { display: block; font-family: var(--font-cormorant-garamond), serif; font-size: 19px; font-weight: 500; letter-spacing: .16em; }
+.passport .passportBrand { display: block; margin-top: 32px; font-size: 6px; }
+.ticket { width: 300px; left: 4%; top: 300px; padding: 17px 20px; background: #e2d9c5; border-right: 1px dashed #8a826d; }
+.ticketRoute { display: flex; justify-content: space-between; gap: 14px; align-items: center; margin: 12px 0; font-size: 23px; font-weight: 300; letter-spacing: .08em; }
+.routeLine { font-size: 18px; color: #977b47; }
+.ticketDetails { display: flex; justify-content: space-between; font-size: 6px; letter-spacing: .1em; line-height: 1.7; }
+.ticketDetails strong { font-size: 8px; font-weight: 400; }
+.barcode { margin-top: 12px; height: 15px; width: 100px; background: repeating-linear-gradient(90deg, #344338 0 1px, transparent 1px 3px, #344338 3px 5px, transparent 5px 6px); }
+.pen { position: absolute; width: 13px; height: 235px; top: 126px; right: 24%; border-radius: 8px; background: linear-gradient(90deg, #030605, #39473c 32%, #0b110e 60%, #020504); box-shadow: 5px 7px 7px #0009; }
+.pen i { position: absolute; top: 12px; right: 1px; width: 3px; height: 63px; background: linear-gradient(90deg,#826636,#ddc58d,#8d713e); border-radius: 2px; }
+.pen span { position: absolute; top: 82px; height: 6px; width: 100%; background: linear-gradient(90deg,#826636,#ddc58d,#8d713e); }
+.pen b { position: absolute; bottom: -19px; left: 2px; width: 9px; height: 22px; background: linear-gradient(90deg,#826636,#ddc58d,#8d713e); clip-path: polygon(0 0,100% 0,50% 100%); }
+.note { right: 3%; top: 369px; width: 188px; padding: 23px 18px 18px; background: #c9c0a9; }
+.note p { font-family: var(--font-cormorant-garamond), serif; font-style: italic; font-size: 24px; line-height: 1.1; margin-top: 15px; }
+.noteSignature { display: block; font-family: var(--font-signature), cursive; color: #8b7042; font-size: 15px; margin-top: 12px; }
+.clip { position: absolute; top: -16px; right: 14px; width: 55px; height: auto; filter: sepia(.5) brightness(.8); }
+.sceneCaption { position: absolute; bottom: 5px; left: 12%; font-size: 7px; letter-spacing: .22em; color: #9d9e8e; }
+.sceneCaption span { margin: 0 8px; color: #bfa46a; }
+.discover { position: relative; z-index: 3; display: flex; align-items: center; justify-content: center; gap: 16px; width: fit-content; margin: 1.5rem auto 0; padding: 14px; color: #c6b58e; text-transform: uppercase; font-size: .58rem; letter-spacing: .2em; transition: color .3s; }
+.discover:hover { color: #fff3d5; }
+.discover:focus-visible { outline: 2px solid #c6aa70; outline-offset: 5px; }
+@media (min-width: 768px) and (max-width: 1100px) {
+  .hero { padding-top: 8rem; }
+  .layout { grid-template-columns: 1fr; gap: 0; }
+  .content { text-align: center; }
+  .heading { font-size: 4rem; }
+  .desktopBreak { display: none; }
   .eyebrow { margin-bottom: 1.5rem; }
-  .heading { font-size: clamp(2.5rem, 6vw, 4.5rem); }
-  .copy, .discover { margin-top: 1.5rem; }
+  .copy { margin-top: 1.25rem; }
+  .scene { width: 620px; max-width: 100%; margin: 1rem auto 0; height: 535px; }
+  .map { top: 35px; left: 6%; }
+  .notebook { top: 20px; right: 0; }
+  .passport { top: 140px; left: 22%; }
+  .ticket { top: 275px; }
+  .pen { top: 95px; }
+  .note { top: 340px; }
+}
+@media (max-width: 767px) {
+  .hero { padding: 7.5rem 1.25rem 3rem; }
+  .layout { display: flex; flex-direction: column; min-height: auto; gap: 0; }
+  .content { width: 100%; text-align: center; }
+  .eyebrow { font-size: .53rem; letter-spacing: .22em; margin-bottom: 1.5rem; }
+  .heading { font-size: clamp(2.5rem, 8.7vw, 3.6rem); }
+  .desktopBreak { display: none; }
+  .copy { font-size: .76rem; margin-top: 1.25rem; }
+  .scene { height: 425px; max-width: 440px; margin-top: 1.5rem; }
+  .map { width: 75%; height: 190px; left: 0; top: 30px; padding: 14px; }
+  .mapDrawing { height: 125px; }
+  .mapCaption { font-size: 12px; }
+  .paperLabel { font-size: 5px; }
+  .notebook { width: 68%; right: -5%; top: 14px; }
+  .passport { width: 126px; height: 181px; top: 112px; left: 17%; padding: 18px 8px; }
+  .passport > span { font-size: 5px; }
+  .emblem { font-size: 40px; margin-top: 8px; }
+  .passport strong { font-size: 14px; }
+  .passport .passportBrand { font-size: 4px; margin-top: 22px; }
+  .ticket { width: 205px; top: 215px; left: 1%; padding: 12px; }
+  .ticketRoute { font-size: 16px; gap: 8px; margin: 8px 0; }
+  .ticketDetails { font-size: 5px; }
+  .ticketDetails strong { font-size: 6px; }
+  .barcode { height: 10px; margin-top: 7px; }
+  .pen { height: 165px; width: 10px; right: 20%; top: 77px; }
+  .pen span { top: 65px; }
+  .pen i { height: 45px; }
+  .pen b { width: 6px; height: 15px; bottom: -13px; }
+  .note { width: 133px; padding: 18px 12px 12px; right: 0; top: 266px; }
+  .note p { font-size: 19px; margin-top: 10px; }
+  .noteSignature { font-size: 12px; margin-top: 8px; }
+  .clip { width: 40px; top: -11px; right: 8px; }
+  .sceneCaption { left: 0; width: 100%; text-align: center; bottom: 0; font-size: 5.5px; letter-spacing: .15em; }
+  .discover { margin-top: .75rem; }
 }
