@@ -74,11 +74,7 @@ export default function ServicesIntro() {
           <DeskObject {...objectProps} className={styles.passport} delay={.8} rotate={14} fromY={-30} depth={.8}><DeskAsset name="passport" sizes="(max-width: 767px) 90px, 180px" /></DeskObject>
           <DeskObject {...objectProps} className={styles.notebook} delay={.35} rotate={3} fromY={55} depth={1}>
             <motion.div className={styles.assetFrame} style={{ filter: bookShadow }}>
-              <Image className={styles.cutout} src="/images/services/hero-realistic/notebook.webp" alt="" fill sizes="(max-width: 767px) 90vw, (max-width: 1100px) 70vw, 68vw" priority />
-            <div className={styles.pageDetails}>
-                <div className={styles.leftPage}><span className={styles.watermark}>MADRASTRAILS</span><svg viewBox="0 0 200 180"><path d="M20 140 Q80 100 65 65 T150 30" /><circle cx="20" cy="140" r="3"/><circle cx="65" cy="65" r="3"/><circle cx="150" cy="30" r="3"/></svg><span className={styles.routeNote}>A world of possibilities.</span></div>
-                <div className={styles.rightPage}><span className={styles.planningTitle}>The finishing touches</span><p>✓ Flights confirmed<br/>✓ Your favourite stays<br/>✓ Seamless transfers<br/>✓ Moments to remember</p><span className={styles.planningNote}>Every detail, personally considered.</span><div className={styles.waxSeal}><span>MT</span><small>MADRASTRAILS</small></div></div>
-              </div>
+              <Image className={styles.cutout} src="/images/services/hero-realistic/notebook.webp" alt="" fill sizes="(max-width: 767px) 90vw, (max-width: 1100px) 70vw, 58vw" priority />
             </motion.div>
           </DeskObject>
           <DeskObject {...objectProps} className={styles.pen} delay={1.6} rotate={-57} fromY={-12} depth={1.1}><DeskAsset name="pen" sizes="(max-width: 767px) 24px, 40px" /></DeskObject>
@@ -92,9 +88,9 @@ export default function ServicesIntro() {
         </motion.div>
         <div className={styles.journey}>
           {[
-            { layout: 'pathDesktop', path: 'M7 -74 C110 -78 135 32 259 32 S425 145 581 145 S770 109 903 109 S1030 46 1155 46 L1060 10' },
-            { layout: 'pathTablet', path: 'M0 25 C160 10 200 72 325 72 S540 147 645 147 S800 170 938 170 C1060 170 990 55 1076 55 L1150 110' },
-            { layout: 'pathMobile', path: 'M-7 18 C70 -4 100 60 167 60 S70 117 -7 117 S100 160 167 160 S70 214 -7 214 C80 250 180 220 235 205' },
+            { layout: 'pathDesktop', path: 'M7 -74 C110 -78 135 32 259 32 S425 145 581 145 S770 109 903 109 S1030 46 1155 46 S1300 68 1380 120' },
+            { layout: 'pathTablet', path: 'M0 25 C160 10 200 72 325 72 S540 147 645 147 S800 170 938 170 C1060 170 990 55 1076 55' },
+            { layout: 'pathMobile', path: 'M-7 18 C70 -4 100 60 167 60 S70 117 -7 117 S100 160 167 160 S70 214 -7 214' },
           ].map(route => <svg key={route.layout} aria-hidden="true" className={`${styles.journeyPath} ${styles[route.layout]}`} viewBox={route.layout === 'pathMobile' ? '0 0 320 250' : '0 0 1400 230'} preserveAspectRatio="none"><motion.path d={route.path} fill="none" stroke="#cba05b" strokeWidth="1.4" initial={reduced ? false : { pathLength: 0, opacity: 0 }} animate={{ pathLength: 1, opacity: .8 }} transition={{ duration: reduced ? 0 : 1.1, delay: reduced ? 0 : 2.5, ease }} /></svg>)}
           {milestones.map((step, index) => <motion.div key={step.title} className={`${styles.milestone} ${styles[`step${index + 1}`]}`} {...reveal(2.95 + index * .12)}><div className={styles.milestoneIcon}><step.icon size={22} strokeWidth={1} aria-hidden="true" /></div><div><span className={styles.stepNumber}>0{index + 1}</span><h2>{step.title}</h2><p>{step.detail}</p></div></motion.div>)}
         </div>
