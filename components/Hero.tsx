@@ -243,7 +243,7 @@ const bulletinText =
 
           {/* Description */}
           <p data-hero-reveal="description" className="mt-body-copy mb-[clamp(1.35rem,5.4vw,1.85rem)] max-w-[min(22rem,88vw)] text-[clamp(0.875rem,3.5vw,0.95rem)] leading-[1.68] text-[#E8E8E8] md:mb-8 md:max-w-[22rem] md:text-base md:leading-relaxed" style={{textShadow: '0 10px 26px rgba(0, 0, 0, 0.34)' }}>
-            Bespoke holidays, thoughtfully designed around how you want to travel.
+            Bespoke journeys, thoughtfully arranged — from flights and stays to visas and foreign exchange.
           </p>
 
           {/* CTA Buttons */}

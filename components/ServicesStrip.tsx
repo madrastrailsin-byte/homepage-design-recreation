@@ -1,8 +1,8 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
-import { Plane, Hotel, MapPin, Compass, Shield, Clock } from 'lucide-react'
+import { Plane, Hotel, MapPin, Shield, FileCheck2, ArrowLeftRight } from 'lucide-react'
 
 const services = [
   {
@@ -19,15 +19,9 @@ const services = [
   },
   {
     icon: MapPin,
-    label: 'CUSTOM TOURS',
-    title: 'Custom tours',
+    label: 'CUSTOM HOLIDAYS',
+    title: 'Custom holidays',
     description: 'We create a holiday around your interests, pace and preferred style of travel.',
-  },
-  {
-    icon: Compass,
-    label: 'EXPERIENCES',
-    title: 'Experiences',
-    description: 'We arrange meaningful local activities that make each destination more memorable.',
   },
   {
     icon: Shield,
@@ -36,22 +30,44 @@ const services = [
     description: 'We help protect your trip from unexpected changes before and during your journey.',
   },
   {
-    icon: Clock,
-    label: '24/7 SUPPORT',
-    title: '24/7 support',
-    description: 'Our team stays available whenever you need help before or while you are travelling.',
+    icon: FileCheck2,
+    label: 'VISA ASSISTANCE',
+    title: 'Visa assistance',
+    description: 'From document guidance to application support, we help make the visa process simpler.',
+  },
+  {
+    icon: ArrowLeftRight,
+    label: 'FOREIGN EXCHANGE',
+    title: 'Foreign exchange',
+    description: 'We help you arrange foreign currency and understand exchange rates before you travel.',
   },
 ]
 
 export default function ServicesStrip() {
+  const stripRef = useRef<HTMLDivElement>(null)
   const reduceMotion = useReducedMotion()
   const [activeIndex, setActiveIndex] = useState<number | null>(null)
   const activeService = activeIndex === null ? null : services[activeIndex]
 
+  useEffect(() => {
+    function dismissOutside(event: globalThis.PointerEvent) {
+      const target = event.target
+      if (
+        target instanceof Element &&
+        stripRef.current?.contains(target) &&
+        target.closest('[data-service-button]')
+      ) return
+      setActiveIndex(null)
+    }
+
+    document.addEventListener('pointerdown', dismissOutside)
+    return () => document.removeEventListener('pointerdown', dismissOutside)
+  }, [])
+
   return (
     <div
+      ref={stripRef}
       className="mt-scroll-services mt-services-flow mt-journey-motif relative isolate z-20 -mt-3 w-full bg-gradient-to-b from-transparent via-[var(--mt-canvas)] to-[var(--mt-canvas)] pt-10 pb-10 md:-mt-14 md:pt-10 md:pb-14"
-      onMouseLeave={() => setActiveIndex(null)}
     >
       <div className="pointer-events-none absolute inset-x-0 -top-16 z-0 h-32 bg-gradient-to-b from-transparent via-[var(--mt-canvas)]/18 to-[var(--mt-canvas)]" />
 
@@ -68,7 +84,7 @@ export default function ServicesStrip() {
             : { opacity: 0, y: 8, scale: 0.96, filter: 'blur(7px)' }
         }
         animate={{ opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }}
-        exit={{ opacity: 0, y: 5, scale: 0.97, filter: 'blur(5px)' }}
+        exit={{ opacity: 0, y: 5, scale: 0.97, filter: 'blur(5px)', transition: { duration: reduceMotion ? 0 : 0.08 } }}
         transition={{
           duration: reduceMotion ? 0 : 0.34,
           ease: [0.22, 1, 0.36, 1],
@@ -86,21 +102,36 @@ export default function ServicesStrip() {
     )}
   </AnimatePresence>
 </div>
-  <div className="grid grid-cols-3 gap-2 md:flex md:flex-wrap md:justify-center md:gap-4">
+  <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:flex md:flex-wrap md:justify-center md:gap-4 lg:flex-nowrap lg:gap-2 xl:gap-4">
     {services.map((service, idx) => {
       const Icon = service.icon
       const active = activeIndex === idx
 
       return (
-        <div key={service.label} className="relative">
+        <div key={service.label} className="relative lg:shrink-0">
           <motion.button
             type="button"
+            data-service-button
             onPointerEnter={(event) => {
   if (event.pointerType === 'mouse') setActiveIndex(idx)
 }}
-            onClick={() => {
-  setActiveIndex((current) => (current === idx ? null : idx))
-}}
+            onPointerLeave={(event) => {
+              if (event.pointerType === 'mouse') setActiveIndex(null)
+            }}
+            onPointerUp={(event) => {
+              if (event.pointerType !== 'mouse') {
+                setActiveIndex((current) => (current === idx ? null : idx))
+              }
+            }}
+            onClick={(event) => {
+              if (event.detail === 0) {
+                setActiveIndex((current) => (current === idx ? null : idx))
+              }
+            }}
+            onBlur={() => setActiveIndex(null)}
+            onKeyDown={(event) => {
+              if (event.key === 'Escape') setActiveIndex(null)
+            }}
             whileTap={
               reduceMotion
                 ? undefined
@@ -109,7 +140,7 @@ export default function ServicesStrip() {
                     borderRadius: '38%',
                   }
             }
-            className={`mt-services-pill group relative flex min-h-[2.5rem] w-full items-center justify-center gap-1.5 overflow-hidden rounded-[0.7rem] border px-1.5 py-1.5 text-center backdrop-blur-[10px] transition-all duration-300 before:pointer-events-none before:absolute before:inset-x-2 before:top-0 before:h-px before:bg-gradient-to-r before:from-transparent before:via-white/35 before:to-transparent after:pointer-events-none after:absolute after:inset-0 after:bg-[linear-gradient(112deg,transparent_28%,rgba(255,255,255,0.07)_50%,transparent_72%)] md:min-h-0 md:w-auto md:rounded-full md:px-5 md:py-2.5 md:backdrop-blur-none md:before:hidden md:after:hidden ${
+            className={`mt-services-pill group relative flex min-h-[2.5rem] w-full items-center justify-center gap-1.5 overflow-hidden rounded-[0.7rem] border px-1.5 py-1.5 text-center backdrop-blur-[10px] transition-all duration-300 before:pointer-events-none before:absolute before:inset-x-2 before:top-0 before:h-px before:bg-gradient-to-r before:from-transparent before:via-white/35 before:to-transparent after:pointer-events-none after:absolute after:inset-0 after:bg-[linear-gradient(112deg,transparent_28%,rgba(255,255,255,0.07)_50%,transparent_72%)] md:min-h-0 md:w-auto md:rounded-full md:px-5 lg:px-3 xl:px-5 md:py-2.5 md:backdrop-blur-none md:before:hidden md:after:hidden ${
   active
     ? 'border-[#D4AF37] bg-[#D4AF37] text-[#07171A] shadow-[0_8px_24px_rgba(201,162,74,0.18)] md:border-[#D4AF37] md:bg-[#D4AF37] md:shadow-[0_8px_24px_rgba(201,162,74,0.18)]'
     : 'border-[#D4AF37]/45 bg-[#111719] text-[#D4AF37] shadow-[0_6px_20px_rgba(0,0,0,0.18)] hover:border-[#D4AF37] hover:bg-[#D4AF37] hover:text-[#07171A] md:border-[#D4AF37]/30 md:bg-transparent md:shadow-none'
@@ -130,12 +161,12 @@ export default function ServicesStrip() {
 
             <Icon
               size={16}
-              className={`relative z-10 transition-all duration-300 ${
+              className={`shrink-0 relative z-10 transition-all duration-300 ${
                 active ? 'scale-110 text-[#07171A]' : 'text-[#D4AF37] group-hover:text-[#07171A]'
               }`}
             />
 
-            <span className="mt-ui relative z-10 text-[7px] font-semibold tracking-[0.08em] sm:text-[8px] md:text-[11px]">
+            <span className="mt-ui relative z-10 whitespace-nowrap text-[7px] font-semibold tracking-[0.08em] sm:text-[8px] md:text-[11px]">
               {service.label}
             </span>
           </motion.button>
@@ -149,7 +180,7 @@ export default function ServicesStrip() {
                     : { opacity: 0, y: 8, scale: 0.94, filter: 'blur(8px)' }
                 }
                 animate={{ opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }}
-                exit={{ opacity: 0, y: 6, scale: 0.96, filter: 'blur(6px)' }}
+                exit={{ opacity: 0, y: 6, scale: 0.96, filter: 'blur(6px)', transition: { duration: reduceMotion ? 0 : 0.08 } }}
                 transition={{ duration: reduceMotion ? 0 : 0.36, ease: [0.22, 1, 0.36, 1] }}
                 className="pointer-events-none absolute left-1/2 hidden w-[min(17rem,78vw)] -translate-x-1/2 md:bottom-[calc(100%+0.8rem)] md:z-40 md:block"
               >

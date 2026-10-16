@@ -1,0 +1,27 @@
+.root { margin-top: .8rem; font-family: var(--mt-font-body); }
+.trigger { display: inline-flex; align-items: center; gap: .4rem; min-height: 36px; padding: .3rem 0; border: 0; background: transparent; font-size: .72rem; color: #d4b56d; cursor: pointer; }
+.trigger:hover { color: #f2e7cc; }
+.expansion { overflow: hidden; }
+.panel { margin-top: .6rem; padding: 1.1rem; border: 1px solid #c9a24a35; border-radius: .85rem; background: #ffffff03; color: #f2e7cc; }
+.header { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; margin-bottom: 1rem; }
+.heading { font-size: 1.4rem; line-height: 1.2; }
+.intro { margin-top: .35rem; font-size: .75rem; line-height: 1.6; color: #f2e7cc99; }
+.close { display: grid; place-items: center; flex-shrink: 0; min-width: 36px; min-height: 36px; border: 1px solid #c9a24a35; border-radius: 50%; background: transparent; color: #d4b56d; cursor: pointer; }
+.fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .85rem 1rem; border: 0; padding: 0; margin: 0; min-width: 0; }
+.fields > label { display: flex; flex-direction: column; gap: .4rem; font-size: .72rem; color: #e4d3a7; min-width: 0; }
+.fields input:not([type="checkbox"]), .fields select, .fields textarea { min-width: 0; width: 100%; min-height: 44px; padding: .65rem .75rem; border: 1px solid #c9a24a40; border-radius: .5rem; background: #082126; color: #f2e7cc; font: inherit; font-size: .8rem; }
+.fields textarea { resize: vertical; }
+.fields input::placeholder, .fields textarea::placeholder { color: #f2e7cc66; }
+.full, .consent, .actions { grid-column: 1 / -1; }
+.fields > .consent { flex-direction: row; align-items: flex-start; gap: .6rem; line-height: 1.6; color: #f2e7ccad; }
+.consent input { flex-shrink: 0; width: 17px; height: 17px; margin-top: 2px; accent-color: #c9a24a; }
+.actions { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem 1rem; }
+.actions > span { font-size: .65rem; color: #f2e7cc80; }
+.submit { display: inline-flex; align-items: center; justify-content: center; gap: .5rem; min-height: 42px; padding: .65rem 1.1rem; border: 1px solid #c9a24a55; border-radius: 2rem; background: #c9a24a16; font-size: .75rem; color: #e4c984; cursor: pointer; }
+.submit:hover { background: #c9a24a26; }
+.root :is(input, select, textarea, button):focus-visible { outline: 2px solid #d4b56d; outline-offset: 3px; }
+.root button:disabled, .fields:disabled { opacity: .6; cursor: wait; }
+.error { margin-top: .85rem; font-size: .75rem; line-height: 1.7; color: #e7a99e; }
+.success { padding: .25rem 0; font-size: .85rem; line-height: 1.8; color: #f2e7ccbf; }
+.success p + p { margin-top: .5rem; color: #d4b56d; }
+@media (max-width: 639px) { .fields { grid-template-columns: 1fr; } .panel { padding: .9rem; } .fields input:not([type="checkbox"]), .fields select, .fields textarea { font-size: 16px; } }

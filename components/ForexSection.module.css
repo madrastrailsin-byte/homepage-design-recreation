@@ -1,0 +1,634 @@
+.section { position: relative; padding: 0 1.5rem 2.5rem; background: var(--mt-canvas); }
+.panel { position: relative; isolation: isolate; overflow: hidden; max-width: 76rem; margin: 0 auto; padding: 1.15rem 1.5rem .85rem; border: 1px solid #c9a24a42; border-radius: 1.25rem; background: linear-gradient(90deg, #03191df0, #03191dc9 65%, #03191db3), url('/images/homepage/forex-bg.png') center / cover no-repeat; color: #f2e7cc; box-shadow: inset 0 1px 0 #ffffff07, 0 12px 36px #0000001a; }
+.panel::before { content: ''; position: absolute; pointer-events: none; z-index: -1; inset: 0; opacity: .16; background: repeating-linear-gradient(0deg, transparent 0 3px, #c9a24a14 3px 4px); }
+.panel::after { content: ''; position: absolute; pointer-events: none; z-index: -1; inset: 0; background: linear-gradient(110deg, transparent 35%, #c9a24a08 49%, transparent 62%); transform: translateX(-100%); animation: sweep 14s linear infinite; }
+.header { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1rem; }
+.eyebrow { margin-bottom: .2rem; font-size: .53rem; color: #c9a24a; }
+.heading { font-size: clamp(1.25rem, 2vw, 1.65rem); line-height: 1.15; }
+.statusGroup { display: flex; align-items: center; gap: 1.5rem; }
+.feed { display: inline-flex; align-items: center; gap: .45rem; font-family: var(--mt-font-ui); font-size: .6rem; color: #b3c8be; white-space: nowrap; }
+.dot { width: 5px; height: 5px; border-radius: 50%; background: #83c5a2; box-shadow: 0 0 0 3px #83c5a213; animation: pulse 3s ease-in-out infinite; }
+.offline { color: #a8aaa4; }
+.offline .dot { background: #a8aaa4; animation: none; box-shadow: none; }
+.clock { display: grid; justify-items: end; gap: .2rem; min-width: 7.25rem; padding-left: 1.25rem; border-left: 1px solid #c9a24a26; }
+.clockTime { font-family: ui-monospace, monospace; font-size: .9rem; letter-spacing: .04em; font-variant-numeric: tabular-nums; color: #e4d3a7; }
+.clockTime span { font-size: .5rem; color: #c9a24a; }
+.clockDate { font-family: var(--mt-font-ui); font-size: .55rem; letter-spacing: .08em; color: #f2e7cc70; }
+.grid { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); list-style: none; margin: 0; padding: .9rem 0; border-top: 1px solid #c9a24a26; border-bottom: 1px solid #c9a24a26; }
+.card { min-width: 0; padding: 0 .9rem; border-left: 1px solid #c9a24a26; animation: enter .65s both; animation-delay: calc(var(--quote-index) * 65ms); }
+.card:first-child { padding-left: 0; border-left: 0; }
+.card:last-child { padding-right: 0; }
+.currency { display: flex; flex-direction: column; gap: .18rem; }
+.code { font-size: .65rem; font-weight: 600; letter-spacing: .12em; color: #c9a24a; }
+.pair { font-size: .5rem; letter-spacing: .05em; color: #f2e7cc55; }
+.name { font-size: .6rem; color: #f2e7cc80; }
+.conversion { display: flex; flex-wrap: wrap; align-items: baseline; gap: .25rem; margin-top: .6rem; }
+.unit { font-size: .55rem; color: #f2e7cc80; white-space: nowrap; }
+.value { font-family: var(--mt-font-body); font-size: clamp(1.1rem, 1.7vw, 1.35rem); font-variant-numeric: tabular-nums; letter-spacing: -.035em; white-space: nowrap; animation: quoteReveal .8s ease-out; }
+.change { display: flex; flex-wrap: wrap; align-items: center; gap: .15rem; margin-top: .3rem; font-family: var(--mt-font-ui); font-size: .55rem; font-variant-numeric: tabular-nums; }
+.up { color: #83c5a2; }
+.down { color: #e3978b; }
+.flat { color: #b3b1a4; }
+.comparison { color: #f2e7cc70; font-size: .5rem; margin-left: .2rem; }
+.date { margin-top: .35rem; font-size: .5rem; line-height: 1.5; color: #f2e7cc70; }
+.date time { white-space: nowrap; }
+.notice { margin-bottom: .8rem; font-size: .75rem; color: #f2e7ccbf; }
+.footer { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .4rem 1rem; padding-top: .65rem; font-size: .55rem; line-height: 1.5; color: #f2e7cc80; }
+.footer a { color: #c9a24a; text-underline-offset: .25em; white-space: nowrap; }
+.footer a:hover { text-decoration: underline; }
+.footer a:focus-visible { outline: 2px solid #c9a24a; outline-offset: 4px; border-radius: 2px; }
+@keyframes sweep { to { transform: translateX(100%); } }
+@keyframes pulse { 50% { opacity: .45; box-shadow: 0 0 0 5px #83c5a208; } }
+@keyframes enter { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes quoteReveal { from { opacity: .3; } to { opacity: 1; } }
+@media (min-width: 768px) { .section { padding: 0 2rem 3rem; } }
+@media (max-width: 1023px) {
+  .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); row-gap: 1rem; }
+  .card:nth-child(4) { padding-left: 0; border-left: 0; }
+}
+@media (max-width: 639px) {
+  .panel { padding: 1rem; border-radius: 1rem; }
+  .header { align-items: flex-start; flex-direction: column; gap: .8rem; }
+  .statusGroup { width: 100%; justify-content: space-between; gap: .5rem; }
+  .clock { padding-left: .8rem; }
+  .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 1rem; }
+  .card { padding: 0 .65rem; }
+  .card:nth-child(odd) { padding-left: 0; border-left: 0; }
+  .card:nth-child(even) { padding-right: 0; border-left: 1px solid #c9a24a26; }
+  .value { font-size: 1.25rem; }
+  .change { font-size: .6rem; }
+  .comparison { flex-basis: 100%; margin: .15rem 0 0; font-size: .55rem; }
+  .date { font-size: .55rem; }
+  .footer { font-size: .6rem; }
+}
+@media (prefers-reduced-motion: reduce) { .panel::after, .dot, .card, .value { animation: none; } }
+
+
+/* FOREX GLASS DESIGN START */
+
+/* Cinematic photographic panel */
+.section {
+  padding-top: 1rem;
+}
+
+.panel {
+  max-width: 88rem;
+  min-height: 32rem;
+  padding: clamp(2rem, 4vw, 4rem);
+  overflow: hidden;
+  border: none;
+  border-radius: 1.5rem;
+  color: #f8f0df;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(3, 21, 27, .88) 0%,
+      rgba(3, 24, 30, .76) 48%,
+      rgba(3, 24, 30, .62) 100%
+    ),
+    url('/images/homepage/forex-bg.png')
+      center center / cover no-repeat;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, .2);
+}
+
+/* Remove the old decorative lines and sweep */
+.panel::before,
+.panel::after {
+  display: none;
+}
+
+/* Elegant, spacious heading */
+.header {
+  align-items: flex-start;
+  gap: 2rem;
+  margin-bottom: 2.5rem;
+}
+
+.titleGroup {
+  max-width: 48rem;
+}
+
+.eyebrow {
+  margin-bottom: .8rem;
+  font-size: .8rem;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: #e4c77f;
+}
+
+.heading {
+  font-size: clamp(2.6rem, 4.5vw, 4.5rem);
+  line-height: 1.08;
+  letter-spacing: -.025em;
+  color: #fff3dc;
+  text-wrap: balance;
+}
+
+/* Live feed and Indian clock */
+.statusGroup {
+  gap: 1.5rem;
+}
+
+.feed {
+  font-size: .8rem;
+  color: #f0e8d7;
+}
+
+.clock {
+  min-width: 9rem;
+  border-left-color: rgba(224, 190, 117, .45);
+}
+
+.clockTime {
+  font-size: 1.1rem;
+  color: #f6e8c8;
+}
+
+.clockTime span {
+  font-size: .7rem;
+}
+
+.clockDate {
+  font-size: .72rem;
+  color: #e2d9c9;
+}
+
+/* Six separate glass currency panels */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: .85rem;
+  padding: 0;
+  border: none;
+}
+
+.card,
+.card:first-child,
+.card:last-child {
+  min-width: 0;
+  min-height: 13rem;
+  padding: 1.2rem 1rem;
+  border: 1px solid rgba(221, 184, 104, .58);
+  border-radius: 1rem;
+  background: rgba(5, 29, 36, .74);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .1),
+    0 8px 25px rgba(0, 0, 0, .15);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  transition:
+    transform .3s ease,
+    border-color .3s ease,
+    background .3s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  border-color: #e4c77f;
+  background: rgba(7, 36, 43, .86);
+}
+
+/* Currency identity */
+.currency {
+  gap: .4rem;
+}
+
+.code {
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: .09em;
+  color: #e8cb83;
+}
+
+.pair {
+  font-size: .72rem;
+  color: #e4dac7;
+}
+
+.name {
+  font-size: .85rem;
+  line-height: 1.45;
+  color: #f0e8d9;
+}
+
+/* Main exchange-rate value */
+.conversion {
+  margin-top: 1.3rem;
+  gap: .4rem;
+}
+
+.unit {
+  font-size: .8rem;
+  color: #e7ddc9;
+}
+
+.value {
+  font-size: clamp(1.45rem, 1.9vw, 1.9rem);
+  font-weight: 500;
+  letter-spacing: -.025em;
+  color: #fff6e5;
+}
+
+/* Rate movement and dates */
+.change {
+  margin-top: .8rem;
+  gap: .3rem;
+  font-size: .8rem;
+}
+
+.comparison {
+  margin-left: 0;
+  font-size: .68rem;
+  color: #e2d9c9;
+}
+
+.date {
+  margin-top: .65rem;
+  font-size: .72rem;
+  line-height: 1.5;
+  color: #ded5c6;
+}
+
+/* Clearly readable disclaimer */
+.footer {
+  margin-top: 1.8rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(221, 184, 104, .3);
+  font-size: .82rem;
+  line-height: 1.7;
+  color: #f0e6d6;
+}
+
+.footer a {
+  color: #e8cb83;
+}
+
+/* Tablet */
+@media (max-width: 1199px) {
+  .grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .card,
+  .card:first-child,
+  .card:last-child,
+  .card:nth-child(4),
+  .card:nth-child(odd),
+  .card:nth-child(even) {
+    padding: 1.2rem;
+    border: 1px solid rgba(221, 184, 104, .58);
+  }
+}
+
+/* Mobile */
+@media (max-width: 639px) {
+  .panel {
+    padding: 1.5rem 1rem;
+    border-radius: 1.2rem;
+    background-position: 60% center;
+  }
+
+  .header {
+    flex-direction: column;
+    gap: 1.25rem;
+    margin-bottom: 1.8rem;
+  }
+
+  .heading {
+    font-size: clamp(2.3rem, 9vw, 3.2rem);
+  }
+
+  .statusGroup {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: .7rem;
+  }
+
+  .card,
+  .card:first-child,
+  .card:last-child,
+  .card:nth-child(4),
+  .card:nth-child(odd),
+  .card:nth-child(even) {
+    min-height: 12.5rem;
+    padding: 1rem .8rem;
+    border: 1px solid rgba(221, 184, 104, .58);
+  }
+
+  .value {
+    font-size: 1.5rem;
+  }
+
+  .footer {
+    font-size: .78rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card {
+    transition: none;
+  }
+
+  .card:hover {
+    transform: none;
+  }
+}
+
+/* FOREX GLASS DESIGN END */
+
+
+/* FOREX COMPACT REFINEMENT */
+
+.panel {
+  max-width: 62rem;
+  min-height: 0;
+  padding: clamp(1.25rem, 2.5vw, 2.25rem);
+}
+
+.header {
+  margin-bottom: 1.5rem;
+  gap: 1rem;
+}
+
+.eyebrow {
+  margin-bottom: .4rem;
+  font-size: .7rem;
+}
+
+.heading {
+  font-size: clamp(2rem, 3vw, 3rem);
+}
+
+.grid {
+  gap: .6rem;
+}
+
+.card,
+.card:first-child,
+.card:last-child {
+  min-height: 9.5rem;
+  padding: .85rem .7rem;
+  border-radius: .75rem;
+}
+
+.code {
+  font-size: .85rem;
+}
+
+.name {
+  font-size: .75rem;
+}
+
+.conversion {
+  margin-top: .7rem;
+}
+
+.value {
+  font-size: clamp(1.2rem, 1.5vw, 1.5rem);
+}
+
+.unit {
+  font-size: .72rem;
+}
+
+.change {
+  margin-top: .5rem;
+  font-size: .72rem;
+}
+
+.date {
+  margin-top: .4rem;
+  font-size: .68rem;
+}
+
+.footer {
+  margin-top: 1rem;
+  padding-top: .7rem;
+  font-size: .72rem;
+}
+
+@media (max-width: 1199px) {
+  .card,
+  .card:first-child,
+  .card:last-child,
+  .card:nth-child(4),
+  .card:nth-child(odd),
+  .card:nth-child(even) {
+    min-height: 9.5rem;
+    padding: .85rem;
+  }
+}
+
+@media (max-width: 639px) {
+  .panel {
+    padding: 1.25rem 1rem;
+  }
+
+  .heading {
+    font-size: clamp(2rem, 8vw, 2.6rem);
+  }
+
+  .card,
+  .card:first-child,
+  .card:last-child,
+  .card:nth-child(4),
+  .card:nth-child(odd),
+  .card:nth-child(even) {
+    min-height: 10rem;
+    padding: .85rem;
+  }
+
+  .value {
+    font-size: 1.3rem;
+  }
+}
+
+
+/* FOREX SLIM HORIZONTAL REFINEMENT */
+
+/* Restore full horizontal length, reduce vertical thickness */
+.panel {
+  max-width: 88rem;
+  min-height: 0;
+  padding: 1.25rem 2rem;
+}
+
+/* Compact heading area */
+.header {
+  margin-bottom: .9rem;
+}
+
+.eyebrow {
+  margin-bottom: .3rem;
+}
+
+/* Slim glass currency cards */
+.card,
+.card:first-child,
+.card:last-child {
+  min-height: 0;
+  padding: .75rem .85rem;
+}
+
+/* Reduce unnecessary vertical gaps */
+.currency {
+  gap: .2rem;
+}
+
+.conversion {
+  margin-top: .5rem;
+}
+
+.change {
+  margin-top: .35rem;
+}
+
+.date {
+  margin-top: .3rem;
+}
+
+/* Compact footer */
+.footer {
+  margin-top: .7rem;
+  padding-top: .6rem;
+}
+
+/* Preserve full-width desktop arrangement */
+@media (min-width: 1200px) {
+  .grid {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+}
+
+/* Tablet */
+@media (min-width: 640px) and (max-width: 1199px) {
+  .card,
+  .card:first-child,
+  .card:last-child,
+  .card:nth-child(4),
+  .card:nth-child(odd),
+  .card:nth-child(even) {
+    min-height: 0;
+    padding: .75rem .85rem;
+  }
+}
+
+/* Mobile */
+@media (max-width: 639px) {
+  .panel {
+    padding: 1rem;
+  }
+
+  .card,
+  .card:first-child,
+  .card:last-child,
+  .card:nth-child(4),
+  .card:nth-child(odd),
+  .card:nth-child(even) {
+    min-height: 0;
+    padding: .8rem;
+  }
+}
+
+/* FOREX FLAGS — CLEAN TOP-RIGHT PLACEMENT */
+
+.card {
+  position: relative;
+}
+
+.currency {
+  padding-right: 1.8rem;
+}
+
+.flag {
+  position: absolute;
+  top: .75rem;
+  right: .75rem;
+
+  display: grid;
+  place-items: center;
+
+  width: 2.2rem;
+  height: 2.2rem;
+
+  border: none;
+  border-radius: 50%;
+  overflow: hidden;
+  background: transparent;
+
+  font-family: "Apple Color Emoji", system-ui, sans-serif;
+  font-size: 2rem;
+  line-height: 1;
+}
+
+@media (max-width: 639px) {
+  .flag {
+    top: .65rem;
+    right: .65rem;
+    width: 1.9rem;
+    height: 1.9rem;
+    font-size: 1.75rem;
+  }
+}
+
+
+/* FOREX ROUND SVG FLAGS */
+
+.card {
+  position: relative;
+}
+
+.currency {
+  padding-right: 3rem;
+}
+
+.flag {
+  position: absolute;
+  top: .7rem;
+  right: .7rem;
+  display: block;
+  width: 3.0rem;
+  height: 3.0rem;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  overflow: hidden;
+  padding: 0;
+  font-size: 0;
+}
+
+.flag img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+@media (max-width: 639px) {
+  .flag {
+    top: .65rem;
+    right: .65rem;
+    width: 2.3rem;
+    height: 2.3rem;
+  }
+}
+/* FLAG APPEARANCE ONLY */
+
+.flag img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+
+  opacity: 0.9;
+}
