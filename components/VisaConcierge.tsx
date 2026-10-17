@@ -3,13 +3,29 @@
 import { useEffect, useRef, useState, type KeyboardEvent } from 'react'
 import Image from 'next/image'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
-import { ChevronDown, Search, X, ArrowUpRight } from 'lucide-react'
+import { ChevronDown, Search, X, ArrowUpRight, ArrowRight, BookOpenCheck, CalendarDays, FileText, BookUser, ShieldCheck, UsersRound } from 'lucide-react'
 import { searchVisaDestinations, visaDestinations, type VisaDestination } from '@/lib/visa-guide'
 import TripEnquiry from './TripEnquiry'
 import styles from './VisaConcierge.module.css'
 
 const popularIds = ['japan', 'singapore', 'thailand', 'france', 'united-kingdom']
 const popularDestinations = popularIds.flatMap(id => visaDestinations.filter(destination => destination.id === id))
+
+const popularImages: Record<string, string> = {
+  japan: '/images/destinations/japan/japan-mount-fuji-sunrise.webp',
+  singapore: '/images/home/hotels/marina-bay-sands.webp',
+  thailand: '/images/destinations/asia/thailand.webp',
+  france: 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?q=85&w=2000&auto=format&fit=crop',
+  'united-kingdom': '/images/destinations/europe/united-kingdom.webp',
+}
+
+const features = [
+  { icon: FileText, first: 'Required', second: 'Documents' },
+  { icon: UsersRound, first: 'Eligibility', second: 'Criteria' },
+  { icon: CalendarDays, first: 'Processing', second: 'Timelines' },
+  { icon: BookOpenCheck, first: 'Visa Types', second: '& Entry Rules' },
+  { icon: ShieldCheck, first: 'Key Travel', second: 'Guidelines' },
+]
 
 const formatDate = (value: string) => new Intl.DateTimeFormat('en-IN', {
   day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC',
@@ -62,32 +78,36 @@ export default function VisaConcierge() {
 
   const guidance = selected?.guidance
   return (
-    <section className={styles.section} aria-labelledby="visa-heading">
+    <section id="visa-concierge" className={styles.section} aria-labelledby="visa-heading">
       <div className={styles.panel}>
-        <div className={styles.backdrop} aria-hidden="true">
-          <Image src="/images/homepage/visa-concierge-bg.png" alt="" fill sizes="(max-width: 1279px) 100vw, 1216px" className={styles.backgroundImage} />
-          <div className={styles.shade} />
-        </div>
-        <div className={styles.header}>
-          <div>
-            <p className={`mt-eyebrow ${styles.eyebrow}`}>Before you go</p>
-            <h2 id="visa-heading" className={`mt-display ${styles.heading}`}>Visa Concierge</h2>
-            <p className={`mt-body-copy ${styles.subtitle}`}>A little clarity before your journey.</p>
+        <div className={styles.hero}>
+          <div className={styles.photography}>
+            <Image src="/images/homepage/visa-concierge-santorini.webp" alt="Santorini’s blue domes above the Aegean, with a passport, camera and travel keepsakes" fill sizes="(max-width: 639px) 100vw, (max-width: 1023px) 55vw, 864px" className={styles.travelImage} />
           </div>
-          <p id="visa-assumption" className={`mt-body-copy ${styles.assumption}`}>
-            <span>Guidance for</span> Indian ordinary passport holders<br />
-            Applying from India <span aria-hidden="true">·</span> Tourism
-          </p>
-        </div>
+          <div className={styles.content}>
+            <div className={styles.header}>
+              <div className={styles.intro}>
+                <p className={`mt-eyebrow ${styles.eyebrow}`}>VISA CONCIERGE</p>
+                <h2 id="visa-heading" className={`mt-display ${styles.heading}`}>A Simpler Path to the World</h2>
+                <p className={`mt-body-copy ${styles.subtitle}`}>Your next adventure begins with the right guidance.</p>
+              </div>
+              <aside id="visa-assumption" className={styles.assumption} aria-label="Who this guidance is for">
+                <BookUser size={42} strokeWidth={1.25} aria-hidden="true" />
+                <div>
+                  <p className={styles.assumptionTitle}>Your visa journey,<br />made simple</p>
+                  <p>For Indian ordinary passport holders<br />Tourism applications from India</p>
+                </div>
+              </aside>
+            </div>
 
         <div className={styles.controls}>
           <div className={styles.selector} onBlur={event => {
             if (!event.currentTarget.contains(event.relatedTarget)) { setOpen(false); setActiveIndex(-1) }
           }}>
-            <label htmlFor="visa-destination" className={styles.searchLabel}>Where will your journey take you?</label>
+            <label htmlFor="visa-destination" className={styles.searchLabel}>Search your destination</label>
             <div className={styles.searchField}>
             <Search size={15} className={styles.searchIcon} aria-hidden="true" />
-            <input id="visa-destination" ref={inputRef} role="combobox" autoComplete="off" aria-autocomplete="list" aria-expanded={open} aria-controls="visa-destinations" aria-describedby="visa-assumption" aria-activedescendant={open && activeIndex >= 0 && filtered[activeIndex] ? `visa-option-${filtered[activeIndex].id}` : undefined} placeholder="Search your destination" value={query} onFocus={event => { event.currentTarget.select(); setOpen(true) }} onClick={() => setOpen(true)} onChange={event => { setQuery(event.target.value); setSelected(null); setActiveIndex(-1); setOpen(true) }} onKeyDown={handleKeyDown} />
+            <input id="visa-destination" ref={inputRef} role="combobox" autoComplete="off" aria-autocomplete="list" aria-expanded={open} aria-controls="visa-destinations" aria-describedby="visa-assumption" aria-activedescendant={open && activeIndex >= 0 && filtered[activeIndex] ? `visa-option-${filtered[activeIndex].id}` : undefined} placeholder="Search a country or destination" value={query} onFocus={event => { event.currentTarget.select(); setOpen(true) }} onClick={() => setOpen(true)} onChange={event => { setQuery(event.target.value); setSelected(null); setActiveIndex(-1); setOpen(true) }} onKeyDown={handleKeyDown} />
             <ChevronDown size={14} className={styles.chevron} aria-hidden="true" />
             {open && (
               <ul ref={listRef} id="visa-destinations" role="listbox" aria-label="Destinations" className={styles.options}>
@@ -105,10 +125,29 @@ export default function VisaConcierge() {
             <span className={styles.popularLabel}>Popular journeys</span>
             <div className={styles.quickOptions}>
               {popularDestinations.map(destination => (
-                <button key={destination.id} type="button" className={styles.quickSelect} aria-pressed={selected?.id === destination.id} onClick={() => choose(destination, false)}>{destination.name}<ArrowUpRight size={11} aria-hidden="true" /></button>
+                <button key={destination.id} type="button" className={styles.quickSelect} aria-pressed={selected?.id === destination.id} onClick={() => choose(destination, false)}>
+                  <span className={styles.chipPhoto}><Image src={popularImages[destination.id]} alt="" fill sizes="40px" /></span>
+                  <span>{destination.name}</span><ArrowUpRight size={12} aria-hidden="true" />
+                </button>
               ))}
             </div>
           </div>
+        </div>
+
+          </div>
+          <div className={styles.featureStrip} aria-label="What the visa guides cover">
+            {features.map(({ icon: Icon, first, second }) => (
+              <div key={first} className={styles.feature}>
+                <Icon size={29} strokeWidth={1.45} aria-hidden="true" />
+                <span>{first}<br />{second}</span>
+              </div>
+            ))}
+          </div>
+          <button type="button" className={styles.explore} onClick={() => {
+            inputRef.current?.focus()
+            setActiveIndex(-1)
+            setOpen(true)
+          }}>Explore Visa Guides <span><ArrowRight size={19} aria-hidden="true" /></span></button>
         </div>
 
         <p className={styles.srOnly} role="status">{selected ? `${selected.name}: ${guidance ? Object.keys(guidance.gaps ?? {}).length ? 'Partially verified guidance available below; unresolved details are marked.' : 'Reviewed guidance available below.' : 'Guidance not yet verified.'}` : open ? filtered.length ? `${filtered.length} destinations available.` : noResultsMessage : 'Select a destination to view guidance.'}</p>
@@ -173,7 +212,7 @@ export default function VisaConcierge() {
                     {selected.reference && <details className={styles.documents}><summary>Official Reference <ChevronDown size={14} aria-hidden="true" /></summary><div className={styles.sources}><a href={selected.reference.url} target="_blank" rel="noopener noreferrer">{selected.reference.label} <ArrowUpRight size={12} aria-hidden="true" /><span className={styles.srOnly}> (opens in a new tab)</span></a></div></details>}
                   </div>
                 )}
-                <TripEnquiry kind="visa" destination={selected.name} />
+                <div className={styles.enquiry}><TripEnquiry kind="visa" destination={selected.name} /></div>
                 <p className={styles.disclaimer}>General tourism guidance, not an eligibility decision. Requirements and processing times can change. Confirm with the official authority before applying; approval and entry are not guaranteed.</p>
               </div>
             </motion.div>

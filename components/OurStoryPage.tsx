@@ -12,6 +12,13 @@ const riseOfKingdom = localFont({
   display: 'swap',
 })
 
+const waxSeals: Record<string, { src: string; alt: string }> = {
+  'THE PATHFINDER': { src: '/images/our-story/royal-team/mt-founder-wax-seal.png', alt: 'Founder' },
+  'THE REGENT': { src: '/images/our-story/royal-team/mt-managing-director-wax-seal.png', alt: 'Managing Director' },
+  'THE CURATOR': { src: '/images/our-story/royal-team/mt-head-customer-partnerships-wax-seal.png', alt: 'Head of Customer Partnerships' },
+  'THE CASTELLAN': { src: '/images/our-story/royal-team/mt-head-operations-strategy-wax-seal.png', alt: 'Head of Operations & Strategy' },
+}
+
 const team = [
   {
     name: 'THE PATHFINDER',
@@ -803,15 +810,30 @@ export default function OurStoryPage() {
                     {member.name}
                   </h2>
 
-                  <p className="mt-display-soft mt-2 text-[1.3rem] italic text-[#D4AF37]">
-                    {member.role}
-                  </p>
+                  <div className="mt-2 flex items-start justify-between gap-3">
+                    <div className="min-w-0 flex-1">
+                      <p className="mt-display-soft text-[1.3rem] italic text-[#D4AF37]">
+                        {member.role}
+                      </p>
 
-                  <div className="mt-5 h-px w-16 bg-[#D4AF37]/55 transition-all duration-700 group-hover:w-24" />
+                      <div className="mt-5 h-px w-16 bg-[#D4AF37]/55 transition-all duration-700 group-hover:w-24" />
 
-                  <p className="mt-body-copy mt-5 text-sm text-[#CFC5B3]">
-                    {member.line}
-                  </p>
+                      <p className="mt-body-copy mt-5 text-sm text-[#CFC5B3]">
+                        {member.line}
+                      </p>
+                    </div>
+
+                    {member.name === 'THE PATHFINDER' && waxSeals[member.name] && (
+                      <Image
+                        src={waxSeals[member.name].src}
+                        alt={waxSeals[member.name].alt}
+                        width={104}
+                        height={104}
+                        sizes="104px"
+                        className="relative top-[20px] left-[10px] h-auto w-[96px] shrink-0 object-contain 2xl:w-[125px]"
+                      />
+                    )}
+                  </div>
                 </div>
               </article>
             ))}

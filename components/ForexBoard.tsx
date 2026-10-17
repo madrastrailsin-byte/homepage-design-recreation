@@ -30,7 +30,7 @@ function ForexClock() {
   }, [])
   return (
     <div className={styles.clock} aria-label="Current Indian Standard Time" role="timer" aria-live="off">
-      <span className={styles.clockTime}>{now ? clockFormat.format(now) : '––:––:––'} <span>IST</span></span>
+      <span className={styles.clockTime}><span className={styles.clockDigits}>{now ? clockFormat.format(now) : '––:––:––'}</span><span className={styles.clockZone}>IST</span></span>
       <span className={styles.clockDate}>{now ? clockDateFormat.format(now) : 'Indian Standard Time'}</span>
     </div>
   )
@@ -55,6 +55,9 @@ export default function ForexBoard({ rates, loading = false }: { rates: ForexRat
   }, [router])
 
   const unavailable = !loading && rates.every(({ rate }) => rate === null)
+  const referenceDates = Array.from(
+    new Set(rates.flatMap(({ rate, date }) => rate !== null && date ? [date] : []))
+  ).sort()
   return (
     <section className={styles.section} aria-labelledby="forex-heading" aria-busy={loading}>
       <div className={styles.panel}>
@@ -66,7 +69,7 @@ export default function ForexBoard({ rates, loading = false }: { rates: ForexRat
           <div className={styles.statusGroup}>
             <span className={`${styles.feed} ${unavailable || loading ? styles.offline : ''}`}>
               <span className={styles.dot} aria-hidden="true" />
-              {loading ? 'Connecting' : unavailable ? 'Feed unavailable' : 'Daily reference feed'}
+              {loading ? 'Connecting' : unavailable ? 'Feed unavailable' : 'Reference rates · updated daily'}
             </span>
             <ForexClock />
           </div>
@@ -101,14 +104,16 @@ export default function ForexBoard({ rates, loading = false }: { rates: ForexRat
                   <span className={styles.comparison}>{previousDate ? `vs ${formatDate(previousDate)}` : 'No comparison'}</span>
                 </div>
                 <p className={`mt-body-copy ${styles.date}`}>
-                  {date ? <>Rate date <time dateTime={date}>{formatDate(date)}</time></> : loading ? 'Fetching latest rate…' : 'Rate unavailable'}
-                </p>
+  {rate !== null && rate > 0
+    ? `₹10,000 ≈ ${rateFormat.format(10000 / rate)} ${code}`
+    : 'Conversion unavailable'}
+</p>
               </li>
             )
           })}
         </ul>
         <div className={`mt-body-copy ${styles.footer}`}>
-          <p>Updated daily, not tick-by-tick. Arrows show change in INR value. Actual customer rates may differ.</p>
+          <p><span className={styles.referenceDate}>{referenceDates.length === 0 ? 'Reference date unavailable' : referenceDates.length === 1 ? `Rates as of ${formatDate(referenceDates[0])}` : `Reference dates: ${formatDate(referenceDates[0])} – ${formatDate(referenceDates[referenceDates.length - 1])}`}</span> · Updated daily, not tick-by-tick. Arrows show change in INR value. Actual customer rates may differ.</p>
           <a href="https://frankfurter.dev/" target="_blank" rel="noopener noreferrer">Frankfurter <span aria-hidden="true">↗</span></a>
         </div>
         {!loading && <TripEnquiry kind="forex" currencies={rates.map(({ code }) => code)} />}
