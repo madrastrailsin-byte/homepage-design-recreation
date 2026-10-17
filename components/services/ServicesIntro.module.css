@@ -10,3 +10,384 @@
   object-fit: cover;
   object-position: 50% 50%;
 }
+
+
+/* Diary writing alignment — temporary visual guides */
+.diaryCanvas {
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  left: 50%;
+  width: max(100%, 205.95svh);
+  aspect-ratio: 1800 / 874;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.diaryPage {
+  position: absolute;
+  box-sizing: border-box;
+  padding: 0.7%;
+  border: none;
+  background: transparent;
+  color: #422c1e;
+  font-family: var(--font-signature), cursive;
+  font-size: clamp(11px, 1.15vw, 19px);
+  line-height: 1.35;
+  text-align: left;
+}
+
+.diaryPage p {
+  margin: 0 0 0.8em;
+}
+
+.leftPage {
+  left: 32%;
+  top: 61.5%;
+  width: 15%;
+  height: 30%;
+  transform: rotate(-5.5deg);
+  transform-origin: center;
+}
+
+.rightPage {
+  left: 50.8%;
+  top: 36%;
+  width: 11.8%;
+  height: 26%;
+  transform: rotate(-5.5deg);
+  transform-origin: center;
+}
+
+@media (max-width: 767px) {
+  .diaryCanvas {
+    display: none;
+  }
+}
+
+
+/* Progressive fountain-pen-style text reveal */
+.inkLine {
+  display: block;
+  width: max-content;
+  max-width: 100%;
+  white-space: nowrap;
+  margin-bottom: 0.08em;
+}
+
+.inkWord {
+  display: inline-block;
+  white-space: pre;
+  vertical-align: baseline;
+  will-change: opacity, clip-path, transform;
+}
+
+
+/* Kyoto heading — separate writing area above the map */
+.diaryHeading {
+  left: 40%;
+  top: 36%;
+  width: 15%;
+  height: auto;
+  transform: rotate(-2deg);
+  transform-origin: center;
+}
+
+
+/* Subtle drifting particles during the ink-erasure sequence */
+.windDust {
+  position: absolute;
+  z-index: 3;
+  left: 29%;
+  top: 26%;
+  width: 39%;
+  height: 61%;
+  pointer-events: none;
+  background-image:
+    radial-gradient(circle, rgba(99, 65, 40, 0.5) 0.6px, transparent 1.2px),
+    radial-gradient(circle, rgba(120, 86, 56, 0.35) 0.5px, transparent 1px),
+    radial-gradient(circle, rgba(72, 51, 36, 0.3) 0.5px, transparent 1px);
+  background-size: 19px 23px, 29px 31px, 37px 41px;
+  background-position: 0 0, 9px 14px, 21px 6px;
+  mask-image: radial-gradient(ellipse, black 10%, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse, black 10%, transparent 75%);
+}
+/* Breathing space before the MadrasTrails signature */
+.rightPage .inkLine:last-child {
+  margin-top: 0.8em;
+}
+/* Living photograph 01 — flying birds */
+
+.birdSky {
+  position: absolute;
+  z-index: 4;
+
+  /* Sky inside the upper-left photograph */
+  left: 11%;
+  top: 45%;
+  width: 11.5%;
+  height: 6.8%;
+
+  transform: rotate(-14deg);
+  transform-origin: center;
+
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.birdScene {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* Consistent ink-dark silhouettes across differently sized birds. */
+.birdScene path {
+  fill: none;
+  stroke: #241b16;
+  stroke-width: 1.25px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+  opacity: 0.96;
+}
+
+.birdWings {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: birdFlap 0.9s ease-in-out infinite alternate;
+}
+
+@keyframes birdFlap {
+  0% {
+    transform: scaleY(0.45);
+  }
+
+  100% {
+    transform: scaleY(1.25);
+  }
+}
+
+@media (max-width: 767px) {
+  .birdSky {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .birdSky {
+    display: none;
+  }
+}
+/* Services hero — editorial typography */
+.heroTypography {
+  position: absolute;
+  z-index: 5;
+  top: 11.2%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  text-align: center;
+  pointer-events: none;
+}
+
+.heroEyebrow {
+  display: block;
+  color: #d8bd84;
+  font-size: clamp(9px, 0.8vw, 12px);
+  font-weight: 500;
+  letter-spacing: 0.32em;
+  margin-bottom: 14px;
+}
+
+.heroTitle {
+  margin: 0;
+  color: #fff7e9;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(32px, 3.4vw, 60px);
+  font-weight: 400;
+  line-height: 0.9;
+}
+
+.heroTitle span {
+  display: block;
+  color: #e3c995;
+  font-style: italic;
+  font-weight: 400;
+}
+
+.heroSubtitle {
+  margin: 10px auto 0;
+  color: #f2eadc;
+  font-size: clamp(11px, 0.95vw, 15px);
+  font-weight: 300;
+  letter-spacing: 0.035em;
+  line-height: 1.5;
+}
+/* Vintage camera — slow red recording indicator */
+.cameraRecLight {
+  position: absolute;
+  z-index: 6;
+
+  /* Initial placement — adjust to the camera's indicator */
+  left: 92.35%;
+  top: 10.8%;
+
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  pointer-events: none;
+
+  background: #ff2020;
+  box-shadow:
+    0 0 3px 1px #ff3030,
+    0 0 9px 3px rgba(255, 0, 0, 0.85),
+    0 0 20px 6px rgba(255, 0, 0, 0.4);
+
+  animation: vintageRecBlink 1.8s ease-in-out infinite;
+}
+
+@keyframes vintageRecBlink {
+  0%, 12%, 55%, 100% {
+    opacity: 0.08;
+  }
+
+  25%, 42% {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cameraRecLight {
+    animation: none;
+    opacity: 0.8;
+  }
+}
+/* Antique compass — cinematic magnetic needle */
+
+.compassNeedle {
+  position: absolute;
+  z-index: 88;
+
+  /* Preserve your manually adjusted position */
+  left: 88.94%;
+  top: 81.1%;
+
+  width: 48px;
+  height: 68px;
+
+  transform-origin: 50% 50%;
+  transform: translate(-50%, -50%);
+
+  animation: compassRotation 14s ease-in-out infinite;
+
+  filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.55));
+
+  pointer-events: none;
+}
+
+/* Shared needle geometry */
+.needleNorth,
+.needleSouth {
+  position: absolute;
+  left: 50%;
+
+  width: 5px;
+  height: 31px;
+
+  transform: translateX(-50%);
+}
+
+/* Ruby-red north-pointing tip */
+.needleNorth {
+  top: 2px;
+
+  background: linear-gradient(
+    90deg,
+    #291d19 0%,
+    #54251f 28%,
+    #78382c 48%,
+    #49221c 72%,
+    #241916 100%
+  );
+
+  clip-path: polygon(
+    50% 0%,
+    100% 100%,
+    50% 87%,
+    0% 100%
+  );
+}
+
+/* Antique champagne-gold south tip */
+.needleSouth {
+  bottom: 2px;
+
+  background: linear-gradient(
+    90deg,
+    #29251f 0%,
+    #665740 30%,
+    #8b7856 48%,
+    #554834 72%,
+    #24211c 100%
+  );
+
+  clip-path: polygon(
+    0% 0%,
+    50% 13%,
+    100% 0%,
+    50% 100%
+  );
+}
+
+/* Brass central pivot */
+.needlePivot {
+  position: absolute;
+
+  left: 50%;
+  top: 50%;
+
+  width: 6px;
+  height: 6px;
+
+  border-radius: 50%;
+
+  background: radial-gradient(
+  circle at 35% 30%,
+  #8b744b 0%,
+  #65502e 35%,
+  #44331f 75%,
+  #251b13 100%
+);
+
+  border: 1px solid rgba(64, 39, 13, 0.7);
+
+  box-shadow:
+  0 1px 2px rgba(0, 0, 0, 0.6),
+  inset 0 1px 1px rgba(160, 130, 80, 0.2);
+  
+
+  transform: translate(-50%, -50%);
+}
+
+/* Clockwise 360° search with restrained magnetic hesitation. */
+@keyframes compassRotation {
+  0%   { transform: translate(-50%, -50%) rotate(0deg); }
+  14%  { transform: translate(-50%, -50%) rotate(58deg); }
+  18%  { transform: translate(-50%, -50%) rotate(54deg); }
+  34%  { transform: translate(-50%, -50%) rotate(135deg); }
+  38%  { transform: translate(-50%, -50%) rotate(131deg); }
+  56%  { transform: translate(-50%, -50%) rotate(223deg); }
+  60%  { transform: translate(-50%, -50%) rotate(219deg); }
+  78%  { transform: translate(-50%, -50%) rotate(304deg); }
+  82%  { transform: translate(-50%, -50%) rotate(300deg); }
+  100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .compassNeedle {
+    animation: none;
+    transform: translate(-50%, -50%);
+  }
+}
