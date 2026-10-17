@@ -68,7 +68,7 @@ const destination: Destination = {
         "AlUla Through Hegra, Ancient Kingdoms and Sandstone Valleys",
       location: "AlUla · Northwestern Saudi Arabia",
       image:
-        "https://images.unsplash.com/photo-1539650116574-75c0c6d73f6e?q=85&w=1800&auto=format&fit=crop",
+        "/images/destinations/saudi-arabia/hegra-nabataean-tombs.webp",
       description:
         "Explore monumental rock-cut tombs, ancient inscriptions, oasis settlements and sculpted desert landscapes with specialists who reveal AlUla’s importance across successive Arabian civilisations.",
       season: "October to March",

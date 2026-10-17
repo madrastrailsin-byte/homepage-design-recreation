@@ -102,7 +102,7 @@ const destination: Destination = {
       title: "Fès Through Its Master Artisans",
       location: "Fès",
       image:
-        "https://images.unsplash.com/photo-1548018560-c7196548e84d?q=85&w=1800&auto=format&fit=crop",
+        "/images/destinations/morocco/fes-chouara-tannery.webp",
       description:
         "Enter one of the Islamic world's most intricate historic cities through its tanneries, metalworkers, weavers, woodcarvers, religious schools and hidden domestic architecture.",
       season: "March to May · September to November",

@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, type MouseEvent } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { Plane, Hotel, MapPin, Shield, FileCheck2, ArrowLeftRight } from 'lucide-react'
 
@@ -32,12 +32,14 @@ const services = [
   {
     icon: FileCheck2,
     label: 'VISA ASSISTANCE',
+    href: '/#visa-concierge',
     title: 'Visa assistance',
     description: 'From document guidance to application support, we help make the visa process simpler.',
   },
   {
     icon: ArrowLeftRight,
     label: 'FOREIGN EXCHANGE',
+    href: '/#forex-board',
     title: 'Foreign exchange',
     description: 'We help you arrange foreign currency and understand exchange rates before you travel.',
   },
@@ -45,6 +47,24 @@ const services = [
 
 export default function ServicesStrip() {
   const stripRef = useRef<HTMLDivElement>(null)
+  const pointerActivation = useRef(false)
+  const explorePress = useRef(false)
+  const dismissTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  function cancelDismiss() {
+    if (dismissTimer.current !== null) {
+      clearTimeout(dismissTimer.current)
+      dismissTimer.current = null
+    }
+  }
+
+  function dismissAfterPointerLeave() {
+    cancelDismiss()
+    dismissTimer.current = setTimeout(() => {
+      if (!explorePress.current) setActiveIndex(null)
+      dismissTimer.current = null
+    }, 120)
+  }
   const reduceMotion = useReducedMotion()
   const [activeIndex, setActiveIndex] = useState<number | null>(null)
   const activeService = activeIndex === null ? null : services[activeIndex]
@@ -55,18 +75,60 @@ export default function ServicesStrip() {
       if (
         target instanceof Element &&
         stripRef.current?.contains(target) &&
-        target.closest('[data-service-button]')
+        target.closest('[data-service-button], [data-service-explore]')
       ) return
+      explorePress.current = false
+      cancelDismiss()
       setActiveIndex(null)
     }
 
     document.addEventListener('pointerdown', dismissOutside)
-    return () => document.removeEventListener('pointerdown', dismissOutside)
+    return () => {
+      document.removeEventListener('pointerdown', dismissOutside)
+      cancelDismiss()
+    }
   }, [])
+
+  function exploreSection(event: MouseEvent<HTMLAnchorElement>) {
+    explorePress.current = false
+    cancelDismiss()
+    if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return
+    const hash = new URL(event.currentTarget.href).hash
+    const section = document.getElementById(hash.slice(1))
+    if (!section) return
+    event.preventDefault()
+    window.history.pushState(null, '', `/${hash}`)
+    section.focus({ preventScroll: true })
+    section.scrollIntoView({ behavior: reduceMotion ? 'instant' : 'smooth', block: 'start' })
+    setActiveIndex(null)
+  }
+
+  function exploreLink(service: (typeof services)[number]) {
+    return service.href ? (
+      <a
+        href={service.href}
+        data-service-explore
+        onPointerEnter={cancelDismiss}
+        onPointerDown={(event) => {
+          cancelDismiss()
+          explorePress.current = true
+          // Keep blur dismissal from unmounting the link before click fires.
+          if (event.pointerType === 'mouse') event.preventDefault()
+        }}
+        onPointerCancel={() => { explorePress.current = false }}
+        onClick={exploreSection}
+        aria-label={`Explore ${service.title}`}
+        className="mt-ui relative mt-2 inline-flex min-h-8 items-center gap-1 text-[11px] tracking-[0.08em] text-[#D4AF37] underline-offset-4 hover:underline focus-visible:rounded-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#D4AF37]"
+      >
+        Explore <span aria-hidden="true">→</span>
+      </a>
+    ) : null
+  }
 
   return (
     <div
       ref={stripRef}
+      onKeyDown={(event) => { if (event.key === 'Escape') setActiveIndex(null) }}
       className="mt-scroll-services mt-services-flow mt-journey-motif relative isolate z-20 -mt-3 w-full bg-gradient-to-b from-transparent via-[var(--mt-canvas)] to-[var(--mt-canvas)] pt-10 pb-10 md:-mt-14 md:pt-10 md:pb-14"
     >
       <div className="pointer-events-none absolute inset-x-0 -top-16 z-0 h-32 bg-gradient-to-b from-transparent via-[var(--mt-canvas)]/18 to-[var(--mt-canvas)]" />
@@ -89,7 +151,10 @@ export default function ServicesStrip() {
           duration: reduceMotion ? 0 : 0.34,
           ease: [0.22, 1, 0.36, 1],
         }}
-        className="pointer-events-none absolute inset-x-0 top-0 z-40 mx-auto w-full"
+        onBlur={(event) => {
+          if (!explorePress.current && !stripRef.current?.contains(event.relatedTarget)) setActiveIndex(null)
+        }}
+        className={`${activeService.href ? 'pointer-events-auto bottom-0' : 'pointer-events-none top-0'} absolute inset-x-0 z-40 mx-auto w-full`}
       >
         <div className="mt-services-tooltip relative overflow-hidden rounded-[1rem] border border-white/14 bg-[linear-gradient(180deg,rgba(10,25,29,0.88),rgba(4,15,18,0.84))] px-4 py-3 shadow-[0_18px_45px_rgba(0,0,0,0.34),inset_0_1px_0_rgba(255,255,255,0.1)] backdrop-blur-[22px]">
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_0%,rgba(255,255,255,0.09),transparent_45%)]" />
@@ -97,6 +162,7 @@ export default function ServicesStrip() {
           <p className="mt-body-copy relative text-[0.8rem] leading-[1.5] text-white/78">
             {activeService.description}
           </p>
+          {exploreLink(activeService)}
         </div>
       </motion.div>
     )}
@@ -108,27 +174,37 @@ export default function ServicesStrip() {
       const active = activeIndex === idx
 
       return (
-        <div key={service.label} className="relative lg:shrink-0">
+        <div key={service.label} className="relative lg:shrink-0"
+          onPointerLeave={service.href ? (event) => {
+            if (event.pointerType === 'mouse' && !event.currentTarget.querySelector(':focus-visible')) dismissAfterPointerLeave()
+          } : undefined}
+          onBlur={service.href ? (event) => {
+            if (!explorePress.current && !event.currentTarget.contains(event.relatedTarget) && !(event.relatedTarget instanceof Element && event.relatedTarget.closest('[data-service-explore]'))) setActiveIndex(null)
+          } : undefined}
+        >
           <motion.button
             type="button"
             data-service-button
+            onPointerDown={service.href ? () => { pointerActivation.current = true } : undefined}
             onPointerEnter={(event) => {
-  if (event.pointerType === 'mouse') setActiveIndex(idx)
+  if (event.pointerType === 'mouse') { cancelDismiss(); setActiveIndex(idx) }
 }}
             onPointerLeave={(event) => {
-              if (event.pointerType === 'mouse') setActiveIndex(null)
+              if (event.pointerType === 'mouse' && !service.href) setActiveIndex(null)
             }}
             onPointerUp={(event) => {
+              pointerActivation.current = false
               if (event.pointerType !== 'mouse') {
                 setActiveIndex((current) => (current === idx ? null : idx))
               }
             }}
             onClick={(event) => {
-              if (event.detail === 0) {
+              if (event.detail === 0 && !service.href) {
                 setActiveIndex((current) => (current === idx ? null : idx))
               }
             }}
-            onBlur={() => setActiveIndex(null)}
+            onFocus={service.href ? () => { if (!pointerActivation.current) setActiveIndex(idx) } : undefined}
+            onBlur={service.href ? undefined : () => setActiveIndex(null)}
             onKeyDown={(event) => {
               if (event.key === 'Escape') setActiveIndex(null)
             }}
@@ -182,7 +258,8 @@ export default function ServicesStrip() {
                 animate={{ opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }}
                 exit={{ opacity: 0, y: 6, scale: 0.96, filter: 'blur(6px)', transition: { duration: reduceMotion ? 0 : 0.08 } }}
                 transition={{ duration: reduceMotion ? 0 : 0.36, ease: [0.22, 1, 0.36, 1] }}
-                className="pointer-events-none absolute left-1/2 hidden w-[min(17rem,78vw)] -translate-x-1/2 md:bottom-[calc(100%+0.8rem)] md:z-40 md:block"
+                onPointerEnter={service.href ? cancelDismiss : undefined}
+                className={`${service.href ? 'pointer-events-auto pb-[0.8rem] md:bottom-full' : 'pointer-events-none md:bottom-[calc(100%+0.8rem)]'} absolute left-1/2 hidden w-[min(17rem,78vw)] -translate-x-1/2 md:z-40 md:block`}
               >
                 <div className="mt-services-tooltip relative overflow-hidden rounded-[1.15rem] border border-white/16 bg-[linear-gradient(180deg,rgba(14,24,28,0.9),rgba(5,12,15,0.86))] px-4 py-3.5 shadow-[0_22px_60px_rgba(0,0,0,0.42),inset_0_1px_0_rgba(255,255,255,0.12)] backdrop-blur-[24px]">
                   <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_0%,rgba(255,255,255,0.1),transparent_42%)]" />
@@ -190,6 +267,7 @@ export default function ServicesStrip() {
                   <p className="mt-body-copy relative text-[0.82rem] leading-[1.5] text-white/80">
                     {service.description}
                   </p>
+                  {exploreLink(service)}
                 </div>
               </motion.div>
             )}

@@ -67,7 +67,7 @@ const destination: Destination = {
       title: "Giza, Saqqara and the Evolution of the Pyramid",
       location: "Cairo · Giza · Saqqara",
       image:
-        "https://images.unsplash.com/photo-1539650116574-75c0c6d73f6e?q=85&w=1800&auto=format&fit=crop",
+        "/images/destinations/egypt/giza-pyramids.webp",
       description:
         "Explore royal necropolises with an Egyptologist who connects the Step Pyramid of Djoser, the tombs of Saqqara and the monumental architecture of Giza to the development of the ancient Egyptian state.",
       season: "October to April",
@@ -93,7 +93,7 @@ const destination: Destination = {
       title: "Nubia by River and Desert",
       location: "Aswan · Abu Simbel",
       image:
-        "https://images.unsplash.com/photo-1566192091743-5966a6079982?q=85&w=1800&auto=format&fit=crop",
+        "/images/destinations/egypt/abu-simbel-temple.webp",
       description:
         "Travel through granite islands, river villages, relocated temples and desert horizons while exploring the cultural and archaeological landscapes of southern Egypt.",
       season: "October to March",

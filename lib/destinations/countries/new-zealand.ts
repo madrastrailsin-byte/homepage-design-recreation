@@ -68,7 +68,7 @@ const destination: Destination = {
       title: "Rotorua Through Local Stories",
       location: "Rotorua · North Island",
       image:
-        "https://images.unsplash.com/photo-1579198314864-4994e5b4b50b?q=85&w=1800&auto=format&fit=crop",
+        "/images/destinations/new-zealand/rotorua-geothermal-landscape.webp",
       description:
         "Experience Rotorua with Māori hosts who share local history, geothermal knowledge, traditional arts, contemporary culture and the significance of manaakitanga—hospitality and care for others.",
       season: "Year-round",

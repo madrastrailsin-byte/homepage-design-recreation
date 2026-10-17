@@ -79,7 +79,7 @@ const destination: Destination = {
       title: "The Wachau by Private Boat and Vineyard",
       location: "Wachau Valley · Lower Austria",
       image:
-        "https://images.unsplash.com/photo-1564594736624-def7a10ab047?q=85&w=1800&auto=format&fit=crop",
+        "/images/destinations/austria/wachau-danube-durnstein.webp",
       description:
         "Travel along the Danube between medieval villages, abbeys and steep vineyard terraces before meeting a local producer for a private tasting.",
       season: "April to October",
@@ -92,7 +92,7 @@ const destination: Destination = {
       title: "Beyond the Peaks of Tyrol",
       location: "Tyrol",
       image:
-        "https://images.unsplash.com/photo-1609948543911-7f01ff385be1?q=85&w=1800&auto=format&fit=crop",
+        "/images/destinations/austria/tyrol-alpine-valley.webp",
       description:
         "Journey by cable car and private guide into high Alpine terrain for mountain walks, panoramic dining and encounters with the villages and traditions of western Austria.",
       season: "June to September · December to March",

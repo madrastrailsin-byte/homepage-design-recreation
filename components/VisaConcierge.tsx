@@ -78,7 +78,7 @@ export default function VisaConcierge() {
 
   const guidance = selected?.guidance
   return (
-    <section id="visa-concierge" className={styles.section} aria-labelledby="visa-heading">
+    <section tabIndex={-1} id="visa-concierge" className={styles.section} aria-labelledby="visa-heading">
       <div className={styles.panel}>
         <div className={styles.hero}>
           <div className={styles.photography}>

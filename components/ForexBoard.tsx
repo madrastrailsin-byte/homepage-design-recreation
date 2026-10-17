@@ -59,7 +59,7 @@ export default function ForexBoard({ rates, loading = false }: { rates: ForexRat
     new Set(rates.flatMap(({ rate, date }) => rate !== null && date ? [date] : []))
   ).sort()
   return (
-    <section className={styles.section} aria-labelledby="forex-heading" aria-busy={loading}>
+    <section id="forex-board" tabIndex={-1} style={{ scrollMarginTop: '6rem' }} className={styles.section} aria-labelledby="forex-heading" aria-busy={loading}>
       <div className={styles.panel}>
         <div className={styles.header}>
           <div className={styles.titleGroup}>

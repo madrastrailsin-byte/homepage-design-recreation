@@ -80,7 +80,7 @@ const destination: Destination = {
       title: "Tea, Trails and Colonial-Era Estates",
       location: "Hatton · Nuwara Eliya · Ella",
       image:
-        "https://images.unsplash.com/photo-1578530332818-6ba472e67b97?q=85&w=1800&auto=format&fit=crop",
+        "/images/destinations/sri-lanka/ella-tea-plantations.webp",
       description:
         "Walk through emerald plantations, cloud forest and mountain villages while learning how altitude, rainfall, labour and processing shape Sri Lanka’s celebrated tea traditions.",
       season: "January to April · July to September",
@@ -93,7 +93,7 @@ const destination: Destination = {
       title: "Leopard Country with a Private Naturalist",
       location: "Yala · Kumana · Bundala",
       image:
-        "https://images.unsplash.com/photo-1586613835347-57c751a8f2f3?q=85&w=1800&auto=format&fit=crop",
+        "/images/destinations/sri-lanka/yala-sri-lankan-leopard.webp",
       description:
         "Explore dry forest, lagoons, rock outcrops and coastal wetlands with naturalists who interpret leopard behaviour, elephant movement and the island’s exceptional birdlife.",
       season: "February to July",

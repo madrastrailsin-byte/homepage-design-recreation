@@ -22,7 +22,7 @@ const waxSeals: Record<string, { src: string; alt: string }> = {
 const team = [
   {
     name: 'THE PATHFINDER',
-    role: 'The Journey Architect',
+    role: 'The Architect',
     area: 'Strategy & Journey Design',
     line: 'Imagines the journey.',
     image: '/images/our-story/royal-team/pathfinder.png',
@@ -95,7 +95,7 @@ const journeyProcess = [
     name: 'THE PATHFINDER',
     title: 'Designs the Journey',
     description: 'Shapes the route, stays and experiences around you.',
-    image: '/images/our-story/kingdom-cards/pathfinder.png',
+    image: '/images/our-story/kingdom-cards/visionary.png',
   },
   {
     name: 'THE REGENT',
@@ -228,33 +228,10 @@ export default function OurStoryPage() {
       let cardStops: number[] = []
       let sectionIsActive = false
       let audioUnlocked = false
-      const baseAudioVolume = 0.18
-      const audioFadeWindow = 1.8
 
       const syncAudioVolume = () => {
         if (!planeAudio) return
-        planeAudio.volume = baseAudioVolume
-      }
-
-      const handleAudioTimeUpdate = () => {
-        if (!planeAudio) return
-
-        const duration = planeAudio.duration
-        if (!Number.isFinite(duration) || duration <= 0) return
-
-        const remaining = duration - planeAudio.currentTime
-
-        if (remaining <= audioFadeWindow) {
-          const fade = Math.max(0, Math.min(1, remaining / audioFadeWindow))
-          planeAudio.volume = baseAudioVolume * fade
-        } else {
-          planeAudio.volume = baseAudioVolume
-        }
-      }
-
-      const handleAudioEnded = () => {
-        if (!planeAudio) return
-        planeAudio.volume = baseAudioVolume
+        planeAudio.volume = 0.18
       }
 
       const startFlightAudio = async (restart = false) => {
@@ -265,7 +242,6 @@ export default function OurStoryPage() {
         if (restart) {
           try {
             planeAudio.currentTime = 0
-            planeAudio.volume = baseAudioVolume
           } catch {
             // Ignore browsers that briefly reject seeking before metadata is ready.
           }
@@ -376,8 +352,6 @@ export default function OurStoryPage() {
       window.addEventListener('pointerdown', unlockAudio, { passive: true })
       window.addEventListener('keydown', unlockAudio)
       document.addEventListener('visibilitychange', handleVisibilityChange)
-      planeAudio?.addEventListener('timeupdate', handleAudioTimeUpdate)
-      planeAudio?.addEventListener('ended', handleAudioEnded)
 
       if (prefersReducedMotion) {
         gsap.set([...cards, ...reveals], {
@@ -396,8 +370,6 @@ export default function OurStoryPage() {
           window.removeEventListener('pointerdown', unlockAudio)
           window.removeEventListener('keydown', unlockAudio)
           document.removeEventListener('visibilitychange', handleVisibilityChange)
-          planeAudio?.removeEventListener('timeupdate', handleAudioTimeUpdate)
-          planeAudio?.removeEventListener('ended', handleAudioEnded)
         }
       }
 
@@ -706,8 +678,6 @@ export default function OurStoryPage() {
         window.removeEventListener('pointerdown', unlockAudio)
         window.removeEventListener('keydown', unlockAudio)
         document.removeEventListener('visibilitychange', handleVisibilityChange)
-        planeAudio?.removeEventListener('timeupdate', handleAudioTimeUpdate)
-        planeAudio?.removeEventListener('ended', handleAudioEnded)
         flowTl?.kill()
       }
     }, page)
@@ -812,7 +782,7 @@ export default function OurStoryPage() {
 
                   <div className="mt-2 flex items-start justify-between gap-3">
                     <div className="min-w-0 flex-1">
-                      <p className="mt-display-soft text-[1.3rem] italic text-[#D4AF37]">
+                      <p className={`mt-display-soft text-[1.3rem] italic text-[#D4AF37] ${member.name === 'THE PATHFINDER' ? 'whitespace-nowrap' : ''}`}>
                         {member.role}
                       </p>
 
@@ -829,8 +799,8 @@ export default function OurStoryPage() {
                         alt={waxSeals[member.name].alt}
                         width={104}
                         height={104}
-                        sizes="104px"
-                        className="relative top-[20px] left-[10px] h-auto w-[96px] shrink-0 object-contain 2xl:w-[125px]"
+                        sizes="(min-width:1536px) 125px, 96px"
+                        className="h-auto w-[96px] max-w-[40%] shrink-0 self-center object-contain 2xl:w-[125px]"
                       />
                     )}
                   </div>

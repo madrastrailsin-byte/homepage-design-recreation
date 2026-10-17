@@ -72,7 +72,7 @@ const destination: Destination = {
       title: "Dubrovnik Before the City Wakes",
       location: "Dubrovnik",
       image:
-        "https://images.unsplash.com/photo-1555990538-1e6c1a5e3f5c?q=85&w=1800&auto=format&fit=crop",
+        "/images/destinations/croatia/dubrovnik-old-town.webp",
       description:
         "Enter Dubrovnik's limestone streets at first light with a specialist guide, tracing the maritime power, diplomacy and architectural refinement of the former Republic of Ragusa.",
       season: "April to June · September to October",

@@ -80,7 +80,7 @@ const destination: Destination = {
       title: "Gyeongju’s Royal Landscape",
       location: "Gyeongju",
       image:
-        "https://images.unsplash.com/photo-1622279488885-d831d9572a61?q=85&w=1800&auto=format&fit=crop",
+        "/images/destinations/south-korea/gyeongju-bulguksa-temple.webp",
       description:
         "Trace the legacy of the Silla kingdom through monumental burial mounds, Buddhist sanctuaries, palace remains and archaeological landscapes accompanied by a private historian.",
       season: "April to June · September to November",

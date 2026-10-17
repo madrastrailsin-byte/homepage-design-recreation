@@ -87,7 +87,7 @@ const destination: Destination = {
       title: "Kazbegi and the Georgian Military Highway",
       location: "Greater Caucasus",
       image:
-        "https://images.unsplash.com/photo-1558980664-10ea292cd6d6?q=85&w=1800&auto=format&fit=crop",
+        "/images/destinations/georgia/gergeti-church-mount-kazbek.webp",
       description:
         "Travel north through fortress valleys and high mountain passes to Gergeti Trinity Church, dramatically positioned beneath the snow-covered summit of Mount Kazbek.",
       season: "May to October",

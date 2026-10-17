@@ -67,7 +67,7 @@ const destination: Destination = {
       title: "Banff & Lake Louise Beyond the Crowds",
       location: "Alberta",
       image:
-        "https://images.unsplash.com/photo-1503614472-8c93d56cd4b2?q=85&w=1800&auto=format&fit=crop",
+        "/images/destinations/canada/banff-lake-louise.webp",
       description:
         "Explore turquoise lakes, glacier-fed rivers and alpine trails with a private naturalist while discovering quieter viewpoints beyond the iconic photo stops.",
       season: "June to September",

@@ -5,6 +5,11 @@ import Image from "next/image"
 import { useCallback, useEffect, useRef, useState } from "react"
 import { createPortal } from "react-dom"
 
+const imageFocalPoints: Record<string, string> = {
+  "/images/destinations/costa-rica/arenal-volcano.webp": "100% 50%",
+  "/images/destinations/georgia/gergeti-church-mount-kazbek.webp": "85% 50%",
+}
+
 const focusableSelector =
   'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
 
@@ -200,6 +205,7 @@ function ExperienceCard({
     >
       <Image
         src={experience.image}
+        style={{ objectPosition: imageFocalPoints[experience.image] }}
         alt={experience.title}
         fill
         unoptimized={
@@ -399,6 +405,7 @@ function ExperienceDrawer({
             <div className="relative h-[46vh] min-h-[380px] overflow-hidden">
               <Image
                 src={experience.image}
+                style={{ objectPosition: imageFocalPoints[experience.image] }}
                 alt={experience.title}
                 fill
                 unoptimized={

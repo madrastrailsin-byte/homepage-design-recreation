@@ -80,7 +80,7 @@ const destination: Destination = {
       title: "Arenal Through Lava Landscapes, Forest and Thermal Waters",
       location: "Arenal · La Fortuna",
       image:
-        "https://images.unsplash.com/photo-1601221997636-2f6f1170f7d3?q=85&w=1800&auto=format&fit=crop",
+        "/images/destinations/costa-rica/arenal-volcano.webp",
       description:
         "Walk through regenerating forest and historic lava terrain beneath Arenal Volcano, cross the canopy with specialist guides and recover in naturally heated mineral waters.",
       season: "December to April · May to August for greener landscapes",

@@ -73,7 +73,7 @@ const destination: Destination = {
       location: "Helsinki",
 
       image:
-        "https://images.unsplash.com/photo-1556162958-f6d4b2f86f94?q=85&w=1800&auto=format&fit=crop",
+        "/images/destinations/finland/helsinki-cathedral.webp",
 
       description:
         "Explore Finland's capital through award-winning architecture, contemporary Nordic design, waterfront districts, museums and one of Europe's most exciting culinary scenes.",
@@ -93,7 +93,7 @@ const destination: Destination = {
       location: "Lapland",
 
       image:
-        "https://images.unsplash.com/photo-1517821099601-9a9d5e2f9d64?q=85&w=1800&auto=format&fit=crop",
+        "/images/destinations/finland/lapland-winter-landscape.webp",
 
       description:
         "Stay in luxury Arctic lodges while exploring frozen forests, meeting Sámi reindeer herders, enjoying husky safaris and witnessing the magical Aurora Borealis.",

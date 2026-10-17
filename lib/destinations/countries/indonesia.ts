@@ -67,7 +67,7 @@ const destination: Destination = {
       title: "Borobudur and Prambanan with an Archaeologist",
       location: "Central Java",
       image:
-        "https://images.unsplash.com/photo-1583391733981-8496c8f62f9d?q=85&w=1800&auto=format&fit=crop",
+        "/images/destinations/indonesia/borobudur-stupas-close.webp",
       description:
         "Explore Southeast Asia's greatest Buddhist and Hindu monuments with an archaeological specialist who explains their symbolism, engineering and place within ancient Javanese civilisation.",
       season: "May to October",
