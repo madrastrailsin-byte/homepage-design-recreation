@@ -23,7 +23,18 @@ const MotionImage = motion.create(Image)
 
 export default function HeroSection({ destination }: HeroSectionProps) {
   const prefersReducedMotion = useReducedMotion()
-  const requestedImage = destination.image || FALLBACK_IMAGE
+  const requestedImage =
+    destination.id === "canada"
+      ? "/images/destinations/canada/canada-moraine-lake-hero.webp"
+      : destination.id === "bhutan"
+        ? "/images/destinations/bhutan/bhutan-tigers-nest-hero.webp"
+        : destination.id === "vietnam"
+            ? "/images/destinations/vietnam/vietnam-ha-long-bay-hero.webp"
+            : destination.id === "qatar"
+              ? "/images/destinations/middle-east/qatar-hero.webp"
+              : destination.id === "namibia"
+                ? "/images/destinations/namibia/namibia-sossusvlei-hero.webp"
+                : destination.image || FALLBACK_IMAGE
   const [imageState, setImageState] = useState({
     requested: requestedImage,
     resolved: requestedImage,
