@@ -27,6 +27,15 @@
   background: var(--visa-sand);
   box-shadow: 0 10px 32px #162d3912;
 }
+.hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: rgba(8, 42, 49, 0.12);
+  pointer-events: none;
+  z-index: 0;
+}
 .photography {
   position: absolute;
   z-index: -1;
@@ -42,7 +51,7 @@
   background: linear-gradient(90deg, #eee7dc 0%, #eee7dca6 7%, #eee7dc00 35%);
   pointer-events: none;
 }
-.content { position: relative; padding: 2rem 2.4rem 7.9rem; }
+.content { position: relative; z-index: 1; padding: 2rem 2.4rem 7.9rem; }
 .header { display: flex; align-items: flex-end; gap: 1.6rem; max-width: 83%; }
 .intro { min-width: 0; flex: 0 0 auto; }
 .eyebrow { margin: 0 0 .45rem; color: var(--visa-gold); font-size: .7rem; font-weight: 600; letter-spacing: .27em; }

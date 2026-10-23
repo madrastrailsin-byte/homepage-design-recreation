@@ -556,7 +556,14 @@ export default function ServicesIntro() {
           <span className={styles.needlePivot} />
         </div>
         {!reducedMotion && <FlyingBirds />}
-    <defs>
+    <svg
+        width="0"
+        height="0"
+        aria-hidden="true"
+        focusable="false"
+        style={{ position: "absolute" }}
+      >
+      <defs>
       {/* Mask follows the water, excluding buildings and photo borders */}
       <clipPath id="servicesLakeMask">
   <path
@@ -605,6 +612,7 @@ export default function ServicesIntro() {
         />
       </filter>
     </defs>
+      </svg>
         {!reducedMotion && (
           <div className={styles.japanStorm} aria-hidden="true">
             <svg

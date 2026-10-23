@@ -5,6 +5,7 @@ import { ArrowRight } from 'lucide-react'
 import gsap from 'gsap'
 import { motion, useReducedMotion } from 'framer-motion'
 import Image from 'next/image'
+import HeroStoryLetters from './HeroStoryLetters'
 import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 
@@ -214,21 +215,12 @@ const bulletinText =
       >
         <div className="mt-hero-exit-group relative max-w-[43rem]">
           <div className="mt-hero-camera-copy mt-hero-typography relative flex flex-col">
-          {/* Main Headline Artwork */}
+          {/* Live handwriting headline */}
           <h1
   data-hero-reveal="heading"
   className="mb-[clamp(1rem,4.6vw,1.35rem)] w-[clamp(12.5rem,63vw,15rem)] md:mb-6 md:w-[320px] lg:w-[400px]"
 >
-            <Image
-  src="/images/homepage/hero-travel-like-local.webp"
-  alt="Travel Like A Local"
-  width={1024}
-  height={576}
-  unoptimized
-  priority
-  fetchPriority="high"
-  className="h-auto w-full object-contain"
-/>
+            <HeroStoryLetters />
           </h1>
 
           {/* Decorative divider */}
