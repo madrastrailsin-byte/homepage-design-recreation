@@ -5,7 +5,7 @@ import { ArrowRight } from 'lucide-react'
 import gsap from 'gsap'
 import { motion, useReducedMotion } from 'framer-motion'
 import Image from 'next/image'
-import HeroStoryLetters from './HeroStoryLetters'
+import HeroGoldenQuill from './HeroGoldenQuill'
 import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 
@@ -220,7 +220,7 @@ const bulletinText =
   data-hero-reveal="heading"
   className="mb-[clamp(1rem,4.6vw,1.35rem)] w-[clamp(12.5rem,63vw,15rem)] md:mb-6 md:w-[320px] lg:w-[400px]"
 >
-            <HeroStoryLetters />
+            <HeroGoldenQuill />
           </h1>
 
           {/* Decorative divider */}
