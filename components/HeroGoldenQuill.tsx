@@ -4,12 +4,35 @@ import { useLayoutEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import styles from './HeroGoldenQuill.module.css'
 
+function SandGrains() {
+  return (
+    <>
+      {Array.from({ length: 48 }, (_, i) => (
+        <span
+          key={i}
+          className={styles.sandGrain}
+          style={{
+            left: `${((i * 19) % 31) - 15}px`,
+            top: `${(i * 37) % 100}%`,
+            width: i % 6 === 0 ? 2 : 1,
+            height: i % 6 === 0 ? 2 : 1,
+            animationDelay: `${-((i * 11) % 17) / 10}s`,
+            animationDuration: `${1.1 + ((i * 7) % 8) / 10}s`,
+          }}
+        />
+      ))}
+    </>
+  )
+}
+
 export default function HeroGoldenQuill() {
   const inkRef = useRef<HTMLSpanElement>(null)
   const firstRef = useRef<HTMLSpanElement>(null)
   const secondRef = useRef<HTMLSpanElement>(null)
   const exclamationRef = useRef<HTMLSpanElement>(null)
   const quillRef = useRef<HTMLSpanElement>(null)
+  const sandFirstRef = useRef<HTMLSpanElement>(null)
+  const sandSecondRef = useRef<HTMLSpanElement>(null)
 
   useLayoutEffect(() => {
     const ink = inkRef.current
@@ -17,8 +40,24 @@ export default function HeroGoldenQuill() {
     const second = secondRef.current
     const exclamation = exclamationRef.current
     const quill = quillRef.current
+    const sandFirst = sandFirstRef.current
+    const sandSecond = sandSecondRef.current
 
-    if (!ink || !first || !second || !exclamation || !quill) return
+    if (!ink || !first || !second || !exclamation || !quill || !sandFirst || !sandSecond) return
+
+    const dots = Array.from(
+      exclamation.querySelectorAll<HTMLElement>(`.${styles.ellipsisDot}`)
+    )
+    if (dots.length !== 3) return
+
+    const dotPoint = (dot: HTMLElement) => {
+      const r = dot.getBoundingClientRect()
+      const base = ink.getBoundingClientRect()
+      return {
+        x: r.left - base.left + r.width / 2 - 2.5,
+        y: r.top - base.top + r.height / 2 - 2.5,
+      }
+    }
 
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       gsap.set(ink, { opacity: 1 })
@@ -27,11 +66,11 @@ export default function HeroGoldenQuill() {
 
     const clip = (el: HTMLElement, right: number) => {
       const h = el.offsetHeight
-      return `inset(${-h * 0.45}px ${right}px ${-h * 0.2}px ${-h * 0.55}px)`
+      return `inset(${-h * 1.6}px ${right}px ${-h * 1.6}px ${-h * 1.6}px)`
     }
 
     const hidden = (el: HTMLElement) => clip(el, el.offsetWidth + 40)
-    const revealed = (el: HTMLElement) => clip(el, -25)
+    const revealed = (el: HTMLElement) => clip(el, -el.offsetHeight * 1.6)
 
     const quillPoint = (el: HTMLElement, progress: number) => ({
       x: el.offsetLeft + el.offsetWidth * progress,
@@ -48,7 +87,8 @@ export default function HeroGoldenQuill() {
 
     gsap.set(first, { clipPath: hidden(first) })
     gsap.set(second, { clipPath: hidden(second) })
-    gsap.set(exclamation, { opacity: 0 })
+    gsap.set(exclamation, { opacity: 1 })
+    gsap.set(dots, { opacity: 0, scale: 0.5 })
     gsap.set(quill, { opacity: 0, scale: 1 })
 
     const firstProgress = { value: 0 }
@@ -59,6 +99,8 @@ export default function HeroGoldenQuill() {
       repeat: -1,
       repeatDelay: 0.25,
     })
+
+    timeline.timeScale(0.66)
 
     timeline
       .set(ink, { opacity: 1, y: 0 })
@@ -75,6 +117,7 @@ export default function HeroGoldenQuill() {
         ease: 'sine.inOut',
         onUpdate: () => moveQuill(first, firstProgress.value),
       }, '<')
+      .set(first, { clipPath: 'none' })
       .to(quill, { opacity: 0.45, duration: 0.2 })
       .to(glide, {
         value: 1,
@@ -104,99 +147,92 @@ export default function HeroGoldenQuill() {
         ease: 'sine.inOut',
         onUpdate: () => moveQuill(second, secondProgress.value),
       }, '<')
-      .to(exclamation, { opacity: 1, duration: 0.2 })
+      .set(second, { clipPath: 'none' })
+      .set(exclamation, { opacity: 1 });
+
+    for (const dot of dots) {
+      timeline
+        .to(quill, {
+          x: () => dotPoint(dot).x,
+          y: () => dotPoint(dot).y - 9,
+          duration: 0.24,
+          ease: 'sine.out',
+        })
+        .to(quill, {
+          y: () => dotPoint(dot).y,
+          duration: 0.18,
+          ease: 'sine.in',
+        })
+        .to(dot, {
+          opacity: 1,
+          scale: 1,
+          duration: 0.18,
+          ease: 'sine.out',
+        }, '<')
+    }
+
+    timeline
       .to(quill, {
-        scale: 2.8,
+        scale: 1.8,
         opacity: 0,
         duration: 0.65,
-        ease: 'power2.out',
-      }, '<')
-      // VERSION 2 — CELESTIAL DEPARTURE: SILK DRIFT
-      // Preserve the approved golden-quill handwriting entrance.
+        ease: 'sine.out',
+      })
+      .set([first, second], { clipPath: 'none' })
+
+      // SOFT MIST DISSOLVE — feathered, graceful disappearance.
       .to({}, { duration: 2.1 })
-      .addLabel('celestialExit')
+      .addLabel('mistExit')
 
-      // Ivory: a gentle, confident lift and tilt.
       .to(first, {
-        transformPerspective: 1100,
-        transformOrigin: '50% 50%',
-        x: -3,
-        y: -5,
-        rotation: -0.9,
-        rotationX: 1.5,
-        rotationY: -4,
-        scale: 1.01,
-        duration: 0.95,
-        ease: 'sine.inOut',
-      }, 'celestialExit')
-
-      // Gold: a slightly delayed, luminous flourish.
-      .to(second, {
-        transformPerspective: 1100,
-        transformOrigin: '50% 50%',
+        opacity: 0,
         x: 5,
-        y: -3,
-        rotation: 1.4,
-        rotationX: -1.5,
-        rotationY: 5,
-        scale: 1.05,
-        textShadow: '0 0 18px rgba(224, 182, 104, 0.52)',
-        duration: 1.1,
+        y: -6,
+        duration: 2.73,
         ease: 'sine.inOut',
-      }, 'celestialExit+=0.15')
+      }, 'mistExit')
 
-      // Ivory recedes into the distance.
-      .to(first, {
-        x: -20,
-        y: -27,
-        rotation: -3,
-        rotationX: 7,
-        rotationY: -12,
-        scale: 0.82,
-        opacity: 0,
-        duration: 2.95,
-        ease: 'power2.inOut',
-      }, 'celestialExit+=0.95')
-
-      // Gold lingers, then makes its own elegant departure.
       .to(second, {
-        x: 24,
-        y: -29,
-        rotation: 3.6,
-        rotationX: -7,
-        rotationY: 14,
-        scale: 0.82,
         opacity: 0,
-        textShadow: '0 0 28px rgba(224, 182, 104, 0)',
-        duration: 2.9,
-        ease: 'power2.inOut',
-      }, 'celestialExit+=1.3')
+        x: 7,
+        y: -7,
+        duration: 2.82,
+        ease: 'sine.inOut',
+      }, 'mistExit+=0.41')
 
       .to(ink, {
         opacity: 0,
-        duration: 0.12,
-      }, 'celestialExit+=4.2')
+        duration: 0.16,
+      }, 'mistExit+=3.36')
 
       .call(() => {
+        first.classList.remove(styles.mistDissolving)
+        second.classList.remove(styles.mistDissolving)
+
         gsap.set([first, second], {
-          clearProps: 'transform,textShadow,transformOrigin',
+          clearProps: 'transform,textShadow,transformOrigin,filter',
           opacity: 1,
+        })
+        gsap.set([first, second], {
+          '--mist-progress': '-45%',
         })
 
         gsap.set(first, { clipPath: hidden(first) })
         gsap.set(second, { clipPath: hidden(second) })
-        gsap.set(exclamation, { opacity: 0 })
+        gsap.set(exclamation, { opacity: 1 })
+        gsap.set(dots, { opacity: 0, scale: 0.5 })
         gsap.set(quill, {
           opacity: 0,
           scale: 1,
           rotation: 0,
         })
+        gsap.set([sandFirst, sandSecond], { opacity: 0 })
         gsap.set(ink, { opacity: 0 })
 
         firstProgress.value = 0
         secondProgress.value = 0
         glide.value = 0
-      }, undefined, 'celestialExit+=4.45')
+      }, undefined, 'mistExit+=3.59')
 
     return () => {
       timeline.kill()
@@ -223,7 +259,7 @@ export default function HeroGoldenQuill() {
             <feMorphology
               in="SourceAlpha"
               operator="erode"
-              radius="0.45"
+              radius="0.3"
               result="thinInk"
             />
             <feComposite
@@ -236,7 +272,7 @@ export default function HeroGoldenQuill() {
       </svg>
 
       <span className={styles.accessibleText}>
-        Travel Like A Local!
+        Travel Like A Local...
       </span>
 
       <span ref={inkRef} className={styles.ink} aria-hidden="true">
@@ -251,7 +287,18 @@ export default function HeroGoldenQuill() {
           ref={secondRef}
           className={`${styles.line} ${styles.secondLine}`}
         >
-          A Local<span ref={exclamationRef}>!</span>
+          A Local<span ref={exclamationRef} className={styles.ellipsis}>
+            <span className={styles.ellipsisDot} />
+            <span className={styles.ellipsisDot} />
+            <span className={styles.ellipsisDot} />
+          </span>
+        </span>
+
+        <span ref={sandFirstRef} className={`${styles.sandEmitter} ${styles.sandIvory}`}>
+          <SandGrains />
+        </span>
+        <span ref={sandSecondRef} className={`${styles.sandEmitter} ${styles.sandGold}`}>
+          <SandGrains />
         </span>
 
         <span ref={quillRef} className={styles.quill} />

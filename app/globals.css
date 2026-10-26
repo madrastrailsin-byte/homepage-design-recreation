@@ -2840,3 +2840,113 @@ main.bg-\[\#0D1117\] {
       var(--mt-canvas) 100%
     ) !important;
 }
+
+
+/* MADRASTRAILS — HOMEPAGE FLOATING NAVIGATION */
+.mt-premium-nav.mt-home-nav,
+.mt-premium-nav.mt-home-nav.mt-nav-scrolled,
+[data-theme="classic"] .mt-premium-nav.mt-home-nav,
+[data-theme="classic"] .mt-premium-nav.mt-home-nav.mt-nav-scrolled {
+  background: transparent !important;
+  background-image: none !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.mt-home-nav::before,
+.mt-home-nav::after,
+.mt-home-nav > .pointer-events-none.absolute {
+  display: none !important;
+}
+
+.mt-home-nav .mt-nav-link {
+  font-size: 12px !important;
+  letter-spacing: 0.12em !important;
+  text-transform: uppercase !important;
+  color: #fffaf0 !important;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.65);
+  background: transparent !important;
+}
+
+.mt-home-nav .mt-nav-link:hover {
+  color: #f0d397 !important;
+}
+
+.mt-home-nav a[aria-label="MadrasTrails homepage"] {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.mt-home-nav .mt-logo-receipt::before {
+  display: none !important;
+}
+
+.mt-home-nav > div.relative.z-10 .mt-nav-plan-cta,
+[data-theme="classic"] .mt-home-nav > div.relative.z-10 .mt-nav-plan-cta {
+  background: rgba(22, 35, 39, 0.42) !important;
+  border: 1px solid rgba(255, 255, 255, 0.24) !important;
+  border-radius: 9999px !important;
+  gap: 8px !important;
+  color: #fffaf2 !important;
+  padding: 7px 13px !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.12em !important;
+  text-transform: uppercase !important;
+  text-shadow: none !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.10) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+}
+
+.mt-home-nav > div.relative.z-10 .mt-nav-plan-cta > span:first-child {
+  display: none !important;
+}
+
+.mt-home-nav > div.relative.z-10 .mt-nav-plan-cta:hover {
+  background: rgba(22, 35, 39, 0.55) !important;
+  border-color: rgba(255, 255, 255, 0.38) !important;
+  color: #ffffff !important;
+  box-shadow: 0 5px 18px rgba(0, 0, 0, 0.14) !important;
+}
+
+
+/* HOMEPAGE NAVIGATION VERTICAL POSITION */
+.mt-home-nav > div.relative.z-10 {
+  padding-top: 22px !important;
+}
+
+@media (min-width: 768px) {
+  .mt-home-nav > div.relative.z-10 {
+    padding-top: 23px !important;
+  }
+}
+
+
+/* HOMEPAGE HERO — CLEAR LOGO AREA */
+@media (min-width: 768px) {
+  .mt-scroll-hero .mt-hero-left-vignette {
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0px, transparent 110px, rgba(0,0,0,0.22) 220px, black 360px);
+    mask-image: linear-gradient(to bottom, transparent 0px, transparent 110px, rgba(0,0,0,0.22) 220px, black 360px);
+  }
+}
+
+.mt-scroll-hero .mt-hero-top-vignette {
+  opacity: 0 !important;
+}
+
+/* HOMEPAGE BLACK NAV SEPARATORS */
+.mt-home-nav .mt-nav-link + span {
+  background-color: rgba(90, 99, 100, 0.25) !important;
+  height: 12px !important;
+}
+/* HOMEPAGE JOURNEY BUTTON — OPTICAL CENTERING */
+.mt-home-nav .mt-nav-plan-cta > span:not(:first-child) {
+  top: 1px;
+}
+
+
+

@@ -66,8 +66,8 @@ export default function Navigation() {
         event.currentTarget.style.setProperty('--nav-frost-y', `${event.clientY - rect.top}px`)
         setNavFrostPulse((pulse) => pulse + 1)
       }}
-      className={`mt-premium-nav group/nav fixed inset-x-0 top-0 z-50 overflow-hidden border-b backdrop-blur-2xl transition-all duration-500 ${
-        isScrolled
+      className={`${pathname === '/' ? 'mt-home-nav overflow-visible border-0 bg-transparent shadow-none backdrop-blur-none' : 'mt-premium-nav overflow-hidden border-b backdrop-blur-2xl'} group/nav fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
+        pathname === '/' ? '' : isScrolled
           ? 'mt-nav-scrolled border-white/10 bg-[#061519]/95 shadow-[0_18px_56px_rgba(0,0,0,0.34)]'
           : 'border-white/10 bg-[#061519]/88'
       }`}
@@ -125,7 +125,7 @@ export default function Navigation() {
           <span className="relative inline-flex h-9 w-[168px] shrink-0 items-center overflow-visible sm:h-10 sm:w-[188px] md:h-11 md:w-[210px]">
   {theme === 'signature' ? (
     <Image
-      src="/images/brand/madrastrails-signature-logo.png"
+      src="/images/brand/madrastrails-home-logo.png"
       alt="MadrasTrails"
       width={245}
       height={44}
@@ -134,7 +134,15 @@ export default function Navigation() {
     />
   ) : null}
 </span>
-        </motion.a>
+        {pathname === '/' && (
+            <span
+              aria-hidden="true"
+              className="pointer-events-none absolute left-[calc(100%+32px)] top-0 text-[12px] font-semibold leading-none text-[#D4AF37]"
+            >
+              ™
+            </span>
+          )}
+          </motion.a>
 
         <motion.div
           initial={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: -8 }}
@@ -168,7 +176,9 @@ export default function Navigation() {
               </Link>
 
 {index < navItems.length - 1 && (
-  <span className="mx-4 inline-block h-4 w-px bg-[var(--mt-border-strong)]" />
+  <span className={`mx-4 inline-block h-4 w-px ${
+  pathname === '/' ? 'bg-black/70' : 'bg-[var(--mt-border-strong)]'
+}`} />
 )}
 
 </div>

@@ -180,7 +180,7 @@ const bulletinText =
       className={`mt-hero-video h-[calc(100%+2rem)] w-[calc(100%+2.5rem)] object-cover object-[58%_center] brightness-[1.12] md:object-center ${
         videoFailed ? 'opacity-0' : ''
       }`}
-      src="/videos/hero-optimized-720p.mp4"
+      src="/videos/hero-resort-test.mp4"
       autoPlay={!prefersReducedMotion}
       muted
       loop
@@ -208,7 +208,7 @@ const bulletinText =
         <div className="mt-hero-bottom-vignette absolute inset-0" />
       </div>
 {/* Left-side readability vignette — keeps the scenic right side bright */}
-<div className="pointer-events-none absolute inset-y-0 left-0 z-[5] hidden w-[58%] bg-[linear-gradient(90deg,rgba(3,18,22,0.82)_0%,rgba(3,18,22,0.68)_42%,rgba(3,18,22,0.30)_72%,transparent_100%)] md:block" />
+<div className="mt-hero-left-vignette pointer-events-none absolute inset-y-0 left-0 z-[5] hidden w-[58%] bg-[linear-gradient(90deg,rgba(3,18,22,0.82)_0%,rgba(3,18,22,0.68)_42%,rgba(3,18,22,0.30)_72%,transparent_100%)] md:block" />
       {/* Content */}
       <div
         className="mt-hero-content relative z-10 mx-auto w-full max-w-7xl px-[clamp(1.25rem,6vw,1.75rem)] -translate-y-[clamp(0.75rem,3vh,1.75rem)] md:px-8 md:-translate-y-3 lg:-translate-y-5"
