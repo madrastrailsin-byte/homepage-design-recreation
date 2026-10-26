@@ -1,4 +1,4 @@
-.section { position: relative; padding: 0 1.5rem 2.5rem; background: var(--mt-canvas); }
+.section { position: relative; padding: 0 1.5rem 0; background: var(--mt-canvas); }
 .panel { position: relative; isolation: isolate; overflow: hidden; max-width: 76rem; margin: 0 auto; padding: 1.15rem 1.5rem .85rem; border: 1px solid #c9a24a42; border-radius: 1.25rem; background: linear-gradient(90deg, #03191df0, #03191dc9 65%, #03191db3), url('/images/homepage/forex-bg.png') center / cover no-repeat; color: #f2e7cc; box-shadow: inset 0 1px 0 #ffffff07, 0 12px 36px #0000001a; }
 .panel::before { content: ''; position: absolute; pointer-events: none; z-index: -1; inset: 0; opacity: .16; background: repeating-linear-gradient(0deg, transparent 0 3px, #c9a24a14 3px 4px); }
 .panel::after { content: ''; position: absolute; pointer-events: none; z-index: -1; inset: 0; background: linear-gradient(110deg, transparent 35%, #c9a24a08 49%, transparent 62%); transform: translateX(-100%); animation: sweep 14s linear infinite; }
@@ -41,7 +41,7 @@
 @keyframes pulse { 50% { opacity: .45; box-shadow: 0 0 0 5px #83c5a208; } }
 @keyframes enter { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes quoteReveal { from { opacity: .3; } to { opacity: 1; } }
-@media (min-width: 768px) { .section { padding: 0 2rem 3rem; } }
+@media (min-width: 768px) { .section { padding: 0 2rem 0; } }
 @media (max-width: 1023px) {
   .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); row-gap: 1rem; }
   .card:nth-child(4) { padding-left: 0; border-left: 0; }
@@ -68,7 +68,11 @@
 
 /* Cinematic photographic panel */
 .section {
-  padding-top: 1rem;
+  padding-top: 2rem;
+}
+
+@media (max-width: 767px) {
+  .section { padding-top: 1.25rem; }
 }
 
 .panel {

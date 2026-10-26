@@ -2949,4 +2949,177 @@ main.bg-\[\#0D1117\] {
 }
 
 
+/* HOMEPAGE GLASS V3 — REFINED MINIMAL TREATMENT */
 
+/* Homepage navigation scrolls away */
+.mt-home-nav {
+  position: absolute !important;
+}
+
+/* Logo: no glass container */
+.mt-home-nav a[aria-label="MadrasTrails homepage"]::after {
+  content: none !important;
+  display: none !important;
+}
+
+/* Service pills: restrained dark frosting, like the description cards */
+.mt-scroll-services .mt-home-glass-pill {
+  background: linear-gradient(
+    180deg,
+    rgba(13, 29, 33, 0.88),
+    rgba(5, 17, 21, 0.84)
+  ) !important;
+  border-color: rgba(255, 255, 255, 0.15) !important;
+  color: #f5f3ed !important;
+  box-shadow:
+    0 10px 26px rgba(0, 0, 0, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
+  backdrop-filter: blur(22px) !important;
+  -webkit-backdrop-filter: blur(22px) !important;
+}
+
+/* Remove icons and artificial glass reflections */
+.mt-scroll-services .mt-home-glass-pill > svg,
+.mt-scroll-services .mt-home-glass-pill::before,
+.mt-scroll-services .mt-home-glass-pill::after {
+  display: none !important;
+}
+
+/* Keep labels clean and readable */
+.mt-scroll-services .mt-home-glass-pill > span {
+  color: #f5f3ed !important;
+}
+
+/* Gentle interaction, matching the existing tooltip aesthetic */
+.mt-scroll-services .mt-home-glass-pill:hover,
+.mt-scroll-services .mt-home-glass-pill[aria-expanded="true"] {
+  background: linear-gradient(
+    180deg,
+    rgba(26, 49, 54, 0.94),
+    rgba(9, 27, 31, 0.92)
+  ) !important;
+  border-color: rgba(255, 255, 255, 0.26) !important;
+  color: #ffffff !important;
+  box-shadow:
+    0 12px 30px rgba(0, 0, 0, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.10) !important;
+}
+
+/* Discover Journeys: Plan Your Journey aesthetic */
+.mt-home-discover-glass.mt-nav-plan-cta {
+  background: rgba(22, 35, 39, 0.42) !important;
+  border: 1px solid rgba(255, 255, 255, 0.24) !important;
+  border-radius: 9999px !important;
+  color: #fffaf2 !important;
+  padding: 10px 20px !important;
+  gap: 10px !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.12em !important;
+  text-transform: uppercase !important;
+  text-shadow: none !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.10) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+}
+
+/* Remove the old gold shine */
+.mt-home-discover-glass.mt-nav-plan-cta > span:first-child {
+  display: none !important;
+}
+
+.mt-home-discover-glass.mt-nav-plan-cta:hover {
+  background: rgba(22, 35, 39, 0.55) !important;
+  border-color: rgba(255, 255, 255, 0.38) !important;
+  color: #ffffff !important;
+  box-shadow: 0 5px 18px rgba(0, 0, 0, 0.14) !important;
+}
+
+
+/* HOMEPAGE SERVICES — BALANCED PROPORTIONS */
+
+.mt-scroll-services {
+  --mt-service-pill-width: clamp(154px, 13.1vw, 176px);
+  --mt-service-pill-gap: 12px;
+}
+
+/* Uniform pill dimensions; existing frosted styling remains */
+.mt-scroll-services .mt-services-equal-row > div {
+  min-width: 0;
+  width: 100%;
+}
+
+.mt-scroll-services .mt-services-equal-row .mt-home-glass-pill {
+  width: 100% !important;
+  min-height: 46px !important;
+  border-radius: 9999px !important;
+}
+
+/* Tablet: three equal columns */
+@media (min-width: 768px) and (max-width: 1279px) {
+  .mt-scroll-services .mt-services-equal-row {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    width: 100%;
+    max-width: 900px;
+    margin-inline: auto;
+    gap: 12px;
+  }
+}
+
+/* Desktop: six identical pills */
+@media (min-width: 1280px) {
+  .mt-scroll-services .mt-services-equal-row {
+    display: grid !important;
+    grid-template-columns: repeat(6, var(--mt-service-pill-width));
+    gap: var(--mt-service-pill-gap);
+    width: max-content;
+    max-width: 100%;
+    margin-inline: auto;
+  }
+
+  /*
+   * Service row = 6 pill widths + 5 gaps.
+   * LED board   = 7 pill widths + 5 gaps.
+   * Difference  = exactly 1 pill width,
+   * centered = half a pill extra on each side.
+   */
+  .mt-scroll-services #mt-services-led-slot {
+    width: calc(
+      7 * var(--mt-service-pill-width)
+      + 5 * var(--mt-service-pill-gap)
+    ) !important;
+    max-width: none !important;
+  }
+}
+
+/* Comfortable LED width on smaller screens */
+.mt-scroll-services #mt-services-led-slot {
+  width: calc(100% - 48px) !important;
+  max-width: 920px !important;
+}
+
+@media (min-width: 1280px) {
+  .mt-scroll-services #mt-services-led-slot {
+    width: calc(
+      7 * var(--mt-service-pill-width)
+      + 5 * var(--mt-service-pill-gap)
+    ) !important;
+    max-width: none !important;
+  }
+}
+
+/* Vintage LED display, refined to complement the hero */
+.mt-scroll-services #mt-services-led-slot > div {
+  border: 1px solid rgba(170, 192, 188, 0.23) !important;
+  border-radius: 8px !important;
+  background: linear-gradient(
+    180deg,
+    rgba(22, 41, 44, 0.96),
+    rgba(5, 15, 18, 0.98)
+  ) !important;
+  box-shadow:
+    0 10px 28px rgba(0, 0, 0, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.10) !important;
+  overflow: hidden;
+}

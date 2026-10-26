@@ -1,8 +1,12 @@
 .section {
   position: relative;
   scroll-margin-top: 6rem;
-  padding: 1.25rem 1.5rem 3rem;
+  padding: 1.25rem 1.5rem 0;
   background: var(--mt-canvas);
+}
+
+@media (min-width: 768px) {
+  .section { padding-top: 2rem; }
 }
 .panel {
   --visa-ink: #123d48;
@@ -165,7 +169,7 @@
   .explore { bottom: 6.5rem; }
 }
 @media (max-width: 899px) {
-  .section { padding: 1rem 1rem 2.5rem; }
+  .section { padding-inline: 1rem; padding-bottom: 0; }
   .hero { display: flex; flex-direction: column; min-height: 0; border-radius: 1.25rem; }
   .photography { position: relative; order: 2; z-index: 0; inset: auto; width: 100%; aspect-ratio: 1.65; border-radius: 0; }
   .photography::after { display: none; }

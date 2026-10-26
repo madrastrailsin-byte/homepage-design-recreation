@@ -66,7 +66,7 @@ export default function Navigation() {
         event.currentTarget.style.setProperty('--nav-frost-y', `${event.clientY - rect.top}px`)
         setNavFrostPulse((pulse) => pulse + 1)
       }}
-      className={`${pathname === '/' ? 'mt-home-nav overflow-visible border-0 bg-transparent shadow-none backdrop-blur-none' : 'mt-premium-nav overflow-hidden border-b backdrop-blur-2xl'} group/nav fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
+      className={`${pathname === '/' ? 'mt-home-nav overflow-visible border-0 bg-transparent shadow-none backdrop-blur-none' : 'mt-premium-nav overflow-hidden border-b backdrop-blur-2xl'} group/nav ${pathname === '/' ? 'absolute' : 'fixed'} inset-x-0 top-0 z-50 transition-all duration-500 ${
         pathname === '/' ? '' : isScrolled
           ? 'mt-nav-scrolled border-white/10 bg-[#061519]/95 shadow-[0_18px_56px_rgba(0,0,0,0.34)]'
           : 'border-white/10 bg-[#061519]/88'

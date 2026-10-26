@@ -1,5 +1,8 @@
 'use client'
 
+import * as React from 'react'
+import { createPortal } from 'react-dom'
+
 import { Play } from 'lucide-react'
 import { ArrowRight } from 'lucide-react'
 import gsap from 'gsap'
@@ -10,6 +13,13 @@ import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 
 export default function Hero() {
+
+  const [ledTarget, setLedTarget] = React.useState<HTMLElement | null>(null)
+
+  React.useEffect(() => {
+    setLedTarget(document.getElementById('mt-services-led-slot'))
+  }, [])
+
   const sectionRef = useRef<HTMLElement>(null)
   const router = useRouter()
   const videoRef = useRef<HTMLVideoElement>(null)
@@ -248,7 +258,7 @@ const bulletinText =
   type="button"
   onClick={() => router.push('/journeys')}
   style={{ cursor: 'pointer' }}
-    className="mt-nav-plan-cta group mt-ui relative inline-flex cursor-pointer items-center gap-3 overflow-hidden rounded-full border border-[#F0D660]/60 bg-[linear-gradient(135deg,#E3C348_0%,#D4AF37_55%,#C79F25_100%)] px-5 py-2 text-[11px] tracking-[0.12em] text-[#071D21] shadow-[0_0_10px_rgba(212,175,55,0.25),0_0_22px_rgba(212,175,55,0.10),inset_0_1px_0_rgba(255,255,255,0.26)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_0_14px_rgba(212,175,55,0.36),0_0_32px_rgba(212,175,55,0.15),inset_0_1px_0_rgba(255,255,255,0.30)]"
+    className="mt-nav-plan-cta mt-home-discover-glass group mt-ui relative inline-flex cursor-pointer items-center gap-3 overflow-hidden rounded-full border border-[#F0D660]/60 bg-[linear-gradient(135deg,#E3C348_0%,#D4AF37_55%,#C79F25_100%)] px-5 py-2 text-[11px] tracking-[0.12em] text-[#071D21] shadow-[0_0_10px_rgba(212,175,55,0.25),0_0_22px_rgba(212,175,55,0.10),inset_0_1px_0_rgba(255,255,255,0.26)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_0_14px_rgba(212,175,55,0.36),0_0_32px_rgba(212,175,55,0.15),inset_0_1px_0_rgba(255,255,255,0.30)]"
   >
     <span className="pointer-events-none absolute inset-y-0 -left-1/3 w-1/3 skew-x-[-18deg] bg-white/34 opacity-0 blur-sm transition-all duration-700 group-hover:left-[115%] group-hover:opacity-100" />
 
@@ -261,7 +271,8 @@ const bulletinText =
     </span>
   </button>
 
-<div className="relative mt-4 h-[30px] w-[340px] max-w-[48vw] overflow-hidden rounded-[2px] border border-[#D4AF37]/24 bg-[#020504] shadow-[0_6px_16px_rgba(0,0,0,0.38),inset_0_1px_0_rgba(255,255,255,0.09),inset_0_-2px_4px_rgba(0,0,0,0.9),inset_0_0_12px_rgba(0,0,0,0.95)]">
+{ledTarget && createPortal(
+<div className="relative h-[46px] w-full md:h-[52px] overflow-hidden rounded-[2px] border border-[#D4AF37]/24 bg-[#020504] shadow-[0_6px_16px_rgba(0,0,0,0.38),inset_0_1px_0_rgba(255,255,255,0.09),inset_0_-2px_4px_rgba(0,0,0,0.9),inset_0_0_12px_rgba(0,0,0,0.95)]">
 
   {/* recessed LED display surface */}
 <div className="pointer-events-none absolute inset-[3px] rounded-[1px] border border-[#6f5414]/20 bg-[#070805] shadow-[inset_0_2px_5px_rgba(0,0,0,0.95),inset_0_-1px_0_rgba(255,190,30,0.06)]" />
@@ -314,7 +325,7 @@ const bulletinText =
       className="flex shrink-0 items-center pr-16"
     >
       <span
-        className="text-[12px] uppercase tracking-[0.08em] text-[#FFC62E] md:text-[13px]"
+        className="text-[14px] uppercase tracking-[0.08em] text-[#FFC62E] md:text-[16px]"
         style={{
           fontFamily: "'LED Counter 7', monospace",
           textShadow:
@@ -329,7 +340,9 @@ const bulletinText =
   {/* subtle edge falloff like a real enclosed LED panel */}
   <div className="pointer-events-none absolute inset-y-0 left-0 z-30 w-8 bg-gradient-to-r from-[#030706] to-transparent" />
   <div className="pointer-events-none absolute inset-y-0 right-0 z-30 w-8 bg-gradient-to-l from-[#030706] to-transparent" />
-</div>
+</div>,
+ledTarget
+)}
 </div>
           </div>
         </div>
