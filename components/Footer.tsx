@@ -2,6 +2,7 @@
 
 import { FormEvent, useState } from 'react'
 import Image from 'next/image'
+import { FaInstagram, FaFacebookF, FaYoutube, FaWhatsapp, FaLinkedinIn } from 'react-icons/fa'
 import { ArrowRight, Check } from 'lucide-react'
 import { submitEnquiry } from '@/lib/enquiries'
 import styles from './Footer.module.css'
@@ -97,6 +98,80 @@ export default function Footer() {
         </form>
       </div>
 
-      </footer>
+      
+
+      <div className={styles.contactStrip} aria-label="Contact information">
+        <div className={styles.contactItem}>
+          <span className={styles.contactLabel}>Call Us</span>
+          <a href="tel:+917891876918" className={styles.contactValue}>
+            +91 78918 76918
+          </a>
+        </div>
+
+        <div className={styles.contactItem}>
+          <span className={styles.contactLabel}>Email Us</span>
+          <a href="mailto:info@madrastrails.in" className={styles.contactValue}>
+            info@madrastrails.in
+          </a>
+        </div>
+
+        <div className={`${styles.contactItem} ${styles.contactLocation}`}>
+          <span className={styles.contactLabel}>Visit Us</span>
+          <a
+            href="https://www.google.com/maps/search/?api=1&query=362+Eden+Avenue+Mogappair+Chennai+600037"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`${styles.contactValue} ${styles.contactAddress}`}
+          >
+            #362, Eden Avenue, Mogappair, Chennai – 600 037
+          </a>
+        </div>
+      </div>
+
+      <div className={styles.socialGroup}>
+        <p className={styles.socialTitle}>FOLLOW US</p>
+
+        <svg width="0" height="0" aria-hidden="true" style={{ position: 'absolute' }}>
+          <defs>
+            <linearGradient id="mtFooterInstagramGradient" x1="0%" y1="100%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="#feda75" />
+              <stop offset="35%" stopColor="#fa7e1e" />
+              <stop offset="65%" stopColor="#d62976" />
+              <stop offset="100%" stopColor="#4f5bd5" />
+            </linearGradient>
+          </defs>
+        </svg>
+
+        <div className={styles.socialLinks}>
+          <a href="https://www.instagram.com/madrastrails/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className={styles.socialLink}>
+            <FaInstagram style={{ fill: 'url(#mtFooterInstagramGradient)' }} />
+          </a>
+          <a href="https://www.facebook.com/MadrasTrails/" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className={styles.socialLink}>
+            <FaFacebookF color="#1877f2" />
+          </a>
+          <a
+  href="https://www.linkedin.com/company/133444316"
+  target="_blank"
+  rel="noopener noreferrer"
+  aria-label="LinkedIn"
+  className={styles.socialLink}
+>
+  <FaLinkedinIn color="#0A66C2" />
+</a>
+          <a href="https://www.youtube.com/@madrastrails" target="_blank" rel="noopener noreferrer" aria-label="YouTube" className={styles.socialLink}>
+            <FaYoutube color="#ff0033" />
+          </a>
+          <a href="https://wa.me/917891876918" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" className={styles.socialLink}>
+            <FaWhatsapp color="#00c853" />
+          </a>
+        </div>
+        <div className={styles.policyLinks} aria-label="Policies">
+          <span>Terms &amp; Conditions</span>
+          <span>Privacy Policy</span>
+          <span>Cancellation &amp; Refund Policy</span>
+        </div>
+      </div>
+
+</footer>
   )
 }
