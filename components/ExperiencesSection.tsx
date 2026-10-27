@@ -1,189 +1,192 @@
 'use client'
 
-import { motion, useReducedMotion } from 'framer-motion'
-import { useEffect, useRef, useState } from 'react'
-import {
-  ArrowRight,
-  Compass,
-  Crown,
-  Heart,
-  Leaf,
-  Mountain,
-  Sparkles,
-  UtensilsCrossed,
-  UsersRound,
-} from 'lucide-react'
+import { useReducedMotion } from 'framer-motion'
+import { useEffect, useRef } from 'react'
+import styles from './ExperiencesSection.module.css'
 
-const ease = [0.22, 1, 0.36, 1] as const
-
-const experiences = [
-  { id: 'local-flavours', title: 'Local Flavours', mood: 'Taste · Learn · Connect', video: '/videos/experiences/local-flavours.mp4', icon: UtensilsCrossed },
-  { id: 'luxury-escapes', title: 'Luxury Escapes', mood: 'Relax · Indulge · Unwind', video: '/videos/experiences/luxury-escapes.mp4', icon: Crown },
-  { id: 'adventure', title: 'Adventure', mood: 'Explore · Climb · Discover', video: '/videos/experiences/adventure.mp4', icon: Mountain },
-  { id: 'cultural-connections', title: 'Cultural Connections', mood: 'Listen · Honour · Belong', video: '/videos/experiences/cultural-connections.mp4', icon: Compass },
-  { id: 'romance', title: 'Romance', mood: 'Celebrate · Escape · Remember', video: '/videos/experiences/romance.mp4', icon: Heart },
-  { id: 'wellness', title: 'Wellness', mood: 'Breathe · Restore · Renew', video: '/videos/experiences/wellness.mp4', icon: Leaf },
-  { id: 'family', title: 'Family', mood: 'Share · Laugh · Grow', video: '/videos/experiences/family.mp4', icon: UsersRound },
-  { id: 'wildlife', title: 'Wildlife & Nature', mood: 'Observe · Wander · Wonder', video: '/videos/experiences/wildlife.mp4', icon: Sparkles },
-]
-function ExperienceVideo({
-  src,
-  index,
-  reduceMotion,
-}: {
-  src: string
-  index: number
-  reduceMotion: boolean
-}) {
-  const containerRef = useRef<HTMLDivElement>(null)
-  const videoRef = useRef<HTMLVideoElement>(null)
-  const [shouldLoad, setShouldLoad] = useState(false)
+export default function ExperiencesSection() {
+  const reduceMotion = Boolean(useReducedMotion())
+  const sceneRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const video = videoRef.current
+    const scene = sceneRef.current
+    if (!scene) return
+
+    const video = scene.querySelector('video')
     if (!video) return
-
-    if (reduceMotion) {
-      video.pause()
-      video.currentTime = 0
-    } else if (shouldLoad) {
-      void video.play().catch(() => undefined)
-    }
-  }, [reduceMotion, shouldLoad])
-
-  useEffect(() => {
-    const container = containerRef.current
-    if (!container) return
-
-    let timer: number | undefined
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (!entry.isIntersecting) return
-
-        timer = window.setTimeout(() => {
-          setShouldLoad(true)
-        }, index * 120)
-
-        observer.disconnect()
+        if (reduceMotion || !entry.isIntersecting) {
+          video.pause()
+        } else {
+          void video.play().catch(() => undefined)
+        }
       },
-      {
-        rootMargin: '200px 0px',
-        threshold: 0.01,
-      },
+      { rootMargin: '100px 0px', threshold: 0.01 },
     )
 
-    observer.observe(container)
+    observer.observe(scene)
 
     return () => {
       observer.disconnect()
-      if (timer) window.clearTimeout(timer)
+      video.pause()
     }
-  }, [index])
+  }, [reduceMotion])
+
+
+  // JOURNEY FINGER TEST — erase condensation by dragging.
+  useEffect(() => {
+    const glass = sceneRef.current?.querySelector(
+      `.${styles.windowMask}`
+    ) as HTMLDivElement | null
+    if (!glass) return
+
+    const canvas = document.createElement('canvas')
+    canvas.width = 1024
+    canvas.height = Math.round(1024 * glass.clientHeight / glass.clientWidth)
+
+    const ctx = canvas.getContext('2d')
+    if (!ctx) return
+
+    ctx.fillStyle = 'white'
+    ctx.fillRect(0, 0, canvas.width, canvas.height)
+    ctx.globalCompositeOperation = 'destination-out'
+    ctx.strokeStyle = 'black'
+    ctx.lineWidth = 24
+    ctx.lineCap = 'round'
+    ctx.lineJoin = 'round'
+
+    let drawing = false
+    let last: [number, number] | null = null
+    let frame = 0
+    let refogTimer: ReturnType<typeof setTimeout> | undefined
+    let refogFrame = 0
+
+    const cancelRefog = () => {
+      if (refogTimer !== undefined) clearTimeout(refogTimer)
+      refogTimer = undefined
+      if (refogFrame) cancelAnimationFrame(refogFrame)
+      refogFrame = 0
+    }
+
+    const render = () => {
+      if (frame) return
+      frame = requestAnimationFrame(() => {
+        frame = 0
+        glass.style.setProperty(
+          '--journeyFingerMask',
+          `url("${canvas.toDataURL('image/png')}")`
+        )
+      })
+    }
+
+    const point = (e: PointerEvent): [number, number] => {
+      const r = glass.getBoundingClientRect()
+      return [
+        (e.clientX - r.left) * canvas.width / r.width,
+        (e.clientY - r.top) * canvas.height / r.height,
+      ]
+    }
+
+    const down = (e: PointerEvent) => {
+      cancelRefog()
+      ctx.globalCompositeOperation = 'destination-out'
+      drawing = true
+      glass.setPointerCapture(e.pointerId)
+      last = point(e)
+      ctx.beginPath()
+      ctx.arc(last[0], last[1], ctx.lineWidth / 2, 0, Math.PI * 2)
+      ctx.fill()
+      render()
+    }
+
+    const move = (e: PointerEvent) => {
+      if (!drawing || !last) return
+      const next = point(e)
+      ctx.beginPath()
+      ctx.moveTo(...last)
+      ctx.lineTo(...next)
+      ctx.stroke()
+      last = next
+      render()
+    }
+
+    const up = () => {
+      if (!drawing) return
+      drawing = false
+      last = null
+
+      refogTimer = setTimeout(() => {
+        refogTimer = undefined
+        let startedAt = 0
+
+        let previousCoverage = 0
+        const fade = (time: number) => {
+          if (!startedAt) startedAt = time
+
+          const progress = Math.min((time - startedAt) / 3600, 1)
+          const coverage = progress * progress * (3 - 2 * progress)
+          const alpha = (coverage - previousCoverage) /
+            Math.max(1 - previousCoverage, 0.000001)
+
+          ctx.save()
+          ctx.globalCompositeOperation = 'source-over'
+          ctx.fillStyle = `rgba(255,255,255,${Math.min(1, alpha)})`
+          ctx.fillRect(0, 0, canvas.width, canvas.height)
+          ctx.restore()
+
+          previousCoverage = coverage
+          render()
+
+          if (progress < 1) {
+            refogFrame = requestAnimationFrame(fade)
+          } else {
+            refogFrame = 0
+          }
+        }
+
+        refogFrame = requestAnimationFrame(fade)
+      }, 2500)
+    }
+
+    glass.addEventListener('pointerdown', down)
+    glass.addEventListener('pointermove', move)
+    glass.addEventListener('pointerup', up)
+    glass.addEventListener('pointercancel', up)
+    render()
+
+    return () => {
+      glass.removeEventListener('pointerdown', down)
+      glass.removeEventListener('pointermove', move)
+      glass.removeEventListener('pointerup', up)
+      glass.removeEventListener('pointercancel', up)
+      cancelAnimationFrame(frame)
+      cancelRefog()
+      glass.style.removeProperty('--journeyFingerMask')
+    }
+  }, [])
 
   return (
-    <div ref={containerRef} className="absolute inset-0" aria-hidden="true">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_78%_35%,rgba(201,162,74,0.16),transparent_42%),linear-gradient(135deg,#0A252B,#020F12)]" />
-
-      {shouldLoad && (
+    <section
+      className={`${styles.section} mt-scroll-experiences`}
+      aria-label="MadrasTrails cinematic train journey"
+    >
+      <div ref={sceneRef} className={styles.scene}>
         <video
-          ref={videoRef}
-          className="absolute inset-0 h-full w-full object-cover opacity-50 saturate-[0.85] transition-transform duration-[1000ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.025]"
-          src={src}
+          className={styles.trainVideo}
+          src="/videos/experiences/train-rain-loop.mp4"
+          poster="/images/experiences/train-rain-poster.webp"
           autoPlay={!reduceMotion}
           muted
           loop
           playsInline
-          preload="none"
-          onCanPlay={(event) => {
-            if (reduceMotion) {
-              event.currentTarget.pause()
-              event.currentTarget.currentTime = 0
-            }
-          }}
+          preload="metadata"
+          aria-hidden="true"
         />
-      )}
-    </div>
-  )
-}
-export default function ExperiencesSection() {
-  const reduceMotion = useReducedMotion()
 
-  return (
-    <section className="mt-scroll-experiences relative overflow-hidden bg-[var(--mt-canvas)] px-5 pb-16 pt-5 sm:px-6 md:px-8 md:pb-20 md:pt-8">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_86%_18%,rgba(201,162,74,0.07),transparent_24%),linear-gradient(180deg,var(--mt-canvas),var(--mt-canvas))]" />
-
-      <div className="relative mx-auto max-w-7xl">
-        <motion.div
-          initial={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.75, ease }}
-          viewport={{ once: true, amount: 0.25 }}
-          className="mb-10 grid gap-5 md:mb-12 md:grid-cols-[1fr_auto] md:items-end"
-        >
-          <div>
-            <p className="mt-eyebrow mb-3 text-[10px] text-[#C9A24A]">WAYS TO TRAVEL</p>
-            <h2 className="mt-display max-w-3xl text-5xl leading-[0.98] text-[var(--mt-text-primary)] md:text-6xl">
-              Begin with the feeling.
-            </h2>
-          </div>
-
-          <p className="mt-body-copy max-w-md text-sm leading-relaxed text-[var(--mt-text-secondary)] md:text-right md:text-base">
-            Choose a travel style and open its full experience story.
-          </p>
-        </motion.div>
-
-        <div className="grid gap-4 md:grid-cols-2 md:gap-5">
-          {experiences.map((experience, index) => {
-            const Icon = experience.icon
-
-            return (
-              <motion.a
-                key={experience.id}
-                href={`/experiences?journey=${experience.id}#showcase`}
-                initial={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 14 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                whileHover={reduceMotion ? undefined : { y: -4 }}
-                transition={{ duration: 0.58, delay: index * 0.045, ease }}
-                viewport={{ once: true, amount: 0.18 }}
-                className="group relative isolate min-h-[10.5rem] overflow-hidden rounded-[1.35rem] border border-white/10 bg-[#020F12] shadow-[0_18px_55px_rgba(0,0,0,0.28)] transition-[border-color,box-shadow] duration-500 hover:border-[#C9A24A]/42 hover:shadow-[0_26px_70px_rgba(0,0,0,0.4)]"
-                aria-label={`Open ${experience.title} experiences`}
-              >
-                <ExperienceVideo
-  src={experience.video}
-  index={index}
-  reduceMotion={Boolean(reduceMotion)}
-/>
-                <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(2,15,18,0.564)_0%,rgba(2,15,18,0.468)_48%,rgba(2,15,18,0.24)_100%)]" />
-                <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(2,15,18,0.048),rgba(2,15,18,0.30))]" />
-
-                <div className="relative flex min-h-[10.5rem] items-center gap-4 p-5 sm:p-6">
-                  <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-[#C9A24A]/28 bg-[#020F12]/52 text-[#C9A24A] transition-all duration-300 group-hover:border-[#C9A24A]/65">
-                    <Icon size={17} strokeWidth={1.45} className="block translate-x-[1px]" />
-                  </span>
-
-                  <div className="min-w-0 flex-1">
-                    <span className="mt-ui block text-[9px] tracking-[0.16em] text-[#C9A24A]/82">
-                      {experience.mood.toUpperCase()}
-                    </span>
-                    <span className="mt-display-soft mt-2 block text-[2rem] leading-[0.98] text-white md:text-[2.25rem]">
-                      {experience.title}
-                    </span>
-                  </div>
-
-                  <span className="flex shrink-0 items-center gap-3">
-                    <span className="mt-ui hidden text-[9px] tracking-[0.18em] text-white/36 sm:block">
-                      0{index + 1}
-                    </span>
-                    <span className="grid h-10 w-10 place-items-center rounded-full border border-white/16 bg-[#020F12]/36 text-white/70 transition-all duration-300 group-hover:translate-x-1 group-hover:border-[#C9A24A]/60 group-hover:text-[#C9A24A]">
-                      <ArrowRight size={15} />
-                    </span>
-                  </span>
-                </div>
-              </motion.a>
-            )
-          })}
-        </div>
+        {/* Preserve the exact V8 window geometry for the new video. */}
+        <div className={styles.windowMask} aria-hidden="true" />
       </div>
     </section>
   )

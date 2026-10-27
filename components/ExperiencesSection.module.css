@@ -1,0 +1,193 @@
+/* V8: exact curved window mask, no perspective-projection boundary. */
+.section {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(18px, 2.8vh, 32px) 0 clamp(18px, 3vh, 34px);
+  background: linear-gradient(180deg, #031216 0%, #06191b 50%, #031216 100%);
+}
+
+.scene {
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+  height: min(calc(56.25vw - 20.25px), 787.5px, 74.25svh);
+  margin: 0 auto;
+  overflow: hidden;
+  background: #1b251f;
+  border-top: 1px solid rgba(207, 176, 124, .22);
+  border-bottom: 1px solid rgba(207, 176, 124, .22);
+  box-shadow: 0 22px 65px rgba(0, 0, 0, .3);
+}
+
+.trainVideo,
+.experienceVideo {
+  display: block;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.trainVideo { z-index: 0; }
+
+.windowMask {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  pointer-events: none;
+  -webkit-mask-image: url('/images/experiences/train-window-alpha-v8.png');
+  mask-image: url('/images/experiences/train-window-alpha-v8.png');
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: cover;
+  mask-size: cover;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+
+.experienceVideo {
+  /* No scale or transform: avoid a second, straight-edged video boundary. */
+  filter: saturate(.96) contrast(1.02) brightness(.94);
+}
+
+@media (max-width: 900px) {
+  .scene { height: min(calc(56.25vw - 13.5px), 74.25svh); }
+}
+
+@media (max-width: 600px) {
+  .section { padding: 14px 0 18px; }
+  .scene { height: calc(56.25vw - 9px); }
+}
+
+/* V9: the only control, mounted on the wood panel left of the main window. */
+
+
+
+
+
+
+
+
+@media (max-width: 600px) {
+}
+
+@media (prefers-reduced-motion: reduce) {
+}
+
+/* MT brass switch V10 */
+
+@media (prefers-reduced-motion: reduce) {
+}
+/* BRASS BOARD — FINAL POSITION CONTROLS */
+
+
+
+
+
+/* JOURNEY GLASS V1 — condensation inside the exact V8 window mask */
+.windowMask::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse at 48% 48%,
+    rgba(222, 232, 228, .32) 0%,
+    rgba(216, 228, 225, .48) 65%,
+    rgba(204, 218, 215, .62) 100%
+  );
+  -webkit-backdrop-filter: blur(9px) saturate(.7);
+  backdrop-filter: blur(9px) saturate(.7);
+  animation: journeyFog 8s ease-out forwards;
+}
+
+.windowMask::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(circle, rgba(255,255,255,.28) 0 1px, transparent 1.8px),
+    radial-gradient(circle, rgba(255,255,255,.18) 0 .7px, transparent 1.5px);
+  background-size: 23px 29px, 37px 41px;
+  opacity: .3;
+}
+
+@keyframes journeyFog {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .windowMask::before { animation: none; opacity: 1; }
+}
+
+/* JOURNEY GLASS V2 — clearly visible condensation */
+.windowMask::before {
+  opacity: 1 !important;
+  animation: none !important;
+  background:
+    radial-gradient(ellipse at 48% 45%,
+      rgba(229, 237, 233, .84),
+      rgba(216, 228, 224, .92) 75%,
+      rgba(210, 223, 219, .96)) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  backdrop-filter: blur(20px) !important;
+}
+
+/* JOURNEY FINGER TEST */
+.windowMask {
+  pointer-events: auto;
+  touch-action: none;
+}
+
+.windowMask::before,
+.windowMask::after {
+  -webkit-mask-image: var(--journeyFingerMask, none) !important;
+  mask-image: var(--journeyFingerMask, none) !important;
+  -webkit-mask-size: 100% 100% !important;
+  mask-size: 100% 100% !important;
+}
+
+
+/* FULL TRAIN FRAMING TEST */
+.trainVideo {
+  object-fit: contain !important;
+}
+
+.windowMask {
+  visibility: hidden !important;
+}
+
+
+/* JOURNEY FULL-FIT WINDOW V1 */
+/* Keep the original train video fully visible. */
+.trainVideo {
+  object-fit: contain !important;
+}
+
+/* Glass aligned to the 16:9 video, not the wider section. */
+.windowMask {
+  inset: auto !important;
+  top: 0 !important;
+  left: 50% !important;
+  width: auto !important;
+  height: 100% !important;
+  max-width: 100%;
+  aspect-ratio: 16 / 9;
+  transform: translateX(-50%);
+  visibility: visible !important;
+
+  -webkit-mask-image: url('/images/experiences/train-window-alpha-full-fit-v6.svg') !important;
+  mask-image: url('/images/experiences/train-window-alpha-full-fit-v6.svg') !important;
+
+  -webkit-mask-size: 100% 100% !important;
+  mask-size: 100% 100% !important;
+  -webkit-mask-repeat: no-repeat !important;
+  mask-repeat: no-repeat !important;
+
+  /* Restrict finger interaction to the glass region. */
+  clip-path: none !important;
+}
