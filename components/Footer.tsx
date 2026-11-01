@@ -1,5 +1,7 @@
 'use client'
 
+import Link from 'next/link'
+
 import { FormEvent, useState } from 'react'
 import Image from 'next/image'
 import { FaInstagram, FaFacebookF, FaYoutube, FaWhatsapp, FaLinkedinIn } from 'react-icons/fa'
@@ -166,9 +168,9 @@ export default function Footer() {
           </a>
         </div>
         <div className={styles.policyLinks} aria-label="Policies">
-          <span>Terms &amp; Conditions</span>
-          <span>Privacy Policy</span>
-          <span>Cancellation &amp; Refund Policy</span>
+          <Link href="/terms-and-conditions">Terms &amp; Conditions</Link>
+          <Link href="/privacy-policy">Privacy Policy</Link>
+          <Link href="/cancellation-and-refund-policy">Cancellation &amp; Refund Policy</Link>
         </div>
       </div>
 

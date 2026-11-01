@@ -403,7 +403,7 @@
   line-height: 1.4;
 }
 
-.policyLinks span + span::before {
+.policyLinks a + a::before {
   content: '·';
   color: #b88b42;
   margin: 0 14px;
@@ -435,7 +435,7 @@
   white-space: nowrap;
 }
 
-.policyLinks span + span::before {
+.policyLinks a + a::before {
   margin: 0 10px;
 }
 
@@ -504,4 +504,18 @@
 /* Bold only the three contact headings */
 .contactStrip .contactItem .contactLabel {
   font-weight: 600;
+}
+/* Legal policy links: keep the approved footer layout while enabling navigation. */
+.policyLinks a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 180ms ease;
+}
+.policyLinks a:hover,
+.policyLinks a:focus-visible {
+  color: #b88b42;
+}
+.policyLinks a:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
 }
