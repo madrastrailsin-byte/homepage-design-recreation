@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import Navigation from '@/components/Navigation'
+import ServicesFloatingNav from '@/components/services/ServicesFloatingNav'
 import Footer from '@/components/Footer'
 import ServicesField from '@/components/services/ServicesField'
 import ServicesIntro from '@/components/services/ServicesIntro'
@@ -13,8 +13,10 @@ export const metadata: Metadata = {
 export default function ServicesPage() {
   return (
     <main className="min-h-screen overflow-x-hidden bg-[var(--mt-canvas)] text-[var(--mt-text-primary)]">
-      <Navigation />
-      <ServicesIntro />
+      <div className="relative">
+        <ServicesFloatingNav />
+        <ServicesIntro />
+      </div>
 
       <div id="services-experience" className="scroll-mt-24">
         <ServicesField services={travelServices} />

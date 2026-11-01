@@ -1,5 +1,7 @@
 "use client";
 
+import markerStyles from "./ServicesMarker.module.css";
+import LanternPendulum from './LanternPendulum'
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
@@ -414,7 +416,7 @@ function ServiceDocument({ service, index }: { service: TravelService; index: nu
 
     case 2:
       return (
-        <div className="relative z-10 h-full">
+        <div className="absolute inset-2 z-10 flex flex-col justify-end overflow-hidden">
           <Image
   src="/images/services/luxury-cruise.jpg"
   alt=""
@@ -435,7 +437,7 @@ function ServiceDocument({ service, index }: { service: TravelService; index: nu
             <p className="mt-ui text-[.52rem] tracking-[.22em] text-[#d8af58]">{service.number}</p>
           </div>
     
-          <h3 className="mt-display absolute bottom-5 left-5 right-5 text-[clamp(2.1rem,4vw,4.8rem)] leading-[.78] tracking-[-.05em] text-[#faf7f0]">
+          <h3 className="mt-display relative z-10 mx-4 mb-4 text-[clamp(2rem,2.7vw,3.4rem)] leading-[.95] tracking-[-.04em] text-[#faf7f0] drop-shadow-[0_2px_8px_rgba(0,0,0,.8)]">
             {service.title}
           </h3>
         </div>
@@ -668,7 +670,7 @@ function BoardServicePiece({
   type="button"
   onClick={onOpen}
         aria-label={`Open ${service.title}`}
-        className={`group absolute flex min-w-0 flex-col overflow-hidden text-left outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37]/70 ${
+        className={`${markerStyles.marked} group absolute flex min-w-0 flex-col overflow-hidden text-left outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37]/70 ${
   index === 2 ? "p-1.5 md:p-2" : "p-4 md:p-5"
 } ${piece.tone}`}
         style={{
@@ -1070,15 +1072,15 @@ const toggleLight = () => {
       <section
         id="madras-diary"
         aria-labelledby="services-board-title"
-        className="relative isolate h-auto overflow-hidden bg-[#170d08] text-[#f8f3e8] md:[--header-height:92px] md:h-[96svh] lg:[--header-height:96px]"
+        className="relative isolate h-auto overflow-hidden bg-[#100906] text-[#f8f3e8] md:[--header-height:92px] md:h-[96svh] lg:[--header-height:96px]"
       >
-        <div className="absolute inset-0 z-0 bg-[#2a170d] bg-[linear-gradient(rgba(32,16,8,.18),rgba(12,7,4,.5)),url('/images/services/walnut-desk.jpg')] bg-cover bg-center saturate-[.78]" />
+        <div className="absolute inset-0 z-0 bg-[#1b100b] bg-[linear-gradient(rgba(32,16,8,.18),rgba(12,7,4,.5)),url('/images/services/walnut-desk.jpg')] bg-cover bg-center saturate-[1.25] contrast-[1.18] brightness-[1.08]" />
         {/* Complete room darkness */}
 <div
   aria-hidden="true"
   className="pointer-events-none absolute inset-0 z-[65] bg-black"
   style={{
-    opacity: 0.98 - lightLevel * 0.78,
+    opacity: 0.98 - lightLevel * 0.96,
     transition:
       lightPhase === "on"
         ? "opacity 700ms cubic-bezier(0.22, 1, 0.36, 1)"
@@ -1104,9 +1106,9 @@ const toggleLight = () => {
       background: `
         radial-gradient(
           ellipse 55% 74% at 50% 35%,
-          rgba(255, 232, 190, 0.28) 0%,
-          rgba(240, 190, 122, 0.18) 34%,
-          rgba(192, 119, 57, 0.08) 66%,
+          rgba(255, 232, 190, 0.12) 0%,
+          rgba(240, 190, 122, 0.07) 34%,
+          rgba(192, 119, 57, 0.03) 66%,
           transparent 82%
         )
       `,
@@ -1121,20 +1123,20 @@ const toggleLight = () => {
       background: `
         linear-gradient(
           90deg,
-          rgba(0, 0, 0, 0.82) 0%,
-          rgba(0, 0, 0, 0.48) 12%,
-          rgba(0, 0, 0, 0.08) 32%,
+          rgba(0, 0, 0, 0.52) 0%,
+          rgba(0, 0, 0, 0.27) 12%,
+          rgba(0, 0, 0, 0.03) 32%,
           transparent 44%,
           transparent 56%,
-          rgba(0, 0, 0, 0.08) 68%,
-          rgba(0, 0, 0, 0.48) 88%,
-          rgba(0, 0, 0, 0.82) 100%
+          rgba(0, 0, 0, 0.03) 68%,
+          rgba(0, 0, 0, 0.27) 88%,
+          rgba(0, 0, 0, 0.28) 100%
         ),
         linear-gradient(
           180deg,
           transparent 46%,
-          rgba(0, 0, 0, 0.12) 72%,
-          rgba(0, 0, 0, 0.52) 100%
+          rgba(0, 0, 0, 0.06) 72%,
+          rgba(0, 0, 0, 0.28) 100%
         )
       `,
     }}
@@ -1153,46 +1155,7 @@ const toggleLight = () => {
   }
   className="absolute right-4 top-0 z-[70] disabled:pointer-events-none md:-right-6"
 >
-  <motion.div
-  animate={
-  isPulling
-    ? {
-        rotate: [0, -8, 6.5, -5.2, 4.1, -3.2, 2.4, -1.7, 1.1, -0.6, 0],
-      }
-    : {
-        rotate: [-5.2, 5.2, -5.2],
-      }
-}
-transition={
-  isPulling
-    ? {
-        duration: 6,
-        times: [0, 0.1, 0.2, 0.31, 0.42, 0.53, 0.64, 0.74, 0.84, 0.93, 1],
-        ease: "easeInOut",
-      }
-    : {
-        duration: 9.5,
-        repeat: Infinity,
-        ease: "easeInOut",
-      }
-}
-  style={{
-    transformOrigin: "50% 0%",
-  }}
-  className="flex flex-col items-center"
->
-    {/* Hanging connector */}
-    <div className="h-10 w-[3px] rounded-full bg-gradient-to-b from-[#5a4027] via-[#8a6843] to-[#3e2a18] shadow-[0_0_5px_rgba(0,0,0,.5)]" />
-
-    <Image
-      src="/images/services/services-lantern.png"
-      alt=""
-      width={208}
-      height={208}
-      draggable={false}
-      className="h-52 w-auto object-contain drop-shadow-[0_14px_22px_rgba(0,0,0,.55)]"
-    />
-  </motion.div>
+  <LanternPendulum isPulling={isPulling} />
 </button>
 {/* Lantern instruction — visible only when the light is off */}
 <AnimatePresence>

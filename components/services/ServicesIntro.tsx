@@ -52,7 +52,17 @@ function InkPage({
 
   const total = weights.flat().reduce((sum, value) => sum + value, 0)
 
-  let progress = 0
+  const wordStarts: number[][] = []
+  let accumulated = 0
+
+  for (const lineWeights of weights) {
+    const lineStarts: number[] = []
+    for (const weight of lineWeights) {
+      lineStarts.push(accumulated)
+      accumulated += weight
+    }
+    wordStarts.push(lineStarts)
+  }
 
   return (
     <div className={`${styles.diaryPage} ${className}`}>
@@ -64,13 +74,11 @@ function InkPage({
             {words.map((word, wordIndex) => {
               const weight = weights[lineIndex][wordIndex]
 
+              const elapsed = wordStarts[lineIndex][wordIndex]
               const writeStart =
-                start + (progress / total) * (finish - start)
-
-              progress += weight
-
+                start + (elapsed / total) * (finish - start)
               const writeEnd =
-                start + (progress / total) * (finish - start)
+                start + ((elapsed + weight) / total) * (finish - start)
 
               const windStart =
                 WIND_START +
@@ -725,12 +733,15 @@ export default function ServicesIntro() {
           </span>
 
           <h1 className={styles.heroTitle}>
-            From a thought
+            From a thought{' '}
             <span>to a journey.</span>
           </h1>
 
           <p className={styles.heroSubtitle}>
             We plan. We curate. We take care of everything in between.
+          </p>
+          <p className={styles.heroOfferings}>
+            BESPOKE JOURNEYS · LUXURY STAYS · PRIVATE EXPERIENCES · FLIGHTS · VISAS · FOREX
           </p>
         </div>
         <div aria-hidden="true">
