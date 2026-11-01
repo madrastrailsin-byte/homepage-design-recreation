@@ -191,3 +191,732 @@
   /* Restrict finger interaction to the glass region. */
   clip-path: none !important;
 }
+
+/* MINI EXPERIENCES DRAFT 1 — eight original video experiences, four per side. */
+/* Deliberately no brown, maps, postcards, luggage or compass. */
+.section { background: #07161b; }
+.scene { background: #09171b; }
+
+.journeyMargins {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  overflow: hidden;
+  pointer-events: none;
+}
+.journeyTrainClearance {
+  position: relative;
+  flex: 0 1 auto;
+  height: 100%;
+  aspect-ratio: 16 / 9;
+  max-width: 100%;
+  min-width: 0;
+}
+.journeyPanel {
+  position: relative;
+  flex: 1 1 0%;
+  min-width: 0;
+  height: 100%;
+  display: grid;
+  grid-template-rows: repeat(4, minmax(0, 1fr));
+  gap: clamp(5px, .8vh, 11px);
+  padding: clamp(6px, .8vw, 13px);
+  box-sizing: border-box;
+  background: #08151a;
+  container-type: inline-size;
+}
+.miniExperience {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  border-radius: clamp(7px, .8vw, 13px);
+  border: 1px solid rgba(218, 193, 145, .19);
+  background: linear-gradient(135deg, #17353b, #06161c 75%);
+  box-shadow: 0 7px 24px rgba(0, 0, 0, .2);
+  color: #f6f4ed;
+  text-decoration: none;
+  pointer-events: auto;
+  transition: border-color 300ms ease, box-shadow 300ms ease, transform 350ms cubic-bezier(.22,1,.36,1);
+}
+.miniExperience:hover,
+.miniExperience:focus-visible {
+  border-color: rgba(212, 178, 105, .78);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, .4);
+  transform: translateY(-2px);
+}
+.miniExperience:focus-visible { outline: 2px solid #e4c48c; outline-offset: -3px; }
+.miniExperienceVideo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: .7;
+  filter: saturate(.82) contrast(1.06);
+  transition: transform 900ms cubic-bezier(.22,1,.36,1), opacity 450ms ease;
+}
+.miniExperience:hover .miniExperienceVideo,
+.miniExperience:focus-visible .miniExperienceVideo { transform: scale(1.06); opacity: .9; }
+.miniExperienceShade {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(180deg, rgba(2,15,19,.38), rgba(2,15,19,.13) 30%, rgba(2,15,19,.84) 100%);
+}
+.miniExperienceTop {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: clamp(8px, .85vw, 14px);
+}
+.miniExperienceIcon {
+  display: grid;
+  place-items: center;
+  width: clamp(23px, 2.1vw, 32px);
+  height: clamp(23px, 2.1vw, 32px);
+  flex: none;
+  border-radius: 50%;
+  border: 1px solid rgba(216, 176, 105, .55);
+  background: rgba(3, 20, 24, .4);
+  color: #e1c084;
+}
+.miniExperienceNumber {
+  font: 600 clamp(8px, .62vw, 11px)/1.3 Arial, sans-serif;
+  letter-spacing: .14em;
+  color: #d5b478;
+}
+.miniExperienceBottom {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: auto;
+  padding: 0 clamp(8px, .85vw, 14px) clamp(9px, .9vw, 15px);
+}
+.miniExperienceTitle {
+  display: block;
+  max-width: 90%;
+  font: 500 clamp(16px, 1.5vw, 29px)/.98 'Cormorant Garamond', Georgia, serif;
+  letter-spacing: -.025em;
+  text-shadow: 0 2px 8px rgba(0,0,0,.55);
+}
+.miniExperienceMood {
+  display: block;
+  font: 600 clamp(7px, .55vw, 10px)/1.3 Arial, sans-serif;
+  letter-spacing: .065em;
+  text-transform: uppercase;
+  color: #e1c38c;
+  text-shadow: 0 1px 4px #000;
+}
+.miniExperienceArrow {
+  position: absolute;
+  right: clamp(7px, .8vw, 13px);
+  bottom: clamp(9px, .9vw, 15px);
+  z-index: 2;
+  color: #e3c28b;
+  opacity: .7;
+  transition: transform 300ms ease, opacity 300ms ease;
+}
+.miniExperience:hover .miniExperienceArrow,
+.miniExperience:focus-visible .miniExperienceArrow { transform: translate(2px, -2px); opacity: 1; }
+.mobileExperiences { display: none; }
+
+@container (max-width: 175px) {
+  .miniExperienceMood { display: none; }
+  .miniExperienceTitle { font-size: clamp(15px, 3.5cqw, 19px); }
+  .miniExperienceIcon { width: 24px; height: 24px; }
+}
+/* When the train leaves insufficient side width, move the links below it. */
+@media (max-width: 1100px), (max-aspect-ratio: 8/5) {
+  .journeyMargins { display: none; }
+  .mobileExperiences {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    padding: 12px;
+    background: #07161b;
+  }
+  .mobileExperiences .miniExperience { min-height: 155px; }
+  .mobileExperiences .miniExperienceTitle { font-size: clamp(22px, 2.5vw, 30px); }
+}
+@media (max-width: 600px) {
+  .mobileExperiences { gap: 7px; padding: 9px; }
+  .mobileExperiences .miniExperience { min-height: 125px; }
+  .mobileExperiences .miniExperienceTitle { font-size: clamp(17px, 4.4vw, 23px); }
+  .mobileExperiences .miniExperienceMood { display: none; }
+  .mobileExperiences .miniExperienceTop { padding: 8px; }
+  .mobileExperiences .miniExperienceBottom { padding: 0 8px 10px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .miniExperience, .miniExperienceVideo, .miniExperienceArrow { transition: none; }
+}
+
+/* JOURNEY CARRIAGE DRAFT 1 — reversible CSS-only visual experiment. */
+/* Deep green carriage walls, recessed brass-framed windows, subtle mist reveal.
+   Do not touch .trainVideo, .windowMask, .journeyTrainClearance or any glass JS. */
+.section {
+  background: #071417;
+}
+.scene {
+  background: #0b1b1b;
+}
+
+/* Carriage wall: deep charcoal-emerald, softly lit from the train interior. */
+.journeyPanel {
+  gap: clamp(7px, 1vh, 13px);
+  padding: clamp(8px, .75vw, 14px);
+  background: #0b1b1b;
+  box-shadow: inset 0 0 58px rgba(0, 0, 0, .4);
+}
+.journeyPanel:first-child {
+  background:
+    radial-gradient(ellipse at 96% 48%, rgba(168, 134, 81, .13), transparent 64%),
+    linear-gradient(90deg, #071619 0%, #0c1d1d 62%, #17251f 100%);
+}
+.journeyPanel:last-child {
+  background:
+    radial-gradient(ellipse at 4% 48%, rgba(168, 134, 81, .13), transparent 64%),
+    linear-gradient(270deg, #071619 0%, #0c1d1d 62%, #17251f 100%);
+}
+
+/* Narrow coach trim along the seam, without covering the train footage. */
+.journeyPanel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 5px;
+  z-index: 3;
+  pointer-events: none;
+  background: linear-gradient(90deg,
+    rgba(15, 23, 21, .98),
+    rgba(171, 140, 84, .62) 48%,
+    rgba(23, 32, 27, .96));
+  box-shadow: 0 0 12px rgba(0, 0, 0, .5);
+}
+.journeyPanel:first-child::before { right: 0; }
+.journeyPanel:last-child::before { left: 0; }
+
+/* Each experience becomes a recessed miniature carriage window. */
+.miniExperience {
+  border: 2px solid rgba(180, 151, 94, .62);
+  border-radius: clamp(17px, 1.35vw, 25px) clamp(17px, 1.35vw, 25px)
+                 clamp(9px, .7vw, 14px) clamp(9px, .7vw, 14px);
+  background: linear-gradient(135deg, #183333, #061519 76%);
+  box-shadow:
+    inset 0 0 0 3px rgba(4, 17, 18, .88),
+    inset 0 0 0 5px rgba(227, 192, 125, .19),
+    0 7px 19px rgba(0, 0, 0, .46),
+    0 1px 0 rgba(237, 205, 150, .12);
+  transition: border-color 360ms ease,
+              box-shadow 360ms ease,
+              transform 450ms cubic-bezier(.22, 1, .36, 1);
+}
+.miniExperience::after {
+  content: '';
+  position: absolute;
+  inset: 5px;
+  z-index: 4;
+  pointer-events: none;
+  border: 1px solid rgba(233, 203, 144, .25);
+  border-radius: clamp(12px, 1.1vw, 20px) clamp(12px, 1.1vw, 20px)
+                 clamp(5px, .5vw, 9px) clamp(5px, .5vw, 9px);
+  box-shadow: inset 0 1px 0 rgba(255, 234, 184, .15);
+}
+.miniExperience:hover,
+.miniExperience:focus-visible {
+  border-color: rgba(236, 201, 134, .88);
+  box-shadow:
+    inset 0 0 0 3px rgba(4, 17, 18, .88),
+    inset 0 0 0 5px rgba(234, 204, 144, .28),
+    0 10px 25px rgba(0, 0, 0, .53),
+    0 0 18px rgba(193, 158, 92, .11);
+}
+.journeyPanel:first-child .miniExperience:hover,
+.journeyPanel:first-child .miniExperience:focus-visible { transform: translateX(3px); }
+.journeyPanel:last-child .miniExperience:hover,
+.journeyPanel:last-child .miniExperience:focus-visible { transform: translateX(-3px); }
+
+/* A trace of glass condensation clears when a visitor explores a window. */
+.miniExperienceVideo {
+  opacity: .78;
+  filter: saturate(.76) contrast(1.07) brightness(.91);
+  transition: transform 950ms cubic-bezier(.22, 1, .36, 1),
+              opacity 500ms ease, filter 500ms ease;
+}
+.miniExperience:hover .miniExperienceVideo,
+.miniExperience:focus-visible .miniExperienceVideo {
+  opacity: 1;
+  filter: saturate(1.04) contrast(1.05) brightness(1.02);
+  transform: scale(1.045);
+}
+.miniExperienceShade {
+  background: linear-gradient(180deg,
+    rgba(4, 18, 20, .40) 0%,
+    rgba(5, 19, 20, .11) 35%,
+    rgba(3, 15, 17, .83) 100%);
+}
+.miniExperienceShade::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 50% 27%, rgba(214, 229, 221, .20), transparent 68%),
+    linear-gradient(120deg, transparent 15%, rgba(224, 235, 229, .10) 42%, transparent 67%);
+  opacity: .84;
+  transition: opacity 700ms ease;
+}
+.miniExperience:hover .miniExperienceShade::before,
+.miniExperience:focus-visible .miniExperienceShade::before { opacity: 0; }
+
+/* Keep the original content, with brass and ivory in the carriage palette. */
+.miniExperienceIcon {
+  background: rgba(5, 20, 21, .72);
+  border-color: rgba(221, 183, 117, .6);
+  color: #e4c68e;
+}
+.miniExperienceNumber { color: #dfc18a; }
+.miniExperienceTitle { color: #f7f2e8; }
+.miniExperienceMood { color: #dec38e; }
+.miniExperienceArrow { color: #e4c58c; }
+
+/* On narrower screens the eight links remain below the untouched train. */
+@media (max-width: 1100px), (max-aspect-ratio: 8/5) {
+  .mobileExperiences {
+    background: linear-gradient(180deg, #0b1b1b, #071417);
+  }
+  .mobileExperiences .miniExperience:hover,
+  .mobileExperiences .miniExperience:focus-visible {
+    transform: translateY(-2px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .miniExperience,
+  .miniExperienceVideo,
+  .miniExperienceShade::before { transition: none; }
+  .journeyPanel .miniExperience:hover,
+  .journeyPanel .miniExperience:focus-visible,
+  .mobileExperiences .miniExperience:hover,
+  .mobileExperiences .miniExperience:focus-visible { transform: none; }
+}
+/* END JOURNEY CARRIAGE DRAFT 1 */
+
+/* SEAMLESS CARRIAGE DRAFT 2 — seam blending only. */
+/* The train video and window mask are not changed. These are translucent
+   overlays in the EMPTY clearance at the outermost edges of the train. */
+
+/* Replace the bright metal divider with a soft carriage-to-train transition. */
+.journeyPanel::before {
+  opacity: 0;
+}
+
+/* A restrained warm reflection reaches the panels from the train interior.
+   Keep charcoal-emerald as the dominant color, not brown. */
+.journeyPanel:first-child {
+  background:
+    radial-gradient(ellipse 72% 105% at 100% 52%, rgba(176, 129, 74, .18), transparent 83%),
+    linear-gradient(90deg, #071619 0%, #0c1d1d 62%, #17251f 100%);
+}
+.journeyPanel:last-child {
+  background:
+    radial-gradient(ellipse 72% 105% at 0% 52%, rgba(176, 129, 74, .18), transparent 83%),
+    linear-gradient(270deg, #071619 0%, #0c1d1d 62%, #17251f 100%);
+}
+
+/* Only the first/last ~46px of the central clearance receive a fade.
+   The train, its central window and every interactive experience remain intact. */
+.journeyTrainClearance::before,
+.journeyTrainClearance::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 1;
+  width: clamp(20px, 2.45vw, 46px);
+  pointer-events: none;
+}
+.journeyTrainClearance::before {
+  left: 0;
+  background: linear-gradient(90deg,
+    rgba(19, 35, 31, .96) 0%,
+    rgba(20, 34, 30, .68) 24%,
+    rgba(24, 32, 28, .24) 65%,
+    transparent 100%);
+}
+.journeyTrainClearance::after {
+  right: 0;
+  background: linear-gradient(270deg,
+    rgba(19, 35, 31, .96) 0%,
+    rgba(20, 34, 30, .68) 24%,
+    rgba(24, 32, 28, .24) 65%,
+    transparent 100%);
+}
+
+/* The sides are hidden at compact breakpoints by the existing layout. */
+@media (max-width: 1100px), (max-aspect-ratio: 8/5) {
+  .journeyTrainClearance::before,
+  .journeyTrainClearance::after { display: none; }
+}
+/* END SEAMLESS CARRIAGE DRAFT 2 */
+
+/* CARRIAGE COLOUR DRAFT 3 — eight experience windows only. */
+/* Palette sampled conceptually from the approved train: olive upholstery,
+   warm amber carriage light, softly aged brass. No train/glass changes. */
+
+/* Keep both walls in the same olive-charcoal family as the train seats.
+   Warmth is a light reflection, NOT a brown background. */
+.journeyPanel:first-child {
+  background:
+    radial-gradient(ellipse 80% 100% at 100% 50%, rgba(185, 132, 70, .13), transparent 77%),
+    linear-gradient(90deg, #101b18 0%, #17231d 65%, #1c2921 100%);
+}
+.journeyPanel:last-child {
+  background:
+    radial-gradient(ellipse 80% 100% at 0% 50%, rgba(185, 132, 70, .13), transparent 77%),
+    linear-gradient(270deg, #101b18 0%, #17231d 65%, #1c2921 100%);
+}
+
+/* The photographed train has slim, weathered brass window trim rather than
+   a bright double-gold outline. Preserve the existing card geometry. */
+.miniExperience {
+  border-width: 1px;
+  border-color: rgba(175, 143, 94, .57);
+  background: linear-gradient(135deg, #253027, #0b1917 80%);
+  box-shadow:
+    inset 0 0 0 3px rgba(10, 21, 18, .76),
+    inset 0 0 0 4px rgba(204, 170, 112, .15),
+    0 7px 19px rgba(0, 0, 0, .43);
+}
+.miniExperience::after {
+  border-color: rgba(215, 180, 119, .17);
+  box-shadow: inset 0 1px 0 rgba(245, 212, 158, .10);
+}
+.miniExperience:hover,
+.miniExperience:focus-visible {
+  border-color: rgba(221, 182, 120, .78);
+  box-shadow:
+    inset 0 0 0 3px rgba(10, 21, 18, .76),
+    inset 0 0 0 4px rgba(220, 187, 129, .21),
+    0 10px 24px rgba(0, 0, 0, .49),
+    0 0 14px rgba(184, 143, 82, .10);
+}
+
+/* Gentle shared colour grade; keep each experience recognisable and vivid
+   on hover, while reducing the cold cyan/blue look of some video footage. */
+.miniExperienceVideo {
+  opacity: .85;
+  filter: sepia(.18) saturate(.80) contrast(1.06) brightness(.89);
+}
+.miniExperience:hover .miniExperienceVideo,
+.miniExperience:focus-visible .miniExperienceVideo {
+  opacity: 1;
+  filter: sepia(.10) saturate(.95) contrast(1.04) brightness(.98);
+}
+
+/* Warm glass reflection + deep olive shadow, replacing cool teal haze. */
+.miniExperienceShade {
+  background:
+    linear-gradient(180deg,
+      rgba(18, 24, 19, .39) 0%,
+      rgba(20, 25, 20, .08) 37%,
+      rgba(10, 20, 17, .84) 100%),
+    linear-gradient(115deg, rgba(136, 98, 54, .10), transparent 62%);
+}
+.miniExperienceShade::before {
+  background:
+    radial-gradient(ellipse at 45% 15%, rgba(240, 210, 161, .11), transparent 70%),
+    linear-gradient(115deg, transparent 22%, rgba(232, 209, 174, .075) 47%, transparent 71%);
+  opacity: .7;
+}
+
+/* Muted, consistent aged-brass details, not a second gold design system. */
+.miniExperienceIcon {
+  background: rgba(14, 24, 20, .76);
+  border-color: rgba(194, 157, 99, .62);
+  color: #dcc18c;
+}
+.miniExperienceNumber,
+.miniExperienceMood,
+.miniExperienceArrow { color: #d6b985; }
+.miniExperienceTitle { color: #f4eee2; }
+/* END CARRIAGE COLOUR DRAFT 3 */
+
+/* DRAFT 4: RECESSED CARRIAGE WINDOW — BEGIN */
+/* MODE: first. Physical, inset wood-and-brass window framing, inspired by
+   the actual train's varnished wood, warm reflections and dark upholstery.
+   No new images, assets, geometry or markup. */
+.journeyPanel:first-child > .miniExperience:first-child {
+  border: 5px solid #39251b;
+  border-top-color: #825035;
+  border-left-color: #69402b;
+  border-right-color: #322017;
+  border-bottom-color: #291a13;
+  border-radius: clamp(19px, 1.55vw, 27px) clamp(19px, 1.55vw, 27px)
+                 clamp(11px, .85vw, 16px) clamp(11px, .85vw, 16px);
+  background: #15211b;
+  box-shadow:
+    0 0 0 1px rgba(187, 139, 83, .48),
+    inset 0 0 0 1px rgba(245, 202, 133, .62),
+    inset 0 0 0 4px rgba(15, 22, 18, .82),
+    0 10px 24px rgba(0, 0, 0, .54),
+    0 1px 0 rgba(248, 203, 143, .12);
+}
+/* Single fine inner brass lip; remove the earlier double outline. */
+.journeyPanel:first-child > .miniExperience:first-child::after {
+  inset: 1px;
+  border: 1px solid rgba(231, 187, 120, .48);
+  border-radius: clamp(13px, 1.15vw, 21px) clamp(13px, 1.15vw, 21px)
+                 clamp(6px, .55vw, 10px) clamp(6px, .55vw, 10px);
+  box-shadow:
+    inset 0 0 0 2px rgba(9, 17, 14, .62),
+    inset 0 9px 16px rgba(0, 0, 0, .23),
+    inset 0 1px 0 rgba(251, 224, 177, .22);
+}
+.journeyPanel:first-child > .miniExperience:first-child .miniExperienceVideo {
+  opacity: .96;
+  filter: sepia(.09) saturate(.88) contrast(1.06) brightness(.95);
+}
+.journeyPanel:first-child > .miniExperience:first-child .miniExperienceShade {
+  background:
+    linear-gradient(180deg, rgba(16, 24, 19, .16) 0%,
+      rgba(13, 22, 17, .10) 35%, rgba(8, 17, 14, .91) 100%),
+    linear-gradient(112deg, rgba(198, 139, 75, .14), transparent 55%);
+}
+.journeyPanel:first-child > .miniExperience:first-child .miniExperienceShade::before {
+  background: linear-gradient(117deg, transparent 16%,
+    rgba(255, 226, 182, .11) 34%, transparent 54%);
+  opacity: .8;
+}
+.journeyPanel:first-child > .miniExperience:first-child .miniExperienceIcon {
+  background: rgba(14, 27, 21, .86);
+  border-color: rgba(214, 174, 106, .78);
+  box-shadow: inset 0 1px 0 rgba(255, 224, 163, .13);
+}
+.journeyPanel:first-child > .miniExperience:first-child:hover, .journeyPanel:first-child > .miniExperience:first-child:focus-visible {
+  border-top-color: #a66e49;
+  border-left-color: #875638;
+  border-right-color: #42291b;
+  border-bottom-color: #332117;
+  box-shadow:
+    0 0 0 1px rgba(225, 177, 111, .68),
+    inset 0 0 0 1px rgba(255, 217, 149, .75),
+    inset 0 0 0 4px rgba(15, 22, 18, .82),
+    0 12px 27px rgba(0, 0, 0, .58),
+    0 0 19px rgba(211, 153, 83, .15);
+}
+.journeyPanel:first-child > .miniExperience:first-child:hover .miniExperienceVideo,
+.journeyPanel:first-child > .miniExperience:first-child:focus-visible .miniExperienceVideo {
+  opacity: 1;
+  filter: sepia(.04) saturate(1.01) contrast(1.04) brightness(1.02);
+}
+/* DRAFT 4: RECESSED CARRIAGE WINDOW — END */
+
+
+/* Experiences refinement: scenery, adjustable binoculars, and live HTML copy.
+   The parked train implementation above remains available. */
+.section {
+  --experiences-binoculars-width: clamp(60px, 5.25vw, 102.5px);
+  isolation: isolate;
+  width: calc(100% - clamp(24px, 3.4vw, 54px));
+  max-width: none;
+  margin: 2rem auto;
+  padding: clamp(16px, 2.4svh, 26px) 3.55%;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: clamp(16px, 2.6svh, 28px);
+  height: min(800px, calc(100svh - 128px));
+  box-sizing: border-box;
+  border: 1px solid rgba(222, 173, 105, .2);
+  border-radius: clamp(22px, 2vw, 38px);
+  background: linear-gradient(rgba(0, 0, 0, .35), rgba(0, 0, 0, .35)),
+    linear-gradient(180deg, rgba(2, 17, 21, .22), rgba(2, 15, 18, .38) 35%, rgba(1, 12, 14, .87) 72%, rgba(1, 12, 14, .95)),
+    url('/images/experiences/experiences-mountain-sunset-v7.webp') center top / cover no-repeat;
+  box-shadow: 0 15px 42px rgba(0, 0, 0, .3);
+}
+.section::before, .section::after { display: none; }
+.experiencesIntro { position: relative; z-index: 1; width: 100%; text-align: center; }
+.experiencesIntroTop {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(20px, 4vw, 80px);
+  width: min(100%, 1480px);
+  margin: 0 auto;
+}
+.experiencesIntroRule {
+  flex: 1 1 0;
+  height: 1px;
+  transform: translateY(-12px);
+  background: linear-gradient(90deg, transparent, rgba(233, 186, 115, .65));
+}
+.experiencesIntroRule:last-child { transform: translateY(-12px) rotate(180deg); }
+.experiencesIntroIdentity {
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  color: #edc187;
+  font: 600 clamp(12px, 1.2vw, 23px)/1.3 var(--mt-font-ui, 'Inter'), sans-serif;
+  letter-spacing: .36em;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, .65);
+}
+.experiencesBinoculars {
+  display: block;
+  width: var(--experiences-binoculars-width);
+  height: auto;
+  max-width: 100%;
+  filter: drop-shadow(0 6px 8px rgba(0, 0, 0, .55));
+}
+.experiencesIntroTitle {
+  margin: 8px 0 0;
+  color: #fff7eb;
+  font-family: var(--mt-font-display, 'Cormorant Garamond'), Georgia, serif;
+  font-size: clamp(38px, 3.65vw, 74px);
+  font-weight: 500;
+  line-height: 1.06;
+  letter-spacing: -.025em;
+  text-wrap: balance;
+  text-shadow: 0 3px 12px rgba(0, 0, 0, .65);
+}
+.experiencesIntroDescription {
+  margin: 8px 0 0;
+  color: #f0d9b5;
+  font: 400 clamp(15px, 1.28vw, 25px)/1.3 var(--mt-font-body, 'Inter'), sans-serif;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, .75);
+}
+.experiencesPersonalMessage {
+  max-width: 810px;
+  margin: clamp(12px, 1.8svh, 20px) auto 0;
+  color: #f5eee4;
+  font: 400 clamp(15px, 1.12vw, 21px)/1.4 var(--mt-font-body, 'Inter'), sans-serif;
+  text-wrap: balance;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, .85);
+}
+.experiencesGrid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  min-height: 0;
+  gap: clamp(14px, 2.3svh, 24px);
+  width: 100%;
+  margin: 0 auto;
+}
+.experiencesGrid .miniExperience {
+  aspect-ratio: auto;
+  min-height: 0;
+  border: 1px solid rgba(216, 172, 105, .48);
+  border-radius: clamp(14px, 1.2vw, 23px);
+  background: #071516;
+  box-shadow: 0 7px 18px rgba(0, 0, 0, .28);
+}
+.experiencesGrid .miniExperience::after { display: none; }
+.experiencesGrid .miniExperience:hover,
+.experiencesGrid .miniExperience:focus-visible {
+  border-color: rgba(240, 197, 132, .8);
+  box-shadow: 0 10px 22px rgba(0, 0, 0, .4);
+}
+.experiencesGrid .miniExperienceVideo {
+  opacity: 1;
+  filter: saturate(1.06) contrast(1.04) brightness(.96);
+}
+.experiencesGrid .miniExperienceShade {
+  background: linear-gradient(180deg, rgba(0, 8, 12, .02) 15%, rgba(0, 8, 12, .12) 35%, rgba(0, 7, 9, .9) 100%);
+}
+.experiencesGrid .miniExperienceShade::before { display: none; }
+.experiencesGrid .miniExperienceBottom {
+  gap: 5px;
+  padding: 12px clamp(14px, 1.25vw, 24px) clamp(12px, .95vw, 18px);
+}
+.experiencesGrid .miniExperienceTitle {
+  max-width: 100%;
+  padding-right: 6px;
+  color: #fff6e9;
+  font-family: var(--mt-font-display, 'Cormorant Garamond'), Georgia, serif;
+  font-size: clamp(21px, 1.65vw, 33px);
+  font-weight: 600;
+  line-height: 1.08;
+  letter-spacing: -.02em;
+}
+.experiencesGrid .miniExperienceMood {
+  padding-right: 15px;
+  font-size: clamp(9px, .69vw, 13px);
+  line-height: 1.35;
+  letter-spacing: .055em;
+  color: #edc187;
+}
+.experiencesGrid .miniExperienceArrow { right: 12px; bottom: 13px; width: 15px; height: 15px; }
+@media (max-width: 1100px) {
+  .section { padding: 20px 24px; background-size: auto, auto, auto 700px; background-color: #061416; }
+  .experiencesIntroTitle { font-size: clamp(36px, 5vw, 55px); }
+  .experiencesPersonalMessage { max-width: 660px; }
+  .experiencesGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(4, minmax(0, 1fr)); gap: 14px; }
+  .experiencesGrid .miniExperience { aspect-ratio: auto; }
+  .experiencesGrid .miniExperienceTitle { font-size: clamp(24px, 3vw, 32px); }
+  .experiencesGrid .miniExperienceMood { font-size: 10px; }
+}
+@media (max-width: 600px) {
+  .section { width: calc(100% - 20px); height: calc(100svh - 112px); margin: 1.25rem auto; padding: 14px 10px; gap: 16px; border-radius: 22px; }
+  .experiencesIntroTop { gap: 12px; }
+  .experiencesIntroIdentity { font-size: 11px; letter-spacing: .27em; }
+  .experiencesIntroTitle { margin-top: 8px; font-size: clamp(27px, 7vw, 36px); }
+  .experiencesIntroDescription { font-size: 14px; }
+  .experiencesPersonalMessage { margin: 12px auto 0; font-size: 12px; line-height: 1.4; }
+  .experiencesGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .experiencesGrid .miniExperience { aspect-ratio: auto; }
+  .experiencesGrid .miniExperienceTitle { font-size: clamp(18px, 4.5vw, 23px); }
+}
+
+@media (max-width: 600px) {
+  .experiencesGrid .miniExperienceBottom { gap: 4px; padding: 10px 9px; }
+  .experiencesGrid .miniExperienceTitle { padding-right: 0; }
+  .experiencesGrid .miniExperienceMood { font-size: 8px; line-height: 1.3; padding-right: 0; letter-spacing: .025em; }
+  .experiencesGrid .miniExperienceArrow { display: none; }
+}
+@media (max-height: 650px) and (min-width: 601px) {
+  .section { padding-block: 12px; gap: 12px; }
+  .experiencesIntroTitle { font-size: clamp(28px, 3vw, 44px); }
+  .experiencesIntroDescription { font-size: 14px; margin-top: 5px; }
+  .experiencesPersonalMessage { margin-top: 8px; font-size: 13px; }
+  .experiencesGrid { grid-template-columns: repeat(4, minmax(0, 1fr)); grid-template-rows: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .experiencesGrid .miniExperienceTitle { font-size: 19px; }
+  .experiencesGrid .miniExperienceMood { font-size: 8px; }
+}
+@media (max-width: 600px) and (max-height: 700px) {
+  .section { padding: 10px; gap: 10px; }
+  .experiencesIntroTitle { font-size: 24px; margin-top: 5px; }
+  .experiencesIntroDescription { font-size: 12px; margin-top: 5px; }
+  .experiencesPersonalMessage { font-size: 11px; line-height: 1.3; margin-top: 8px; }
+  .experiencesGrid { gap: 8px; }
+  .experiencesGrid .miniExperienceBottom { padding: 6px 7px; gap: 3px; }
+  .experiencesGrid .miniExperienceTitle { font-size: 16px; }
+  .experiencesGrid .miniExperienceMood { font-size: 7px; }
+}
+@media (min-width: 601px) and (max-height: 500px) {
+  .experiencesIntro { display: grid; grid-template-columns: 100px minmax(0, 1fr); column-gap: 12px; align-items: center; }
+  .experiencesIntroTop { grid-column: 1; grid-row: 1 / 4; }
+  .experiencesIntroRule { display: none; }
+  .experiencesIntroIdentity { font-size: 9px; letter-spacing: .15em; }
+  .experiencesIntroTitle { font-size: 26px; margin: 0; }
+  .experiencesIntroDescription { font-size: 12px; margin: 3px 0 0; }
+  .experiencesPersonalMessage { font-size: 11px; margin: 5px 0 0; line-height: 1.3; }
+  .experiencesGrid .miniExperienceBottom { padding: 6px 8px; gap: 3px; }
+  .experiencesGrid .miniExperienceTitle { font-size: 16px; }
+  .experiencesGrid .miniExperienceMood { font-size: 7px; padding-right: 0; }
+  .experiencesGrid .miniExperienceArrow { display: none; }
+}
+
+@media (max-width: 767px) {
+  .section { margin-block: 1.25rem; }
+}
