@@ -9,7 +9,6 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import {
   ArrowRight,
   Check,
-  Compass,
   Plane,
   Sparkles,
   X,
@@ -326,17 +325,6 @@ const archiveFragments: ArchiveFragment[] = [
   { left: 41, top: 90, width: 16, height: 12, rotate: 3, z: 8, variant: "ticket", label: "restaurant clipping" },
 ];
 
-function Monogram({ compact = false }: { compact?: boolean }) {
-  return (
-    <div
-      className={`relative grid place-items-center border border-[#c99a39]/70 text-[#d8af58] ${compact ? "h-9 w-9" : "h-14 w-14"}`}
-    >
-      <span className="absolute inset-[18%] rotate-45 border border-[#c99a39]/55" />
-      <Compass size={compact ? 17 : 25} strokeWidth={1.15} />
-    </div>
-  );
-}
-
 function Tape({ className = "" }: { className?: string }) {
   return (
     <span
@@ -367,7 +355,7 @@ function ServiceDocument({ service, index }: { service: TravelService; index: nu
             <div>
               <p className="mt-ui text-[.52rem] tracking-[.28em] text-[#8a6323]">BOARDING PASS</p>
               <p className="mt-ui mt-1 text-[.46rem] tracking-[.2em] text-[#25190f]/48">{service.number} / FLIGHT BOOKINGS</p>
-              <h3 className="mt-display mt-2 text-[clamp(1.45rem,2.25vw,2.85rem)] leading-[.84] tracking-[-.035em]">
+              <h3 className="mt-display relative top-[22px] left-[10px] mt-2 text-[clamp(1.45rem,2.25vw,2.85rem)] leading-[.84] tracking-[-.035em]">
                 {service.title}
               </h3>
               <div className="mt-2 h-px w-16 bg-gradient-to-r from-[#b7893e]/60 to-transparent" />
@@ -467,7 +455,7 @@ function ServiceDocument({ service, index }: { service: TravelService; index: nu
             </div>
             <div className="flex flex-1 flex-col justify-between">
               <p className="mt-ui text-[.48rem] tracking-[.22em] text-[#8a6323]">TRAVEL PROTECTION</p>
-              <h3 className="mt-display text-[clamp(1.28rem,2vw,2.25rem)] leading-[.9] tracking-[-.03em]">
+              <h3 className="mt-display relative -top-[8px] text-[clamp(1.28rem,2vw,2.25rem)] leading-[.9] tracking-[-.03em]">
                 {service.title}
               </h3>
               <p className="mt-body-copy text-[.62rem] leading-relaxed text-[#25190f]/56">{service.shortDescription}</p>
@@ -1181,13 +1169,15 @@ const toggleLight = () => {
 </h2>
 
         <div className="relative z-10 mx-auto h-auto min-h-[42rem] w-full max-w-[1500px] px-4 py-5 sm:px-6 md:h-full md:min-h-0 md:px-8 md:py-6 lg:px-10">
-          <div className="absolute inset-x-4 top-4 z-[60] flex items-start justify-between gap-6 text-[#f8f3e8]/62 md:inset-x-8 lg:inset-x-10">
+
+
+          <div className="absolute inset-x-0 top-3 z-[60] flex items-center justify-center text-center text-[#f8f3e8]/62">
             <div>
-              <p className="mt-eyebrow text-[.58rem] text-[#f2c85b]">
+              <p className="mt-eyebrow tracking-[0.2em]text-[.7rem] leading-none text-[#f2c85b]">
   THE ART OF THE JOURNEY
 </p>
 
-<p className="mt-body-copy mt-1 max-w-xs text-xs leading-relaxed text-[#f8f3e8]/85">
+<p className="mt-body-copy mt-[2px] max-w-xs text-[.85rem] leading-tight text-[#f8f3e8]/85">
   Nine ways we shape extraordinary travel.
 </p>
             </div>
@@ -1304,7 +1294,7 @@ const toggleLight = () => {
   {openService ? (
           <motion.div
             ref={overlayRef}
-            className="mt-iphone-service-overlay fixed inset-0 z-[100] h-[100svh] overflow-y-auto overflow-x-hidden overscroll-contain bg-[#02080B] text-[#F8F3E8] lg:overflow-hidden"
+            className="mt-iphone-service-overlay fixed inset-0 z-[100] h-[100svh] overflow-y-auto overflow-x-hidden overscroll-contain bg-[#111B1D] text-[#F8F3E8] lg:overflow-hidden"
             role="dialog"
             aria-modal="true"
             aria-labelledby="service-overlay-title"
@@ -1327,14 +1317,14 @@ const toggleLight = () => {
                 alt=""
                 fill
                 sizes="100vw"
-                className="object-cover brightness-[0.48] saturate-[0.62]"
+                className="object-cover brightness-[0.62] saturate-[0.72]"
                 style={{ objectPosition: openService.objectPosition }}
                 priority
               />
             </motion.div>
 
-            <div className="mt-classic-media-overlay pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(2,8,11,0.985)_0%,rgba(2,8,11,0.94)_43%,rgba(2,8,11,0.58)_72%,rgba(2,8,11,0.84)_100%)]" />
-            <div className="mt-classic-media-overlay pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(2,8,11,0.36),transparent_36%,rgba(2,8,11,0.94)_100%)]" />
+            <div className="mt-classic-media-overlay pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(12,20,22,0.94)_0%,rgba(12,20,22,0.84)_43%,rgba(12,20,22,0.44)_72%,rgba(12,20,22,0.70)_100%)]" />
+            <div className="mt-classic-media-overlay pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(12,20,22,0.24),transparent_36%,rgba(12,20,22,0.80)_100%)]" />
             <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_77%_18%,rgba(212,175,55,0.16),transparent_30%)]" />
 
             <motion.div
@@ -1384,12 +1374,9 @@ const toggleLight = () => {
                   }}
                   className="min-w-0 lg:pl-2"
                 >
-                  <div className="flex items-center gap-4">
-                    <Monogram compact />
-                    <p className="mt-eyebrow text-[0.55rem] text-[#D4AF37]">
-                      {openService.number} / PRIVATE TRAVEL SERVICE
-                    </p>
-                  </div>
+                  <p className="mt-eyebrow text-[0.55rem] text-[#D4AF37]">
+                    {openService.number} / PRIVATE TRAVEL SERVICE
+                  </p>
 
                   <h2
                     id="service-overlay-title"
@@ -1402,7 +1389,7 @@ const toggleLight = () => {
                     {openService.description}
                   </p>
 
-                  <div className="mt-5 max-w-2xl rounded-[1.35rem] border border-white/12 bg-[linear-gradient(180deg,rgba(10,18,21,0.72),rgba(2,9,12,0.82))] p-4 shadow-[0_26px_84px_rgba(0,0,0,0.36),inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-2xl md:rounded-[1.45rem] md:p-5">
+                  <div className="mt-5 max-w-2xl rounded-[1.35rem] border border-white/12 bg-[linear-gradient(180deg,rgba(23,32,34,0.70),rgba(12,21,23,0.78))] p-4 shadow-[0_26px_84px_rgba(0,0,0,0.36),inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-2xl md:rounded-[1.45rem] md:p-5">
                     <div className="grid gap-4 sm:grid-cols-[0.9fr_1.1fr]">
                       <div>
                         <p className="mt-ui text-[0.5rem] tracking-[0.2em] text-[#D4AF37]">
@@ -1473,20 +1460,19 @@ const toggleLight = () => {
 
                   <div className="mt-5 flex flex-col items-start gap-3 sm:flex-row sm:flex-wrap sm:items-center">
                     <Link
-                      href="/plan"
+                      href="/contact"
                       onClick={() => setOpenService(null)}
-                      className="mt-ui group relative inline-flex items-center gap-5 overflow-hidden rounded-full border border-[#D4AF37]/60 bg-[#D4AF37] px-6 py-3 text-[0.62rem] tracking-[0.18em] text-[#07141A] shadow-[0_16px_42px_rgba(212,175,55,0.22)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#E2C46F] hover:shadow-[0_22px_52px_rgba(212,175,55,0.3)]"
+                      className="mt-ui group relative inline-flex items-center gap-5 rounded-full border border-white/45 bg-white/[0.04] px-6 py-3 text-[0.62rem] tracking-[0.18em] text-[#F8F3E8] backdrop-blur-md transition-all duration-300 hover:-translate-y-0.5 hover:border-white/75 hover:bg-white/[0.10]"
                     >
-                      <span className="relative z-10">PLAN YOUR JOURNEY</span>
+                      <span>GET IN TOUCH</span>
                       <ArrowRight
                         size={16}
-                        className="relative z-10 transition-transform duration-300 group-hover:translate-x-1"
+                        className="transition-transform duration-300 group-hover:translate-x-1"
                       />
-                      <span className="pointer-events-none absolute inset-y-0 -left-1/3 w-1/3 skew-x-[-18deg] bg-white/34 opacity-0 blur-sm transition-all duration-700 group-hover:left-[115%] group-hover:opacity-100" />
                     </Link>
 
                     <p className="mt-body-copy text-xs text-white/38">
-                      Share your dates, travellers and preferences in a few steps.
+                      Tell us about your plans, and we'll take it from there.
                     </p>
                   </div>
                 </motion.div>
