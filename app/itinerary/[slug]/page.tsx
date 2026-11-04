@@ -324,7 +324,28 @@ export default async function SharedItineraryPage({ params }: Params) {
           {/* Revisions must be explicitly marked in the sanitized public payload before Changes Made is shown. */}
           <footer className={styles.footer}>
             <div><p className={styles.footerLabel}>QUOTATION VALIDITY</p><p>{p.validityDate ? `${expired ? 'Originally valid until' : 'Prices valid until'} ${dateLabel(p.validityDate)}` : 'Validity date to be confirmed'}</p></div>
-            <div className={styles.footerBrand}>Thoughtfully prepared by <strong>MadrasTrails</strong></div>
+            <div className={styles.footerBrand}>
+            <p>Thoughtfully prepared by <strong>MadrasTrails</strong></p>
+            {p.consultant && (
+              <div className={styles.consultantContact}>
+                <p className={styles.footerLabel}>YOUR TRAVEL CONSULTANT</p>
+                <p>
+                  <strong>{p.consultant.name}</strong> ·{' '}
+                  <a href={`tel:${p.consultant.phone.replace(/[^\d+]/g, '')}`}>
+                    {p.consultant.phone}
+                  </a>
+                </p>
+                <a
+                  className={styles.whatsappLink}
+                  href={`https://wa.me/${p.consultant.phone.replace(/\D/g, '')}?text=${encodeURIComponent(`Hello ${p.consultant.name}, I am ${p.customerName} regarding itinerary ${p.reference}.`)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Chat on WhatsApp
+                </a>
+              </div>
+            )}
+          </div>
           </footer>
         </div>
       </article>

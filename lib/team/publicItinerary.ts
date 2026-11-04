@@ -22,6 +22,7 @@ export type PublicItineraryPayload = {
   days: PublicDay[]; inclusions: string[]; exclusions: string[]
   importantNotes: string; changesMade: string; validityDate: string
   options: PublicOption[]
+  consultant?: { name: string; phone: string }
 }
 
 type DraftInput = {
@@ -58,7 +59,7 @@ function validDate(value: string): boolean {
 }
 
 /** Explicit customer-facing allowlist: never serialize quote costs, supplier, markup or FX. */
-export function buildPublicPayload(draft: DraftInput, query: QueryInput, quote: QuoteInput): PublicItineraryPayload {
+export function buildPublicPayload(draft: DraftInput, query: QueryInput, quote: QuoteInput, consultant?: { name: string; phone: string }): PublicItineraryPayload {
   if (!clean(draft.title)) throw new Error('Enter an itinerary title before publishing.')
   if (!clean(draft.introduction)) throw new Error('Enter the welcome overview before publishing.')
   if (!validDate(draft.validityDate)) throw new Error('Set a valid quotation expiry date before publishing.')
@@ -106,6 +107,7 @@ export function buildPublicPayload(draft: DraftInput, query: QueryInput, quote: 
     heroImageUrl: safeImage(draft.heroImageUrl),
     customerName: clean(query.customer_name), reference: clean(query.reference),
     destination: clean(query.destination), travelDate: query.travel_date,
+    ...(consultant ? { consultant: { name: clean(consultant.name), phone: clean(consultant.phone) } } : {}),
     days: draft.days.map(day => ({
       title: clean(day.title), location: clean(day.location),
       description: clean(day.description), activities: clean(day.activities),

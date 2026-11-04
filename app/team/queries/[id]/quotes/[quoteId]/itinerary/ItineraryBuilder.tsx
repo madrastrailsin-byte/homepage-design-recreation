@@ -44,7 +44,7 @@ type Quote = {
   travellers?: { adults: number; children: number; childAges?: Array<number | ''> }
   itinerary?: Partial<Draft>
 }
-type Query = { customer_name: string; reference: string; destination: string; travel_date: string }
+type Query = { customer_name: string; reference: string; destination: string; travel_date: string; owner_id: string }
 
 const EMPTY: Draft = {
   title: '', introduction: '', heroImageUrl: '', days: [], inclusions: '',
@@ -573,7 +573,7 @@ export default function ItineraryBuilder() {
     let cancelled = false
     async function load() {
       const [q, v, shared] = await Promise.all([
-        supabase.from('team_queries').select('customer_name,reference,destination,travel_date').eq('id', id).maybeSingle(),
+        supabase.from('team_queries').select('customer_name,reference,destination,travel_date,owner_id').eq('id', id).maybeSingle(),
         supabase.from('team_vendor_quotes').select('id,title,selected,options,travellers,itinerary').eq('id', quoteId).eq('query_id', id).maybeSingle(),
         supabase.from('team_shared_itineraries').select('slug,quote_id,is_published').eq('query_id', id).maybeSingle(),
       ])
@@ -603,6 +603,25 @@ export default function ItineraryBuilder() {
     return () => { cancelled = true; if (timer.current) clearTimeout(timer.current) }
   }, [id, quoteId, supabase])
 
+  async function getAssignedConsultant(): Promise<{ name: string; phone: string }> {
+    if (!query?.owner_id) throw new Error('Assigned consultant is missing.')
+
+    const { data, error } = await supabase
+      .from('team_members')
+      .select('display_name,phone_number')
+      .eq('user_id', query.owner_id)
+      .maybeSingle()
+
+    if (error || !data) throw new Error(error?.message || 'Consultant profile not found.')
+
+    const name = String(data.display_name || '').trim()
+    const phone = String(data.phone_number || '').trim()
+
+    if (!name || !phone) throw new Error('Assigned consultant needs a name and phone number.')
+
+    return { name, phone }
+  }
+
   function enqueueSave(): Promise<void> {
     const snapshot = current.current
     const snapshotVersion = version.current
@@ -627,7 +646,7 @@ export default function ItineraryBuilder() {
             .eq('id', quoteId).eq('query_id', id).maybeSingle()
           if (liveError || !live) throw new Error(liveError?.message || 'Quotation unavailable')
           if (!live.selected) throw new Error('The published quotation is no longer selected')
-          const payload = buildPublicPayload(snapshot, query, live)
+          const payload = buildPublicPayload(snapshot, query, live, await getAssignedConsultant())
           const { data: updated, error: updateError } = await supabase
             .from('team_shared_itineraries')
             .update({ payload, updated_at: new Date().toISOString() })
@@ -734,7 +753,7 @@ export default function ItineraryBuilder() {
         .eq('id', quoteId).eq('query_id', id).maybeSingle()
       if (liveError || !live) throw new Error(liveError?.message || 'Quotation unavailable.')
       if (!live.selected) throw new Error('Select this vendor quotation in Vendor Quotations before publishing.')
-      const payload = buildPublicPayload(current.current, query, live)
+      const payload = buildPublicPayload(current.current, query, live, await getAssignedConsultant())
       const { data: shared, error } = await supabase.from('team_shared_itineraries')
         .upsert({ query_id: id, quote_id: quoteId, payload, is_published: true,
           updated_at: new Date().toISOString() }, { onConflict: 'query_id' })
@@ -829,6 +848,16 @@ export default function ItineraryBuilder() {
                 className="rounded-full bg-[#123c3e] px-6 py-3 text-sm text-white disabled:opacity-50">
                 {publishing ? 'Please wait…' : publication?.is_published ? 'Update Published Itinerary' : publication ? 'Republish Itinerary' : 'Publish Itinerary'}
               </button>
+              {publication?.is_published && shareUrl && (
+                <button
+                  type="button"
+                  onClick={() => { window.open(shareUrl, '_blank', 'noopener,noreferrer') }}
+                  className="rounded-full border border-[#b79b69] px-6 py-3 text-sm"
+                  title="Open the itinerary, then use Print → Save as PDF"
+                >
+                  Open for PDF
+                </button>
+              )}
               {publication?.is_published && <button type="button" disabled={publishing}
                 onClick={() => { void unpublishItinerary() }}
                 className="rounded-full border border-[#b79b69] px-6 py-3 text-sm disabled:opacity-50">Unpublish</button>}

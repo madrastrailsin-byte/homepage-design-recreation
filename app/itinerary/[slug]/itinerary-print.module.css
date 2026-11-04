@@ -198,6 +198,11 @@
 .footer { display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; margin: 58px 48px 0; padding: 24px 0 32px; border-top: 1px solid #d8c4a0; color: #6d777e; font-size: 12px; }
 .footerLabel { margin-bottom: 7px; color: #a47e49; font-size: 9px; letter-spacing: .17em; }
 .footerBrand strong { color: #173f48; font-weight: 600; }
+.consultantContact { margin-top: 14px; line-height: 1.7; }
+.consultantContact p { margin-top: 0; }
+.consultantContact a { color: #173f48; text-decoration: none; }
+.whatsappLink { display: inline-block; margin-top: 8px; padding: 7px 12px; border: 1px solid #b78c4b; border-radius: 999px; font-size: 11px; }
+
 .empty { font-size: 13px; color: #667179; }
 .unavailableCanvas { display: flex; min-height: 100vh; align-items: center; justify-content: center; padding: 24px; background: #f6f1e8; color: #213943; text-align: center; }
 .unavailableCard { max-width: 580px; padding: 50px 45px; background: white; border: 1px solid #e5d9c5; border-radius: 18px; }
@@ -297,6 +302,7 @@
   .bulletList { gap: 10px; }
   .bulletList li, .notes { font-size: 11px; }
   .footer { margin: 35px 0 0; padding: 16px 0; }
+  .whatsappLink { display: none; }
   .masthead, .hero, .dayCard, .stayCard, .costCard, .costTable, .tripCard, .expired, .demoNotice {
     -webkit-print-color-adjust: exact; print-color-adjust: exact;
   }
