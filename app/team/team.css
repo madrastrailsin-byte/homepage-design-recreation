@@ -1,0 +1,15 @@
+.team-workspace ::selection {
+  background-color: #e8d9bb;
+  color: #123c3e;
+}
+
+.team-workspace input::selection,
+.team-workspace textarea::selection {
+  background-color: #e8d9bb;
+  color: #123c3e;
+}
+
+.team-workspace input,
+.team-workspace textarea {
+  caret-color: #123c3e;
+}

@@ -1,0 +1,305 @@
+/* MadrasTrails — client itinerary, editorial A4 layout. No public payload or pricing logic changes. */
+.canvas {
+  min-height: 100vh;
+  padding: 42px 22px 70px;
+  background: #eae7df;
+  color: #213943;
+}
+.document {
+  position: relative;
+  isolation: isolate;
+  max-width: 900px;
+  margin: 0 auto;
+  overflow: hidden;
+  background: #fffdf8;
+  box-shadow: 0 25px 90px rgba(23, 40, 45, .13);
+}
+.content { position: relative; z-index: 1; }
+.watermark {
+  position: absolute;
+  z-index: 0;
+  top: 27%; left: 20%; width: 60%; height: auto;
+  opacity: .028; filter: grayscale(1);
+  pointer-events: none;
+}
+.masthead {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+  min-height: 116px;
+  padding: 26px 48px 24px;
+  background: #fffdf9;
+  border-bottom: 1px solid #dfc9a4;
+}
+.masthead::after {
+  content: '';
+  position: absolute;
+  right: 24%; top: -68px;
+  width: 320px; height: 145px;
+  border-bottom: 1px solid rgba(183, 142, 76, .24);
+  border-radius: 50%;
+  transform: rotate(-11deg);
+  pointer-events: none;
+}
+.brand { display: block; width: min(280px, 58%); height: auto; }
+.reference { text-align: right; display: grid; gap: 8px; }
+.reference span { color: #a27a41; font-size: 10px; letter-spacing: .24em; }
+.reference strong { color: #203743; font-size: 16px; font-weight: 500; letter-spacing: .13em; }
+.hero {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 26px;
+  min-height: 365px;
+  padding: 45px 48px;
+  overflow: hidden;
+}
+.heroWithImage { color: #fffaf0; background: #1d3b45; }
+.heroWithoutImage {
+  color: #213943;
+  background: radial-gradient(ellipse at 81% 28%, rgba(209, 178, 120, .18), transparent 50%),
+    linear-gradient(115deg, #fcf8ef 0%, #f3ebdd 57%, #eae0d0 100%);
+}
+.heroWithoutImage::after {
+  content: '';
+  position: absolute;
+  top: -95px; right: -150px;
+  width: 530px; height: 530px;
+  border: 1px solid rgba(167, 131, 70, .16);
+  border-radius: 50%;
+  box-shadow: 0 0 0 52px rgba(178, 148, 93, .035), 0 0 0 112px rgba(178, 148, 93, .025);
+  pointer-events: none;
+}
+.heroPhoto { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.heroWithImage::before {
+  content: '';
+  position: absolute; z-index: 1; inset: 0;
+  background: linear-gradient(90deg, rgba(9, 23, 31, .82), rgba(9, 23, 31, .47) 53%, rgba(9, 23, 31, .10));
+}
+.heroCopy { position: relative; z-index: 2; max-width: 55%; }
+.prepared { margin: 0 0 22px; font-size: 13px; line-height: 1.5; letter-spacing: .01em; }
+.prepared strong { font-weight: 500; }
+.heroCopy h1 { font-size: clamp(38px, 5.6vw, 59px); line-height: 1.05; font-weight: 400; letter-spacing: -.025em; }
+.goldAccent { display: block; width: 45px; height: 2px; margin-top: 22px; background: #c79a49; }
+.introduction { max-width: 480px; margin-top: 18px; font-size: 14px; line-height: 1.72; white-space: pre-line; }
+.tripCard {
+  position: relative; z-index: 2;
+  flex: 0 0 350px; width: 350px;
+  padding: 25px 29px 24px;
+  background: rgba(255, 253, 249, .96);
+  border: 1px solid rgba(202, 169, 116, .65);
+  border-radius: 16px;
+  box-shadow: 0 12px 40px rgba(23, 31, 35, .12);
+  color: #213943;
+}
+.tripCardKicker { margin-bottom: 18px; color: #a17a42; font-size: 12px; letter-spacing: .18em; }
+.tripRow { display: flex; align-items: flex-start; gap: 17px; margin-top: 14px; font-size: 14.5px; line-height: 1.45; }
+.tripRow:first-of-type { margin-top: 0; }
+.tripRow span { flex: 0 0 20px; color: #b48c4b; font-size: 22px; line-height: 1; text-align: center; }
+.tripRow strong { font-weight: 500; }
+.demoNotice { padding: 12px 48px; background: #f8f1df; color: #7d5e2f; font-size: 11px; letter-spacing: .06em; }
+.expired { margin: 28px 48px 0; padding: 17px 20px; background: #f7eee6; border-left: 3px solid #b77d54; color: #744c3b; font-size: 13px; line-height: 1.6; }
+.section { padding: 54px 48px 0; }
+.sectionTitle { display: flex; align-items: flex-end; gap: 23px; margin-bottom: 25px; }
+.sectionKicker { margin-bottom: 9px; color: #a27b43; font-size: 10px; letter-spacing: .21em; }
+.sectionTitle h2 { font-size: 32px; font-weight: 400; line-height: 1.14; white-space: nowrap; }
+.sectionRule { flex: 1; border-bottom: 1px solid #d8c3a0; margin-bottom: 6px; }
+.days { display: grid; gap: 24px; }
+.dayCard {
+  position: relative;
+  overflow: hidden;
+  background: #fffefa;
+  border: 1px solid #e5d9c5;
+  border-radius: 15px;
+  box-shadow: 0 5px 19px rgba(40, 48, 49, .035);
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+.dayPhotoWrap { width: 100%; height: 200px; overflow: hidden; }
+.dayPhoto { display: block; width: 100%; height: 100%; object-fit: cover; }
+.dayDetails { padding: 26px 30px 26px; }
+.dayTop { display: flex; align-items: center; flex-wrap: wrap; gap: 13px; }
+.dayNumber { padding: 7px 14px; border-radius: 100px; background: #efe3ca; color: #8a642c; font-size: 10px; letter-spacing: .14em; font-weight: 600; }
+.dayLocation { color: #a48250; font-size: 10px; letter-spacing: .15em; text-transform: uppercase; }
+.dayDetails h3 { margin-top: 16px; font-size: 27px; font-weight: 400; line-height: 1.17; }
+.dayDescription { margin-top: 13px; color: #4e5c64; font-size: 13px; line-height: 1.85; white-space: pre-line; }
+.dayActivities { margin-top: 21px; padding-top: 17px; border-top: 1px solid #ede6d9; }
+.detailLabel { margin-bottom: 11px; color: #987345; font-size: 10px; letter-spacing: .1em; }
+.activityParagraph { color: #43555d; font-size: 13px; line-height: 1.8; white-space: pre-line; }
+.activityList { display: grid; gap: 8px; padding: 0; list-style: none; }
+.activityList li { position: relative; padding-left: 17px; color: #43555d; font-size: 13px; line-height: 1.7; }
+.activityList li::before { content: ''; position: absolute; left: 1px; top: .67em; width: 5px; height: 5px; background: #ba8e4b; border-radius: 50%; }
+.overnight { display: flex; align-items: center; gap: 10px; margin-top: 21px; color: #8a683a; font-size: 12px; }
+.overnight span { font-size: 19px; }
+/* Accommodation: an editorial identity with the category and duration neatly aligned. */
+.stayList, .costList { display: grid; gap: 24px; }
+.stayCard {
+  padding: 0; border: 1px solid #e2d3b9; border-radius: 16px;
+  background: linear-gradient(130deg, #fffefa 0%, #faf5eb 100%);
+  overflow: hidden; break-inside: avoid;
+}
+.collectionName { margin: 0; padding: 23px 28px 0; font-size: 23px; font-weight: 400; }
+.hotelList { display: grid; }
+.hotel {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center; gap: 25px; min-height: 136px;
+  padding: 29px 33px; position: relative;
+}
+.hotel::before { content: ''; position: absolute; left: 0; top: 27px; bottom: 27px; width: 3px; background: #b78d4f; }
+.hotel + .hotel { border-top: 1px solid #e9decc; }
+.hotelWithPhoto { grid-template-columns: 152px minmax(0, 1fr) auto; }
+.hotelPhoto { display: block; width: 152px; height: 112px; object-fit: cover; border-radius: 9px; }
+.hotelText { min-width: 0; }
+.hotelKicker { display: block; color: #9d783f; font-size: 11px; letter-spacing: .15em; font-weight: 500; }
+.hotel h4 { margin-top: 12px; font-size: 29px; line-height: 1.12; font-weight: 400; color: #203943; }
+.hotelLocation { margin-top: 11px; color: #596a71; font-size: 14px; line-height: 1.5; }
+.hotelFacts { display: flex; flex-direction: column; align-items: flex-end; gap: 11px; padding-left: 24px; border-left: 1px solid #e0d3be; }
+.hotelFacts span { display: inline-block; min-width: 88px; padding: 9px 13px; border: 1px solid #e7d8c0; border-radius: 99px; background: #fffdf9; color: #695638; text-align: center; font-size: 13.5px; font-weight: 500; white-space: nowrap; }
+/* A single four-column ledger keeps every amount on the exact same baseline. */
+.pricingSection { padding-top: 62px; }
+.costCard { padding: 30px 32px 28px; background: #fffefa; border: 1px solid #e4d7c2; border-radius: 16px; break-inside: avoid; }
+.costOptionTitle { padding-bottom: 21px; border-bottom: 1px solid #e8dfd1; margin-bottom: 20px; }
+.costOptionTitle span { color: #a27c44; font-size: 11px; letter-spacing: .14em; }
+.costOptionTitle h3 { margin-top: 7px; font-size: 24px; font-weight: 400; }
+.priceIntro { display: flex; justify-content: space-between; gap: 22px; padding-bottom: 23px; }
+.priceIntroLabel { color: #a37d49; font-size: 11px; letter-spacing: .14em; }
+.priceIntro p { margin-top: 7px; color: #2a414a; font-size: 14px; font-weight: 500; }
+.costTableWrap { width: 100%; overflow-x: auto; }
+.costTable { width: 100%; table-layout: fixed; border-collapse: separate; border-spacing: 0; font-size: 14px; line-height: 1.45; font-variant-numeric: tabular-nums; text-align: left; }
+.costColName { width: 43%; }
+.costColGuests { width: 12%; }
+.costColPerson { width: 21%; }
+.costColAmount { width: 24%; }
+.costTable thead { background: #f3ede2; }
+.costTable th, .costTable td { vertical-align: middle; }
+.costTable thead th { padding: 15px 14px; color: #5f6667; font-size: 12px; font-weight: 600; }
+.costTable tbody td, .costTable tbody th { padding: 17px 14px; color: #253d47; border-bottom: 1px solid #eee6d8; }
+.costTable tbody th { text-align: left; font-weight: 500; }
+.costTable thead th:nth-child(n+2), .costTable tbody td:nth-child(n+2) { text-align: right; }
+.costTable tbody tr td:last-child { font-weight: 600; white-space: nowrap; text-align: right; }
+.costTable thead th:last-child, .costTable tbody td:last-child { white-space: nowrap; }
+.costTable .subtotalRow { background: #f8f2e6; }
+.costTable .subtotalRow th, .costTable .subtotalRow td { font-weight: 600; }
+.rowDetail { margin-left: 9px; color: #7c817e; font-size: 12px; font-weight: 400; }
+.costTable .taxRow th, .costTable .taxRow td { color: #58676c; padding-top: 13px; padding-bottom: 13px; }
+.costTable .flightRow th, .costTable .flightRow td { padding-top: 17px; padding-bottom: 17px; border-bottom: 0; }
+.costTable tfoot th, .costTable tfoot td { padding: 19px 16px; background: #173e47; color: #fffdf8; }
+.costTable tfoot th { border-radius: 9px 0 0 9px; font-size: 23px; font-weight: 400; text-align: left; }
+.costTable tfoot td { border-radius: 0 9px 9px 0; font-size: 27px; font-weight: 600; text-align: right; white-space: nowrap; }
+.priceNote { margin-top: 18px; color: #6a767a; font-size: 12px; line-height: 1.75; }
+.termsSection { padding-top: 52px; }
+.bulletList { display: grid; gap: 15px; padding: 0; list-style: none; }
+.bulletList li { position: relative; padding-left: 23px; color: #3f525c; font-size: 13px; line-height: 1.8; break-inside: avoid; }
+.bulletList li::before { content: ''; position: absolute; left: 2px; top: .8em; width: 6px; height: 6px; border-radius: 50%; background: #b78c4b; }
+.notes { color: #465861; font-size: 13px; line-height: 1.9; white-space: pre-line; }
+.footer { display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; margin: 58px 48px 0; padding: 24px 0 32px; border-top: 1px solid #d8c4a0; color: #6d777e; font-size: 12px; }
+.footerLabel { margin-bottom: 7px; color: #a47e49; font-size: 9px; letter-spacing: .17em; }
+.footerBrand strong { color: #173f48; font-weight: 600; }
+.empty { font-size: 13px; color: #667179; }
+.unavailableCanvas { display: flex; min-height: 100vh; align-items: center; justify-content: center; padding: 24px; background: #f6f1e8; color: #213943; text-align: center; }
+.unavailableCard { max-width: 580px; padding: 50px 45px; background: white; border: 1px solid #e5d9c5; border-radius: 18px; }
+.unavailableBrand { display: block; width: 240px; height: auto; margin: 0 auto; }
+.unavailableCard h1 { margin-top: 32px; font-size: 36px; font-weight: 400; }
+.unavailableCard p { margin-top: 18px; color: #67747a; font-size: 13px; line-height: 1.7; }
+
+@media (max-width: 700px) {
+  .canvas { padding: 0; }
+  .masthead { min-height: 88px; padding: 21px 22px; }
+  .brand { width: 190px; }
+  .reference span { font-size: 7px; }
+  .reference strong { font-size: 11px; }
+  .hero { display: block; min-height: 0; padding: 35px 22px 30px; }
+  .heroCopy { max-width: none; }
+  .heroCopy h1 { font-size: 43px; }
+  .tripCard { margin-top: 32px; width: 100%; }
+  .demoNotice { padding: 12px 22px; }
+  .section { padding: 40px 22px 0; }
+  .sectionTitle h2 { font-size: 27px; white-space: normal; }
+  .dayPhotoWrap { height: 170px; }
+  .dayDetails { padding: 22px 20px; }
+  .dayDetails h3 { font-size: 24px; }
+  .costCard { padding: 22px 17px; }
+  .hotel { grid-template-columns: minmax(0, 1fr); gap: 15px; padding: 25px 22px; }
+  .hotelWithPhoto { grid-template-columns: 104px minmax(0, 1fr); }
+  .hotelPhoto { width: 104px; height: 95px; }
+  .hotel h4 { font-size: 24px; }
+  .hotelFacts { grid-column: 1 / -1; flex-direction: row; align-items: center; padding: 0; border: 0; }
+  .priceIntro { display: block; }
+  .priceIntro > div + div { margin-top: 12px; }
+  .costTable { font-size: 12px; }
+  .costTable thead th { font-size: 10px; }
+  .costTable thead th, .costTable tbody td, .costTable tbody th { padding: 12px 6px; }
+  .rowDetail { display: block; margin: 3px 0 0; font-size: 10px; }
+  .costTable tfoot th { font-size: 17px; }
+  .costTable tfoot td { font-size: 20px; }
+  .costTable tfoot th, .costTable tfoot td { padding: 16px 10px; }
+  .footer { margin: 40px 22px 0; padding-bottom: 30px; }
+  .expired { margin: 24px 22px 0; }
+}
+
+@page { size: A4 portrait; margin: 12mm 12mm 15mm; }
+@media print {
+  :global(html), :global(body) { margin: 0 !important; padding: 0 !important; background: #fffdf8 !important; }
+  .canvas { padding: 0; background: #fffdf8; min-height: 0; }
+  .document { max-width: none; width: 100%; overflow: visible; background: transparent; box-shadow: none; }
+  .content { position: relative; z-index: 1; }
+  /* A fixed watermark repeats once on each printed A4 sheet. */
+  .watermark { position: fixed; top: 33%; left: 22%; width: 56%; opacity: .026; filter: grayscale(1); }
+  .masthead { min-height: 0; padding: 0 0 17px; }
+  .brand { width: 225px; }
+  .hero { min-height: 270px; padding: 27px 25px; gap: 18px; }
+  .heroCopy h1 { font-size: 39px; }
+  .heroCopy { max-width: 51%; }
+  .tripCard { flex-basis: 265px; width: 265px; padding: 18px 20px; }
+  .tripRow { font-size: 11.25pt; margin-top: 10px; gap: 11px; line-height: 1.4; }
+  .tripRow span { flex-basis: 18px; font-size: 19px; }
+  .tripCardKicker { margin-bottom: 13px; font-size: 10pt; }
+  .prepared { margin-bottom: 13px; font-size: 11px; }
+  .introduction { font-size: 11px; line-height: 1.6; }
+  .goldAccent { margin-top: 13px; }
+  .demoNotice { padding: 10px 0; }
+  .section { padding: 31px 0 0; }
+  .sectionTitle { margin-bottom: 18px; }
+  .sectionTitle h2 { font-size: 26px; }
+  .days { gap: 16px; }
+  .dayPhotoWrap { height: 135px; }
+  .dayDetails { padding: 18px 22px; }
+  .dayDetails h3 { font-size: 23px; margin-top: 12px; }
+  .dayDescription { font-size: 11px; line-height: 1.65; margin-top: 9px; }
+  .dayActivities { margin-top: 12px; padding-top: 11px; }
+  .activityParagraph, .activityList li { font-size: 11px; line-height: 1.65; }
+  .overnight { margin-top: 12px; }
+  .hotel { min-height: 100px; padding: 21px 22px; gap: 19px; }
+  .hotelWithPhoto { grid-template-columns: 112px minmax(0, 1fr) auto; }
+  .hotelPhoto { width: 112px; height: 92px; }
+  .hotelKicker { font-size: 10.5pt; }
+  .hotel h4 { font-size: 24px; }
+  .hotelLocation { font-size: 11.5pt; }
+  .hotelFacts { gap: 8px; padding-left: 16px; }
+  .hotelFacts span { font-size: 11.5pt; padding: 7px 10px; }
+  .costCard { padding: 21px 22px; }
+  .priceIntro { padding-bottom: 16px; }
+  .priceIntroLabel { font-size: 10.5pt; }
+  .priceIntro p { font-size: 11.5pt; }
+  .costTable { font-size: 11.5pt; }
+  .costTable thead th { padding: 12px 10px; font-size: 11pt; }
+  .costTable tbody td, .costTable tbody th { padding: 12px 10px; }
+  .costTable .taxRow th, .costTable .taxRow td { padding-top: 10px; padding-bottom: 10px; }
+  .rowDetail { font-size: 10.5pt; }
+  .costTable tfoot th, .costTable tfoot td { padding: 16px 13px; }
+  .costTable tfoot th { font-size: 19px; }
+  .costTable tfoot td { font-size: 23px; }
+  .priceNote { font-size: 10.5pt; }
+  .termsSection { padding-top: 34px; }
+  .bulletList { gap: 10px; }
+  .bulletList li, .notes { font-size: 11px; }
+  .footer { margin: 35px 0 0; padding: 16px 0; }
+  .masthead, .hero, .dayCard, .stayCard, .costCard, .costTable, .tripCard, .expired, .demoNotice {
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  .sectionTitle, .hotel, .footer { break-inside: avoid; }
+  .sectionTitle { break-after: avoid; }
+}
