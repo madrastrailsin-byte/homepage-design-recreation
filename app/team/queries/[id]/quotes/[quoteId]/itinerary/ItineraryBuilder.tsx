@@ -1,6 +1,8 @@
 'use client'
 
 import Link from 'next/link'
+import QueryWorkspaceHeader from '../../QueryWorkspaceHeader'
+import styles from '../../QueryWorkspace.module.css'
 import { useParams, useRouter } from 'next/navigation'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { createSupabaseBrowserClient } from '../../../../../../../lib/supabase/browser'
@@ -262,9 +264,6 @@ function parseImport(raw: string, destination: string): {
   }
 }
 
-const field = 'mt-2 w-full rounded-lg border border-[#ded8cc] bg-white px-4 py-3 text-sm leading-6 outline-none focus:border-[#b79b69]'
-const textArea = `${field} resize-y`
-
 function cleanDraft(raw: unknown): Draft {
   if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return { ...EMPTY }
   const item = raw as Partial<Draft>
@@ -410,7 +409,7 @@ function Preview({ draft, query, quote, pricingCurrent }: {
         </section>
         <section>
           <h2 className="font-serif text-3xl">Your Stay</h2>
-          <div className="mt-6 space-y-5">
+          <div className="mt-3 space-y-3">
             {(quote.options || []).map((option, index) => {
               const name = option.name?.trim() || ''
               const meaningfulName = name && !/^(?:package\s*)?option\s*\d+$/i.test(name)
@@ -547,6 +546,8 @@ function Preview({ draft, query, quote, pricingCurrent }: {
   )
 }
 
+type EditingSection = 'days' | 'overview' | 'notes' | 'import' | 'review'
+
 export default function ItineraryBuilder() {
   const { id, quoteId } = useParams<{ id: string; quoteId: string }>()
   const router = useRouter()
@@ -556,6 +557,9 @@ export default function ItineraryBuilder() {
   const [quote, setQuote] = useState<Quote | null>(null)
   const [draft, setDraft] = useState<Draft>({ ...EMPTY })
   const [preview, setPreview] = useState(false)
+  const [selectedDayId, setSelectedDayId] = useState<string | null>(null)
+  const [editingSection, setEditingSection] = useState<EditingSection>('days')
+  const dayListRef = useRef<HTMLDivElement | null>(null)
   const [importText, setImportText] = useState('')
   const [importMessage, setImportMessage] = useState('')
   const [saveStatus, setSaveStatus] = useState('Loading…')
@@ -568,6 +572,10 @@ export default function ItineraryBuilder() {
   const version = useRef(0)
   const savedVersion = useRef(0)
   const chain = useRef<Promise<void>>(Promise.resolve())
+
+  useEffect(() => {
+    dayListRef.current?.querySelector('[aria-pressed="true"]')?.scrollIntoView({ block: 'nearest', inline: 'nearest' })
+  }, [selectedDayId, draft.days.length, editingSection, preview])
 
   useEffect(() => {
     let cancelled = false
@@ -794,10 +802,12 @@ export default function ItineraryBuilder() {
 
   function addDay() {
     const count = current.current.days.length + 1
+    const dayId = crypto.randomUUID()
     change({ days: [...current.current.days, {
-      id: crypto.randomUUID(), title: `Day ${count}`, location: '', description: '',
+      id: dayId, title: `Day ${count}`, location: '', description: '',
       activities: '', overnight: '', imageUrl: '',
     }] })
+    setSelectedDayId(dayId)
   }
 
   function moveDay(index: number, direction: number) {
@@ -814,171 +824,150 @@ export default function ItineraryBuilder() {
   const pricingCurrent = Boolean(draft.prices &&
     draft.prices.fingerprint === pricingFingerprint(quote.options || [], quote.travellers))
 
+  const activeDay = draft.days.find(day => day.id === selectedDayId) ?? draft.days[0]
+  const activeDayIndex = activeDay ? draft.days.findIndex(day => day.id === activeDay.id) : -1
+
   return (
-    <main className="min-h-screen bg-[#f6f3eb] px-6 py-12 text-[#173d3e] md:px-8">
+    <main className={`${styles.editor} ${styles.itineraryWorkbench}`}>
       <div className="mx-auto max-w-6xl">
-        <div className="flex flex-wrap items-center justify-between gap-4">
-          <button type="button" onClick={() => { void goBack() }} className="text-sm text-[#96794c]">← Back to Pricing Calculator</button>
-          <span role="status" className="text-sm text-[#718080]">{saveStatus}</span>
+        <div className={styles.itineraryBack}>
+          <button type="button" onClick={() => { void goBack() }}>← Back to Pricing</button>
+          <span role="status">{saveStatus}</span>
         </div>
-        <header className="mt-8 flex flex-wrap items-end justify-between gap-5">
-          <div><p className="text-xs uppercase tracking-[0.25em] text-[#a18453]">MadrasTrails · Private Workspace</p>
-            <h1 className="mt-3 font-serif text-4xl">Client Itinerary Builder</h1>
-            <p className="mt-3 text-sm text-[#718080]">{query.customer_name} · {query.reference} · {query.destination}</p>
-          </div>
-          <div className="flex gap-3">
-            <button type="button" onClick={() => { void saveNow() }} className="rounded-full border border-[#b79b69] px-6 py-3 text-sm">Save Draft</button>
-            <button type="button" onClick={async () => { if (await saveNow()) setPreview(value => !value) }} className="rounded-full bg-[#123c3e] px-7 py-3 text-sm text-white">{preview ? 'Edit Itinerary' : 'Preview Itinerary →'}</button>
-          </div>
-        </header>
-        <div className="mt-7 rounded-lg border border-[#ddcfb1] bg-[#f0e8d7] px-5 py-4 text-sm leading-6">
-          {quote.selected ? 'Selected vendor quotation.' : 'This vendor quotation is not selected. You can prepare a draft, but only the selected vendor can be published.'}
-          {' '}Private staff draft — not yet published or accessible to customers.
-          {!pricingCurrent && <p className="mt-2 text-[#9b5550]">Customer prices are missing or outdated. Return to Pricing Calculator and select “Save Prices & Continue to Itinerary”.</p>}
+        <QueryWorkspaceHeader activeTab="itinerary" title="Itinerary & Preview"
+          context={`${query.customer_name} · ${query.reference} · ${query.destination}`}
+          onNavigate={async tab => {
+            if (await saveNow()) router.push(`/team/queries/${encodeURIComponent(id)}/quotes/${encodeURIComponent(quoteId)}${tab === 'pricing' ? '/pricing' : ''}`)
+          }} />
+        <div className={styles.itinerarySetup}>
+          <label>Itinerary title<input value={draft.title} onChange={event => change({ title: event.target.value })} placeholder={`A Journey Through ${query.destination}`} /></label>
+          <label>Valid until<input type="date" value={draft.validityDate} onChange={event => change({ validityDate: event.target.value })} /></label>
+          <div><span>Pricing</span><strong>{pricingCurrent ? 'Current ✓' : 'Needs refresh'}</strong></div>
+          <div><span>Customer access</span><strong>{publication?.is_published ? 'Published' : 'Private draft'}</strong></div>
+          <button type="button" onClick={() => { void saveNow() }}>Save Draft</button>
+          <button type="button" className={styles.itineraryPrimary} onClick={async () => { if (await saveNow()) setPreview(value => !value) }}>{preview ? 'Back to editor' : 'Preview Itinerary →'}</button>
         </div>
-        <section className="mt-7 rounded-xl border border-[#d8c9ab] bg-white p-7">
-          <div className="flex flex-wrap items-center justify-between gap-5">
-            <div>
-              <p className="text-xs uppercase tracking-[0.2em] text-[#96794c]">Customer sharing</p>
-              <h2 className="mt-2 font-serif text-2xl">Publish &amp; Share</h2>
-              <p className="mt-2 text-sm text-[#718080]">Anyone with the link can view the customer itinerary. Internal supplier costs and margins are excluded.</p>
-            </div>
-            <div className="flex flex-wrap gap-3">
-              <button type="button" disabled={publishing} onClick={() => { void publishItinerary() }}
-                className="rounded-full bg-[#123c3e] px-6 py-3 text-sm text-white disabled:opacity-50">
-                {publishing ? 'Please wait…' : publication?.is_published ? 'Update Published Itinerary' : publication ? 'Republish Itinerary' : 'Publish Itinerary'}
-              </button>
-              {publication?.is_published && shareUrl && (
-                <button
-                  type="button"
-                  onClick={() => { window.open(shareUrl, '_blank', 'noopener,noreferrer') }}
-                  className="rounded-full border border-[#b79b69] px-6 py-3 text-sm"
-                  title="Open the itinerary, then use Print → Save as PDF"
-                >
-                  Open for PDF
-                </button>
-              )}
-              {publication?.is_published && <button type="button" disabled={publishing}
-                onClick={() => { void unpublishItinerary() }}
-                className="rounded-full border border-[#b79b69] px-6 py-3 text-sm disabled:opacity-50">Unpublish</button>}
-            </div>
+        {(!pricingCurrent || !quote.selected) && <p role="alert" className={styles.pricingAlert}>
+          {!quote.selected && 'Choose this quotation for the client in Package Options before publishing. '}
+          {!pricingCurrent && 'Prices are missing or outdated. Save the Pricing tab before publishing.'}
+        </p>}
+        {(draft.importNeedsReview?.length ?? 0) > 0 && <p role="alert" className={styles.pricingAlert}>
+          {draft.importNeedsReview?.length} detail(s) need confirmation before publishing. <button type="button" className={styles.inlineAction} onClick={() => { setPreview(false); setEditingSection('review') }}>Review details</button>
+        </p>}
+        {preview ? <div className={styles.customerPreview}><Preview draft={draft} query={query} quote={quote} pricingCurrent={pricingCurrent} /></div> : <>
+          <div className={styles.itineraryToolbar}>
+            <label>Editing <select value={editingSection} onChange={event => setEditingSection(event.target.value as EditingSection)}>
+              <option value="days">Day plan</option><option value="overview">Introduction & photographs</option>
+              <option value="notes">Package notes</option><option value="import">Import from ChatGPT</option>
+              <option value="review">Confirm imported details ({draft.importNeedsReview?.length ?? 0})</option>
+            </select></label>
+            <span>{draft.days.length} day(s) · {quote.options?.length ?? 0} saved package option(s)</span>
           </div>
-          {publication && <div className="mt-5 border-t border-[#e6dfd1] pt-5">
-            <p className="text-sm">Status: <span className="font-medium">{publication.is_published ? 'Published' : 'Temporarily unavailable'}</span></p>
-            <p className="mt-2 break-all text-sm text-[#506b6b]">{shareUrl}</p>
-            <div className="mt-4 flex gap-5 text-sm text-[#96794c]">
-              <button type="button" onClick={() => { void copyCustomerLink() }} className="underline underline-offset-2">Copy Customer Link</button>
-              <a href={shareUrl} target="_blank" rel="noopener noreferrer" className="underline underline-offset-2">Open Customer Page</a>
+          {editingSection === 'days' && <section className={styles.dayWorkbench}>
+            <div className={styles.dayList}>
+              <div className={styles.workbenchHeading}><h2>Day plan</h2><button type="button" onClick={addDay}>+ Add Day</button></div>
+              <div className={styles.dayListScroll} ref={dayListRef}>
+                <table className={styles.dayIndex} aria-label="Itinerary days">
+                  <thead><tr><th scope="col">Day</th><th scope="col">Title / Location</th></tr></thead>
+                  <tbody>{draft.days.map((day, index) => <tr key={day.id} data-selected={day.id === activeDay?.id}>
+                    <th scope="row">{index + 1}</th><td><button type="button" aria-pressed={day.id === activeDay?.id}
+                      aria-label={`Edit day ${index + 1}: ${day.title || 'Untitled day'}`} onClick={() => setSelectedDayId(day.id)}>
+                      <strong>{day.title || 'Untitled day'}</strong><span>{day.location || 'Add location'}</span>
+                    </button></td>
+                  </tr>)}</tbody>
+                </table>
+              </div>
+              {!draft.days.length && <p className={styles.empty}>Start with + Add Day.</p>}
             </div>
-          </div>}
-          {publishMessage && <p role="status" className="mt-4 text-sm text-[#96794c]">{publishMessage}</p>}
+            <div className={styles.activeDay}>
+              {activeDay ? <>
+                <div className={styles.workbenchHeading}>
+                  <h2>Day {activeDayIndex + 1}</h2>
+                  <div className={styles.dayActions}>
+                    <button type="button" disabled={activeDayIndex === 0} onClick={() => moveDay(activeDayIndex, -1)}>↑ Earlier</button>
+                    <button type="button" disabled={activeDayIndex === draft.days.length - 1} onClick={() => moveDay(activeDayIndex, 1)}>↓ Later</button>
+                    <button type="button" className={styles.removeDay} onClick={() => {
+                      if (window.confirm('Remove this day?')) change({ days: current.current.days.filter(day => day.id !== activeDay.id) })
+                    }}>Remove day</button>
+                  </div>
+                </div>
+                <div className={styles.dayFields}>
+                  <label>Day title<input value={activeDay.title} onChange={event => editDay(activeDay.id, { title: event.target.value })} /></label>
+                  <label>City / Location<input value={activeDay.location} onChange={event => editDay(activeDay.id, { location: event.target.value })} /></label>
+                  <label>Day description<textarea rows={4} value={activeDay.description} onChange={event => editDay(activeDay.id, { description: event.target.value })} placeholder="Set the scene for this day…" /></label>
+                  <label>Activities &amp; Experiences<textarea rows={4} value={activeDay.activities} onChange={event => editDay(activeDay.id, { activities: event.target.value })} placeholder="Confirmed experiences, transfers and free time…" /></label>
+                  <label>Overnight / Stay<input value={activeDay.overnight} onChange={event => editDay(activeDay.id, { overnight: event.target.value })} /></label>
+                  <label>Day photograph URL <span>(optional)</span><input type="url" value={activeDay.imageUrl} onChange={event => editDay(activeDay.id, { imageUrl: event.target.value })} placeholder="https://…" /></label>
+                </div>
+                <div className={styles.dayPager}>
+                  <button type="button" disabled={activeDayIndex === 0} onClick={() => setSelectedDayId(draft.days[activeDayIndex - 1]?.id ?? null)}>← Previous day</button>
+                  <span>Day {activeDayIndex + 1} of {draft.days.length}</span>
+                  <button type="button" disabled={activeDayIndex === draft.days.length - 1} onClick={() => setSelectedDayId(draft.days[activeDayIndex + 1]?.id ?? null)}>Next day →</button>
+                </div>
+              </> : <p className={styles.empty}>Add a day to enter its description, activities and overnight stay.</p>}
+            </div>
+          </section>}
+          {editingSection === 'overview' && <section className={styles.itineraryContent}>
+            <div className={styles.workbenchHeading}><h2>Introduction &amp; photographs</h2></div>
+            <label>Welcome / Overview<textarea rows={6} value={draft.introduction} onChange={event => change({ introduction: event.target.value })} placeholder="MadrasTrails welcome message" /></label>
+            <label>Hero photograph URL <span>(optional)</span><input type="url" value={draft.heroImageUrl} onChange={event => change({ heroImageUrl: event.target.value })} placeholder="https://…" /></label>
+          </section>}
+          {editingSection === 'notes' && <section className={styles.itineraryContent}>
+            <div className={styles.workbenchHeading}><h2>Package notes</h2><span>Hotels and prices come from the saved package options.</span></div>
+            <div className={styles.dayFields}>
+              <label>Inclusions · one per line<textarea rows={4} value={draft.inclusions} onChange={event => change({ inclusions: event.target.value })} /></label>
+              <label>Exclusions · one per line<textarea rows={4} value={draft.exclusions} onChange={event => change({ exclusions: event.target.value })} /></label>
+              <label>Important information<textarea rows={3} value={draft.importantNotes} onChange={event => change({ importantNotes: event.target.value })} /></label>
+              <label>Changes made · visible to customer<textarea rows={3} value={draft.changesMade} onChange={event => change({ changesMade: event.target.value })} /></label>
+            </div>
+          </section>}
+          {editingSection === 'import' && <section className={styles.itineraryContent}>
+            <div className={styles.workbenchHeading}><h2>Import from ChatGPT</h2>
+              <div className={styles.dayActions}><button type="button" onClick={() => { void copyImportPrompt() }}>Copy ChatGPT Prompt</button>
+                <button type="button" disabled={publication?.is_published} onClick={() => { void loadDemoItinerary() }}>Load demo itinerary</button></div>
+            </div>
+            <p className={styles.pricingNote}>Use the copied prompt with your vendor document in ChatGPT, then paste the JSON below. Saved hotels, prices and hero photograph are retained.</p>
+            <label>Itinerary JSON<textarea rows={7} value={importText} onChange={event => setImportText(event.target.value)} placeholder={'{ "title": "Your journey", "days": [], "inclusions": [], "exclusions": [], "needsReview": [] }'} /></label>
+            <div className={styles.importActions}>
+              <label>Or choose a .json file<input type="file" accept=".json,application/json" onChange={event => {
+                const file = event.currentTarget.files?.[0]
+                if (file) void file.text().then(setImportText).catch(() => setImportMessage('Unable to read the JSON file.'))
+                event.currentTarget.value = ''
+              }} /></label>
+              <button type="button" className={styles.itineraryPrimary} onClick={() => { void importFromChatGPT() }}>Import &amp; Save Itinerary →</button>
+            </div>
+            {importMessage && <p role="status" className={styles.pricingNote}>{importMessage}</p>}
+            <p className={styles.pricingNote}>Verify imported details before sharing. Vendor names, supplier costs and margins remain internal.</p>
+          </section>}
+          {editingSection === 'review' && <section className={styles.itineraryContent}>
+            <div className={styles.workbenchHeading}><h2>Details requiring confirmation ({draft.importNeedsReview?.length ?? 0})</h2></div>
+            <p className={styles.pricingNote}>Correct the relevant fields before marking an issue resolved. Outstanding issues block publishing.</p>
+            <table className={`${styles.sheetTable} ${styles.reviewTable}`} aria-label="Imported details requiring confirmation">
+              <thead><tr><th scope="col">Detail to verify</th><th scope="col">Action</th></tr></thead>
+              <tbody>{(draft.importNeedsReview ?? []).map((item, index) => <tr key={`${index}-${item}`}><td>{item}</td><td>
+                <button type="button" onClick={() => change({ importNeedsReview: (current.current.importNeedsReview ?? []).filter((_, i) => i !== index) })}>Mark resolved</button>
+              </td></tr>)}</tbody>
+            </table>
+            {!draft.importNeedsReview?.length && <p className={styles.empty}>No outstanding import confirmations.</p>}
+          </section>}
+        </>}
+        <section className={styles.sharingBar} aria-label="Customer sharing">
+          <div><strong>{publication?.is_published ? 'Published itinerary' : 'Private staff draft'}</strong>
+            <p>{publication?.is_published ? 'Anyone with the customer link can view the published itinerary.' : 'Publishing creates a customer link. Supplier costs and margins are excluded.'}</p>
+          </div>
+          <div className={styles.dayActions}>
+            <button type="button" className={styles.itineraryPrimary} disabled={publishing || !pricingCurrent || !quote.selected || !!draft.importNeedsReview?.length}
+              onClick={() => { void publishItinerary() }}>{publishing ? 'Please wait…' : publication?.is_published ? 'Update Published Itinerary' : publication ? 'Republish Itinerary' : 'Publish Itinerary'}</button>
+            {publication?.is_published && shareUrl && <>
+              <button type="button" onClick={() => { void copyCustomerLink() }}>Copy customer link</button>
+              <a href={shareUrl} target="_blank" rel="noopener noreferrer">Open customer page</a>
+              <button type="button" onClick={() => { window.open(shareUrl, '_blank', 'noopener,noreferrer') }}>Open for PDF</button>
+            </>}
+            {publication?.is_published && <button type="button" disabled={publishing} onClick={() => { void unpublishItinerary() }}>Unpublish</button>}
+          </div>
+          {publication && shareUrl && <p className={styles.shareLink}>{shareUrl}</p>}
+          {publishMessage && <p role="status" className={styles.pricingNote}>{publishMessage}</p>}
         </section>
-        {preview ? (
-          <div className="mt-8"><Preview draft={draft} query={query} quote={quote} pricingCurrent={pricingCurrent} /></div>
-        ) : (
-          <div className="mt-8 space-y-7">
-            <section className="rounded-xl border border-[#d8c9ab] bg-[#fcfaf6] p-7">
-              <div className="flex flex-wrap items-center justify-between gap-4">
-                <div>
-                  <p className="text-xs uppercase tracking-[0.2em] text-[#96794c]">Faster itinerary creation</p>
-                  <h2 className="mt-2 font-serif text-2xl">Import from ChatGPT</h2>
-                </div>
-                <div className="flex flex-wrap gap-3">
-                  <button type="button" onClick={() => { void loadDemoItinerary() }}
-                    disabled={publication?.is_published}
-                    title={publication?.is_published ? 'Unpublish before loading test content' : 'Fill a complete fictional sample itinerary'}
-                    className="rounded-full bg-[#123c3e] px-6 py-3 text-sm text-white disabled:opacity-40">Auto-fill Demo Itinerary</button>
-                  <button type="button" onClick={() => { void copyImportPrompt() }} className="rounded-full border border-[#b79b69] px-6 py-3 text-sm">Copy ChatGPT Prompt</button>
-                </div>
-              </div>
-              <p className="mt-3 text-sm leading-7 text-[#506b6b]">Upload the vendor email, PDF or Word quotation to ChatGPT, paste the copied prompt, then paste the JSON response here. Your hotel combinations and saved customer prices will not be changed.</p>
-              <label className="mt-5 block text-sm">Paste structured itinerary JSON
-                <textarea rows={6} className={`${textArea} font-mono text-xs`} value={importText}
-                  onChange={e => setImportText(e.target.value)} placeholder={'{\n  "title": "Mystical Japan",\n  "days": [],\n  "inclusions": [],\n  "exclusions": [],\n  "needsReview": []\n}'} />
-              </label>
-              <div className="mt-4 flex flex-wrap items-center justify-between gap-4">
-                <label className="text-sm text-[#506b6b]">Or choose a .json file
-                  <input type="file" accept=".json,application/json" className="mt-2 block max-w-full text-xs"
-                    onChange={e => {
-                      const file = e.currentTarget.files?.[0]
-                      if (file) void file.text().then(setImportText).catch(() => setImportMessage('Unable to read the JSON file.'))
-                      e.currentTarget.value = ''
-                    }} />
-                </label>
-                <button type="button" onClick={() => { void importFromChatGPT() }} className="rounded-full bg-[#123c3e] px-7 py-3 text-sm text-white">Import &amp; Save Itinerary →</button>
-              </div>
-              {importMessage && <p role="status" className="mt-4 text-sm text-[#506b6b]">{importMessage}</p>}
-              <p className="mt-3 text-xs text-[#96794c]">Staff must verify all imported details against the vendor quotation. Supplier identities, net costs and internal pricing must never appear in client content.</p>
-            </section>
-            {(draft.importNeedsReview?.length ?? 0) > 0 && (
-              <section className="rounded-xl border border-[#d8c9ab] bg-white p-7">
-                <h2 className="font-serif text-2xl">Details Requiring Confirmation ({draft.importNeedsReview?.length})</h2>
-                <p className="mt-2 text-sm text-[#718080]">Check the vendor quotation, correct the relevant fields, then mark each issue resolved. Publishing must remain blocked while any items are outstanding.</p>
-                <ul className="mt-5 space-y-3">
-                  {(draft.importNeedsReview ?? []).map((item, index) => (
-                    <li key={`${index}-${item}`} className="flex items-start justify-between gap-4 rounded-lg border border-[#eee8dd] px-4 py-3 text-sm">
-                      <span>{item}</span>
-                      <button type="button" className="shrink-0 text-[#96794c] underline underline-offset-2"
-                        onClick={() => change({ importNeedsReview: (current.current.importNeedsReview ?? []).filter((_, i) => i !== index) })}>Mark resolved</button>
-                    </li>
-                  ))}
-                </ul>
-              </section>
-            )}
-            <section className="rounded-xl border border-[#e6dfd1] bg-white p-7">
-              <h2 className="font-serif text-2xl">Journey Introduction</h2>
-              <div className="mt-5 grid gap-5 md:grid-cols-2">
-                <label className="text-sm">Itinerary Title<input className={field} value={draft.title} onChange={e => change({ title: e.target.value })} placeholder={`A Journey Through ${query.destination}`} /></label>
-                <label className="text-sm">Quotation Valid Until<input type="date" className={field} value={draft.validityDate} onChange={e => change({ validityDate: e.target.value })} /></label>
-              </div>
-              <label className="mt-5 block text-sm">Welcome / Overview<textarea rows={3} className={textArea} value={draft.introduction} onChange={e => change({ introduction: e.target.value })} placeholder="MadrasTrails welcome message is prefilled automatically." /></label>
-              <label className="mt-5 block text-sm">Hero Photograph URL (optional · shared brand photograph will be configured once)<input type="url" className={field} value={draft.heroImageUrl} onChange={e => change({ heroImageUrl: e.target.value })} placeholder="https://…" /></label>
-            </section>
-            <section className="rounded-xl border border-[#e6dfd1] bg-white p-7">
-              <div className="flex flex-wrap items-center justify-between gap-4"><div><h2 className="font-serif text-2xl">Day-wise Itinerary</h2><p className="mt-2 text-sm text-[#718080]">Build a relaxed, customer-friendly daily journey.</p></div>
-                <button type="button" onClick={addDay} className="rounded-full bg-[#123c3e] px-6 py-3 text-sm text-white">+ Add Day</button>
-              </div>
-              <div className="mt-6 space-y-5">
-                {draft.days.map((day, index) => (
-                  <article key={day.id} className="rounded-xl border border-[#e6dfd1] bg-[#fcfaf6] p-6">
-                    <div className="flex items-center justify-between gap-4"><h3 className="font-serif text-xl">Day {index + 1}</h3>
-                      <div className="flex items-center gap-4 text-sm text-[#96794c]">
-                        <button type="button" disabled={index === 0} onClick={() => moveDay(index, -1)} className="disabled:opacity-30">↑ Move</button>
-                        <button type="button" disabled={index === draft.days.length - 1} onClick={() => moveDay(index, 1)} className="disabled:opacity-30">↓ Move</button>
-                        <button type="button" className="text-[#9b5550]" onClick={() => { if (window.confirm('Remove this day?')) change({ days: current.current.days.filter(d => d.id !== day.id) }) }}>Remove</button>
-                      </div>
-                    </div>
-                    <div className="mt-4 grid gap-4 md:grid-cols-2">
-                      <label className="text-sm">Day Title<input className={field} value={day.title} onChange={e => editDay(day.id, { title: e.target.value })} placeholder="Arrival & an evening at leisure" /></label>
-                      <label className="text-sm">City / Location<input className={field} value={day.location} onChange={e => editDay(day.id, { location: e.target.value })} placeholder="Singapore" /></label>
-                    </div>
-                    <label className="mt-4 block text-sm">Day Description<textarea rows={2} className={textArea} value={day.description} onChange={e => editDay(day.id, { description: e.target.value })} placeholder="Set the scene for the day…" /></label>
-                    <label className="mt-4 block text-sm">Activities & Experiences<textarea rows={3} className={textArea} value={day.activities} onChange={e => editDay(day.id, { activities: e.target.value })} placeholder="Describe the confirmed experiences, transfers and free time…" /></label>
-                    <div className="mt-4 grid gap-4 md:grid-cols-2">
-                      <label className="text-sm">Overnight / Stay<input className={field} value={day.overnight} onChange={e => editDay(day.id, { overnight: e.target.value })} placeholder="Overnight in Singapore" /></label>
-                      <label className="text-sm">Day Photograph URL (optional · leave blank)<input type="url" className={field} value={day.imageUrl} onChange={e => editDay(day.id, { imageUrl: e.target.value })} placeholder="https://…" /></label>
-                    </div>
-                  </article>
-                ))}
-                {draft.days.length === 0 && <p className="rounded-lg border border-dashed border-[#d8c9ab] p-7 text-center text-sm text-[#718080]">No days added yet. Start with Day 1.</p>}
-              </div>
-            </section>
-            <section className="rounded-xl border border-[#e6dfd1] bg-white p-7">
-              <h2 className="font-serif text-2xl">Package Details</h2>
-              <p className="mt-2 text-sm text-[#718080]">Hotel combinations and prices come from the selected quotation and pricing calculator. They cannot be mixed here.</p>
-              <div className="mt-5 grid gap-4 md:grid-cols-2">
-                <label className="text-sm">Inclusions · one per line<textarea rows={6} className={textArea} value={draft.inclusions} onChange={e => change({ inclusions: e.target.value })} placeholder="Accommodation as specified\nDaily breakfast\nAirport transfers" /></label>
-                <label className="text-sm">Exclusions · one per line<textarea rows={6} className={textArea} value={draft.exclusions} onChange={e => change({ exclusions: e.target.value })} placeholder="Personal expenses\nOptional experiences" /></label>
-              </div>
-              <label className="mt-5 block text-sm">Important Information<textarea rows={4} className={textArea} value={draft.importantNotes} onChange={e => change({ importantNotes: e.target.value })} placeholder="Travel documents, hotel check-in notes, booking conditions…" /></label>
-              <label className="mt-5 block text-sm">Changes Made · visible to customer<textarea rows={3} className={textArea} value={draft.changesMade} onChange={e => change({ changesMade: e.target.value })} placeholder="Updated the hotel selection and adjusted the sightseeing plan…" /></label>
-            </section>
-            <div className="flex flex-wrap items-center justify-between gap-4 rounded-xl border border-[#d8c9ab] bg-[#f2ead9] p-6">
-              <p className="text-sm text-[#718080]">Draft saves automatically to Supabase. No customer link has been published.</p>
-              <button type="button" onClick={async () => { if (await saveNow()) { setPreview(true); window.scrollTo({ top: 0, behavior: 'smooth' }) } }} className="rounded-full bg-[#123c3e] px-7 py-3 text-sm text-white">Preview Itinerary →</button>
-            </div>
-          </div>
-        )}
       </div>
     </main>
   )

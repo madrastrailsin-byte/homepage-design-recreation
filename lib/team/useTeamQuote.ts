@@ -30,8 +30,10 @@ export function useTeamQuote<T extends QuoteShape>(queryId: string, quoteId: str
     if (!snapshot) return false
     const currentVersion = ++version.current
     const operation = queue.current.then(async () => {
+      if (!snapshot.vendorName.trim()) throw new Error('Enter the vendor name before saving.')
       const { data, error } = await supabase.from('team_vendor_quotes')
         .update({
+          vendor_name: snapshot.vendorName.trim(),
           options: snapshot.options ?? [],
           travellers: snapshot.travellers ?? null,
           updated_at: new Date().toISOString(),
@@ -110,5 +112,86 @@ export function useTeamQuote<T extends QuoteShape>(queryId: string, quoteId: str
     }
   }, [queryId, quoteId, supabase, flush])
 
-  return { quote, loaded, message, setMessage, saveQuote, flush }
+  const appendAiOptions = useCallback(async (
+    newOptions: unknown[],
+    reviewItems: string[]
+  ): Promise<boolean> => {
+    if (!latest.current || !newOptions.length) return false
+    if (!(await flush())) return false
+
+    setMessage('Saving AI options and review flags…')
+
+    try {
+      const { data: live, error: readError } = await supabase
+        .from('team_vendor_quotes')
+        .select('options,itinerary')
+        .eq('id', quoteId)
+        .eq('query_id', queryId)
+        .maybeSingle()
+
+      if (readError || !live) {
+        throw new Error(readError?.message || 'Quotation unavailable.')
+      }
+
+      const existing = live.itinerary &&
+        typeof live.itinerary === 'object' &&
+        !Array.isArray(live.itinerary)
+          ? live.itinerary as Record<string, unknown>
+          : {}
+
+      const previousIssues = Array.isArray(existing.importNeedsReview)
+        ? existing.importNeedsReview.filter(
+            (value): value is string => typeof value === 'string'
+          )
+        : []
+
+      const combinedOptions = [
+        ...(Array.isArray(live.options) ? live.options : []),
+        ...newOptions,
+      ]
+
+      const nextItinerary = {
+        ...existing,
+        importNeedsReview: [
+          ...new Set([
+            ...previousIssues,
+            ...reviewItems.map(value => value.trim()).filter(Boolean),
+          ]),
+        ],
+      }
+
+      const now = new Date().toISOString()
+      const { data: saved, error: saveError } = await supabase
+        .from('team_vendor_quotes')
+        .update({
+          options: combinedOptions,
+          itinerary: nextItinerary,
+          updated_at: now,
+        })
+        .eq('id', quoteId)
+        .eq('query_id', queryId)
+        .select('id')
+        .maybeSingle()
+
+      if (saveError || !saved) {
+        throw new Error(saveError?.message || 'Unable to save AI import.')
+      }
+
+      const next = {
+        ...latest.current,
+        options: combinedOptions,
+        updatedAt: now,
+      } as T
+
+      latest.current = next
+      setQuote(next)
+      setMessage('AI options saved. Review flags retained for itinerary approval.')
+      return true
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : 'AI import save failed.')
+      return false
+    }
+  }, [flush, queryId, quoteId, supabase])
+
+  return { quote, loaded, message, setMessage, saveQuote, flush, appendAiOptions }
 }

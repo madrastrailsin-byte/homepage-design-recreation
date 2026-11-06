@@ -1,6 +1,8 @@
 'use client'
 
 import Link from 'next/link'
+import QueryWorkspaceHeader from '../../QueryWorkspaceHeader'
+import styles from '../../QueryWorkspace.module.css'
 import { useParams, useRouter } from 'next/navigation'
 import { useTeamQuote } from '../../../../../../../lib/team/useTeamQuote'
 import { useEffect, useState } from 'react'
@@ -338,14 +340,6 @@ function TaxCheckbox({ label, checked, onChange }: {
   )
 }
 
-function Line({ label, value, strong = false }: { label: string; value: number; strong?: boolean }) {
-  return (
-    <div className={`flex items-center justify-between gap-4 py-2 ${strong ? 'font-semibold' : ''}`}>
-      <span>{label}</span><span className="tabular-nums">{money(value)}</span>
-    </div>
-  )
-}
-
 export default function PricingCalculator() {
   const { id, quoteId } = useParams<{ id: string; quoteId: string }>()
   const router = useRouter()
@@ -446,212 +440,117 @@ export default function PricingCalculator() {
   const travellerCount = (travellers?.adults ?? 0) + (travellers?.children ?? 0)
 
   return (
-    <main className="min-h-screen bg-[#f6f3eb] px-6 py-12 text-[#173d3e] md:px-8">
+    <main className={`${styles.editor} ${styles.visiblePricing}`}>
       <div className="mx-auto max-w-6xl">
         <Link href={editorHref} onClick={async event => {
           event.preventDefault()
           if (await flush()) router.push(editorHref)
         }} className="text-sm text-[#96794c]">← Back to Package Options</Link>
-        <header className="mt-8">
-          <p className="text-xs uppercase tracking-[0.25em] text-[#a18453]">MadrasTrails · Internal Workspace</p>
-          <h1 className="mt-3 font-serif text-4xl">Pricing Calculator</h1>
-          <p className="mt-3 text-sm text-[#718080]">{quote.title} · {quote.vendorName}</p>
-        </header>
+        <QueryWorkspaceHeader activeTab="pricing" title="Pricing Calculator"
+          context={quote.vendorName}
+          onNavigate={async tab => {
+            if (tab === 'itinerary') { await continueToItinerary(); return }
+            if (await flush()) router.push(editorHref)
+          }} />
 
-        <div className="mt-7 rounded-lg border border-[#ddcfb1] bg-[#f0e8d7] p-4 text-sm">
-          <strong>Local demo · Internal pricing only.</strong> Supplier costs and markup remain private.
-          GST 5% and TCS 2% are fixed planning assumptions in this demo. Confirm the
-          applicable tax treatment and taxable base with your accountant before sharing prices.
+        <div className={styles.sheetScroll}>
+          <table className={`${styles.sheetTable} ${styles.pricingFacts}`} aria-label="Pricing context">
+            <thead><tr><th scope="col">Travellers</th><th scope="col">Adults</th><th scope="col">Children</th><th scope="col">Exchange rates</th><th scope="col">Tax settings</th></tr></thead>
+            <tbody><tr><td>{travellerCount || 'Not entered'}</td><td>{travellers?.adults ?? 0}</td><td>{travellers?.children ?? 0}</td>
+              <td>{fx.status === 'loading' ? 'Loading indicative INR rates…' : fx.status === 'error' ? 'Automatic FX unavailable · manual rates required' : `USD → INR ${fx.rates?.INR?.toFixed(4) ?? '—'} · ${fx.updatedAt ? new Date(fx.updatedAt).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric', timeZone: 'UTC' }) : 'recently updated'}`}</td>
+              <td>GST 5% · TCS 2% <span className={styles.hint}>· planning rates</span></td>
+            </tr></tbody>
+          </table>
         </div>
-
-        <div className="mt-5 flex flex-wrap items-center justify-between gap-3 rounded-xl border border-[#e6dfd1] bg-white px-5 py-4 text-sm">
-          <div>
-            <p className="font-semibold">Travellers: {travellerCount || 'Not entered'}</p>
-            <p className="mt-1 text-[#718080]">{travellers?.adults ?? 0} adults · {travellers?.children ?? 0} children</p>
-          </div>
-          <div className="text-right">
-            <p>{fx.status === 'loading' ? 'Loading indicative INR rates…'
-              : fx.status === 'error' ? 'Automatic FX unavailable · manual rates required'
-              : `Indicative FX updated ${fx.updatedAt ? new Date(fx.updatedAt).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric', timeZone: 'UTC' }) : 'recently'}`}</p>
-            <p className="mt-1 text-xs text-[#718080]">Source: ExchangeRate-API · manual rates from Package Options take priority</p>
-          </div>
-        </div>
-
-        <div className="mt-8 space-y-7">
-          {options.map((option, optionIndex) => {
-            const result = calculate(option, travellers, fx.rates)
-            const { settings } = result
-            const customOptionName = option.name && !/^Package Option \d+$/i.test(option.name)
-              ? option.name : ''
-            return (
-              <section key={option.id} className="rounded-xl border border-[#e6dfd1] bg-white p-6 md:p-8">
-                <div className="flex flex-wrap items-start justify-between gap-3">
-                  <div>
-                    <p className="text-xs uppercase tracking-[0.15em] text-[#96794c]">
-                      {options.length > 1 ? `Package ${optionIndex + 1}` : 'Complete travel package'}
-                    </p>
-                    <h2 className="mt-2 font-serif text-2xl">{quote.title}</h2>
-                    {customOptionName && <p className="mt-2 text-sm text-[#718080]">{customOptionName}</p>}
-                  </div>
-                  <Link href={editorHref} onClick={async event => {
-          event.preventDefault()
-          if (await flush()) router.push(editorHref)
-        }} className="rounded-full border border-[#d8c9ab] px-4 py-2 text-xs text-[#96794c]">Edit supplier costs</Link>
-                </div>
-
-                <div className="mt-7 grid grid-cols-1 gap-7 lg:grid-cols-2">
-                  <div>
-                    <h3 className="font-serif text-xl">Supplier Cost (INR)</h3>
-                    <div className="mt-3 divide-y divide-[#eee8dd] text-sm">
-                      {COMPONENTS.map(component => (
-                        <Line key={component.key} label={component.label} value={result.byCategory[component.key]} />
-                      ))}
-                      <Line label="Total supplier cost" value={result.supplierTotal} strong />
-                    </div>
-                    {!result.ready && (
-                      <div className="mt-5 rounded-lg border border-[#e7c6bd] bg-[#fff7f4] p-4 text-sm text-[#9b5550]">
-                        Pricing pending: {option.costs?.length ? `${result.incompleteRows} incomplete supplier row(s)` : 'no supplier costs entered'}
-                        {!result.validPercentages ? ' · Check markup percentage.' : ''}
-                        <p className="mt-2">Complete the supplier amounts, quantities and INR rates before relying on totals.</p>
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="rounded-xl border border-[#e7dfd1] bg-[#fcfaf6] p-5">
-                    <h3 className="font-serif text-xl">MT Markup & Taxes</h3>
-                    <div className="mt-5 grid grid-cols-1 items-end gap-4 sm:grid-cols-3">
-                      <PercentField label="MT Markup" value={settings.markupPct}
-                        onChange={markupPct => updatePricing(option.id, { markupPct })} />
-                      <div className="text-sm">
-                        <p>GST</p>
-                        <div className="mt-2 rounded-lg border border-[#ded8cc] bg-[#f3f0e9] px-3 py-3 font-semibold tabular-nums">5%</div>
-                      </div>
-                      <div className="text-sm">
-                        <p>TCS</p>
-                        <div className="mt-2 rounded-lg border border-[#ded8cc] bg-[#f3f0e9] px-3 py-3 font-semibold tabular-nums">2%</div>
-                      </div>
-                    </div>
-                    <div className="mt-5 border-t border-[#e7dfd1] pt-4">
-                      <p className="text-sm font-semibold">Additional services · apply both GST and TCS</p>
-                      <div className="mt-3 flex flex-wrap items-center gap-x-8 gap-y-3">
-                        <TaxCheckbox label="Visa" checked={settings.visaTaxesIncluded === true}
-                          onChange={visaTaxesIncluded => updatePricing(option.id, { visaTaxesIncluded })} />
-                        <TaxCheckbox label="Travel Insurance" checked={settings.insuranceTaxesIncluded === true}
-                          onChange={insuranceTaxesIncluded => updatePricing(option.id, { insuranceTaxesIncluded })} />
-                      </div>
-                      <p className="mt-3 text-sm leading-6 text-[#647574]">
-                        Land-package GST and TCS are included automatically. Enable taxes for visa or insurance only when applicable. Flights are excluded. Verify tax treatment before sharing.
-                      </p>
-                    </div>
+        <p className={styles.pricingNote}>Internal pricing only · Manual FX overrides take priority · Verify tax treatment before sharing.</p>
+        {options.map((option, optionIndex) => {
+          const result = calculate(option, travellers, fx.rates)
+          const { settings } = result
+          const supplierReady = (option.costs?.length ?? 0) > 0 && result.incompleteRows === 0
+          const amount = (value: number) => result.ready ? money(value) : 'Pending'
+          return (
+            <section key={option.id} className={styles.visiblePricingOption}>
+              <div className={styles.pricingTitle}>
+                <h2>{options.length > 1 ? `${optionIndex + 1}. ` : ''}{option.name || 'Package option'}</h2>
+                <Link href={editorHref} onClick={async event => { event.preventDefault(); if (await flush()) router.push(editorHref) }}>Edit supplier costs</Link>
+              </div>
+              <div className={styles.pricingInputs}>
+                <PercentField label="MT Markup" value={settings.markupPct} onChange={markupPct => updatePricing(option.id, { markupPct })} />
+                <div><span className={styles.pricingInputLabel}>Tax rates</span><strong>GST 5% &nbsp; · &nbsp; TCS 2%</strong></div>
+                <div><span className={styles.pricingInputLabel}>Apply GST &amp; TCS to</span>
+                  <div className={styles.taxChoices}><span className={styles.hint}>Land package: included</span>
+                    <TaxCheckbox label="Visa" checked={settings.visaTaxesIncluded === true} onChange={visaTaxesIncluded => updatePricing(option.id, { visaTaxesIncluded })} />
+                    <TaxCheckbox label="Travel Insurance" checked={settings.insuranceTaxesIncluded === true} onChange={insuranceTaxesIncluded => updatePricing(option.id, { insuranceTaxesIncluded })} />
+                    <span className={styles.hint}>Flights: excluded</span>
                   </div>
                 </div>
-
-                <div className="mt-7 rounded-xl border border-[#d8c9ab] bg-[#f2ead9] p-5 md:p-7">
-                  <h3 className="font-serif text-2xl">Selling Price Breakdown</h3>
-                  {result.ready ? (
-                    <div className="mt-4 text-sm">
-                      <div className="divide-y divide-[#e4d7bd]">
-                        <Line label="Supplier Cost" value={result.eligibleSupplier} />
-                        <Line label={`Markup (${settings.markupPct}%)`} value={result.markup} />
-                        <Line label="Total Cost" value={result.sellingSubtotal} strong />
-                        <Line label="Flights" value={result.byCategory.flight} />
-                        <Line label="Total Cost with Flights" value={result.totalWithFlights} strong />
-                        <Line label="GST (5%)" value={result.gst} />
-                        <Line label="TCS (2%)" value={result.tcs} />
-                      </div>
-                      <div className="mt-4 flex items-center justify-between gap-5 border-t-2 border-[#d8c9ab] pt-5">
-                        <span className="font-serif text-2xl">Grand Total</span>
-                        <span className="font-sans text-2xl font-semibold tabular-nums">{money(result.total)}</span>
-                      </div>
-                    </div>
-                  ) : (
-                    <p className="mt-3 text-sm text-[#9b5550]">Complete supplier pricing and tax inputs to display the final INR quotation.</p>
-                  )}
-                </div>
-
-                <div className="mt-7 rounded-xl border border-[#e7dfd1] bg-[#fcfaf6] p-5 md:p-7">
-                  <h3 className="font-serif text-2xl">Customer Pricing Breakdown</h3>
-                  <p className="mt-2 text-sm text-[#718080]">
-                    {result.count} travellers · {result.counts.adult} adults · {result.counts.childWithBed} children with bed · {result.counts.childWithoutBed} children without bed
-                  </p>
-                  <div className="mt-5 flex flex-wrap items-center justify-between gap-3">
-                    <p className="text-xs leading-5 text-[#718080]">Prices are shown per person for each traveller category.</p>
-                    <TaxCheckbox label="Include GST & TCS in displayed prices" checked={showTaxes} onChange={setShowTaxes} />
+              </div>
+              {!result.ready && <p role="alert" className={styles.pricingAlert}>Pricing pending: {option.costs?.length ? `${result.incompleteRows} incomplete supplier row(s)` : 'no supplier costs entered'}{!result.validPercentages ? ' · Check markup percentage.' : ''}. Complete costs, quantities and INR rates before saving prices.</p>}
+              <div className={styles.moneyColumns}>
+                <div className={styles.moneyPanel}>
+                  <h3>Supplier costs <span>(INR)</span></h3>
+                  <div className={styles.sheetScroll}>
+                    <table className={`${styles.sheetTable} ${styles.moneyTable}`} aria-label={`Supplier costs for ${option.name}`}>
+                      <thead><tr><th scope="col">Service</th><th scope="col">Cost ₹</th></tr></thead>
+                      <tbody>{COMPONENTS.map(component => <tr key={component.key}><th scope="row">{component.label}</th><td>{supplierReady ? money(result.byCategory[component.key]) : 'Pending'}</td></tr>)}</tbody>
+                      <tfoot><tr><th scope="row">Total supplier cost</th><td>{supplierReady ? money(result.supplierTotal) : 'Pending'}</td></tr></tfoot>
+                    </table>
                   </div>
-                  {!result.categoryCountsValid && result.childSplitValid && result.ready && (
-                    <p className="mt-3 text-sm text-[#9b5550]">A supplier cost is assigned to a traveller category with zero people. Check the traveller counts in Package Options.</p>
-                  )}
-                  {result.ready && result.categoryCountsValid ? (
-                    <div className="mx-auto mt-5 max-w-[920px] overflow-x-auto rounded-lg border border-[#d8c9ab] bg-white">
-                      <table className="w-full min-w-[600px] table-fixed border-collapse text-left text-base">
-                        <thead className="bg-[#f4eee3] text-[#173d3e]">
-                          <tr className="border-b border-[#e7dfd1]">
-                            <th scope="col" className="w-[40%] px-4 py-3 font-medium">Traveller / Pax</th>
-                            <th scope="col" className="w-[30%] border-l border-[#d8c9ab] px-4 py-3 font-medium">With Flights</th>
-                            <th scope="col" className="w-[30%] border-l border-[#d8c9ab] px-4 py-3 font-medium">Without Flights</th>
-                          </tr>
-                        </thead>
-                        <tbody className="divide-y divide-[#d8c9ab]">
-                          {CUSTOMER_TYPES.map(type => {
-                            const count = result.counts[type.key]
-                            const prices = result.perPersonPrices[type.key]
-                            return (
-                              <tr key={type.key}>
-                                <th scope="row" className="px-4 py-3 align-middle font-normal">
-                                  {type.label}
-                                  <span className="mt-1 block text-[13px] font-normal text-[#718080]">{count} pax · per person</span>
-                                </th>
-                                <td className="border-l border-[#d8c9ab] px-4 py-3 font-normal tabular-nums">{count ? money(showTaxes ? prices.allIncluded : prices.withFlights) : '—'}</td>
-                                <td className="border-l border-[#d8c9ab] px-4 py-3 font-normal tabular-nums">{count ? money(showTaxes ? prices.withTaxes : prices.base) : '—'}</td>
-                              </tr>
-                            )
-                          })}
-                        </tbody>
-                        <tfoot className="border-t-2 border-[#d8c9ab] bg-[#f2ead9]">
-                          <tr>
-                            <th scope="row" className="px-4 py-4 font-medium">Total · {result.count} pax</th>
-                            <td className="border-l border-[#c3ae86] px-4 py-4 font-medium tabular-nums">{money(showTaxes ? result.expectedTotals.allIncluded : result.expectedTotals.withFlights)}</td>
-                            <td className="border-l border-[#c3ae86] px-4 py-4 font-medium tabular-nums">{money(showTaxes ? result.expectedTotals.withTaxes : result.expectedTotals.base)}</td>
-                          </tr>
-                        </tfoot>
+                  <p className={styles.pricingNote}>Supplier cost includes flights. Markup applies to non-flight services.</p>
+                </div>
+                <div className={styles.moneyPanel}>
+                  <h3>Cost → selling price</h3>
+                  <div className={styles.sheetScroll}>
+                    <table className={`${styles.sheetTable} ${styles.moneyTable}`} aria-label={`Selling price calculation for ${option.name}`}>
+                      <thead><tr><th scope="col">Calculation</th><th scope="col">Amount ₹</th></tr></thead>
+                      <tbody>
+                        <tr><th scope="row">Non-flight supplier cost</th><td>{amount(result.eligibleSupplier)}</td></tr>
+                        <tr><th scope="row">+ MT markup ({settings.markupPct || '0'}%)</th><td>{amount(result.markup)}</td></tr>
+                        <tr className={styles.ledgerSubtotal}><th scope="row">After markup</th><td>{amount(result.sellingSubtotal)}</td></tr>
+                        <tr><th scope="row">+ Flights</th><td>{amount(result.byCategory.flight)}</td></tr>
+                        <tr className={styles.ledgerSubtotal}><th scope="row">Before taxes · with flights</th><td>{amount(result.totalWithFlights)}</td></tr>
+                        <tr><th scope="row">+ GST (5%)</th><td>{amount(result.gst)}</td></tr>
+                        <tr><th scope="row">+ TCS (2%)</th><td>{amount(result.tcs)}</td></tr>
+                      </tbody>
+                      <tfoot><tr><th scope="row">Grand total · incl. taxes</th><td>{amount(result.total)}</td></tr></tfoot>
+                    </table>
+                  </div>
+                </div>
+                <div className={styles.moneyPanel}>
+                  <div className={styles.customerHeading}><h3>Customer prices</h3><TaxCheckbox label="Include GST & TCS" checked={showTaxes} onChange={setShowTaxes} /></div>
+                  <p className={styles.pricingNote}>{result.count} travellers · Prices below are per person · {showTaxes ? 'Including' : 'Excluding'} taxes</p>
+                  {!result.categoryCountsValid && result.childSplitValid && result.ready && <p role="alert" className={styles.pricingAlert}>A supplier cost is assigned to a category with zero travellers. Check the counts in Package Options.</p>}
+                  {result.ready && result.categoryCountsValid ? <>
+                    <div className={styles.sheetScroll}>
+                      <table className={`${styles.sheetTable} ${styles.customerMoneyTable}`} aria-label={`Customer prices for ${option.name}`}>
+                        <thead><tr><th scope="col">Traveller / Pax</th><th scope="col">With flights</th><th scope="col">Without flights</th></tr></thead>
+                        <tbody>{CUSTOMER_TYPES.map(type => {
+                          const count = result.counts[type.key]
+                          const prices = result.perPersonPrices[type.key]
+                          return <tr key={type.key}><th scope="row">{type.label}<span>{count} pax · per person</span></th>
+                            <td>{count ? money(showTaxes ? prices.allIncluded : prices.withFlights) : '—'}</td>
+                            <td>{count ? money(showTaxes ? prices.withTaxes : prices.base) : '—'}</td></tr>
+                        })}</tbody>
+                        <tfoot><tr><th scope="row">Total · {result.count} pax</th>
+                          <td>{money(showTaxes ? result.expectedTotals.allIncluded : result.expectedTotals.withFlights)}</td>
+                          <td>{money(showTaxes ? result.expectedTotals.withTaxes : result.expectedTotals.base)}</td></tr></tfoot>
                       </table>
                     </div>
-                  ) : (
-                    <p className="mt-5 text-sm text-[#9b5550]">Complete the supplier amounts and traveller categories to calculate customer prices.</p>
-                  )}
-                  {result.ready && result.categoryCountsValid && (
-                    <div className="mt-5 flex flex-wrap items-center justify-between gap-4 border-t border-[#e7dfd1] pt-5">
-                      <div>
-                        <p className="text-sm font-semibold">Grand Total · With Flights {showTaxes ? '· Including Taxes' : '· Excluding Taxes'}</p>
-                        <p className="mt-1 text-xs text-[#718080]">Read-only customer breakdown</p>
-                      </div>
-                      <p className="font-sans text-xl font-semibold tabular-nums">{money(showTaxes ? result.total : result.totalWithFlights)}</p>
-                    </div>
-                  )}
-                  <p className="mt-4 text-sm leading-6 text-[#647574]">
-                    Group-priced costs are distributed equally across travellers. Per-person costs follow the adult or child pricing basis entered in Package Options.
-                  </p>
+                    <div className={styles.finalPrice}><span>Customer total · with flights<small>{showTaxes ? 'Including GST & TCS' : 'Excluding GST & TCS'}</small></span><strong>{money(showTaxes ? result.total : result.totalWithFlights)}</strong></div>
+                  </> : <p className={styles.pricingAlert}>Complete supplier amounts and traveller categories to display customer prices.</p>}
+                  <p className={styles.pricingNote}>Group costs split equally; per-person costs follow their pax category. Totals use unrounded amounts.</p>
                 </div>
-              </section>
-            )
-          })}
-          {!options.length && (
-            <div className="rounded-xl border border-[#e6dfd1] bg-white p-8 text-center text-sm text-[#718080]">
-              No package options yet. <Link href={editorHref} onClick={async event => {
-          event.preventDefault()
-          if (await flush()) router.push(editorHref)
-        }} className="underline">Add package options first.</Link>
-            </div>
-          )}
+              </div>
+            </section>
+          )
+        })}
+        {!options.length && <p className={styles.empty}>No package options yet. <Link href={editorHref} onClick={async event => { event.preventDefault(); if (await flush()) router.push(editorHref) }}>Add package options first.</Link></p>}
+        <div className={styles.saveBar}>
+          <p>Save customer prices for all package options.</p>
+          <button type="button" onClick={() => { void continueToItinerary() }} className={styles.savePrices}>Save Prices &amp; Continue to Itinerary →</button>
         </div>
-        <div className="mt-8 flex flex-wrap items-center justify-between gap-4 rounded-xl border border-[#d8c9ab] bg-[#f2ead9] p-6">
-          <p className="text-sm text-[#718080]">Save customer-facing prices for every package option, then build the itinerary.</p>
-          <button type="button" onClick={() => { void continueToItinerary() }}
-            className="rounded-full bg-[#123c3e] px-7 py-3 text-sm text-white">
-            Save Prices &amp; Continue to Itinerary →
-          </button>
-        </div>
-        <p role="status" className="mt-7 text-sm text-[#718080]">{message}</p>
+        <p role="status" className={styles.pricingNote}>{message}</p>
+
       </div>
     </main>
   )

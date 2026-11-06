@@ -1,6 +1,9 @@
 'use client'
 
 import Link from 'next/link'
+import QueryWorkspaceHeader from '../QueryWorkspaceHeader'
+import type { QuotationSummary } from '../QuotesWorkspace'
+import styles from '../QueryWorkspace.module.css'
 import { useParams, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { useTeamQuote } from '../../../../../../lib/team/useTeamQuote'
@@ -58,9 +61,6 @@ type Quote = {
   travellers?: Travellers
   updatedAt?: string
 }
-
-const inputClass =
-  'mt-2 w-full rounded-lg border border-[#ded8cc] bg-white px-3 py-3 text-sm outline-none focus:border-[#b79b69]'
 
 // Reference rates are indicative, not guaranteed supplier/bank transaction rates.
 // The free open endpoint supplies USD-based rates for a broad set of currencies.
@@ -151,256 +151,110 @@ function calculateInr(
   return rate === null ? null : cost.amount * quantity * rate
 }
 
-function CostRow({
-  cost, travellers, rates, onChange, onRemove,
-}: {
+function CostRow({ cost, travellers, rates, onChange, onRemove, rowNumber }: {
   cost: Cost
   travellers?: Travellers
   rates: Record<string, number> | null
   onChange: (patch: Partial<Cost>) => void
   onRemove: () => void
+  rowNumber: number
 }) {
   const basis = cost.pricingBasis ?? 'group'
-  // Keep the typed decimal text (e.g. '150.') while persisting a numeric cost.
   const [amountText, setAmountText] = useState(String(cost.amount))
   const quantity = getQuantity(cost, travellers)
   const automaticRate = getAutoRate(cost.currency, rates)
   const rate = getEffectiveRate(cost, rates)
   const converted = calculateInr(cost, travellers, rates)
   const currencyIsListed = (CURRENCIES as readonly string[]).includes(cost.currency)
-  const rateValue = cost.currency === 'INR'
-    ? '1'
-    : cost.rateOverride !== undefined
-      ? cost.rateOverride
-      : automaticRate === null ? '' : String(Number(automaticRate.toFixed(6)))
-
+  const rateValue = cost.currency === 'INR' ? '1' : cost.rateOverride !== undefined
+    ? cost.rateOverride : automaticRate === null ? '' : String(Number(automaticRate.toFixed(6)))
   return (
-    <div className="mt-5 rounded-xl border border-[#e7dfd1] bg-[#fcfaf6] p-5">
-      <div className="flex items-center justify-between gap-3">
-        <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#96794c]">
-          Supplier cost
-        </p>
-        <button type="button" onClick={onRemove}
-          className="text-sm text-[#9b5550]" aria-label="Remove cost">
-          Remove
-        </button>
-      </div>
-
-      <div className="mt-3 grid grid-cols-1 items-end gap-4 md:grid-cols-12">
-        <label className="block text-sm md:col-span-3">
-          Component
-          <select value={cost.category}
-            onChange={e => onChange({ category: e.target.value as Cost['category'] })}
-            className={inputClass}>
-            <option value="land">Land Package</option>
-            <option value="visa">Visa</option>
-            <option value="insurance">Travel Insurance</option>
-            <option value="flight">Flight</option>
-          </select>
-        </label>
-        <label className="block text-sm md:col-span-3">
-          Supplier Pricing Basis
-          <select value={isCurrentPricingBasis(basis) ? basis : ''}
-            onChange={e => onChange({
-              pricingBasis: e.target.value as PricingBasis,
-              quantityOverride: e.target.value === 'group' ? undefined : '',
-              selectedChildIndices: undefined,
-            })}
-            className={inputClass}>
-            {!isCurrentPricingBasis(basis) && (
-              <option value="" disabled>Choose a new pricing basis</option>
-            )}
-            <option value="group">Entire Group</option>
-            <option value="adult">Per Adult</option>
-            <option value="childWithBed">Per Child With Bed</option>
-            <option value="childWithoutBed">Per Child Without Bed</option>
-          </select>
-        </label>
-        <div className="md:col-span-6">
-          <Field label="Description (optional)" value={cost.description}
-            onChange={description => onChange({ description })} />
-        </div>
-      </div>
-
-      <div className="mt-4 grid grid-cols-1 items-end gap-4 md:grid-cols-12">
-        <div className="md:col-span-2">
-          <label className="block text-sm">
-            Currency
-            <select value={currencyIsListed ? cost.currency : 'OTHER'}
-              onChange={e => onChange({
-                currency: e.target.value, rateOverride: undefined,
-              })}
-              className={inputClass}>
-              {CURRENCIES.map(code => <option key={code} value={code}>{code}</option>)}
-              <option value="OTHER">Other currency…</option>
-            </select>
-          </label>
-          {!currencyIsListed && (
-            <input aria-label="Other ISO currency code" placeholder="3-letter code"
-              maxLength={3} value={cost.currency === 'OTHER' ? '' : cost.currency}
-              onChange={e => onChange({
-                currency: e.target.value.toUpperCase().replace(/[^A-Z]/g, '').slice(0, 3),
-                rateOverride: undefined,
-              })}
-              className={inputClass} />
-          )}
-        </div>
-        <div className="md:col-span-2">
-          <label className="block text-sm">
-            Supplier Amount
-            <input type="text" inputMode="decimal" value={amountText}
-              placeholder="Enter amount"
-              onFocus={e => e.currentTarget.select()}
-              onChange={e => {
-                const value = e.target.value
-                if (!/^\d*(?:\.\d*)?$/.test(value)) return
-                setAmountText(value)
-                onChange({ amount: value === '' || value === '.' ? '' : Number(value) })
-              }}
-              onBlur={() => setAmountText(String(cost.amount))}
-              className={inputClass} />
-          </label>
-        </div>
-        <div className="md:col-span-2">
-          {basis === 'group' ? (
-            <div>
-              <span className="block text-sm">Quantity</span>
-              <div className="mt-2 rounded-lg border border-[#e7dfd1] bg-[#f3f0e9] px-3 py-3 text-sm">
-                1 group
-              </div>
-            </div>
-          ) : isCurrentPricingBasis(basis) ? (
-            <label className="block text-sm">
-              Quantity
-              <input type="text" inputMode="numeric" pattern="[0-9]*"
-                value={cost.quantityOverride ?? (
-                  basis === 'adult' ? travellers?.adults ?? '' :
-                    cost.selectedChildIndices?.length || ''
-                )}
-                placeholder="Enter quantity"
-                onFocus={e => e.currentTarget.select()}
-                onChange={e => {
-                  const value = e.target.value
-                  if (!/^\d*$/.test(value)) return
-                  onChange({ quantityOverride: value === '' ? '' : Number(value) })
-                }}
-                className={inputClass} />
-            </label>
-          ) : (
-            <div>
-              <span className="block text-sm">Quantity</span>
-              <div className="mt-2 rounded-lg border border-[#e7dfd1] bg-[#f3f0e9] px-3 py-3 text-sm">
-                Select pricing basis
-              </div>
-            </div>
-          )}
-        </div>
-        <div className="md:col-span-3">
-          <label className="block text-sm">
-            INR Exchange Rate (1 {cost.currency || 'unit'})
-            <input type="number" min="0.0000001" step="any"
-              disabled={cost.currency === 'INR'} value={rateValue}
-              onChange={e => onChange({ rateOverride: e.target.value })}
-              placeholder="Enter INR rate" className={inputClass} />
-          </label>
-          <div className="mt-1 flex items-center gap-2 text-xs text-[#718080]">
-            <span>{cost.currency === 'INR' ? 'Fixed 1:1'
-              : cost.rateOverride !== undefined ? 'Manual rate'
-              : automaticRate !== null ? 'Indicative rate' : 'Rate required'}</span>
-            {cost.rateOverride !== undefined && cost.currency !== 'INR' && (
-              <button type="button" onClick={() => onChange({ rateOverride: undefined })}
-                className="underline underline-offset-2">Use automatic</button>
-            )}
-          </div>
-        </div>
-        <div className="md:col-span-3">
-          <span className="block text-sm">Converted Supplier Cost (INR)</span>
-          <div className="mt-2 rounded-lg border border-[#d8c9ab] bg-[#f2ead9] px-3 py-3 text-sm font-semibold tabular-nums">
-            {converted === null ? '—' : formatInr(converted)}
-          </div>
-          {converted === null && (
-            <p className="mt-1 text-xs text-[#9b5550]">
-              {quantity === null ? (isCurrentPricingBasis(basis)
-                  ? 'Enter a quantity of at least 1.' : 'Choose a pricing basis.')
-                : rate === null ? 'Enter a valid exchange rate.' : 'Check amount.'}
-            </p>
-          )}
-        </div>
-      </div>
-
-    </div>
+    <tr>
+      <td><select aria-label={`Service ${rowNumber}`} value={cost.category}
+        onChange={event => onChange({ category: event.target.value as Cost['category'] })}>
+        <option value="land">Land Package</option><option value="visa">Visa</option>
+        <option value="insurance">Travel Insurance</option><option value="flight">Flight</option>
+      </select></td>
+      <td><input aria-label={`Details ${rowNumber}`} value={cost.description} placeholder="Optional details"
+        onChange={event => onChange({ description: event.target.value })} /></td>
+      <td><select aria-label={`Pax category ${rowNumber}`} value={isCurrentPricingBasis(basis) ? basis : ''}
+        onChange={event => onChange({ pricingBasis: event.target.value as PricingBasis,
+          quantityOverride: event.target.value === 'group' ? undefined : '', selectedChildIndices: undefined })}>
+        {!isCurrentPricingBasis(basis) && <option value="" disabled>Choose category</option>}
+        <option value="group">Entire Group</option><option value="adult">Adult</option>
+        <option value="childWithBed">Child with bed</option><option value="childWithoutBed">Child without bed</option>
+      </select></td>
+      <td><select aria-label={`Currency ${rowNumber}`} value={currencyIsListed ? cost.currency : 'OTHER'}
+        onChange={event => onChange({ currency: event.target.value, rateOverride: undefined })}>
+        {CURRENCIES.map(code => <option key={code} value={code}>{code}</option>)}
+        <option value="OTHER">Other…</option>
+      </select>
+      {!currencyIsListed && <input aria-label={`Other currency code ${rowNumber}`} maxLength={3}
+        value={cost.currency === 'OTHER' ? '' : cost.currency} placeholder="ISO code"
+        onChange={event => onChange({ currency: event.target.value.toUpperCase().replace(/[^A-Z]/g, '').slice(0, 3), rateOverride: undefined })} />}
+      </td>
+      <td><input aria-label={`Unit cost ${rowNumber}`} inputMode="decimal" value={amountText} placeholder="0.00"
+        onFocus={event => event.currentTarget.select()}
+        onChange={event => {
+          const value = event.target.value
+          if (!/^\d*(?:\.\d*)?$/.test(value)) return
+          setAmountText(value)
+          onChange({ amount: value === '' || value === '.' ? '' : Number(value) })
+        }} onBlur={() => setAmountText(String(cost.amount))} /></td>
+      <td>{basis === 'group' ? <input aria-label={`Quantity ${rowNumber}`} value="1" readOnly title="One whole-group amount" /> :
+        <input aria-label={`Quantity ${rowNumber}`} inputMode="numeric" pattern="[0-9]*"
+          disabled={!isCurrentPricingBasis(basis)} placeholder="Qty"
+          value={cost.quantityOverride ?? (basis === 'adult' ? travellers?.adults ?? '' : cost.selectedChildIndices?.length || '')}
+          onFocus={event => event.currentTarget.select()}
+          onChange={event => { const value = event.target.value; if (/^\d*$/.test(value)) onChange({ quantityOverride: value === '' ? '' : Number(value) }) }} />}
+      </td>
+      <td><input aria-label={`INR rate ${rowNumber}`} type="number" min="0.0000001" step="any"
+        disabled={cost.currency === 'INR'} value={rateValue} placeholder="Rate"
+        title={cost.rateOverride !== undefined ? 'Manual rate' : 'Indicative automatic rate'}
+        onChange={event => onChange({ rateOverride: event.target.value })} />
+        {cost.rateOverride !== undefined && cost.currency !== 'INR' && <button type="button" className={styles.rateReset}
+          onClick={() => onChange({ rateOverride: undefined })} aria-label={`Use automatic rate ${rowNumber}`}>Auto</button>}
+      </td>
+      <td className={styles.lineTotal}>{converted === null ? <span title={quantity === null ? 'Enter a valid quantity / category' : rate === null ? 'Enter a valid INR rate' : 'Enter a valid unit cost'}>Pending</span> : formatInr(converted)}</td>
+      <td><button type="button" className={styles.removeCell} onClick={onRemove} aria-label={`Remove cost ${rowNumber}`}>×</button></td>
+    </tr>
   )
 }
 
-function OptionSubtotal({
-  costs, travellers, rates,
-}: {
-  costs: Cost[]
-  travellers?: Travellers
-  rates: Record<string, number> | null
+function OptionSubtotal({ costs, travellers, rates }: {
+  costs: Cost[]; travellers?: Travellers; rates: Record<string, number> | null
 }) {
   const totals = costs.map(cost => calculateInr(cost, travellers, rates))
   const incomplete = totals.some(total => total === null)
   const subtotal = totals.reduce<number>((sum, total) => sum + (total ?? 0), 0)
-  return (
-    <div className="mt-6 flex flex-wrap items-center justify-between gap-3 rounded-lg border border-[#d8c9ab] bg-[#f2ead9] px-5 py-4">
-      <div>
-        <p className="font-serif text-lg">Total Supplier Cost</p>
-        <p className="text-xs text-[#718080]">
-          INR · Before MadrasTrails markup and applicable taxes
-        </p>
-      </div>
-      <div className="text-right">
-        <p className="text-xl font-semibold tabular-nums">
-          {incomplete ? 'Pending conversion' : formatInr(subtotal)}
-        </p>
-        {incomplete && <p className="text-xs text-[#9b5550]">
-          {totals.filter(total => total === null).length} cost row(s) need attention
-        </p>}
-      </div>
-    </div>
-  )
+  return <tr><th scope="row" colSpan={7}>Total supplier cost <span className={styles.hint}>· INR, before markup &amp; taxes</span></th>
+    <td className={styles.lineTotal}>{incomplete ? 'Pending' : formatInr(subtotal)}</td><td /></tr>
 }
 
-function Field({
-  label,
-  value,
-  onChange,
-  type = 'text',
-  min,
-}: {
-  label: string
-  value: string | number
-  onChange: (value: string) => void
-  type?: string
-  min?: number
-}) {
-  return (
-    <label className="block text-sm">
-      {label}
-      <input
-        // A text-backed numeric field permits selecting an existing 0 reliably.
-        // Browsers do not consistently support select() on type="number".
-        type={type === 'number' ? 'text' : type}
-        inputMode={type === 'number' ? 'decimal' : undefined}
-        min={min}
-        value={value}
-        onFocus={event => {
-          // Select the existing numeric value so typing replaces it instead
-          // of appending digits (for example, 0 + 1 becoming 01).
-          if (type === 'number') event.currentTarget.select()
-        }}
-        onChange={event => onChange(event.target.value)}
-        className={inputClass}
-      />
-    </label>
-  )
+import AiQuotationImport from './AiQuotationImport'
+
+type EditorProps = {
+  queryId?: string
+  quotationId?: string
+  queryContext?: string
+  quotations?: QuotationSummary[]
+  onCreateQuotation?: (vendor: string) => Promise<boolean>
+  onPreferQuotation?: (id: string) => Promise<boolean>
+  workspaceMessage?: string
 }
 
-export default function PackageOptionsEditor() {
-  const { id, quoteId } = useParams<{ id: string; quoteId: string }>()
+export default function PackageOptionsEditor({ queryId, quotationId, queryContext, quotations = [], onCreateQuotation, onPreferQuotation, workspaceMessage }: EditorProps = {}) {
+  const params = useParams<{ id: string; quoteId: string }>()
+  const id = queryId ?? params.id
+  const quoteId = quotationId ?? params.quoteId
+  const [addingVendor, setAddingVendor] = useState(false)
+  const [nextVendor, setNextVendor] = useState('')
+  const [vendorBusy, setVendorBusy] = useState(false)
+  const [showImport, setShowImport] = useState(false)
+  const [referenceCurrency, setReferenceCurrency] = useState('USD')
+  const [referenceRates, setReferenceRates] = useState<Record<string, string>>({})
   const router = useRouter()
-  const { quote, loaded, message, setMessage, saveQuote, flush } = useTeamQuote<Quote>(id, quoteId)
+  const { quote, loaded, message, setMessage, saveQuote, flush, appendAiOptions } = useTeamQuote<Quote>(id, quoteId)
   const [fx, setFx] = useState<FxState>({
     rates: null, updatedAt: null, status: 'loading',
   })
@@ -446,6 +300,77 @@ export default function PackageOptionsEditor() {
       updatedAt: new Date().toISOString(),
     })
     return true
+  }
+
+  async function applyAiDraft(draft: unknown[], reviewItems: string[]) {
+    if (!quote || !draft.length) return false
+
+    const validCategories = ['land', 'visa', 'insurance', 'flight']
+    const validBases = ['group', 'adult', 'childWithBed', 'childWithoutBed']
+    const isObject = (value: unknown): value is Record<string, unknown> =>
+      !!value && typeof value === 'object' && !Array.isArray(value)
+
+    const imported: PackageOption[] = []
+
+    for (const raw of draft) {
+      if (!isObject(raw) || typeof raw.name !== 'string' ||
+          !raw.name.trim() || !Array.isArray(raw.hotels) ||
+          !Array.isArray(raw.costs) || !raw.costs.length) {
+        setMessage('AI draft has incomplete options. Review before applying.')
+        return false
+      }
+
+      const hotels: Hotel[] = []
+      for (const item of raw.hotels) {
+        if (!isObject(item) ||
+            typeof item.city !== 'string' || !item.city.trim() ||
+            typeof item.name !== 'string' || !item.name.trim() ||
+            typeof item.stars !== 'string' || !item.stars.trim() ||
+            typeof item.nights !== 'number' ||
+            !Number.isInteger(item.nights) || item.nights < 1) {
+          setMessage('AI hotel details are incomplete. Review before applying.')
+          return false
+        }
+        hotels.push({
+          id: crypto.randomUUID(),
+          city: item.city,
+          name: item.name,
+          stars: item.stars,
+          nights: item.nights,
+        })
+      }
+
+      const costs: Cost[] = []
+      for (const item of raw.costs) {
+        if (!isObject(item) ||
+            !validCategories.includes(String(item.category)) ||
+            !validBases.includes(String(item.pricingBasis)) ||
+            typeof item.currency !== 'string' ||
+            !/^[A-Z]{3}$/.test(item.currency) ||
+            typeof item.amount !== 'number' ||
+            !Number.isFinite(item.amount) || item.amount < 0) {
+          setMessage('AI supplier costs are incomplete. Review before applying.')
+          return false
+        }
+        costs.push({
+          id: crypto.randomUUID(),
+          category: item.category as Cost['category'],
+          description: typeof item.description === 'string' ? item.description : '',
+          currency: item.currency,
+          amount: item.amount,
+          pricingBasis: item.pricingBasis as PricingBasis,
+        })
+      }
+
+      imported.push({
+        id: crypto.randomUUID(),
+        name: raw.name,
+        hotels,
+        costs,
+      })
+    }
+
+    return await appendAiOptions(imported, reviewItems)
   }
 
   function updateTravellers(patch: Partial<Travellers>) {
@@ -514,14 +439,15 @@ export default function PackageOptionsEditor() {
     }))
   }
 
-  function addCost(optionId: string) {
+  function addCost(optionId: string, category: Cost['category']) {
     modifyOption(optionId, option => ({
       ...option,
       costs: [...option.costs, {
         id: crypto.randomUUID(),
-        category: 'land',
+        category,
         description: '',
-        currency: 'USD',
+        currency: referenceCurrency,
+        ...(referenceRates[referenceCurrency] !== undefined ? { rateOverride: referenceRates[referenceCurrency] } : {}),
         amount: '',
         pricingBasis: 'group',
       }],
@@ -576,271 +502,173 @@ export default function PackageOptionsEditor() {
   const options = quote.options || []
 
   return (
-    <main className="min-h-screen bg-[#f6f3eb] px-8 py-12 text-[#173d3e]">
+    <main className={`${styles.editor} ${styles.sheetEditor}`}>
       <div className="mx-auto max-w-6xl">
         <Link
-          href={`/team/queries/${encodeURIComponent(id)}/quotes`}
+          href="/team"
             onClick={async event => {
               event.preventDefault()
-              if (await flush()) router.push(`/team/queries/${encodeURIComponent(id)}/quotes`)
+              if (await flush()) router.push('/team')
             }}
           className="text-sm text-[#96794c]"
         >
-          ← Back to Vendor Quotations
+          ← Dashboard
         </Link>
 
-        <header className="mt-8">
-          <p className="text-xs uppercase tracking-[0.25em] text-[#a18453]">
-            MadrasTrails · Internal Workspace
-          </p>
-          <h1 className="mt-3 font-serif text-4xl">Package Options</h1>
-          <p className="mt-3 text-sm text-[#718080]">
-            {quote.title} · {quote.vendorName}
-          </p>
-        </header>
+        <QueryWorkspaceHeader activeTab="quotation" title="Package Options"
+          context={queryContext || quote.vendorName}
+          onNavigate={async tab => {
+            if (tab === 'pricing') { await continueToPricing(); return }
+            if (await flush()) router.push(`/team/queries/${encodeURIComponent(id)}/quotes/${encodeURIComponent(quoteId)}/itinerary`)
+          }} />
 
-        <div className="mt-8 rounded-lg border border-[#ddcfb1] bg-[#f0e8d7] p-4 text-sm">
-          Local demo only. Use sample supplier prices. Hotels describe each
-          predefined combination; enter financial costs separately.
-          Do not duplicate hotel costs already included in a land package.
-        </div>
-
-        <div className="mt-6 rounded-xl border border-[#e6dfd1] bg-white p-6">
-          <h2 className="font-serif text-xl">Travellers & Child Ages</h2>
-          <p className="mt-1 text-xs text-[#718080]">
-            Record the traveller headcount and child ages for reference. Enter the
-            quantity manually on each per-adult or child-rate supplier cost row.
-          </p>
-          <div className="mt-3 grid max-w-lg grid-cols-2 gap-4">
-            <Field label="Adults" type="number" min={0}
-              value={quote.travellers?.adults ?? 0}
-              onChange={value => updateTravellers({
-                adults: Math.max(0, Math.floor(Number(value) || 0)),
-              })} />
-            <Field label="Children" type="number" min={0}
-              value={quote.travellers?.children ?? 0}
-              onChange={value => updateTravellers({
-                children: Math.max(0, Math.floor(Number(value) || 0)),
-              })} />
+        <div className={styles.panel}>
+          <div className={styles.vendorBar}>
+            <label>Vendor name <span className={styles.hint}>(internal)</span>
+              <input value={quote.vendorName} required aria-label="Vendor name"
+                onChange={event => saveQuote({ ...quote, vendorName: event.target.value })} />
+            </label>
+            {quotations.length > 1 && <label>Quotation
+              <select aria-label="Switch vendor quotation" value={quoteId} disabled={vendorBusy}
+                onChange={async event => {
+                  const nextId = event.target.value
+                  if (await flush()) router.push(`/team/queries/${encodeURIComponent(id)}/quotes/${encodeURIComponent(nextId)}`)
+                }}>
+                {quotations.map(item => <option key={item.id} value={item.id}>{item.id === quoteId ? quote.vendorName : item.vendor_name}{item.selected ? ' · Preferred' : ''}</option>)}
+              </select>
+            </label>}
+            {onPreferQuotation && (quotations.length > 1 || !quotations.some(item => item.id === quoteId && item.selected)) && <button type="button"
+              disabled={vendorBusy || quotations.some(item => item.id === quoteId && item.selected)}
+              onClick={async () => {
+                setVendorBusy(true)
+                try { if (await flush()) await onPreferQuotation(quoteId) } finally { setVendorBusy(false) }
+              }}>{quotations.some(item => item.id === quoteId && item.selected) ? 'Preferred for client ✓' : 'Use for client'}</button>}
+            {onCreateQuotation && <button type="button" disabled={vendorBusy} onClick={() => setAddingVendor(value => !value)}>
+              {addingVendor ? 'Cancel' : '+ Another quotation'}
+            </button>}
           </div>
-          {(quote.travellers?.children ?? 0) > 0 && (
-            <div className="mt-5">
-              <p className="text-sm font-medium">Individual child ages</p>
-              <p className="mt-1 text-xs text-[#718080]">
-                Enquiry age bands: infant under 2, child 2–11, adult 12–59, senior 60+.
-                Child ages are for reference only; they do not determine supplier rates.
-              </p>
-              <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                {Array.from({ length: quote.travellers?.children ?? 0 }, (_, index) => {
-                  const age = quote.travellers?.childAges?.[index] ?? ''
-                  return (
-                    <label key={index} className="block text-sm">
-                      Child {index + 1} age (years)
-                      <input type="number" min={0} max={17} step={1} value={age}
-                        placeholder="Enter age"
-                        onChange={e => updateChildAge(index, e.target.value)}
-                        className={inputClass} />
-                      <span className="mt-1 block text-xs text-[#718080]">{ageCategory(age)}</span>
-                    </label>
-                  )
-                })}
-              </div>
+          {addingVendor && <form className={styles.vendorBar} onSubmit={async event => {
+            event.preventDefault()
+            if (!nextVendor.trim() || vendorBusy || !onCreateQuotation) return
+            setVendorBusy(true)
+            try {
+              if (await flush()) {
+                if (await onCreateQuotation(nextVendor)) { setAddingVendor(false); setNextVendor('') }
+              }
+            } finally { setVendorBusy(false) }
+          }}>
+            <label>Additional vendor name<input required value={nextVendor} onChange={event => setNextVendor(event.target.value)} /></label>
+            <button type="submit" disabled={vendorBusy}>{vendorBusy ? 'Saving…' : 'Add quotation'}</button>
+          </form>}
+        </div>
+        {workspaceMessage && <p role="alert" className="mt-2 text-sm">{workspaceMessage}</p>}
+        <div className={styles.sheetScroll}>
+          <table className={`${styles.sheetTable} ${styles.queryDetails}`} aria-label="Query details">
+            <thead><tr><th scope="col">Adults</th><th scope="col">Children</th><th scope="col">Child ages</th><th scope="col">Exchange rate → INR</th><th scope="col">Quotation import</th></tr></thead>
+            <tbody><tr>
+              <td><input aria-label="Adults" type="number" min={0} step={1} value={quote.travellers?.adults ?? 0}
+                onChange={event => updateTravellers({ adults: Math.max(0, Math.floor(Number(event.target.value) || 0)) })} /></td>
+              <td><input aria-label="Children" type="number" min={0} step={1} value={quote.travellers?.children ?? 0}
+                onChange={event => updateTravellers({ children: Math.max(0, Math.floor(Number(event.target.value) || 0)) })} /></td>
+              <td><div className={styles.childAges}>
+                {(quote.travellers?.children ?? 0) === 0 ? <span className={styles.hint}>—</span> :
+                  Array.from({ length: quote.travellers?.children ?? 0 }, (_, index) => <input key={index}
+                    aria-label={`Child ${index + 1} age`} title={ageCategory(quote.travellers?.childAges?.[index] ?? '')}
+                    type="number" min={0} max={17} step={1} placeholder="Age" value={quote.travellers?.childAges?.[index] ?? ''}
+                    onChange={event => updateChildAge(index, event.target.value)} />)}
+              </div></td>
+              <td><div className={styles.referenceFx}>
+                <select aria-label="Reference currency" value={referenceCurrency} onChange={event => setReferenceCurrency(event.target.value)}>
+                  {CURRENCIES.map(code => <option key={code} value={code}>{code}</option>)}
+                </select>
+                <input aria-label="Reference INR rate" type="number" min="0.0000001" step="any" disabled={referenceCurrency === 'INR'}
+                  placeholder={fx.status === 'loading' ? 'Loading…' : 'Enter rate'}
+                  value={referenceCurrency === 'INR' ? '1' : referenceRates[referenceCurrency] ?? (getAutoRate(referenceCurrency, fx.rates)?.toFixed(6) ?? '')}
+                  title={`Apply a manual INR rate to all ${referenceCurrency} cost rows in this quotation`}
+                  onChange={event => {
+                    const value = event.target.value
+                    setReferenceRates(current => ({ ...current, [referenceCurrency]: value }))
+                    save((quote.options ?? []).map(option => ({ ...option, costs: option.costs.map(cost =>
+                      cost.currency === referenceCurrency ? { ...cost, rateOverride: value } : cost) })))
+                  }} />
+              </div></td>
+              <td><button type="button" className={styles.sheetButton} onClick={() => setShowImport(value => !value)}>
+                {showImport ? 'Close import' : 'Import with AI'}
+              </button></td>
+            </tr></tbody>
+          </table>
+        </div>
+        <div hidden={!showImport}><AiQuotationImport queryId={id} quoteId={quoteId} onApply={applyAiDraft} /></div>
+        {fx.status === 'error' && <p role="status" className={styles.hint}>Automatic rates unavailable. Enter INR rates manually.</p>}
+
+        <div className={styles.packageHeading}>
+          <h2>Package Options ({options.length})</h2>
+          <button type="button" onClick={addOption}>+ Add Package Option</button>
+        </div>
+        {options.map(option => (
+          <section key={option.id} className={styles.sheetOption}>
+            <div className={styles.packageName}>
+              <label htmlFor={`name-${option.id}`}>Package name</label>
+              <input id={`name-${option.id}`} value={option.name} onChange={event => modifyOption(option.id, current => ({ ...current, name: event.target.value }))} />
+              <button type="button" onClick={() => {
+                if (window.confirm('Remove this package option?')) save(options.filter(item => item.id !== option.id))
+              }}>Remove option</button>
             </div>
-          )}
-          <p className="mt-3 text-xs text-[#96794c]">
-            Local demo: traveller ages are stored with this quotation. Automatic enquiry
-            syncing will be connected when the customer-query data is integrated.
-          </p>
-        </div>
-
-        <div className="mt-5 rounded-lg border border-[#ddcfb1] bg-[#f0e8d7] px-4 py-3 text-xs text-[#5b6766]">
-          {fx.status === 'loading' ? 'Loading indicative INR exchange rates…'
-            : fx.status === 'error' ? 'Automatic rates unavailable. Enter INR rates manually.'
-            : `Indicative FX rates updated ${fx.updatedAt
-                ? new Date(fx.updatedAt).toLocaleDateString('en-IN', {
-                    day: '2-digit', month: 'short', year: 'numeric', timeZone: 'UTC',
-                  }) : 'recently'}. Manual overrides are available for every cost.`}
-          {' · '}
-          <a href="https://www.exchangerate-api.com" target="_blank"
-            rel="noopener noreferrer" className="underline underline-offset-2">
-            ExchangeRate-API
-          </a>
-          {' · Rates are indicative, not guaranteed transaction rates.'}
-        </div>
-
-        <div className="mt-8 flex items-center justify-between">
-          <h2 className="font-serif text-2xl">
-            Available Combinations ({options.length})
-          </h2>
-          <button
-            type="button"
-            onClick={addOption}
-            className="rounded-full bg-[#123c3e] px-7 py-3 text-sm text-white"
-          >
-            + Add Package Option
-          </button>
-        </div>
-
-        <div className="mt-6 space-y-8">
-          {options.map(option => (
-            <section
-              key={option.id}
-              className="rounded-xl border border-[#e6dfd1] bg-white p-8"
-            >
-              <div className="flex items-end justify-between gap-5">
-                <div className="flex-1">
-                  <Field
-                    label="Package Combination Name"
-                    value={option.name}
-                    onChange={name => modifyOption(
-                      option.id, current => ({ ...current, name })
-                    )}
-                  />
-                </div>
-                <button
-                  type="button"
-                  className="pb-3 text-sm text-[#9b5550]"
-                  onClick={() => {
-                    if (!window.confirm('Remove this package option?')) return
-                    save(options.filter(item => item.id !== option.id))
-                  }}
-                >
-                  Remove Option
-                </button>
-              </div>
-
-              <div className="mt-8 border-t border-[#eee8dd] pt-6">
-                <div className="flex items-center justify-between">
-                  <h3 className="font-serif text-xl">Hotels & Destinations</h3>
-                  <button
-                    type="button"
-                    onClick={() => addHotel(option.id)}
-                    className="text-sm text-[#96794c]"
-                  >
-                    + Add Hotel
-                  </button>
-                </div>
-
-                {option.hotels.map(hotel => (
-                  <div
-                    key={hotel.id}
-                    className="mt-5 grid grid-cols-12 items-end gap-3"
-                  >
-                    <div className="col-span-3">
-                      <Field
-                        label="City / Country"
-                        value={hotel.city}
-                        onChange={city => updateHotel(
-                          option.id, hotel.id, { city }
-                        )}
-                      />
-                    </div>
-                    <div className="col-span-4">
-                      <Field
-                        label="Hotel Name"
-                        value={hotel.name}
-                        onChange={name => updateHotel(
-                          option.id, hotel.id, { name }
-                        )}
-                      />
-                    </div>
-                    <label className="col-span-2 text-sm">
-                      Category
-                      <select
-                        value={hotel.stars}
-                        onChange={e => updateHotel(
-                          option.id, hotel.id, { stars: e.target.value }
-                        )}
-                        className={inputClass}
-                      >
-                        <option value="3">3 Star</option>
-                        <option value="4">4 Star</option>
-                        <option value="5">5 Star</option>
-                      </select>
-                    </label>
-                    <div className="col-span-2">
-                      <Field
-                        label="Nights"
-                        type="number"
-                        min={1}
-                        value={hotel.nights}
-                        onChange={value => updateHotel(
-                          option.id, hotel.id,
-                          { nights: Math.max(1, Math.floor(Number(value) || 1)) }
-                        )}
-                      />
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => modifyOption(option.id, current => ({
-                        ...current,
-                        hotels: current.hotels.filter(h => h.id !== hotel.id),
-                      }))}
-                      className="col-span-1 pb-3 text-sm text-[#9b5550]"
-                      aria-label="Remove hotel"
-                    >
-                      Remove
-                    </button>
-                  </div>
-                ))}
-              </div>
-
-              <div className="mt-8 border-t border-[#eee8dd] pt-6">
-                <div className="flex items-center justify-between">
-                  <h3 className="font-serif text-xl">Supplier Cost Components</h3>
-                  <button
-                    type="button"
-                    onClick={() => addCost(option.id)}
-                    className="text-sm text-[#96794c]"
-                  >
-                    + Add Cost
-                  </button>
-                </div>
-
-                <p className="mt-2 text-xs text-[#718080]">
-                  Choose Entire Group for one total, or add separate Per Adult,
-                  Per Child With Bed and Per Child Without Bed rows with manual quantities.
-                  Do not enter the same supplier cost twice.
-                </p>
-
-                {option.costs.map(cost => (
-                  <CostRow
-                    key={cost.id}
-                    cost={cost}
-                    travellers={quote.travellers}
-                    rates={fx.rates}
-                    onChange={patch => updateCost(option.id, cost.id, patch)}
-                    onRemove={() => modifyOption(option.id, current => ({
-                      ...current,
-                      costs: current.costs.filter(item => item.id !== cost.id),
-                    }))}
-                  />
-                ))}
-                <OptionSubtotal
-                  costs={option.costs}
-                  travellers={quote.travellers}
-                  rates={fx.rates}
-                />
-              </div>
-            </section>
-          ))}
-
-          {options.length === 0 && (
-            <div className="rounded-xl border border-[#e6dfd1] bg-white p-8 text-center text-sm text-[#718080]">
-              No package combinations yet. Add your first option above.
+            <div className={styles.sheetSectionHeading}><h3>Hotels &amp; Destinations</h3>
+              <button type="button" onClick={() => addHotel(option.id)}>+ Hotel</button></div>
+            <div className={styles.sheetScroll}>
+              <table className={`${styles.sheetTable} ${styles.hotelSheet}`} aria-label={`Hotels for ${option.name}`}>
+                <thead><tr><th scope="col">City / Country</th><th scope="col">Hotel name</th><th scope="col">Category</th><th scope="col">Nights</th><th scope="col"><span className="sr-only">Remove</span></th></tr></thead>
+                <tbody>{option.hotels.map((hotel, index) => <tr key={hotel.id}>
+                  <td><input aria-label={`City / Country ${index + 1}`} value={hotel.city} onChange={event => updateHotel(option.id, hotel.id, { city: event.target.value })} /></td>
+                  <td><input aria-label={`Hotel name ${index + 1}`} value={hotel.name} onChange={event => updateHotel(option.id, hotel.id, { name: event.target.value })} /></td>
+                  <td><select aria-label={`Hotel category ${index + 1}`} value={hotel.stars} onChange={event => updateHotel(option.id, hotel.id, { stars: event.target.value })}>
+                    <option value="3">3 Star</option><option value="4">4 Star</option><option value="5">5 Star</option>
+                  </select></td>
+                  <td><input aria-label={`Nights ${index + 1}`} inputMode="numeric" value={hotel.nights}
+                    onFocus={event => event.currentTarget.select()}
+                    onChange={event => updateHotel(option.id, hotel.id, { nights: Math.max(1, Math.floor(Number(event.target.value) || 1)) })} /></td>
+                  <td><button type="button" className={styles.removeCell} aria-label={`Remove hotel ${index + 1}`} onClick={() => modifyOption(option.id, current => ({ ...current, hotels: current.hotels.filter(item => item.id !== hotel.id) }))}>×</button></td>
+                </tr>)}
+                {!option.hotels.length && <tr><td colSpan={5} className={styles.emptyCell}>No hotels added. Use + Hotel when needed.</td></tr>}
+                </tbody>
+              </table>
             </div>
-          )}
-        </div>
+            <div className={styles.sheetSectionHeading}><h3>Supplier Costing</h3>
+              <label className={styles.addService}>+ Cost row
+                <select aria-label={`Add cost service for ${option.name}`} value="" onChange={event => { if (event.target.value) addCost(option.id, event.target.value as Cost['category']) }}>
+                  <option value="">Choose service…</option><option value="land">Land Package</option><option value="visa">Visa</option><option value="insurance">Travel Insurance</option><option value="flight">Flight</option>
+                </select>
+              </label></div>
+            <div className={styles.sheetScroll}>
+              <table className={`${styles.sheetTable} ${styles.costSheet}`} aria-label={`Supplier costing for ${option.name}`}>
+                <colgroup><col style={{width:'15%'}}/><col style={{width:'18%'}}/><col style={{width:'15%'}}/><col style={{width:'8%'}}/><col style={{width:'10%'}}/><col style={{width:'6%'}}/><col style={{width:'11%'}}/><col style={{width:'13%'}}/><col style={{width:'4%'}}/></colgroup>
+                <thead><tr><th scope="col">Service</th><th scope="col">Details</th><th scope="col">Pax category</th><th scope="col">Currency</th><th scope="col">Unit cost</th><th scope="col">Qty</th><th scope="col">INR rate</th><th scope="col">Line total ₹</th><th scope="col"><span className="sr-only">Remove</span></th></tr></thead>
+                <tbody>{option.costs.map((cost, index) => <CostRow key={cost.id} cost={cost} rowNumber={index + 1} travellers={quote.travellers} rates={fx.rates}
+                  onChange={patch => updateCost(option.id, cost.id, patch)} onRemove={() => modifyOption(option.id, current => ({ ...current, costs: current.costs.filter(item => item.id !== cost.id) }))} />)}
+                  <tr className={styles.newCostRow}>
+                    <td><select aria-label={`Choose service for new cost in ${option.name}`} value="" onChange={event => { if (event.target.value) addCost(option.id, event.target.value as Cost['category']) }}>
+                      <option value="">Choose service…</option><option value="land">Land Package</option><option value="visa">Visa</option><option value="insurance">Travel Insurance</option><option value="flight">Flight</option>
+                    </select></td>
+                    <td colSpan={8}><span className={styles.hint}>Choose a service to add a cost line.</span></td>
+                  </tr>
+                </tbody>
+                <tfoot><OptionSubtotal costs={option.costs} travellers={quote.travellers} rates={fx.rates} /></tfoot>
+              </table>
+            </div>
+          </section>
+        ))}
+        {!options.length && <p className={styles.empty}>No package options yet. Add your first option above.</p>}
 
-        <div className="mt-8 flex flex-wrap items-center justify-between gap-4 rounded-xl border border-[#d8c9ab] bg-[#f2ead9] p-5">
-          <p className="text-sm text-[#718080]">Your changes are saved automatically in this browser.</p>
+        <div className={styles.saveBar}>
+          <p className="text-sm text-[#718080]">Changes save automatically.</p>
           <button type="button" onClick={continueToPricing}
             className="rounded-full bg-[#123c3e] px-7 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#1c5052]">
             Save &amp; Continue to Pricing →
           </button>
         </div>
 
-        <p role="status" className="mt-8 text-sm text-[#718080]">
+        <p role="status" className="mt-2 text-sm text-[#718080]">
           {message}
         </p>
       </div>

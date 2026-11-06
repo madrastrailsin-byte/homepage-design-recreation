@@ -1,6 +1,6 @@
 import { notFound, redirect } from 'next/navigation'
 import { createSupabaseSessionClient } from '../../../../../../lib/supabase/session'
-import PackageOptionsEditor from './PackageOptionsEditor'
+import QuotesWorkspace from '../QuotesWorkspace'
 
 export default async function PackageOptionsPage({ params }: {
   params: Promise<{ id: string; quoteId: string }>
@@ -12,5 +12,5 @@ export default async function PackageOptionsPage({ params }: {
   const { data: quote } = await supabase.from('team_vendor_quotes')
     .select('id').eq('id', quoteId).eq('query_id', id).maybeSingle()
   if (!quote) notFound()
-  return <PackageOptionsEditor />
+  return <QuotesWorkspace />
 }
