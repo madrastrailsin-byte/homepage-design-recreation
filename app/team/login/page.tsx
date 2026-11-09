@@ -53,11 +53,8 @@ export default function TeamLoginPage() {
 
   return (
     <main className={styles.scene}>
-      <Image src="/images/team/madras-evening-panel-v2.webp" alt="" fill priority sizes="100vw" className={styles.background} />
-      <div className={styles.brand}>
-        <Image src="/images/team/secondary-logo.png" alt="MadrasTrails — Beyond Boundaries" width={2352} height={464} priority className={styles.logo} />
-        <p className={styles.tagline}>Travel Like a Local</p>
-      </div>
+      <Image src="/images/team/madras-evening-panel-v3.png" alt="" fill priority sizes="100vw" className={styles.background} />
+
 
       <form onSubmit={handleLogin} className={styles.card} aria-labelledby="team-login-title" aria-busy={loading}>
         <p className={styles.eyebrow}>MadrasTrails</p>

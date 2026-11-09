@@ -1,7 +1,7 @@
 .scene { position: relative; isolation: isolate; height: 100svh; min-height: 620px; overflow: hidden; background: #062e38; color: #00443f; font-family: var(--mt-font-body); color-scheme: light; }
 .background { object-fit: fill; z-index: -1; }
 .brand { position: absolute; top: 22.4%; left: 25.3%; width: 33%; text-align: center; }
-.logo { display: block; width: 100%; height: auto; filter: drop-shadow(0 0 14px #fff2d7cc) drop-shadow(0 0 35px #fff2d7aa); }
+.logo { display: block; width: 100%; height: auto; filter: none; }
 .tagline { display: flex; align-items: center; justify-content: center; gap: 1.5vw; margin: 3.2vh -1% 0; font-family: var(--mt-font-display); font-size: clamp(26px, 2.4vw, 46px); font-style: italic; font-weight: 600; line-height: 1.1; white-space: nowrap; color: #fff9eb; text-shadow: 0 2px 5px #002b32; }
 .tagline::before, .tagline::after { content: ''; height: 1px; width: 5.2vw; background: #d7a929; flex-shrink: 0; }
 .card { position: absolute; top: 22.75%; left: 63.76%; width: 26.7%; height: 58.25%; box-sizing: border-box; }
