@@ -1,3 +1,51 @@
+.experience {
+  --hero-track: 260svh;
+}
+
+.heroTrack {
+  grid-area: 1 / 1;
+  align-self: start;
+  /* Keep the hero pinned until its last visible pixels have dissolved. */
+  height: calc(var(--hero-track) + 100svh);
+  pointer-events: none;
+  z-index: 20;
+}
+
+.heroStage {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+  background: #020F12;
+  opacity: var(--hero-opacity, 1);
+  pointer-events: auto;
+}
+
+.heroStage[data-exited='true'] {
+  pointer-events: none;
+}
+
+.heroTitle {
+  opacity: var(--title-opacity, 1);
+  transform: translateY(var(--title-offset, 0%));
+}
+
+.entranceHaze {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse at 48% 38%, #efbd8340, transparent 70%), #21130f;
+  opacity: var(--hero-warmth, 0);
+}
+
+.worldTrack {
+  padding-top: var(--hero-track);
+}
+
+.beforeFirstWorld .hotspot {
+  visibility: hidden;
+}
+
 .rays {
   position: absolute;
   inset: 0;
@@ -31,6 +79,25 @@
   cursor: pointer;
   pointer-events: auto;
   box-shadow: 0 0 0 5px color-mix(in srgb, var(--marker-accent) 14%, transparent);
+}
+
+.hotspot[data-stop='2'] {
+  background: #171716c9;
+  border-style: dashed;
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--marker-accent) 8%, transparent);
+}
+
+.hotspot[data-stop='2'] .plus { font-size: 1.12rem; }
+
+.hotspot[data-side='left'] .hotspotLabel {
+  left: 0;
+  transform: none;
+}
+
+.hotspot[data-side='right'] .hotspotLabel {
+  right: 0;
+  left: auto;
+  transform: none;
 }
 
 .plus {
@@ -70,12 +137,12 @@
   position: fixed;
   inset: 0;
   margin: auto;
-  width: min(28rem, calc(100% - 2rem));
+  width: min(33rem, calc(100% - 2rem));
   max-height: calc(100% - 2rem);
   padding: clamp(1.4rem, 5vw, 2.75rem);
-  border: 1px solid #e7c69c55;
+  border: 1px solid color-mix(in srgb, var(--panel-accent) 45%, transparent);
   border-radius: 1rem;
-  background: #171716;
+  background: radial-gradient(ellipse at 0 0, color-mix(in srgb, var(--panel-accent) 14%, #171716), #171716 70%);
   color: #fff7e9;
   box-shadow: 0 24px 70px #0008;
 }
@@ -89,10 +156,16 @@
   line-height: 1.06;
 }
 
-.panel p:last-child { line-height: 1.65; }
+.discoveryDetail {
+  border-top: 1px solid color-mix(in srgb, var(--panel-accent) 26%, transparent);
+  padding-top: 1rem;
+  color: #fff7e9dc;
+  line-height: 1.7;
+}
 
 .eyebrow {
   padding-right: 2rem;
+  color: var(--panel-accent);
   font-size: .68rem;
   letter-spacing: .16em;
   text-transform: uppercase;
@@ -114,12 +187,14 @@
 
 @media (max-width: 767px) {
   .hotspot {
-    left: clamp(6rem, var(--marker-x, 50%), calc(100% - 6rem));
+    left: clamp(2rem, var(--marker-x, 50%), calc(100% - 2rem));
     top: clamp(4rem, var(--marker-y, 39%), 46%);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .experience { --hero-track: 100svh; }
+  .heroTrack { height: var(--hero-track); }
   .hotspotLabel { transition: none; }
 }
 
@@ -133,4 +208,83 @@
     overflow-x: clip !important;
     overflow-y: visible;
   }
+}
+
+/* Shallow, matte lettering with a single cut facet and a soft contact shadow. */
+.worldTitle {
+  display: inline-block;
+  max-inline-size: 100%;
+  padding-block: 0.06em 0.1em;
+  --title-edge: #806283;
+  font-family: var(--font-sans);
+  font-size: clamp(2.15rem, 4.65vw, 5.25rem);
+  font-weight: 600;
+  line-height: 0.96;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+  color: var(--title-light);
+  text-shadow: 0 1px 0 var(--title-edge), 0 3px 9px #14100c99;
+}
+
+@supports (background-clip: text) or (-webkit-background-clip: text) {
+  @media (forced-colors: none) {
+    .worldTitle {
+      background-image:
+        linear-gradient(143deg, transparent 58%, #35291d13 58%),
+        linear-gradient(165deg, var(--title-light), var(--title-face));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: none;
+      filter: drop-shadow(0 1px 0 var(--title-edge)) drop-shadow(0 3px 5px #14100c80);
+    }
+  }
+}
+
+.worldTitle[data-material='local-flavours'] {
+  /* Warm biscuit */
+  --title-light: #ffe4b7;
+  --title-face: #d4a270;
+}
+
+.worldTitle[data-material='luxury-escapes'] {
+  /* Ivory champagne */
+  --title-light: #fff9e9;
+  --title-face: #ddc9a1;
+}
+
+.worldTitle[data-material='adventure'] {
+  /* Weathered rock */
+  --title-light: #eee5d8;
+  --title-face: #b3a69c;
+}
+
+.worldTitle[data-material='cultural-connections'] {
+  /* Fired terracotta */
+  --title-light: #ffd2b0;
+  --title-face: #d68a70;
+}
+
+.worldTitle[data-material='romance'] {
+  /* Rose quartz */
+  --title-light: #ffedf3;
+  --title-face: #dca6b9;
+}
+
+.worldTitle[data-material='wellness'] {
+  /* Pale jade */
+  --title-light: #e3f6df;
+  --title-face: #a5c7aa;
+}
+
+.worldTitle[data-material='family'] {
+  /* Pastel painted toy */
+  --title-light: #fff0cb;
+  --title-face: #e0bfdc;
+}
+
+.worldTitle[data-material='wildlife-and-nature'] {
+  /* Moss-covered stone */
+  --title-light: #e8eacf;
+  --title-face: #acb88a;
 }

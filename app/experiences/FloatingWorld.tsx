@@ -466,44 +466,32 @@ function Atmosphere() {
   )
 }
 
-function CameraRig() {
-  useFrame((state, delta) => {
-    const targetX = state.pointer.x * 0.6
-    const targetY = 1.7 + state.pointer.y * 0.3
+type HeroMotion = {
+  travel: { current: number }
+  entrance: { current: number }
+}
 
-    state.camera.position.x = THREE.MathUtils.lerp(
-      state.camera.position.x,
-      targetX,
-      0.025
-    )
-    state.camera.position.y = THREE.MathUtils.lerp(
-      state.camera.position.y,
-      targetY,
-      0.025
-    )
-    const scrollRange = window.innerHeight * 1.6
-    const progress = THREE.MathUtils.clamp(
-      window.scrollY / scrollRange,
-      0,
-      1
-    )
+function CameraRig({ travel, entrance }: HeroMotion) {
+  const pointer = useRef({ x: 0, y: 0 })
 
-    const targetZ = 9 - progress * 4.2
-
-    state.camera.position.z = THREE.MathUtils.damp(
-      state.camera.position.z,
-      targetZ,
-      3,
-      delta
+  useFrame(({ camera, pointer: input }, delta) => {
+    const approach = travel.current
+    const arrival = entrance.current
+    const drift = pointer.current
+    drift.x = THREE.MathUtils.damp(drift.x, input.x * 0.6, 2, delta)
+    drift.y = THREE.MathUtils.damp(drift.y, input.y * 0.3, 2, delta)
+    camera.position.set(
+      drift.x * (1 - arrival),
+      1.7 - approach * 0.65 + drift.y * (1 - arrival),
+      9 - approach * 4.2,
     )
-
-    state.camera.lookAt(0, 0, 0)
+    camera.lookAt(0, -arrival * 0.22, 0)
   })
 
   return null
 }
 
-export default function FloatingWorld({ active }: { active: boolean }) {
+export default function FloatingWorld({ active, travel, entrance }: HeroMotion & { active: boolean }) {
   return (
     <Canvas
       camera={{ position: [0, 1.7, 9], fov: 45 }}
@@ -557,7 +545,7 @@ export default function FloatingWorld({ active }: { active: boolean }) {
         speed={0.25}
         color="#f6d6a0"
       />
-      <CameraRig />
+      <CameraRig travel={travel} entrance={entrance} />
     </Canvas>
   )
 }
