@@ -13,7 +13,6 @@ import {
 import { Canvas, extend, useFrame, useLoader, useThree } from '@react-three/fiber'
 import { Environment } from '@react-three/drei'
 import type * as ThreeTypes from '../../node_modules/.pnpm/@types+three@0.185.0/node_modules/@types/three'
-// @ts-expect-error The project has @types/three installed transitively but not hoisted for module resolution.
 import * as THREE from 'three'
 import { useReducedMotion } from 'framer-motion'
 import { destinationMetadata } from '@/lib/destinations'
