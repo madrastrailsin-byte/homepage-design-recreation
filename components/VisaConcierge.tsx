@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState, type KeyboardEvent } from 'react'
 import Image from 'next/image'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
-import { ChevronDown, Search, X, ArrowUpRight, ArrowRight, BookOpenCheck, CalendarDays, FileText, BookUser, ShieldCheck, UsersRound } from 'lucide-react'
+import { ChevronDown, Search, X, ArrowUpRight, BookOpenCheck, CalendarDays, FileText, BookUser, ShieldCheck, UsersRound } from 'lucide-react'
 import { searchVisaDestinations, visaDestinations, type VisaDestination } from '@/lib/visa-guide'
 import TripEnquiry from './TripEnquiry'
 import styles from './VisaConcierge.module.css'
@@ -82,7 +82,7 @@ export default function VisaConcierge() {
       <div className={styles.panel}>
         <div className={styles.hero}>
           <div className={styles.photography}>
-            <Image src="/images/homepage/visa-concierge-santorini.webp" alt="Santorini’s blue domes above the Aegean, with a passport, camera and travel keepsakes" fill sizes="(max-width: 639px) 100vw, (max-width: 1023px) 55vw, 864px" className={styles.travelImage} />
+            <Image src="/images/visa-concierge-hero.png" alt="Indian passport, powder-blue luggage and brass compass overlooking the Mediterranean coast" fill sizes="(max-width: 639px) 100vw, (max-width: 1023px) 55vw, 864px" className={styles.travelImage} />
           </div>
           <div className={styles.content}>
             <div className={styles.header}>
@@ -143,11 +143,7 @@ export default function VisaConcierge() {
               </div>
             ))}
           </div>
-          <button type="button" className={styles.explore} onClick={() => {
-            inputRef.current?.focus()
-            setActiveIndex(-1)
-            setOpen(true)
-          }}>Explore Visa Guides <span><ArrowRight size={19} aria-hidden="true" /></span></button>
+
         </div>
 
         <p className={styles.srOnly} role="status">{selected ? `${selected.name}: ${guidance ? Object.keys(guidance.gaps ?? {}).length ? 'Partially verified guidance available below; unresolved details are marked.' : 'Reviewed guidance available below.' : 'Guidance not yet verified.'}` : open ? filtered.length ? `${filtered.length} destinations available.` : noResultsMessage : 'Select a destination to view guidance.'}</p>

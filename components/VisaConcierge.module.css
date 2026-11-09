@@ -47,7 +47,7 @@
   overflow: hidden;
   border-radius: 0 1.5rem 1.5rem 0;
 }
-.travelImage { object-fit: cover; object-position: 60% center; filter: brightness(1.04); }
+.travelImage { object-fit: cover; object-position: 85% center; filter: brightness(1.04); }
 .photography::after {
   content: '';
   position: absolute;
