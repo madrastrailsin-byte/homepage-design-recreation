@@ -1,0 +1,136 @@
+.rays {
+  position: absolute;
+  inset: 0;
+  background: conic-gradient(
+    from 127deg at 28% -18%,
+    transparent 0deg,
+    var(--glow, #efbd83) 9deg,
+    transparent 16deg 23deg,
+    var(--glow, #efbd83) 28deg,
+    transparent 36deg 43deg,
+    var(--glow, #efbd83) 50deg,
+    transparent 61deg
+  );
+  mask-image: linear-gradient(160deg, black, transparent 72%);
+  opacity: .13;
+}
+
+.hotspot {
+  position: absolute;
+  left: var(--marker-x, 25%);
+  top: var(--marker-y, 39%);
+  display: grid;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  transform: translate(-50%, -50%);
+  border: 1px solid var(--marker-accent);
+  border-radius: 50%;
+  background: #171716e8;
+  color: var(--marker-accent);
+  cursor: pointer;
+  pointer-events: auto;
+  box-shadow: 0 0 0 5px color-mix(in srgb, var(--marker-accent) 14%, transparent);
+}
+
+.plus {
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.hotspot:focus-visible,
+.close:focus-visible {
+  outline: 2px solid white;
+  outline-offset: 5px;
+}
+
+.hotspotLabel {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 50%;
+  width: max-content;
+  max-width: 12rem;
+  transform: translateX(-50%);
+  padding: .45rem .75rem;
+  border: 1px solid #ffffff38;
+  border-radius: 20px;
+  background: #171716f5;
+  color: #fff7e9;
+  font-size: .75rem;
+  opacity: 0;
+  transition: opacity 160ms ease;
+}
+
+.hotspot:hover .hotspotLabel,
+.hotspot:focus-visible .hotspotLabel {
+  opacity: 1;
+}
+
+.panel {
+  position: fixed;
+  inset: 0;
+  margin: auto;
+  width: min(28rem, calc(100% - 2rem));
+  max-height: calc(100% - 2rem);
+  padding: clamp(1.4rem, 5vw, 2.75rem);
+  border: 1px solid #e7c69c55;
+  border-radius: 1rem;
+  background: #171716;
+  color: #fff7e9;
+  box-shadow: 0 24px 70px #0008;
+}
+
+.panel::backdrop { background: #0b100dcc; }
+
+.panel h2 {
+  margin: .85rem 0 1rem;
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: clamp(1.8rem, 6vw, 2.7rem);
+  line-height: 1.06;
+}
+
+.panel p:last-child { line-height: 1.65; }
+
+.eyebrow {
+  padding-right: 2rem;
+  font-size: .68rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+.close {
+  position: absolute;
+  top: .5rem;
+  right: .5rem;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  color: #fff7e9;
+  font-size: 1.4rem;
+  cursor: pointer;
+}
+
+.close:hover { background: #ffffff12; }
+
+@media (max-width: 767px) {
+  .hotspot {
+    left: clamp(6rem, var(--marker-x, 50%), calc(100% - 6rem));
+    top: clamp(4rem, var(--marker-y, 39%), 46%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hotspotLabel { transition: none; }
+}
+
+/* The site shell hides horizontal overflow. Clip it here so it cannot become
+   the sticky stage's scroll container. */
+@layer base {
+  .experience,
+  :global(body):has(.experience),
+  :global(body > div):has(.experience),
+  :global([data-nextjs-scroll-focus-boundary]):has(.experience) {
+    overflow-x: clip !important;
+    overflow-y: visible;
+  }
+}

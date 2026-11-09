@@ -1,601 +1,378 @@
 'use client'
 
-import { useEffect, useRef, useState, type ReactNode } from 'react'
-import {
-  ArrowRight,
-  Compass,
-  Crown,
-  Heart,
-  Leaf,
-  Mountain,
-  Sparkles,
-  UtensilsCrossed,
-  UsersRound,
-} from 'lucide-react'
-import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
-import Navigation from '@/components/Navigation'
-import Footer from '@/components/Footer'
+import { useEffect, useRef, useState } from 'react'
+import type { CSSProperties, PointerEvent } from 'react'
+import Link from 'next/link'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import Lenis from 'lenis'
+import dynamic from 'next/dynamic'
+import type { JourneyWorld } from './ExperienceWorldScene'
+import { journeyTransition } from './journeyMotion'
+import styles from './Journey.module.css'
 
-const ease = [0.22, 1, 0.36, 1] as const
+const FloatingWorld = dynamic(() => import('./FloatingWorld'), {
+  ssr: false,
+})
 
-const journeys = [
+const ExperienceWorldScene = dynamic(() => import('./ExperienceWorldScene'), {
+  ssr: false,
+})
+
+const worlds: (JourneyWorld & { title: string; description: string; discovery: { title: string; detail: string } })[] = [
   {
     id: 'local-flavours',
     title: 'Local Flavours',
-    descriptor: 'Taste · Learn · Connect',
-    video: '/videos/experiences/local-flavours.mp4',
-    accent: '#C98245',
-    icon: UtensilsCrossed,
-    gridClass: 'md:col-span-7 md:row-span-2 min-h-[24rem] md:min-h-[30rem]',
-    summary: 'Taste a destination through its kitchens, markets and family traditions.',
-    experiences: ['Street food trails', 'Cooking with local families', 'Vineyard visits', 'Market walks', 'Artisan workshops', 'Coffee and tea estates', 'Chef-led dining', 'Regional tasting journeys'],
-    destinations: ['italy', 'japan', 'vietnam', 'mexico', 'india'],
+    description: 'Follow the scent of roasted spices through market lanes, then pull up a chair for recipes passed down around the family table.',
+    background: '#21130f', ground: '#69402d', accent: '#efbd83',
+    anchor: [0.05, 0.51, 0.98], haze: 0.19,
+    discovery: { title: 'The spice table', detail: 'Smell curry leaves as they hit hot oil, learn how spices are layered, and share a meal served on a banana leaf.' },
   },
   {
     id: 'luxury-escapes',
     title: 'Luxury Escapes',
-    descriptor: 'Relax · Indulge · Unwind',
-    video: '/videos/experiences/luxury-escapes.mp4',
-    accent: '#D7BA72',
-    icon: Crown,
-    gridClass: 'md:col-span-5 min-h-[19rem] md:min-h-[14rem]',
-    summary: 'Slow down in remarkable stays shaped around privacy, design and effortless service.',
-    experiences: ['Private villas', 'Overwater retreats', 'Yacht charters', 'Spa rituals', 'Private dining', 'Suite upgrades', 'Butler-led stays', 'Secluded island escapes'],
-    destinations: ['maldives', 'united-arab-emirates', 'switzerland', 'seychelles', 'mauritius'],
+    description: 'Wake to the hush of a private veranda and linger over breakfast. Discover intimate stays where the smallest details make the difference.',
+    background: '#222b3f', ground: '#635354', accent: '#ffcd9a',
+    anchor: [0.7, 0.36, 0.91], haze: 0.17,
+    discovery: { title: 'The pool pavilion', detail: 'Spend an unhurried afternoon between the pool and a shaded veranda, with a quiet dinner as the light drops.' },
   },
   {
     id: 'adventure',
     title: 'Adventure',
-    descriptor: 'Explore · Climb · Discover',
-    video: '/videos/experiences/adventure.mp4',
-    accent: '#6F8A66',
-    icon: Mountain,
-    gridClass: 'md:col-span-5 min-h-[19rem] md:min-h-[14rem]',
-    summary: 'Push beyond the familiar with landscapes and challenges that stay with you.',
-    experiences: ['Mountain trekking', 'White-water rafting', 'Diving expeditions', 'Kayaking', 'Rock climbing', 'Desert journeys', 'Ski adventures', 'Remote camping'],
-    destinations: ['new-zealand', 'norway', 'nepal', 'south-africa', 'australia'],
+    description: 'Take the steep trail, cross the ridge and pitch your tent under an open sky. See where a little effort can take you.',
+    background: '#211915', ground: '#755744', accent: '#efb38d',
+    anchor: [-0.43, 0.75, 1.03], haze: 0.22,
+    discovery: { title: 'The ridge camp', detail: 'Climb to a high lookout, then settle at camp as the last light traces the ridgeline.' },
   },
   {
     id: 'cultural-connections',
     title: 'Cultural Connections',
-    descriptor: 'Listen · Honour · Belong',
-    video: '/videos/experiences/cultural-connections.mp4',
-    accent: '#B66A4A',
-    icon: Compass,
-    gridClass: 'md:col-span-4 min-h-[19rem] md:min-h-[18rem]',
-    summary: 'Meet the traditions, people and stories that give each place its soul.',
-    experiences: ['Heritage walks', 'Temple visits', 'Artisan encounters', 'Festival access', 'Museum journeys', 'Music traditions', 'Community visits', 'Tea ceremonies'],
-    destinations: ['japan', 'india', 'turkiye', 'greece', 'morocco'],
+    description: 'Walk beneath carved temple towers, step inside working studios and hear the stories that give these places their meaning.',
+    background: '#231a14', ground: '#795f47', accent: '#f0cb94',
+    anchor: [0.15, 1.67, 0.69], haze: 0.18,
+    discovery: { title: 'The temple tower', detail: 'Take time to read the carved tiers of a temple tower with someone who can tell you the stories behind the figures.' },
   },
   {
     id: 'romance',
     title: 'Romance',
-    descriptor: 'Celebrate · Escape · Remember',
-    video: '/videos/experiences/romance.mp4',
-    accent: '#B9828F',
-    icon: Heart,
-    gridClass: 'md:col-span-8 min-h-[20rem] md:min-h-[18rem]',
-    summary: 'Create private moments designed for two, from quiet mornings to unforgettable celebrations.',
-    experiences: ['Sunset dinners', 'Private cruises', 'Proposal journeys', 'Honeymoon stays', 'Couples spa', 'Scenic rail journeys', 'Beach picnics', 'Anniversary escapes'],
-    destinations: ['italy', 'maldives', 'greece', 'france', 'seychelles'],
+    description: 'Make time for slow evenings, a table set for two and places you’ll remember for the moments you shared there.',
+    background: '#25161d', ground: '#775358', accent: '#edb8c2',
+    anchor: [0.23, 0.72, 0.53], haze: 0.17,
+    discovery: { title: 'A table for two', detail: 'Follow the lanterns to a candlelit table and let dinner stretch into the evening.' },
   },
   {
     id: 'wellness',
     title: 'Wellness',
-    descriptor: 'Breathe · Restore · Renew',
-    video: '/videos/experiences/wellness.mp4',
-    accent: '#8DA58B',
-    icon: Leaf,
-    gridClass: 'md:col-span-5 min-h-[19rem] md:min-h-[17rem]',
-    summary: 'Return restored through journeys built around calm, nature and mindful rituals.',
-    experiences: ['Yoga retreats', 'Ayurveda', 'Forest bathing', 'Thermal springs', 'Meditation stays', 'Spa programmes', 'Slow-food escapes', 'Digital detox'],
-    destinations: ['india', 'indonesia', 'thailand', 'bhutan', 'sri-lanka'],
+    description: 'Begin with a quiet morning by the water and spend the day at your own pace, with time for gentle movement and deep rest.',
+    background: '#12221f', ground: '#50695c', accent: '#b4d4c4',
+    anchor: [0.12, 0.45, 0.58], haze: 0.15,
+    discovery: { title: 'The lotus pool', detail: 'Begin beside still water, with gentle movement and time to notice the sounds around you.' },
   },
   {
     id: 'family',
     title: 'Family',
-    descriptor: 'Share · Laugh · Grow',
-    video: '/videos/experiences/family.mp4',
-    accent: '#D8C9A3',
-    icon: UsersRound,
-    gridClass: 'md:col-span-3 min-h-[18rem] md:min-h-[17rem]',
-    summary: 'Bring generations together through journeys with room for wonder, comfort and play.',
-    experiences: ['Wildlife safaris', 'Theme parks', 'Family villas', 'Easy nature walks', 'Interactive museums', 'Beach stays', 'Rail journeys', 'Private guides'],
-    destinations: ['singapore', 'australia', 'south-africa', 'united-kingdom', 'japan'],
+    description: 'Set up camp, swap stories by the fire and give curious travellers of every age something to discover together.',
+    background: '#19211b', ground: '#556343', accent: '#edd2a1',
+    anchor: [0.53, 0.63, 1.12], haze: 0.17,
+    discovery: { title: 'The campfire', detail: 'Gather around the fire for stories and give the youngest travellers a turn to tell one of their own.' },
   },
   {
-    id: 'wildlife',
+    id: 'wildlife-and-nature',
     title: 'Wildlife & Nature',
-    descriptor: 'Observe · Wander · Wonder',
-    video: '/videos/experiences/wildlife.mp4',
-    accent: '#7E8458',
-    icon: Sparkles,
-    gridClass: 'md:col-span-4 min-h-[20rem] md:min-h-[17rem]',
-    summary: 'Witness the natural world with time, space and expert guidance.',
-    experiences: ['Big-five safaris', 'Whale watching', 'Birding', 'Rainforest stays', 'Northern lights', 'Marine conservation', 'National parks', 'Photography expeditions'],
-    destinations: ['tanzania', 'kenya', 'norway', 'iceland', 'costa-rica'],
+    description: 'Listen for movement in the canopy, watch the water’s edge and let the forest set the pace of your day.',
+    background: '#0d2019', ground: '#3c6247', accent: '#bad0a0',
+    anchor: [0.63, 0.66, 0.96], haze: 0.21,
+    discovery: { title: 'The forest waterhole', detail: 'Pause with a naturalist to look for tracks and listen for birds near the water, giving wildlife plenty of space.' },
   },
 ]
 
-function Reveal({ children, className = '', delay = 0 }: { children: ReactNode; className?: string; delay?: number }) {
-  const reduceMotion = useReducedMotion()
-
-  return (
-    <motion.div
-      initial={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 22 }}
-      whileInView={reduceMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.2 }}
-      transition={{ duration: 0.82, delay, ease }}
-      className={className}
-    >
-      {children}
-    </motion.div>
-  )
-}
-
-function JourneyTile({ journey, index, active, onSelect }: { journey: (typeof journeys)[number]; index: number; active: boolean; onSelect: () => void }) {
-  const reduceMotion = useReducedMotion()
-  const videoRef = useRef<HTMLVideoElement>(null)
-  const Icon = journey.icon
+export default function ExperiencesClient() {
+  const rootRef = useRef<HTMLElement>(null)
+  const sceneRef = useRef<HTMLDivElement>(null)
+  const titleRef = useRef<HTMLDivElement>(null)
+  const journeyRef = useRef<HTMLDivElement>(null)
+  const stageRef = useRef<HTMLDivElement>(null)
+  const progress = useRef(0)
+  const pointer = useRef({ x: 0, y: 0 })
+  const marker = useRef<HTMLButtonElement>(null)
+  const panel = useRef<HTMLDialogElement>(null)
+  const [activeWorld, setActiveWorld] = useState(0)
+  const [selectedWorld, setSelectedWorld] = useState(0)
+  const redrawRef = useRef<(() => void) | null>(null)
+  const [reducedMotion, setReducedMotion] = useState(true)
+  const [heroVisible, setHeroVisible] = useState(true)
+  const [journeyVisible, setJourneyVisible] = useState(false)
+  const [journeyReady, setJourneyReady] = useState(false)
 
   useEffect(() => {
-    const video = videoRef.current
-    if (!video) return
+    const hero = sceneRef.current
+    const journey = journeyRef.current
+    if (!hero || !journey) return
 
-    if (reduceMotion) {
-      video.pause()
-      video.currentTime = 0
-      return
-    }
+    const preference = window.matchMedia('(prefers-reduced-motion: reduce)')
+    const updatePreference = () => setReducedMotion(preference.matches)
+    updatePreference()
+    preference.addEventListener('change', updatePreference)
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          void video.play().catch(() => undefined)
-        } else {
-          video.pause()
+    const observer = new IntersectionObserver(entries => {
+      for (const entry of entries) {
+        if (entry.target === hero) setHeroVisible(entry.isIntersecting)
+        else {
+          setJourneyVisible(entry.isIntersecting)
+          if (entry.isIntersecting) setJourneyReady(true)
         }
-      },
-      { rootMargin: '180px 0px', threshold: 0.12 },
-    )
-
-    observer.observe(video)
-    return () => observer.disconnect()
-  }, [reduceMotion])
-
-  return (
-    <motion.button
-      type="button"
-      onClick={onSelect}
-      aria-pressed={active}
-      aria-label={`Explore ${journey.title}`}
-      initial={reduceMotion ? { opacity: 0 } : { opacity: 0, y: index % 2 === 0 ? 34 : 22, x: index % 3 === 0 ? -16 : index % 3 === 1 ? 12 : 0, scale: 0.985 }}
-      whileInView={{ opacity: 1, y: 0, x: 0, scale: 1 }}
-      viewport={{ once: true, amount: 0.16 }}
-      whileHover={reduceMotion ? undefined : { y: -10, scale: 1.01, rotateX: 0.7, rotateY: index % 2 === 0 ? -0.35 : 0.35, transformPerspective: 1100, zIndex: 20 }}
-      transition={{ duration: 0.86, delay: index * 0.055, ease }}
-      className={`mt-experiences-tile group relative isolate w-full overflow-hidden rounded-[1.7rem] bg-[#020F12] text-left shadow-[0_30px_90px_rgba(0,0,0,0.34)] transition-[border-color,box-shadow] duration-500 hover:shadow-[0_42px_120px_rgba(0,0,0,0.48),0_0_42px_rgba(212,175,55,0.08)] ${active ? 'border border-[#D4AF37]/70 ring-1 ring-[#D4AF37]/25' : 'border border-white/10 hover:border-[#D4AF37]/42'} ${journey.gridClass}`}
-    >
-      <video
-        ref={videoRef}
-        className="absolute inset-0 h-full w-full object-cover opacity-[0.74] saturate-[0.9] transition-transform duration-[1100ms] ease-[cubic-bezier(0.22,1,0.36,1)] md:group-hover:scale-[1.035]"
-        src={journey.video}
-        muted
-        loop
-        playsInline
-        preload="none"
-        aria-hidden="true"
-        onCanPlay={(event) => {
-          if (reduceMotion) {
-            event.currentTarget.pause()
-            event.currentTarget.currentTime = 0
-          }
-        }}
-      />
-
-      <div className="mt-classic-media-overlay absolute inset-0 bg-[linear-gradient(180deg,rgba(2,15,18,0.06),rgba(2,15,18,0.3)_44%,rgba(2,15,18,0.9)_100%)]" />
-      <div className="absolute inset-0 opacity-50 transition-opacity duration-500 group-hover:opacity-75" style={{ background: `radial-gradient(circle at 78% 18%, ${journey.accent}33, transparent 34%)` }} />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_26%_100%,rgba(212,175,55,0.09),transparent_42%)]" />
-
-      <div className="absolute inset-x-5 top-5 flex items-center justify-between md:inset-x-6 md:top-6">
-        <span className="flex h-10 w-10 items-center justify-center rounded-full border border-white/14 bg-[#020F12]/46 text-[#F2E7CC] transition-all duration-500 group-hover:border-[#D4AF37]/50 group-hover:text-[#D4AF37]" style={{ boxShadow: `0 0 28px ${journey.accent}18` }}>
-          <Icon size={17} strokeWidth={1.45} />
-        </span>
-        <span className="mt-ui text-[9px] tracking-[0.24em] text-white/46 transition-colors duration-500 group-hover:text-[#D4AF37]">0{index + 1}</span>
-      </div>
-
-      <div className="absolute inset-x-5 bottom-5 md:inset-x-6 md:bottom-6">
-        <p className="mt-ui mb-2 inline-flex rounded-full border border-white/20 bg-black/55 px-2.5 py-1 text-[9px] tracking-[0.2em] text-white/90 backdrop-blur-md">
-          {journey.descriptor.toUpperCase()}
-        </p>
-        <div className="flex items-end justify-between gap-5">
-          <div>
-            <h3 className="mt-display-soft max-w-[15rem] text-[2rem] leading-[0.98] text-[#FAFAF9] md:text-[2.45rem]">{journey.title}</h3>
-            <p className="mt-body-copy mt-3 max-h-0 max-w-[23rem] translate-y-2 overflow-hidden text-sm leading-relaxed text-white/0 opacity-0 transition-all duration-500 group-hover:max-h-20 group-hover:translate-y-0 group-hover:text-white/66 group-hover:opacity-100">
-              Discover journeys shaped around the way you want to feel, connect and explore.
-            </p>
-          </div>
-          <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-[#D4AF37]/38 bg-[#020F12]/38 text-[#D4AF37] transition-all duration-500 group-hover:translate-x-1 group-hover:border-[#D4AF37]/72 group-hover:bg-[#D4AF37] group-hover:text-[#071B24]">
-            <ArrowRight size={16} />
-          </span>
-        </div>
-      </div>
-    </motion.button>
-  )
-}
-
-export default function ExperiencesPage() {
-  const prefersReducedMotion = useReducedMotion()
-  const heroVideoRef = useRef<HTMLVideoElement>(null)
-  const detailVideoRef = useRef<HTMLVideoElement>(null)
-  const [activeJourneyId, setActiveJourneyId] = useState(journeys[0].id)
-  const showcaseRef = useRef<HTMLElement>(null)
-  const activeJourney = journeys.find((journey) => journey.id === activeJourneyId) ?? journeys[0]
-  const ActiveJourneyIcon = activeJourney.icon
-
-  useEffect(() => {
-    const videos = [heroVideoRef.current, detailVideoRef.current]
-    videos.forEach((video) => {
-      if (!video) return
-      if (prefersReducedMotion) {
-        video.pause()
-        video.currentTime = 0
-      } else {
-        void video.play().catch(() => undefined)
       }
-    })
-  }, [activeJourneyId, prefersReducedMotion])
-
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search)
-    const requestedJourney = params.get('journey')
-
-    if (!requestedJourney || !journeys.some((journey) => journey.id === requestedJourney)) {
-      return
-    }
-
-    const updateJourney = window.setTimeout(() => {
-  setActiveJourneyId(requestedJourney)
-}, 0)
-
-    const timer = window.setTimeout(() => {
-      showcaseRef.current?.scrollIntoView({ behavior: 'auto', block: 'start' })
-    }, 450)
+    }, { rootMargin: '160px 0px' })
+    observer.observe(hero)
+    observer.observe(journey)
 
     return () => {
-  window.clearTimeout(updateJourney)
-  window.clearTimeout(timer)
-}
+      preference.removeEventListener('change', updatePreference)
+      observer.disconnect()
+    }
   }, [])
 
-  const selectJourney = (id: string) => {
-    setActiveJourneyId(id)
-    window.requestAnimationFrame(() => {
-      showcaseRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  useEffect(() => {
+    const root = rootRef.current
+    const hero = sceneRef.current
+    const title = titleRef.current
+    if (!root || !hero || !title || reducedMotion) return
+
+    gsap.registerPlugin(ScrollTrigger)
+    const lenis = new Lenis({
+      duration: 1.25,
+      smoothWheel: true,
+      wheelMultiplier: 0.85,
     })
+    const updateLenis = (time: number) => lenis.raf(time * 1000)
+    lenis.on('scroll', ScrollTrigger.update)
+    gsap.ticker.add(updateLenis)
+
+    const context = gsap.context(() => {
+      gsap.timeline({
+        scrollTrigger: {
+          trigger: root,
+          start: 'top top',
+          end: '+=160%',
+          scrub: 1.2,
+          pin: hero,
+          anticipatePin: 1,
+        },
+      }).to(title, { yPercent: -55, opacity: 0, ease: 'none' }, 0.15)
+    }, root)
+
+    ScrollTrigger.refresh()
+    return () => {
+      context.revert()
+      gsap.ticker.remove(updateLenis)
+      lenis?.destroy()
+    }
+  }, [reducedMotion])
+
+  useEffect(() => {
+    const journey = journeyRef.current
+    const stage = stageRef.current
+    if (!journey || !stage) return
+
+    const sections = Array.from(journey.querySelectorAll<HTMLElement>('[data-world]'))
+    let centers: number[] = []
+    let frame = 0
+    let lastWorld = -1
+    let lastPosition = -1
+
+    const update = () => {
+      frame = 0
+      const center = stage.clientHeight / 2 - journey.getBoundingClientRect().top
+      let index = 0
+      while (index < centers.length - 1 && center >= centers[index + 1]) index++
+      const next = centers[index + 1]
+      const position = next === undefined ? index : index + gsap.utils.clamp(0, 1, (center - centers[index]) / (next - centers[index]))
+      const current = reducedMotion ? Math.round(position) : position
+      const nearest = Math.round(current)
+      if (nearest !== lastWorld) {
+        lastWorld = nearest
+        setActiveWorld(nearest)
+      }
+      if (current === lastPosition) return
+      lastPosition = current
+      const { from, to, blend } = journeyTransition(current, worlds.length)
+      progress.current = current
+      stage.style.setProperty('--sky', gsap.utils.interpolate(worlds[from].background, worlds[to].background, blend))
+      stage.style.setProperty('--glow', gsap.utils.interpolate(worlds[from].accent, worlds[to].accent, blend))
+      redrawRef.current?.()
+    }
+    const schedule = () => {
+      if (!frame) frame = requestAnimationFrame(update)
+    }
+    const measure = () => {
+      const top = journey.getBoundingClientRect().top
+      centers = sections.map(section => {
+        const bounds = section.getBoundingClientRect()
+        return bounds.top - top + bounds.height / 2
+      })
+      schedule()
+    }
+    const observer = new ResizeObserver(measure)
+    observer.observe(stage)
+    sections.forEach(section => observer.observe(section))
+    measure()
+    window.addEventListener('scroll', schedule, { passive: true })
+    return () => {
+      observer.disconnect()
+      window.removeEventListener('scroll', schedule)
+      cancelAnimationFrame(frame)
+    }
+  }, [reducedMotion])
+
+  const movePointer = (event: PointerEvent<HTMLDivElement>) => {
+    const stage = stageRef.current
+    if (!stage || reducedMotion || event.pointerType !== 'mouse') return
+    const bounds = stage.getBoundingClientRect()
+    const x = (event.clientX - bounds.left) / bounds.width
+    const y = (event.clientY - bounds.top) / bounds.height
+    pointer.current.x = gsap.utils.clamp(-1, 1, x * 2 - 1)
+    pointer.current.y = gsap.utils.clamp(-1, 1, y * 2 - 1)
+    redrawRef.current?.()
   }
+
+  const resetPointer = () => {
+    pointer.current.x = 0
+    pointer.current.y = 0
+  }
+
+  const openDiscovery = () => {
+    setSelectedWorld(activeWorld)
+    resetPointer()
+    panel.current?.showModal()
+  }
+
+  const discovery = worlds[selectedWorld]
+  const featured = worlds[activeWorld]
 
   return (
-    <main className="mt-experiences-page min-h-screen w-full overflow-x-hidden bg-[var(--mt-canvas)] text-[var(--mt-text-primary)]">
-      <style>{`
-        @media (max-width: 1023px) {
-          .mt-experiences-page .mt-premium-nav > div:first-child { padding-top: 0.2rem; padding-bottom: 0.2rem; }
-          .mt-experiences-page .mt-premium-nav a[aria-label="MadrasTrails homepage"] { padding-top: 0.24rem; padding-bottom: 0.24rem; }
-          .mt-experiences-page .mt-premium-nav a[aria-label="MadrasTrails homepage"] img { height: clamp(1.75rem, 7.8vw, 2.45rem); }
-          .mt-experiences-page .mt-premium-nav button[aria-label="Menu"] { height: 2.5rem; width: 2.5rem; }
-        }
-          @media (max-width: 393px) and (max-height: 860px) {
-  .mt-iphone-experience-frame {
-    height: auto !important;
-    min-height: 100svh;
-  }
+    <main
+      ref={rootRef}
+      className={`${styles.experience} relative min-h-screen bg-[#020F12] text-white`}
+    >
+      <section
+        ref={sceneRef}
+        className="relative h-screen overflow-hidden"
+        style={{ perspective: '1400px' }}
+      >
+        <div
+          className="absolute inset-[-8%] min-h-0 min-w-0 will-change-transform"
+        >
+          <FloatingWorld active={heroVisible && !reducedMotion} />
+        </div>
 
-  .mt-iphone-experience-content {
-    height: auto !important;
-    min-height: 100svh;
-    align-items: flex-start !important;
-    padding-top: 3.75rem !important;
-    padding-bottom: 3.75rem !important;
-  }
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#21130f] via-[#020F12]/15 to-[#020F12]/35" />
 
-  .mt-iphone-experience-panel {
-    max-height: none !important;
-  }
-}
-      `}</style>
+        <Link
+          href="/"
+          className="absolute left-8 top-8 z-30 rounded-full border border-white/40 px-6 py-3 text-xs tracking-[0.2em] text-white backdrop-blur-md transition-colors hover:bg-white/15"
+        >
+          ← HOME
+        </Link>
 
-      <Navigation />
+        <div
+          ref={titleRef}
+          className="pointer-events-none absolute inset-0 z-20 flex flex-col items-center justify-center px-6 text-center"
+        >
+          <p className="mb-6 text-xs tracking-[0.5em] text-[#D4AF37]">
+            MADRASTRAILS PRESENTS
+          </p>
 
-      <section className="relative flex min-h-[100svh] items-end overflow-hidden px-6 pb-[5.5rem] pt-28 md:px-8 md:pb-[7rem] lg:min-h-screen lg:pb-24 lg:pt-32">
-        <video
-  ref={heroVideoRef}
-  className="absolute inset-0 h-full w-full object-cover"
-  src="/videos/hero_experiences.mp4"
-  autoPlay={!prefersReducedMotion}
-  muted
-  loop
-  playsInline
-  preload="auto"
-  onCanPlay={(event) => {
-    if (prefersReducedMotion) {
-      event.currentTarget.pause()
-      event.currentTarget.currentTime = 0
-    } else {
-      void event.currentTarget.play().catch(() => undefined)
-    }
-  }}
-  aria-hidden="true"
-/>
-        <div className="mt-classic-media-overlay absolute inset-0 bg-[radial-gradient(ellipse_at_28%_56%,rgba(2,15,18,0.72),transparent_48%),radial-gradient(ellipse_at_72%_24%,rgba(212,175,55,0.16),transparent_34%),linear-gradient(180deg,rgba(2,15,18,0.32),rgba(2,15,18,0.68))]" />
+          <h1
+            className="max-w-6xl font-serif text-[clamp(4rem,9vw,10rem)] leading-[0.85] tracking-[-0.05em]"
+          >
+            Beyond
+            <br />
+            The Ordinary.
+          </h1>
 
-        <div className="relative z-10 mx-auto w-full max-w-7xl">
-          <Reveal className="max-w-4xl">
-            <p className="mt-eyebrow mb-4 inline-flex rounded-full border border-white/20 bg-black/55 px-3 py-1.5 text-[10px] !text-white backdrop-blur-md md:mb-5 md:text-xs">
-  EXPERIENCES
-</p>
-            <h1 className="mt-display max-w-4xl text-[clamp(3.1rem,9vw,4.7rem)] leading-[0.98] text-[#FAFAF9] lg:text-[5.6rem]">
-              Experiences That Stay With You
-            </h1>
-            <p className="mt-display-soft mt-4 max-w-2xl text-[clamp(1.45rem,5vw,2.2rem)] leading-[1.08] !text-[#D4AF37] md:mt-5 lg:text-[3rem]">
-              Not just places to see. Stories to step into.
-            </p>
-          </Reveal>
+          <p className="mt-10 max-w-xl text-base tracking-wide text-white/75">
+            Eight worlds. Infinite ways to experience them.
+          </p>
+        </div>
+
+        <div className="absolute bottom-10 left-1/2 z-20 -translate-x-1/2 text-center text-[10px] tracking-[0.35em] text-white/70">
+          SCROLL TO ENTER
+          <div className="mx-auto mt-4 h-12 w-px bg-gradient-to-b from-[#D4AF37] to-transparent" />
         </div>
       </section>
 
-      <section id="journeys" className="relative overflow-hidden px-5 py-20 sm:px-6 md:px-8 md:py-28">
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_78%_12%,rgba(212,175,55,0.08),transparent_26%),radial-gradient(circle_at_18%_64%,rgba(16,70,78,0.10),transparent_38%),linear-gradient(180deg,var(--mt-canvas),var(--mt-surface)_58%,var(--mt-canvas))]" />
-        <div className="relative mx-auto max-w-7xl">
-          <Reveal className="mb-12 max-w-4xl md:mb-16">
-            <p className="mt-eyebrow mb-4 text-xs text-[#D4AF37]">CHOOSE YOUR JOURNEY</p>
-            <h2 className="mt-display text-[clamp(2.8rem,11vw,4rem)] leading-[0.98] text-[var(--mt-text-primary)] md:text-7xl">
-  Choose the Story
-  <br />
-  <span className="text-[#D4AF37]">You Want to Live.</span>
-</h2>
-
-<p className="mt-body-copy mt-6 max-w-2xl text-base leading-relaxed text-[var(--mt-text-secondary)] md:text-lg">
-  Every traveller is different. Begin with the way you want to feel, and discover
-  experiences shaped around{' '}
-  <span className="!text-[#D4AF37]">your rhythm.</span>
-</p>
-          </Reveal>
-
-          <div className="grid auto-rows-[minmax(0,1fr)] grid-cols-1 gap-5 md:grid-cols-12 md:gap-6">
-            {journeys.map((journey, index) => (
-              <JourneyTile
-                key={journey.id}
-                journey={journey}
-                index={index}
-                active={activeJourney.id === journey.id}
-                onSelect={() => selectJourney(journey.id)}
-              />
-            ))}
+      <div ref={journeyRef} className="relative isolate grid" onPointerMove={movePointer} onPointerLeave={resetPointer}>
+        <div
+          ref={stageRef}
+          className="pointer-events-none sticky top-0 col-start-1 row-start-1 h-[100svh] self-start overflow-hidden bg-[#21130f]"
+          style={{
+            background: 'radial-gradient(ellipse at 48% 38%, color-mix(in srgb, var(--glow, #efbd83) 32%, var(--sky, #21130f)), transparent 68%), linear-gradient(170deg, var(--sky, #21130f), #090e15)',
+          }}
+        >
+          <div aria-hidden="true" className="absolute inset-0">
+            {journeyReady && (
+              <ExperienceWorldScene worlds={worlds} progress={progress} redrawRef={redrawRef} active={journeyVisible}
+                reducedMotion={reducedMotion} pointer={pointer} marker={marker} />
+            )}
+            <div className={styles.rays} />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-black/15" />
           </div>
         </div>
-      </section>
 
-
-      <section
-        id="showcase"
-        ref={showcaseRef}
-        className="mt-experiences-showcase relative scroll-mt-20 overflow-hidden bg-[#020F12]"
-      >
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activeJourney.id}
-            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, scale: 0.985 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, scale: 1.015 }}
-            transition={{ duration: prefersReducedMotion ? 0 : 0.8, ease }}
-            className="mt-iphone-experience-frame relative h-[clamp(42rem,88svh,52rem)] overflow-hidden"
-          >
-            <motion.video
-              ref={detailVideoRef}
-              key={activeJourney.video}
-              initial={prefersReducedMotion ? undefined : { scale: 1.16 }}
-              animate={{ scale: 1 }}
-              transition={{ duration: prefersReducedMotion ? 0 : 1.6, ease }}
-              className="absolute inset-0 h-full w-full object-cover"
-              src={activeJourney.video}
-              autoPlay={!prefersReducedMotion}
-              muted
-              loop
-              playsInline
-              preload="metadata"
-              aria-hidden="true"
-              onCanPlay={(event) => {
-                if (prefersReducedMotion) {
-                  event.currentTarget.pause()
-                  event.currentTarget.currentTime = 0
-                }
-              }}
-            />
-
-            <div className="mt-classic-media-overlay absolute inset-0 bg-[linear-gradient(90deg,rgba(2,15,18,0.94)_0%,rgba(2,15,18,0.78)_32%,rgba(2,15,18,0.24)_68%,rgba(2,15,18,0.46)_100%)]" />
-            <div className="mt-classic-media-overlay absolute inset-0 bg-[linear-gradient(180deg,rgba(2,15,18,0.18),transparent_42%,rgba(2,15,18,0.92)_100%)]" />
-            <div
-              className="absolute inset-0"
-              style={{ background: `radial-gradient(circle at 78% 24%, ${activeJourney.accent}38, transparent 34%)` }}
-            />
-
-            <motion.div
-              aria-hidden="true"
-              initial={prefersReducedMotion ? undefined : { x: '-140%', opacity: 0 }}
-              animate={prefersReducedMotion ? undefined : { x: '520%', opacity: [0, 0.65, 0] }}
-              transition={{ duration: 1.2, ease: 'easeInOut' }}
-              className="pointer-events-none absolute inset-y-0 z-10 w-[16%] bg-[linear-gradient(90deg,transparent,rgba(255,248,221,0.18),transparent)] mix-blend-screen"
-            />
-
-            <div className="mt-iphone-experience-content relative z-20 mx-auto flex h-full w-full max-w-[1500px] items-center px-5 py-20 sm:px-7 md:px-10 md:py-24 lg:px-14">
-              <div className="grid w-full items-stretch gap-7 lg:grid-cols-[1.08fr_0.92fr] lg:gap-12">
-                <motion.div
-                  initial={prefersReducedMotion ? undefined : { opacity: 0, x: -42 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.78, delay: 0.1, ease }}
-                >
-                  <div className="mb-6 flex items-center gap-4">
-                    <span
-                      className="flex h-14 w-14 items-center justify-center rounded-full border border-white/18 bg-black/25 text-white backdrop-blur-xl"
-                      style={{ boxShadow: `0 0 40px ${activeJourney.accent}28` }}
-                    >
-                      <ActiveJourneyIcon size={21} strokeWidth={1.35} />
-                    </span>
-                    <div>
-                      <p className="mt-eyebrow inline-flex rounded-full border border-white/20 bg-black/55 px-2.5 py-1 text-[9px] !text-white backdrop-blur-md">
-  CURATED EXPERIENCE
-</p>
-
-<p className="mt-ui mt-2 inline-flex rounded-full border border-white/20 bg-black/55 px-2.5 py-1 text-[10px] tracking-[0.2em] !text-white backdrop-blur-md">
-                        {activeJourney.descriptor.toUpperCase()}
-                      </p>
-                    </div>
-                  </div>
-
-                  <h3 className="mt-display max-w-4xl text-[clamp(3.5rem,8vw,7.4rem)] leading-[0.82] tracking-[-0.055em] text-white">
-                    {activeJourney.title}
-                  </h3>
-
-                  <p className="mt-body-copy mt-5 max-w-xl text-base leading-[1.65] text-white/68 md:text-lg">
-                    {activeJourney.summary}
+        <div className="relative col-start-1 row-start-1">
+          {worlds.map(({ id, title, description, accent }, index) => {
+            const right = index % 2 === 0
+            return (
+              <section
+                key={id}
+                id={id}
+                data-world
+                aria-labelledby={`${id}-title`}
+                className={`relative flex min-h-[100svh] items-end px-[6vw] pb-[10svh] pt-[54svh] md:items-center md:py-12 ${right ? 'justify-end' : 'justify-start'}`}
+              >
+                <div className={`w-full max-w-[44rem] md:w-[46%] ${right ? 'text-right' : 'text-left'}`}>
+                  <p className="mb-5 text-[0.67rem] font-medium tracking-[0.34em]" style={{ color: accent }}>
+                    WORLD {String(index + 1).padStart(2, '0')} / 08
                   </p>
-                </motion.div>
-
-                <motion.aside
-                  initial={prefersReducedMotion ? undefined : { opacity: 0, y: 46, scale: 0.96 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  transition={{ duration: 0.8, delay: 0.2, ease }}
-                  className="mt-experiences-showcase-panel mt-iphone-experience-panel max-h-[34rem] overflow-y-auto rounded-[1.6rem] border border-white/14 bg-[linear-gradient(180deg,rgba(8,18,22,0.5),rgba(2,10,13,0.62))] p-5 shadow-[0_30px_90px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-2xl sm:p-6"
-                >
-                  <p className="mt-eyebrow mb-4 text-[9px] !text-white">SIGNATURE MOMENTS</p>
-
-                  <div className="grid gap-1.5 sm:grid-cols-2">
-                    {activeJourney.experiences.map((experience, index) => (
-                      <motion.div
-                        key={experience}
-                        initial={prefersReducedMotion ? undefined : { opacity: 0, y: 12 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.4, delay: 0.28 + index * 0.045, ease }}
-                        className="flex items-center gap-2.5 rounded-full border border-white/10 bg-white/[0.045] px-3 py-1.5 text-xs text-white/76"
-                      >
-                        <span className="h-1.5 w-1.5 rotate-45 bg-[#D4AF37]" />
-                        {experience}
-                      </motion.div>
-                    ))}
-                  </div>
-
-                  <div className="mt-5 border-t border-white/10 pt-4">
-                    <p className="mt-eyebrow mb-3 text-[9px] text-white/42">POPULAR DESTINATIONS</p>
-                    <div
-  className={`flex flex-wrap gap-2 ${
-    activeJourney.id === 'luxury-escapes' ? 'lg:pr-[9rem]' : ''
-  }`}
->
-                      {activeJourney.destinations.map((destination, index) => (
-                        <motion.a
-                          key={destination}
-                          href={`/destinations?country=${destination}`}
-                          initial={prefersReducedMotion ? undefined : { opacity: 0, y: 10 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ duration: 0.36, delay: 0.52 + index * 0.05, ease }}
-                          className="mt-ui rounded-full border border-[#D4AF37]/30 bg-[#D4AF37]/[0.045] px-3.5 py-2 text-[9px] tracking-[0.14em] text-[#F2E7CC]/80 transition-all duration-300 hover:border-[#D4AF37]/70 hover:bg-[#D4AF37]/12 hover:text-[#D4AF37]"
-                        >
-                          {destination.replaceAll('-', ' ').toUpperCase()}
-                        </motion.a>
-                      ))}
-                    </div>
-                  </div>
-                </motion.aside>
-              </div>
-            </div>
-
-            <div className="mt-experiences-rail absolute right-5 top-1/2 z-30 hidden h-[22rem] -translate-y-1/2 lg:block">
-              <div className="relative h-full overflow-hidden rounded-[1.45rem] border border-white/10 bg-[linear-gradient(180deg,rgba(8,20,24,0.48),rgba(3,11,14,0.38))] px-2.5 py-3 shadow-[0_20px_60px_rgba(0,0,0,0.28),inset_0_1px_0_rgba(255,255,255,0.06)] backdrop-blur-xl">
-                <div className="pointer-events-none absolute inset-x-3 top-0 h-px bg-gradient-to-r from-transparent via-[#D4AF37]/45 to-transparent" />
-                <div className="pointer-events-none absolute -right-5 top-[22%] h-20 w-14 rounded-full bg-[#D4AF37]/8 blur-xl" />
-
-                <div className="relative flex h-full flex-col justify-between">
-                  {journeys.map((journey, index) => {
-                    const isActive = journey.id === activeJourney.id
-
-                    return (
-                      <button
-                        key={journey.id}
-                        type="button"
-                        onClick={() => setActiveJourneyId(journey.id)}
-                        aria-label={`Show ${journey.title}`}
-                        aria-current={isActive ? 'true' : undefined}
-                        className="group relative flex min-h-[2.55rem] items-center justify-end gap-2 rounded-full px-1.5 text-right outline-none transition-all duration-300 focus-visible:ring-2 focus-visible:ring-[#D4AF37]/70"
-                      >
-                        <span className="relative flex h-8 w-3 items-center justify-center">
-                          {isActive ? (
-                            <>
-                              <motion.span
-                                layoutId="experiences-active-scanner"
-                                aria-hidden="true"
-                                className="absolute h-8 w-[3px] rounded-full bg-[#D4AF37] shadow-[0_0_14px_rgba(212,175,55,0.95),0_0_34px_rgba(212,175,55,0.5)]"
-                                transition={{
-                                  duration: prefersReducedMotion ? 0 : 0.55,
-                                  ease,
-                                }}
-                              />
-                              {!prefersReducedMotion ? (
-                                <motion.span
-                                  aria-hidden="true"
-                                  className="absolute h-1.5 w-1.5 rounded-full bg-[#F4D675]"
-                                  animate={{
-                                    opacity: [0.25, 1, 0.25],
-                                    scale: [0.8, 1.4, 0.8],
-                                  }}
-                                  transition={{
-                                    duration: 2.2,
-                                    repeat: Infinity,
-                                    ease: 'easeInOut',
-                                  }}
-                                />
-                              ) : null}
-                            </>
-                          ) : (
-                            <span className="h-px w-2 bg-white/20 transition-all duration-300 group-hover:w-3 group-hover:bg-white/48" />
-                          )}
-                        </span>
-
-                        <motion.span
-                          key={`${activeJourney.id}-${journey.id}`}
-                          initial={
-                            prefersReducedMotion || !isActive
-                              ? false
-                              : { opacity: 0, y: 6, filter: 'blur(4px)' }
-                          }
-                          animate={{
-                            opacity: isActive ? 1 : 0.68,
-                            y: 0,
-                            filter: 'blur(0px)',
-                            scale: isActive ? 1.06 : 1,
-                          }}
-                          transition={{
-                            duration: prefersReducedMotion ? 0 : 0.38,
-                            ease,
-                          }}
-                          className={`mt-ui w-8 text-right text-[13px] font-semibold tracking-[0.08em] ${
-                            isActive
-                              ? 'text-[#F5D77A] drop-shadow-[0_0_12px_rgba(212,175,55,0.72)]'
-                              : 'text-white/68 drop-shadow-[0_2px_8px_rgba(0,0,0,0.75)] group-hover:text-white/92'
-                          }`}
-                        >
-                          0{index + 1}
-                        </motion.span>
-                      </button>
-                    )
-                  })}
+                  <h2
+                    id={`${id}-title`}
+                    className="text-balance font-serif text-[clamp(2.75rem,11vw,5.75rem)] leading-[0.89] tracking-[-0.055em] text-[#fff7e9] [text-shadow:0_3px_35px_#0009] md:text-[clamp(3.4rem,7.7vw,9rem)]"
+                  >
+                    {title}
+                  </h2>
+                  <p className={`mt-6 max-w-[27rem] text-sm leading-relaxed text-white/90 [text-shadow:0_2px_12px_#000] sm:text-base ${right ? 'ml-auto' : ''}`}>
+                    {description}
+                  </p>
                 </div>
-              </div>
-            </div>
-          </motion.div>
-        </AnimatePresence>
-      </section>
+              </section>
+            )
+          })}
+        </div>
 
-      <Footer />
+        <div className="pointer-events-none sticky top-0 z-10 col-start-1 row-start-1 h-[100svh] self-start">
+          <button
+            ref={marker}
+            type="button"
+            className={styles.hotspot}
+            style={{ '--marker-accent': featured.accent } as CSSProperties}
+            aria-label={`Discover ${featured.discovery.title} in ${featured.title}`}
+            aria-haspopup="dialog"
+            onClick={openDiscovery}
+          >
+            <span aria-hidden="true" className={styles.plus}>+</span>
+            <span aria-hidden="true" className={styles.hotspotLabel}>{featured.discovery.title}</span>
+          </button>
+        </div>
+
+        <dialog ref={panel} className={styles.panel} aria-labelledby="discovery-title" data-lenis-prevent>
+          <form method="dialog">
+            <button className={styles.close} aria-label="Close discovery" autoFocus>×</button>
+          </form>
+          <p className={styles.eyebrow} style={{ color: discovery.accent }}>{discovery.title} · Field notes</p>
+          <h2 id="discovery-title">{discovery.discovery.title}</h2>
+          <p>{discovery.discovery.detail}</p>
+        </dialog>
+      </div>
     </main>
   )
 }
