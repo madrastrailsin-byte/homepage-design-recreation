@@ -1,13 +1,16 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import type { CSSProperties, PointerEvent } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import gsap from 'gsap'
 import Lenis from 'lenis'
 import dynamic from 'next/dynamic'
 import type { JourneyWorld } from './ExperienceWorldScene'
 import { journeyTransition, smoothRange } from './journeyMotion'
+import CountryGuides from './CountryGuides'
+import { worldDiscovery } from './discovery'
 import styles from './Journey.module.css'
 
 const FloatingWorld = dynamic(() => import('./FloatingWorld'), {
@@ -18,13 +21,9 @@ const ExperienceWorldScene = dynamic(() => import('./ExperienceWorldScene'), {
   ssr: false,
 })
 
-type Discovery = { title: string; detail: string }
-
 const worlds: (JourneyWorld & {
   title: string
   description: string
-  discovery: Discovery
-  secondaryDiscovery: Discovery
 })[] = [
   {
     id: 'local-flavours',
@@ -32,9 +31,7 @@ const worlds: (JourneyWorld & {
     description: 'Follow the scent of roasted spices through market lanes, then pull up a chair for recipes passed down around the family table.',
     background: '#21130f', ground: '#69402d', accent: '#efbd83',
     anchor: [0.05, 0.51, 0.98], haze: 0.19,
-    discovery: { title: 'The spice table', detail: 'Smell curry leaves as they hit hot oil, learn how spices are layered, and share a meal served on a banana leaf.' },
     secondaryAnchor: [-2.65, 1.0, -2.15],
-    secondaryDiscovery: { title: 'The market passage', detail: 'Look through the timber passage into the village. The sheltered threshold makes a natural place to set down baskets and talk while the evening meal gets underway.' },
   },
   {
     id: 'luxury-escapes',
@@ -42,9 +39,7 @@ const worlds: (JourneyWorld & {
     description: 'Wake to the hush of a private veranda and linger over breakfast. Discover intimate stays where the smallest details make the difference.',
     background: '#222b3f', ground: '#635354', accent: '#ffcd9a',
     anchor: [0.7, 0.36, 0.91], haze: 0.17,
-    discovery: { title: 'The pool pavilion', detail: 'Spend an unhurried afternoon between the pool and a shaded veranda, with a quiet dinner as the light drops.' },
     secondaryAnchor: [2.65, 0.91, -2.13],
-    secondaryDiscovery: { title: 'The shaded veranda', detail: 'Follow the posts along the veranda to a seat out of the afternoon sun. From here, the last light picks out the pool in narrow, shifting bands.' },
   },
   {
     id: 'adventure',
@@ -52,9 +47,7 @@ const worlds: (JourneyWorld & {
     description: 'Take the steep trail, cross the ridge and pitch your tent under an open sky. See where a little effort can take you.',
     background: '#211915', ground: '#755744', accent: '#efb38d',
     anchor: [-0.43, 0.75, 1.03], haze: 0.22,
-    discovery: { title: 'The ridge camp', detail: 'Climb to a high lookout, then settle at camp as the last light traces the ridgeline.' },
     secondaryAnchor: [-2.65, 1.05, -2.12],
-    secondaryDiscovery: { title: 'The ridge trail', detail: 'Look for the pines marking the turn above camp. On an exposed ridge, the trees give you an early read on the wind before you cross the open rock.' },
   },
   {
     id: 'cultural-connections',
@@ -62,9 +55,7 @@ const worlds: (JourneyWorld & {
     description: 'Walk beneath carved temple towers, step inside working studios and hear the stories that give these places their meaning.',
     background: '#231a14', ground: '#795f47', accent: '#f0cb94',
     anchor: [0.15, 1.67, 0.69], haze: 0.18,
-    discovery: { title: 'The temple tower', detail: 'Take time to read the carved tiers of a temple tower with someone who can tell you the stories behind the figures.' },
     secondaryAnchor: [2.65, 0.96, -2.1],
-    secondaryDiscovery: { title: 'The temple threshold', detail: 'Pause at the layered gateway before entering the courtyard. From here you can see how the stepped profiles of the smaller entrance echo the tower beyond.' },
   },
   {
     id: 'romance',
@@ -72,9 +63,7 @@ const worlds: (JourneyWorld & {
     description: 'Make time for slow evenings, a table set for two and places you’ll remember for the moments you shared there.',
     background: '#25161d', ground: '#775358', accent: '#edb8c2',
     anchor: [0.23, 0.72, 0.53], haze: 0.17,
-    discovery: { title: 'A table for two', detail: 'Follow the lanterns to a candlelit table and let dinner stretch into the evening.' },
     secondaryAnchor: [-2.65, 1.35, -2.09],
-    secondaryDiscovery: { title: 'The flowering passage', detail: 'Follow the flowering passage toward the table as the light drops. The arch frames a quiet first view of the place set for two.' },
   },
   {
     id: 'wellness',
@@ -82,9 +71,7 @@ const worlds: (JourneyWorld & {
     description: 'Begin with a quiet morning by the water and spend the day at your own pace, with time for gentle movement and deep rest.',
     background: '#12221f', ground: '#50695c', accent: '#b4d4c4',
     anchor: [0.12, 0.45, 0.58], haze: 0.15,
-    discovery: { title: 'The lotus pool', detail: 'Begin beside still water, with gentle movement and time to notice the sounds around you.' },
     secondaryAnchor: [2.76, 0.74, -2.02],
-    secondaryDiscovery: { title: 'The stone cairn', detail: 'Use the stacked stones as a resting point for your gaze. From there, let your eye follow the low mist across the water toward the lotus.' },
   },
   {
     id: 'family',
@@ -92,9 +79,7 @@ const worlds: (JourneyWorld & {
     description: 'Set up camp, swap stories by the fire and give curious travellers of every age something to discover together.',
     background: '#19211b', ground: '#556343', accent: '#edd2a1',
     anchor: [0.53, 0.63, 1.12], haze: 0.17,
-    discovery: { title: 'The campfire', detail: 'Gather around the fire for stories and give the youngest travellers a turn to tell one of their own.' },
     secondaryAnchor: [-2.65, 0.9, -2.08],
-    secondaryDiscovery: { title: 'The camp shelter', detail: 'Start at the shelter for a small camp challenge. See who can spot the bunting colours first, then meet back by the fire to compare finds.' },
   },
   {
     id: 'wildlife-and-nature',
@@ -102,9 +87,7 @@ const worlds: (JourneyWorld & {
     description: 'Listen for movement in the canopy, watch the water’s edge and let the forest set the pace of your day.',
     background: '#0d2019', ground: '#3c6247', accent: '#bad0a0',
     anchor: [0.63, 0.66, 0.96], haze: 0.21,
-    discovery: { title: 'The forest waterhole', detail: 'Pause with a naturalist to look for tracks and listen for birds near the water, giving wildlife plenty of space.' },
     secondaryAnchor: [2.65, 1.32, -2.06],
-    secondaryDiscovery: { title: 'The forest edge', detail: 'Watch the gap between the pines at dusk. A naturalist can help you distinguish the intermittent flashes of fireflies from the steadier reflections near the water.' },
   },
 ]
 
@@ -118,9 +101,12 @@ export default function ExperiencesClient() {
   const pointer = useRef({ x: 0, y: 0 })
   const marker = useRef<HTMLButtonElement>(null)
   const secondaryMarker = useRef<HTMLButtonElement>(null)
+  const discoveryLayout = useRef<{ world: number; copy: DOMRectReadOnly | null }>({ world: -1, copy: null })
+  const opener = useRef<HTMLButtonElement | null>(null)
   const panel = useRef<HTMLDialogElement>(null)
+  const backdropPress = useRef(false)
   const [activeWorld, setActiveWorld] = useState(0)
-  const [selection, setSelection] = useState({ world: 0, secondary: false })
+  const [selection, setSelection] = useState<{ world: number; stop: number } | null>(null)
   const redrawRef = useRef<(() => void) | null>(null)
   const [reducedMotion, setReducedMotion] = useState(true)
   const [heroVisible, setHeroVisible] = useState(true)
@@ -171,6 +157,7 @@ export default function ExperiencesClient() {
     if (!journey || !stage || !hero) return
 
     const sections = Array.from(journey.querySelectorAll<HTMLElement>('[data-world]'))
+    const copies = Array.from(journey.querySelectorAll<HTMLElement>('[data-world-copy]'))
     const firstWorld = sections[0]
     if (!firstWorld) return
     let centers: number[] = []
@@ -193,7 +180,8 @@ export default function ExperiencesClient() {
       const travel = reducedMotion ? 0 : smoothRange(heroScroll, 0, 2.42)
       const arrival = reducedMotion ? 0 : 1 - smoothRange(remaining, 0.08, 0.84)
       const dissolve = smoothRange(arrival, 0.08, 0.94)
-      const showHero = reducedMotion ? remaining > 0 : dissolve < 1
+      const firstWorldReached = firstTop <= 1
+      const showHero = reducedMotion ? !firstWorldReached : dissolve < 1
       const near = firstTop < height + 160
       if (showHero !== heroWasVisible) {
         heroWasVisible = showHero
@@ -220,9 +208,6 @@ export default function ExperiencesClient() {
         }
         redrawRef.current?.()
       }
-      // The hotspot becomes interactive when its own section reaches the stage.
-      journey.classList.toggle(styles.beforeFirstWorld, firstTop > 0)
-
       const center = height / 2 - top
       let index = 0
       while (index < centers.length - 1 && center >= centers[index + 1]) index++
@@ -234,12 +219,27 @@ export default function ExperiencesClient() {
         lastWorld = nearest
         setActiveWorld(nearest)
       }
-      if (current === lastPosition) return
-      lastPosition = current
       const { from, to, blend } = journeyTransition(current, worlds.length)
-      progress.current = current
-      stage.style.setProperty('--sky', gsap.utils.interpolate(worlds[from].background, worlds[to].background, blend))
-      stage.style.setProperty('--glow', gsap.utils.interpolate(worlds[from].accent, worlds[to].accent, blend))
+      const settled = blend === 0 ? from : blend === 1 ? to : -1
+      const visibleWorld = !firstWorldReached || showHero ? -1 : settled
+      if (discoveryLayout.current.world !== visibleWorld) {
+        marker.current?.removeAttribute('data-projected')
+        secondaryMarker.current?.removeAttribute('data-projected')
+      }
+      const bounds = visibleWorld < 0 ? null : copies[visibleWorld]?.getBoundingClientRect()
+      const stageBounds = bounds ? stage.getBoundingClientRect() : null
+      discoveryLayout.current = {
+        world: visibleWorld,
+        copy: bounds && stageBounds
+          ? new DOMRectReadOnly(bounds.left - stageBounds.left, bounds.top - stageBounds.top, bounds.width, bounds.height)
+          : null,
+      }
+      if (current !== lastPosition) {
+        lastPosition = current
+        progress.current = current
+        stage.style.setProperty('--sky', gsap.utils.interpolate(worlds[from].background, worlds[to].background, blend))
+        stage.style.setProperty('--glow', gsap.utils.interpolate(worlds[from].accent, worlds[to].accent, blend))
+      }
       redrawRef.current?.()
     }
     const schedule = () => {
@@ -256,6 +256,7 @@ export default function ExperiencesClient() {
     const observer = new ResizeObserver(measure)
     observer.observe(stage)
     sections.forEach(section => observer.observe(section))
+    copies.forEach(copy => observer.observe(copy))
     measure()
     window.addEventListener('scroll', schedule, { passive: true })
     return () => {
@@ -281,14 +282,23 @@ export default function ExperiencesClient() {
     pointer.current.y = 0
   }
 
-  const openDiscovery = (secondary: boolean) => {
-    setSelection({ world: activeWorld, secondary })
+  const openDiscovery = (button: HTMLButtonElement, world: number, stop: number) => {
+    if (discoveryLayout.current.world !== world || !button.hasAttribute('data-projected')) return
+    opener.current = button
+    setSelection({ world, stop })
     resetPointer()
-    panel.current?.showModal()
   }
 
-  const discoveryWorld = worlds[selection.world]
-  const discovery = selection.secondary ? discoveryWorld.secondaryDiscovery : discoveryWorld.discovery
+  useLayoutEffect(() => {
+    redrawRef.current?.()
+  }, [activeWorld])
+
+  useLayoutEffect(() => {
+    if (selection && panel.current && !panel.current.open) panel.current.showModal()
+  }, [selection])
+
+  const discoveryWorld = selection ? worlds[selection.world] : null
+  const discovery = selection && discoveryWorld ? worldDiscovery[discoveryWorld.id].stops[selection.stop] : null
   const featured = worlds[activeWorld]
 
   return (
@@ -308,6 +318,25 @@ export default function ExperiencesClient() {
               <FloatingWorld active={heroVisible && !reducedMotion} travel={heroTravel} entrance={entrance} />
             </div>
 
+            <div aria-hidden="true" className={styles.heroAurora}>
+              <span className={styles.heroAuroraLeft} />
+              <span className={styles.heroAuroraRight} />
+              <span className={styles.heroGoldenHalo} />
+              <span className={styles.heroLightRays} />
+              <span className={styles.heroAtmosphere} />
+              {Array.from({ length: 34 }, (_, i) => (
+                <span
+                  key={i}
+                  className={styles.heroFirefly}
+                  style={{
+                    left: `${i % 2 === 0 ? 3 + (i * 17) % 25 : 72 + (i * 13) % 25}%`,
+                    top: `${12 + (i * 29) % 70}%`,
+                    animationDelay: `${-(i * 0.73)}s`,
+                    animationDuration: `${4 + (i % 7) * 0.8}s`,
+                  }}
+                />
+              ))}
+            </div>
             <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#21130f] via-[#020F12]/15 to-[#020F12]/35" />
 
             <div aria-hidden="true" className={styles.entranceHaze} />
@@ -365,7 +394,7 @@ row-start-1 h-[100svh] self-start overflow-hidden bg-[#21130f]"
           <div aria-hidden="true" className="absolute inset-0">
             {journeyReady && (
               <ExperienceWorldScene worlds={worlds} progress={progress} entrance={entrance} redrawRef={redrawRef} active={journeyVisible && nearEntrance}
-                reducedMotion={reducedMotion} pointer={pointer} marker={marker} secondaryMarker={secondaryMarker} />
+                reducedMotion={reducedMotion} pointer={pointer} marker={marker} secondaryMarker={secondaryMarker} discoveryLayout={discoveryLayout} />
             )}
             <div className={styles.rays} />
             <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-black/15" />
@@ -383,7 +412,7 @@ row-start-1 h-[100svh] self-start overflow-hidden bg-[#21130f]"
                 aria-labelledby={`${id}-title`}
                 className={`relative flex min-h-[100svh] items-end px-[6vw] pb-[10svh] pt-[54svh] md:items-center md:py-12 ${right ? 'justify-end' : 'justify-start'}`}
               >
-                <div className={`w-full max-w-[44rem] md:w-[46%] ${right ? 'text-right' : 'text-left'}`}>
+                <div data-world-copy style={{ '--world-accent': accent } as CSSProperties} className={`${styles.worldCopy} w-full max-w-[44rem] md:w-[46%] ${right ? 'text-right' : 'text-left'}`}>
                   <h2
                     id={`${id}-title`}
                     className={styles.worldTitle}
@@ -394,6 +423,7 @@ row-start-1 h-[100svh] self-start overflow-hidden bg-[#21130f]"
                   <p className={`mt-6 max-w-[27rem] text-sm leading-relaxed text-white/90 [text-shadow:0_2px_12px_#000] sm:text-base ${right ? 'ml-auto' : ''}`}>
                     {description}
                   </p>
+                  <CountryGuides world={id} align={right ? 'right' : 'left'} />
                 </div>
               </section>
             )
@@ -401,34 +431,72 @@ row-start-1 h-[100svh] self-start overflow-hidden bg-[#21130f]"
         </div>
 
         <div className="pointer-events-none sticky top-0 z-10 col-start-1 row-start-1 h-[100svh] self-start">
-          {[featured.discovery, featured.secondaryDiscovery].map((stop, index) => (
+          {worldDiscovery[featured.id].stops.map((stop, index) => (
             <button
-              key={index}
+              key={stop.title}
               ref={index === 0 ? marker : secondaryMarker}
+              data-marker-world={activeWorld}
               type="button"
               className={styles.hotspot}
               data-stop={index + 1}
-              data-side={activeWorld % 2 === 0 ? 'left' : 'right'}
-              style={{ '--marker-accent': featured.accent } as CSSProperties}
               aria-label={`Discover ${stop.title} in ${featured.title}`}
               aria-haspopup="dialog"
               aria-controls="discovery-panel"
-              onClick={() => openDiscovery(index === 1)}
+              onClick={event => openDiscovery(event.currentTarget, activeWorld, index)}
             >
-              <span aria-hidden="true" className={styles.plus}>{index === 0 ? '+' : '◇'}</span>
+              <span aria-hidden="true" className={styles.markerTether} />
+              <span aria-hidden="true" className={styles.markerFace}>
+                <span className={styles.markerGlyph}>{index === 0 ? '+' : '◇'}</span>
+              </span>
               <span aria-hidden="true" className={styles.hotspotLabel}>{stop.title}</span>
             </button>
           ))}
         </div>
 
-        <dialog ref={panel} id="discovery-panel" className={styles.panel} aria-labelledby="discovery-title"
-          aria-describedby="discovery-detail" style={{ '--panel-accent': discoveryWorld.accent } as CSSProperties} data-lenis-prevent>
-          <form method="dialog">
+        <dialog
+          ref={panel}
+          id="discovery-panel"
+          className={styles.panel}
+          aria-labelledby="discovery-title"
+          aria-describedby="discovery-detail"
+          style={{ '--panel-accent': discoveryWorld?.accent } as CSSProperties}
+          data-lenis-prevent
+          onPointerDown={event => { backdropPress.current = event.target === event.currentTarget }}
+          onClick={event => {
+            if (backdropPress.current && event.target === event.currentTarget) event.currentTarget.close()
+            backdropPress.current = false
+          }}
+          onClose={() => {
+            setSelection(null)
+            if (opener.current?.hasAttribute('data-projected')) opener.current.focus({ preventScroll: true })
+            opener.current = null
+          }}
+        >
+          <form method="dialog" className={styles.panelControls}>
             <button className={styles.close} aria-label="Close discovery" autoFocus>×</button>
           </form>
-          <p className={styles.eyebrow}>{discoveryWorld.title} · Field note {selection.secondary ? '02' : '01'}</p>
-          <h2 id="discovery-title">{discovery.title}</h2>
-          <p id="discovery-detail" className={styles.discoveryDetail}>{discovery.detail}</p>
+          {selection && discovery && discoveryWorld && (
+            <>
+              <div className={styles.panelVisual}>
+                {discovery.image ? (
+                  <Image src={discovery.image} alt="" fill sizes="(max-width: 600px) calc(100vw - 2rem), 34rem" />
+                ) : (
+                  <div className={styles.campfireVisual} aria-hidden="true"><span /></div>
+                )}
+              </div>
+              <div className={styles.panelStory}>
+                <p className={styles.eyebrow}>{discoveryWorld.title} · Field note {selection.stop === 0 ? '01' : '02'}</p>
+                <h2 id="discovery-title">{discovery.title}</h2>
+                <p id="discovery-detail" className={styles.discoveryDetail}>{discovery.detail}</p>
+                <ul className={styles.highlights} aria-label="Experience highlights">
+                  {discovery.highlights.map(highlight => <li key={highlight}>{highlight}</li>)}
+                </ul>
+                <Link href="/plan" prefetch={false} className={styles.planLink}>
+                  Plan This Experience <span aria-hidden="true">↗</span>
+                </Link>
+              </div>
+            </>
+          )}
         </dialog>
       </div>
     </main>

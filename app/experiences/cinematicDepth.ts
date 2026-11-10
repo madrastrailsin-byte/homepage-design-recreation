@@ -216,12 +216,17 @@ export function createCinematicDepth(world: JourneyWorld, direction: number, mis
     parent.add(shadow)
   }
 
-  const cloud = new THREE.SpriteMaterial({ map: mist, color: world.accent, opacity: 0.39, depthWrite: false })
+  const veil = new THREE.Color(world.background).lerp(new THREE.Color(world.accent), 0.48)
+  const cloud = new THREE.SpriteMaterial({ map: mist, color: veil, opacity: 0.47, depthWrite: false })
   materials.add(cloud)
   const midMist = new THREE.Sprite(cloud)
   midMist.position.set(mid - direction * 0.62, -0.58, -1.5)
   midMist.scale.set(5.3, 1.68, 1)
   group.add(midMist)
+  const farMist = new THREE.Sprite(cloud)
+  farMist.position.set(far, -0.34, -4.25)
+  farMist.scale.set(7.1, 1.64, 1)
+  group.add(farMist)
   const nearMist = new THREE.Sprite(cloud)
   nearMist.position.set(edge, -0.86, nearZ + 0.56)
   nearMist.scale.set(3.85, 1.16, 1)
@@ -229,9 +234,12 @@ export function createCinematicDepth(world: JourneyWorld, direction: number, mis
 
   return {
     group,
-    update(travel: number, arrival: number, narrow: boolean) {
+    update(travel: number, arrival: number, narrow: boolean, time: number) {
       foreground.position.x = direction * ((narrow ? 0.74 : -0.22) + travel * 0.41 + arrival * 1.4)
       foreground.position.z = travel * 0.18
+      midMist.position.x = mid - direction * 0.62 + Math.sin(time * 0.29) * 0.84
+      nearMist.position.x = edge + Math.sin(time * 0.43 + 1) * 0.62
+      farMist.position.x = far + Math.sin(time * 0.17 + 2) * 1.5
       group.visible = arrival < 0.94
     },
     dispose() {

@@ -7,16 +7,18 @@ import * as THREE from 'three'
 
 import { createCinematicDepth } from './cinematicDepth'
 import { createLivingWorld } from './livingWorlds'
+import type { WorldMotion } from './livingWorlds'
 import { journeyTransition, smoothRange } from './journeyMotion'
 import type { Point } from './journeyMotion'
 type Shape = 'box' | 'stone' | 'column' | 'peak' | 'ring' | 'bowl'
 
-function Solid({ shape, at, size, color, glow, turn = [0, 0, 0] }: {
+function Solid({ shape, at, size, color, glow, motion, turn = [0, 0, 0] }: {
   shape: Shape
   at: Point
   size: Point
   color: string
   glow?: boolean
+  motion?: WorldMotion
   turn?: Point
 }) {
   const geometry: Record<Shape, ReactNode> = {
@@ -29,7 +31,7 @@ function Solid({ shape, at, size, color, glow, turn = [0, 0, 0] }: {
   }
 
   return (
-    <mesh position={at} scale={size} rotation={turn}>
+    <mesh position={at} scale={size} rotation={turn} userData={{ worldMotion: motion }}>
       {geometry[shape]}
       <meshStandardMaterial color={color} emissive={glow ? color : undefined} emissiveIntensity={glow ? 2 : 0} roughness={0.78} flatShading={shape === 'stone'} />
     </mesh>
@@ -41,7 +43,7 @@ function Palm({ at, height }: { at: Point; height: number }) {
     <group position={at} scale={height}>
       <Solid shape="column" at={[0, 0.5, 0]} size={[0.06, 1, 0.06]} color="#826449" turn={[0, 0, -0.12]} />
       {Array.from({ length: 7 }, (_, i) => (
-        <group key={i} position={[0.06, 1, 0]} rotation={[0, i * Math.PI * 2 / 7, 0]}>
+        <group key={i} position={[0.06, 1, 0]} rotation={[0, i * Math.PI * 2 / 7, 0]} userData={{ worldMotion: 'foliage' }}>
           <Solid shape="stone" at={[0.29, -0.04, 0]} size={[0.38, 0.06, 0.13]} color={i % 2 ? '#53805a' : '#345e46'} turn={[0, 0, -0.29]} />
         </group>
       ))}
@@ -62,6 +64,9 @@ function CliffVillage() {
             <Solid shape="stone" at={[0, -0.39, 0]} size={[0.58, 0.59, 0.56]} color="#4b312e" />
             <Solid shape="box" at={[0, height / 2, 0]} size={[0.66, height, 0.55]} color={i % 2 ? '#956248' : '#774935'} />
             <Solid shape="peak" at={[0, height + 0.11, 0]} size={[0.55, 0.27, 0.48]} color="#3b2328" turn={[0, Math.PI / 6, 0]} />
+            {[0, 5, 7, 10].includes(i) && (
+              <Solid shape="box" at={[0, height + 0.22, 0]} size={[0.12, 0.15, 0.12]} color="#67453b" />
+            )}
             {[-0.18, 0.18].map(windowX => (
               <Solid key={windowX} shape="box" at={[windowX, height * 0.67, 0.282]} size={[0.095, 0.14, 0.018]} color="#ffc27a" glow />
             ))}
@@ -255,8 +260,8 @@ function ExplorersCamp() {
       {/* Warm campfire */}
       <group position={[0.49, 0.06, 0.19]}>
         <Solid shape="stone" at={[0, 0.03, 0]} size={[0.28, 0.09, 0.28]} color="#514a44" />
-        <Solid shape="peak" at={[0, 0.21, 0]} size={[0.13, 0.32, 0.13]} color="#f6ae62" glow />
-        <Solid shape="peak" at={[0.035, 0.16, 0.015]} size={[0.075, 0.23, 0.075]} color="#ffda91" glow />
+        <Solid shape="peak" motion="flame" at={[0, 0.21, 0]} size={[0.13, 0.32, 0.13]} color="#f6ae62" glow />
+        <Solid shape="peak" motion="flame" at={[0.035, 0.16, 0.015]} size={[0.075, 0.23, 0.075]} color="#ffda91" glow />
       </group>
 
       {/* Lookout railing */}
@@ -289,7 +294,7 @@ function Adventure() {
       <Solid shape="stone" at={[-0.43, 0.25, 0.96]} size={[0.64, 0.25, 0.46]} color="#a5795a" />
       <Solid shape="peak" at={[-0.43, 0.45, 1.03]} size={[0.28, 0.33, 0.21]} color="#ecaa52" turn={[0, 0.65, 0]} />
       <Solid shape="column" at={[0.31, 2.14, -0.56]} size={[0.025, 0.46, 0.025]} color="#eed9b9" />
-      <Solid shape="box" at={[0.45, 2.29, -0.56]} size={[0.27, 0.13, 0.035]} color="#f0a447" />
+      <Solid shape="box" motion="flag" at={[0.45, 2.29, -0.56]} size={[0.27, 0.13, 0.035]} color="#f0a447" />
     </>
   )
 }
@@ -314,14 +319,14 @@ function CeremonialCourtyard() {
       {/* Central ceremonial flame */}
       <Solid shape="column" at={[0, 0.22, 0.05]} size={[0.36, 0.32, 0.36]} color="#83654e" />
       <Solid shape="bowl" at={[0, 0.43, 0.05]} size={[0.25, 0.12, 0.25]} color="#bd935c" />
-      <Solid shape="peak" at={[0, 0.63, 0.05]} size={[0.13, 0.31, 0.13]} color="#ffcb79" glow />
+      <Solid shape="peak" motion="flame" at={[0, 0.63, 0.05]} size={[0.13, 0.31, 0.13]} color="#ffcb79" glow />
 
       {/* Rows of traditional oil lamps */}
       {[-0.69, -0.42, 0.42, 0.69].map(x => (
         <group key={x} position={[x, 0, 0.43]}>
           <Solid shape="column" at={[0, 0.13, 0]} size={[0.055, 0.22, 0.055]} color="#a87c4d" />
           <Solid shape="bowl" at={[0, 0.25, 0]} size={[0.1, 0.055, 0.1]} color="#c69a59" />
-          <Solid shape="stone" at={[0, 0.32, 0]} size={[0.045, 0.065, 0.045]} color="#ffd18c" glow />
+          <Solid shape="stone" motion="flame" at={[0, 0.32, 0]} size={[0.045, 0.065, 0.045]} color="#ffd18c" glow />
         </group>
       ))}
 
@@ -389,7 +394,7 @@ function SunsetGardenPavilion() {
       <Solid shape="column" at={[0, 0.31, 0.1]} size={[0.07, 0.55, 0.07]} color="#8d685b" />
       <Solid shape="column" at={[0, 0.59, 0.1]} size={[0.55, 0.06, 0.55]} color="#f2d9c6" />
       <Solid shape="bowl" at={[0, 0.66, 0.1]} size={[0.12, 0.07, 0.12]} color="#c18d77" />
-      <Solid shape="peak" at={[0, 0.76, 0.1]} size={[0.055, 0.15, 0.055]} color="#ffd49a" glow />
+      <Solid shape="peak" motion="flame" at={[0, 0.76, 0.1]} size={[0.055, 0.15, 0.055]} color="#ffd49a" glow />
 
       {/* Two upholstered seats */}
       {[-0.52, 0.52].map(x => (
@@ -431,7 +436,7 @@ function Romance() {
       {[-0.85, 0.85].map(x => (
         <group key={x} position={[x, 0.2, 0.53]}>
           <Solid shape="column" at={[0, 0.17, 0]} size={[0.07, 0.34, 0.07]} color="#f4d9b8" />
-          <Solid shape="stone" at={[0, 0.39, 0]} size={[0.04, 0.09, 0.04]} color="#ffc06e" />
+          <Solid shape="stone" motion="flame" at={[0, 0.39, 0]} size={[0.04, 0.09, 0.04]} color="#ffc06e" />
         </group>
       ))}
     </>
@@ -495,12 +500,14 @@ function Wellness() {
       {[0.68, 1.11, 1.57].map(radius => (
         <Solid key={radius} shape="ring" at={[0, 0.111, 0.08]} size={[radius, radius * 0.61, 0.055]} color="#83aaa0" turn={[Math.PI / 2, 0, 0]} />
       ))}
-      {Array.from({ length: 8 }, (_, i) => (
-        <group key={i} position={[0, 0.15, 0.12]} rotation={[0, i * Math.PI / 4, 0]}>
-          <Solid shape="stone" at={[0.24, 0.11, 0]} size={[0.26, 0.075, 0.11]} color="#dca0ae" turn={[0, 0, 0.43]} />
-        </group>
-      ))}
-      <Solid shape="stone" at={[0, 0.28, 0.12]} size={[0.12, 0.1, 0.12]} color="#eed093" />
+      <group position={[0, 0.15, 0.12]} userData={{ worldMotion: 'lotus' }}>
+        {Array.from({ length: 8 }, (_, i) => (
+          <group key={i} rotation={[0, i * Math.PI / 4, 0]}>
+            <Solid shape="stone" at={[0.24, 0.11, 0]} size={[0.26, 0.075, 0.11]} color="#dca0ae" turn={[0, 0, 0.43]} />
+          </group>
+        ))}
+        <Solid shape="stone" at={[0, 0.13, 0]} size={[0.12, 0.1, 0.12]} color="#eed093" />
+      </group>
       {[0.48, 0.36, 0.27, 0.17].map((radius, i) => (
         <Solid key={radius} shape="stone" at={[-1.09 + i * 0.025, 0.2 + i * 0.19, -0.53]} size={[radius, 0.14, radius * 0.72]} color={i % 2 ? '#a9aea0' : '#727f78'} />
       ))}
@@ -579,7 +586,7 @@ function Family() {
       <Palm at={[-1.81, 0, -0.42]} height={1.45} />
       <Palm at={[1.53, 0, -0.57]} height={1.68} />
       <Solid shape="ring" at={[0.53, 0.1, 1.12]} size={[0.31, 0.31, 0.18]} color="#b07d59" turn={[Math.PI / 2, 0, 0]} />
-      <Solid shape="peak" at={[0.53, 0.26, 1.12]} size={[0.16, 0.44, 0.16]} color="#efa347" turn={[0.15, 0, -0.1]} />
+      <Solid shape="peak" motion="flame" at={[0.53, 0.26, 1.12]} size={[0.16, 0.44, 0.16]} color="#efa347" turn={[0.15, 0, -0.1]} />
     </>
   )
 }
@@ -671,7 +678,7 @@ function Wildlife() {
         return (
           <group key={i} position={[Math.cos(angle) * radius, 0, Math.sin(angle) * radius * 0.64 - 0.22]}>
             <Solid shape="column" at={[0, height * 0.28, 0]} size={[0.04, height * 0.56, 0.04]} color="#685341" />
-            <Solid shape="peak" at={[0, height * 0.7, 0]} size={[height * 0.29, height, height * 0.29]} color={['#3c654a', '#5c8051', '#769360'][i % 3]} />
+            <Solid shape="peak" motion="foliage" at={[0, height * 0.7, 0]} size={[height * 0.29, height, height * 0.29]} color={['#3c654a', '#5c8051', '#769360'][i % 3]} />
           </group>
         )
       })}
@@ -722,6 +729,7 @@ type JourneyProps = {
   pointer: RefObject<{ x: number; y: number }>
   marker: RefObject<HTMLButtonElement | null>
   secondaryMarker: RefObject<HTMLButtonElement | null>
+  discoveryLayout: RefObject<{ world: number; copy: DOMRectReadOnly | null }>
 }
 
 function Cliff({ ground }: { ground: string }) {
@@ -898,19 +906,14 @@ function createCompositor() {
   }
 }
 
-function CinematicWorlds({ worlds, progress, entrance, redrawRef, active, reducedMotion, pointer, marker, secondaryMarker }: JourneyProps) {
+function CinematicWorlds({ worlds, progress, entrance, redrawRef, active, reducedMotion, pointer, marker, secondaryMarker, discoveryLayout }: JourneyProps) {
   const invalidate = useThree(state => state.invalidate)
 
   useEffect(() => {
     if (!active) return
     redrawRef.current = invalidate
     invalidate()
-    // Scroll and pointer input can still request a frame between ambient ticks.
-    const timer = reducedMotion ? undefined : window.setInterval(invalidate, 1000 / 60)
-    return () => {
-      window.clearInterval(timer)
-      redrawRef.current = null
-    }
+    return () => { redrawRef.current = null }
   }, [active, invalidate, redrawRef, reducedMotion])
   const groups = useRef<(THREE.Group | null)[]>([])
   const layers = useRef<(THREE.Group | null)[]>([])
@@ -918,7 +921,6 @@ function CinematicWorlds({ worlds, progress, entrance, redrawRef, active, reduce
   const depth = useRef<ReturnType<typeof createCinematicDepth>[]>([])
   const cursor = useRef({ x: 0, y: 0 })
   const clock = useRef(0)
-  const lastMarkers = useRef([{ x: -1, y: -1 }, { x: -1, y: -1 }])
   const fog = useRef<THREE.Fog>(null)
   const fill = useRef<THREE.HemisphereLight>(null)
   const rim = useRef<THREE.DirectionalLight>(null)
@@ -942,8 +944,8 @@ function CinematicWorlds({ worlds, progress, entrance, redrawRef, active, reduce
 
   useEffect(() => {
     const details = worlds.map((world, index) => {
-      const detail = createLivingWorld(world, mist, mote)
-      groups.current[index]?.add(detail.group)
+      const detail = createLivingWorld(world, mist, mote, groups.current[index]!)
+      groups.current[index]!.add(detail.group)
       return detail
     })
     living.current = details
@@ -963,11 +965,11 @@ function CinematicWorlds({ worlds, progress, entrance, redrawRef, active, reduce
   }, [worlds, mist, mote, invalidate])
 
   useFrame(({ camera, scene, gl, size }, delta) => {
+    if (active && !reducedMotion) invalidate()
     const position = progress.current
     const { from, to, blend } = journeyTransition(position, worlds.length)
     const narrow = size.width < 768
     const aspect = size.width / Math.max(size.height, 1)
-    const selected = Math.round(position)
     const dt = Math.min(delta, 0.05)
     const aim = cursor.current
     aim.x = reducedMotion ? 0 : THREE.MathUtils.damp(aim.x, pointer.current.x, 5, dt)
@@ -995,8 +997,8 @@ function CinematicWorlds({ worlds, progress, entrance, redrawRef, active, reduce
       const arriving = index === 0 && !reducedMotion ? 1 - entrance.current : 0
       // Ease the extra orbit to zero at the settled view and throughout the hero handoff.
       const sweep = reducedMotion ? 0 : Math.sin(arc * 3) * (1 - arriving)
-      depth.current[index]?.update(sweep, arriving, narrow)
-      if (fog.current) fog.current.near = 8 - arriving * 4
+      depth.current[index]?.update(sweep, arriving, narrow, time)
+      if (fog.current) fog.current.near = 6.8 - arriving * 3
       if (key.current) key.current.intensity = 1.8 - arriving * 0.45
       groups.current.forEach((group, i) => {
         if (group) group.visible = i === index
@@ -1011,7 +1013,7 @@ function CinematicWorlds({ worlds, progress, entrance, redrawRef, active, reduce
           cloud.position.y = clouds[i].at[1] + Math.sin(time * 0.29 + i) * 0.15
         })
         particles.position.set(aim.x * 0.34 + Math.sin(time * 0.31) * 0.34, -aim.y * 0.23 + Math.sin(time * 0.43) * 0.16, 0)
-        foliage.rotation.z = reducedMotion ? 0 : Math.sin(time * 1.2 + index) * 0.026
+        foliage.rotation.z = reducedMotion ? 0 : Math.sin(time * 1.2 + index) * (index === 2 ? 0.09 : 0.035)
       }
 
       // Reversible cinematic approach to the Chef's Terrace.
@@ -1038,20 +1040,49 @@ function CinematicWorlds({ worlds, progress, entrance, redrawRef, active, reduce
       )
       camera.updateMatrixWorld()
 
-      if (index === selected) {
-        const placeMarker = (button: HTMLButtonElement | null, anchor: Point, slot: number) => {
-          if (!button) return
+      const layout = discoveryLayout.current
+      if (target === null && index === layout.world) {
+        const placeMarker = (button: HTMLButtonElement | null, anchor: Point, previous?: { x: number; y: number }) => {
+          if (!button || Number(button.dataset.markerWorld) !== index) return
           projected.set(...anchor).project(camera)
-          const x = Math.round(THREE.MathUtils.clamp(50 + projected.x * 50, 6, 94) * 10) / 10
-          const y = Math.round(THREE.MathUtils.clamp(50 - projected.y * 50, 12, 78) * 10) / 10
-          const last = lastMarkers.current[slot]
-          if (x !== last.x) button.style.setProperty('--marker-x', `${x}%`)
-          if (y !== last.y) button.style.setProperty('--marker-y', `${y}%`)
-          last.x = x
-          last.y = y
+          const anchorX = (0.5 + projected.x * 0.5) * size.width
+          const anchorY = (0.5 - projected.y * 0.5) * size.height
+          const clampX = (x: number) => THREE.MathUtils.clamp(x, 28, size.width - 28)
+          let x = clampX(anchorX)
+          let y = THREE.MathUtils.clamp(anchorY, 44, size.height - 28)
+          const copy = layout.copy
+          const margin = 28
+
+          if (copy && x > copy.left - margin && x < copy.right + margin &&
+              y > copy.top - margin && y < copy.bottom + margin) {
+            if (narrow) y = Math.max(44, copy.top - margin)
+            else x = clampX(index % 2 === 0 ? copy.left - margin : copy.right + margin)
+          }
+          if (previous && Math.abs(x - previous.x) < 48 && Math.abs(y - previous.y) < 48) {
+            const direction = index % 2 === 0 ? -1 : 1
+            const outside = clampX(previous.x + direction * 50)
+            if (Math.abs(outside - previous.x) >= 48) x = outside
+            else if (previous.y >= 94) y = previous.y - 50
+            else x = clampX(previous.x - direction * 50)
+          }
+
+          // A leader keeps the target connected to the projected point when UI clearance is needed.
+          const dx = anchorX - x
+          const dy = anchorY - y
+          const length = Math.hypot(dx, dy)
+          const placement = `left:${Math.round(x)}px;top:${Math.round(y)}px;--tether-length:${length > 18 ? Math.round(length) : 0}px;--tether-angle:${Math.atan2(dy, dx).toFixed(2)}rad`
+          if (button.dataset.placement !== placement) {
+            button.style.cssText = placement
+            button.dataset.placement = placement
+          }
+          const side = x < size.width / 2 ? 'left' : 'right'
+          if (button.dataset.side !== side) button.dataset.side = side
+          if (!button.hasAttribute('data-projected')) button.setAttribute('data-projected', '')
+          return { x, y }
         }
-        placeMarker(marker.current, worlds[index].anchor, 0)
-        placeMarker(secondaryMarker.current, worlds[index].secondaryAnchor, 1)
+
+        const primary = placeMarker(marker.current, worlds[index].anchor)
+        placeMarker(secondaryMarker.current, worlds[index].secondaryAnchor, primary)
       }
       gl.setRenderTarget(target)
       gl.render(scene, camera)
