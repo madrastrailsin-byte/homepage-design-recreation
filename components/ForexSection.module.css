@@ -86,9 +86,9 @@
   background:
     linear-gradient(
       90deg,
-      rgba(3, 21, 27, .88) 0%,
-      rgba(3, 24, 30, .76) 48%,
-      rgba(3, 24, 30, .62) 100%
+      rgba(3, 24, 29, .94) 0%,
+      rgba(3, 27, 32, .88) 48%,
+      rgba(3, 29, 34, .84) 100%
     ),
     url('/images/homepage/forex-bg.png')
       center center / cover no-repeat;
@@ -172,7 +172,7 @@
   min-width: 0;
   min-height: 13rem;
   padding: 1.2rem 1rem;
-  border: 1px solid rgba(221, 184, 104, .58);
+  border: 1px solid rgba(199, 173, 119, .30);
   border-radius: 1rem;
   background: rgba(5, 29, 36, .74);
   box-shadow:
@@ -188,7 +188,7 @@
 
 .card:hover {
   transform: translateY(-4px);
-  border-color: #e4c77f;
+  border-color: rgba(199, 173, 119, .48);
   background: rgba(7, 36, 43, .86);
 }
 
@@ -201,7 +201,7 @@
   font-size: 1.05rem;
   font-weight: 600;
   letter-spacing: .09em;
-  color: #e8cb83;
+  color: #c9b58b;
 }
 
 .pair {
@@ -212,7 +212,7 @@
 .name {
   font-size: .85rem;
   line-height: 1.45;
-  color: #f0e8d9;
+  color: #d8d3c8;
 }
 
 /* Main exchange-rate value */
@@ -230,7 +230,7 @@
   font-size: clamp(1.45rem, 1.9vw, 1.9rem);
   font-weight: 500;
   letter-spacing: -.025em;
-  color: #fff6e5;
+  color: #e5dfd2;
 }
 
 /* Rate movement and dates */
@@ -257,14 +257,14 @@
 .footer {
   margin-top: 1.8rem;
   padding-top: 1rem;
-  border-top: 1px solid rgba(221, 184, 104, .3);
+  border-top: 1px solid rgba(199, 173, 119, .18);
   font-size: .82rem;
   line-height: 1.7;
   color: #f0e6d6;
 }
 
 .footer a {
-  color: #e8cb83;
+  color: #c9b58b;
 }
 
 /* Tablet */
@@ -280,7 +280,7 @@
   .card:nth-child(odd),
   .card:nth-child(even) {
     padding: 1.2rem;
-    border: 1px solid rgba(221, 184, 104, .58);
+    border: 1px solid rgba(199, 173, 119, .30);
   }
 }
 
@@ -320,7 +320,7 @@
   .card:nth-child(even) {
     min-height: 12.5rem;
     padding: 1rem .8rem;
-    border: 1px solid rgba(221, 184, 104, .58);
+    border: 1px solid rgba(199, 173, 119, .30);
   }
 
   .value {
@@ -654,7 +654,7 @@
   gap: .3rem;
   min-width: 0;
   padding: .7rem 1rem;
-  border: 1px solid rgba(228, 199, 127, .32);
+  border: 1px solid rgba(199, 173, 119, .20);
   border-radius: .65rem;
   background: rgba(3, 22, 29, .55);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, .06);

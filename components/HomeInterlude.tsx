@@ -47,11 +47,11 @@ export default function HomeInterlude() {
 
           <Link
             href="/our-story"
-            className="mt-ui group mt-5 inline-flex min-h-11 items-center gap-5 rounded-full border border-[#a66b19] bg-[#ffe5b7]/75 py-1.5 pl-6 pr-1.5 text-[11px] font-semibold tracking-[0.2em] text-[#172a29] shadow-[0_3px_0_rgba(106,62,13,0.16),0_8px_18px_rgba(71,44,18,0.12)] backdrop-blur-[3px] transition-[background,box-shadow,transform] duration-300 hover:-translate-y-0.5 hover:bg-[#ffedca] hover:shadow-[0_5px_0_rgba(106,62,13,0.16),0_12px_22px_rgba(71,44,18,0.17)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#8d5713]"
+            className="mt-ui group mt-5 inline-flex min-h-9 items-center justify-center gap-3 rounded-full border border-[#956a38]/70 bg-[#f5e4ca]/55 px-5 py-2 text-[10px] font-semibold leading-none tracking-[0.16em] text-[#18332f] transition-[background,border-color] duration-300 hover:border-[#956a38]/85 hover:bg-[#f5e4ca]/75 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#8d5713]"
           >
             OUR STORY
-            <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#a36a18] text-white transition-transform duration-300 group-hover:translate-x-0.5">
-              <ArrowRight size={18} aria-hidden="true" />
+            <span className="flex h-4 w-4 shrink-0 items-center justify-center text-[#805725] transition-transform duration-300 group-hover:translate-x-1">
+              <ArrowRight size={15} strokeWidth={1.8} aria-hidden="true" />
             </span>
           </Link>
         </div>

@@ -8,13 +8,14 @@ import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import JourneyTransitionLink from './JourneyTransitionLink'
 import { useTheme } from '@/components/theme/ThemeProvider'
+import { OUR_STORY_AVAILABLE } from '@/lib/our-story-config'
 import { THEME_SWITCHING_ENABLED } from '@/lib/theme-config'
 
 const navItems = [
   { label: 'Destinations', href: '/destinations' },
   { label: 'Experiences', href: '/experiences' },
   { label: 'Services', href: '/services' },
-  { label: 'Our Story', href: '/our-story' },
+  ...(OUR_STORY_AVAILABLE ? [{ label: 'Our Story', href: '/our-story' }] : []),
   { label: 'Contact', href: '/contact' },
 ]
 
@@ -130,14 +131,14 @@ export default function Navigation() {
       width={245}
       height={44}
       priority
-      className="absolute left-0 top-[calc(50%+2px)] w-[205px] max-w-none -translate-y-1/2 object-contain sm:w-[225px] md:w-[245px]"
+      className="absolute left-0 top-[calc(50%+2px)] w-[205px] max-w-none -translate-y-1/2 object-contain brightness-[1.15] saturate-[1.08] sm:w-[225px] md:w-[245px]"
     />
   ) : null}
 </span>
         {pathname === '/' && (
             <span
               aria-hidden="true"
-              className="pointer-events-none absolute left-[calc(100%+32px)] top-0 text-[12px] font-semibold leading-none text-[#D4AF37]"
+              className="pointer-events-none absolute left-[calc(100%+32px)] top-0 text-[12px] font-semibold leading-none text-[#F0CD65]"
             >
               ™
             </span>

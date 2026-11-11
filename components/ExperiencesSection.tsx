@@ -340,14 +340,6 @@ export default function ExperiencesSection() {
             <div className={styles.experiencesIntroTop}>
               <span className={styles.experiencesIntroRule} aria-hidden="true" />
               <div className={styles.experiencesIntroIdentity}>
-                <NextImage
-                  className={styles.experiencesBinoculars}
-                  src="/images/experiences/experiences-antique-binoculars-v7.png"
-                  alt=""
-                  width={1536}
-                  height={1024}
-                  decoding="async"
-                />
                 <span>EXPERIENCES</span>
               </div>
               <span className={styles.experiencesIntroRule} aria-hidden="true" />

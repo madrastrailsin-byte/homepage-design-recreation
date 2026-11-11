@@ -27,6 +27,7 @@
 
 .background {
   z-index: -1;
+  filter: saturate(.78) brightness(.91);
   object-fit: cover;
   object-position: center 28%;
 }
