@@ -1,5 +1,7 @@
 'use client'
 
+import PlannerControls from './PlannerControls'
+
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { Check, Info } from 'lucide-react'
 import Image from 'next/image'
@@ -94,10 +96,10 @@ function BudgetCard({
       whileHover={prefersReducedMotion ? {} : { y: -3 }}
       whileTap={prefersReducedMotion ? {} : { scale: 0.99 }}
       transition={{ duration: 0.62, ease: easing }}
-      className={`group relative isolate block h-[132px] w-full overflow-hidden rounded-2xl border text-left outline-none transition-[border-color,box-shadow] duration-[400ms] focus-visible:ring-2 focus-visible:ring-[#D4AF37] lg:h-[142px] ${
+      className={`group relative isolate block h-[132px] w-full overflow-hidden rounded-2xl border text-left outline-none transition-[border-color,box-shadow] duration-[400ms] focus-visible:ring-2 focus-visible:ring-[#F5F3EC] lg:h-[142px] ${
         selected
-          ? 'border-[#D4AF37] shadow-[0_0_42px_rgba(212,175,55,0.3),0_20px_44px_rgba(0,0,0,0.42)]'
-          : 'border-white/14 shadow-[0_14px_34px_rgba(0,0,0,0.28)] hover:border-[#D4AF37]/75 hover:shadow-[0_0_24px_rgba(212,175,55,0.17),0_18px_40px_rgba(0,0,0,0.36)]'
+          ? 'border-[#F5F3EC] shadow-[0_0_42px_rgba(245,243,236,0.3),0_20px_44px_rgba(0,0,0,0.42)]'
+          : 'border-white/14 shadow-[0_14px_34px_rgba(0,0,0,0.28)] hover:border-[#F5F3EC]/75 hover:shadow-[0_0_24px_rgba(245,243,236,0.17),0_18px_40px_rgba(0,0,0,0.36)]'
       }`}
     >
       <Image
@@ -118,13 +120,13 @@ function BudgetCard({
       ) : null}
 
       <span className="absolute inset-x-5 bottom-4 z-10">
-        <span className="block text-[9px] font-semibold uppercase tracking-[0.17em] text-[#e8c95e]">
+        <span className="block text-[9px] font-semibold uppercase tracking-[0.17em] text-[#F5F3EC]">
           {option.range}
         </span>
         <span className="mt-1 block font-serif text-2xl font-semibold leading-none text-[#fffdf7] lg:text-[1.7rem]">
           {option.title}
         </span>
-        <span className="mt-1.5 block text-[10px] font-light leading-snug text-white/58">
+        <span className="mt-1.5 block text-[10px] font-light leading-snug text-white/90">
           {option.description}
         </span>
       </span>
@@ -136,7 +138,7 @@ function BudgetCard({
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.5 }}
             transition={{ type: 'spring', stiffness: 380, damping: 24 }}
-            className="absolute right-4 top-4 z-20 grid h-7 w-7 place-items-center rounded-full border border-[#f4d777]/75 bg-[#D4AF37] text-[#03191D] shadow-[0_0_18px_rgba(212,175,55,0.48)]"
+            className="absolute right-4 top-4 z-20 grid h-7 w-7 place-items-center rounded-full border border-[#F5F3EC]/75 bg-[#F5F3EC] text-[#03191D] shadow-[0_0_18px_rgba(245,243,236,0.48)]"
           >
             <Check className="h-4 w-4 stroke-[2.5]" aria-hidden="true" />
             <span className="sr-only">Selected</span>
@@ -164,9 +166,6 @@ export default function BudgetSelectionScreen({
   const selectedOption = budgetOptions.find(
     (option) => option.id === selectedId,
   )
-  const reveal = prefersReducedMotion
-    ? {}
-    : { opacity: 0, y: 24, filter: 'blur(9px)' }
 
   return (
     <section className="relative min-h-[100svh] overflow-x-hidden bg-transparent text-[#FAFAF9] lg:overflow-hidden">
@@ -176,15 +175,15 @@ export default function BudgetSelectionScreen({
       <section className={journeyStepSectionClassName}>
         <header className="text-center">
           <motion.p
-            initial={reveal}
+            initial={false}
             animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
             transition={{ duration: 0.9, delay: 0.35, ease: easing }}
-            className="mt-eyebrow text-[10px] text-[#D4AF37] sm:text-[11px]"
+            className="mt-eyebrow text-[10px] text-[#F5F3EC] sm:text-[11px]"
           >
             Plan your journey
           </motion.p>
           <motion.h1
-            initial={reveal}
+            initial={false}
             animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
             transition={{ duration: 1.05, delay: 0.55, ease: easing }}
             className="mt-2 font-serif text-[clamp(2.25rem,4.35vw,4.05rem)] font-semibold leading-[0.98] tracking-[-0.035em]"
@@ -192,24 +191,24 @@ export default function BudgetSelectionScreen({
             What’s your preferred budget for this journey?
           </motion.h1>
           <motion.p
-            initial={reveal}
+            initial={false}
             animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
             transition={{ duration: 0.9, delay: 0.75, ease: easing }}
-            className="mx-auto mt-2 max-w-4xl text-sm font-light tracking-[0.02em] text-white/62 sm:text-base lg:mt-1"
+            className="mx-auto mt-2 max-w-4xl text-sm font-light tracking-[0.02em] text-white/90 sm:text-base lg:mt-1"
           >
             Select the investment level that feels right for your journey.
           </motion.p>
         </header>
 
         <motion.div
-          initial={reveal}
+          initial={false}
           animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
           transition={{ duration: 0.8, delay: 0.82, ease: easing }}
-          className="mx-auto mt-3 flex w-full items-center justify-center gap-2.5 rounded-xl border border-white/15 bg-white/[0.05] px-6 py-2.5 text-center text-[10px] font-light leading-relaxed text-white/48 backdrop-blur-md sm:text-[11px]"
+          className="mx-auto mt-3 flex w-full items-center justify-center gap-2.5 rounded-xl border border-white/15 bg-white/[0.05] px-6 py-2.5 text-center text-[10px] font-light leading-relaxed text-white/90 backdrop-blur-md sm:text-[11px]"
         >
           <Info
             aria-hidden="true"
-            className="h-3.5 w-3.5 shrink-0 text-[#D4AF37]/75"
+            className="h-3.5 w-3.5 shrink-0 text-[#F5F3EC]/75"
           />
           <p>
             Budget represents estimated land arrangements for the complete
@@ -244,21 +243,21 @@ export default function BudgetSelectionScreen({
         </div>
 
         <motion.div
-          initial={reveal}
+          initial={false}
           animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
           transition={{ duration: 0.9, delay: 1.05, ease: easing }}
-          className="mt-3 grid items-center gap-2 border-t border-[#D4AF37]/24 pt-2.5 md:grid-cols-[190px_1fr]"
+          className="mt-3 grid items-center gap-2 border-t border-[#F5F3EC]/24 pt-2.5 md:grid-cols-[190px_1fr]"
         >
           <div>
-            <p className="mt-eyebrow text-[8px] text-[#D4AF37]">
+            <p className="mt-eyebrow text-[8px] text-[#F5F3EC]">
               The value of a journey
             </p>
-            <p className="mt-1 font-serif text-lg italic leading-snug text-white/78">
+            <p className="mt-1 font-serif text-lg italic leading-snug text-white/90">
               Spend thoughtfully. Experience fully.
             </p>
           </div>
           <div>
-            <p className="font-serif text-base leading-snug text-white/78 lg:text-lg">
+            <p className="font-serif text-base leading-snug text-white/90 lg:text-lg">
               You may visit a place only once. We believe the moments you bring
               home should last a lifetime.
             </p>
@@ -268,7 +267,7 @@ export default function BudgetSelectionScreen({
                 initial={{ opacity: 0, y: 6 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -4 }}
-                className="mt-1 text-[10px] font-light leading-relaxed text-white/45 lg:text-[11px]"
+                className="mt-1 text-[10px] font-light leading-relaxed text-white/90 lg:text-[11px]"
               >
                 {selectedOption
                   ? selectedOption.selectedLine
@@ -279,21 +278,9 @@ export default function BudgetSelectionScreen({
         </motion.div>
       </section>
 
-      <nav
-        aria-label="Journey progress"
-        className="fixed inset-x-0 bottom-0 z-30 border-t border-white/12 bg-[#021316]/80 px-5 py-3 backdrop-blur-xl sm:px-8 lg:py-2"
-      >
-        <div className="mx-auto grid max-w-[1180px] grid-cols-3 items-center">
-          <button
-            type="button"
-            onClick={onBack}
-            className="justify-self-start text-xs font-semibold uppercase tracking-[0.18em] text-white/55 transition hover:text-[#D4AF37]"
-          >
-            ← Back
-          </button>
-          <p className="justify-self-center text-[10px] uppercase tracking-[0.25em] text-white/48">
-            Step 5 of 8
-          </p>
+      <PlannerControls>
+        <div className="contents">
+          <p className="mt-plan-step" aria-live="polite">Step 4 of 6</p>
           <motion.button
             type="button"
             disabled={!selectedId}
@@ -301,7 +288,7 @@ export default function BudgetSelectionScreen({
             animate={
               selectedId
                 ? {
-                    boxShadow: '0 9px 30px rgba(212,175,55,0.3)',
+                    boxShadow: '0 9px 30px rgba(245,243,236,0.3)',
                     filter: 'brightness(1.07)',
                   }
                 : {}
@@ -311,7 +298,7 @@ export default function BudgetSelectionScreen({
             Continue →
           </motion.button>
         </div>
-      </nav>
+      </PlannerControls>
     </section>
   )
 }

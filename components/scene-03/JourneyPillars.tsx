@@ -3,10 +3,6 @@
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 
-type JourneyPillarsProps = {
-  words?: string[]
-}
-
 const ease = [0.22, 1, 0.36, 1] as const
 const PHASE_MS = 4400
 const FLIGHT_SECONDS = (PHASE_MS * 5) / 1000
@@ -93,15 +89,13 @@ const detailCards = [
   { label: 'ONE MORE SUNSET', value: 'ADDED', left: '52%', top: '29%' },
 ]
 
-export default function JourneyPillars(_props: JourneyPillarsProps) {
+export default function JourneyPillars() {
   const reduceMotion = useReducedMotion()
-  const [phase, setPhase] = useState(0)
+  const [animatedPhase, setPhase] = useState(0)
+  const phase = reduceMotion ? story.length - 1 : animatedPhase
 
   useEffect(() => {
-    if (reduceMotion) {
-      setPhase(4)
-      return
-    }
+    if (reduceMotion) return
 
     const timer = window.setInterval(() => {
       setPhase((current) => (current + 1) % story.length)

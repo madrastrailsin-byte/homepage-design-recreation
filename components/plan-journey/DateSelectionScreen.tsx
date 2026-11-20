@@ -1,5 +1,7 @@
 'use client'
 
+import PlannerControls from './PlannerControls'
+
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { useMemo, useState } from 'react'
@@ -94,7 +96,7 @@ function CalendarMonth({
         {weekdays.map((weekday) => (
           <span
             key={weekday}
-            className="pb-2 text-[9px] font-semibold uppercase tracking-[0.15em] text-[#D4AF37]/75"
+            className="pb-2 text-[9px] font-semibold uppercase tracking-[0.15em] text-[#F5F3EC]/75"
           >
             {weekday}
           </span>
@@ -127,16 +129,16 @@ function CalendarMonth({
               onClick={() => onSelect(date)}
               className={`group relative isolate grid h-9 place-items-center text-sm outline-none transition sm:h-10 lg:h-9 ${
                 disabled
-                  ? 'cursor-not-allowed text-white/14'
-                  : 'text-white/72 hover:text-white focus-visible:ring-1 focus-visible:ring-[#D4AF37]'
-              } ${inRange ? 'bg-[#D4AF37]/14 text-[#f5df9c]' : ''}`}
+                  ? 'cursor-not-allowed text-white/90'
+                  : 'text-white/90 hover:text-white focus-visible:ring-1 focus-visible:ring-[#F5F3EC]'
+              } ${inRange ? 'bg-[#F5F3EC]/14 text-[#F5F3EC]' : ''}`}
             >
               {!disabled && !selectedDeparture && !selectedReturn ? (
-                <span className="absolute inset-1.5 -z-10 rounded-full border border-transparent transition duration-300 group-hover:border-[#D4AF37]/35 group-hover:bg-[#D4AF37]/10 group-hover:shadow-[0_0_18px_rgba(212,175,55,0.12)]" />
+                <span className="absolute inset-1.5 -z-10 rounded-full border border-transparent transition duration-300 group-hover:border-[#F5F3EC]/35 group-hover:bg-[#F5F3EC]/10 group-hover:shadow-[0_0_18px_rgba(245,243,236,0.12)]" />
               ) : null}
 
               {(selectedDeparture || selectedReturn) && (
-                <span className="absolute inset-1 -z-10 rounded-full bg-[#D4AF37] shadow-[0_0_22px_rgba(212,175,55,0.34)]" />
+                <span className="absolute inset-1 -z-10 rounded-full bg-[#F5F3EC] shadow-[0_0_22px_rgba(245,243,236,0.34)]" />
               )}
 
               <AnimatePresence>
@@ -148,7 +150,7 @@ function CalendarMonth({
                     animate={{ opacity: 0, scale: 1.9 }}
                     exit={{ opacity: 0 }}
                     transition={{ duration: prefersReducedMotion ? 0 : 0.65 }}
-                    className="absolute inset-1 rounded-full border border-[#f3d777] bg-[#D4AF37]/20"
+                    className="absolute inset-1 rounded-full border border-[#F5F3EC] bg-[#F5F3EC]/20"
                   />
                 ) : null}
               </AnimatePresence>
@@ -219,9 +221,6 @@ export default function DateSelectionScreen({
     }
   }
 
-  const reveal = prefersReducedMotion
-    ? {}
-    : { opacity: 0, y: 24, filter: 'blur(9px)' }
 
   return (
     <section className="relative min-h-[100svh] overflow-hidden bg-transparent text-[#FAFAF9]">
@@ -240,15 +239,15 @@ export default function DateSelectionScreen({
       <section className={journeyStepSectionClassName}>
         <header className="text-center">
           <motion.p
-            initial={reveal}
+            initial={false}
             animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
             transition={{ duration: 0.9, delay: 0.35, ease: easing }}
-            className="mt-eyebrow text-[10px] text-[#D4AF37] sm:text-[11px]"
+            className="mt-eyebrow text-[10px] text-[#F5F3EC] sm:text-[11px]"
           >
             Plan your journey
           </motion.p>
           <motion.h1
-            initial={reveal}
+            initial={false}
             animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
             transition={{ duration: 1.05, delay: 0.55, ease: easing }}
             className="mt-2 font-serif text-[clamp(2.4rem,4.6vw,4.4rem)] font-semibold leading-[0.98] tracking-[-0.035em]"
@@ -256,10 +255,10 @@ export default function DateSelectionScreen({
             When would you like to travel?
           </motion.h1>
           <motion.p
-            initial={reveal}
+            initial={false}
             animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
             transition={{ duration: 0.9, delay: 0.75, ease: easing }}
-            className="mt-2 text-sm font-light tracking-[0.025em] text-white/62 sm:text-base lg:mt-1"
+            className="mt-2 text-sm font-light tracking-[0.025em] text-white/90 sm:text-base lg:mt-1"
           >
             Every season tells a different story.
           </motion.p>
@@ -274,7 +273,7 @@ export default function DateSelectionScreen({
             }
             animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
             transition={{ duration: 1, delay: 0.9, ease: easing }}
-            className="rounded-2xl border border-white/15 bg-white/[0.075] p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.1),0_18px_60px_rgba(0,0,0,0.3)] backdrop-blur-xl sm:p-6 lg:p-4"
+            className="rounded-2xl border border-white/15 bg-white/[0.16] p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.1),0_18px_60px_rgba(0,0,0,0.3)] backdrop-blur-2xl sm:p-6 lg:p-4"
           >
             <div className="mb-2 flex items-center justify-between lg:mb-0">
               <button
@@ -287,11 +286,11 @@ export default function DateSelectionScreen({
                 onClick={() =>
                   setVisibleMonth((current) => addMonths(current, -1))
                 }
-                className="grid h-9 w-9 place-items-center rounded-full border border-white/12 text-white/65 transition hover:border-[#D4AF37]/55 hover:bg-[#D4AF37]/10 hover:text-[#D4AF37] disabled:cursor-not-allowed disabled:opacity-20 lg:h-8 lg:w-8"
+                className="grid h-9 w-9 place-items-center rounded-full border border-white/12 text-white/90 transition hover:border-[#F5F3EC]/55 hover:bg-[#F5F3EC]/10 hover:text-[#F5F3EC] disabled:cursor-not-allowed disabled:opacity-20 lg:h-8 lg:w-8"
               >
                 <ChevronLeft className="h-4 w-4" />
               </button>
-              <p className="text-[9px] font-semibold uppercase tracking-[0.24em] text-white/42">
+              <p className="text-[9px] font-semibold uppercase tracking-[0.24em] text-white/90">
                 {departure && !returnDate
                   ? 'Now select your return'
                   : 'Select your departure'}
@@ -302,7 +301,7 @@ export default function DateSelectionScreen({
                 onClick={() =>
                   setVisibleMonth((current) => addMonths(current, 1))
                 }
-                className="grid h-9 w-9 place-items-center rounded-full border border-white/12 text-white/65 transition hover:border-[#D4AF37]/55 hover:bg-[#D4AF37]/10 hover:text-[#D4AF37] lg:h-8 lg:w-8"
+                className="grid h-9 w-9 place-items-center rounded-full border border-white/12 text-white/90 transition hover:border-[#F5F3EC]/55 hover:bg-[#F5F3EC]/10 hover:text-[#F5F3EC] lg:h-8 lg:w-8"
               >
                 <ChevronRight className="h-4 w-4" />
               </button>
@@ -340,8 +339,8 @@ export default function DateSelectionScreen({
             transition={{ duration: 0.9, delay: 1.05, ease: easing }}
             className="space-y-4 lg:space-y-3"
           >
-            <div className="rounded-2xl border border-white/15 bg-white/[0.075] p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.1),0_18px_60px_rgba(0,0,0,0.24)] backdrop-blur-xl lg:p-4">
-              <p className="mt-eyebrow text-[9px] text-[#D4AF37]">
+            <div className="rounded-2xl border border-white/15 bg-white/[0.16] p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.1),0_18px_60px_rgba(0,0,0,0.24)] backdrop-blur-2xl lg:p-4">
+              <p className="mt-eyebrow text-[9px] text-[#F5F3EC]">
                 Season
               </p>
               <div className="mt-4 grid grid-cols-4 gap-2 lg:mt-2 lg:grid-cols-2">
@@ -352,8 +351,8 @@ export default function DateSelectionScreen({
                       key={season.name}
                       className={`rounded-xl border px-2 py-3 text-center transition duration-500 lg:py-2 ${
                         active
-                          ? 'border-[#D4AF37]/75 bg-[#D4AF37]/12 text-[#f1d577] shadow-[0_0_24px_rgba(212,175,55,0.18)]'
-                          : 'border-white/8 bg-black/10 text-white/35'
+                          ? 'border-[#F5F3EC]/75 bg-[#F5F3EC]/12 text-[#F5F3EC] shadow-[0_0_24px_rgba(245,243,236,0.18)]'
+                          : 'border-white/8 bg-black/10 text-white/90'
                       }`}
                     >
                       <span className="block text-lg">{season.icon}</span>
@@ -378,14 +377,14 @@ export default function DateSelectionScreen({
                   animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
                   exit={{ opacity: 0, y: 8 }}
                   transition={{ duration: 0.7, ease: easing }}
-                  className="rounded-2xl border border-[#D4AF37]/28 bg-white/[0.075] p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.1),0_0_32px_rgba(212,175,55,0.08)] backdrop-blur-xl lg:p-4"
+                  className="rounded-2xl border border-[#F5F3EC]/28 bg-white/[0.16] p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.1),0_0_32px_rgba(245,243,236,0.08)] backdrop-blur-2xl lg:p-4"
                 >
-                  <p className="mt-eyebrow text-[9px] text-[#D4AF37]">
+                  <p className="mt-eyebrow text-[9px] text-[#F5F3EC]">
                     Journey summary
                   </p>
                   <dl className="mt-4 grid grid-cols-2 gap-4 lg:mt-2 lg:grid-cols-1 lg:gap-2">
                     <div>
-                      <dt className="text-[9px] uppercase tracking-[0.18em] text-white/38">
+                      <dt className="text-[9px] uppercase tracking-[0.18em] text-white/90">
                         Departure
                       </dt>
                       <dd className="mt-1 font-serif text-lg text-white">
@@ -393,7 +392,7 @@ export default function DateSelectionScreen({
                       </dd>
                     </div>
                     <div>
-                      <dt className="text-[9px] uppercase tracking-[0.18em] text-white/38">
+                      <dt className="text-[9px] uppercase tracking-[0.18em] text-white/90">
                         Return
                       </dt>
                       <dd className="mt-1 font-serif text-lg text-white">
@@ -401,9 +400,9 @@ export default function DateSelectionScreen({
                       </dd>
                     </div>
                   </dl>
-                  <div className="mt-4 border-t border-[#D4AF37]/20 pt-4 text-center font-serif text-xl text-[#f1d577] lg:mt-2 lg:pt-2">
+                  <div className="mt-4 border-t border-[#F5F3EC]/20 pt-4 text-center font-serif text-xl text-[#F5F3EC] lg:mt-2 lg:pt-2">
                     {duration} {duration === 1 ? 'Night' : 'Nights'}{' '}
-                    <span className="mx-1 text-white/32">•</span>{' '}
+                    <span className="mx-1 text-white/90">•</span>{' '}
                     {duration + 1} Days
                   </div>
                 </motion.div>
@@ -413,21 +412,9 @@ export default function DateSelectionScreen({
         </div>
       </section>
 
-      <nav
-        aria-label="Journey progress"
-        className="fixed inset-x-0 bottom-0 z-30 border-t border-white/12 bg-[#021316]/80 px-5 py-3 backdrop-blur-xl sm:px-8 lg:py-2"
-      >
-        <div className="mx-auto grid max-w-[1180px] grid-cols-3 items-center">
-          <button
-            type="button"
-            onClick={onBack}
-            className="justify-self-start text-xs font-semibold uppercase tracking-[0.18em] text-white/55 transition hover:text-[#D4AF37]"
-          >
-            ← Back
-          </button>
-          <p className="justify-self-center text-[10px] uppercase tracking-[0.25em] text-white/48">
-            Step 2 of 8
-          </p>
+      <PlannerControls>
+        <div className="contents">
+          <p className="mt-plan-step" aria-live="polite">Step 2 of 6</p>
           <button
             type="button"
             disabled={!departure || !returnDate}
@@ -439,7 +426,7 @@ export default function DateSelectionScreen({
             Continue →
           </button>
         </div>
-      </nav>
+      </PlannerControls>
     </section>
   )
 }

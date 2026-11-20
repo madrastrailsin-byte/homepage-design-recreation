@@ -1,5 +1,7 @@
 'use client'
 
+import PlannerControls from './PlannerControls'
+
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { Check, Mail, MapPin, Phone } from 'lucide-react'
 import { useState } from 'react'
@@ -29,7 +31,7 @@ const defaultDetails: ContactDetails = {
 }
 
 const fieldClassName =
-  'h-11 w-full rounded-xl border border-white/12 bg-black/10 px-3.5 text-sm text-white outline-none transition duration-300 placeholder:text-white/25 focus:border-[#D4AF37]/55 focus:bg-white/[0.045] focus:shadow-[0_0_18px_rgba(212,175,55,0.08)]'
+  'h-11 w-full rounded-xl border border-white/12 bg-black/10 px-3.5 text-sm text-white outline-none transition duration-300 placeholder:text-white/90 focus:border-[#F5F3EC]/55 focus:bg-white/[0.045] focus:shadow-[0_0_18px_rgba(245,243,236,0.08)]'
 
 function ChoiceGroup<T extends string>({
   options,
@@ -54,8 +56,8 @@ function ChoiceGroup<T extends string>({
             transition={{ duration: 0.2 }}
             className={`h-9 rounded-full border px-2 text-[10px] font-medium transition duration-200 ${
               selected
-                ? 'border-[#D4AF37]/85 bg-[#D4AF37]/14 text-[#edcf67] shadow-[0_0_16px_rgba(212,175,55,0.14)]'
-                : 'border-white/10 bg-black/10 text-white/42 hover:border-[#D4AF37]/38 hover:text-white/68'
+                ? 'border-[#F5F3EC]/85 bg-[#F5F3EC]/14 text-[#F5F3EC] shadow-[0_0_16px_rgba(245,243,236,0.14)]'
+                : 'border-white/10 bg-black/10 text-white/90 hover:border-[#F5F3EC]/38 hover:text-white/90'
             }`}
           >
             {option.label}
@@ -86,13 +88,13 @@ function ConsentControl({
       <span
         className={`mt-0.5 grid h-4 w-4 shrink-0 place-items-center rounded border transition ${
           checked
-            ? 'border-[#D4AF37] bg-[#D4AF37] text-[#03191D] shadow-[0_0_12px_rgba(212,175,55,0.2)]'
+            ? 'border-[#F5F3EC] bg-[#F5F3EC] text-[#03191D] shadow-[0_0_12px_rgba(245,243,236,0.2)]'
             : 'border-white/18 bg-black/10 text-transparent'
         }`}
       >
         <Check className="h-3 w-3 stroke-[2.5]" aria-hidden="true" />
       </span>
-      <span className="text-[10px] font-light leading-relaxed text-white/48">
+      <span className="text-[10px] font-light leading-relaxed text-white/90">
         {label}
       </span>
     </button>
@@ -142,9 +144,6 @@ export default function ContactDetailsScreen({
     onChange({ ...values, ...patch })
   }
 
-  const reveal = prefersReducedMotion
-    ? {}
-    : { opacity: 0, y: 24, filter: 'blur(9px)' }
 
   return (
     <section className="relative min-h-[100svh] overflow-x-hidden bg-transparent text-[#FAFAF9] lg:overflow-hidden">
@@ -154,15 +153,15 @@ export default function ContactDetailsScreen({
       <section className={journeyStepSectionClassName}>
         <header className="text-center">
           <motion.p
-            initial={reveal}
+            initial={false}
             animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
             transition={{ duration: 0.9, delay: 0.35, ease: easing }}
-            className="mt-eyebrow text-[10px] text-[#D4AF37] sm:text-[11px]"
+            className="mt-eyebrow text-[10px] text-[#F5F3EC] sm:text-[11px]"
           >
             Plan your journey
           </motion.p>
           <motion.h1
-            initial={reveal}
+            initial={false}
             animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
             transition={{ duration: 1.05, delay: 0.55, ease: easing }}
             className="mt-2 font-serif text-[clamp(2.5rem,4.8vw,4.5rem)] font-semibold leading-[0.98] tracking-[-0.035em]"
@@ -170,10 +169,10 @@ export default function ContactDetailsScreen({
             How may we reach you?
           </motion.h1>
           <motion.p
-            initial={reveal}
+            initial={false}
             animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
             transition={{ duration: 0.9, delay: 0.75, ease: easing }}
-            className="mt-2 text-sm font-light tracking-[0.025em] text-white/62 sm:text-base lg:mt-1"
+            className="mt-2 text-sm font-light tracking-[0.025em] text-white/90 sm:text-base lg:mt-1"
           >
             Share your details and one of our travel designers will personally
             continue your journey.
@@ -182,15 +181,15 @@ export default function ContactDetailsScreen({
 
         <div className="mt-5 grid flex-1 items-start gap-5 pt-8 lg:mt-3 lg:grid-cols-[minmax(0,1.4fr)_minmax(310px,0.75fr)] lg:pt-10">
           <motion.form
-            initial={reveal}
+            initial={false}
             animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
             transition={{ duration: 0.95, delay: 0.86, ease: easing }}
-            className="rounded-2xl border border-white/14 bg-white/[0.06] p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.09),0_22px_60px_rgba(0,0,0,0.28)] backdrop-blur-xl"
+            className="rounded-2xl border border-white/14 bg-white/[0.16] p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.09),0_22px_60px_rgba(0,0,0,0.28)] backdrop-blur-2xl"
             onSubmit={(event) => event.preventDefault()}
           >
             <div className="grid gap-3 sm:grid-cols-2">
               <label className="block">
-                <span className="mb-1.5 block text-[9px] uppercase tracking-[0.14em] text-white/44">
+                <span className="mb-1.5 block text-[9px] uppercase tracking-[0.14em] text-white/90">
                   Full name *
                 </span>
                 <input
@@ -204,19 +203,19 @@ export default function ContactDetailsScreen({
                   autoComplete="name"
                   className={`${fieldClassName} ${
                     touched.fullName && !validName
-                      ? 'border-[#D4AF37]/38'
+                      ? 'border-[#F5F3EC]/38'
                       : ''
                   }`}
                 />
                 {touched.fullName && !validName ? (
-                  <span className="mt-1 block text-[9px] text-[#d7bc68]/70">
+                  <span className="mt-1 block text-[9px] text-[#F5F3EC]/70">
                     Please enter your name.
                   </span>
                 ) : null}
               </label>
 
               <label className="block">
-                <span className="mb-1.5 block text-[9px] uppercase tracking-[0.14em] text-white/44">
+                <span className="mb-1.5 block text-[9px] uppercase tracking-[0.14em] text-white/90">
                   Email address *
                 </span>
                 <input
@@ -231,12 +230,12 @@ export default function ContactDetailsScreen({
                   autoComplete="email"
                   className={`${fieldClassName} ${
                     touched.email && !validEmail
-                      ? 'border-[#D4AF37]/38'
+                      ? 'border-[#F5F3EC]/38'
                       : ''
                   }`}
                 />
                 {touched.email && !validEmail ? (
-                  <span className="mt-1 block text-[9px] text-[#d7bc68]/70">
+                  <span className="mt-1 block text-[9px] text-[#F5F3EC]/70">
                     Please check your email address.
                   </span>
                 ) : null}
@@ -246,7 +245,7 @@ export default function ContactDetailsScreen({
                 <label
                   htmlFor="journey-mobile"
                   id="journey-mobile-label"
-                  className="mb-1.5 block text-[9px] uppercase tracking-[0.14em] text-white/44"
+                  className="mb-1.5 block text-[9px] uppercase tracking-[0.14em] text-white/90"
                 >
                   Mobile number *
                 </label>
@@ -261,7 +260,7 @@ export default function ContactDetailsScreen({
                         mobile: '',
                       })
                     }
-                    className="h-11 w-[72px] appearance-none rounded-l-xl border border-r-0 border-white/12 bg-black/18 px-3 text-xs text-[#e6ca69] outline-none focus:border-[#D4AF37]/55"
+                    className="h-11 w-[72px] appearance-none rounded-l-xl border border-r-0 border-white/12 bg-black/18 px-3 text-xs text-[#F5F3EC] outline-none focus:border-[#F5F3EC]/55"
                   >
                     <option value="+91">+91</option>
                     <option value="+1">+1</option>
@@ -287,20 +286,20 @@ export default function ContactDetailsScreen({
                     autoComplete="tel"
                     className={`${fieldClassName} rounded-l-none ${
                       touched.mobile && !validMobile
-                        ? 'border-[#D4AF37]/38'
+                        ? 'border-[#F5F3EC]/38'
                         : ''
                     }`}
                   />
                 </span>
                 {touched.mobile && !validMobile ? (
-                  <span className="mt-1 block text-[9px] text-[#d7bc68]/70">
+                  <span className="mt-1 block text-[9px] text-[#F5F3EC]/70">
                     Enter a valid mobile number.
                   </span>
                 ) : null}
               </div>
 
               <label className="block">
-                <span className="mb-1.5 block text-[9px] uppercase tracking-[0.14em] text-white/44">
+                <span className="mb-1.5 block text-[9px] uppercase tracking-[0.14em] text-white/90">
                   City of residence
                 </span>
                 <input
@@ -316,10 +315,10 @@ export default function ContactDetailsScreen({
 
             <div className="mt-3 grid gap-4 lg:grid-cols-[1.05fr_auto_0.95fr] lg:items-start lg:gap-5">
               <fieldset>
-                <legend className="text-[9px] uppercase tracking-[0.14em] text-white/58">
+                <legend className="text-[9px] uppercase tracking-[0.14em] text-white/90">
                   Preferred contact *
                 </legend>
-                <p className="mb-2 mt-1 text-[9px] font-light text-white/32">
+                <p className="mb-2 mt-1 text-[9px] font-light text-white/90">
                   How would you prefer us to contact you?
                 </p>
                 <ChoiceGroup
@@ -337,10 +336,10 @@ export default function ContactDetailsScreen({
                 className="h-px w-full bg-white/10 lg:h-full lg:min-h-[70px] lg:w-px"
               />
               <fieldset>
-                <legend className="text-[9px] uppercase tracking-[0.14em] text-white/58">
+                <legend className="text-[9px] uppercase tracking-[0.14em] text-white/90">
                   Best time to contact
                 </legend>
-                <p className="mb-2 mt-1 text-[9px] font-light text-white/32">
+                <p className="mb-2 mt-1 text-[9px] font-light text-white/90">
                   When is the most convenient time?
                 </p>
                 <div className="grid grid-cols-4 gap-1.5">
@@ -353,8 +352,8 @@ export default function ContactDetailsScreen({
                         onClick={() => update({ preferredTime: time })}
                         className={`h-9 rounded-full border text-[8px] capitalize transition ${
                           values.preferredTime === time
-                            ? 'border-[#D4AF37]/65 bg-[#D4AF37]/10 text-[#e6ca69]'
-                            : 'border-white/8 bg-black/8 text-white/34 hover:border-white/18'
+                            ? 'border-[#F5F3EC]/65 bg-[#F5F3EC]/10 text-[#F5F3EC]'
+                            : 'border-white/8 bg-black/8 text-white/90 hover:border-white/18'
                         }`}
                       >
                         {time}
@@ -387,49 +386,49 @@ export default function ContactDetailsScreen({
             }
             animate={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
             transition={{ duration: 0.9, delay: 1, ease: easing }}
-            className="rounded-2xl border border-[#D4AF37]/22 bg-white/[0.055] p-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_18px_50px_rgba(0,0,0,0.24)] backdrop-blur-xl"
+            className="rounded-2xl border border-[#F5F3EC]/22 bg-white/[0.16] p-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_18px_50px_rgba(0,0,0,0.24)] backdrop-blur-2xl"
           >
-            <p className="mt-eyebrow text-[9px] text-[#D4AF37]">
+            <p className="mt-eyebrow text-[9px] text-[#F5F3EC]">
               Your journey continues here
             </p>
-            <p className="mt-4 font-serif text-2xl italic leading-snug text-white/82">
+            <p className="mt-4 font-serif text-2xl italic leading-snug text-white/90">
               A thoughtful conversation is often where an extraordinary journey
               begins.
             </p>
-            <p className="mt-4 text-[11px] font-light leading-relaxed text-white/46">
+            <p className="mt-4 text-[11px] font-light leading-relaxed text-white/90">
               Your travel designer will review every detail you’ve shared before
               reaching out, so the conversation begins with an understanding of
               what matters to you.
             </p>
-            <div className="mt-4 border-t border-[#D4AF37]/18 pt-4">
-              <p className="mt-eyebrow text-[8px] text-[#D4AF37]">
+            <div className="mt-4 border-t border-[#F5F3EC]/18 pt-4">
+              <p className="mt-eyebrow text-[8px] text-[#F5F3EC]">
                 Contact MadrasTrails
               </p>
-              <div className="mt-3 space-y-2.5 text-[10px] font-light text-white/52">
+              <div className="mt-3 space-y-2.5 text-[10px] font-light text-white/90">
                 <a
                   href={`tel:${MADRAS_TRAILS_PHONE_HREF}`}
-                  className="flex items-center gap-3 transition hover:text-[#D4AF37]"
+                  className="flex items-center gap-3 transition hover:text-[#F5F3EC]"
                 >
                   <Phone
                     aria-hidden="true"
-                    className="h-3.5 w-3.5 shrink-0 text-[#D4AF37]/65"
+                    className="h-3.5 w-3.5 shrink-0 text-[#F5F3EC]/65"
                   />
                   <span>{MADRAS_TRAILS_PHONE_DISPLAY}</span>
                 </a>
                 <a
                   href={`mailto:${MADRAS_TRAILS_EMAIL}`}
-                  className="flex items-center gap-3 transition hover:text-[#D4AF37]"
+                  className="flex items-center gap-3 transition hover:text-[#F5F3EC]"
                 >
                   <Mail
                     aria-hidden="true"
-                    className="h-3.5 w-3.5 shrink-0 text-[#D4AF37]/65"
+                    className="h-3.5 w-3.5 shrink-0 text-[#F5F3EC]/65"
                   />
                   <span>{MADRAS_TRAILS_EMAIL}</span>
                 </a>
                 <div className="flex items-start gap-3">
                   <MapPin
                     aria-hidden="true"
-                    className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#D4AF37]/65"
+                    className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#F5F3EC]/65"
                   />
                   <address className="not-italic leading-relaxed lg:whitespace-nowrap">
                     #362, Eden Avenue, Mogappair, Chennai – 600 037
@@ -441,21 +440,9 @@ export default function ContactDetailsScreen({
         </div>
       </section>
 
-      <nav
-        aria-label="Journey progress"
-        className="fixed inset-x-0 bottom-0 z-30 border-t border-white/12 bg-[#021316]/80 px-5 py-3 backdrop-blur-xl sm:px-8 lg:py-2"
-      >
-        <div className="mx-auto grid max-w-[1180px] grid-cols-3 items-center">
-          <button
-            type="button"
-            onClick={onBack}
-            className="justify-self-start text-xs font-semibold uppercase tracking-[0.18em] text-white/55 transition hover:text-[#D4AF37]"
-          >
-            ← Back
-          </button>
-          <p className="justify-self-center text-[10px] uppercase tracking-[0.25em] text-white/48">
-            Step 7 of 8
-          </p>
+      <PlannerControls>
+        <div className="contents">
+          <p className="mt-plan-step" aria-live="polite">Step 5 of 6</p>
           <motion.button
             type="button"
             disabled={!ready}
@@ -463,7 +450,7 @@ export default function ContactDetailsScreen({
             animate={
               ready
                 ? {
-                    boxShadow: '0 9px 30px rgba(212,175,55,0.3)',
+                    boxShadow: '0 9px 30px rgba(245,243,236,0.3)',
                     filter: 'brightness(1.07)',
                   }
                 : {}
@@ -486,7 +473,7 @@ export default function ContactDetailsScreen({
             <span className="relative z-10">Continue →</span>
           </motion.button>
         </div>
-      </nav>
+      </PlannerControls>
     </section>
   )
 }

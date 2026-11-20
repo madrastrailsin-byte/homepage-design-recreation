@@ -1,0 +1,109 @@
+/* /plan only. Keep every existing screen's geometry and typography. */
+.mt-plan-refinement.mt-plan-refinement {
+  color: #faf9f5;
+}
+
+.mt-plan-refinement.mt-plan-refinement [class*="backdrop-blur"]:not(button):not(.mt-plan-controls) {
+  background-color: rgb(19 36 39 / 69%) !important;
+  -webkit-backdrop-filter: blur(32px) saturate(115%) !important;
+  backdrop-filter: blur(32px) saturate(115%) !important;
+  border-color: rgb(245 243 236 / 36%) !important;
+}
+
+.mt-plan-refinement.mt-plan-refinement [class*="text-white/"] {
+  color: rgb(250 249 245 / 90%) !important;
+}
+
+.mt-plan-refinement.mt-plan-refinement [class*="text-[#F5F3EC]"] {
+  color: #f5f3ec !important;
+}
+
+.mt-plan-refinement.mt-plan-refinement [class*="placeholder:text-white/"]::placeholder {
+  color: rgb(250 249 245 / 78%) !important;
+}
+
+.mt-plan-refinement.mt-plan-refinement [class*="text-[#03191D]"],
+.mt-plan-refinement.mt-plan-refinement [class*="bg-[#F5F3EC]"]:not([class*="bg-[#F5F3EC]/"]) {
+  color: #14282c !important;
+}
+
+/* Controls float independently over the existing photograph. */
+.mt-plan-refinement .mt-plan-controls,
+.mt-plan-refinement .mt-plan-controls > div {
+  display: contents;
+}
+
+.mt-plan-refinement .mt-plan-step {
+  position: fixed;
+  z-index: 30;
+  bottom: max(1.6rem, env(safe-area-inset-bottom));
+  left: 50%;
+  margin: 0;
+  transform: translateX(-50%);
+  color: rgb(255 255 255 / 72%) !important;
+  font-size: 10px;
+  line-height: 1.25;
+  letter-spacing: .25em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.mt-plan-refinement.mt-plan-refinement .mt-plan-controls button,
+.mt-plan-refinement.mt-plan-refinement .mt-plan-submit {
+  min-width: 0 !important;
+  height: auto;
+  min-height: 2.25rem;
+  padding: .5rem 1rem;
+  border: 1px solid rgb(255 255 255 / 55%) !important;
+  border-radius: 999px;
+  background: rgb(0 0 0 / 20%) !important;
+  color: #fff !important;
+  box-shadow: none !important;
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+
+.mt-plan-refinement .mt-plan-controls button {
+  position: fixed !important;
+  z-index: 30;
+  right: calc(1.5rem + 30px);
+  bottom: calc(max(1rem, env(safe-area-inset-bottom)) + 20px);
+}
+
+.mt-plan-refinement.mt-plan-refinement .mt-plan-controls button:hover:enabled,
+.mt-plan-refinement.mt-plan-refinement .mt-plan-submit:hover:enabled {
+  border-color: white !important;
+  background: rgb(255 255 255 / 14%) !important;
+}
+
+.mt-plan-refinement.mt-plan-refinement .mt-plan-controls button:disabled {
+  opacity: .46;
+  cursor: not-allowed;
+}
+
+.mt-plan-refinement .mt-plan-submit {
+  width: calc(100% + 24px);
+  max-width: calc(100% + 24px);
+  margin-inline: -12px;
+  padding-inline: .5rem !important;
+  font-size: clamp(11px, 1.1vw, 16px);
+  letter-spacing: .02em;
+  white-space: nowrap !important;
+}
+
+.mt-plan-refinement .mt-plan-submit > span {
+  flex-wrap: nowrap;
+}
+
+@media (max-width: 480px) {
+  .mt-plan-refinement .mt-plan-controls button {
+    right: calc(1rem + 30px);
+    padding-inline: .8rem;
+  }
+
+  .mt-plan-refinement .mt-plan-step {
+    font-size: 8px;
+    letter-spacing: .15em;
+  }
+}

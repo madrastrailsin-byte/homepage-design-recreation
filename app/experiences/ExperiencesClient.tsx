@@ -344,7 +344,7 @@ export default function ExperiencesClient() {
             <Link
               href="/"
               tabIndex={heroVisible ? undefined : -1}
-              className="absolute left-8 top-8 z-30 rounded-full border border-white/40 px-6 py-3 text-xs tracking-[0.2em] text-white backdrop-blur-md transition-colors hover:bg-white/15"
+              className="absolute left-8 top-8 z-30 inline-flex items-center justify-center gap-2 rounded-full border border-white/20 bg-black/20 px-4 py-2 text-xs font-medium uppercase tracking-[0.25em] text-white backdrop-blur-md transition-all duration-500 hover:border-white/40 hover:bg-white hover:text-black"
             >
               ← HOME
             </Link>

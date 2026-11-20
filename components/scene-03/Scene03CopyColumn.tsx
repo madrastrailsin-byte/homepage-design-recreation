@@ -1,4 +1,5 @@
 import { ArrowRight } from 'lucide-react'
+import { OUR_STORY_AVAILABLE } from '@/lib/our-story-config'
 import JourneyPillars from './JourneyPillars'
 
 type Scene03CopyColumnProps = {
@@ -15,7 +16,6 @@ export default function Scene03CopyColumn({
   headline,
   headlineAccent,
   body,
-  pillars,
   storyLinkLabel,
 }: Scene03CopyColumnProps) {
   return (
@@ -39,11 +39,12 @@ export default function Scene03CopyColumn({
       </p>
 
       <div className="mt-7 sm:mt-8">
-        <JourneyPillars words={pillars} />
+        <JourneyPillars />
       </div>
 
       <a
-        href="/our-story"
+        href={OUR_STORY_AVAILABLE ? '/our-story' : undefined}
+        inert={!OUR_STORY_AVAILABLE}
         className="mt-ui group mt-7 inline-flex items-center gap-3 self-start text-xs tracking-[0.17em] text-[#C9A24A] transition-colors duration-300 hover:text-[#D4B860]"
       >
         <span>{storyLinkLabel}</span>

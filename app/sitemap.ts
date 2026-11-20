@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next"
+import { OUR_STORY_AVAILABLE } from "@/lib/our-story-config"
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://www.madrastrails.in"
@@ -20,10 +21,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: `${baseUrl}/services`,
       lastModified: new Date(),
     },
-    {
+    ...(OUR_STORY_AVAILABLE ? [{
       url: `${baseUrl}/our-story`,
       lastModified: new Date(),
-    },
+    }] : []),
     {
       url: `${baseUrl}/contact`,
       lastModified: new Date(),

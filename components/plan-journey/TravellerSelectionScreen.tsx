@@ -1,5 +1,7 @@
 'use client'
 
+import PlannerControls from './PlannerControls'
+
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import {
   Accessibility,
@@ -109,9 +111,6 @@ export default function TravellerSelectionScreen({
     onChange({ ...counts, [id]: nextQuantity })
   }
 
-  const reveal = prefersReducedMotion
-    ? {}
-    : { opacity: 0, y: 24, filter: 'blur(9px)' }
 
   return (
     <section className="relative min-h-[100svh] overflow-hidden bg-transparent text-[#FAFAF9]">
@@ -130,15 +129,15 @@ export default function TravellerSelectionScreen({
       <section className={journeyStepSectionClassName}>
         <header className="text-center">
           <motion.p
-            initial={reveal}
+            initial={false}
             animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
             transition={{ duration: 0.9, delay: 0.35, ease: easing }}
-            className="mt-eyebrow text-[10px] text-[#D4AF37] sm:text-[11px]"
+            className="mt-eyebrow text-[10px] text-[#F5F3EC] sm:text-[11px]"
           >
             Plan your journey
           </motion.p>
           <motion.h1
-            initial={reveal}
+            initial={false}
             animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
             transition={{ duration: 1.05, delay: 0.55, ease: easing }}
             className="mt-2 font-serif text-[clamp(2.5rem,4.8vw,4.5rem)] font-semibold leading-[0.98] tracking-[-0.035em]"
@@ -146,10 +145,10 @@ export default function TravellerSelectionScreen({
             Who&apos;s joining this adventure?
           </motion.h1>
           <motion.p
-            initial={reveal}
+            initial={false}
             animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
             transition={{ duration: 0.9, delay: 0.75, ease: easing }}
-            className="mt-2 text-sm font-light tracking-[0.025em] text-white/62 sm:text-base lg:mt-1"
+            className="mt-2 text-sm font-light tracking-[0.025em] text-white/90 sm:text-base lg:mt-1"
           >
             Every journey is designed around the people sharing it.
           </motion.p>
@@ -157,7 +156,7 @@ export default function TravellerSelectionScreen({
 
         <div className={journeyInteractiveContentClassName}>
           <motion.div
-            initial="hidden"
+            initial={false}
             animate="visible"
             variants={{
               hidden: {},
@@ -191,18 +190,18 @@ export default function TravellerSelectionScreen({
                     },
                   }}
                   whileHover={prefersReducedMotion ? {} : { y: -4 }}
-                  className={`relative overflow-hidden rounded-2xl border bg-white/[0.075] p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.1),0_18px_50px_rgba(0,0,0,0.24)] backdrop-blur-xl transition-[border-color,box-shadow] duration-500 lg:min-h-[174px] ${
+                  className={`relative overflow-hidden rounded-2xl border bg-white/[0.16] p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.1),0_18px_50px_rgba(0,0,0,0.24)] backdrop-blur-2xl transition-[border-color,box-shadow] duration-500 lg:min-h-[174px] ${
                     selected
-                      ? 'border-[#D4AF37]/52 shadow-[inset_0_1px_0_rgba(255,255,255,0.1),0_0_30px_rgba(212,175,55,0.12),0_18px_50px_rgba(0,0,0,0.24)]'
-                      : 'border-white/15 hover:border-[#D4AF37]/35'
+                      ? 'border-[#F5F3EC]/52 shadow-[inset_0_1px_0_rgba(255,255,255,0.1),0_0_30px_rgba(245,243,236,0.12),0_18px_50px_rgba(0,0,0,0.24)]'
+                      : 'border-white/15 hover:border-[#F5F3EC]/35'
                   }`}
                 >
                   <div className="flex items-start gap-4">
                     <span
                       className={`grid h-11 w-11 shrink-0 place-items-center rounded-full border transition duration-500 ${
                         selected
-                          ? 'border-[#D4AF37]/60 bg-[#D4AF37]/12 text-[#e3c65b] shadow-[0_0_20px_rgba(212,175,55,0.14)]'
-                          : 'border-white/12 bg-black/15 text-white/48'
+                          ? 'border-[#F5F3EC]/60 bg-[#F5F3EC]/12 text-[#F5F3EC] shadow-[0_0_20px_rgba(245,243,236,0.14)]'
+                          : 'border-white/12 bg-black/15 text-white/90'
                       }`}
                     >
                       <Icon className="h-5 w-5 stroke-[1.5]" aria-hidden="true" />
@@ -211,7 +210,7 @@ export default function TravellerSelectionScreen({
                       <h2 className="font-serif text-2xl font-semibold text-white">
                         {category.label}
                       </h2>
-                      <p className="mt-0.5 text-xs font-light tracking-[0.02em] text-white/42">
+                      <p className="mt-0.5 text-xs font-light tracking-[0.02em] text-white/90">
                         {category.description}
                       </p>
                     </div>
@@ -223,7 +222,7 @@ export default function TravellerSelectionScreen({
                       disabled={atMinimum}
                       aria-label={`Remove ${category.label.toLowerCase()}`}
                       onClick={() => updateQuantity(category.id, -1)}
-                      className="grid h-9 w-9 place-items-center rounded-full border border-[#D4AF37]/55 bg-[#D4AF37]/8 text-[#D4AF37] transition hover:bg-[#D4AF37] hover:text-[#03191D] disabled:cursor-not-allowed disabled:border-white/10 disabled:bg-white/[0.04] disabled:text-white/18"
+                      className="grid h-9 w-9 place-items-center rounded-full border border-[#F5F3EC]/55 bg-[#F5F3EC]/8 text-[#F5F3EC] transition hover:bg-[#F5F3EC] hover:text-[#03191D] disabled:cursor-not-allowed disabled:border-white/10 disabled:bg-white/[0.04] disabled:text-white/90"
                     >
                       <Minus className="h-4 w-4" aria-hidden="true" />
                     </button>
@@ -247,7 +246,7 @@ export default function TravellerSelectionScreen({
                               : { opacity: 0, scale: 1.18, y: -6 }
                           }
                           transition={{ duration: 0.24, ease: easing }}
-                          className="font-serif text-5xl font-semibold leading-none text-white"
+                          className="font-sans text-[36px] font-medium leading-none tabular-nums text-white"
                         >
                           {quantity}
                         </motion.span>
@@ -258,7 +257,7 @@ export default function TravellerSelectionScreen({
                       type="button"
                       aria-label={`Add ${category.label.toLowerCase()}`}
                       onClick={() => updateQuantity(category.id, 1)}
-                      className="grid h-9 w-9 place-items-center rounded-full border border-[#D4AF37]/70 bg-[#D4AF37] text-[#03191D] shadow-[0_7px_22px_rgba(212,175,55,0.18)] transition hover:-translate-y-0.5 hover:bg-[#e2c45c] hover:shadow-[0_9px_26px_rgba(212,175,55,0.3)]"
+                      className="grid h-9 w-9 place-items-center rounded-full border border-[#F5F3EC]/70 bg-[#F5F3EC] text-[#03191D] shadow-[0_7px_22px_rgba(245,243,236,0.18)] transition hover:-translate-y-0.5 hover:bg-[#F5F3EC] hover:shadow-[0_9px_26px_rgba(245,243,236,0.3)]"
                     >
                       <Plus className="h-4 w-4" aria-hidden="true" />
                     </button>
@@ -277,9 +276,9 @@ export default function TravellerSelectionScreen({
             animate={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
             transition={{ duration: 0.9, delay: 1.05, ease: easing }}
             aria-live="polite"
-            className="relative rounded-2xl border border-[#D4AF37]/28 bg-white/[0.075] p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.1),0_0_32px_rgba(212,175,55,0.08),0_18px_50px_rgba(0,0,0,0.24)] backdrop-blur-xl lg:h-[360px] lg:overflow-hidden lg:p-5"
+            className="relative rounded-2xl border border-[#F5F3EC]/28 bg-white/[0.16] p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.1),0_0_32px_rgba(245,243,236,0.08),0_18px_50px_rgba(0,0,0,0.24)] backdrop-blur-2xl lg:h-[360px] lg:overflow-hidden lg:p-5"
           >
-            <p className="mt-eyebrow text-[9px] text-[#D4AF37]">
+            <p className="mt-eyebrow text-[9px] text-[#F5F3EC]">
               Journey summary
             </p>
             <div className="mt-5 space-y-3">
@@ -294,7 +293,7 @@ export default function TravellerSelectionScreen({
                     layout
                     className="flex items-center justify-between border-b border-white/8 pb-3"
                   >
-                    <span className="text-sm text-white/52">{label}</span>
+                    <span className="text-sm text-white/90">{label}</span>
                     <AnimatePresence mode="popLayout" initial={false}>
                       <motion.span
                         key={quantity}
@@ -320,7 +319,7 @@ export default function TravellerSelectionScreen({
             </div>
 
             <div className="mt-5 flex items-end justify-between">
-              <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-white/42">
+              <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-white/90">
                 Total travellers
               </span>
               <AnimatePresence mode="popLayout" initial={false}>
@@ -337,15 +336,15 @@ export default function TravellerSelectionScreen({
                       ? {}
                       : { opacity: 0, scale: 1.14, y: -4 }
                   }
-                  className="font-serif text-5xl font-semibold leading-none text-[#e8cb64]"
+                  className="font-sans text-[36px] font-medium leading-none tabular-nums text-[#F5F3EC]"
                 >
                   {totalTravellers}
                 </motion.span>
               </AnimatePresence>
             </div>
 
-            <div className="mt-5 border-t border-[#D4AF37]/18 pt-5">
-              <p className="line-clamp-2 font-serif text-xl italic leading-snug text-white/78">
+            <div className="mt-5 border-t border-[#F5F3EC]/18 pt-5">
+              <p className="line-clamp-2 font-serif text-xl italic leading-snug text-white/90">
                 {journeyMessage}
               </p>
             </div>
@@ -353,8 +352,8 @@ export default function TravellerSelectionScreen({
             <p
   className={`mt-6 text-[9px] uppercase leading-relaxed tracking-[0.12em]
               counts.adults < 1 && counts.seniors < 1
-                ? 'text-[#D4AF37]/78'
-                : 'text-white/28'
+                ? 'text-[#F5F3EC]/78'
+                : 'text-white/90'
             }`}>
               Select at least 1 adult or 1 senior citizen to continue.
             </p>
@@ -363,7 +362,7 @@ export default function TravellerSelectionScreen({
               type="button"
               title="Adults and Senior Citizens are charged the same. The age distinction is only for journey planning and assistance, not pricing."
               aria-label="Pricing information: Adults and Senior Citizens are charged the same. The age distinction is only for journey planning and assistance, not pricing."
-              className="absolute right-4 top-4 z-10 grid h-6 w-6 place-items-center rounded-full border border-white/10 bg-black/10 text-white/28 transition hover:border-[#D4AF37]/35 hover:text-[#D4AF37]/65 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#D4AF37]"
+              className="absolute right-4 top-4 z-10 grid h-6 w-6 place-items-center rounded-full border border-white/10 bg-black/10 text-white/90 transition hover:border-[#F5F3EC]/35 hover:text-[#F5F3EC]/65 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#F5F3EC]"
             >
               <Info className="h-3.5 w-3.5" aria-hidden="true" />
             </button>
@@ -371,21 +370,9 @@ export default function TravellerSelectionScreen({
         </div>
       </section>
 
-      <nav
-        aria-label="Journey progress"
-        className="fixed inset-x-0 bottom-0 z-30 border-t border-white/12 bg-[#021316]/80 px-5 py-3 backdrop-blur-xl sm:px-8 lg:py-2"
-      >
-        <div className="mx-auto grid max-w-[1180px] grid-cols-3 items-center">
-          <button
-            type="button"
-            onClick={onBack}
-            className="justify-self-start text-xs font-semibold uppercase tracking-[0.18em] text-white/55 transition hover:text-[#D4AF37]"
-          >
-            ← Back
-          </button>
-          <p className="justify-self-center text-[10px] uppercase tracking-[0.25em] text-white/48">
-            Step 3 of 8
-          </p>
+      <PlannerControls>
+        <div className="contents">
+          <p className="mt-plan-step" aria-live="polite">Step 3 of 6</p>
           <button
             type="button"
             disabled={counts.adults < 1 && counts.seniors < 1}
@@ -395,7 +382,7 @@ export default function TravellerSelectionScreen({
             Continue →
           </button>
         </div>
-      </nav>
+      </PlannerControls>
     </section>
   )
 }

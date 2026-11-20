@@ -3,7 +3,7 @@
 import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
 import { ArrowLeft, Home } from 'lucide-react'
-import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
+import { useReducedMotion } from 'framer-motion'
 import { useRef, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { flushSync } from 'react-dom'
@@ -11,24 +11,26 @@ import BudgetSelectionScreen from './BudgetSelectionScreen'
 import ContactDetailsScreen from './ContactDetailsScreen'
 import DateSelectionScreen from './DateSelectionScreen'
 import DestinationSelectionScreen from './DestinationSelectionScreen'
-import DreamJourneyScreen from './DreamJourneyScreen'
-import ExperienceSelectionScreen from './ExperienceSelectionScreen'
 import JourneyBriefScreen from './JourneyBriefScreen'
 import type { JourneyDestination, JourneyPlanData } from './journeyModel'
 import TravellerSelectionScreen from './TravellerSelectionScreen'
 import { useRouter } from "next/navigation"
+import './planner-refinement.css'
+import { PlannerControlsActive } from './PlannerControls'
 
-const journeyVideos: Record<number, string> = {
-  1: '/videos/plan-journey/optimized/screen-1-destination.mp4',
-  2: '/videos/plan-journey/optimized/screen-2-dates.mp4',
-  3: '/videos/plan-journey/optimized/screen-3-travellers.mp4',
-  4: '/videos/plan-journey/optimized/screen-4-experiences.mp4',
-  5: '/videos/plan-journey/optimized/screen-5-budget.mp4',
-  6: '/videos/plan-journey/optimized/screen-6-dream-journey.mp4',
-  7: '/videos/plan-journey/optimized/screen-7-contact.mp4',
-  8: '/videos/plan-journey/optimized/screen-8-journey-brief.mp4',
+const journeyBackgrounds: Record<number, string> = {
+  1: '/images/plan-journey/lake-como-background.jpg',
+  2: '/images/plan-journey/lake-como-background.jpg',
+  3: '/images/plan-journey/lake-como-background.jpg',
+  4: '/images/plan-journey/lake-como-background.jpg',
+  5: '/images/plan-journey/lake-como-background.jpg',
+  6: '/images/plan-journey/lake-como-background.jpg',
+  7: '/images/plan-journey/lake-como-background.jpg',
+  8: '/images/plan-journey/lake-como-background.jpg',
 }
 
+
+const journeySteps = [1, 2, 3, 5, 7, 8]
 
 export default function JourneyPlanner() {
   const searchParams = useSearchParams()
@@ -61,24 +63,18 @@ const [step, setStep] = useState(country ? 2 : 1)
     seniors: 0,
   },
 })
-  const videoRefs = useRef<Array<HTMLVideoElement | null>>([])
+  const backgroundRefs = useRef<Array<HTMLImageElement | null>>([])
   const screenContentRefs = useRef<Record<number, HTMLDivElement | null>>({})
   const transitionTimelineRef = useRef<gsap.core.Timeline | null>(null)
   const transitionLockedRef = useRef(false)
 
   useGSAP(() => {
-    const videos = videoRefs.current.filter(
-      (video): video is HTMLVideoElement => video !== null,
+    const videos = backgroundRefs.current.filter(
+      (video): video is HTMLImageElement => video !== null,
     )
 
     videos.forEach((video, index) => {
-      gsap.set(video, { opacity: index === 0 ? 1 : 0, scale: 1.04 })
-      if (index === 0 && !prefersReducedMotion) {
-        video.play().catch(() => undefined)
-      } else {
-        video.pause()
-        if (prefersReducedMotion) video.currentTime = 0
-      }
+      gsap.set(video, { opacity: index === (country ? 1 : 0) ? 1 : 0, scale: 1.04 })
     })
 
     return () => {
@@ -92,22 +88,20 @@ const [step, setStep] = useState(country ? 2 : 1)
     setJourneyComplete(false)
 
     const screenContent = screenContentRefs.current[step]
-    const currentVideo = videoRefs.current[step - 1]
-    const nextVideo = videoRefs.current[nextStep - 1]
+    const currentVideo = backgroundRefs.current[step - 1]
+    const nextVideo = backgroundRefs.current[nextStep - 1]
     if (!screenContent || !currentVideo || !nextVideo) return
 
     const direction = nextStep > step ? 1 : -1
 
-    const videos = videoRefs.current.filter(
-      (video): video is HTMLVideoElement => video !== null,
+    const videos = backgroundRefs.current.filter(
+      (video): video is HTMLImageElement => video !== null,
     )
 
     if (prefersReducedMotion) {
       gsap.killTweensOf([screenContent, ...videos])
       videos.forEach((video, index) => {
         const isActive = index === nextStep - 1
-        video.pause()
-        if (isActive) video.currentTime = 0
         gsap.set(video, {
           opacity: isActive ? 1 : 0,
           scale: 1.04,
@@ -131,7 +125,6 @@ const [step, setStep] = useState(country ? 2 : 1)
     }
 
     transitionLockedRef.current = true
-    nextVideo.play().catch(() => undefined)
 
     gsap.killTweensOf([screenContent, ...videos])
     gsap.set(nextVideo, {
@@ -151,7 +144,6 @@ const [step, setStep] = useState(country ? 2 : 1)
               scale: isActive ? 1.04 : 1.08,
               xPercent: 0,
             })
-            if (!isActive) video.pause()
           })
 
           flushSync(() => setOutgoingStep(null))
@@ -234,18 +226,17 @@ const incomingContent = screenContentRefs.current[nextStep]
   }
 
   const visibleSteps = outgoingStep === null ? [step] : [outgoingStep, step]
-  const stepProgress =
-    journey.destinations.length === 0
-      ? 0
-      : step >= 7
-        ? 88
-        : Math.round((step / 8) * 100)
-  const displayedProgress = journeyComplete ? 100 : stepProgress
+
 
   return (
-  <main className="mt-journey-planner relative min-h-[100svh] overflow-hidden bg-[#020f12]">
+  <main className="mt-journey-planner mt-plan-refinement relative min-h-[100svh] overflow-hidden bg-[#292C27]">
     <h1 className="sr-only">Plan Your Journey</h1>
     <style>{`
+      /* The photo uses the planner grade; avoid stacking the old video washes. */
+      .mt-journey-planner section > div.absolute.inset-0:not([class*="pointer-events-none"]) {
+        opacity: 0;
+      }
+
       @media (max-width: 393px) and (max-height: 860px) {
         .mt-iphone-journey-home {
           top: 1rem !important;
@@ -258,34 +249,26 @@ const incomingContent = screenContentRefs.current[nextStep]
       }
     `}</style>
 
-    {Object.entries(journeyVideos).map(([videoStep, source], index) => (
-        <video
+    {Object.entries(journeyBackgrounds).map(([videoStep, source], index) => (
+        <img
           key={videoStep}
+          alt=""
           ref={(video) => {
-            videoRefs.current[index] = video
+            backgroundRefs.current[index] = video
           }}
           aria-hidden="true"
-          className={`pointer-events-none absolute inset-0 h-full w-full object-cover will-change-transform ${
+          className={`pointer-events-none absolute inset-0 h-full w-full object-cover blur-[6px] will-change-transform ${
             index === 0 ? 'opacity-100' : 'opacity-0'
           }`}
-          autoPlay={!prefersReducedMotion}
-          muted
-          loop
-          playsInline
-          preload="auto"
           src={source}
-          onCanPlay={(event) => {
-            if (prefersReducedMotion) {
-              event.currentTarget.pause()
-              event.currentTarget.currentTime = 0
-            }
-          }}
+          decoding="async"
+          fetchPriority={index === 0 ? 'high' : 'auto'}
         />
       ))}
 
-      <div className="pointer-events-none absolute inset-0 bg-[#021316]/58" />
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/5 via-[#03191d]/5 to-[#020f12]/12" />
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_18%,rgba(212,175,55,0.08),transparent_34%)]" />
+      <div className="pointer-events-none absolute inset-0 bg-[#172B30]/[0.22]" />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#253B45]/[0.28] via-[#213A3D]/[0.16] to-[#20392F]/[0.40]" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_50%_35%,rgba(20,37,42,0.22),transparent_75%)]" />
 
       <button
   type="button"
@@ -295,7 +278,7 @@ const incomingContent = screenContentRefs.current[nextStep]
       return
     }
 
-    navigate(step - 1)
+    navigate(journeySteps[journeySteps.indexOf(step) - 1])
   }}
   className="mt-iphone-journey-home absolute left-6 top-6 z-[999] inline-flex items-center gap-2 rounded-full border border-white/20 bg-black/20 px-4 py-2 text-xs uppercase tracking-[0.25em] text-white backdrop-blur-md transition-all duration-500 hover:border-white/40 hover:bg-white hover:text-black"
 >
@@ -312,208 +295,7 @@ const incomingContent = screenContentRefs.current[nextStep]
   Home
 </button>
 
-      <aside
-        aria-label="Journey progress"
-        className="absolute left-5 top-1/2 z-[997] hidden -translate-y-1/2 lg:block"
-      >
-        <div className="relative overflow-hidden rounded-[2rem] border border-white/12 bg-[linear-gradient(180deg,rgba(4,12,16,0.72),rgba(2,8,11,0.58))] px-4 py-5 shadow-[0_24px_80px_rgba(0,0,0,0.42),inset_0_1px_0_rgba(255,255,255,0.07)] backdrop-blur-2xl">
-          <div className="pointer-events-none absolute inset-x-5 top-0 h-px bg-gradient-to-r from-transparent via-[#D4AF37]/55 to-transparent" />
 
-          <ol className="relative flex flex-col items-center gap-1">
-            {Array.from({ length: 8 }, (_, index) => {
-              const itemStep = index + 1
-              const isActive = itemStep === step
-              const isComplete = itemStep < step || journeyComplete
-              const canNavigate = itemStep <= step
-
-              return (
-                <li
-                  key={itemStep}
-                  aria-current={isActive ? 'step' : undefined}
-                  className="relative flex min-h-[2.45rem] w-10 items-center justify-center"
-                >
-                  <span
-                    className={`absolute left-[2px] top-1/2 h-px w-2.5 -translate-y-1/2 ${
-                      isActive
-                        ? 'bg-[#D4AF37] shadow-[0_0_12px_rgba(212,175,55,0.8)]'
-                        : isComplete
-                          ? 'bg-[#D4AF37]/52'
-                          : 'bg-white/24'
-                    }`}
-                  />
-
-                  {isActive ? (
-                    <motion.button
-  type="button"
-  disabled={!canNavigate}
-  onClick={() => {
-    if (canNavigate) {
-    navigate(itemStep)
-}
-  }}
-                      layoutId="journey-active-scanner"
-                      aria-hidden="true"
-                      className="absolute left-0 top-1/2 h-8 w-[3px] -translate-y-1/2 rounded-full bg-[#D4AF37] shadow-[0_0_12px_rgba(212,175,55,0.92),0_0_26px_rgba(212,175,55,0.42)]"
-                      transition={{
-                        duration: prefersReducedMotion ? 0 : 0.55,
-                        ease: [0.22, 1, 0.36, 1],
-                      }}
-  />
-) : null}
-
-<button
-  type="button"
-  disabled={!isComplete && !isActive}
-  onClick={() => {
-    if (isComplete || isActive) {
-      navigate(itemStep)
-    }
-  }}
-  className="relative flex h-full w-full items-center justify-center"
->
-  {isActive ? (
-    <motion.span
-      layoutId="journey-active-scanner"
-      aria-hidden="true"
-      className="absolute left-0 top-1/2 h-8 w-[3px] -translate-y-1/2 rounded-full bg-[#D4AF37] shadow-[0_0_12px_rgba(212,175,55,0.92),0_0_26px_rgba(212,175,55,0.42)]"
-      transition={{
-        duration: prefersReducedMotion ? 0 : 0.55,
-        ease: [0.22, 1, 0.36, 1],
-      }}
-    />
-  ) : null}
-
-  <motion.span
-    animate={{
-      opacity: isActive ? 1 : isComplete ? 0.74 : 0.56,
-      scale: isActive ? 1.08 : 1,
-    }}
-    transition={{ duration: prefersReducedMotion ? 0 : 0.35 }}
-    className={`mt-ui ml-3 text-[0.68rem] tracking-[0.14em] ${
-      isActive
-        ? 'text-[#F5D77A] drop-shadow-[0_0_10px_rgba(212,175,55,0.58)]'
-        : isComplete
-          ? 'text-white/72'
-          : 'text-white/56 drop-shadow-[0_2px_8px_rgba(0,0,0,0.82)]'
-    }`}
-  >
-    {String(itemStep).padStart(2, '0')}
-  </motion.span>
-</button>
-                </li>
-              )
-            })}
-          </ol>
-
-          <div className="mt-3 border-t border-white/8 pt-4">
-            <div className="relative mx-auto grid h-[5.4rem] w-[5.4rem] place-items-center">
-              <svg
-                aria-hidden="true"
-                viewBox="0 0 100 100"
-                className="-rotate-90"
-              >
-                <circle
-                  cx="50"
-                  cy="50"
-                  r="43"
-                  fill="rgba(255,255,255,0.02)"
-                  stroke="rgba(255,255,255,0.12)"
-                  strokeWidth="4"
-                />
-                <motion.circle
-                  cx="50"
-                  cy="50"
-                  r="43"
-                  fill="none"
-                  stroke="#D4AF37"
-                  strokeLinecap="round"
-                  strokeWidth="4"
-                  pathLength="1"
-                  initial={false}
-                  animate={{ pathLength: displayedProgress / 100 }}
-                  transition={{
-                    duration: prefersReducedMotion ? 0 : journeyComplete ? 1.15 : 0.65,
-                    ease: [0.22, 1, 0.36, 1],
-                  }}
-                  style={{
-                    filter: journeyComplete
-                      ? 'drop-shadow(0 0 8px rgba(212,175,55,0.95))'
-                      : 'drop-shadow(0 0 4px rgba(212,175,55,0.5))',
-                  }}
-                />
-              </svg>
-
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={journeyComplete ? 'complete' : displayedProgress}
-                  initial={
-                    prefersReducedMotion
-                      ? false
-                      : { opacity: 0, scale: 0.82, filter: 'blur(4px)' }
-                  }
-                  animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
-                  exit={{ opacity: 0, scale: 1.12 }}
-                  transition={{ duration: prefersReducedMotion ? 0 : 0.36 }}
-                  className="absolute inset-0 flex flex-col items-center justify-center"
-                >
-                  {journeyComplete ? (
-                    <>
-                      <span className="text-lg text-[#F5D77A]">✓</span>
-                      <span className="mt-ui text-[0.46rem] tracking-[0.16em] text-[#F5D77A]">
-                        COMPLETE
-                      </span>
-                    </>
-                  ) : (
-                    <>
-                      <span className="mt-display text-[1.45rem] leading-none text-[#F5D77A]">
-                        {displayedProgress}%
-                      </span>
-                      <span className="mt-ui mt-1 text-[0.42rem] tracking-[0.18em] text-white/34">
-                        PROGRESS
-                      </span>
-                    </>
-                  )}
-                </motion.div>
-              </AnimatePresence>
-
-              <AnimatePresence>
-                {journeyComplete && !prefersReducedMotion ? (
-                  <>
-                    <motion.span
-                      aria-hidden="true"
-                      className="absolute inset-1 rounded-full border border-[#F5D77A]/60"
-                      initial={{ opacity: 0.9, scale: 0.7 }}
-                      animate={{ opacity: 0, scale: 1.65 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 1.1, ease: 'easeOut' }}
-                    />
-                    {Array.from({ length: 10 }, (_, index) => {
-                      const angle = (index / 10) * Math.PI * 2
-                      const x = Math.cos(angle) * 48
-                      const y = Math.sin(angle) * 48
-
-                      return (
-                        <motion.span
-                          key={index}
-                          aria-hidden="true"
-                          className="absolute left-1/2 top-1/2 h-1 w-1 rounded-full bg-[#F5D77A] shadow-[0_0_8px_rgba(245,215,122,0.95)]"
-                          initial={{ x: 0, y: 0, opacity: 1, scale: 1 }}
-                          animate={{ x, y, opacity: 0, scale: 0.4 }}
-                          transition={{
-                            duration: 0.9,
-                            delay: index * 0.025,
-                            ease: 'easeOut',
-                          }}
-                        />
-                      )
-                    })}
-                  </>
-                ) : null}
-              </AnimatePresence>
-              </div>
-          </div>
-        </div>
-      </aside>
 
       <div className="mt-iphone-journey-screens relative z-10">
         {visibleSteps.map((screenStep) => (
@@ -528,6 +310,7 @@ const incomingContent = screenContentRefs.current[nextStep]
                 : 'relative z-10 will-change-transform'
             }
           >
+            <PlannerControlsActive.Provider value={screenStep === step}>
             {screenStep === 1 ? (
               <DestinationSelectionScreen
                 initialDestinations={journey.destinations}
@@ -571,17 +354,6 @@ const incomingContent = screenContentRefs.current[nextStep]
                   setJourney((current) => ({ ...current, travellers }))
                 }
                 onBack={() => navigate(2)}
-                onContinue={() => navigate(4)}
-              />
-            ) : null}
-
-            {screenStep === 4 ? (
-              <ExperienceSelectionScreen
-                selectedIds={journey.experienceIds}
-                onChange={(experienceIds) =>
-                  setJourney((current) => ({ ...current, experienceIds }))
-                }
-                onBack={() => navigate(3)}
                 onContinue={() => navigate(5)}
               />
             ) : null}
@@ -592,18 +364,7 @@ const incomingContent = screenContentRefs.current[nextStep]
                 onChange={(budgetId) =>
                   setJourney((current) => ({ ...current, budgetId }))
                 }
-                onBack={() => navigate(4)}
-                onContinue={() => navigate(6)}
-              />
-            ) : null}
-
-            {screenStep === 6 ? (
-              <DreamJourneyScreen
-                details={journey.dreamJourney}
-                onChange={(dreamJourney) =>
-                  setJourney((current) => ({ ...current, dreamJourney }))
-                }
-                onBack={() => navigate(5)}
+                onBack={() => navigate(3)}
                 onContinue={() => navigate(7)}
               />
             ) : null}
@@ -614,7 +375,7 @@ const incomingContent = screenContentRefs.current[nextStep]
                 onChange={(contactDetails) =>
                   setJourney((current) => ({ ...current, contactDetails }))
                 }
-                onBack={() => navigate(6)}
+                onBack={() => navigate(5)}
                 onContinue={() => navigate(8)}
               />
             ) : null}
@@ -627,9 +388,11 @@ const incomingContent = screenContentRefs.current[nextStep]
                 onSuccess={() => setJourneyComplete(true)}
               />
             ) : null}
+            </PlannerControlsActive.Provider>
           </div>
         ))}
                   </div>
+      <div id="plan-floating-controls" />
     </main>
   )
 }
