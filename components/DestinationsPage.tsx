@@ -4,10 +4,12 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import dynamic from 'next/dynamic'
 import { useSearchParams } from 'next/navigation'
-import { ArrowLeft, ArrowRight, CalendarDays, Clock3, Coins, Crosshair, Plane, Search, X } from 'lucide-react'
+import { ArrowLeft, ArrowRight, CalendarDays, Clock3, Coins, Plane, Search, X } from 'lucide-react'
 import { destinationMetadata, getDestinationRegion, loadDestination, type Destination } from '@/lib/destinations'
 import { DestinationPanorama, EssentialsPanel, ExperiencePanel, VisaPanel, type AtlasVisa } from './destinations/AtlasPanels'
 import styles from './destinations/Destinations.module.css'
+
+const MiniGlobe = dynamic(() => import('./destinations/MiniGlobe'), { ssr: false })
 
 const Globe3D = dynamic(() => import('./destinations/Globe3D'), {
   ssr: false,
@@ -171,7 +173,7 @@ export default function DestinationsPage({ visas }: { visas: Record<string, Atla
     <section className={styles.page} aria-label="MadrasTrails Living Atlas">
       <header className={styles.masthead}>
         <div className={styles.identity}>
-          <Crosshair size={24} strokeWidth={1.25} aria-hidden="true" />
+          <MiniGlobe />
           <div><span>MadrasTrails</span><strong>Living Atlas</strong></div>
         </div>
         <Link href="/" className={styles.home}><ArrowLeft size={15} aria-hidden="true" /> Home</Link>
@@ -180,9 +182,9 @@ export default function DestinationsPage({ visas }: { visas: Record<string, Atla
       <div className={styles.command}>
         <div className={styles.editorial}>
           <div className={styles.brief}>
-            <div key={selected.id} className={styles.country} aria-live="polite">
-              <p className={styles.region}><span />{region}</p>
-              <h1 className={styles.destinationReveal} key={`destination-title-${selected.id}`}>{selected.name}</h1>
+            <div className={styles.country} aria-live="polite">
+              <p className={styles.region}><span aria-hidden="true" />{region}</p>
+              <h1>{selected.name}</h1>
               <p className={styles.tagline}>{selected.tagline}</p>
               {holidayCities[selected.id]?.length ? (
                 <p className={styles.holidayCities}>
@@ -299,8 +301,10 @@ export default function DestinationsPage({ visas }: { visas: Record<string, Atla
               </section>
             ))}
           </div>
-          <a className={styles.credits} href="/images/destinations/replacement-photo-credits.html" target="_blank" rel="noreferrer">Photography &amp; licences ↗</a>
-          <a className={styles.credits} href="/images/destinations/japan/atlas-photo-credits.html" target="_blank" rel="noreferrer">Atlas photo credits ↗</a>
+          <footer className={styles.dialogCredits}>
+            <a className={styles.credits} href="/images/destinations/replacement-photo-credits.html" target="_blank" rel="noreferrer">Photography &amp; licences ↗</a>
+            <a className={styles.credits} href="/images/destinations/japan/atlas-photo-credits.html" target="_blank" rel="noreferrer">Atlas photo credits ↗</a>
+          </footer>
         </div>
       </dialog>
     </section>

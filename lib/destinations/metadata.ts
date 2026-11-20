@@ -457,8 +457,8 @@ export const destinationMetadata: DestinationMetadata[] = [
   {
     id: "indonesia",
     name: "Indonesia",
-    latitude: -2.5489,
-    longitude: 118.0149,
+    latitude: -8.4095,
+    longitude: 115.1889,
     zoom: 1.32,
     markerColor: GOLD_MARKER,
     flag: "🇮🇩",
