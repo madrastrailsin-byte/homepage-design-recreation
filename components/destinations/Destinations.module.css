@@ -942,3 +942,411 @@
     font-size: 1rem;
   }
 }
+
+/* Living Atlas — cinematic minimal left panel */
+@media (min-width: 1021px) {
+  .editorial {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: stretch;
+  }
+
+  .brief {
+    display: block;
+  }
+
+  .brief > :not(.country),
+  .editorial > :not(.brief) {
+    display: none !important;
+  }
+
+  .country {
+    transform: none;
+    padding-inline: 0;
+  }
+
+  .country h1 {
+    font-size: clamp(5rem, 7.5vw, 9rem);
+    line-height: .95;
+    letter-spacing: -.055em;
+    margin: 18px 0 22px;
+  }
+
+  .country .tagline {
+    font-size: clamp(1.25rem, 1.65vw, 1.8rem);
+    line-height: 1.35;
+  }
+
+  .country .region {
+    font-size: .85rem;
+    letter-spacing: .24em;
+  }
+}
+
+/* Living Atlas — raise destination heading block */
+@media (min-width: 1021px) {
+  .editorial .country {
+    transform: translateY(-140px);
+  }
+}
+
+/* Living Atlas — balanced destination typography spacing */
+@media (min-width: 1021px) {
+  .editorial .country {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+  }
+
+  .editorial .country h1 {
+    margin: 0;
+  }
+
+  .editorial .country .region,
+  .editorial .country .tagline {
+    margin: 0;
+  }
+}
+
+/* Living Atlas — holiday city names */
+@media (min-width: 1021px) {
+  .editorial .country .holidayCities {
+    margin: 0;
+    color: #a0efff;
+    font-size: clamp(.9rem, 1.1vw, 1.1rem);
+    font-weight: 400;
+    letter-spacing: .015em;
+    line-height: 1.4;
+  }
+}
+
+/* Living Atlas — refined city typography */
+@media (min-width: 1021px) {
+  .editorial .country .region {
+    color: #e8c47a;
+  }
+
+  .editorial .country .holidayCities {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    column-gap: 0;
+    row-gap: 12px;
+    font-size: clamp(.95rem, 1.15vw, 1.15rem);
+    letter-spacing: .035em;
+    color: #d6e9ed;
+  }
+
+  .cityItem {
+    display: inline-flex;
+    align-items: center;
+    gap: 18px;
+    white-space: nowrap;
+  }
+
+  .citySeparator {
+    margin: 0 18px;
+    color: #c4a56c;
+    opacity: .5;
+    font-weight: 300;
+  }
+}
+
+/* Living Atlas — champagne gold city names */
+@media (min-width: 1021px) {
+  .editorial .country .cityItem > span:last-child {
+    color: #E8C47A;
+  }
+
+  .editorial .country .citySeparator {
+    color: #8B8068;
+    opacity: .45;
+  }
+}
+
+/* Living Atlas — lighter city typography */
+@media (min-width: 1021px) {
+  .editorial .country .cityItem > span:last-child {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: 300;
+  }
+}
+
+/* Living Atlas — refined city typography */
+@media (min-width: 1021px) {
+  .editorial .country .cityItem > span:last-child {
+    font-family: var(--font-catamaran, Arial), sans-serif;
+    font-weight: 400;
+    letter-spacing: .015em;
+  }
+
+  .editorial .country .cityItem {
+    gap: 10px;
+  }
+
+  .editorial .country .citySeparator {
+    margin: 0 10px;
+  }
+}
+
+/* Living Atlas — centred globe navigation */
+@media (min-width: 1021px) {
+  .globeControls {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    justify-self: center;
+    gap: 24px;
+    width: 100%;
+    padding-bottom: 12px;
+  }
+
+  .globeControls .indexAction {
+    min-height: 44px;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    color: var(--copy);
+    font-family: var(--mono);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+  }
+
+  .globeControls .indexAction:hover {
+    background: transparent;
+    color: var(--ice);
+  }
+
+  .globeNavigation {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .globeNavigation button {
+    width: 36px;
+    height: 36px;
+    border: 0;
+    background: transparent;
+    color: var(--copy);
+  }
+
+  .globeNavigation button:hover {
+    background: transparent;
+    color: var(--ice);
+  }
+}
+
+/* Living Atlas — right-aligned lightweight navigation */
+@media (min-width: 1021px) {
+  .globeControls {
+    justify-content: flex-end;
+    justify-self: end;
+    padding-right: 0;
+  }
+
+  .globeControls .indexAction {
+    font-weight: 400;
+  }
+
+  .globeNavigation button {
+    font-weight: 400;
+  }
+}
+
+/* Living Atlas — refined destination navigation */
+@media (min-width: 1021px) {
+  .globeControls {
+    width: auto;
+    gap: 20px;
+    align-items: center;
+    justify-self: end;
+    padding-bottom: 14px;
+  }
+
+  .globeControls .indexAction {
+    gap: 10px;
+    min-height: 36px;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: .09em;
+    transition: color .2s ease;
+  }
+
+  .globeControls .indexAction svg {
+    width: 19px;
+    height: 19px;
+    stroke-width: 1.8;
+  }
+
+  .globeNavigation {
+    gap: 8px;
+  }
+
+  .globeNavigation button {
+    width: 30px;
+    height: 36px;
+  }
+
+  .globeNavigation button svg {
+    width: 18px;
+    height: 18px;
+    stroke-width: 1.5;
+  }
+}
+
+/* Living Atlas — minimal travel snapshot */
+@media (min-width: 1021px) {
+  .editorial .country .travelSnapshot {
+    display: grid;
+    gap: 23px;
+    width: 100%;
+    margin-top: 32px;
+  }
+
+  .snapshotExperiences,
+  .snapshotVisa {
+    display: grid;
+    gap: 9px;
+  }
+
+  .travelSnapshot h2,
+  .snapshotFacts span,
+  .snapshotVisa > span {
+    color: #E8C47A;
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: .13em;
+  }
+
+  .travelSnapshot p,
+  .snapshotFacts strong {
+    color: #D6E7EB;
+    font-family: var(--font-catamaran, Arial), sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1.5;
+  }
+
+  .snapshotFacts {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px 24px;
+  }
+
+  .snapshotFacts > div {
+    display: grid;
+    gap: 6px;
+  }
+
+  .snapshotDivider {
+    color: #8B8068;
+    padding: 0 9px;
+  }
+}
+
+/* Living Atlas — restore left content positioning */
+@media (min-width: 1021px) {
+  .editorial .country {
+    transform: translateY(-30px);
+  }
+}
+
+/* Living Atlas — balanced snapshot typography */
+@media (min-width: 1021px) {
+  .travelSnapshot h2,
+  .snapshotFacts span,
+  .snapshotVisa > span {
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  .snapshotExperiences p {
+    word-spacing: 3px;
+    letter-spacing: .02em;
+  }
+}
+
+/* Living Atlas — refined travel snapshot typography */
+@media (min-width: 1021px) {
+  .editorial .country .travelSnapshot {
+    gap: 32px;
+  }
+
+  .snapshotExperiences,
+  .snapshotVisa {
+    gap: 15px;
+  }
+
+  .snapshotFacts {
+    row-gap: 28px;
+  }
+
+  .snapshotFacts > div {
+    gap: 12px;
+  }
+
+  .snapshotExperiences p,
+  .snapshotVisa p {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 15px;
+    font-weight: 300;
+    letter-spacing: .025em;
+    line-height: 1.6;
+  }
+
+  .snapshotExperiences p {
+    word-spacing: 4px;
+  }
+
+  .snapshotVisa p {
+    color: #DCECF0;
+  }
+}
+
+/* Living Atlas — lower entire editorial content */
+@media (min-width: 1021px) {
+  .editorial .country {
+    transform: translateY(15px);
+  }
+}
+
+/* Living Atlas — final snapshot typography refinement */
+@media (min-width: 1021px) {
+  .editorial .country {
+    transform: translateY(0);
+  }
+
+  .snapshotExperiences p,
+  .snapshotVisa p {
+    font-family: var(--font-catamaran, Arial), sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    letter-spacing: 0;
+    line-height: 1.4;
+  }
+
+  .editorial .country .travelSnapshot {
+    gap: 26px;
+  }
+
+  .snapshotExperiences,
+  .snapshotVisa {
+    gap: 10px;
+  }
+
+  .snapshotFacts {
+    row-gap: 22px;
+  }
+
+  .snapshotFacts > div {
+    gap: 8px;
+  }
+}
