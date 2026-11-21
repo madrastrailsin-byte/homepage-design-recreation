@@ -169,10 +169,10 @@ const serviceGuides: ServiceGuide[] = [
 
 const boardPieces: BoardPiece[] = [
   {
-    left: 5,
-    top: 8,
-    width: 37,
-    height: 20,
+    left: 6,
+    top: 10,
+    width: 32,
+    height: 18,
     rotate: -3.2,
     z: 42,
     tone: "bg-[#f6ead4] text-[#241910]",
@@ -180,10 +180,10 @@ const boardPieces: BoardPiece[] = [
     shape: "polygon(0 4%,100% 0,98% 100%,2% 96%)",
   },
   {
-    left: 41,
-    top: 2,
-    width: 15,
-    height: 36,
+    left: 42,
+    top: 5,
+    width: 17,
+    height: 31,
     rotate: 2.8,
     z: 38,
     tone: "bg-[#f5ead6] text-[#21170f]",
@@ -191,10 +191,10 @@ const boardPieces: BoardPiece[] = [
     shape: "polygon(4% 0,100% 3%,96% 100%,0 95%)",
   },
   {
-    left: 67,
-    top: 4,
-    width: 27,
-    height: 39,
+    left: 68,
+    top: 8,
+    width: 26,
+    height: 30,
     rotate: -3.4,
     z: 46,
     tone: "bg-[#101827] text-[#faf3e2]",
@@ -202,10 +202,10 @@ const boardPieces: BoardPiece[] = [
     shape: "polygon(0 0,96% 3%,100% 96%,4% 100%)",
   },
   {
-    left: 5,
-    top: 36,
-    width: 20,
-    height: 42,
+    left: 6,
+    top: 40,
+    width: 22,
+    height: 29,
     rotate: 3.1,
     z: 35,
     tone: "bg-[#f4ead7] text-[#21170f]",
@@ -213,10 +213,10 @@ const boardPieces: BoardPiece[] = [
     shape: "polygon(3% 0,100% 2%,95% 96%,0 100%)",
   },
   {
-    left: 29,
-    top: 37,
-    width: 28,
-    height: 25,
+    left: 32,
+    top: 42,
+    width: 27,
+    height: 22,
     rotate: -3.5,
     z: 45,
     tone: "bg-[#f6ead5] text-[#21170f]",
@@ -224,10 +224,10 @@ const boardPieces: BoardPiece[] = [
     shape: "polygon(0 6%,96% 0,100% 92%,5% 100%)",
   },
   {
-    left: 61,
-    top: 42,
-    width: 34,
-    height: 22,
+    left: 65,
+    top: 43,
+    width: 29,
+    height: 21,
     rotate: 2.1,
     z: 40,
     tone: "bg-[#f0e6d4] text-[#21170f]",
@@ -236,9 +236,9 @@ const boardPieces: BoardPiece[] = [
   },
   {
     left: 6,
-    top: 65,
-    width: 31,
-    height: 25,
+    top: 73,
+    width: 30,
+    height: 21,
     rotate: -2.8,
     z: 39,
     tone: "bg-[#eadfc9] text-[#21170f]",
@@ -247,9 +247,9 @@ const boardPieces: BoardPiece[] = [
   },
   {
     left: 40,
-    top: 66,
-    width: 29,
-    height: 28,
+    top: 72,
+    width: 27,
+    height: 23,
     rotate: 2.7,
     z: 43,
     tone: "bg-[#f2e7d2] text-[#21170f]",
@@ -257,10 +257,10 @@ const boardPieces: BoardPiece[] = [
     shape: "polygon(0 0,100% 3%,97% 95%,8% 100%,0 88%)",
   },
   {
-    left: 73,
-    top: 70,
-    width: 22,
-    height: 25,
+    left: 72,
+    top: 74,
+    width: 23,
+    height: 20,
     rotate: -2.4,
     z: 41,
     tone: "bg-[#f4e8d2] text-[#21170f]",
@@ -599,14 +599,16 @@ function ServiceDocument({ service, index }: { service: TravelService; index: nu
   }
 }
 
-function BoardServicePiece({
+export function BoardServicePiece({
   service,
   index,
   onOpen,
+  cabinMode = false,
 }: {
   service: TravelService;
   index: number;
   onOpen: () => void;
+  cabinMode?: boolean;
 }) {
   const prefersReducedMotion = useReducedMotion();
   const piece = boardPieces[index];
@@ -658,7 +660,7 @@ function BoardServicePiece({
   type="button"
   onClick={onOpen}
         aria-label={`Open ${service.title}`}
-        className={`${markerStyles.marked} group absolute flex min-w-0 flex-col overflow-hidden text-left outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37]/70 ${
+        className={`${markerStyles.marked} group absolute sepia-[.28] saturate-[.75] brightness-[.90] contrast-[.94] flex min-w-0 flex-col overflow-hidden text-left outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37]/70 ${
   index === 2 ? "p-1.5 md:p-2" : "p-4 md:p-5"
 } ${piece.tone}`}
         style={{
@@ -894,7 +896,7 @@ function DetectiveScrapbookLayer() {
   );
 }
 
-export default function ServicesField({ services }: ServicesFieldProps) {
+export default function ServicesField({ services, cabinMode = false }: ServicesFieldProps & { cabinMode?: boolean }) {
   const [isPulling, setIsPulling] = useState(false);
   const prefersReducedMotion = useReducedMotion();
   const [openService, setOpenService] = useState<TravelService | null>(null);
@@ -1057,7 +1059,303 @@ const toggleLight = () => {
 
   return (
     <>
-      <section
+      {cabinMode && (
+        <div className="pointer-events-none absolute inset-0 z-20 overflow-hidden">
+          <div
+            className="absolute left-1/2 top-1/2"
+            style={{
+              width: "max(100vw, 177.68svh)",
+              aspectRatio: "1672 / 941",
+              transform: "translate(-50%, -50%)",
+            }}
+          >
+            <div
+              className="pointer-events-auto absolute [container-type:inline-size]"
+              style={{
+                left: "2.8%",
+                top: "30.7%",
+                width: "47%",
+                height: "51%",
+              }}
+            >
+              <div
+                className="absolute left-0 top-0"
+                style={{
+                  width: "1250px",
+                  height: "680px",
+                  transform: "scale(calc(100cqw / 1250px))",
+                  transformOrigin: "top left",
+                }}
+              >
+              {[
+                { src: "postage-stamp-1.webp", x: 3, y: 31, w: 65, r: -13 },
+                { src: "handwritten-note-1.webp", x: 37, y: 31, w: 170, r: 7 },
+                { src: "passport-stamp-1.webp", x: 61, y: 35, w: 115, r: -9 },
+                { src: "torn-paper-3.webp", x: 24, y: 59, w: 140, r: 12 },
+                { src: "handwritten-note-2.webp", x: 55, y: 61, w: 155, r: -8 },
+                { src: "postage-stamp-4.webp", x: 88, y: 64, w: 65, r: 11 },
+              ].map((item) => (
+                <div
+                  key={item.src}
+                  aria-hidden="true"
+                  className="pointer-events-none absolute"
+                  style={{
+                    left: `${item.x}%`,
+                    top: `${item.y}%`,
+                    width: item.w,
+                    transform: `rotate(${item.r}deg)`,
+                    zIndex: 1,
+                    filter: "drop-shadow(0 5px 5px rgba(0,0,0,.3))",
+                  }}
+                >
+                  <Image
+                    src={`/images/services/${item.src}`}
+                    alt=""
+                    width={220}
+                    height={180}
+                    className="h-auto w-full"
+                  />
+                </div>
+              ))}
+              {[
+                { src: "push-pin-1.webp", x: 7, y: 8, w: 34, r: -12 },
+                { src: "masking-tape-1.webp", x: 30, y: 4, w: 105, r: 7 },
+                { src: "paper-clip-2.webp", x: 58, y: 13, w: 48, r: -18 },
+                { src: "masking-tape-2.webp", x: 59, y: 7, w: 85, r: -6 },
+                { src: "push-pin-3.webp", x: 22, y: 43, w: 30, r: 8 },
+                { src: "paper-clip-1.webp", x: 47, y: 59, w: 42, r: 15 },
+                { src: "masking-tape-1.webp", x: 70, y: 84, w: 105, r: -8 },
+              ].map((item, index) => (
+                <div
+                  key={`attachment-${index}`}
+                  aria-hidden="true"
+                  className="pointer-events-none absolute"
+                  style={{
+                    left: `${item.x}%`,
+                    top: `${item.y}%`,
+                    width: item.w,
+                    transform: `rotate(${item.r}deg)`,
+                    zIndex: 55,
+                    filter: "drop-shadow(0 3px 3px rgba(0,0,0,.35))",
+                  }}
+                >
+                  <Image
+                    src={`/images/services/${item.src}`}
+                    alt=""
+                    width={150}
+                    height={100}
+                    className="h-auto w-full"
+                  />
+                </div>
+              ))}
+              <svg
+                aria-hidden="true"
+                className="cabin-connecting-threads pointer-events-none absolute inset-0 h-full w-full overflow-visible"
+                viewBox="0 0 1250 680"
+                preserveAspectRatio="none"
+                style={{ zIndex: 2 }}
+              >
+                <g fill="none" stroke="#853526" strokeWidth="1.8"
+                   strokeLinecap="round" opacity="0.65">
+                  <path d="M 160 205 Q 320 265 525 165" />
+                  <path d="M 525 165 Q 730 220 990 165" />
+                  <path d="M 180 440 Q 350 375 540 425" />
+                  <path d="M 540 425 Q 750 485 1000 440" />
+                  <path d="M 525 165 Q 470 300 540 425" />
+                </g>
+                {[
+                  [160,205],[525,165],[990,165],
+                  [180,440],[540,425],[1000,440]
+                ].map(([x,y],i) => (
+                  <g key={i}>
+                    <circle cx={x} cy={y} r="5" fill="#54351a" />
+                    <circle cx={x} cy={y} r="3.3" fill="#c99b49" />
+                    <circle cx={x-1} cy={y-1} r="1" fill="#fff1bc" />
+                  </g>
+                ))}
+              </svg>
+
+              {/* cabin-board-finishing: decorative layers behind interactive cards */}
+              <div className="pointer-events-none absolute inset-0 overflow-hidden" style={{ zIndex: 3 }}>
+                {[
+                  ["torn-paper-1.webp", 1, 4, 125, -12],
+                  ["postage-stamp-3.webp", 57, 3, 64, 11],
+                  ["torn-paper-4.webp", 94, 10, 125, 14],
+                  ["handwritten-note-2.webp", 1, 30, 145, -9],
+                  ["postage-stamp-5.webp", 95, 38, 68, -12],
+                  ["torn-paper-6.webp", 30, 32, 145, 8],
+                  ["handwritten-note-1.webp", 62, 37, 165, -7],
+                  ["torn-paper-7.webp", 2, 61, 135, 10],
+                  ["postage-stamp-4.webp", 37, 63, 60, -13],
+                  ["torn-paper-8.webp", 68, 68, 145, 9],
+                  ["postage-stamp-1.webp", 97, 86, 64, -10],
+                  ["passport-stamp-1.webp", 13, 87, 115, -15],
+                ].map(([src, x, y, width, rotation], index) => (
+                  <div
+                    key={`finishing-${index}`}
+                    className="absolute"
+                    style={{
+                      left: `${x}%`,
+                      top: `${y}%`,
+                      width: `${width}px`,
+                      transform: `rotate(${rotation}deg)`,
+                      opacity: 0.78,
+                      filter: "sepia(.22) drop-shadow(0 5px 5px rgba(0,0,0,.32))",
+                    }}
+                  >
+                    <Image
+                      src={`/images/services/${src}`}
+                      alt=""
+                      width={200}
+                      height={150}
+                      className="h-auto w-full"
+                    />
+                  </div>
+                ))}
+
+                {[
+                  { x: 8, y: 29, text: "Departure confirmed", r: -8 },
+                  { x: 46, y: 34, text: "Documents checked", r: 5 },
+                  { x: 78, y: 36, text: "A journey worth remembering", r: -6 },
+                  { x: 12, y: 62, text: "Explore beyond the ordinary", r: 7 },
+                  { x: 42, y: 93, text: "Every detail matters", r: -5 },
+                  { x: 75, y: 94, text: "Made for the traveller", r: 4 },
+                ].map((note, index) => (
+                  <span
+                    key={`cabin-note-${index}`}
+                    className="absolute whitespace-nowrap font-[var(--font-signature)] text-[13px] text-[#29160c]/45"
+                    style={{
+                      left: `${note.x}%`,
+                      top: `${note.y}%`,
+                      transform: `rotate(${note.r}deg)`,
+                    }}
+                  >
+                    {note.text}
+                  </span>
+                ))}
+
+                <svg
+                  className="absolute inset-0 h-full w-full"
+                  viewBox="0 0 1250 680"
+                  preserveAspectRatio="none"
+                  aria-hidden="true"
+                >
+                  <g fill="none" stroke="#3c2517" strokeWidth="1.2" opacity=".32">
+                    <path d="M35 120 Q210 80 390 140" strokeDasharray="3 8" />
+                    <path d="M750 95 Q930 55 1190 110" strokeDasharray="4 9" />
+                    <path d="M65 560 Q260 625 455 580" strokeDasharray="3 7" />
+                    <path d="M680 600 Q940 645 1190 565" strokeDasharray="4 8" />
+                  </g>
+                </svg>
+              </div>
+
+              {/* cabin-archive-collection */}
+              <div className="pointer-events-none absolute inset-0 overflow-hidden" style={{ zIndex: 4 }}>
+                {[
+                  ["postage-stamp-3.webp", 2, 4, 55, -12],
+                  ["torn-paper-1.webp", 27, 1, 95, 8],
+                  ["postage-stamp-5.webp", 61, 2, 48, -9],
+                  ["handwritten-note-1.webp", 96, 8, 105, 12],
+                  ["passport-stamp-1.webp", 3, 25, 82, -15],
+                  ["postage-stamp-4.webp", 36, 27, 45, 9],
+                  ["torn-paper-5.webp", 57, 28, 90, -8],
+                  ["postage-stamp-1.webp", 93, 31, 55, 11],
+                  ["handwritten-note-2.webp", 4, 48, 100, -7],
+                  ["postage-stamp-3.webp", 38, 49, 48, 13],
+                  ["torn-paper-4.webp", 70, 47, 95, -11],
+                  ["postage-stamp-5.webp", 97, 55, 45, 8],
+                  ["torn-paper-5.webp", 2, 76, 95, -12],
+                  ["torn-paper-6.webp", 29, 78, 90, 7],
+                  ["postage-stamp-4.webp", 54, 84, 50, -10],
+                  ["handwritten-note-1.webp", 75, 80, 100, 6],
+                  ["postage-stamp-1.webp", 92, 89, 48, -8],
+                  ["paper-clip-2.webp", 48, 5, 38, 14],
+                ].map(([src, x, y, width, rotation], index) => (
+                  <div
+                    key={`archive-${index}`}
+                    className="absolute"
+                    style={{
+                      left: `${x}%`,
+                      top: `${y}%`,
+                      width: `${width}px`,
+                      transform: `rotate(${rotation}deg)`,
+                      opacity: 0.72,
+                      filter: "sepia(.25) drop-shadow(0 4px 5px rgba(0,0,0,.35))",
+                    }}
+                  >
+                    <Image
+                      src={`/images/services/${src}`}
+                      alt=""
+                      width={180}
+                      height={140}
+                      className="h-auto w-full"
+                    />
+                  </div>
+                ))}
+              </div>
+
+              {/* cabin-dense-archive: varied archival fragments behind cards */}
+              <div className="pointer-events-none absolute inset-0 overflow-hidden" style={{ zIndex: 5 }}>
+                {[
+                  ["torn-paper-3.webp", 1, 12, 155, -11],
+                  ["postage-stamp-4.webp", 18, 6, 54, 9],
+                  ["handwritten-note-1.webp", 32, 8, 175, -7],
+                  ["postage-stamp-3.webp", 59, 13, 64, 12],
+                  ["torn-paper-5.webp", 72, 8, 155, -13],
+                  ["torn-paper-8.webp", 91, 18, 115, 8],
+                  ["handwritten-note-2.webp", 8, 34, 170, 7],
+                  ["torn-paper-7.webp", 23, 38, 155, -12],
+                  ["postage-stamp-5.webp", 45, 34, 70, 14],
+                  ["torn-paper-1.webp", 64, 37, 170, -8],
+                  ["handwritten-note-1.webp", 88, 40, 160, 11],
+                  ["postage-stamp-1.webp", 3, 57, 62, -12],
+                  ["torn-paper-4.webp", 20, 61, 170, 9],
+                  ["handwritten-note-2.webp", 41, 58, 175, -7],
+                  ["postage-stamp-3.webp", 62, 64, 68, 13],
+                  ["torn-paper-6.webp", 79, 62, 175, -11],
+                  ["handwritten-note-2.webp", 5, 84, 120, 8],
+                  ["torn-paper-8.webp", 28, 82, 160, -9],
+                  ["postage-stamp-4.webp", 49, 88, 62, 12],
+                  ["handwritten-note-1.webp", 66, 83, 180, -7],
+                  ["postage-stamp-5.webp", 92, 87, 60, 9],
+                ].map(([src, x, y, width, rotation], index) => (
+                  <div
+                    key={`dense-archive-${index}`}
+                    className="absolute"
+                    style={{
+                      left: `${x}%`,
+                      top: `${y}%`,
+                      width: `${width}px`,
+                      transform: `rotate(${rotation}deg)`,
+                      opacity: 0.76,
+                      filter: "sepia(.22) drop-shadow(2px 7px 8px rgba(0,0,0,.42))",
+                    }}
+                  >
+                    <Image
+                      src={`/images/services/${src}`}
+                      alt=""
+                      width={200}
+                      height={160}
+                      className="h-auto w-full"
+                    />
+                  </div>
+                ))}
+              </div>
+              {visibleServices.map((service, index) => (
+                <BoardServicePiece
+                  key={service.number}
+                  service={service}
+                  index={index}
+                  cabinMode
+                  onOpen={() => setOpenService(service)}
+                />
+              ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+      <section style={cabinMode ? { display: "none" } : undefined}
         id="madras-diary"
         aria-labelledby="services-board-title"
         className="relative isolate h-auto overflow-hidden bg-[#100906] text-[#f8f3e8] md:[--header-height:92px] md:h-[96svh] lg:[--header-height:96px]"

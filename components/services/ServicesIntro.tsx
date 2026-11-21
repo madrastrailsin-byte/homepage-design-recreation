@@ -233,7 +233,7 @@ function FlyingBirds() {
   )
 }
 
-export default function ServicesIntro() {
+export default function ServicesIntro({ onEnter }: { onEnter?: () => void }) {
   const reducedMotion = Boolean(useReducedMotion())
 
   const completeStory = [
@@ -795,6 +795,14 @@ export default function ServicesIntro() {
           />
         )}
       </div>
+      <button
+        type="button"
+        className={`mt-ui ${styles.cabinEntrance}`}
+        onClick={onEnter}
+        aria-label="Step inside the MadrasTrails cabin"
+      >
+        <span className={styles.cabinEnter}>ENTER</span>
+      </button>
     </section>
   )
 }

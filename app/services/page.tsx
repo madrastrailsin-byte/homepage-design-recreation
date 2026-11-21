@@ -1,28 +1,12 @@
 import type { Metadata } from 'next'
-import ServicesFloatingNav from '@/components/services/ServicesFloatingNav'
-import Footer from '@/components/Footer'
-import ServicesField from '@/components/services/ServicesField'
-import ServicesIntro from '@/components/services/ServicesIntro'
-import { travelServices } from '@/lib/services-data'
+import ServicesScene from '@/components/services/ServicesScene'
 
 export const metadata: Metadata = {
   title: 'Luxury Travel Planning Services | MadrasTrails',
   description:
     'Experience personalised travel planning, concierge services and seamless luxury journeys with MadrasTrails. Every detail is crafted around your preferences.',
 }
+
 export default function ServicesPage() {
-  return (
-    <main className="min-h-screen overflow-x-hidden bg-[var(--mt-canvas)] text-[var(--mt-text-primary)]">
-      <div className="relative">
-        <ServicesFloatingNav />
-        <ServicesIntro />
-      </div>
-
-      <div id="services-experience" className="scroll-mt-24">
-        <ServicesField services={travelServices} />
-      </div>
-
-      <Footer />
-    </main>
-  )
+  return <main className="h-[100svh] overflow-hidden"><ServicesScene /></main>
 }
