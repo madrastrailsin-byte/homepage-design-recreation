@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="96" height="24" viewBox="0 0 96 24">
+<defs>
+  <g id="world">
+    <rect width="48" height="24" fill="#60c9f5"/>
+    <path d="M3 4L8 2 13 4 15 7 12 9 10 13 7 12 5 9 2 8Z" fill="#5aaf67"/>
+    <path d="M12 12L16 13 18 17 15 22 13 20 11 16Z" fill="#69a85b"/>
+    <path d="M22 5L27 3 31 5 34 3 42 5 46 8 43 12 37 11 35 15 31 14 29 10 25 9 23 12 20 10Z" fill="#6bb86b"/>
+    <path d="M25 12L32 11 35 15 32 21 28 20 25 16Z" fill="#b8ae70"/>
+    <path d="M39 17L44 16 47 20 44 22 39 21Z" fill="#70b46c"/>
+    <path d="M7 5L10 4 12 6 9 8Z M27 6L30 5 32 7 29 9Z" fill="#b2b878"/>
+    <path d="M4 3Q8 1 12 3 M23 4Q28 2 32 4 M36 13Q40 11 44 13" fill="none" stroke="#ffffff" stroke-width=".9" opacity=".55"/>
+  </g>
+</defs>
+<use href="#world"/>
+<use href="#world" x="48"/>
+</svg>

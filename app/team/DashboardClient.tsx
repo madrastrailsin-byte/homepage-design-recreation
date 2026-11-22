@@ -222,7 +222,7 @@ export default function DashboardClient({
                     const Icon = [ClipboardList, FileText, Share2, CircleCheck, CircleX, CalendarX][index]
                     return <Icon size={31} strokeWidth={1.8} aria-hidden="true" />
                   })()}
-                  <span className={`font-serif text-[29px] leading-none tabular-nums ${index === 1 ? 'text-[#9c6f30]' : ''}`}>{count}</span>
+                  <span className={`font-sans text-[29px] leading-none tabular-nums ${index === 1 ? 'text-[#9c6f30]' : ''}`}>{count}</span>
                   <span className="mt-1 text-[12px] font-medium">{label}</span>
                 </div>
               ))}

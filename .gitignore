@@ -15,3 +15,11 @@ node_modules
 .DS_Store
 .vercel
 .env*
+
+.pnpm-store/
+project-backups/
+*.bak
+*.backup-*
+*.pre-*
+*.before-*
+tsconfig.tsbuildinfo

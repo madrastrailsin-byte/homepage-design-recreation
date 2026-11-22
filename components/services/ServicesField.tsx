@@ -2,6 +2,7 @@
 
 import markerStyles from "./ServicesMarker.module.css";
 import LanternPendulum from './LanternPendulum'
+import { lanternFlicker } from './lanternFlicker'
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
@@ -247,9 +248,9 @@ const boardPieces: BoardPiece[] = [
   },
   {
     left: 40,
-    top: 72,
+    top: 68,
     width: 27,
-    height: 23,
+    height: 28,
     rotate: 2.7,
     z: 43,
     tone: "bg-[#f2e7d2] text-[#21170f]",
@@ -612,8 +613,20 @@ export function BoardServicePiece({
 }) {
   const prefersReducedMotion = useReducedMotion();
   const piece = boardPieces[index];
+  const placement = {
+    left: `${piece.left}%`,
+    top: `${piece.top}%`,
+    width: `${piece.width}%`,
+    height: `${piece.height}%`,
+    zIndex: piece.z,
+  };
 
   return (
+    <div style={{
+      filter: "sepia(0.22) saturate(0.78) brightness(0.88) contrast(0.96)",
+      display: "contents"
+    }}>
+
     <>
       {index === 5 ? (
         <motion.div
@@ -656,58 +669,61 @@ export function BoardServicePiece({
           viewport={{ once: true, amount: 0.2 }}
         />
       ) : null}
-      <motion.button
-  type="button"
-  onClick={onOpen}
-        aria-label={`Open ${service.title}`}
-        className={`${markerStyles.marked} group absolute sepia-[.28] saturate-[.75] brightness-[.90] contrast-[.94] flex min-w-0 flex-col overflow-hidden text-left outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37]/70 ${
-  index === 2 ? "p-1.5 md:p-2" : "p-4 md:p-5"
-} ${piece.tone}`}
-        style={{
-          left: `${piece.left}%`,
-          top: `${piece.top}%`,
-          width: `${piece.width}%`,
-          height: `${piece.height}%`,
-          zIndex: piece.z,
-          clipPath: piece.shape,
-          boxShadow: piece.shadow,
-          transformOrigin: "center",
-        }}
-        initial={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 18, rotate: piece.rotate }}
-        whileInView={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0, rotate: piece.rotate }}
-        whileHover={
-  prefersReducedMotion
-    ? undefined
-    : {
-        y: -10,
-        scale: 1.018,
-        rotate: Math.max(-2, Math.min(2, piece.rotate * 0.22)),
-        boxShadow:
-          "0 28px 54px rgba(0,0,0,.42), 0 0 0 1px rgba(212,175,55,.22)",
-        transition: {
-          type: "spring",
-          stiffness: 620,
-          damping: 30,
-          mass: 0.38,
-        },
-      }
-}
-        transition={{ duration: 0.72, delay: index * 0.055, ease }}
-        viewport={{ once: true, amount: 0.2 }}
+      <div
+        className={cabinMode ? markerStyles.cabinCard : undefined}
+        style={cabinMode ? placement : { display: "contents" }}
       >
-        {index === 0 ? <Tape className="left-10 top-2 rotate-[-4deg]" /> : null}
-        {index === 1 ? <Pin className="right-5 top-5" /> : null}
-        {index === 2 ? <Tape className="right-8 top-2 rotate-[5deg]" /> : null}
-        {index === 3 ? <Tape className="right-1 top-8 rotate-[82deg]" /> : null}
-        {index === 4 ? <Image src="/images/services/postage-stamp-3.webp" alt="" width={44} height={52} unoptimized className="pointer-events-none absolute right-4 top-4 z-20 rotate-[8deg] opacity-80" /> : null}
-        {index === 5 ? <span className="pointer-events-none absolute right-0 top-0 z-20 h-10 w-10 bg-[linear-gradient(135deg,rgba(36,25,16,.18),rgba(255,255,255,.48)_48%,transparent_50%)]" /> : null}
-        {index === 6 ? <Image src="/images/services/paper-clip-1.webp" alt="" width={36} height={58} unoptimized className="pointer-events-none absolute right-5 top-3 z-20 rotate-[12deg] opacity-80" /> : null}
-        {index === 7 ? <Tape className="left-2 top-8 rotate-[-80deg]" /> : null}
-        {index === 8 ? <Image src="/images/services/push-pin-3.webp" alt="" width={26} height={26} unoptimized className="pointer-events-none absolute right-7 top-5 z-20 opacity-80" /> : null}
-        <span className="pointer-events-none absolute inset-x-5 top-0 z-20 h-px bg-gradient-to-r from-transparent via-white/70 to-transparent opacity-70" />
-        <ServiceDocument service={service} index={index} />
-      </motion.button>
+        <motion.button
+    type="button"
+    onClick={onOpen}
+          aria-label={`Open ${service.title}`}
+          data-service-index={index}
+          className={`${markerStyles.marked} ${cabinMode ? markerStyles.weatheredPaper : ""} group absolute sepia-[.28] saturate-[.75] brightness-[.90] contrast-[.94] flex min-w-0 flex-col overflow-hidden text-left outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37]/70 ${
+    index === 2 ? "p-1.5 md:p-2" : "p-4 md:p-5"
+  } ${piece.tone}`}
+          style={{
+            ...(cabinMode ? { inset: 0, width: "100%", height: "100%" } : placement),
+            clipPath: piece.shape,
+            boxShadow: "2px 5px 12px rgba(25,12,5,.30), 0 1px 3px rgba(25,12,5,.20)",
+            transformOrigin: "center",
+          }}
+          initial={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 18, rotate: piece.rotate }}
+          whileInView={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0, rotate: piece.rotate }}
+          whileHover={
+    prefersReducedMotion
+      ? undefined
+      : {
+          y: -5,
+          scale: 1.008,
+          rotate: Math.max(-2, Math.min(2, piece.rotate * 0.22)),
+          boxShadow:
+            "4px 10px 22px rgba(25,12,5,.35), 0 0 0 1px rgba(212,175,55,.12)",
+          transition: {
+            type: "spring",
+            stiffness: 620,
+            damping: 30,
+            mass: 0.38,
+          },
+        }
+  }
+          transition={{ duration: 0.72, delay: index * 0.055, ease }}
+          viewport={{ once: true, amount: 0.2 }}
+        >
+          {index === 0 ? <Tape className="left-10 top-2 rotate-[-4deg]" /> : null}
+          {index === 1 ? <Pin className="right-5 top-5" /> : null}
+          {index === 2 ? <Tape className="right-8 top-2 rotate-[5deg]" /> : null}
+          {index === 3 ? <Tape className="right-1 top-8 rotate-[82deg]" /> : null}
+          {index === 4 ? <Image src="/images/services/postage-stamp-3.webp" alt="" width={44} height={52} unoptimized className="pointer-events-none absolute right-4 top-4 z-20 rotate-[8deg] opacity-80" /> : null}
+          {index === 5 ? <span className="pointer-events-none absolute right-0 top-0 z-20 h-10 w-10 bg-[linear-gradient(135deg,rgba(36,25,16,.18),rgba(255,255,255,.48)_48%,transparent_50%)]" /> : null}
+          {index === 6 ? <Image src="/images/services/paper-clip-1.webp" alt="" width={36} height={58} unoptimized className="pointer-events-none absolute right-5 top-3 z-20 rotate-[12deg] opacity-80" /> : null}
+          {index === 7 ? <Tape className="-left-3 top-8 rotate-[-80deg]" /> : null}
+          {index === 8 ? <Image src="/images/services/push-pin-3.webp" alt="" width={26} height={26} unoptimized className="pointer-events-none absolute right-7 top-5 z-20 opacity-80" /> : null}
+          <span className="pointer-events-none absolute inset-x-5 top-0 z-20 h-px bg-gradient-to-r from-transparent via-white/70 to-transparent opacity-70" />
+          <ServiceDocument service={service} index={index} />
+        </motion.button>
+      </div>
     </>
+    </div>
   );
 }
 
@@ -934,37 +950,15 @@ const startLightSequence = () => {
   setLightPhase("flickering");
   setLightLevel(0);
 
-  const sequence = [
-    { delay: 110, level: 0.82 },
-    { delay: 70, level: 0 },
-    { delay: 45, level: 0.38 },
-    { delay: 135, level: 0 },
-    { delay: 35, level: 0.94 },
-    { delay: 55, level: 0.08 },
-    { delay: 180, level: 0 },
-    { delay: 28, level: 0.7 },
-    { delay: 42, level: 0 },
-    { delay: 95, level: 0.5 },
-    { delay: 38, level: 0.12 },
-    { delay: 220, level: 0 },
-    { delay: 55, level: 0.88 },
-    { delay: 80, level: 0.22 },
-    { delay: 34, level: 1 },
-    { delay: 65, level: 0 },
-    { delay: 145, level: 0.76 },
-    { delay: 48, level: 0.18 },
-    { delay: 90, level: 1 },
-  ];
-
   let elapsed = 0;
 
-  sequence.forEach(({ delay, level }, index) => {
+  lanternFlicker.forEach(({ delay, level }, index) => {
     elapsed += delay;
 
     const timer = window.setTimeout(() => {
       setLightLevel(level);
 
-      if (index === sequence.length - 1) {
+      if (index === lanternFlicker.length - 1) {
         setLightPhase("on");
         setLightLevel(1);
       }
@@ -1295,7 +1289,7 @@ const toggleLight = () => {
               </div>
 
               {/* cabin-dense-archive: varied archival fragments behind cards */}
-              <div className="pointer-events-none absolute inset-0 overflow-hidden" style={{ zIndex: 5 }}>
+              <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden" style={{ zIndex: 5 }}>
                 {[
                   ["torn-paper-3.webp", 1, 12, 155, -11],
                   ["postage-stamp-4.webp", 18, 6, 54, 9],
@@ -1318,6 +1312,14 @@ const toggleLight = () => {
                   ["postage-stamp-4.webp", 49, 88, 62, 12],
                   ["handwritten-note-1.webp", 66, 83, 180, -7],
                   ["postage-stamp-5.webp", 92, 87, 60, 9],
+                  ["postage-stamp-3.webp", 23, 2, 49, -10],
+                  ["handwritten-note-2.webp", 67, 1, 110, 5],
+                  ["passport-stamp-1.webp", 60, 18, 89, -12],
+                  ["postage-stamp-5.webp", 16, 30, 47, 8],
+                  ["postage-stamp-1.webp", 31, 65, 48, -9],
+                  ["paper-clip-2.webp", 69, 69, 37, -18],
+                  ["postage-stamp-4.webp", 96, 69, 46, 12],
+                  ["postage-stamp-3.webp", 53, 95, 50, -8],
                 ].map(([src, x, y, width, rotation], index) => (
                   <div
                     key={`dense-archive-${index}`}

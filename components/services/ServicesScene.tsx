@@ -40,14 +40,7 @@ export default function ServicesScene() {
             exit={{ opacity: 0 }}
             transition={{ duration: 1.6, ease: 'easeInOut' }}
           >
-            <ServicesCabin />
-            <button
-              type="button"
-              onClick={() => changeScene(false)}
-              className="mt-ui absolute left-9 top-7 z-50 rounded-full border border-white/45 bg-black/55 px-5 py-2 text-[11px] font-normal uppercase tracking-[0.12em] text-white backdrop-blur-sm transition-colors hover:bg-black/75"
-            >
-              ← BACK
-            </button>
+            <ServicesCabin onBack={() => changeScene(false)} />
           </motion.div>
         ) : (
           <motion.div

@@ -41,3 +41,46 @@
   border-radius: 55% 45% 52% 47% / 45% 58% 43% 55%;
   transform: rotate(1.7deg);
 }
+
+
+/* Tailor-Made Holidays: move hand-drawn circles left */
+.marked[data-service-index="8"] h3::before,
+.marked[data-service-index="8"] h3::after {
+  translate: -9px 0;
+}
+
+
+/* Clear the decoration overlapping Holidays */
+.marked[data-service-index="8"] h3 {
+  margin-left: 40px;
+}
+
+/* Follow the clipped paper silhouette, including while the button moves. */
+.cabinCard {
+  position: absolute;
+  pointer-events: none;
+  filter: drop-shadow(0 1px 1px rgb(31 15 8 / 32%))
+    drop-shadow(1px 3px 3px rgb(31 15 8 / 23%));
+}
+
+.weatheredPaper {
+  pointer-events: auto;
+  background-image:
+    radial-gradient(ellipse at 0 100%, rgb(135 62 28 / 24%), transparent 56%),
+    radial-gradient(ellipse at 100% 0, rgb(152 75 32 / 19%), transparent 54%),
+    linear-gradient(112deg, rgb(187 122 58 / 12%), rgb(224 171 94 / 7%) 55%, rgb(140 68 32 / 13%));
+}
+
+/* Place the grain beneath the lettering, photographs, and card fasteners. */
+.weatheredPaper::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: url("/images/services/parchment-paper.jpg") center / 190px auto;
+  opacity: 0.16;
+}
+
+.weatheredPaper[data-service-index="2"]::before {
+  opacity: 0.09;
+}

@@ -1,0 +1,309 @@
+.atmosphere,
+.lanternArtwork {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.kettleWisp,
+.kettleCurl,
+.cupWisp,
+.cupCurl {
+  opacity: 0;
+  filter: blur(1.8px);
+  animation: steam-rise var(--duration) linear var(--delay) infinite;
+}
+
+.kettleWisp {
+  --duration: 4.5s;
+  --delay: -2.9s;
+  --drift: -10px;
+}
+.kettleCurl {
+  --duration: 5.7s;
+  --delay: -4.4s;
+  --drift: 11px;
+}
+.cupWisp {
+  --duration: 6.3s;
+  --delay: -1.4s;
+  --drift: 8px;
+}
+.cupCurl {
+  --duration: 5.4s;
+  --delay: -3.6s;
+  --drift: -9px;
+}
+
+@keyframes steam-rise {
+  0% {
+    opacity: 0;
+    transform: translateY(2px) scale(.58, .35);
+  }
+  18% {
+    opacity: .68;
+  }
+  42% {
+    opacity: .58;
+    transform: translateY(-9px) scale(.94, .75);
+  }
+  74% {
+    opacity: .26;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--drift), -33px) scale(1.8, 1.12);
+  }
+}
+
+.glow {
+  animation: fire-glow 3.1s steps(1, end) infinite;
+}
+
+.flameLeft,
+.flameCenter,
+.flameRight {
+  filter: blur(0.9px);
+  transform-box: fill-box;
+  transform-origin: center bottom;
+  animation: flame-flicker var(--duration) ease-in-out var(--delay) infinite alternate;
+}
+
+.flameLeft {
+  --duration: .77s;
+  --delay: -.16s;
+  --lean: -12deg;
+}
+.flameCenter {
+  --duration: .59s;
+  --delay: -.44s;
+  --lean: 9deg;
+}
+.flameRight {
+  --duration: .91s;
+  --delay: -.57s;
+  --lean: 15deg;
+}
+
+@keyframes flame-flicker {
+  0% {
+    opacity: .68;
+    transform: scale(.85, .72) skewX(-4deg);
+  }
+  24% {
+    opacity: .92;
+    transform: scale(.94, 1.13) skewX(var(--lean));
+  }
+  49% {
+    opacity: .68;
+    transform: scale(1.08, .86) skewX(2deg);
+  }
+  76% {
+    opacity: .96;
+    transform: scale(.89, 1.04) skewX(-5deg);
+  }
+  100% {
+    opacity: .75;
+    transform: scale(1, .93) skewX(var(--lean));
+  }
+}
+
+@keyframes fire-glow {
+  0%, 100% { opacity: .24; }
+  7% { opacity: .42; }
+  11% { opacity: .28; }
+  19% { opacity: .53; }
+  27% { opacity: .35; }
+  39% { opacity: .62; }
+  43% { opacity: .31; }
+  58% { opacity: .48; }
+  66% { opacity: .29; }
+  73% { opacity: .57; }
+  81% { opacity: .36; }
+  94% { opacity: .51; }
+}
+
+.emberLeft,
+.emberCenter,
+.emberRight {
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: ember-rise var(--duration) linear var(--delay) infinite;
+}
+
+.emberLeft {
+  --duration: 4.7s;
+  --delay: -.3s;
+  --drift: -12px;
+  --rise: -36px;
+}
+.emberCenter {
+  --duration: 6.1s;
+  --delay: -2s;
+  --drift: 12px;
+  --rise: -39px;
+}
+.emberRight {
+  --duration: 5.3s;
+  --delay: -4s;
+  --drift: 9px;
+  --rise: -44px;
+}
+
+@keyframes ember-rise {
+  0% {
+    opacity: 0;
+    transform: translateY(0);
+  }
+  5% {
+    opacity: 1;
+  }
+  14% {
+    opacity: .78;
+  }
+  29%, 100% {
+    opacity: 0;
+    transform: translate(var(--drift), var(--rise)) scale(.38);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* The artwork already supplies static steam and fire. */
+  .atmosphere { display: none; }
+  .lanternGlow { animation: none; }
+}
+
+
+/* Enhanced cabin atmosphere — stronger steam and embers */
+
+.kettleWisp,
+.kettleCurl {
+  filter: blur(4px);
+  animation-duration: 5.5s;
+}
+
+@keyframes steam-rise {
+  0% {
+    opacity: 0;
+    transform: translateY(4px) scale(.7, .5);
+  }
+  12% { opacity: .85; }
+  35% {
+    opacity: .95;
+    transform: translateY(-16px) scale(1.5, 1.1);
+  }
+  65% {
+    opacity: .65;
+    transform: translateY(-36px) scale(2.1, 1.5);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--drift), -70px) scale(2.8, 1.8);
+  }
+}
+
+.emberLeft,
+.emberCenter,
+.emberRight {
+  filter: drop-shadow(0 0 3px #ff9a35);
+  animation-duration: 3.2s;
+}
+
+@keyframes ember-rise {
+  0% {
+    opacity: 0;
+    transform: translateY(0) scale(.6);
+  }
+  8% { opacity: 1; }
+  35% { opacity: .85; }
+  75% { opacity: .4; }
+  100% {
+    opacity: 0;
+    transform: translate(var(--drift), -65px) scale(.2);
+  }
+}
+
+
+.lanternGlow {
+  animation: lantern-glow 2.9s linear infinite;
+}
+
+@keyframes lantern-glow {
+  0%, 100% { opacity: .15; }
+  12% { opacity: .28; }
+  20% { opacity: .16; }
+  38% { opacity: .23; }
+  55% { opacity: .11; }
+  62% { opacity: .21; }
+  79% { opacity: .16; }
+  90% { opacity: .24; }
+}
+
+.gusts {
+  transform-origin: 960px 200px;
+  animation: window-gust 9.3s ease-in-out infinite;
+}
+
+.farRain {
+  animation: window-rain 1.45s linear infinite;
+}
+
+.nearRain {
+  animation: window-rain .91s linear -.48s infinite;
+  filter: blur(.3px);
+}
+
+@keyframes window-gust {
+  0%, 100% { transform: skewX(-2deg); opacity: .68; }
+  34% { transform: translateX(5px) skewX(4deg); opacity: .58; }
+  58% { transform: translateX(-7px) skewX(-11deg); opacity: 1; }
+  76% { transform: translateX(-2px) skewX(-6deg); opacity: .82; }
+}
+
+@keyframes window-rain {
+  0% { transform: translate(6px, -38px); opacity: 0; }
+  12%, 84% { opacity: 1; }
+  100% { transform: translate(-8px, 46px); opacity: 0; }
+}
+
+/* Match the cabin photograph's centered cover sizing. */
+.lanternStage {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: max(100%, 177.58svh);
+  aspect-ratio: 1671 / 941;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.lanternStage[data-lighting="true"] {
+  z-index: 52;
+  transition: left 450ms ease-in-out;
+}
+
+/* Keep the switch in reach when a narrow viewport crops the right wall. */
+@media (max-aspect-ratio: 5/4) {
+  .lanternStage[data-dark="true"] {
+    left: calc(50% - max(31.57vw, 56.07svh));
+  }
+}
+
+.lanternSwitch {
+  position: absolute;
+  left: 77.2%;
+  top: 0;
+  width: 8.8%;
+  height: 28.5%;
+  pointer-events: auto;
+  cursor: pointer;
+  border-radius: 1rem;
+}
+
+.lanternSwitch:focus-visible {
+  outline: 2px solid #ffd795;
+  outline-offset: 4px;
+}

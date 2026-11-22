@@ -1,0 +1,27 @@
+.atelier{display:grid;grid-template-columns:38% 62%;min-height:100svh;background:#e9e5db;color:#193637}
+.editorial{position:relative;display:flex;flex-direction:column;justify-content:space-between;min-height:100svh;padding:42px clamp(30px,4vw,80px);background:radial-gradient(ellipse at 12% 15%,#254343,#102b2d 62%,#092124);color:#eae4d7;border-right:1px solid #b9a37b}
+.brand{font-size:12px;font-weight:700;letter-spacing:.23em}.brand span{font-size:9px;font-weight:400;color:#c6b391;letter-spacing:.14em}
+.editorialBody{max-width:560px}.eyebrow,.stepLabel,.paperLabel{font-size:10px;letter-spacing:.25em;color:#bfa77f}
+.editorial h1{font-family:var(--mt-font-display),Georgia,serif;font-weight:400;font-size:clamp(48px,5.3vw,98px);line-height:1.04;letter-spacing:-.045em;margin:28px 0}
+.editorial h1 em{font-weight:400;color:#d1b991}
+.rule{height:1px;width:120px;background:#bfa77f;margin:36px 0}
+.editorialBody p{max-width:410px;font-size:15px;line-height:1.9;color:#c3cfc9}
+.editorialFoot{display:flex;justify-content:space-between;gap:20px;border-top:1px solid #ffffff30;padding-top:20px;font-size:9px;letter-spacing:.15em;color:#c8b99b}
+.workspace{display:flex;flex-direction:column;min-width:0;min-height:100svh;padding:38px clamp(30px,4vw,90px) 24px;background:linear-gradient(145deg,#f0ede5,#e5e0d5)}
+.topbar,.footer{display:flex;justify-content:space-between;gap:20px;font-size:10px;letter-spacing:.15em;color:#6c7d78}
+.home{text-decoration:none;color:#315451}
+.chapters{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:58px;padding-bottom:24px;border-bottom:1px solid #bcb8ac}
+.chapter{border:0;background:none;padding:8px 0;font-size:10px;color:#7e8882;cursor:pointer;text-align:left}
+.chapter span{margin-right:7px;color:#a38c69}.active{color:#143c3b;border-bottom:1px solid #a38c69}
+.content{width:100%;max-width:780px;margin:auto 0;padding:48px 0}
+.content h2{font-family:var(--mt-font-display),Georgia,serif;font-size:clamp(42px,4.1vw,76px);font-weight:400;letter-spacing:-.035em;line-height:1.1;margin:20px 0;color:#173b3a}
+.subtitle{font-size:15px;line-height:1.8;color:#647772;max-width:550px}
+.paper{margin-top:38px;padding:36px;border:1px solid #c7c0b2;background:#f7f5ee;box-shadow:0 18px 50px #253e3810}
+.paper p{margin-top:22px;color:#71817b;font-size:14px;line-height:1.7}
+.actions{display:flex;justify-content:space-between;align-items:center;margin-top:35px}
+.actions button{border:0;background:none;color:#284b47;font-size:11px;letter-spacing:.14em;cursor:pointer;padding:14px}
+.actions button:last-child{background:#183d3c;color:#f2e9d9;padding:17px 28px}
+.actions button:disabled{opacity:.3;cursor:not-allowed}
+.actions button span{margin-left:22px}
+.footer{border-top:1px solid #c8c3b8;padding-top:18px}
+@media(max-width:900px){.atelier{grid-template-columns:1fr}.editorial{min-height:340px;padding:28px}.editorial h1{font-size:50px}.editorialFoot{display:none}.workspace{padding:28px;min-height:65svh}.chapters{margin-top:35px}.content{padding:55px 0}}

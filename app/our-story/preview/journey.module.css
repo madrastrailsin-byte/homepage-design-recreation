@@ -1,0 +1,267 @@
+/* The site's base overflow rules would otherwise make these sticky ancestors scroll containers. */
+@layer base {
+  :global(html):has(.story) {
+    overscroll-behavior-y: none;
+    scroll-behavior: auto !important;
+    overflow-anchor: none;
+  }
+
+  :global(body):has(.story),
+  :global(body > div):has(.story),
+  :global([data-nextjs-scroll-focus-boundary]):has(.story),
+  .story.story {
+    overflow-x: clip !important;
+    overflow-y: visible;
+  }
+}
+
+.story {
+  --ink: #08191f;
+  --ivory: #fcf3e2;
+  --gold: #ebcd99;
+  --gutter: clamp(1.25rem, 5.5vw, 6rem);
+  --serif: var(--font-cormorant-garamond), Georgia, serif;
+  background: var(--ink);
+  color: var(--ivory);
+  font-family: var(--font-catamaran), sans-serif;
+}
+
+.stage {
+  --progress: 0;
+  position: relative;
+  isolation: isolate;
+}
+
+.home,
+.journal {
+  position: absolute;
+  z-index: 2;
+}
+
+.home {
+  top: clamp(1rem, 3vh, 2.25rem);
+  left: var(--gutter);
+  display: inline-flex;
+  min-height: 2.5rem;
+  align-items: center;
+  gap: .65rem;
+  padding-inline: .85rem;
+  border: 1px solid rgb(235 205 153 / 55%);
+  color: var(--ivory);
+  background: #08191f96;
+}
+
+.home:hover { background: #08191f; }
+
+.home span { color: var(--gold); }
+
+.home,
+.journal {
+  font-size: .69rem;
+  font-weight: 700;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+}
+
+.canvas,
+.grade {
+  position: absolute;
+  inset: 0;
+  height: 100svh;
+  pointer-events: none;
+}
+
+.canvas {
+  background: radial-gradient(ellipse at 72% 36%, #455464 0%, #1d3546 31%, #091a24 78%);
+}
+
+.grade {
+  background: linear-gradient(90deg, #081820eb, #0b1a22bf 26%, #0b1a2214 57%, transparent 69%),
+    linear-gradient(0deg, #081820dc, transparent 23%, transparent 88%, #0818204d);
+}
+
+.panel {
+  --shadow: 7 20 27;
+  position: relative;
+  display: grid;
+  align-content: center;
+  min-height: 65svh;
+  padding: 5.8rem var(--gutter) 4rem;
+  overflow: clip;
+}
+
+.panel[data-scene='opening'] { min-height: 100svh; }
+.panel[data-scene='closing'] { min-height: 70svh; }
+
+.panel:not([data-scene='opening']) {
+  background: radial-gradient(ellipse at 90% 0%, #243a48, #081920 74%);
+}
+
+.prologue, .destination, .epilogue {
+  position: relative;
+  min-width: 0;
+  max-width: min(100%, 46rem);
+  text-shadow: 0 2px 18px rgb(var(--shadow) / 65%);
+}
+
+.prologue h1,
+.destination h2,
+.epilogue h2 {
+  margin-block: .13em;
+  font-family: var(--serif);
+  font-weight: 500;
+  letter-spacing: -.055em;
+  line-height: .91;
+}
+
+.prologue h1 { font-size: clamp(4rem, 9.1vw, 10rem); }
+.destination h2 { font-size: clamp(3.1rem, 6.55vw, 7.2rem); }
+.epilogue h2 { font-size: clamp(2.85rem, 6.4vw, 7rem); }
+.epilogue h2 em { color: var(--gold); }
+
+.lead {
+  margin-block: .65rem;
+  font: 500 clamp(1.55rem, 3.6vw, 3.45rem)/.98 var(--serif);
+  color: var(--gold);
+}
+
+.description {
+  max-width: 34ch;
+  margin-top: .6rem;
+  font-size: clamp(.95rem, 1.34vw, 1.23rem);
+  line-height: 1.35;
+  text-wrap: pretty;
+}
+
+.destination .description {
+  margin-top: 1.1rem;
+  border-top: 1px solid #e2bd835e;
+  padding-top: .95rem;
+}
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 1.6rem;
+  margin-top: 1.3rem;
+  padding: .85rem 1.2rem;
+  border: 1px solid var(--gold);
+  color: var(--ivory);
+  background: #0d1b20bd;
+}
+
+.cta:hover { background: #3f352c; }
+
+.story :is(a, button):focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 4px;
+}
+
+.journal { display: none; }
+
+@media (min-height: 560px) and (scripting: enabled) {
+  .runway { height: 600svh; }
+
+  .stage {
+    position: sticky;
+    top: 0;
+    height: 100svh;
+    overflow: clip;
+  }
+
+  .rail {
+    position: absolute;
+    inset: 0;
+  }
+
+  .panel[data-scene] {
+    position: absolute;
+    inset: 0;
+    visibility: hidden;
+    min-height: 0;
+    background: none;
+    pointer-events: none;
+  }
+
+  .panel[data-visible],
+  .stage:not([data-ready]) .panel:first-child { visibility: visible; }
+
+  .panel:not([inert]) a { pointer-events: auto; }
+
+  .prologue,
+  .destination,
+  .epilogue { opacity: var(--copy-opacity, 1); }
+
+  .rail { pointer-events: none; }
+
+  .journal {
+    inset-inline: max(5.75rem, var(--gutter));
+    bottom: 0;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    align-items: center;
+    padding-bottom: clamp(.75rem, 2.4vh, 1.7rem);
+    letter-spacing: .11em;
+    font-size: .64rem;
+  }
+
+  .journal ol {
+    display: flex;
+    justify-content: space-between;
+    gap: .25rem;
+  }
+
+  .journal button {
+    min-height: 2.4rem;
+    text-align: left;
+    color: #f9ecdb;
+    cursor: pointer;
+  }
+
+  .journal button:is(:hover, [aria-current]) {
+    color: var(--gold);
+    text-decoration: underline;
+    text-underline-offset: .35em;
+  }
+
+  .meter {
+    grid-column: 1 / -1;
+    height: 1px;
+    background: rgb(252 243 226 / 35%);
+  }
+
+  .meter span {
+    display: block;
+    height: 100%;
+    transform: scaleX(calc(.025 + .975 * var(--progress)));
+    transform-origin: left;
+    background: var(--gold);
+  }
+
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .runway { height: auto; }
+  .stage { position: relative; }
+}
+
+@media (max-aspect-ratio: 7/6) {
+  .grade {
+    background: linear-gradient(0deg, #081820 1%, #081820d4 24%, #08182012 69%, #0818202b 100%);
+  }
+
+  .panel {
+    align-content: end;
+    padding-bottom: 5.3rem;
+  }
+
+  .prologue h1 { font-size: clamp(2.65rem, 10vw, 5.8rem); }
+  .destination h2 { font-size: clamp(2.65rem, 10vw, 5.8rem); }
+  .epilogue h2 { font-size: clamp(2.55rem, 9vw, 5.4rem); }
+}
+
+@media (max-width: 720px) {
+  .panel { padding-bottom: 6rem; }
+  .journal { inset-inline: var(--gutter); bottom: 1.6rem; }
+  .journal button { font-size: .58rem; letter-spacing: .01em; }
+}
