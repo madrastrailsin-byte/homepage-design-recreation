@@ -1,5 +1,7 @@
 "use client";
 
+import type { MouseEvent } from "react";
+import CabinServicePanel, { cabinServicePanelId, type ServiceGuide } from "./CabinServicePanel";
 import markerStyles from "./ServicesMarker.module.css";
 import LanternPendulum from './LanternPendulum'
 import { lanternFlicker } from './lanternFlicker'
@@ -48,13 +50,6 @@ const ease = [0.22, 1, 0.36, 1] as const;
 const focusableSelector =
   'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
 type LightPhase = "off" | "flickering" | "on";
-
-type ServiceGuide = {
-  idealFor: string
-  promise: string
-  destinations: string[]
-  arrangements: string[]
-}
 
 const serviceGuides: ServiceGuide[] = [
   {
@@ -605,11 +600,13 @@ export function BoardServicePiece({
   index,
   onOpen,
   cabinMode = false,
+  expanded = false,
 }: {
   service: TravelService;
   index: number;
-  onOpen: () => void;
+  onOpen: (event: MouseEvent<HTMLButtonElement>) => void;
   cabinMode?: boolean;
+  expanded?: boolean;
 }) {
   const prefersReducedMotion = useReducedMotion();
   const piece = boardPieces[index];
@@ -677,6 +674,8 @@ export function BoardServicePiece({
     type="button"
     onClick={onOpen}
           aria-label={`Open ${service.title}`}
+          aria-expanded={cabinMode ? expanded : undefined}
+          aria-controls={cabinMode && expanded ? cabinServicePanelId : undefined}
           data-service-index={index}
           className={`${markerStyles.marked} ${cabinMode ? markerStyles.weatheredPaper : ""} group absolute sepia-[.28] saturate-[.75] brightness-[.90] contrast-[.94] flex min-w-0 flex-col overflow-hidden text-left outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37]/70 ${
     index === 2 ? "p-1.5 md:p-2" : "p-4 md:p-5"
@@ -922,6 +921,26 @@ const lightTimersRef = useRef<number[]>([]);
   const closeButtonRef = useRef<HTMLButtonElement | null>(null);
   const overlayRef = useRef<HTMLDivElement | null>(null);
   const serviceOpenerRef = useRef<HTMLElement | null>(null);
+  const cabinOpenerRef = useRef<HTMLButtonElement>(null);
+  const cabinDetailsOpen = cabinMode && openService !== null;
+  const closeCabinDetails = () => {
+    setOpenService(null);
+    cabinOpenerRef.current?.focus({ preventScroll: true });
+  };
+
+  useEffect(() => {
+    if (!cabinDetailsOpen) return;
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape" && !event.defaultPrevented) {
+        event.preventDefault();
+        closeCabinDetails();
+      }
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [cabinDetailsOpen]);
   const visibleServices = services.slice(0, 9);
   const openServiceIndex = openService
     ? Math.max(
@@ -968,7 +987,7 @@ const startLightSequence = () => {
   });
 };
 useEffect(() => {
-  if (!openService) return;
+  if (cabinMode || !openService) return;
 
   serviceOpenerRef.current =
     document.activeElement instanceof HTMLElement
@@ -1027,7 +1046,7 @@ useEffect(() => {
     window.removeEventListener("keydown", onKeyDown);
     serviceOpenerRef.current?.focus();
   };
-}, [openService]);
+}, [cabinMode, openService]);
 const toggleLight = () => {
   if (lightPhase === "flickering" || isPulling) return;
 
@@ -1056,21 +1075,10 @@ const toggleLight = () => {
       {cabinMode && (
         <div className="pointer-events-none absolute inset-0 z-20 overflow-hidden">
           <div
-            className="absolute left-1/2 top-1/2"
-            style={{
-              width: "max(100vw, 177.68svh)",
-              aspectRatio: "1672 / 941",
-              transform: "translate(-50%, -50%)",
-            }}
+            className={markerStyles.cabinBoardFrame}
           >
             <div
-              className="pointer-events-auto absolute [container-type:inline-size]"
-              style={{
-                left: "2.8%",
-                top: "30.7%",
-                width: "47%",
-                height: "51%",
-              }}
+              className={markerStyles.cabinBoard}
             >
               <div
                 className="absolute left-0 top-0"
@@ -1349,7 +1357,11 @@ const toggleLight = () => {
                   service={service}
                   index={index}
                   cabinMode
-                  onOpen={() => setOpenService(service)}
+                  expanded={openService?.number === service.number}
+                  onOpen={(event) => {
+                    cabinOpenerRef.current = event.currentTarget;
+                    setOpenService(service);
+                  }}
                 />
               ))}
               </div>
@@ -1590,8 +1602,17 @@ const toggleLight = () => {
   }
 `}</style>
 
+      {cabinMode && openService && (
+        <CabinServicePanel
+          key={openService.number}
+          service={openService}
+          guide={openServiceGuide}
+          onClose={closeCabinDetails}
+        />
+      )}
+
 <AnimatePresence>
-  {openService ? (
+  {!cabinMode && openService ? (
           <motion.div
             ref={overlayRef}
             className="mt-iphone-service-overlay fixed inset-0 z-[100] h-[100svh] overflow-y-auto overflow-x-hidden overscroll-contain bg-[#111B1D] text-[#F8F3E8] lg:overflow-hidden"
@@ -1772,7 +1793,7 @@ const toggleLight = () => {
                     </Link>
 
                     <p className="mt-body-copy text-xs text-white/38">
-                      Tell us about your plans, and we'll take it from there.
+                      Tell us about your plans, and we&apos;ll take it from there.
                     </p>
                   </div>
                 </motion.div>

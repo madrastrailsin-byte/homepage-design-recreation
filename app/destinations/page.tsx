@@ -36,6 +36,7 @@ const INITIAL_GLOBE_TEXTURES = [
 ] as const
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/destinations' },
   title: 'Luxury Travel Destinations Around the World | MadrasTrails',
   description:
     'Explore handpicked luxury travel destinations with MadrasTrails. Discover authentic cultures, hidden gems, premium stays and unforgettable experiences crafted around your journey.',

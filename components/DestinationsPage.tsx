@@ -126,6 +126,7 @@ export default function DestinationsPage({ visas }: { visas: Record<string, Atla
   const [result, setResult] = useState<{ id: string; data?: Destination }>()
   const [query, setQuery] = useState('')
   const indexDialog = useRef<HTMLDialogElement>(null)
+  const indexSearch = useRef<HTMLInputElement>(null)
   const region = getDestinationRegion(selected.id)
   const details = result?.id === selected.id ? result.data : undefined
   const pending = result?.id === selected.id ? 'Unavailable' : 'Loading…'
@@ -176,7 +177,22 @@ export default function DestinationsPage({ visas }: { visas: Record<string, Atla
           <MiniGlobe />
           <div><span>MadrasTrails</span><strong>Living Atlas</strong></div>
         </div>
-        <Link href="/" className={styles.home}><ArrowLeft size={15} aria-hidden="true" /> Home</Link>
+        <div className={styles.globeControls}>
+          <button type="button" className={styles.indexAction} aria-haspopup="dialog" onClick={() => {
+            setQuery('')
+            indexDialog.current?.showModal()
+            indexSearch.current?.focus()
+          }}><Search size={16} aria-hidden="true" /> Search destinations…</button>
+
+          <nav className={styles.globeNavigation} aria-label="Destination navigation">
+            <button type="button" aria-label="Previous destination" onClick={() => stepDestination(-1)}>
+              <ArrowLeft size={16} aria-hidden="true" />
+            </button>
+            <button type="button" aria-label="Next destination" onClick={() => stepDestination(1)}>
+              <ArrowRight size={16} aria-hidden="true" />
+            </button>
+          </nav>
+        </div>
       </header>
 
       <div className={styles.command}>
@@ -255,32 +271,25 @@ export default function DestinationsPage({ visas }: { visas: Record<string, Atla
               <Globe3D selectedDestination={selected.id} onSelectDestination={selectDestination} />
             </div>
           </div>
-          <div className={styles.globeControls}>
-            <button className={styles.indexAction} aria-haspopup="dialog" onClick={() => {
-              setQuery('')
-              indexDialog.current?.showModal()
-            }}><Search size={16} aria-hidden="true" /> Destination index</button>
-
-            <nav className={styles.globeNavigation} aria-label="Destination navigation">
-              <button type="button" aria-label="Previous destination" onClick={() => stepDestination(-1)}>
-                <ArrowLeft size={16} aria-hidden="true" />
-              </button>
-              <button type="button" aria-label="Next destination" onClick={() => stepDestination(1)}>
-                <ArrowRight size={16} aria-hidden="true" />
-              </button>
-            </nav>
-          </div>
         </figure>
       </div>
+
+      <footer className={styles.atlasFooter}>
+        <Link href="/" className={styles.home}>Back to Homepage</Link>
+      </footer>
 
       <dialog ref={indexDialog} className={styles.dialog} aria-labelledby="atlas-index-title"
         onClick={event => { if (event.target === event.currentTarget) indexDialog.current?.close() }}>
         <div className={styles.dialogContent}>
           <button className={styles.close} onClick={() => indexDialog.current?.close()} aria-label="Close destination index"><X size={21} /></button>
-          <h2 id="atlas-index-title">Destination index</h2>
+          <div className={styles.indexHeading}>
+            <h2 id="atlas-index-title">Destination index</h2>
+            <p id="atlas-index-help" className={styles.indexHelp}>Type to search or choose a destination below.</p>
+          </div>
           <label className={styles.search}>
             <Search size={18} aria-hidden="true" />
-            <input autoFocus type="search" placeholder="Search destinations or regions" aria-label="Search destinations or regions"
+            <input ref={indexSearch} type="search" placeholder="Search destinations or regions"
+              aria-label="Search destinations or regions" aria-describedby="atlas-index-help"
               value={query} onChange={event => setQuery(event.target.value)} />
           </label>
           <div className={styles.results}>

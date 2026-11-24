@@ -10,7 +10,7 @@
   position: relative;
   isolation: isolate;
   display: grid;
-  grid-template-rows: auto 1fr;
+  grid-template-rows: auto 1fr auto;
   min-height: 100dvh;
   padding-inline: var(--edge);
   overflow-x: clip;
@@ -41,33 +41,58 @@
 .page h1, .page h2, .page h3, .page p, .page figure, .page dl { margin: 0; }
 
 .masthead {
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
-  justify-content: space-between;
-  gap: 16px;
+  gap: 8px;
   padding-block: 16px 4px;
 }
 
 
-.identity, .home, .region, .regionGroup h3 {
+.identity, .region, .regionGroup h3 {
   font: 500 .68rem/1.4 var(--mono);
   letter-spacing: .14em;
   text-transform: uppercase;
 }
 
-.identity, .home { display: flex; align-items: center; gap: 12px; min-height: 44px; }
+.identity { display: flex; align-items: center; gap: 12px; min-height: 44px; }
 .identity { color: var(--ice); line-height: 1; }
 .identity div { display: grid; gap: 4px; }
 .identity span { color: var(--muted); }
 .identity strong { font-size: .8rem; font-weight: 600; }
+.atlasFooter {
+  justify-self: end;
+  padding-bottom: 16px;
+}
+
 .home {
-  padding: 0 18px;
-  color: var(--copy);
-  text-decoration: none;
-  font-size: 14px;
-  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 13px;
+  border: 1px solid rgba(255, 255, 255, .24);
+  border-radius: 9999px;
+  background: rgba(22, 35, 39, .42);
+  color: #fffaf2;
+  font-family: var(--mt-font-ui, var(--font-catamaran, Arial), system-ui, sans-serif);
+  font-size: 12px;
+  line-height: 1;
+  font-weight: 500;
   letter-spacing: .12em;
-  transition: color .25s ease, background-color .25s ease;
+  text-transform: uppercase;
+  text-decoration: none;
+  text-shadow: none;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, .10);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: background-color .3s, border-color .3s, color .3s, box-shadow .3s, transform .3s;
+}
+
+.home:hover {
+  background: rgba(22, 35, 39, .55);
+  border-color: rgba(255, 255, 255, .38);
+  color: #fff;
+  box-shadow: 0 5px 18px rgba(0, 0, 0, .14);
+  transform: translateY(-2px);
 }
 
 .region { display: flex; align-items: center; gap: 12px; color: var(--amber); }
@@ -94,7 +119,7 @@
 .indexAction {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 7px;
   min-height: 36px;
   padding-inline: 12px;
@@ -146,8 +171,14 @@
   color: var(--ice);
 }
 .dialog .close:hover { background: #173c52; }
-.dialogContent > h2 { margin: 7px 42px 0 0; font-size: clamp(1.65rem, 4vw, 2.6rem); line-height: 1; font-weight: 600; }
+.indexHeading > h2 { margin: 7px 42px 0 0; font-size: clamp(1.65rem, 4vw, 2.6rem); line-height: 1; font-weight: 600; }
 .dialogContent > p + p { margin-top: 10px; }
+.dialog .indexHelp {
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: .9rem;
+}
+
 .search {
   display: flex;
   align-items: center;
@@ -194,12 +225,6 @@
 
 @media (prefers-reduced-motion: reduce) {
   .page *, .page *::before, .page *::after { animation: none !important; transition: none !important; }
-}
-
-
-.home:hover {
-  color: #a6efff;
-  background: rgba(105, 221, 255, .07);
 }
 
 
@@ -299,8 +324,7 @@
 
 .planet {
   grid-area: globe;
-  grid-template-rows: minmax(0, 1fr) auto;
-  gap: 8px;
+  grid-template-rows: minmax(0, 1fr);
   display: grid;
   align-self: stretch;
   min-width: 0;
@@ -323,8 +347,8 @@
 }
 
 .globeControls {
-  display: grid;
-  justify-items: end;
+  display: flex;
+  align-items: center;
   justify-self: end;
   gap: 5px;
 }
@@ -564,8 +588,6 @@
   .country h1 { font-size: clamp(2.8rem, 11vw, 4.1rem); }
   .panorama { height: clamp(130px, 31vw, 245px); }
   .globeStage { height: min(82vw, 420px); }
-  .masthead { flex-wrap: wrap; gap: 4px; }
-  .home { padding-inline: 8px; }
 }
 
 @media (max-width: 410px) {
@@ -1079,36 +1101,27 @@
   }
 }
 
-/* Living Atlas — centred globe navigation */
+/* Reserve the former control row so the globe stage keeps its original geometry. */
+@media (min-width: 761px) {
+  .planet { padding-bottom: 81px; }
+}
+
+@media (max-width: 520px) {
+  .globeControls .indexAction { padding-inline: 7px; }
+  .globeNavigation button { width: 30px; }
+}
+
+@media (max-width: 380px) {
+  .masthead .globeControls { grid-column: 1 / -1; }
+}
+
+/* Living Atlas masthead navigation */
 @media (min-width: 1021px) {
-  .globeControls {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    justify-self: center;
-    gap: 24px;
-    width: 100%;
-    padding-bottom: 12px;
-  }
+  .planet { padding-bottom: 58px; }
 
   .globeControls .indexAction {
-    min-height: 44px;
-    padding: 0;
-    border: 0;
-    border-radius: 0;
-    background: transparent;
+    min-width: 210px;
     color: var(--copy);
-    font-family: var(--mono);
-    font-size: 14px;
-    font-weight: 600;
-    letter-spacing: .12em;
-    text-transform: uppercase;
-  }
-
-  .globeControls .indexAction:hover {
-    background: transparent;
-    color: var(--ice);
   }
 
   .globeNavigation {
@@ -1133,16 +1146,6 @@
 
 /* Living Atlas — right-aligned lightweight navigation */
 @media (min-width: 1021px) {
-  .globeControls {
-    justify-content: flex-end;
-    justify-self: end;
-    padding-right: 0;
-  }
-
-  .globeControls .indexAction {
-    font-weight: 400;
-  }
-
   .globeNavigation button {
     font-weight: 400;
   }
@@ -1151,20 +1154,12 @@
 /* Living Atlas — refined destination navigation */
 @media (min-width: 1021px) {
   .globeControls {
-    width: auto;
     gap: 20px;
-    align-items: center;
-    justify-self: end;
-    padding-bottom: 14px;
   }
 
   .globeControls .indexAction {
     gap: 10px;
-    min-height: 36px;
-    font-size: 12px;
-    font-weight: 500;
-    letter-spacing: .09em;
-    transition: color .2s ease;
+    transition: background-color .2s ease, border-color .2s ease;
   }
 
   .globeControls .indexAction svg {

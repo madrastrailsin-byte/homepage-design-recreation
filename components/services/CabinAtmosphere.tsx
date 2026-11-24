@@ -1,13 +1,38 @@
+import type { CSSProperties } from 'react'
 import { useId } from 'react'
 import styles from './CabinAtmosphere.module.css'
 
 // Static positions avoid a flash of empty glass and keep hydration deterministic.
-const rain = Array.from({ length: 66 }, (_, index) => ({
-  x: 853 + (index * 47 % 222),
-  y: 70 + (index * 59 % 285),
-  length: 5 + (index * 13 % 18),
-  opacity: .14 + (index * 7 % 11) * .038,
+const rainLayers = [
+  { count: 64, near: false, delay: '-.18s' },
+  { count: 64, near: false, delay: '-.94s' },
+  { count: 32, near: true, delay: '-.35s' },
+  { count: 32, near: true, delay: '-.81s' },
+].map(({ count, near, delay }, layer) => ({
+  near,
+  delay,
+  streaks: Array.from({ length: count }, (_, index) => ({
+    x: 853 + ((index * 47 + layer * 37) % 222),
+    y: 36 + ((index * 59 + layer * 83) % 363),
+    length: (near ? 13 : 6) + ((index * 13 + layer * 7) % 18),
+    opacity: .22 + ((index * 7 + layer * 3) % 11) * .043,
+  })),
 }))
+
+const embers = Array.from({ length: 24 }, (_, index) => {
+  const duration = 2.2 + (index * 7 % 13) * .11
+  return {
+    x: 1123 + (index * 17 % 61),
+    y: 649 + (index * 11 % 28),
+    radius: 1.35 + (index * 5 % 9) * .17,
+    style: {
+      '--duration': `${duration}s`,
+      '--delay': `${-duration * index / 24}s`,
+      '--drift': `${(index * 13 % 29) - 14}px`,
+      '--rise': `${-36 - (index * 19 % 28)}px`,
+    } as CSSProperties,
+  }
+})
 
 export default function CabinAtmosphere() {
   const id = useId()
@@ -31,6 +56,12 @@ export default function CabinAtmosphere() {
           <stop stopColor="#ffb34e" stopOpacity=".48" />
           <stop offset="1" stopColor="#e45411" stopOpacity="0" />
         </radialGradient>
+        <radialGradient id={`${id}-ember`}>
+          <stop stopColor="#fff2c9" />
+          <stop offset=".38" stopColor="#ffd795" />
+          <stop offset=".65" stopColor="#ff9a35" stopOpacity=".55" />
+          <stop offset="1" stopColor="#ff9a35" stopOpacity="0" />
+        </radialGradient>
         <clipPath id={`${id}-glass`}>
           <path d="M1099 618 Q1150 594 1205 618 L1205 692 H1099 Z" />
         </clipPath>
@@ -52,9 +83,13 @@ export default function CabinAtmosphere() {
       <svg width="1671" height="941" viewBox="0 0 1050 591" preserveAspectRatio="none">
         <g clipPath={paint('window')}>
           <g className={styles.gusts}>
-            {[false, true].map((near) => (
-              <g key={String(near)} className={near ? styles.nearRain : styles.farRain}>
-                {rain.slice(near ? 0 : 18, near ? 18 : undefined).map(({ x, y, length, opacity }) => (
+            {rainLayers.map(({ near, delay, streaks }) => (
+              <g
+                key={delay}
+                className={near ? styles.nearRain : styles.farRain}
+                style={{ animationDelay: delay }}
+              >
+                {streaks.map(({ x, y, length, opacity }) => (
                   <path
                     key={x}
                     d={`M${x} ${y} l${-length * .17} ${length}`}
@@ -82,10 +117,10 @@ export default function CabinAtmosphere() {
 
       <g clipPath={paint('glass')}>
         <ellipse className={styles.glow} cx="1152" cy="652" rx="56" ry="46" fill={paint('glow')} />
-        <g fill="#ffd795">
-          <circle className={styles.emberLeft} cx="1130" cy="663" r="1.15" />
-          <circle className={styles.emberCenter} cx="1153" cy="653" r=".9" />
-          <circle className={styles.emberRight} cx="1177" cy="670" r="1.3" />
+        <g fill={paint('ember')}>
+          {embers.map(({ x, y, radius, style }) => (
+            <circle key={x} className={styles.ember} cx={x} cy={y} r={radius} style={style} />
+          ))}
         </g>
       </g>
     </svg>

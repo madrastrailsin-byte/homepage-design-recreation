@@ -125,49 +125,11 @@
   94% { opacity: .51; }
 }
 
-.emberLeft,
-.emberCenter,
-.emberRight {
+.ember {
   opacity: 0;
   transform-box: fill-box;
   transform-origin: center;
   animation: ember-rise var(--duration) linear var(--delay) infinite;
-}
-
-.emberLeft {
-  --duration: 4.7s;
-  --delay: -.3s;
-  --drift: -12px;
-  --rise: -36px;
-}
-.emberCenter {
-  --duration: 6.1s;
-  --delay: -2s;
-  --drift: 12px;
-  --rise: -39px;
-}
-.emberRight {
-  --duration: 5.3s;
-  --delay: -4s;
-  --drift: 9px;
-  --rise: -44px;
-}
-
-@keyframes ember-rise {
-  0% {
-    opacity: 0;
-    transform: translateY(0);
-  }
-  5% {
-    opacity: 1;
-  }
-  14% {
-    opacity: .78;
-  }
-  29%, 100% {
-    opacity: 0;
-    transform: translate(var(--drift), var(--rise)) scale(.38);
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -205,13 +167,6 @@
   }
 }
 
-.emberLeft,
-.emberCenter,
-.emberRight {
-  filter: drop-shadow(0 0 3px #ff9a35);
-  animation-duration: 3.2s;
-}
-
 @keyframes ember-rise {
   0% {
     opacity: 0;
@@ -222,7 +177,7 @@
   75% { opacity: .4; }
   100% {
     opacity: 0;
-    transform: translate(var(--drift), -65px) scale(.2);
+    transform: translate(var(--drift), var(--rise)) scale(.2);
   }
 }
 
@@ -252,7 +207,7 @@
 }
 
 .nearRain {
-  animation: window-rain .91s linear -.48s infinite;
+  animation: window-rain .91s linear infinite;
   filter: blur(.3px);
 }
 

@@ -84,3 +84,43 @@
 .weatheredPaper[data-service-index="2"]::before {
   opacity: 0.09;
 }
+
+.cabinBoardFrame {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: max(100vw, 177.68svh);
+  aspect-ratio: 1672 / 941;
+  transform: translate(-50%, -50%);
+}
+
+.cabinBoard {
+  position: absolute;
+  top: 30.7%;
+  left: 2.8%;
+  width: 47%;
+  height: 51%;
+  pointer-events: auto;
+  container-type: inline-size;
+}
+
+@media (width < 760px) or (aspect-ratio < 3/2) {
+  .cabinBoardFrame {
+    top: 12svh;
+    left: 50%;
+    width: min(calc(100vw - 24px), 69svh);
+    aspect-ratio: 1250 / 680;
+    transform: translateX(-50%);
+  }
+
+  .cabinBoard {
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    border: 3px solid #5e3821;
+    border-radius: 3px;
+    background: #61442e url("/images/services/walnut-desk.jpg") center / cover;
+    box-shadow: 0 0 0 1px #a07947, 0 6px 24px #130a06b3;
+  }
+}
