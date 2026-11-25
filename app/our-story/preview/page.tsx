@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { headers } from 'next/headers'
 import { notFound } from 'next/navigation'
-import StoryJourney from './StoryJourney'
+import StoryCarousel from './StoryCarousel'
 
 export const metadata: Metadata = {
   title: 'Our Story Development Preview',
@@ -15,5 +15,5 @@ export default async function OurStoryPreview() {
   const host = (await headers()).get('host')
   if (!host || !/^(localhost|127\.0\.0\.1|\[::1\])(?::\d+)?$/i.test(host)) notFound()
 
-  return <StoryJourney />
+  return <StoryCarousel />
 }
