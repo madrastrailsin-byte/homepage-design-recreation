@@ -54,6 +54,14 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: 'Barlow Condensed Story';
+  src: url('/images/our-story/editorial/BarlowCondensed-Bold.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
+
 .page {
   min-height: 100svh;
   color: #fff0d9;
@@ -115,7 +123,7 @@
   text-transform: uppercase;
 }
 
-.storyLink { cursor: pointer; }
+.storyLink { color: inherit; cursor: pointer; }
 .home {
   margin-left: auto;
   display: flex;
@@ -174,7 +182,7 @@
   background: linear-gradient(90deg, #160e213d, transparent 16%);
 }
 
-.opening { --base: #245362; --light: #5f939b; --shadow: #142f3e; }
+.opening { --base: #1f4b5a; --light: #427c89; --shadow: #11323e; }
 .purple { --base: #8c67c5; --light: #ad87e6; --shadow: #644493; --floor: #34214d; --ink: #fff1db; }
 .coral { --base: #dc5146; --light: #fb7161; --shadow: #aa3336; --floor: #631f22; --ink: #fff1db; }
 .gold { --base: #e8a315; --light: #ffc339; --shadow: #a86709; --floor: #6a3a12; --ink: #fff1db; }
@@ -297,10 +305,10 @@
 .emerald.panel[data-active='true'] .display { width: 81%; left: 7%; }
 
 .opening.panel .display {
-  top: 11%;
-  left: 5.2%;
-  width: 90%;
-  height: 42%;
+  top: 11.25%;
+  left: 5.8%;
+  width: 89.3%;
+  height: 37.7%;
   font-family: 'Might Story', 'Barlow Condensed Story', Impact, sans-serif;
   font-weight: 400;
   font-size: 133px;
@@ -487,15 +495,16 @@
 }
 
 .station {
-  bottom: -1.5%;
-  right: -9%;
-  width: min(108%, 195svh);
+  bottom: .5%;
+  right: -10.5%;
+  width: min(110%, 199svh);
   height: 79%;
   object-fit: contain;
   object-position: right bottom;
   transform: scaleY(1.13);
   transform-origin: 67% bottom;
-  filter: drop-shadow(-14px -8px 36px #081b2f59);
+  filter: saturate(1.16) contrast(1.08) drop-shadow(-14px -8px 36px #081b2f59);
+  mask-image: linear-gradient(90deg, transparent 7%, #000 29%);
 }
 
 .opening[data-active='true'] .station { animation: stationArrival 1350ms var(--ease) both; }
@@ -509,146 +518,146 @@
   position: absolute;
   z-index: 3;
   inset: 0 -50px;
-  background: linear-gradient(0deg, #081d26 0%, #0d253375 20%, transparent 61%),
-    radial-gradient(ellipse at 4% 76%, #102832aa, transparent 56%);
+  background: linear-gradient(0deg, #081d26b3 0%, #0b253034 12%, transparent 37%),
+    radial-gradient(ellipse at 14% 77%, #0b202aab, transparent 42%);
   pointer-events: none;
 }
 
-.clippings {
+.openingIntro,
+.openingAside {
   position: absolute;
   z-index: 4;
-  inset: 0;
-  padding: 0;
+  color: #ffebcf;
+  text-shadow: 0 2px 12px #081d2680;
+}
+
+.opening[data-active='false'] :is(.openingIntro, .openingAside, .meet) {
+  visibility: hidden;
+}
+
+.openingIntro {
+  top: 51.7%;
+  left: 8.2%;
+}
+
+.openingLead {
   margin: 0;
-  list-style: none;
-  pointer-events: none;
+  font: italic 500 clamp(24px, min(3.25vw, 6.55svh), 62px)/1.06 'Playfair Display', Georgia, serif;
+  letter-spacing: -.025em;
 }
 
-.clipping {
-  --tilt: -2deg;
-  --paper: #e6d5ae;
-  --depth: 9px;
-  --enter-x: -16px;
-  --enter-y: 13px;
-  --edge: polygon(0 3%, 7% 2%, 14% 4%, 23% 1%, 36% 3%, 48% 0, 61% 4%, 73% 1%, 88% 3%, 99% 1%, 98% 22%, 100% 39%, 98% 56%, 100% 77%, 98% 98%, 92% 96%, 84% 100%, 75% 97%, 65% 100%, 55% 96%, 44% 99%, 32% 96%, 23% 99%, 12% 96%, 5% 100%, 0 97%, 2% 79%, 0 62%, 1% 41%, 0 25%);
-  position: absolute;
-  isolation: isolate;
-  top: var(--y);
-  left: var(--x);
-  width: var(--w);
-  padding: clamp(7px, 1vh, 11px) clamp(8px, 1vw, 16px);
-  color: #282219;
-  filter: drop-shadow(1px 4px var(--depth) #04141891);
-  transform: translateX(calc(var(--drift) * var(--depth))) rotate(var(--tilt));
-  transition: transform 600ms ease-out;
-  font: 400 clamp(12px, 1.06vw, 16px)/1.19 Georgia, serif;
+@media (min-width: 591px) {
+  .openingLead { white-space: nowrap; }
 }
 
-.clipping::before {
+.openingLead strong {
+  display: block;
+  color: #cb963b;
+  font-size: 1.63em;
+  font-weight: inherit;
+  line-height: .98;
+  text-transform: uppercase;
+}
+
+.openingSummary {
+  position: relative;
+  max-width: clamp(255px, 27vw, 440px);
+  margin: clamp(27px, 5.2svh, 46px) 0 0;
+  color: #eadbc4;
+  font: 600 clamp(16px, min(1.43vw, 2.85svh), 23px)/1.12 var(--font-cormorant-garamond), Georgia, serif;
+}
+
+.openingSummary::before,
+.openingSummary::after,
+.openingStatement::after {
   content: '';
   position: absolute;
-  z-index: -1;
-  inset: 0;
-  clip-path: var(--edge);
-  background:
-    linear-gradient(112deg, #fff1d749, transparent 33%, #62452422),
-    url('/images/our-story/editorial/newsprint.webp') center / 270px auto,
-    url('/images/our-story/editorial/grain.webp') 0 0 / 98px,
-    var(--paper);
-  background-blend-mode: normal, multiply, soft-light, normal;
+  background: #cc9a47;
 }
 
-.clipping:nth-child(3n)::before { background-position: center, 74% 28%, 30px 17px; }
-.clipping:nth-child(4n + 1) { --enter-x: 19px; --enter-y: -10px; }
-.clipping:nth-child(4n + 2) { --enter-x: 9px; --enter-y: 20px; }
-.clipping:nth-child(4n + 3) { --enter-x: -8px; --enter-y: -17px; }
-.clipping p { margin: 0; overflow-wrap: break-word; }
+.openingSummary::before,
+.openingStatement::after {
+  width: clamp(32px, 4.2vw, 76px);
+  height: 2px;
+}
 
-.origin, .transparent, .directory, .visas {
-  font: 700 clamp(10px, .86vw, 13px)/1.18 'Courier New', monospace;
-  letter-spacing: .09em;
+.openingSummary::before {
+  top: -1.25em;
+  left: 0;
+}
+
+.openingSummary::after {
+  inset: .1em auto .1em -1.5em;
+  width: 1px;
+  opacity: .75;
+}
+
+.openingMotto {
+  max-width: 76vw;
+  margin: clamp(11px, 2.5svh, 24px) 0 0;
+  font: 700 clamp(21px, min(2.5vw, 5svh), 42px)/1.05 'Barlow Condensed Story', Impact, sans-serif;
+  letter-spacing: .02em;
   text-transform: uppercase;
+  text-wrap: balance;
+  width: fit-content;
 }
 
-.origin {
-  --x: 9%; --y: 52%; --w: 12%; --tilt: -7deg; --paper: #becabb; --depth: 4px;
-  --edge: polygon(0 0, 98% 4%, 100% 94%, 2% 100%);
-  text-align: center;
+.openingMotto span {
+  color: #cb963b;
+  white-space: nowrap;
 }
-.origin p { border: 1px solid #4a6358a0; padding: .27em; }
 
-.headline {
-  --x: 11%; --y: 58%; --w: 31%; --tilt: -3deg; --paper: #f1e4ca; --depth: 15px;
-  --edge: polygon(0 4%, 13% 2%, 28% 4%, 43% 0, 60% 3%, 79% 1%, 100% 4%, 99.5% 30%, 100% 54%, 99% 73%, 100% 98%, 85% 96%, 69% 100%, 53% 97%, 37% 99%, 24% 96%, 8% 100%, 0 96%, .6% 65%, 0 39%);
-  z-index: 2;
-  padding: .42em .55em .49em;
-  font: 400 clamp(25px, min(3.55vw, 5.1vh), 61px)/.91 'Volkszeitung Story', Georgia, serif;
+.openingAside {
+  top: 49.4%;
+  left: 84.2%;
+  width: 10.5%;
+  font-family: 'Barlow Condensed Story', Impact, sans-serif;
+  font-weight: 700;
+  text-shadow: 0 1px 3px #081d264d;
 }
-.headline p { border-block: 1px solid #73563675; padding-block: .14em; }
-.headline::after {
+
+.openingDate {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .3em;
+  margin: 0 0 clamp(10px, 2.1svh, 22px);
+  font-size: clamp(12px, min(1.35vw, 2.65svh), 24px);
+  letter-spacing: .025em;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.openingDate::before,
+.openingDate::after {
   content: '';
-  position: absolute;
-  z-index: -2;
-  inset: 10% -1.7% -5% 4%;
-  background: #947252 url('/images/our-story/editorial/newsprint.webp') 30% 48% / 300px;
-  background-blend-mode: multiply;
-  clip-path: polygon(0 8%, 99% 0, 100% 86%, 70% 99%, 42% 93%, 1% 100%);
-  transform: rotate(2.4deg);
+  flex: 1;
+  height: 1px;
+  background: currentColor;
+  opacity: .8;
 }
 
-.tailored {
-  --x: 12%; --y: 74%; --w: 25%; --tilt: 2.7deg; --paper: #d2af77;
-  font: 400 clamp(19px, min(2.55vw, 4vh), 44px)/.98 'Mumugirous Story', Georgia, serif;
-}
-.thoughtful {
-  --x: 38%; --y: 84%; --w: 18%; --tilt: -7deg; --paper: #e7d6ba; --depth: 7px;
-  font: 400 clamp(17px, 2.3vw, 35px)/1.12 'Priestacy Story', Georgia, serif;
+.openingDate span,
+.openingStatement span {
+  color: #cb963b;
 }
 
-.transparent { --x: 46%; --y: 54.5%; --w: 15%; --tilt: 5deg; --paper: #cad3c4; }
-.transparent p { border-bottom: 1px solid #57716870; padding-bottom: .2em; }
-.support {
-  --x: 44%; --y: 64%; --w: 17%; --tilt: -3deg; --paper: #bf8b78;
-  font: 400 clamp(18px, min(2.24vw, 3.65vh), 36px)/.95 'Black Clouds Story', Impact, sans-serif;
-}
-.convenient {
-  --x: 18%; --y: 86%; --w: 15%; --tilt: -6deg; --paper: #ebd8aa;
-  font: 400 clamp(17px, 2.16vw, 34px)/1.08 'Awesome Story', Georgia, serif;
-}
-.directory { --x: 83%; --y: 53.5%; --w: 13%; --tilt: 4deg; --paper: #ced4bd; }
-.cruises {
-  --x: 84%; --y: 65.5%; --w: 9%; --tilt: -9deg; --paper: #e7d0a5;
-  font: 400 clamp(17px, 2vw, 30px)/1.03 'Awesome Story', Georgia, serif;
-}
-.flights {
-  --x: 89%; --y: 73.5%; --w: 8%; --tilt: 5deg; --paper: #c39a73; --depth: 5px;
-  font: 400 clamp(20px, 2.3vw, 32px)/.92 'Might Story', Impact, sans-serif;
+.openingStatement {
+  position: relative;
+  margin: 0;
+  font-size: clamp(20px, min(3.12vw, 6.25svh), 60px);
+  line-height: .89;
   text-transform: uppercase;
+  white-space: nowrap;
 }
-.visas { --x: 82%; --y: 79%; --w: 7%; --tilt: -4deg; --paper: #c1c9b7; }
-.groups {
-  --x: 88%; --y: 83%; --w: 9%; --tilt: 3deg; --paper: #d6ad7f;
-  font: 400 clamp(15px, 1.55vw, 24px)/1 'Mumugirous Story', Georgia, serif;
-}
-.itineraries {
-  --x: 6%; --y: 68%; --tilt: -7deg; --paper: #caa68b; --depth: 5px;
-  width: auto;
-  height: 15%;
-  text-transform: uppercase;
-  font: 700 clamp(9px, .75vw, 12px)/1.1 'Courier New', monospace;
-  letter-spacing: .05em;
-  writing-mode: vertical-rl;
-}
-.itineraries p { height: 100%; }
-.assistance {
-  --x: 40%; --y: 75%; --w: 13%; --tilt: 6deg; --paper: #d7c099; --depth: 4px;
-  font-style: italic;
-}
-.assistance p { border-left: 2px solid #6f453d; padding-left: .4em; }
 
-.opening[data-active='true'] .clipping { animation: clippingArrival 730ms var(--ease) backwards; }
-.opening[data-active='false'] .clippings,
-.opening[data-active='false'] .meet { visibility: hidden; }
+.openingStatement::after {
+  top: calc(100% + .55em);
+  left: 0;
+  background: #eadbc4;
+}
+
+.meet { visibility: hidden; }
 
 @keyframes clippingArrival {
   0% { opacity: 0; transform: translate(var(--enter-x), var(--enter-y)) rotate(calc(var(--tilt) + 7deg)) skewY(2deg); }
@@ -680,38 +689,6 @@
 
 .stage button:focus-visible, .stage a:focus-visible { outline: 2px solid #fff2ce; outline-offset: 4px; }
 
-.progress {
-  position: absolute;
-  z-index: 4;
-  bottom: 3%;
-  left: max(64px, 4%);
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-.count {
-  margin-right: 10px;
-  font-size: .71rem;
-  font-weight: 700;
-  letter-spacing: .15em;
-  font-variant-numeric: tabular-nums;
-  text-shadow: 0 1px 8px #110b13;
-}
-.progress button {
-  display: grid;
-  align-items: center;
-  width: clamp(25px, 3.2vw, 52px);
-  height: 32px;
-  cursor: pointer;
-}
-.progress button::before {
-  content: '';
-  height: 3px;
-  background: #fff0d97a;
-  transition: background .28s;
-}
-.progress button[aria-current]::before, .progress button:hover::before { background: #ffda77; }
-
 .srOnly {
   position: absolute;
   width: 1px;
@@ -727,7 +704,8 @@
   .panel[data-active='true'] .figure { left: 61%; height: 57%; }
   .opening.panel .display { top: 14%; height: 29%; }
   .station { right: -12%; width: 115%; }
-  .origin, .transparent, .directory, .visas { letter-spacing: .035em; }
+  .openingIntro { top: 46%; }
+  .openingAside { top: 45%; left: auto; right: 8%; width: 16%; }
 }
 
 @media (max-width: 590px) {
@@ -736,25 +714,22 @@
   .headerDivider { height: 18px; }
   .opening.panel .display { top: 12%; height: 21%; }
   .station { right: -13%; width: 112%; height: 50%; }
-  .clippings {
-    inset: 34% 7% auto;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 7px;
-  }
-  .clipping { position: relative; inset: auto; width: auto; max-width: 100%; padding: .45em .55em; }
-  .headline { order: -1; flex: 0 0 100%; font-size: clamp(19px, 5.4vw, 32px); }
-  .itineraries { writing-mode: horizontal-tb; height: auto; }
+  .openingIntro { top: 35%; left: 12%; }
+  .openingLead { font-size: clamp(22px, 6.3vw, 32px); }
+  .openingLead > span { display: block; text-wrap: balance; }
+  .openingSummary { max-width: min(285px, 76vw); margin-top: 27px; }
+  .openingSummary::after { left: -.85em; }
+  .openingAside { top: auto; right: 12%; bottom: 18%; width: max-content; }
+  .openingDate { margin-bottom: 10px; }
+  .openingStatement { font-size: clamp(20px, 5.6vw, 29px); }
   .meet { bottom: 4%; right: 5%; min-width: auto; }
   .panel[data-active='true'] { flex-grow: 9; }
   .panel[data-active='true'] .display { top: 48%; height: 24%; }
-  .opening.panel[data-active='true'] .display { top: 12%; height: 21%; }
+  .opening.panel[data-active='true'] .display { top: 12%; left: 11%; width: 79%; height: 21%; }
   .panel[data-active='true'] .copy { left: 13%; top: 13%; }
   .panel .role { font-size: clamp(18px, 5.7cqw, 24px); }
   .bio { font-size: 14px; }
   .panel[data-active='true'] .figure { height: 53%; }
-  .progress { left: 6%; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -764,7 +739,6 @@
   }
   .figure { transform: translateX(-50%); }
   .landmark, .stationDepth, .meet:hover span { transform: none; }
-  .clipping { transform: rotate(var(--tilt)); }
 }
 
 
@@ -815,86 +789,6 @@
   line-height: 1.45;
 }
 
-.origin {
-  --x: 9%;
-  --y: 48%;
-  --w: 10%;
-}
-
-.headline {
-  --x: 9%;
-  --y: 55%;
-  --w: 30%;
-  font-family: 'Volkszeitung Story', Georgia, serif;
-  font-size: clamp(25px, min(3.4vw, 5vh), 54px);
-}
-
-.tailored {
-  --x: 10%;
-  --y: 68%;
-  --w: 26%;
-  font-size: clamp(16px, min(2vw, 3vh), 30px);
-}
-
-.thoughtful {
-  --x: 42%;
-  --y: 48%;
-  --w: 22%;
-  --tilt: -5deg;
-  font-size: clamp(18px, min(2.3vw, 3.8vh), 34px);
-}
-
-.transparent {
-  --x: 43%;
-  --y: 63%;
-  --w: 21%;
-  font-family: 'Awesome Story', Georgia, serif;
-  font-size: clamp(16px, 1.7vw, 27px);
-  text-transform: none;
-  letter-spacing: 0;
-}
-
-.support {
-  --x: 9%;
-  --y: 78%;
-  --w: 16%;
-  font-size: clamp(18px, 2vw, 30px);
-}
-
-.assistance {
-  --x: 27%;
-  --y: 78%;
-  --w: 23%;
-  font-size: clamp(12px, 1.1vw, 17px);
-}
-
-.convenient {
-  --x: 53%;
-  --y: 79%;
-  --w: 21%;
-  font-size: clamp(17px, 1.8vw, 27px);
-}
-
-.birth {
-  --x: 78%;
-  --y: 48%;
-  --w: 16%;
-  --tilt: 4deg;
-  --paper: #e9d2a8;
-  font: 400 clamp(20px, min(2.5vw, 4vh), 39px)/1
-    'Might Story', Impact, sans-serif;
-}
-
-.purpose {
-  --x: 79%;
-  --y: 65%;
-  --w: 15%;
-  --tilt: -4deg;
-  --paper: #ced4bd;
-  font: 400 clamp(13px, 1.15vw, 18px)/1.25
-    'Mumugirous Story', Georgia, serif;
-}
-
 .meet {
   right: 6%;
   bottom: 3.8%;
@@ -927,100 +821,6 @@
   }
 }
 
-
-/* EDITORIAL PARAGRAPHS */
-
-.clipping {
-  --tilt: 0deg;
-  --depth: 0px;
-  padding: 0;
-  color: #ffebcf;
-  filter: none;
-  text-shadow: 0 2px 12px #081d26c9;
-}
-
-.clipping::before,
-.clipping::after {
-  display: none;
-}
-
-.clipping p {
-  border: 0;
-  padding: 0;
-}
-
-.origin {
-  --x: 8%;
-  --y: 53%;
-  --w: 15%;
-  text-align: left;
-  letter-spacing: .25em;
-  font-size: 12px;
-}
-
-.headline {
-  --x: 8%;
-  --y: 58%;
-  --w: 29%;
-  font: 400 clamp(25px, 2.8vw, 46px)/1.05
-    'Volkszeitung Story', Georgia, serif;
-}
-
-.tailored {
-  --x: 8%;
-  --y: 65%;
-  --w: 27%;
-  font: 400 clamp(14px, 1.15vw, 19px)/1.55
-    Georgia, serif;
-}
-
-.thoughtful {
-  --x: 40%;
-  --y: 53%;
-  --w: 25%;
-  font: 400 clamp(25px, 2.7vw, 43px)/1.15
-    'Priestacy Story', cursive;
-}
-
-.transparent {
-  --x: 40%;
-  --y: 65%;
-  --w: 24%;
-  font: 400 clamp(14px, 1.15vw, 19px)/1.55
-    Georgia, serif;
-}
-
-.support {
-  --x: 8%;
-  --y: 79%;
-  --w: 27%;
-  font: 400 clamp(22px, 2.2vw, 36px)/1.1
-    'Awesome Story', Georgia, serif;
-}
-
-.assistance {
-  --x: 8%;
-  --y: 85%;
-  --w: 50%;
-  font: 400 clamp(13px, 1.1vw, 18px)/1.5
-    Georgia, serif;
-}
-
-.birth {
-  --x: 84%;
-  --y: 49%;
-  --w: 13%;
-  font: 400 clamp(20px, 2.2vw, 36px)/1.05
-    'Might Story', sans-serif;
-}
-
-.purpose {
-  --x: 84%;
-  --y: 63%;
-  --w: 13%;
-  font: italic 400 clamp(13px, 1.05vw, 18px)/1.5
-    Georgia, serif;
-}
 
 .meet {
   isolation: isolate;
@@ -1072,10 +872,6 @@
 
 /* OPENING CLEANUP */
 
-.clippings {
-  display: none;
-}
-
 .meet {
   right: 6%;
   bottom: 5%;
@@ -1118,9 +914,32 @@
 /* FINAL CTA AND NAVIGATION REFINEMENT */
 
 .approvedHome {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
   margin-left: auto;
   flex-shrink: 0;
+  padding: 7px 13px;
+  border: 1px solid rgb(255 255 255 / 24%);
+  border-radius: 9999px;
+  background: rgb(22 35 39 / 42%);
+  color: #fffaf2;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: .12em;
+  line-height: 1;
+  text-transform: uppercase;
   text-shadow: none;
+  box-shadow: 0 4px 14px rgb(0 0 0 / 10%);
+  backdrop-filter: blur(12px);
+  transition: background-color .3s, border-color .3s, box-shadow .3s;
+}
+
+.approvedHome:hover {
+  background: rgb(22 35 39 / 55%);
+  border-color: rgb(255 255 255 / 38%);
+  box-shadow: 0 5px 18px rgb(0 0 0 / 14%);
 }
 
 /* Compact aged parchment CTA */
@@ -1196,7 +1015,6 @@
   padding: 10px 18px 12px;
 }
 
-
 .meet {
   font-family: 'Black Clouds Story', sans-serif;
   font-size: clamp(24px, 2.2vw, 34px);
@@ -1205,7 +1023,6 @@
   padding: 7px 12px 9px;
 }
 
-
 .meet {
   font-family: 'Volkszeitung Story', Georgia, serif;
   font-size: clamp(24px, 2.2vw, 34px);
@@ -1213,7 +1030,6 @@
   line-height: 1;
   padding: 7px 12px 9px;
 }
-
 
 .meet {
   font-family: 'Black Clouds Story', sans-serif;
@@ -1227,7 +1043,6 @@
   visibility: visible;
 }
 
-
 .meet {
   font-family: 'Mumugirous Story', sans-serif;
   font-size: clamp(18px, 1.65vw, 25px);
@@ -1240,13 +1055,42 @@
   inset: -2px -4px;
 }
 
-
 .meet {
   font-family: 'Mumugirous Story', Georgia, serif;
   font-weight: 400;
   letter-spacing: -.025em;
 }
 
+
+.meetArrow {
+  position: absolute;
+  inset-inline-end: calc(100% + 7px);
+  top: 50%;
+  width: clamp(28px, 3vw, 46px);
+  height: auto;
+  color: #ffebcf;
+  transform: translateY(-50%) rotate(5deg);
+  transition: translate .25s ease-out;
+}
+
+.meet:hover .meetArrow,
+.meet:focus-visible .meetArrow {
+  translate: 3px 0;
+}
+
+
+@media (prefers-reduced-motion: no-preference) {
+  .opening[data-active='true'] .meet:not(:hover, :focus-visible, :active) {
+    animation: trailWiggle 2.35s 1.4s 2;
+  }
+}
+
+@keyframes trailWiggle {
+  0%, 26%, 100% { transform: rotate(-5deg); }
+  6% { transform: translateX(2px) rotate(-2deg); }
+  12% { transform: translateX(-2px) rotate(-8deg); }
+  18% { transform: translateX(1px) rotate(-3deg); }
+}
 
 /* Header spacing refinement */
 .header {
@@ -1258,4 +1102,15 @@
   width: 1px;
   transform: none;
   opacity: .55;
+}
+
+@media (max-width: 590px) {
+  .opening .meet { right: 10%; bottom: 8%; }
+  .approvedHome { padding-inline: 10px; }
+  .station { mask-image: none; }
+}
+
+@media (max-width: 590px) and (max-height: 680px) {
+  .openingIntro { top: 31%; }
+  .openingAside { bottom: 14%; }
 }

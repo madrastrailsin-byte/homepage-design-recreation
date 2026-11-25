@@ -51,7 +51,6 @@ export default function CabinServicePanel({
   onClose: () => void
 }) {
   const journal = journalDetails[service.number as keyof typeof journalDetails] ?? journalDetails['09']
-  const ServiceIcon = journal.icon
   const isReferenceList = service.number === '02' || service.number === '04'
   const isEventService = service.number === '08'
   // The older board guide for this slot describes private sightseeing.
@@ -82,7 +81,6 @@ export default function CabinServicePanel({
       transition={{ duration: reducedMotion ? 0 : 0.24 }}
     >
       <header className={styles.header}>
-        <span className={styles.seal} aria-hidden="true"><ServiceIcon strokeWidth={1.25} /></span>
         <div>
           <h2 id="cabin-service-title" className="mt-display">{service.title}</h2>
         </div>
@@ -152,7 +150,6 @@ export default function CabinServicePanel({
         )}
 
         <section className={styles.approach}>
-          <Compass aria-hidden="true" strokeWidth={1} />
           <h3 className={styles.label}>The MadrasTrails approach</h3>
           <p>{service.overview}</p>
         </section>

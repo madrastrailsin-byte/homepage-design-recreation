@@ -355,3 +355,33 @@
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }
+
+
+/* Service detail panel: simplified heading and approach layout */
+.header {
+  gap: 12px;
+}
+
+.header > div {
+  min-width: 0;
+  flex: 1;
+}
+
+.approach > svg {
+  display: none;
+}
+
+/* Remove decorative service seals and approach watermark */
+.panel .seal,
+.panel .approach > svg {
+  display: none !important;
+}
+
+.panel .header {
+  justify-content: space-between;
+}
+
+.panel .header > div {
+  flex: 1;
+  min-width: 0;
+}

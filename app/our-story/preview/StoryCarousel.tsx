@@ -1,20 +1,9 @@
 'use client'
 
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
+import '@fontsource/playfair-display/latin-500-italic.css'
 import styles from './story-carousel.module.css'
-
-const clippings = [
-  { style: 'origin', text: 'EST. 2026' },
-  { style: 'headline', text: 'It started over pizza.' },
-  { style: 'tailored', text: 'A casual conversation between four people sparked the idea of starting a travel company of our own.' },
-  { style: 'thoughtful', text: '“Why not start something of our own?”' },
-  { style: 'transparent', text: 'Geetha believed in the idea and encouraged Gideon to make it happen.' },
-  { style: 'support', text: 'Taking the leap.' },
-  { style: 'assistance', text: 'Leaving his previous job behind, Gideon took the next step with the support of Geetha, Sree and Subi.' },
-  { style: 'birth', text: 'MadrasTrails was born.' },
-  { style: 'purpose', text: 'Built around personal travel experiences.' },
-] as const
 
 const profiles = [
   {
@@ -83,7 +72,15 @@ function ProfileName({ name, active }: { name: string; active: boolean }) {
 
 export default function StoryCarousel() {
   const [active, setActive] = useState(0)
-  const firstProfileStep = useRef<HTMLButtonElement>(null)
+  const firstProfileButton = useRef<HTMLButtonElement>(null)
+  const focusFirstProfile = useRef(false)
+
+  useEffect(() => {
+    if (active === 1 && focusFirstProfile.current) {
+      firstProfileButton.current?.focus({ preventScroll: true })
+      focusFirstProfile.current = false
+    }
+  }, [active])
 
   return (
     <main className={styles.page}>
@@ -102,10 +99,10 @@ export default function StoryCarousel() {
           <Link href="/" className={styles.wordmark}>MadrasTrails</Link>
           <span className={styles.headerDivider} aria-hidden="true" />
           <button type="button" onClick={() => setActive(0)} className={styles.storyLink}>Our Story</button>
-          <Link href="/" className={`${styles.approvedHome} mt-ui pointer-events-auto group inline-flex items-center justify-center gap-3 rounded-full border border-white/45 px-5 py-2 text-[11px] font-normal uppercase tracking-[0.12em] text-white backdrop-blur-sm transition-all duration-300 hover:border-white/80 hover:bg-white/10 bg-black/55 hover:bg-black/65`}>
-              <span aria-hidden="true">←</span>
-              <span>HOME</span>
-            </Link>
+          <Link href="/" className={`${styles.approvedHome} mt-ui`}>
+            <span aria-hidden="true">←</span>
+            <span>Home</span>
+          </Link>
         </header>
 
         <div className={styles.panels}>
@@ -117,21 +114,34 @@ export default function StoryCarousel() {
               </div>
               <div className={styles.openingShade} />
               <h1 className={styles.srOnly}>Our Story</h1>
-              <ul className={styles.clippings}>
-                {clippings.map((clipping, index) => (
-                  <li
-                    key={clipping.style}
-                    className={`${styles.clipping} ${styles[clipping.style]}`}
-                    style={{ animationDelay: `${490 + index * 50}ms` }}
-                  >
-                    <p>{clipping.text}</p>
-                  </li>
-                ))}
-              </ul>
+              <div className={styles.openingIntro}>
+                <p className={styles.openingLead}>
+                  <span>Every journey begins with someone who</span>
+                  <strong>believes.</strong>
+                </p>
+                <p className={styles.openingSummary}>
+                  MadrasTrails was born from a dream, a little uncertainty, and one unwavering belief that something beautiful could begin.
+                </p>
+                <p className={styles.openingMotto}>
+                  A small beginning. <span>A world to explore.</span>
+                </p>
+              </div>
+              <div className={styles.openingAside}>
+                <p className={styles.openingDate}><span>ESTD.</span> 2026</p>
+                <p className={styles.openingStatement}>
+                  She saw<br />
+                  what he<br />
+                  <span>couldn’t<br />yet see.</span>
+                </p>
+              </div>
               <button type="button" className={styles.meet} tabIndex={active === 0 ? 0 : -1} onClick={() => {
-                firstProfileStep.current?.focus({ preventScroll: true })
+                focusFirstProfile.current = true
                 setActive(1)
               }}>
+                <svg className={styles.meetArrow} viewBox="0 0 64 38" aria-hidden="true" focusable="false">
+                  <path fill="currentColor" fillRule="evenodd" d="M1 13.4 11 12.8 4 11.7 17 11.9 30 13.1 47 16.3 38 5.3 37 3.4 42 6.6 37.4 1.4 41 .8 48 5.6 57 13.7 63 19.5 63.4 21.2 55 27 46 33.2 38 37 36.9 36.8 44 28.2 47.7 24.2 35 24.8 19 26.1 6 30 14 26.4 3 28.1 17 23.5 4 25.1 11 22.6 3 23 8 21.5 1.7 21.1 14.5 18.8 1 18.8 7.2 16.8.8 16.2 10.1 14.6ZM9 13.7l18 1.7-10-.4Zm4 11.1 23-3.1-10 2.1Zm27-21 9.4 10.5-4.9-6.7Zm-.4 31.1 13-11.1-4.4 5Z" />
+                  <path fill="currentColor" opacity=".55" d="m4 11 13 .4-8 .3Zm.3 14.9 11-2.2-7 2.3Zm2.7 4.2 13-4.1-6.3 2.6ZM38 4l7 8-3.2-2.7Zm-.7 31.7 7.6-8.3-4 5.2Z" />
+                </svg>
                 <span>Behind the Trails</span>
               </button>
             </div>
@@ -162,6 +172,7 @@ export default function StoryCarousel() {
               <button
                 type="button"
                 className={styles.panelButton}
+                ref={index === 0 ? firstProfileButton : undefined}
                 tabIndex={active === 0 ? -1 : 0}
                 aria-label={`Open ${name}’s profile`}
                 aria-pressed={active === index + 1}
@@ -171,12 +182,6 @@ export default function StoryCarousel() {
           ))}
         </div>
 
-        <nav className={styles.progress} aria-label="Story chapters">
-          <span className={styles.count} aria-hidden="true">{String(active + 1).padStart(2, '0')} / 0{chapters.length}</span>
-          {chapters.map((label, index) => (
-            <button type="button" key={label} ref={index === 1 ? firstProfileStep : undefined} aria-label={label} aria-current={active === index ? 'step' : undefined} onClick={() => setActive(index)} />
-          ))}
-        </nav>
         <span className={styles.srOnly} aria-live="polite" aria-atomic="true">
           {chapters[active]}, chapter {active + 1} of {chapters.length}
         </span>
