@@ -58,6 +58,29 @@ function DisplayType({ children, opening = false }: { children: string; opening?
   )
 }
 
+function ProfileName({ name, active }: { name: string; active: boolean }) {
+  const word = name.toUpperCase()
+
+  return (
+    <div className={styles.display} aria-hidden="true">
+      <svg className={styles.profileName} viewBox="0 0 1000 100" preserveAspectRatio="none">
+        <text x="3" y="96" textLength="994" lengthAdjust="spacingAndGlyphs">{word}</text>
+      </svg>
+      {active && ['upper', 'lower'].map(band => (
+        <svg
+          key={band}
+          className={styles.nameGlitch}
+          data-band={band}
+          viewBox="0 0 1000 100"
+          preserveAspectRatio="none"
+        >
+          <text x="3" y="96" textLength="994" lengthAdjust="spacingAndGlyphs">{word}</text>
+        </svg>
+      ))}
+    </div>
+  )
+}
+
 export default function StoryCarousel() {
   const [active, setActive] = useState(0)
   const firstProfileStep = useRef<HTMLButtonElement>(null)
@@ -123,7 +146,7 @@ export default function StoryCarousel() {
               aria-label={name}
             >
               <div className={styles.artboard}>
-                <DisplayType>{name}</DisplayType>
+                <ProfileName name={name} active={active === index + 1} />
                 <p className={styles.previewRole} aria-hidden="true">{role}</p>
                 <div className={styles.copy} aria-hidden={active !== index + 1}>
                   <h2 className={styles.srOnly}>{name}</h2>
@@ -132,7 +155,7 @@ export default function StoryCarousel() {
                   </p>
                   <p className={styles.bio}>{description}</p>
                 </div>
-                <img className={styles.figure} src={`${art}/${name.toLowerCase()}.webp`} alt="" draggable={false} />
+                <img className={styles.figure} src={`${art}/${name.toLowerCase()}-silhouette-cutout.webp`} alt="" draggable={false} />
                 <img className={styles.landmark} src={`${art}/${landmark}.webp`} alt="" draggable={false} />
                 <div className={styles.ground} />
               </div>
