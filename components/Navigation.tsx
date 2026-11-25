@@ -8,14 +8,13 @@ import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import JourneyTransitionLink from './JourneyTransitionLink'
 import { useTheme } from '@/components/theme/ThemeProvider'
-import { OUR_STORY_AVAILABLE } from '@/lib/our-story-config'
 import { THEME_SWITCHING_ENABLED } from '@/lib/theme-config'
 
 const navItems = [
   { label: 'Destinations', href: '/destinations' },
   { label: 'Experiences', href: '/experiences' },
   { label: 'Services', href: '/services' },
-  ...(OUR_STORY_AVAILABLE ? [{ label: 'Our Story', href: '/our-story' }] : []),
+  { label: 'Our Story', href: '/our-story' },
   { label: 'Contact', href: '/contact' },
 ]
 
