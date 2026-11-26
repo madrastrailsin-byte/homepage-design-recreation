@@ -102,6 +102,16 @@
   }
 }
 
+@media (width >= 1024px) and (height < 700px) {
+  .mt-plan-refinement .mt-plan-destination-content {
+    padding-top: clamp(1.8rem, 5svh, 3rem);
+  }
+
+  .mt-plan-refinement .mt-plan-destination-card {
+    height: clamp(6rem, 19svh, 8.5rem);
+  }
+}
+
 @media (max-width: 480px) {
   .mt-plan-refinement .mt-plan-controls button {
     right: calc(1rem + 30px);
@@ -111,5 +121,45 @@
   .mt-plan-refinement .mt-plan-step {
     font-size: 8px;
     letter-spacing: .15em;
+  }
+}
+
+/* On compact and touch layouts, leave the actions below the current step. */
+@media (width < 1024px), (width < 1440px) and (pointer: coarse) {
+  .mt-plan-refinement {
+    --plan-actions-space: 5.5rem;
+  }
+
+  .mt-plan-refinement .mt-iphone-journey-screens > div > section:has(> section),
+  .mt-plan-refinement .mt-iphone-journey-screens > div > section > section {
+    min-height: calc(100svh - var(--plan-actions-space));
+  }
+
+  .mt-plan-refinement .mt-iphone-journey-screens > div > section > section {
+    padding-bottom: clamp(1rem, 3vw, 2rem);
+  }
+
+  .mt-plan-refinement .mt-plan-controls {
+    position: relative;
+    z-index: 30;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: .75rem;
+    width: min(100%, 1180px);
+    margin-inline: auto;
+    padding: .75rem clamp(1.25rem, 4vw, 2.5rem) max(1rem, env(safe-area-inset-bottom));
+  }
+
+  .mt-plan-refinement .mt-plan-step,
+  .mt-plan-refinement .mt-plan-controls button {
+    position: static !important;
+    transform: none;
+  }
+
+  .mt-plan-refinement.mt-plan-refinement .mt-plan-controls button {
+    min-height: 44px;
+    margin-inline-start: auto;
   }
 }

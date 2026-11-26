@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState, type CSSProperties } from 'react'
+import { useEffect, useRef, useState, type CSSProperties } from 'react'
 import { useRouter } from 'next/navigation'
 import { ArrowDownRight, ArrowUpRight, Minus } from 'lucide-react'
 import type { ForexRate } from '@/lib/forex'
@@ -38,6 +38,22 @@ function ForexClock() {
 
 export default function ForexBoard({ rates, loading = false }: { rates: ForexRate[]; loading?: boolean }) {
   const router = useRouter()
+  const panelRef = useRef<HTMLDivElement>(null)
+  const [showBackdrop, setShowBackdrop] = useState(false)
+
+  useEffect(() => {
+    const panel = panelRef.current
+    if (!panel) return
+    const observer = new IntersectionObserver(entries => {
+      if (entries.some(entry => entry.isIntersecting)) {
+        setShowBackdrop(true)
+        observer.disconnect()
+      }
+    }, { rootMargin: '160px 0px' })
+    observer.observe(panel)
+    return () => observer.disconnect()
+  }, [])
+
   useEffect(() => {
     let lastRefresh = Date.now()
     const refresh = () => {
@@ -60,7 +76,7 @@ export default function ForexBoard({ rates, loading = false }: { rates: ForexRat
   ).sort()
   return (
     <section id="forex-board" tabIndex={-1} style={{ scrollMarginTop: '6rem' }} className={styles.section} aria-labelledby="forex-heading" aria-busy={loading}>
-      <div className={styles.panel}>
+      <div ref={panelRef} className={styles.panel} data-backdrop={showBackdrop || undefined}>
         <div className={styles.header}>
           <div className={styles.titleGroup}>
             <p className={`mt-eyebrow ${styles.eyebrow}`}>The currency desk</p>

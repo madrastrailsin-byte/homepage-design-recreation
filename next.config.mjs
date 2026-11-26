@@ -67,6 +67,15 @@ const nextConfig = {
         ],
       },
       {
+        source: '/textures/earth-clouds-4k.c2fe168bcb69.webp',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      {
         source: '/backgrounds/stars.1fd005ddd6d5.jpg',
         headers: [
           {

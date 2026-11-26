@@ -18,6 +18,12 @@
     inset 0 0 28px #8e512b25, 0 16px 48px #110804b8;
 }
 
+@media (width < 1024px), (width < 1440px) and (pointer: coarse) {
+  .panel {
+    max-height: min(76svh, calc(100svh - 5rem - env(safe-area-inset-top, 0px)));
+  }
+}
+
 @media (min-width: 760px) and (min-aspect-ratio: 3/2) {
   .panel {
     inset: 13% clamp(20px, 3.4vw, 72px) auto max(53%, calc(50% + 3svh));

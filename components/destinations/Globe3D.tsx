@@ -204,7 +204,7 @@ function Earth({ selectedDestination, onSelectDestination }: GlobeProps) {
   const coastlineMask = useLoader(THREE.TextureLoader, '/textures/earth-cartographic-mask.webp')
   const clouds = useLoader(
     THREE.TextureLoader,
-    '/textures/earth_clouds_8k.b6a30378ffda.jpg'
+    '/textures/earth-clouds-4k.c2fe168bcb69.webp'
   )
   const cloudRef = useRef<THREE.Mesh>(null)
   const earthGroup = useRef<THREE.Group>(null)

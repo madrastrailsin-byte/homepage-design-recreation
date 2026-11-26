@@ -146,7 +146,7 @@ onCanPlay={(event) => {
       target="_blank"
       rel="noopener noreferrer"
       aria-label="View the MadrasTrails office on Google Maps"
-      className="group mt-8 flex -translate-x-2 items-center justify-center gap-3 whitespace-nowrap text-[9px] font-medium uppercase tracking-[0.18em] text-white/85 transition hover:text-[#D4AF37] sm:text-xs sm:tracking-[0.22em]"
+      className="group mt-8 flex w-full items-center justify-center gap-2 text-center text-[9px] sm:w-auto sm:-translate-x-2 sm:gap-3 sm:whitespace-nowrap font-medium uppercase tracking-[0.18em] text-white/85 transition hover:text-[#D4AF37] sm:text-xs sm:tracking-[0.22em]"
     >
       <MapPin className="h-4 w-4 shrink-0 text-white/70 transition-colors group-hover:text-[#D4AF37]" />
       #362, Eden Avenue, Mogappair, Chennai – 600 037

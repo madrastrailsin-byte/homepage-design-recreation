@@ -8,7 +8,7 @@ import * as THREE from 'three'
 function Earth() {
   const source = useLoader(THREE.TextureLoader, '/textures/earth-day-4k.webp')
   const coastlineMask = useLoader(THREE.TextureLoader, '/textures/earth-cartographic-mask.webp')
-  const clouds = useLoader(THREE.TextureLoader, '/textures/earth_clouds_8k.b6a30378ffda.jpg')
+  const clouds = useLoader(THREE.TextureLoader, '/textures/earth-clouds-4k.c2fe168bcb69.webp')
   const group = useRef<THREE.Group>(null)
   const reducedMotion = useReducedMotion()
 

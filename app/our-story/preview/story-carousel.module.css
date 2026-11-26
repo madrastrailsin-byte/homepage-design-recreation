@@ -715,7 +715,10 @@
   .opening.panel .display { top: 12%; height: 21%; }
   .station { right: -13%; width: 112%; height: 50%; }
   .openingIntro { top: 35%; left: 12%; }
-  .openingLead { font-size: clamp(22px, 6.3vw, 32px); }
+  .openingLead {
+    max-inline-size: min(76vw, 26ch);
+    font-size: clamp(22px, 6.3vw, 32px);
+  }
   .openingLead > span { display: block; text-wrap: balance; }
   .openingSummary { max-width: min(285px, 76vw); margin-top: 27px; }
   .openingSummary::after { left: -.85em; }
@@ -1111,7 +1114,8 @@
 }
 
 @media (max-width: 590px) and (max-height: 680px) {
-  .openingIntro { top: 31%; }
+  .openingLead { font-size: clamp(19px, 5.7vw, 25px); }
+  .openingSummary { margin-top: clamp(.9rem, 3.4svh, 1.5rem); }
   .openingAside { bottom: 14%; }
 }
 

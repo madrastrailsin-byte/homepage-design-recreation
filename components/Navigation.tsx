@@ -112,7 +112,7 @@ export default function Navigation() {
       <div className="pointer-events-none absolute inset-x-0 top-0 z-[2] h-px bg-gradient-to-r from-transparent via-[var(--mt-border-strong)] to-transparent" />
       <div className={`pointer-events-none absolute inset-x-0 bottom-0 z-[2] h-px bg-gradient-to-r from-transparent via-[var(--mt-nav-text-active)]/35 to-transparent transition-opacity duration-500 ${isScrolled ? 'opacity-100' : 'opacity-35'}`} />
 
-      <div className="relative z-10 mx-auto flex w-full max-w-[92rem] items-center justify-between px-4 py-1.5 sm:px-5 md:grid md:grid-cols-[1fr_auto_1fr] md:px-8 md:py-[11px]">
+      <div className="relative z-10 mx-auto flex w-full max-w-[92rem] items-center justify-between px-4 py-1.5 sm:px-5 md:px-8 md:py-[11px] lg:grid lg:grid-cols-[1fr_auto_1fr]">
         <motion.a
           href="/"
           aria-label="MadrasTrails homepage"
@@ -260,7 +260,7 @@ export default function Navigation() {
           <button
             type="button"
             onClick={() => setIsOpen((v) => !v)}
-            className={`flex h-11 w-11 items-center justify-center rounded-full border backdrop-blur-xl transition-all duration-300 md:hidden ${
+            className={`flex h-11 w-11 items-center justify-center rounded-full border backdrop-blur-xl transition-all duration-300 lg:hidden ${
               theme === 'classic'
                 ? 'border-[#0A282D]/18 bg-[#F5E7CF]/82 text-[#0A282D] hover:border-[#9A6A28]/55 hover:text-[#9A6A28]'
                 : 'border-white/12 bg-white/[0.04] text-white hover:border-[#D4AF37]/40 hover:text-[#D4AF37]'
@@ -280,7 +280,7 @@ export default function Navigation() {
             animate={{ opacity: 1, y: 0 }}
             exit={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: -10 }}
             transition={{ duration: prefersReducedMotion ? 0 : 0.35, ease: [0.22, 1, 0.36, 1] }}
-            className="border-t border-[var(--mt-border)] bg-[var(--mt-nav-bg)] backdrop-blur-2xl md:hidden"
+            className="border-t border-[var(--mt-border)] bg-[var(--mt-nav-bg)] backdrop-blur-2xl lg:hidden"
           >
             <div className="flex flex-col gap-1 px-5 py-5">
               {navItems.map((item) => (

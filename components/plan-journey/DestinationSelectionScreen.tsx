@@ -101,7 +101,7 @@ function DestinationCard({
       }}
       whileHover={prefersReducedMotion ? {} : { y: -5 }}
       whileTap={prefersReducedMotion ? {} : { scale: 0.985 }}
-      className={`group relative isolate h-[118px] overflow-hidden rounded-xl border text-left transition-[border-color,box-shadow] duration-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F5F3EC] sm:h-[136px] ${
+      className={`mt-plan-destination-card group relative isolate h-[118px] overflow-hidden rounded-xl border text-left transition-[border-color,box-shadow] duration-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F5F3EC] sm:h-[136px] ${
         selected
           ? 'border-[#F5F3EC] shadow-[0_0_30px_rgba(245,243,236,0.24)]'
           : 'border-white/15 shadow-[0_12px_35px_rgba(0,0,0,0.25)] hover:border-[#F5F3EC]/85 hover:shadow-[0_16px_38px_rgba(0,0,0,0.36),0_0_22px_rgba(245,243,236,0.2)]'
@@ -305,7 +305,7 @@ function toggleDestination(destination: JourneyDestination) {
         }}
       />
 
-      <section className="relative z-10 mx-auto flex min-h-[100svh] w-full max-w-[1180px] flex-col px-5 pb-20 pt-20 sm:px-8 sm:pt-20 lg:px-10 lg:pb-16 lg:pt-[8vh]">
+      <section className="mt-plan-destination-content relative z-10 mx-auto flex min-h-[100svh] w-full max-w-[1180px] flex-col px-5 pb-20 pt-20 sm:px-8 sm:pt-20 lg:px-10 lg:pb-16 lg:pt-[8vh]">
         <header className="text-center">
           <motion.p
             initial={false}

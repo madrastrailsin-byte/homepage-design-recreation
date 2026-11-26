@@ -1510,3 +1510,51 @@
 @media (prefers-reduced-motion: reduce) {
   .page::before, .page::after { animation: none; }
 }
+
+@media (width < 1021px) {
+  .editorial .country .holidayCities {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: .25rem .65rem;
+    color: var(--amber);
+  }
+
+  .cityItem {
+    white-space: nowrap;
+  }
+
+  .citySeparator {
+    display: none;
+  }
+
+  .editorial .country .travelSnapshot {
+    display: grid;
+    gap: .75rem;
+    margin-block-start: .75rem;
+  }
+
+  .snapshotFacts {
+    display: grid;
+    gap: .35rem .85rem;
+  }
+
+  .snapshotFacts > div {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: .1rem .45rem;
+  }
+
+  .snapshotFacts span,
+  .travelSnapshot h2,
+  .snapshotVisa > span {
+    color: var(--muted);
+    font-size: .75rem;
+    letter-spacing: .055em;
+  }
+
+  .experienceList {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 5.75rem), 1fr));
+  }
+}

@@ -31,6 +31,7 @@ const journeyBackgrounds: Record<number, string> = {
 
 
 const journeySteps = [1, 2, 3, 5, 7, 8]
+const inlineControlsQuery = '(width < 1024px), (width < 1440px) and (pointer: coarse)'
 
 export default function JourneyPlanner() {
   const searchParams = useSearchParams()
@@ -118,7 +119,7 @@ const [step, setStep] = useState(country ? 2 : 1)
         setOutgoingStep(null)
         setStep(nextStep)
       })
-      if (window.matchMedia('(max-width: 767px)').matches) {
+      if (window.matchMedia(inlineControlsQuery).matches) {
         window.scrollTo({ top: 0, left: 0, behavior: 'instant' })
       }
       return
@@ -189,7 +190,7 @@ const [step, setStep] = useState(country ? 2 : 1)
   setStep(nextStep)
 })
 
-if (window.matchMedia('(max-width: 767px)').matches) {
+if (window.matchMedia(inlineControlsQuery).matches) {
   window.scrollTo({
     top: 0,
     left: 0,
