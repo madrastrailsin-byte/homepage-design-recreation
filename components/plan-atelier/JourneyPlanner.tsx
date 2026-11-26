@@ -72,8 +72,8 @@ const [step, setStep] = useState(country ? 2 : 1)
     )
 
     videos.forEach((video, index) => {
-      gsap.set(video, { opacity: index === 0 ? 1 : 0, scale: 1.04 })
-      if (index === 0 && !prefersReducedMotion) {
+      gsap.set(video, { opacity: index === step - 1 ? 1 : 0, scale: 1.04 })
+      if (index === step - 1 && !prefersReducedMotion) {
         video.play().catch(() => undefined)
       } else {
         video.pause()
@@ -266,13 +266,13 @@ const incomingContent = screenContentRefs.current[nextStep]
           }}
           aria-hidden="true"
           className={`pointer-events-none absolute inset-0 h-full w-full object-cover will-change-transform ${
-            index === 0 ? 'opacity-100' : 'opacity-0'
+            Number(videoStep) === step ? 'opacity-100' : 'opacity-0'
           }`}
-          autoPlay={!prefersReducedMotion}
+          autoPlay={false}
           muted
           loop
           playsInline
-          preload="auto"
+          preload={Math.abs(Number(videoStep) - step) <= 1 ? "auto" : "none"}
           src={source}
           onCanPlay={(event) => {
             if (prefersReducedMotion) {

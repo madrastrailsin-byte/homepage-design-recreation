@@ -3,7 +3,9 @@
 import { useEffect, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import ServicesIntro from './ServicesIntro'
-import ServicesCabin from './ServicesCabin'
+import dynamic from 'next/dynamic'
+
+const ServicesCabin = dynamic(() => import('./ServicesCabin'))
 import ServicesFloatingNav from './ServicesFloatingNav'
 
 export default function ServicesScene() {

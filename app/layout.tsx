@@ -28,18 +28,21 @@ const signature = Satisfy({
 })
 
 const crimesTimesSix = localFont({
+  preload: false,
   src: '../public/fonts/CrimesTimesSix.ttf',
   variable: '--font-crimes-times-six',
   display: 'swap',
 })
 
 const ruthligos = localFont({
+  preload: false,
   src: '../public/fonts/ruthligos.ttf',
   variable: '--font-ruthligos',
   display: 'swap',
 })
 
 const amalfiCoast = localFont({
+  preload: false,
   src: '../public/fonts/amalfi-coast.ttf',
   variable: '--font-amalfi-coast',
   display: 'swap',
@@ -109,8 +112,8 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  const cookieStore = await cookies()
-const storedTheme = cookieStore.get('madrastrails-theme')?.value
+  const cookieStore = THEME_SWITCHING_ENABLED ? await cookies() : null
+const storedTheme = cookieStore?.get('madrastrails-theme')?.value
 
 const initialTheme =
   THEME_SWITCHING_ENABLED && storedTheme === 'classic' ? 'classic' : 'signature'

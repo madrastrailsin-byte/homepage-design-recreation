@@ -1131,7 +1131,7 @@ export default function ExperienceWorldScene({ active, ...props }: JourneyProps)
   return (
     <Canvas
       camera={{ fov: 41, near: 0.1, far: 65 }}
-      dpr={[1, 1.25]}
+      dpr={1}
       frameloop={active ? 'demand' : 'never'}
       gl={{ alpha: true, antialias: true, powerPreference: 'low-power' }}
       fallback={<div />}

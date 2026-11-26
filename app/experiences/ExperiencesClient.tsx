@@ -111,7 +111,7 @@ export default function ExperiencesClient() {
   const [reducedMotion, setReducedMotion] = useState(true)
   const [heroVisible, setHeroVisible] = useState(true)
   const [journeyVisible, setJourneyVisible] = useState(false)
-  const [journeyReady, setJourneyReady] = useState(true)
+  const [journeyReady, setJourneyReady] = useState(false)
   const [nearEntrance, setNearEntrance] = useState(false)
 
   useEffect(() => {

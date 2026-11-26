@@ -1,7 +1,7 @@
 // PHASE_13_FLIGHT_SPACING
 'use client'
 
-import { useRef } from 'react'
+import { useEffect, useLayoutEffect, useMemo, useRef } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { Billboard, Float, Sparkles } from '@react-three/drei'
 import * as THREE from 'three'
@@ -292,83 +292,162 @@ function PortalHalo() {
 }
 
 
+type InstanceTransform = {
+  position: [number, number, number]
+  rotation?: [number, number, number]
+  scale?: [number, number, number]
+  color?: string
+}
+
+function useStaticInstances(instances: InstanceTransform[]) {
+  const ref = useRef<THREE.InstancedMesh>(null)
+
+  useLayoutEffect(() => {
+    const mesh = ref.current
+    if (!mesh) return
+
+    const transform = new THREE.Object3D()
+    const color = new THREE.Color()
+
+    instances.forEach((instance, index) => {
+      transform.position.set(...instance.position)
+      transform.rotation.set(...(instance.rotation ?? [0, 0, 0]))
+      transform.scale.set(...(instance.scale ?? [1, 1, 1]))
+      transform.updateMatrix()
+      mesh.setMatrixAt(index, transform.matrix)
+      if (instance.color) mesh.setColorAt(index, color.set(instance.color))
+    })
+
+    mesh.instanceMatrix.needsUpdate = true
+    if (mesh.instanceColor) mesh.instanceColor.needsUpdate = true
+    mesh.computeBoundingSphere()
+  }, [instances])
+
+  return ref
+}
+
+const forestPlants: InstanceTransform[] = []
+const forestFlowers: InstanceTransform[] = []
+
+for (let i = 0; i < 110; i++) {
+  const angle = i * 2.399963
+  const radius = 1.65 + Math.sqrt((i + 0.5) / 110) * 0.65
+  const x = Math.cos(angle) * radius
+  const z = Math.sin(angle) * radius
+  const y = 0.15 + Math.sin(radius * 2.4) * 0.08
+
+  forestPlants.push({
+    position: [x, y, z],
+    rotation: [0, angle, 0],
+    color: i % 3 === 0 ? '#819e54' : '#355f40',
+  })
+  if (i % 9 === 0) forestFlowers.push({ position: [x, y + 0.15, z] })
+}
+
 function ForestDetails() {
+  const plants = useStaticInstances(forestPlants)
+  const flowers = useStaticInstances(forestFlowers)
+
   return (
     <group>
-      {Array.from({ length: 110 }, (_, i) => {
-        const angle = i * 2.399963
-        const radius = 1.65 + Math.sqrt((i + 0.5) / 110) * 0.65
-        const x = Math.cos(angle) * radius
-        const z = Math.sin(angle) * radius
-        const y = 0.15 + Math.sin(radius * 2.4) * 0.08
-        const flower = i % 9 === 0
-
-        return (
-          <group key={i} position={[x, y, z]}>
-            <mesh rotation={[0, angle, 0]}>
-              <coneGeometry args={[0.08, 0.22, 12]} />
-              <meshStandardMaterial
-                color={i % 3 === 0 ? '#819e54' : '#355f40'}
-                roughness={1}
-              />
-            </mesh>
-            {flower && (
-              <mesh position={[0, 0.15, 0]}>
-                <sphereGeometry args={[0.045, 6, 6]} />
-                <meshStandardMaterial
-                  color="#f6c76e"
-                  emissive="#a87528"
-                  emissiveIntensity={0.3}
-                />
-              </mesh>
-            )}
-          </group>
-        )
-      })}
+      <instancedMesh ref={plants} args={[undefined, undefined, forestPlants.length]}>
+        <coneGeometry args={[0.08, 0.22, 12]} />
+        <meshStandardMaterial roughness={1} />
+      </instancedMesh>
+      <instancedMesh ref={flowers} args={[undefined, undefined, forestFlowers.length]}>
+        <sphereGeometry args={[0.045, 6, 6]} />
+        <meshStandardMaterial
+          color="#f6c76e"
+          emissive="#a87528"
+          emissiveIntensity={0.3}
+        />
+      </instancedMesh>
     </group>
   )
 }
 
+const rockColors = ['#797a6b', '#4c5551', '#343f40']
+const rockInstances = Array.from({ length: 48 }, (_, i): InstanceTransform => {
+  const angle = i * 2.399963
+  const radius = 0.45 + (i % 8) * 0.24
+  const depth = -0.65 - (i % 6) * 0.28
+
+  return {
+    position: [Math.cos(angle) * radius, depth, Math.sin(angle) * radius],
+    rotation: [i * 0.37, angle, i * 0.21],
+    scale: [
+      0.15 + (i % 4) * 0.06,
+      0.25 + (i % 5) * 0.09,
+      0.12 + (i % 3) * 0.05,
+    ],
+    color: rockColors[i % 3],
+  }
+})
 
 function RockStrata() {
-  return (
-    <group>
-      {Array.from({ length: 48 }, (_, i) => {
-        const angle = i * 2.399963
-        const radius = 0.45 + (i % 8) * 0.24
-        const depth = -0.65 - (i % 6) * 0.28
+  const rocks = useStaticInstances(rockInstances)
 
-        return (
-          <mesh
-            key={i}
-            position={[
-              Math.cos(angle) * radius,
-              depth,
-              Math.sin(angle) * radius,
-            ]}
-            rotation={[i * 0.37, angle, i * 0.21]}
-            scale={[
-              0.15 + (i % 4) * 0.06,
-              0.25 + (i % 5) * 0.09,
-              0.12 + (i % 3) * 0.05,
-            ]}
-          >
-            <icosahedronGeometry args={[1, 0]} />
-            <meshStandardMaterial
-              color={
-                i % 3 === 0
-                  ? '#797a6b'
-                  : i % 3 === 1
-                    ? '#4c5551'
-                    : '#343f40'
-              }
-              roughness={1}
-              flatShading
-            />
-          </mesh>
-        )
-      })}
-    </group>
+  return (
+    <instancedMesh ref={rocks} args={[undefined, undefined, rockInstances.length]}>
+      <icosahedronGeometry args={[1, 0]} />
+      <meshStandardMaterial roughness={1} flatShading />
+    </instancedMesh>
+  )
+}
+
+const treeTrunks: InstanceTransform[] = []
+const treeFoliage: InstanceTransform[] = []
+const foliageColors = ['#173d32', '#285742', '#3c6747', '#204b3b']
+
+for (let i = 0; i < 32; i++) {
+  const angle = i * 2.399963229728653
+  const radius = 1.85 + Math.sqrt(i / 32) * 0.35
+  let x = Math.cos(angle) * radius
+  const z = Math.sin(angle) * radius
+
+  // Open a viewing corridor toward the compass sanctuary.
+  if (z > 0.45 && Math.abs(x) < 1.05) {
+    x += (x >= 0 ? 1 : -1) * 0.85
+  }
+
+  const height = 0.75 + (i % 7) * 0.13
+  const width = 0.23 + (i % 4) * 0.035
+  const ground =
+    0.22 +
+    0.13 * Math.sin((radius / 2.55) * 9) * (radius / 2.55) +
+    0.12 * Math.sin(radius * 2.7 + Math.cos(angle * 4)) +
+    0.06 * Math.cos(angle * 7 + radius * 3)
+
+  treeTrunks.push({
+    position: [x, ground + height * 0.38, z],
+    scale: [1, height * 0.76, 1],
+  })
+
+  for (let layer = 0; layer < 3; layer++) {
+    const radius = width * (1.35 - layer * 0.25)
+    treeFoliage.push({
+      position: [x, ground + height * (0.48 + layer * 0.19), z],
+      scale: [radius, height * 0.48, radius],
+      color: foliageColors[(i + layer) % 4],
+    })
+  }
+}
+
+function IslandTrees() {
+  const trunks = useStaticInstances(treeTrunks)
+  const foliage = useStaticInstances(treeFoliage)
+
+  return (
+    <>
+      <instancedMesh ref={trunks} args={[undefined, undefined, treeTrunks.length]} castShadow>
+        <cylinderGeometry args={[0.035, 0.065, 1, 7]} />
+        <meshStandardMaterial color="#594331" roughness={1} />
+      </instancedMesh>
+      <instancedMesh ref={foliage} args={[undefined, undefined, treeFoliage.length]} castShadow>
+        <coneGeometry args={[1, 1, 9]} />
+        <meshStandardMaterial roughness={0.95} flatShading />
+      </instancedMesh>
+    </>
   )
 }
 
@@ -1325,6 +1404,13 @@ function CosmicVoyage({ travel }: StoryMotion) {
 
 function Island({ travel }: StoryMotion) {
   const island = useRef<THREE.Group>(null)
+  const cliffGeometry = useMemo(() => createTerrain(islandRadius, false), [])
+  const groundGeometry = useMemo(() => createTerrain(islandRadius, true), [])
+
+  useEffect(() => () => {
+    cliffGeometry.dispose()
+    groundGeometry.dispose()
+  }, [cliffGeometry, groundGeometry])
 
   useFrame((state) => {
     if (!island.current) return
@@ -1344,7 +1430,7 @@ function Island({ travel }: StoryMotion) {
         <RockStrata />
 
         <mesh
-          geometry={createTerrain(islandRadius, false)}
+          geometry={cliffGeometry}
           castShadow
           receiveShadow
         >
@@ -1356,7 +1442,7 @@ function Island({ travel }: StoryMotion) {
         </mesh>
 
         <mesh
-          geometry={createTerrain(islandRadius, true)}
+          geometry={groundGeometry}
           receiveShadow
         >
           <meshStandardMaterial
@@ -1366,60 +1452,7 @@ function Island({ travel }: StoryMotion) {
           />
         </mesh>
 
-        {Array.from({ length: 32 }, (_, i) => {
-          const angle = i * 2.399963229728653
-          const radius = 1.85 + Math.sqrt(i / 32) * 0.35
-          let x = Math.cos(angle) * radius
-            let z = Math.sin(angle) * radius
-
-            // Open a viewing corridor toward the compass sanctuary.
-            if (z > 0.45 && Math.abs(x) < 1.05) {
-              x += (x >= 0 ? 1 : -1) * 0.85
-            }
-
-            const height = 0.75 + (i % 7) * 0.13
-          const width = 0.23 + (i % 4) * 0.035
-
-          const ground =
-            0.22 +
-            0.13 * Math.sin((radius / 2.55) * 9) * (radius / 2.55) +
-            0.12 * Math.sin(radius * 2.7 + Math.cos(angle * 4)) +
-            0.06 * Math.cos(angle * 7 + radius * 3)
-
-          return (
-            <group key={i} position={[x, ground, z]}>
-              <mesh position={[0, height * 0.38, 0]} castShadow>
-                <cylinderGeometry args={[0.035, 0.065, height * 0.76, 7]} />
-                <meshStandardMaterial color="#594331" roughness={1} />
-              </mesh>
-
-              {[0, 1, 2].map((layer) => (
-                <mesh
-                  key={layer}
-                  position={[0, height * (0.48 + layer * 0.19), 0]}
-                  castShadow
-                >
-                  <coneGeometry
-                    args={[
-                      width * (1.35 - layer * 0.25),
-                      height * 0.48,
-                      9,
-                    ]}
-                  />
-                  <meshStandardMaterial
-                    color={
-                      ['#173d32', '#285742', '#3c6747', '#204b3b'][
-                        (i + layer) % 4
-                      ]
-                    }
-                    roughness={0.95}
-                    flatShading
-                  />
-                </mesh>
-              ))}
-            </group>
-          )
-        })}
+        <IslandTrees />
 
         <mesh position={[0, 0.65, 0]}>
           <torusGeometry args={[0.8, 0.045, 12, 80]} />
@@ -1529,7 +1562,7 @@ export default function FloatingWorld({ active, travel, entrance }: HeroMotion &
       camera={{ position: [0, 1.7, 9], fov: 45 }}
       shadows
       frameloop={active ? 'always' : 'demand'}
-      dpr={[1, 1.5]}
+      dpr={1}
       gl={{ antialias: true, alpha: false }}
       style={{ width: '100%', height: '100%' }}
     >
