@@ -48,6 +48,14 @@ const amalfiCoast = localFont({
   display: 'swap',
 })
 
+const socialImage = {
+  url: 'https://www.madrastrails.in/images/madrastrails-og-v4.jpg',
+  width: 600,
+  height: 315,
+  type: 'image/jpeg',
+  alt: 'MadrasTrails — Curated journeys for travellers who seek stories, not itineraries.',
+}
+
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.madrastrails.in'),
 
@@ -70,14 +78,7 @@ export const metadata: Metadata = {
       'Curated global journeys, crafted personally. Travel like a local with MadrasTrails.',
     url: '/',
     siteName: 'MadrasTrails',
-    images: [
-  {
-    url: 'https://www.madrastrails.in/images/madrastrails-og-v3.jpg',
-    width: 1200,
-    height: 630,
-    alt: 'MadrasTrails — Curated journeys for travellers who seek stories, not itineraries.',
-  },
-],
+    images: [socialImage],
     locale: 'en_US',
     type: 'website',
   },
@@ -87,9 +88,7 @@ export const metadata: Metadata = {
     title: 'MadrasTrails — Beyond Boundaries',
     description:
       'Curated global journeys, crafted personally. Travel like a local with MadrasTrails.',
-    images: [
-  'https://www.madrastrails.in/images/madrastrails-og-v3.jpg',
-],
+    images: [socialImage],
   },
 
   icons: {
