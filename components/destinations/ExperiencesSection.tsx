@@ -124,28 +124,17 @@ export default function ExperiencesSection({
             </motion.p>
           </div>
 
-          <div className="mt-12 grid gap-5 lg:mt-16 lg:grid-cols-[1.38fr_0.92fr] lg:grid-rows-2">
-            <ExperienceCard
-              experience={experiences[0]}
-              index={0}
-              featured
-              onSelect={selectExperience}
-              prefersReducedMotion={prefersReducedMotion}
-            />
-
-            <ExperienceCard
-              experience={experiences[1]}
-              index={1}
-              onSelect={selectExperience}
-              prefersReducedMotion={prefersReducedMotion}
-            />
-
-            <ExperienceCard
-              experience={experiences[2]}
-              index={2}
-              onSelect={selectExperience}
-              prefersReducedMotion={prefersReducedMotion}
-            />
+          <div className={`mt-12 grid gap-5 lg:mt-16 ${experiences.length > 1 ? "lg:grid-cols-[1.38fr_0.92fr]" : ""} ${experiences.length >= 3 ? "lg:grid-rows-2" : ""}`}>
+            {experiences.map((experience, index) => (
+              <ExperienceCard
+                key={`${experience.title}-${index}`}
+                experience={experience}
+                index={index}
+                featured={index === 0 && experiences.length >= 3}
+                onSelect={selectExperience}
+                prefersReducedMotion={prefersReducedMotion}
+              />
+            ))}
           </div>
 
           <div className="mt-8 flex items-center justify-between border-t border-[var(--mt-border)] pt-6">

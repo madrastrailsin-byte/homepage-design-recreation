@@ -179,7 +179,7 @@ export default function ContactDetailsScreen({
           </motion.p>
         </header>
 
-        <div className="mt-5 grid flex-1 items-start gap-5 pt-8 lg:mt-3 lg:grid-cols-[minmax(0,1.4fr)_minmax(310px,0.75fr)] lg:pt-10">
+        <div className="mt-plan-contact-grid mt-5 grid flex-1 items-start gap-5 pt-8 lg:mt-3 lg:grid-cols-[minmax(0,1.4fr)_minmax(310px,0.75fr)] lg:pt-10">
           <motion.form
             initial={false}
             animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
