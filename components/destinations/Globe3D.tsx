@@ -35,6 +35,46 @@ function smootherStep(time: number, start: number, end: number) {
   return t * t * t * (t * (t * 6 - 15) + 10)
 }
 
+function DestinationRadarPulse() {
+  const rings = useRef<THREE.Group>(null)
+  const motionPreference = useRef<MediaQueryList>(null)
+  const elapsed = useRef(0)
+
+  useEffect(() => {
+    motionPreference.current = window.matchMedia('(prefers-reduced-motion: reduce)')
+  }, [])
+
+  useFrame((_, delta) => {
+    const group = rings.current
+    if (!group) return
+
+    group.visible = motionPreference.current?.matches === false
+    if (!group.visible) {
+      elapsed.current = 0
+      return
+    }
+
+    group.children.forEach((child, index) => {
+      const ring = child as THREE.Mesh<THREE.RingGeometry, THREE.MeshBasicMaterial>
+      const phase = (elapsed.current / 1.8 + index * 0.5) % 1
+      ring.scale.setScalar(1 + 3 * phase)
+      ring.material.opacity = 0.72 * (1 - phase) ** 2
+    })
+    elapsed.current += delta
+  })
+
+  return (
+    <group ref={rings} position={[0, 0, 0.025]} visible={false}>
+      {[0, 1].map(index => (
+        <mesh key={index} raycast={() => null}>
+          <ringGeometry args={[0.128, 0.143, 64]} />
+          <meshBasicMaterial color="#f4cc79" transparent opacity={0} depthTest depthWrite={false} toneMapped={false} />
+        </mesh>
+      ))}
+    </group>
+  )
+}
+
 function DestinationMarker({ marker, selected, arrival, onSelect }: {
   marker: (typeof destinationMetadata)[number] & { position: THREE.Vector3; orientation: THREE.Quaternion }
   selected: boolean
@@ -69,6 +109,7 @@ function DestinationMarker({ marker, selected, arrival, onSelect }: {
   })
 
   return <group position={marker.position} quaternion={marker.orientation}>
+    {selected && <DestinationRadarPulse />}
     <mesh
       position={[0, 0, 0.025]}
       onPointerOver={e => {
