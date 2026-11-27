@@ -1558,3 +1558,18 @@
     grid-template-columns: repeat(auto-fit, minmax(min(100%, 5.75rem), 1fr));
   }
 }
+
+@media (max-width: 520px) {
+  .masthead .globeControls {
+    grid-column: 1 / -1;
+    justify-self: stretch;
+    justify-content: space-between;
+  }
+  .globeControls .indexAction { flex: 1; min-height: 44px; padding-inline: 12px; }
+  .globeNavigation button { width: 44px; height: 44px; }
+  .command {
+    grid-template-areas: "globe" "brief" "visa" "experiences" "intel" "basics";
+    row-gap: 14px;
+  }
+  .globeStage { height: min(70vw, 310px); }
+}

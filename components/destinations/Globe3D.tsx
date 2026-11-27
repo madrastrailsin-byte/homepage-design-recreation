@@ -5,6 +5,7 @@ import { Canvas, useFrame, useLoader, useThree } from '@react-three/fiber'
 import { Html, OrbitControls } from '@react-three/drei'
 import { useReducedMotion } from 'framer-motion'
 import * as THREE from 'three'
+import { useCloudTexture } from './useCloudTexture'
 import { destinationMetadata } from '@/lib/destinations'
 
 interface GlobeProps {
@@ -202,10 +203,7 @@ function DestinationMarker({ marker, selected, arrival, onSelect }: {
 function Earth({ selectedDestination, onSelectDestination }: GlobeProps) {
   const source = useLoader(THREE.TextureLoader, '/textures/earth-day-4k.webp')
   const coastlineMask = useLoader(THREE.TextureLoader, '/textures/earth-cartographic-mask.webp')
-  const clouds = useLoader(
-    THREE.TextureLoader,
-    '/textures/earth-clouds-4k.c2fe168bcb69.webp'
-  )
+  const clouds = useCloudTexture()
   const cloudRef = useRef<THREE.Mesh>(null)
   const earthGroup = useRef<THREE.Group>(null)
 

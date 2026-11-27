@@ -242,6 +242,26 @@ export default function ServicesIntro({ onEnter }: { onEnter?: () => void }) {
     ...rightStory,
   ].join(' ')
 
+  const heroTypography = (
+    <div className={styles.heroTypography}>
+      <span className={styles.heroEyebrow}>
+        MADRASTRAILS / SERVICES
+      </span>
+
+      <h1 className={styles.heroTitle}>
+        From a thought{' '}
+        <span>to a journey.</span>
+      </h1>
+
+      <p className={styles.heroSubtitle}>
+        We plan. We curate. We take care of everything in between.
+      </p>
+      <p className={styles.heroOfferings}>
+        BESPOKE JOURNEYS · LUXURY STAYS · PRIVATE EXPERIENCES · FLIGHTS · VISAS · FOREX
+      </p>
+    </div>
+  )
+
   return (
     <section className={styles.hero} aria-label="MadrasTrails services">
       <Image
@@ -727,23 +747,7 @@ export default function ServicesIntro({ onEnter }: { onEnter?: () => void }) {
 </svg>
           </div>
         )}
-        <div className={styles.heroTypography}>
-          <span className={styles.heroEyebrow}>
-            MADRASTRAILS / SERVICES
-          </span>
-
-          <h1 className={styles.heroTitle}>
-            From a thought{' '}
-            <span>to a journey.</span>
-          </h1>
-
-          <p className={styles.heroSubtitle}>
-            We plan. We curate. We take care of everything in between.
-          </p>
-          <p className={styles.heroOfferings}>
-            BESPOKE JOURNEYS · LUXURY STAYS · PRIVATE EXPERIENCES · FLIGHTS · VISAS · FOREX
-          </p>
-        </div>
+        {heroTypography}
         <div aria-hidden="true">
           <InkPage
             lines={heading}
@@ -795,6 +799,7 @@ export default function ServicesIntro({ onEnter }: { onEnter?: () => void }) {
           />
         )}
       </div>
+      <div className={styles.mobileTypography}>{heroTypography}</div>
       <button
         type="button"
         className={`mt-ui ${styles.cabinEntrance}`}

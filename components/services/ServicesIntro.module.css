@@ -1109,3 +1109,30 @@ height: 18%;
     0 0 18px rgba(217, 150, 54, 0.28),
     0 5px 18px rgba(0, 0, 0, 0.20);
 }
+
+.mobileTypography { display: none; }
+
+@media (max-width: 520px) {
+  .mobileTypography {
+    display: block;
+    position: absolute;
+    z-index: 5;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(#1b110bd4, #1b110bbb clamp(238px, 43svh, 295px), transparent clamp(320px, 60svh, 440px));
+  }
+  .mobileTypography .heroTypography {
+    top: clamp(82px, 14svh, 120px);
+    width: min(90%, 25rem);
+  }
+  .mobileTypography .heroEyebrow { margin-bottom: 9px; }
+  .mobileTypography .heroTitle { font-size: clamp(34px, 9vw, 46px); }
+  .mobileTypography .heroSubtitle { font-size: 13px; }
+  .mobileTypography .heroOfferings { font-size: 10px; }
+  .cabinEntrance {
+    min-width: 106px;
+    min-height: 44px;
+    justify-content: center;
+    bottom: max(4%, env(safe-area-inset-bottom));
+  }
+}

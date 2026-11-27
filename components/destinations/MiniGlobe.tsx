@@ -4,11 +4,12 @@ import { Suspense, useRef } from 'react'
 import { Canvas, useFrame, useLoader } from '@react-three/fiber'
 import { useReducedMotion } from 'framer-motion'
 import * as THREE from 'three'
+import { useCloudTexture } from './useCloudTexture'
 
 function Earth() {
   const source = useLoader(THREE.TextureLoader, '/textures/earth-day-4k.webp')
   const coastlineMask = useLoader(THREE.TextureLoader, '/textures/earth-cartographic-mask.webp')
-  const clouds = useLoader(THREE.TextureLoader, '/textures/earth-clouds-4k.c2fe168bcb69.webp')
+  const clouds = useCloudTexture()
   const group = useRef<THREE.Group>(null)
   const reducedMotion = useReducedMotion()
 

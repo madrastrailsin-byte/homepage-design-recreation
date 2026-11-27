@@ -169,3 +169,10 @@
 @media (prefers-reduced-motion: reduce) {
   .backLink, .contentsList a { transition: none; }
 }
+
+@media (max-width: 520px) {
+  .topBar { padding-block: 8px; }
+  .backLink { display: inline-flex; align-items: center; min-height: 44px; font-size: 12px; }
+  .contentsList li { margin: 0; border-top: 1px solid var(--legal-line); }
+  .contentsList a { align-items: center; min-height: 44px; padding-block: 8px; font-size: 13px; }
+}

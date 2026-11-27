@@ -5,6 +5,8 @@ import Link from 'next/link'
 import '@fontsource/playfair-display/latin-500-italic.css'
 import styles from './story-carousel.module.css'
 
+const emptyArtwork = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'
+
 const profiles = [
   {
     name: 'Gideon',
@@ -72,6 +74,7 @@ function ProfileName({ name, active }: { name: string; active: boolean }) {
 
 export default function StoryCarousel() {
   const [active, setActive] = useState(0)
+  const [hasOpenedProfiles, setHasOpenedProfiles] = useState(false)
   const firstProfileButton = useRef<HTMLButtonElement>(null)
   const focusFirstProfile = useRef(false)
 
@@ -136,6 +139,7 @@ export default function StoryCarousel() {
               </div>
               <button type="button" className={styles.meet} tabIndex={active === 0 ? 0 : -1} onClick={() => {
                 focusFirstProfile.current = true
+                setHasOpenedProfiles(true)
                 setActive(1)
               }}>
                 <svg className={styles.meetArrow} viewBox="0 0 64 38" aria-hidden="true" focusable="false">
@@ -165,8 +169,17 @@ export default function StoryCarousel() {
                   </p>
                   <p className={styles.bio}>{description}</p>
                 </div>
-                <img className={styles.figure} src={`${art}/${name.toLowerCase()}-silhouette-cutout.webp`} alt="" draggable={false} />
-                <img className={styles.landmark} src={`${art}/${landmark}.webp`} alt="" draggable={false} />
+                <picture>
+                  <source
+                    media="(max-width: 520px)"
+                    srcSet={hasOpenedProfiles ? `${art}/${name.toLowerCase()}-silhouette-cutout-mobile.webp` : emptyArtwork}
+                  />
+                  <img className={styles.figure} src={`${art}/${name.toLowerCase()}-silhouette-cutout.webp`} alt="" draggable={false} />
+                </picture>
+                <picture>
+                  <source media="(max-width: 520px)" srcSet={hasOpenedProfiles ? `${art}/${landmark}.webp` : emptyArtwork} />
+                  <img className={styles.landmark} src={`${art}/${landmark}.webp`} alt="" draggable={false} />
+                </picture>
                 <div className={styles.ground} />
               </div>
               <button

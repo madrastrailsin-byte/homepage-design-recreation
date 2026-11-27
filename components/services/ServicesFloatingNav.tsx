@@ -1,7 +1,7 @@
 import Link from 'next/link'
 
 const buttonStyle =
-  'mt-ui pointer-events-auto group inline-flex items-center justify-center gap-3 rounded-full border border-white/45 px-5 py-2 text-[11px] font-normal uppercase tracking-[0.12em] text-white backdrop-blur-sm transition-all duration-300 hover:border-white/80 hover:bg-white/10'
+  'mt-ui pointer-events-auto group inline-flex items-center justify-center gap-3 rounded-full border border-white/45 px-5 py-2 max-[520px]:min-h-11 max-[520px]:gap-2 max-[520px]:px-3 max-[520px]:whitespace-nowrap text-[11px] font-normal uppercase tracking-[0.12em] text-white backdrop-blur-sm transition-all duration-300 hover:border-white/80 hover:bg-white/10'
 
 export default function ServicesFloatingNav() {
   return (
