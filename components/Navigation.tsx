@@ -18,7 +18,7 @@ const navItems = [
   { label: 'Contact', href: '/contact' },
 ]
 
-export default function Navigation() {
+export default function Navigation({ isHome = false }: { isHome?: boolean }) {
   const [isOpen, setIsOpen] = useState(false)
   const { theme, toggleTheme } = useTheme()
   const [isScrolled, setIsScrolled] = useState(false)
@@ -46,7 +46,7 @@ export default function Navigation() {
 
 
   const active = (href: string) =>
-    pathname === href || pathname.startsWith(`${href}/`)
+    !isHome && (pathname === href || pathname.startsWith(`${href}/`))
 
   const handleThemeToggle = () => {
     setThemeChangeCount((count) => count + 1)
@@ -66,8 +66,8 @@ export default function Navigation() {
         event.currentTarget.style.setProperty('--nav-frost-y', `${event.clientY - rect.top}px`)
         setNavFrostPulse((pulse) => pulse + 1)
       }}
-      className={`${pathname === '/' ? 'mt-home-nav overflow-visible border-0 bg-transparent shadow-none backdrop-blur-none' : 'mt-premium-nav overflow-hidden border-b backdrop-blur-2xl'} group/nav ${pathname === '/' ? 'absolute' : 'fixed'} inset-x-0 top-0 z-50 transition-all duration-500 ${
-        pathname === '/' ? '' : isScrolled
+      className={`${isHome ? 'mt-home-nav overflow-visible border-0 bg-transparent shadow-none backdrop-blur-none' : 'mt-premium-nav overflow-hidden border-b backdrop-blur-2xl'} group/nav ${isHome ? 'absolute' : 'fixed'} inset-x-0 top-0 z-50 transition-all duration-500 ${
+        isHome ? '' : isScrolled
           ? 'mt-nav-scrolled border-white/10 bg-[#061519]/95 shadow-[0_18px_56px_rgba(0,0,0,0.34)]'
           : 'border-white/10 bg-[#061519]/88'
       }`}
@@ -134,7 +134,7 @@ export default function Navigation() {
     />
   ) : null}
 </span>
-        {pathname === '/' && (
+        {isHome && (
             <span
               aria-hidden="true"
               className="pointer-events-none absolute left-[calc(100%+32px)] top-0 text-[12px] font-semibold leading-none text-[#F0CD65]"
@@ -177,7 +177,7 @@ export default function Navigation() {
 
 {index < navItems.length - 1 && (
   <span className={`mx-4 inline-block h-4 w-px ${
-  pathname === '/' ? 'bg-black/70' : 'bg-[var(--mt-border-strong)]'
+  isHome ? 'bg-black/70' : 'bg-[var(--mt-border-strong)]'
 }`} />
 )}
 

@@ -62,34 +62,39 @@ const bulletinText =
 
   return () => controller.abort()
 }, [])
-    useEffect(() => {
-  const video = videoRef.current
-  if (!video) return
+  useEffect(() => {
+    const video = videoRef.current
+    if (!video) return
 
-  video.muted = true
-  video.defaultMuted = true
-  video.playsInline = true
+    video.muted = true
+    video.defaultMuted = true
+    video.playsInline = true
 
-  if (prefersReducedMotion) {
-    video.pause()
-    video.currentTime = 0
-    return
-  }
+    // Source errors don't bubble to the video. The last source is the MP4 fallback.
+    const fallbackSource = video.querySelector('source:last-child')
+    const showFallback = () => setVideoFailed(true)
+    fallbackSource?.addEventListener('error', showFallback)
+    if (video.error || video.networkState === HTMLMediaElement.NETWORK_NO_SOURCE) {
+      showFallback()
+    }
 
-  const tryPlay = () => {
-    video.play().catch(() => {
-      setVideoFailed(true)
-    })
-  }
+    const tryPlay = () => {
+      video.play().catch(showFallback)
+    }
 
-  tryPlay()
+    if (prefersReducedMotion) {
+      video.pause()
+      video.currentTime = 0
+    } else {
+      tryPlay()
+      video.addEventListener('canplay', tryPlay)
+    }
 
-  video.addEventListener('canplay', tryPlay)
-
-  return () => {
-    video.removeEventListener('canplay', tryPlay)
-  }
-}, [prefersReducedMotion])
+    return () => {
+      fallbackSource?.removeEventListener('error', showFallback)
+      video.removeEventListener('canplay', tryPlay)
+    }
+  }, [prefersReducedMotion])
   useEffect(() => {
     const section = sectionRef.current
     const videoEl = videoRef.current
@@ -192,7 +197,6 @@ const bulletinText =
       className={`mt-hero-video h-[calc(100%+2rem)] w-[calc(100%+2.5rem)] object-cover object-[58%_center] brightness-[1.12] md:object-center ${
         videoFailed ? 'opacity-0' : ''
       }`}
-      src="/videos/hero-resort-test.mp4"
       autoPlay={!prefersReducedMotion}
       muted
       loop
@@ -207,7 +211,10 @@ const bulletinText =
       }}
       onError={() => setVideoFailed(true)}
       aria-hidden="true"
-    />
+    >
+      <source src="/videos/hero-resort-av1.mp4" type={'video/mp4; codecs="av01.0.08M.08"'} />
+      <source src="/videos/hero-resort-test.mp4" type="video/mp4" />
+    </video>
   </div>
 </div>
 

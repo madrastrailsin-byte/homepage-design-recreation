@@ -71,6 +71,13 @@
   bottom: calc(max(1rem, env(safe-area-inset-bottom)) + 20px);
 }
 
+@media (min-width: 2200px) and (min-aspect-ratio: 21 / 10), (min-width: 3200px) {
+  .mt-plan-refinement .mt-plan-controls button {
+    /* Match the inner edge of the centered 1180px destination layout. */
+    right: calc(50% - 550px);
+  }
+}
+
 .mt-plan-refinement.mt-plan-refinement .mt-plan-controls button:hover:enabled,
 .mt-plan-refinement.mt-plan-refinement .mt-plan-submit:hover:enabled {
   border-color: white !important;

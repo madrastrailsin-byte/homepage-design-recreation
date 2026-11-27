@@ -288,6 +288,13 @@
   }
 }
 
+@media (min-width: 1024px) and (min-aspect-ratio: 21 / 10) {
+  .heroTypography {
+    /* Offset the crop of the centered diary so the eyebrow clears the navigation. */
+    top: max(2.3%, calc(50% - 50svh + 3rem));
+  }
+}
+
 /* Vintage camera — slow red recording indicator */
 .cameraRecLight {
   position: absolute;
