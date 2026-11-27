@@ -7,7 +7,7 @@ import gsap from 'gsap'
 import { motion, useReducedMotion } from 'framer-motion'
 import Image from 'next/image'
 import HeroGoldenQuill from './HeroGoldenQuill'
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 
 export default function Hero() {
@@ -26,6 +26,17 @@ export default function Hero() {
   const router = useRouter()
   const videoRef = useRef<HTMLVideoElement>(null)
   const [videoFailed, setVideoFailed] = useState(false)
+  const [playbackBlocked, setPlaybackBlocked] = useState(false)
+
+  const playVideo = useCallback((video: HTMLVideoElement) => {
+    video.play().catch((error: DOMException) => {
+      if (!video.paused) return
+      if (error.name === 'NotAllowedError') setPlaybackBlocked(true)
+      if (video.error || video.networkState === HTMLMediaElement.NETWORK_NO_SOURCE) {
+        setVideoFailed(true)
+      }
+    })
+  }, [])
 
 const [travelBulletins, setTravelBulletins] = useState<string[]>([])
 
@@ -78,8 +89,15 @@ const bulletinText =
       showFallback()
     }
 
+    let playbackCheck: number | undefined
     const tryPlay = () => {
-      video.play().catch(showFallback)
+      playVideo(video)
+      if (playbackCheck === undefined && video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) {
+        // Safari can hold an autoplay request pending while showing its own play glyph.
+        playbackCheck = window.setTimeout(() => {
+          if (video.paused && !video.error) setPlaybackBlocked(true)
+        }, 2000)
+      }
     }
 
     if (prefersReducedMotion) {
@@ -91,10 +109,11 @@ const bulletinText =
     }
 
     return () => {
+      window.clearTimeout(playbackCheck)
       fallbackSource?.removeEventListener('error', showFallback)
       video.removeEventListener('canplay', tryPlay)
     }
-  }, [prefersReducedMotion])
+  }, [playVideo, prefersReducedMotion])
   useEffect(() => {
     const section = sectionRef.current
     const videoEl = videoRef.current
@@ -197,12 +216,14 @@ const bulletinText =
       className={`mt-hero-video h-[calc(100%+2rem)] w-[calc(100%+2.5rem)] object-cover object-[58%_center] brightness-[1.12] md:object-center ${
         videoFailed ? 'opacity-0' : ''
       }`}
-      autoPlay={!prefersReducedMotion}
       muted
       loop
       playsInline
       preload="auto"
-      onPlaying={() => setVideoFailed(false)}
+      onPlaying={() => {
+        setVideoFailed(false)
+        setPlaybackBlocked(false)
+      }}
       onCanPlay={(event) => {
         if (prefersReducedMotion) {
           event.currentTarget.pause()
@@ -215,8 +236,31 @@ const bulletinText =
       <source src="/videos/hero-resort-av1.mp4" type={'video/mp4; codecs="av01.0.08M.08"'} />
       <source src="/videos/hero-resort-test.mp4" type="video/mp4" />
     </video>
+    {playbackBlocked && !videoFailed && !prefersReducedMotion && (
+      <Image
+        src="/images/homepage/hero-resort-poster.webp"
+        alt=""
+        width={1920}
+        height={1080}
+        unoptimized
+        style={{ opacity: 1 }}
+        className="mt-hero-video pointer-events-none absolute top-0 left-0 h-[calc(100%+2rem)] w-[calc(100%+2.5rem)] object-cover object-[58%_center] brightness-[1.12] md:object-center"
+      />
+    )}
   </div>
 </div>
+
+      {playbackBlocked && !videoFailed && !prefersReducedMotion && (
+        <button
+          type="button"
+          className="mt-ui absolute right-5 bottom-5 z-20 rounded-full border border-white/60 bg-[#071D21]/85 px-4 py-3 text-xs text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white md:right-8 md:bottom-8"
+          onClick={() => {
+            if (videoRef.current) playVideo(videoRef.current)
+          }}
+        >
+          Play background video
+        </button>
+      )}
 
       {/* Layered vignettes keep the copy readable without creating a visible panel edge. */}
       <div className="mt-hero-depth-overlay absolute inset-0 opacity-50">
