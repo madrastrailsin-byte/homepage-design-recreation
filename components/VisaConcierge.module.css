@@ -216,3 +216,16 @@
 @media (prefers-reduced-motion: reduce) {
   .quickSelect, .explore, .explore::before, .explore > span, .documents summary > svg { transition: none; }
 }
+
+@media (max-width: 520px) {
+  :global(.mt-homepage) .section {
+    padding: 14px var(--mt-home-mobile-gutter) 0;
+  }
+  :global(.mt-homepage) .photography { aspect-ratio: 2.15; }
+  :global(.mt-homepage) .featureStrip {
+    /* The feature strip no longer has a floating CTA below it. */
+    min-height: 0;
+    padding-block: 16px;
+    gap: 10px 8px;
+  }
+}

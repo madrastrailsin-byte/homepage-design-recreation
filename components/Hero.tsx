@@ -195,7 +195,7 @@ const bulletinText =
       ref={sectionRef}
       className="mt-scroll-hero relative w-full flex items-center overflow-hidden pt-20 md:pt-24"
       style={{
-        height: '100svh',
+        height: 'var(--mt-home-hero-height, 100svh)',
       }}
     >
     <div className="mt-hero-video-shell absolute -inset-x-5 -inset-y-4">

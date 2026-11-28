@@ -1,6 +1,6 @@
 'use client'
 
-import { Suspense, useEffect, useMemo, useRef, useState } from 'react'
+import { Suspense, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { Canvas, useFrame, useLoader, useThree } from '@react-three/fiber'
 import { Html, OrbitControls } from '@react-three/drei'
 import { useReducedMotion } from 'framer-motion'
@@ -11,13 +11,12 @@ import { destinationMetadata } from '@/lib/destinations'
 interface GlobeProps {
   selectedDestination?: string
   onSelectDestination?: (id: string) => void
+  onArrival?: (id: string) => void
+  onMarkerProjection?: (u?: number, v?: number) => void
 }
 
 const RADIUS = 7.69
 const DISTANCE = 24
-const PULLBACK_END = 0.43
-const SWEEP_START = 0.12
-const SWEEP_END = 0.83
 const FRONT = new THREE.Vector3(0, 0, 1)
 
 // Matches the equirectangular coastline mask and the existing destination coordinates.
@@ -36,7 +35,7 @@ function smootherStep(time: number, start: number, end: number) {
   return t * t * t * (t * (t * 6 - 15) + 10)
 }
 
-function DestinationRadarPulse() {
+function DestinationRadarPulse({ arrival }: { arrival: { current: number } }) {
   const rings = useRef<THREE.Group>(null)
   const motionPreference = useRef<MediaQueryList>(null)
   const elapsed = useRef(0)
@@ -49,7 +48,7 @@ function DestinationRadarPulse() {
     const group = rings.current
     if (!group) return
 
-    group.visible = motionPreference.current?.matches === false
+    group.visible = arrival.current === 1 && motionPreference.current?.matches === false
     if (!group.visible) {
       elapsed.current = 0
       return
@@ -110,7 +109,7 @@ function DestinationMarker({ marker, selected, arrival, onSelect }: {
   })
 
   return <group position={marker.position} quaternion={marker.orientation}>
-    {selected && <DestinationRadarPulse />}
+    {selected && <DestinationRadarPulse arrival={arrival} />}
     <mesh
       position={[0, 0, 0.025]}
       onPointerOver={e => {
@@ -128,7 +127,7 @@ function DestinationMarker({ marker, selected, arrival, onSelect }: {
       }}
     >
       <circleGeometry args={[0.29, 32]} />
-      <meshBasicMaterial transparent opacity={0} depthWrite={false} side={THREE.DoubleSide} />
+      <meshBasicMaterial transparent opacity={0} depthWrite={false} side={THREE.FrontSide} />
     </mesh>
     {hovered && (
       <mesh position={[0, 0, 0.035]}>
@@ -200,7 +199,7 @@ function DestinationMarker({ marker, selected, arrival, onSelect }: {
   </group>
 }
 
-function Earth({ selectedDestination, onSelectDestination }: GlobeProps) {
+function Earth({ selectedDestination, onSelectDestination, onArrival, onMarkerProjection }: GlobeProps) {
   const source = useLoader(THREE.TextureLoader, '/textures/earth-day-4k.webp')
   const coastlineMask = useLoader(THREE.TextureLoader, '/textures/earth-cartographic-mask.webp')
   const clouds = useCloudTexture()
@@ -213,12 +212,17 @@ function Earth({ selectedDestination, onSelectDestination }: GlobeProps) {
     start: THREE.Quaternion
     end: THREE.Quaternion
     cameraDirection: THREE.Vector3
-    startDistance: number
-    apexDistance: number
+    orbitSide: THREE.Vector3
     duration: number
     elapsed: number
   } | null>(null)
-  const arrival = useRef(1)
+  const arrival = useRef(0)
+  const idleElapsed = useRef(0)
+  const reportedArrival = useRef(false)
+  const projectionTime = useRef(0)
+  const screenPoint = useMemo(() => new THREE.Vector3(), [])
+  const markerNormal = useMemo(() => new THREE.Vector3(), [])
+  const cameraRay = useMemo(() => new THREE.Vector3(), [])
   const initialDestination = useRef(selectedDestination)
   const hasChangedDestination = useRef(false)
   const markers = useMemo(() => destinationMetadata.map(destination => {
@@ -228,8 +232,10 @@ function Earth({ selectedDestination, onSelectDestination }: GlobeProps) {
   }), [])
   const selected = markers.find(marker => marker.id === selectedDestination)
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const globe = earthGroup.current
+    reportedArrival.current = false
+    projectionTime.current = 0
     if (!selected || !globe) {
       transition.current = null
       return
@@ -245,22 +251,23 @@ function Earth({ selectedDestination, onSelectDestination }: GlobeProps) {
 
     hasChangedDestination.current ||= selectedDestination !== initialDestination.current
     const arc = from.angleTo(target) / Math.PI
-    const startDistance = camera.position.length()
-    const pullback = hasChangedDestination.current ? THREE.MathUtils.lerp(4, 8.5, Math.sqrt(arc)) : 0
+    const orbitSide = new THREE.Vector3(0, 1, 0).cross(cameraDirection).normalize()
 
     arrival.current = 0
+    idleElapsed.current = 0
     transition.current = {
       start,
       end,
       cameraDirection,
-      startDistance,
-      apexDistance: Math.max(startDistance, DISTANCE + pullback),
-      duration: hasChangedDestination.current ? THREE.MathUtils.lerp(1.8, 2.4, Math.sqrt(arc)) : THREE.MathUtils.lerp(1.05, 1.4, Math.sqrt(arc)),
+      orbitSide,
+      duration: hasChangedDestination.current
+        ? THREE.MathUtils.lerp(1.85, 2.65, Math.sqrt(arc))
+        : THREE.MathUtils.lerp(1.15, 1.55, Math.sqrt(arc)),
       elapsed: 0,
     }
   }, [selected, selectedDestination, camera])
 
-  useFrame((_, delta) => {
+  useFrame(({ clock }, delta) => {
     const globe = earthGroup.current
     const motion = transition.current
 
@@ -270,7 +277,10 @@ function Earth({ selectedDestination, onSelectDestination }: GlobeProps) {
 
     if (!globe) return
     if (!motion) {
-      if (!reducedMotion) globe.rotation.y -= delta * (Math.PI * 2 / 160)
+      if (!reducedMotion) {
+        idleElapsed.current = Math.min(1, idleElapsed.current + delta)
+        globe.rotation.y -= delta * (Math.PI * 2 / 160) * THREE.MathUtils.smoothstep(idleElapsed.current, 0, 1)
+      }
 
       const distance = camera.position.length()
       if (distance !== DISTANCE) {
@@ -279,31 +289,43 @@ function Earth({ selectedDestination, onSelectDestination }: GlobeProps) {
           ? DISTANCE
           : THREE.MathUtils.damp(distance, DISTANCE, 5, delta))
       }
-      return
+    } else {
+      motion.elapsed += Math.min(delta, 0.1)
+      const t = reducedMotion ? 1 : Math.min(1, motion.elapsed / motion.duration)
+      const glide = smootherStep(t, 0, 1)
+
+      globe.quaternion.slerpQuaternions(motion.start, motion.end, glide)
+      // Ease the sideways camera arc to zero velocity at both ends.
+      const orbitPhase = reducedMotion ? 0 : 0.13 * 16 * t ** 2 * (1 - t) ** 2
+      camera.position.copy(motion.cameraDirection)
+        .addScaledVector(motion.orbitSide, orbitPhase).setLength(DISTANCE)
+      camera.lookAt(0, 0, 0)
+      arrival.current = THREE.MathUtils.smoothstep(t, 0.68, 1)
+      if (t === 1) {
+        transition.current = null
+        arrival.current = 1
+      }
     }
 
-    motion.elapsed += Math.min(delta, 0.1)
-    const t = reducedMotion ? 1 : Math.min(1, motion.elapsed / motion.duration)
-    const distance = DISTANCE
+    if (!selected || transition.current) return
+    if (clock.elapsedTime >= projectionTime.current) {
+      projectionTime.current = clock.elapsedTime + 1 / 15
+      markerNormal.copy(selected.position).normalize().applyQuaternion(globe.quaternion)
+      screenPoint.copy(selected.position).applyQuaternion(globe.quaternion).addScaledVector(markerNormal, 0.025)
+      cameraRay.copy(camera.position).sub(screenPoint)
+      if (markerNormal.dot(cameraRay) <= 0) {
+        onMarkerProjection?.()
+      } else {
+        camera.updateMatrixWorld()
+        screenPoint.project(camera)
+        onMarkerProjection?.((screenPoint.x + 1) / 2, (1 - screenPoint.y) / 2)
+      }
+    }
 
-    const glide = smootherStep(t, 0, 1)
-    
-    globe.quaternion.slerpQuaternions(motion.start, motion.end, glide)
-    // Cinematic orbital sweep: travel sideways around Earth without zooming.
-    const orbitStrength = reducedMotion ? 0 : 0.13
-    const orbitPhase = Math.sin(Math.PI * t)
-    const orbitSide = new THREE.Vector3(0, 1, 0)
-      .cross(motion.cameraDirection)
-      .normalize()
-
-    const orbitDirection = motion.cameraDirection.clone()
-      .addScaledVector(orbitSide, orbitStrength * orbitPhase)
-      .normalize()
-
-    camera.position.copy(orbitDirection).multiplyScalar(distance)
-    camera.lookAt(0, 0, 0)
-    arrival.current = THREE.MathUtils.smoothstep(t, 0.68, 1)
-    if (t === 1) transition.current = null
+    if (!reportedArrival.current) {
+      reportedArrival.current = true
+      onArrival?.(selected.id)
+    }
   })
 
   return (

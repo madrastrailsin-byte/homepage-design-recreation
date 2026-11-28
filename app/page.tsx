@@ -10,7 +10,7 @@ import Footer from '@/components/Footer'
 
 export default function Home() {
   return (
-    <main className="min-h-screen w-full overflow-x-hidden rounded-none border-0 bg-[#0D1117] shadow-none">
+    <main className="mt-homepage min-h-screen w-full overflow-x-hidden rounded-none border-0 bg-[#0D1117] shadow-none">
       <Navigation isHome />
       <Hero />
       <ServicesStrip />

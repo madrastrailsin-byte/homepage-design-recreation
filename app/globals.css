@@ -3123,3 +3123,90 @@ main.bg-\[\#0D1117\] {
     inset 0 1px 0 rgba(255, 255, 255, 0.10) !important;
   overflow: hidden;
 }
+
+/* Homepage phone layout. Keep the established desktop composition above this range. */
+@media (max-width: 520px) {
+  .mt-homepage {
+    --mt-home-mobile-gutter: clamp(16px, 4.8vw, 24px);
+  }
+
+  .mt-homepage .mt-scroll-hero {
+    --mt-home-hero-height: clamp(30rem, 88svh, 47rem);
+    align-items: end;
+    padding-bottom: clamp(44px, 9svh, 76px);
+  }
+
+  .mt-homepage .mt-hero-content { padding-inline: var(--mt-home-mobile-gutter); }
+
+  .mt-homepage .mt-scroll-services {
+    display: flex;
+    flex-direction: column;
+    margin-top: 0;
+    padding-block: 10px 20px;
+    background-color: var(--mt-canvas);
+  }
+
+  .mt-homepage .mt-services-scene,
+  .mt-homepage .mt-service-layout { display: contents; }
+
+  .mt-homepage .mt-services-equal-row {
+    position: relative;
+    z-index: 10;
+    order: 1;
+    margin-inline: var(--mt-home-mobile-gutter);
+    gap: 9px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-rows: 48px;
+  }
+
+  .mt-homepage .mt-services-equal-row .mt-home-glass-pill {
+    height: 100%;
+    padding-inline: 8px;
+    background: linear-gradient(180deg, rgba(24, 43, 47, .74), rgba(7, 20, 24, .83)) !important;
+    border-color: rgba(217, 231, 226, .21) !important;
+    box-shadow: inset 0 1px 0 rgba(240, 248, 244, .11),
+      0 3px 10px rgba(0, 0, 0, .13) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+  }
+
+  .mt-homepage .mt-services-equal-row .mt-home-glass-pill:is(:hover, [aria-expanded="true"]) {
+    background: linear-gradient(180deg, rgba(30, 51, 55, .85), rgba(10, 26, 30, .88)) !important;
+    border-color: rgba(217, 231, 226, .28) !important;
+  }
+
+  .mt-homepage .mt-home-glass-pill > span:not([aria-hidden]) {
+    font-size: clamp(11px, 2.85vw, 13px);
+    line-height: 1.18;
+    letter-spacing: .045em;
+    white-space: normal;
+    text-wrap: balance;
+  }
+
+  .mt-homepage .mt-scroll-services #mt-services-led-slot {
+    order: 2;
+    margin-top: 12px;
+    width: calc(100% - 2 * var(--mt-home-mobile-gutter)) !important;
+  }
+
+  .mt-homepage .mt-service-mobile-details {
+    z-index: 10;
+    order: 3;
+    min-height: 0;
+    margin: 0 var(--mt-home-mobile-gutter);
+  }
+
+  .mt-homepage .mt-service-mobile-details > div {
+    position: relative;
+    inset: auto;
+    margin-top: 10px;
+  }
+
+  .mt-homepage .mt-service-mobile-details [data-service-explore] { min-height: 44px; }
+
+  .mt-homepage .mt-scroll-experiences {
+    width: calc(100% - 2 * var(--mt-home-mobile-gutter));
+    height: max(33rem, calc(100svh - 112px));
+    margin-block: 14px 16px;
+  }
+}

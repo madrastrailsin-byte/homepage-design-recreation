@@ -520,3 +520,65 @@
   outline: 2px solid currentColor;
   outline-offset: 3px;
 }
+
+@media (max-width: 520px) {
+  :global(.mt-homepage) .footer {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: clamp(20px, 5vw, 26px);
+    height: auto;
+    padding: clamp(54px, 13vw, 66px) var(--mt-home-mobile-gutter) max(20px, env(safe-area-inset-bottom));
+  }
+
+  :global(.mt-homepage) .footer::before { height: 48px; }
+
+  :global(.mt-homepage) .callback,
+  :global(.mt-homepage) .contactStrip,
+  :global(.mt-homepage) .socialGroup {
+    position: relative;
+    inset: auto;
+    width: 100%;
+    min-width: 0;
+    transform: none;
+  }
+
+  :global(.mt-homepage) .callback .form { width: min(100%, 24rem); }
+  :global(.mt-homepage) .phoneInput { font-size: 16px; }
+  :global(.mt-homepage) .feedback:empty { display: none; }
+
+  :global(.mt-homepage) .contactStrip {
+    grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
+    gap: 14px 12px;
+  }
+
+  :global(.mt-homepage) .contactValue {
+    font-size: clamp(15px, 3.7vw, 18px);
+    line-height: 1.35;
+  }
+
+  :global(.mt-homepage) .contactAddress { white-space: normal; overflow-wrap: normal; }
+
+  :global(.mt-homepage) .socialGroup { align-items: center; gap: 5px; }
+  :global(.mt-homepage) .socialTitle { padding: 0; text-align: center; }
+  :global(.mt-homepage) .socialLinks { justify-content: center; gap: clamp(6px, 2vw, 10px); }
+  :global(.mt-homepage) .socialLink { width: 46px; height: 46px; }
+
+  :global(.mt-homepage) .policyLinks {
+    justify-content: center;
+    gap: 0 14px;
+    font-size: 13px;
+    white-space: normal;
+    text-align: center;
+    color: #385458;
+  }
+
+  :global(.mt-homepage) .policyLinks a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 40px;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  :global(.mt-homepage) .policyLinks a + a::before { content: none; }
+}

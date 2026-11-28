@@ -134,8 +134,8 @@ export default function ServicesStrip() {
       <div className="pointer-events-none absolute inset-x-0 -top-16 z-0 h-32 bg-gradient-to-b from-transparent via-[var(--mt-canvas)]/18 to-[var(--mt-canvas)]" />
 
       <div className="mt-services-scene mt-story-service-panel relative z-10 mx-auto max-w-7xl px-6 md:px-8">
-        <div className="relative">
-  <div className="relative mb-3 min-h-[5.6rem] md:hidden">
+        <div className="mt-service-layout relative">
+  <div className="mt-service-mobile-details relative mb-3 min-h-[5.6rem] md:hidden">
   <AnimatePresence mode="wait">
     {activeService && (
       <motion.div
